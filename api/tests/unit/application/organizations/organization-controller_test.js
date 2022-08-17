@@ -27,7 +27,6 @@ const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
-const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
@@ -640,69 +639,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(response).to.deep.equal({});
-    });
-  });
-
-  describe('#attachTargetProfiles_old', function () {
-    const userId = 1;
-    let targetProfile;
-    let organizationId;
-    let targetProfileId;
-    let targetProfilesToAttachAsArray;
-
-    beforeEach(function () {
-      targetProfile = domainBuilder.buildTargetProfile();
-      organizationId = targetProfile.ownerOrganizationId;
-      targetProfileId = parseInt(targetProfile.id);
-      targetProfilesToAttachAsArray = [targetProfileId];
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: organizationId },
-        payload: {
-          data: {
-            type: 'target-profile-share',
-            attributes: {
-              'target-profiles-to-attach': [targetProfileId],
-            },
-          },
-        },
-      };
-      sinon.stub(usecases, 'attachTargetProfilesToOrganization_old');
-      sinon.stub(organizationAttachTargetProfilesSerializer, 'serialize');
-    });
-
-    it('should return 201 when some target profiles are attached', async function () {
-      // given
-      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
-      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
-      usecases.attachTargetProfilesToOrganization_old
-        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
-        .resolves({ attachedIds: targetProfilesToAttachAsArray });
-
-      // when
-      const response = await organizationController.attachTargetProfiles_old(request, hFake);
-
-      // then
-      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
-      expect(response.source).to.equal(serializer);
-      expect(response.statusCode).to.equal(201);
-    });
-
-    it('should return 200 when no target profiles was attached', async function () {
-      // given
-      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
-      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
-      usecases.attachTargetProfilesToOrganization_old
-        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
-        .resolves({ attachedIds: [], duplicatedIds: targetProfilesToAttachAsArray });
-
-      // when
-      const response = await organizationController.attachTargetProfiles_old(request, hFake);
-
-      // then
-      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
-      expect(response.source).to.equal(serializer);
-      expect(response.statusCode).to.equal(200);
     });
   });
 

@@ -174,7 +174,6 @@ module.exports = injectDependencies(
     addTutorialEvaluation: require('./add-tutorial-evaluation'),
     addTutorialToUser: require('./add-tutorial-to-user'),
     anonymizeUser: require('./anonymize-user'),
-    attachTargetProfilesToOrganization_old: require('./attach-target-profiles-to-organization-old'),
     attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
     attachOrganizationsFromExistingTargetProfile: require('./attach-organizations-from-existing-target-profile'),
     attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),

@@ -10,7 +10,6 @@ const organizationSerializer = require('../../infrastructure/serializers/jsonapi
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const userWithOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
-const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const organizationPlacesLotManagmentSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
@@ -200,20 +199,6 @@ module.exports = {
     const organizationId = request.params.id;
     const targetProfiles = await usecases.getAvailableTargetProfilesForOrganization({ organizationId });
     return TargetProfileForSpecifierSerializer.serialize(targetProfiles);
-  },
-
-  async attachTargetProfiles_old(request, h) {
-    const organizationId = request.params.id;
-    const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
-      // eslint-disable-next-line no-restricted-syntax
-      .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
-    const results = await usecases.attachTargetProfilesToOrganization_old({
-      organizationId,
-      targetProfileIdsToAttach,
-    });
-    return h
-      .response(organizationAttachTargetProfilesSerializer.serialize({ ...results, organizationId }))
-      .code(results.attachedIds.length > 0 ? 201 : 200);
   },
 
   async attachTargetProfiles(request, h) {
