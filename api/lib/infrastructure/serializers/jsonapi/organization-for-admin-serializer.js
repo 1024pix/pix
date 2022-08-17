@@ -23,7 +23,7 @@ module.exports = {
         'tags',
         'memberships',
         'students',
-        'targetProfiles',
+        'targetProfileSummaries',
       ],
       memberships: {
         ref: 'id',
@@ -45,13 +45,13 @@ module.exports = {
           },
         },
       },
-      targetProfiles: {
+      targetProfileSummaries: {
         ref: 'id',
         ignoreRelationshipData: true,
         nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/api/organizations/${parent.id}/target-profiles`;
+            return `/api/admin/organizations/${parent.id}/target-profile-summaries`;
           },
         },
       },
