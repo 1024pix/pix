@@ -48,7 +48,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
       await clickByName('Valider');
 
       // then
-      assert.ok(organization.attachTargetProfiles.calledWith({ 'target-profiles-to-attach': ['1'] }));
+      assert.ok(organization.attachTargetProfiles.calledWith({ 'target-profile-ids': ['1'] }));
     });
   });
 

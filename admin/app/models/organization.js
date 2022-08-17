@@ -43,16 +43,10 @@ export default class Organization extends Model {
   }
 
   attachTargetProfiles = memberAction({
-    path: 'target-profiles',
+    path: 'attach-target-profiles',
     type: 'post',
-    before(attributes) {
-      const payload = this.serialize();
-      payload.data.attributes = Object.assign(payload.data.attributes, attributes);
-      return payload;
-    },
-    after(response) {
+    after() {
       this.targetProfiles.reload();
-      return response;
     },
   });
 }

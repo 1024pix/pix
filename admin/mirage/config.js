@@ -138,7 +138,7 @@ export default function () {
   this.get('/admin/organizations/:id');
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
-  this.post('/admin/organizations/:id/target-profiles', attachTargetProfiles);
+  this.post('/admin/organizations/:id/attach-target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places/capacity', getOrganizationPlacesCapacity);
