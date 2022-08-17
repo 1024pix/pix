@@ -371,43 +371,6 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/admin/organizations/{id}/target-profiles',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationController.attachTargetProfiles_old,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'target-profiles-to-attach': Joi.array().items(
-                  Joi.string().pattern(/^[0-9]+$/),
-                  Joi.number().integer()
-                ),
-              },
-            },
-          }).options({ allowUnknown: true }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new NotFoundError("L'id d'un des profils cible n'est pas valide"), h);
-          },
-        },
-        tags: ['api', 'organizations'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/organizations/{id}/attach-target-profiles',
       config: {
         pre: [
