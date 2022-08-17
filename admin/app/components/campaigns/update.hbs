@@ -11,7 +11,7 @@
       <Input
         id="name"
         @type="text"
-        class="form-control {{if (v-get this.form "name" "isInvalid") "is-invalid"}}"
+        class="form-control {{if (v-get this.form 'name' 'isInvalid') 'is-invalid'}}"
         @value={{this.form.name}}
       />
       {{#if (v-get this.form "name" "isInvalid")}}
@@ -28,7 +28,7 @@
         <Input
           id="title"
           @type="text"
-          class="form-control {{if (v-get this.form "title" "isInvalid") "is-invalid"}}"
+          class="form-control {{if (v-get this.form 'title' 'isInvalid') 'is-invalid'}}"
           @value={{this.form.title}}
           maxlength="50"
         />
@@ -48,7 +48,7 @@
         rows="8"
         @maxlength="5000"
         @value={{this.form.customLandingPageText}}
-        class="form-control {{if (v-get this.form "customLandingPageText" "isInvalid") "is-invalid"}}"
+        class="form-control {{if (v-get this.form 'customLandingPageText' 'isInvalid') 'is-invalid'}}"
       />
 
       {{#if (v-get this.form "customLandingPageText" "isInvalid")}}
@@ -67,7 +67,7 @@
           rows="8"
           @maxlength="5000"
           @value={{this.form.customResultPageText}}
-          class="form-control {{if (v-get this.form "customResultPageText" "isInvalid") "is-invalid"}}"
+          class="form-control {{if (v-get this.form 'customResultPageText' 'isInvalid') 'is-invalid'}}"
         />
         {{#if (v-get this.form "customResultPageText" "isInvalid")}}
           <div class="form-field__error">
@@ -82,7 +82,7 @@
         <Input
           id="customResultPageButtonText"
           @type="text"
-          class="form-control {{if (v-get this.form "customResultPageButtonText" "isInvalid") "is-invalid"}}"
+          class="form-control {{if (v-get this.form 'customResultPageButtonText' 'isInvalid') 'is-invalid'}}"
           @value={{this.form.customResultPageButtonText}}
         />
         {{#if (v-get this.form "customResultPageButtonText" "isInvalid")}}
@@ -99,7 +99,7 @@
         <Input
           id="customResultPageButtonUrl"
           @type="text"
-          class="form-control {{if (v-get this.form "customResultPageButtonUrl" "isInvalid") "is-invalid"}}"
+          class="form-control {{if (v-get this.form 'customResultPageButtonUrl' 'isInvalid') 'is-invalid'}}"
           @value={{this.form.customResultPageButtonUrl}}
         />
         {{#if (v-get this.form "customResultPageButtonUrl" "isInvalid")}}

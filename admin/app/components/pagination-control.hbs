@@ -14,7 +14,7 @@
   <div class="page-navigation">
     <div
       class="page-navigation__arrow page-navigation__arrow--previous
-        {{if (eq @pagination.page 1) "page-navigation__arrow--disabled"}}"
+        {{if (eq @pagination.page 1) 'page-navigation__arrow--disabled'}}"
     >
       <LinkTo
         aria-label="Aller à la page précédente"
@@ -29,7 +29,7 @@
     <span>Page&nbsp;: {{@pagination.page}} /&nbsp;{{@pagination.pageCount}}</span>
     <div
       class="page-navigation__arrow page-navigation__arrow--next
-        {{if (eq @pagination.page @pagination.pageCount) "page-navigation__arrow--disabled"}}"
+        {{if (eq @pagination.page @pagination.pageCount) 'page-navigation__arrow--disabled'}}"
     >
       <LinkTo
         aria-label="Aller à la page suivante"
