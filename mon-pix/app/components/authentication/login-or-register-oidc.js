@@ -91,6 +91,11 @@ export default class LoginOrRegisterOidcComponent extends Component {
     }
   }
 
+  @action
+  setPassword(event) {
+    this.password = event.target.value;
+  }
+
   get isFormValid() {
     return isEmailValid(this.email) && !isEmpty(this.password);
   }
