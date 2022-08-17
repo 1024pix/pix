@@ -202,18 +202,26 @@ module.exports = {
     return TargetProfileForSpecifierSerializer.serialize(targetProfiles);
   },
 
-  async attachTargetProfiles(request, h) {
+  async attachTargetProfiles_old(request, h) {
     const organizationId = request.params.id;
     const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
       // eslint-disable-next-line no-restricted-syntax
       .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
-    const results = await usecases.attachTargetProfilesToOrganization({
+    const results = await usecases.attachTargetProfilesToOrganization_old({
       organizationId,
       targetProfileIdsToAttach,
     });
     return h
       .response(organizationAttachTargetProfilesSerializer.serialize({ ...results, organizationId }))
       .code(results.attachedIds.length > 0 ? 201 : 200);
+  },
+
+  async attachTargetProfiles(request, h) {
+    const targetProfileIds = request.payload['target-profile-ids'];
+    const organizationId = request.params.id;
+    await usecases.attachTargetProfilesToOrganization({ organizationId, targetProfileIds });
+
+    return h.response({}).code(204);
   },
 
   async getDivisions(request) {

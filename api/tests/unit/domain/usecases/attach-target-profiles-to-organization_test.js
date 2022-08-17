@@ -1,19 +1,14 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-
 const attachTargetProfilesToOrganization = require('../../../../lib/domain/usecases/attach-target-profiles-to-organization');
 
 describe('Unit | UseCase | attach-target-profiles-to-organization', function () {
-  let organizationRepository;
-  let targetProfileShareRepository;
   let targetProfileRepository;
-  let targetProfileIdsToAttach;
+  let targetProfileShareRepository;
   const organizationId = 1;
+  const targetProfileIds = [55, 66];
 
   beforeEach(function () {
-    organizationRepository = {
-      get: sinon.stub(),
-    };
     targetProfileRepository = {
       findByIds: sinon.stub(),
     };
@@ -22,72 +17,47 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
     };
   });
 
-  it('should call repository with organizationId and targetProfileIdsToAttach', async function () {
-    // given
-    targetProfileIdsToAttach = [1];
-    targetProfileRepository.findByIds.withArgs(targetProfileIdsToAttach).resolves([{ id: 1 }]);
-    organizationRepository.get.withArgs(organizationId).resolves({ targetProfileShares: [] });
+  context('when unknown target profile ids are passed', function () {
+    it('should throw a NotFound error', async function () {
+      // given
+      targetProfileRepository.findByIds.withArgs(targetProfileIds).resolves([]);
+      targetProfileShareRepository.addTargetProfilesToOrganization.throws(new Error('I should not be called'));
 
-    const expectedResult = { attachedIds: targetProfileIdsToAttach };
-    targetProfileShareRepository.addTargetProfilesToOrganization
-      .withArgs({ organizationId, targetProfileIdList: targetProfileIdsToAttach })
-      .resolves(expectedResult);
+      // when
+      const err = await catchErr(attachTargetProfilesToOrganization)({
+        organizationId,
+        targetProfileIds,
+        targetProfileRepository,
+        targetProfileShareRepository,
+      });
 
-    // when
-    const result = await attachTargetProfilesToOrganization({
-      targetProfileShareRepository,
-      targetProfileRepository,
-      organizationRepository,
-      organizationId,
-      targetProfileIdsToAttach,
+      // then
+      expect(err).to.be.instanceOf(NotFoundError);
+      expect(err.message).to.equal("Le(s) profil-cible(s) [55, 66] n'existe(nt) pas.");
     });
-
-    // then
-    expect(result).to.equal(expectedResult);
   });
 
-  it('should delete duplicated targetProfileId', async function () {
-    // given
-    targetProfileIdsToAttach = [1, 2, 2];
-    const cleanedTargetProfileIdsToAttach = [1, 2];
-    targetProfileRepository.findByIds.withArgs(cleanedTargetProfileIdsToAttach).resolves([{ id: 1 }, { id: 2 }]);
-    organizationRepository.get.withArgs(organizationId).resolves({ targetProfileShares: [] });
+  context('when existing target profile ids are passed', function () {
+    it('should call repository method to attach target profiles', async function () {
+      // given
+      targetProfileRepository.findByIds
+        .withArgs(targetProfileIds)
+        .resolves([domainBuilder.buildTargetProfile({ id: 55 }), domainBuilder.buildTargetProfile({ id: 66 })]);
+      targetProfileShareRepository.addTargetProfilesToOrganization.resolves();
 
-    const expectedResult = { attachedIds: cleanedTargetProfileIdsToAttach };
-    targetProfileShareRepository.addTargetProfilesToOrganization
-      .withArgs({ organizationId, targetProfileIdList: cleanedTargetProfileIdsToAttach })
-      .resolves(expectedResult);
+      // when
+      await attachTargetProfilesToOrganization({
+        organizationId,
+        targetProfileIds,
+        targetProfileRepository,
+        targetProfileShareRepository,
+      });
 
-    // when
-    const result = await attachTargetProfilesToOrganization({
-      targetProfileShareRepository,
-      targetProfileRepository,
-      organizationRepository,
-      organizationId,
-      targetProfileIdsToAttach,
+      // then
+      expect(targetProfileShareRepository.addTargetProfilesToOrganization).to.have.been.calledWithExactly({
+        organizationId,
+        targetProfileIdList: targetProfileIds,
+      });
     });
-
-    // then
-    expect(result).to.equal(expectedResult);
-  });
-
-  it('should throw a NotFoundError when a target profile does not exist', async function () {
-    // given
-    targetProfileIdsToAttach = [1, 2];
-    targetProfileRepository.findByIds.withArgs(targetProfileIdsToAttach).resolves([{ id: 2 }]);
-    organizationRepository.get.withArgs(organizationId).resolves({ targetProfileShares: [] });
-
-    // when
-    const error = await catchErr(attachTargetProfilesToOrganization)({
-      targetProfileShareRepository,
-      targetProfileRepository,
-      organizationRepository,
-      organizationId,
-      targetProfileIdsToAttach,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(NotFoundError);
-    expect(error.message).to.equal("Le profil cible 1 n'existe pas.");
   });
 });

@@ -24,7 +24,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
-    sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
+    sandbox.stub(usecases, 'attachTargetProfilesToOrganization_old');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
     sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
@@ -347,7 +347,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#attachTargetProfilesToOrganization', function () {
+  describe('#attachTargetProfilesToOrganization_old', function () {
     const payload = {
       data: {
         type: 'target-profiles-shares',

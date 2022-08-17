@@ -643,7 +643,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#attachTargetProfiles', function () {
+  describe('#attachTargetProfiles_old', function () {
     const userId = 1;
     let targetProfile;
     let organizationId;
@@ -667,7 +667,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         },
       };
-      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization_old');
       sinon.stub(organizationAttachTargetProfilesSerializer, 'serialize');
     });
 
@@ -675,12 +675,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const serializer = Symbol('organizationAttachTargetProfilesSerializer');
       organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
-      usecases.attachTargetProfilesToOrganization
+      usecases.attachTargetProfilesToOrganization_old
         .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
         .resolves({ attachedIds: targetProfilesToAttachAsArray });
 
       // when
-      const response = await organizationController.attachTargetProfiles(request, hFake);
+      const response = await organizationController.attachTargetProfiles_old(request, hFake);
 
       // then
       expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
@@ -692,17 +692,45 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const serializer = Symbol('organizationAttachTargetProfilesSerializer');
       organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
-      usecases.attachTargetProfilesToOrganization
+      usecases.attachTargetProfilesToOrganization_old
         .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
         .resolves({ attachedIds: [], duplicatedIds: targetProfilesToAttachAsArray });
 
       // when
-      const response = await organizationController.attachTargetProfiles(request, hFake);
+      const response = await organizationController.attachTargetProfiles_old(request, hFake);
 
       // then
       expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
       expect(response.source).to.equal(serializer);
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('#attachTargetProfiles', function () {
+    let request;
+
+    it('should succeed', async function () {
+      // given
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+      request = {
+        params: {
+          id: 123,
+        },
+        payload: {
+          'target-profile-ids': [1, 2],
+        },
+      };
+      usecases.attachTargetProfilesToOrganization.resolves();
+
+      // when
+      const response = await organizationController.attachTargetProfiles(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(usecases.attachTargetProfilesToOrganization).to.have.been.calledWithExactly({
+        organizationId: 123,
+        targetProfileIds: [1, 2],
+      });
     });
   });
 

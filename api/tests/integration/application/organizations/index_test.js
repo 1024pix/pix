@@ -166,7 +166,9 @@ describe('Integration | Application | Organizations | Routes', function () {
       };
 
       sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
+      sinon
+        .stub(organizationController, 'attachTargetProfiles_old')
+        .callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
