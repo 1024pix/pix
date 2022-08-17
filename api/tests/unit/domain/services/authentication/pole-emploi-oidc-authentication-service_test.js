@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 const moment = require('moment');
 const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
 const logoutUrlTemporaryStorage = require('../../../../../lib/infrastructure/temporary-storage').withPrefix(
@@ -52,7 +53,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
       const expectedAuthenticationMethod = new AuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         externalIdentifier: externalIdentityId,
         authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,

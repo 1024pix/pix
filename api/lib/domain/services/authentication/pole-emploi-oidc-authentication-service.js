@@ -56,7 +56,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
 
       const authenticationMethod = new AuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        identityProvider: this.identityProvider,
         userId: createdUserId,
         externalIdentifier: externalIdentityId,
         authenticationComplement: this.createAuthenticationComplement({ sessionContent }),

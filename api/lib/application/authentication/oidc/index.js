@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const oidcController = require('./oidc-controller');
 const featureToggles = require('../../preHandlers/feature-toggles');
 
@@ -11,7 +11,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string().required().valid(AuthenticationMethod.identityProviders.POLE_EMPLOI),
+            identity_provider: Joi.string().required().valid(OidcIdentityProviders.POLE_EMPLOI.code),
             logout_url_uuid: Joi.string()
               .regex(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
               .required(),

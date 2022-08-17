@@ -3,6 +3,7 @@ const isUndefined = require('lodash/isUndefined');
 const encrypt = require('../../../../lib/domain/services/encryption-service');
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 function _buildUser() {
   return new User({
@@ -106,7 +107,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
 
   return new AuthenticationMethod({
     id,
-    identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
     authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken,
       refreshToken,

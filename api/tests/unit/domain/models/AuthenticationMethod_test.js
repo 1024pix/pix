@@ -2,6 +2,7 @@ const { expect } = require('../../../test-helper');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Domain | Models | AuthenticationMethod', function () {
   describe('buildPixAuthenticationMethod', function () {
@@ -67,7 +68,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
             externalIdentifier: 'externalIdentifier',
             authenticationComplement,
             userId: 1,
@@ -80,7 +81,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.CNAV,
+            identityProvider: OidcIdentityProviders.CNAV.code,
             externalIdentifier: 'externalIdentifier',
             userId: 1,
           })
@@ -116,7 +117,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
             externalIdentifier: undefined,
             userId: 1,
           })
@@ -124,7 +125,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.CNAV,
+            identityProvider: OidcIdentityProviders.CNAV.code,
             externalIdentifier: undefined,
             userId: 1,
           })

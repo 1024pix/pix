@@ -4,8 +4,6 @@ const { validateEntity } = require('../validators/entity-validator');
 const identityProviders = {
   PIX: 'PIX',
   GAR: 'GAR',
-  POLE_EMPLOI: 'POLE_EMPLOI',
-  CNAV: 'CNAV',
 };
 
 class PixAuthenticationComplement {
@@ -58,19 +56,19 @@ class GARAuthenticationComplement {
 const validationSchema = Joi.object({
   id: Joi.number().optional(),
   identityProvider: Joi.string()
-    .valid(...Object.values(identityProviders))
+    .valid(...Object.values(identityProviders), 'POLE_EMPLOI', 'CNAV')
     .required(),
   authenticationComplement: Joi.when('identityProvider', [
     { is: identityProviders.PIX, then: Joi.object().instance(PixAuthenticationComplement).required() },
-    { is: identityProviders.POLE_EMPLOI, then: Joi.object().instance(OidcAuthenticationComplement).required() },
+    { is: 'POLE_EMPLOI', then: Joi.object().instance(OidcAuthenticationComplement).required() },
     { is: identityProviders.GAR, then: Joi.any().empty() },
-    { is: identityProviders.CNAV, then: Joi.any().empty() },
+    { is: 'CNAV', then: Joi.any().empty() },
   ]),
   externalIdentifier: Joi.when('identityProvider', [
     { is: identityProviders.GAR, then: Joi.string().required() },
-    { is: identityProviders.POLE_EMPLOI, then: Joi.string().required() },
+    { is: 'POLE_EMPLOI', then: Joi.string().required() },
     { is: identityProviders.PIX, then: Joi.any().forbidden() },
-    { is: identityProviders.CNAV, then: Joi.string().required() },
+    { is: 'CNAV', then: Joi.string().required() },
   ]),
   userId: Joi.number().integer().required(),
   createdAt: Joi.date().optional(),

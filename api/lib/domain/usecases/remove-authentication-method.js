@@ -1,5 +1,6 @@
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../errors');
+const OidcIdentityProviders = require('../constants/oidc-identity-providers');
 
 module.exports = async function removeAuthenticationMethod({
   userId,
@@ -39,12 +40,8 @@ module.exports = async function removeAuthenticationMethod({
     );
   }
 
-  if (type === 'POLE_EMPLOI') {
-    await _removeAuthenticationMethod(
-      userId,
-      AuthenticationMethod.identityProviders.POLE_EMPLOI,
-      authenticationMethodRepository
-    );
+  if (type === OidcIdentityProviders.POLE_EMPLOI.code) {
+    await _removeAuthenticationMethod(userId, OidcIdentityProviders.POLE_EMPLOI.code, authenticationMethodRepository);
   }
 };
 
