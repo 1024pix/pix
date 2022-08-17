@@ -13,6 +13,9 @@ class OidcAuthenticationService {
   constructor({
     source,
     identityProvider,
+    slug,
+    organizationName,
+    hasLogoutUrl = false,
     jwtOptions,
     clientSecret,
     clientId,
@@ -23,6 +26,9 @@ class OidcAuthenticationService {
   }) {
     this.source = source;
     this.identityProvider = identityProvider;
+    this.slug = slug;
+    this.hasLogoutUrl = hasLogoutUrl;
+    this.organizationName = organizationName;
     this.jwtOptions = jwtOptions;
     this.clientSecret = clientSecret;
     this.clientId = clientId;
