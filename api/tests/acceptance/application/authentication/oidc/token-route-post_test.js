@@ -110,7 +110,7 @@ describe('Acceptance | Route | oidc | token', function () {
       }).id;
 
       databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-        identityProvider: AuthenticationMethod.identityProviders.CNAV,
+        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         externalIdentifier,
         accessToken: 'access_token',
         refreshToken: 'refresh_token',
