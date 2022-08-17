@@ -670,6 +670,41 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
+  describe('#findTargetProfileSummariesForAdmin', function () {
+    it('should return serialized summaries', async function () {
+      // given
+      sinon.stub(usecases, 'findOrganizationTargetProfileSummariesForAdmin');
+      const request = {
+        params: { id: 123 },
+      };
+      const targetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin({
+        id: 456,
+        name: 'Super profil cible',
+        outdated: false,
+      });
+      usecases.findOrganizationTargetProfileSummariesForAdmin
+        .withArgs({ organizationId: 123 })
+        .resolves([targetProfileSummary]);
+
+      // when
+      const response = await organizationController.findTargetProfileSummariesForAdmin(request);
+
+      // then
+      expect(response).to.deep.equal({
+        data: [
+          {
+            type: 'target-profile-summaries',
+            id: '456',
+            attributes: {
+              name: 'Super profil cible',
+              outdated: false,
+            },
+          },
+        ],
+      });
+    });
+  });
+
   describe('#findPaginatedFilteredOrganizationLearners', function () {
     const connectedUserId = 1;
     const organizationId = 145;

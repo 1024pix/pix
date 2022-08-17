@@ -257,6 +257,7 @@ module.exports = injectDependencies(
     findFinalizedSessionsWithRequiredAction: require('./find-finalized-sessions-with-required-action'),
     findGroupsByOrganization: require('./find-groups-by-organization'),
     findOrganizationPlacesLot: require('./find-organization-places-lot'),
+    findOrganizationTargetProfileSummariesForAdmin: require('./find-organization-target-profile-summaries-for-admin'),
     findPaginatedCampaignParticipantsActivities: require('./find-paginated-campaign-participants-activities'),
     findPaginatedCampaignManagements: require('./find-paginated-campaign-managements'),
     findPaginatedCertificationCenterSessionSummaries: require('./find-paginated-certification-center-session-summaries'),
