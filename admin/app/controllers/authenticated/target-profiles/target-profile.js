@@ -23,7 +23,7 @@ export default class TargetProfileController extends Controller {
   }
 
   get displayActionsSeparator() {
-    return !this.model.isSimplifiedAccess || this.model.tubesSelection;
+    return !this.model.isSimplifiedAccess || this.model.isNewFormat;
   }
 
   @action

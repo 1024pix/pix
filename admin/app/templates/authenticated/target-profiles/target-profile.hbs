@@ -68,7 +68,7 @@
             Marquer comme accès simplifié
           </PixButton>
         {{/unless}}
-        {{#if @model.tubesSelection}}
+        {{#if @model.isNewFormat}}
           <PixButton @size="small" @backgroundColor="green" @triggerAction={{this.openDownloadModal}}>
             Télécharger le profil cible (JSON)
           </PixButton>
