@@ -3,27 +3,19 @@ const OidcAuthenticationService = require('./oidc-authentication-service');
 
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
-    const source = 'cnav';
-    const identityProvider = 'CNAV';
-    const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
-    const jwtOptions = { expiresIn: expirationDelaySeconds };
-    const clientSecret = settings.cnav.clientSecret;
-    const clientId = settings.cnav.clientId;
-    const tokenUrl = settings.cnav.tokenUrl;
-    const authenticationUrl = settings.cnav.authenticationUrl;
-    const authenticationUrlParameters = [{ key: 'scope', value: 'openid profile' }];
-    const userInfoUrl = settings.cnav.userInfoUrl;
-
     super({
-      source,
-      identityProvider,
-      jwtOptions,
-      clientSecret,
-      clientId,
-      tokenUrl,
-      authenticationUrl,
-      authenticationUrlParameters,
-      userInfoUrl,
+      source: 'cnav',
+      identityProvider: 'CNAV',
+      slug: 'cnav',
+      organizationName: 'CNAV',
+      hasLogoutUrl: false,
+      jwtOptions: { expiresIn: settings.cnav.accessTokenLifespanMs / 1000 },
+      clientSecret: settings.cnav.clientSecret,
+      clientId: settings.cnav.clientId,
+      tokenUrl: settings.cnav.tokenUrl,
+      authenticationUrl: settings.cnav.authenticationUrl,
+      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
+      userInfoUrl: settings.cnav.userInfoUrl,
     });
   }
 }
