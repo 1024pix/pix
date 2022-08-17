@@ -49,7 +49,7 @@
     "bootstrap": "^5.2.0",
     "broccoli-asset-rev": "^3.0.0",
     "dayjs": "^1.10.8",
-    "ember-ajax": "^5.0.0",
+    "ember-ajax": "^5.1.1",
     "ember-api-actions": "^0.2.9",
     "ember-auto-import": "^1.12.0",
     "ember-bootstrap": "^4.3.0",
