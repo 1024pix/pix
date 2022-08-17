@@ -1,5 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const createServer = require('../../../../../server');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+const querystring = require('querystring');
 
 describe('Acceptance | Route | oidc authentication url', function () {
   let server;
@@ -11,12 +13,16 @@ describe('Acceptance | Route | oidc authentication url', function () {
   describe('GET /api/oidc/authentication-url', function () {
     context('When the request returns 200', function () {
       it('should return the authentication url for cnav', async function () {
-        // given & when
+        // given
+        const query = querystring.stringify({
+          identity_provider: OidcIdentityProviders.CNAV.code,
+          redirect_uri: 'http://app.pix.fr/connexion/cnav',
+        });
+
+        // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/oidc/authentication-url?identity_provider=CNAV&redirect_uri=${encodeURIComponent(
-            'http://app.pix.fr/connexion/cnav'
-          )}`,
+          url: `/api/oidc/authentication-url?${query}`,
         });
 
         // then
@@ -40,12 +46,16 @@ describe('Acceptance | Route | oidc authentication url', function () {
       });
 
       it('should return the authentication url for pole emploi', async function () {
+        // given
+        const query = querystring.stringify({
+          identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
+          redirect_uri: 'http://app.pix.fr/connexion/pole-emploi',
+        });
+
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/oidc/authentication-url?identity_provider=POLE_EMPLOI&redirect_uri=${encodeURIComponent(
-            'http://app.pix.fr/connexion/pole-emploi'
-          )}`,
+          url: `/api/oidc/authentication-url?${query}`,
         });
 
         // then

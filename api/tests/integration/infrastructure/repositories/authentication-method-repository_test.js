@@ -794,7 +794,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
           id: 123,
-          identityProvider: 'POLE_EMPLOI',
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           externalIdentifier: 'identifier',
           accessToken: 'to_be_updated',
           refreshToken: 'to_be_updated',
@@ -822,7 +822,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
           authenticationComplement,
           userId,
-          identityProvider: 'POLE_EMPLOI',
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then
@@ -849,7 +849,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
             authenticationComplement,
             userId,
-            identityProvider: 'POLE_EMPLOI',
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           });
 
         // then
@@ -878,7 +878,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         )({
           authenticationComplement,
           userId,
-          identityProvider: 'POLE_EMPLOI',
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then

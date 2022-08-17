@@ -4,6 +4,7 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Router | user-router', function () {
   describe('POST /api/users', function () {
@@ -897,7 +898,7 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{id}/remove-authentication', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI'].forEach((type) => {
+      ['GAR', 'EMAIL', 'USERNAME', OidcIdentityProviders.POLE_EMPLOI.code].forEach((type) => {
         it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
           // given
           sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
@@ -1005,7 +1006,7 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
           data: {
             attributes: {
-              type: 'POLE_EMPLOI',
+              type: OidcIdentityProviders.POLE_EMPLOI.code,
             },
           },
         });
@@ -1020,7 +1021,7 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      ['GAR', 'POLE_EMPLOI'].forEach((identityProvider) => {
+      ['GAR', OidcIdentityProviders.POLE_EMPLOI.code].forEach((identityProvider) => {
         it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
           // given
           sinon

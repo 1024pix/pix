@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const reassignAuthenticationMethodToAnotherUser = require('../../../../lib/domain/usecases/reassign-authentication-method-to-another-user');
 const { AuthenticationMethodAlreadyExistsError, UserNotFoundError } = require('../../../../lib/domain/errors');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | UseCase | reassign-authentication-method-to-another-user', function () {
   let authenticationMethodRepository, userRepository;
@@ -146,7 +147,7 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
     // then
     expect(authenticationMethodRepository.updateAuthenticationMethodUserId).to.have.been.calledOnceWith({
       originUserId,
-      identityProvider: 'POLE_EMPLOI',
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       targetUserId,
     });
   });

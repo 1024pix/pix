@@ -3,6 +3,7 @@ const campaignToJoinRepository = require('../../../../lib/infrastructure/reposit
 const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#get', function () {
@@ -69,7 +70,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       const code = 'LAURA123';
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization = databaseBuilder.factory.buildOrganization({
-        identityProviderForCampaigns: 'POLE_EMPLOI',
+        identityProviderForCampaigns: OidcIdentityProviders.POLE_EMPLOI.code,
       });
       const expectedCampaign = databaseBuilder.factory.buildCampaign({
         code,
@@ -105,7 +106,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.targetProfileName).to.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.equal(targetProfile.imageUrl);
       expect(actualCampaign.isSimplifiedAccess).to.equal(targetProfile.isSimplifiedAccess);
-      expect(actualCampaign.identityProvider).to.equal('POLE_EMPLOI');
+      expect(actualCampaign.identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.code);
     });
 
     it('should throw a NotFoundError when no campaign exists with given code', async function () {
