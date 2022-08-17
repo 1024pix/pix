@@ -65,7 +65,7 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     });
 
     module('when admin member has role "CERTIF"', function () {
-      test('it should be redirected to Orginzations list page', async function (assert) {
+      test('it should be redirected to Organizations list page', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isCertif: true })(server);
         server.create('target-profile', { id: 1 });
