@@ -1,5 +1,6 @@
 {
   "extends": "stylelint-config-standard",
+  "customSyntax": "postcss-scss",
   "rules": {
     "at-rule-no-unknown": [
       true, { "ignoreAtRules": ["else", "extend", "if", "include", "mixin", "warn"] }
