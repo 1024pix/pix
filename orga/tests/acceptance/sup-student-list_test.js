@@ -31,7 +31,7 @@ module('Acceptance | Sup Student List', function (hooks) {
       server.create('group', {
         name: 'L1',
       });
-      server.create('student', {
+      server.create('sup-organization-participant', {
         studentNumber: '123',
         firstName: 'toto',
         lastName: 'banana',
@@ -39,7 +39,7 @@ module('Acceptance | Sup Student List', function (hooks) {
         organizationId,
       });
 
-      server.create('student', {
+      server.create('sup-organization-participant', {
         studentNumber: '321',
         firstName: 'tata',
         lastName: 'banana',

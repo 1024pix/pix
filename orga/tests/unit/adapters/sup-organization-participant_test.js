@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'pix-orga/config/environment';
 
-module('Unit | Adapters | student', function (hooks) {
+module('Unit | Adapters | sup-organization-participant', function (hooks) {
   setupTest(hooks);
 
   let adapter;
   let ajaxStub;
 
   hooks.beforeEach(function () {
-    adapter = this.owner.lookup('adapter:student');
+    adapter = this.owner.lookup('adapter:sup-organization-participant');
     ajaxStub = sinon.stub();
     adapter.set('ajax', ajaxStub);
   });
@@ -20,7 +20,7 @@ module('Unit | Adapters | student', function (hooks) {
       const query = { filter: { organizationId: 'organizationId1' } };
       const url = await adapter.urlForQuery(query);
 
-      assert.ok(url.endsWith('/api/organizations/organizationId1/students'));
+      assert.ok(url.endsWith('/api/organizations/organizationId1/sup-participants'));
       assert.strictEqual(query.organizationId, undefined);
     });
   });
