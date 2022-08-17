@@ -47,6 +47,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
           const accessToken = this.session.get('data.authenticated.access_token');
           request.headers['Authorization'] = `Bearer ${accessToken}`;
         }
+        this.session.set('skipRedirectAfterSessionInvalidation', true);
         await this.session.invalidate();
       }
     }
