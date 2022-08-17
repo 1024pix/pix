@@ -177,7 +177,7 @@ export default function () {
   this.put('/sessions/:id/enroll-students-to-session', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
     const sessionId = request.params.id;
-    const studentListToAdd = requestBody.data.attributes['student-ids'];
+    const studentListToAdd = requestBody.data.attributes['organization-learner-ids'];
     const numberOfStudents = studentListToAdd.length;
     if (numberOfStudents > 0) {
       server.createList('certification-candidate', numberOfStudents, { sessionId });

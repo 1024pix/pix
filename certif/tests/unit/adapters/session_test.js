@@ -49,7 +49,7 @@ module('Unit | Adapter | session', function (hooks) {
           data: {
             data: {
               attributes: {
-                'student-ids': expectedStudentIdList,
+                'organization-learner-ids': expectedStudentIdList,
               },
             },
           },
