@@ -21,11 +21,11 @@
       </LinkTo>
     {{/if}}
     {{#if this.currentUser.isSCOManagingStudents}}
-      <LinkTo @route="authenticated.sco-students" class="sidebar-nav__item">
+      <LinkTo @route="authenticated.sco-organization-participants" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
           <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
         </span>
-        {{t "navigation.main.students-sco"}}
+        {{t "navigation.main.sco-organization-participants"}}
       </LinkTo>
     {{/if}}
     {{#if this.isNotManagingStudents}}
