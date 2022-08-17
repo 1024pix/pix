@@ -80,12 +80,6 @@ export default class RegisterForm extends Component {
   monthOfBirth = '';
   yearOfBirth = '';
 
-  willDestroy() {
-    if (this.scoOrganizationLearner) this.scoOrganizationLearner.unloadRecord();
-    if (this.dependentUser) this.dependentUser.unloadRecord();
-    super.willDestroy(...arguments);
-  }
-
   get birthdate() {
     const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
     const monthOfBirth = standardizeNumberInTwoDigitFormat(this.monthOfBirth.trim());
