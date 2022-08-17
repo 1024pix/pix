@@ -69,7 +69,7 @@
     "ember-cli-terser": "^4.0.2",
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^2.2.1",
-    "ember-cp-validations": "^4.0.0-beta.10",
+    "ember-cp-validations": "^4.0.0-beta.12",
     "ember-data": "~3.25.0",
     "ember-dayjs": "^0.7.0",
     "ember-decorators": "^6.1.1",
