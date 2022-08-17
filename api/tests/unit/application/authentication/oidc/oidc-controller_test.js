@@ -10,6 +10,21 @@ const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
 
+  describe('#getIdentityProviders', function () {
+    it('should return the list of oidc identity providers', async function () {
+      // given & when
+      const response = await oidcController.getIdentityProviders();
+
+      // then
+      const expectedCnavProvider = {
+        type: 'oidc-identity-providers',
+        id: 'cnav',
+        attributes: { code: 'CNAV', 'organization-name': 'CNAV', 'has-logout-url': false, source: 'cnav' },
+      };
+      expect(response.data).to.deep.contain(expectedCnavProvider);
+    });
+  });
+
   describe('#getRedirectLogoutUrl', function () {
     context('when identity provider is POLE_EMPLOI', function () {
       it('should call pole emploi authentication service to generate the redirect logout url', async function () {

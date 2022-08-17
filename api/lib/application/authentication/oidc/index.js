@@ -9,6 +9,18 @@ exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
+      path: '/api/oidc/identity-providers',
+      config: {
+        auth: false,
+        handler: oidcController.getIdentityProviders,
+        notes: [
+          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires oidc',
+        ],
+        tags: ['api', 'oidc'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/oidc/redirect-logout-url',
       config: {
         validate: {
