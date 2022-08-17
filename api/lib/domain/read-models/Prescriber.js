@@ -6,6 +6,7 @@ class Prescriber {
     pixOrgaTermsOfServiceAccepted,
     lang,
     areNewYearOrganizationLearnersImported,
+    participantCount,
     memberships = [],
     userOrgaSettings,
   } = {}) {
@@ -15,6 +16,7 @@ class Prescriber {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.lang = lang;
     this.areNewYearOrganizationLearnersImported = areNewYearOrganizationLearnersImported;
+    this.participantCount = participantCount;
     this.memberships = memberships;
     this.userOrgaSettings = userOrgaSettings;
   }

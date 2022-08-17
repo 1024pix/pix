@@ -4,7 +4,7 @@ import { contains, notContains } from './contains';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export function createPrescriberByUser(user) {
+export function createPrescriberByUser(user, participantCount = 0) {
   const prescriber = server.create('prescriber', {
     id: user.id,
     firstName: user.firstName,
@@ -12,6 +12,7 @@ export function createPrescriberByUser(user) {
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
+    participantCount,
   });
 
   return prescriber;

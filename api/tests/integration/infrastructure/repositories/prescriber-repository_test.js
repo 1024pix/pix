@@ -146,21 +146,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         );
       });
 
-      it('should return prescriber despite that user-orga-settings does not exists', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId, organizationId });
-
-        await databaseBuilder.commit();
-
-        // when
-        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
-
-        // then
-        expect(foundPrescriber).to.be.an.instanceOf(Prescriber);
-      });
-
       context('when current organization defined in user-orga-settings has tags', function () {
         it('should return a list of tags', async function () {
           // given
@@ -183,145 +168,161 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         });
       });
 
-      context('when newYearOrganizationLearnersImportDate is defined in the env.', function () {
-        let originalEnvValue;
-        beforeEach(function () {
-          originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
-          settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+      describe('#areNewYearOrganizationLearnersImported', function () {
+        context('when newYearOrganizationLearnersImportDate is defined in the env.', function () {
+          let originalEnvValue;
+          beforeEach(function () {
+            originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
+            settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+          });
+
+          afterEach(function () {
+            settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
+          });
+
+          it('should return areNewYearOrganizationLearnersImported as true if there is at least one organization-learners created after the date in the env. for the organization', async function () {
+            // given
+            const userId = databaseBuilder.factory.buildUser().id;
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            databaseBuilder.factory.buildMembership({ userId, organizationId });
+            databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+            databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
+            await databaseBuilder.commit();
+
+            // when
+            const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+            // then
+            expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.true;
+          });
         });
 
-        afterEach(function () {
-          settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
+        context('when newYearOrganizationLearnersImportDate is not defined in the env.', function () {
+          let originalEnvValue;
+          beforeEach(function () {
+            originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
+            settings.features.newYearOrganizationLearnersImportDate = null;
+          });
+
+          afterEach(function () {
+            settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
+          });
+
+          it('should return areNewYearOrganizationLearnersImported as true if there is at least one organization-learners created for the organization', async function () {
+            // given
+            const userId = databaseBuilder.factory.buildUser().id;
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            databaseBuilder.factory.buildMembership({ userId, organizationId });
+            databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+            databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+            await databaseBuilder.commit();
+
+            // when
+            const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+            // then
+            expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.true;
+          });
         });
 
-        it('should return areNewYearOrganizationLearnersImported as true if there is at least one organization-learners created after the date in the env. for the organization', async function () {
-          // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
-          await databaseBuilder.commit();
+        context(
+          'when there is no organization-learners created for the organization of the user-orga-settings',
+          function () {
+            let originalEnvValue;
+            beforeEach(function () {
+              originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
+              settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+            });
 
-          // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+            afterEach(function () {
+              settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
+            });
 
-          // then
-          expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.true;
-        });
+            it('should return areNewYearOrganizationLearnersImported as false', async function () {
+              // given
+              const userId = databaseBuilder.factory.buildUser().id;
+              const organizationId = databaseBuilder.factory.buildOrganization().id;
+              databaseBuilder.factory.buildMembership({ userId, organizationId });
+              databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+              databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
+              await databaseBuilder.commit();
+
+              // when
+              const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+              // then
+              expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.false;
+            });
+          }
+        );
       });
 
-      context('when newYearOrganizationLearnersImportDate is not defined in the env.', function () {
-        let originalEnvValue;
-        beforeEach(function () {
-          originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
-          settings.features.newYearOrganizationLearnersImportDate = null;
-        });
-
-        afterEach(function () {
-          settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
-        });
-
-        it('should return areNewYearOrganizationLearnersImported as true if there is at least one organization-learners created for the organization', async function () {
+      describe('#participantCount', function () {
+        it('should only count learners in currentOrganization', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+          });
+          databaseBuilder.factory.buildOrganizationLearner();
           await databaseBuilder.commit();
 
           // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
           // then
-          expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.true;
-        });
-      });
-
-      context('when prescriber has a user-orga-settings', function () {
-        let originalEnvValue;
-        beforeEach(function () {
-          originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
-          settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+          expect(foundPrescriber.participantCount).to.equal(1);
         });
 
-        afterEach(function () {
-          settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
-        });
-
-        it('should return areNewYearOrganizationLearnersImported as true if there is at least one organization-learners created for the organization of the user-orga-settings', async function () {
+        it('should not count anonymous users', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
+          const userId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            userId,
+            organizationId: organization.id,
+          });
           await databaseBuilder.commit();
 
           // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
           // then
-          expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.true;
+          expect(foundPrescriber.participantCount).to.equal(0);
         });
 
-        it('should return areNewYearOrganizationLearnersImported as false if there is no organization-learners created for the organization of the user-orga-settings', async function () {
+        it('should not count disabled organization learners', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+            isDisabled: true,
+          });
           await databaseBuilder.commit();
 
           // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
           // then
-          expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.false;
-        });
-      });
-
-      context('when prescriber does not have a user-orga-settings', function () {
-        let originalEnvValue;
-        beforeEach(function () {
-          originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
-          settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+          expect(foundPrescriber.participantCount).to.equal(0);
         });
 
-        afterEach(function () {
-          settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
-        });
-
-        it('should return areNewYearOrganizationLearnersImported as true if there is at least one organization-learners created for the organization of the first membership', async function () {
+        it('should count all organization learners when several exists', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+          });
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+          });
           await databaseBuilder.commit();
 
           // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
           // then
-          expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.true;
-        });
-
-        it('should return areNewYearOrganizationLearnersImported as false if there is no organization-learners created for the organization of the first membership', async function () {
-          // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
-          await databaseBuilder.commit();
-
-          // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
-
-          // then
-          expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.false;
+          expect(foundPrescriber.participantCount).to.equal(2);
         });
       });
     });

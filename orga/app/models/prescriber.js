@@ -5,6 +5,7 @@ export default class Prescriber extends Model {
   @attr('string') lastName;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @attr('boolean') areNewYearOrganizationLearnersImported;
+  @attr('number') participantCount;
   @attr('string') lang;
   @hasMany('membership') memberships;
   @belongsTo('user-orga-setting') userOrgaSettings;
@@ -20,5 +21,9 @@ export default class Prescriber extends Model {
         membership.get('organizationRole') === 'ADMIN' &&
         membership.get('organization').get('id') === this.userOrgaSettings.get('organization').get('id')
     );
+  }
+
+  get hasParticipants() {
+    return Boolean(this.participantCount);
   }
 }
