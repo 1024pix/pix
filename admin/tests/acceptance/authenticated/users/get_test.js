@@ -10,7 +10,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   setupMirage(hooks);
 
   async function buildAndAuthenticateUser(server, { email, username }) {
-    const schoolingRegistration = server.create('schooling-registration', { firstName: 'John' });
+    const organizationLearner = server.create('organization-learner', { firstName: 'John' });
     const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
     const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
     const user = server.create('user', {
@@ -20,7 +20,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       username,
       'is-authenticated-from-gar': false,
     });
-    user.schoolingRegistrations = [schoolingRegistration];
+    user.organizationLearners = [organizationLearner];
     user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
     user.save();
     server.create('admin-member', {
@@ -135,12 +135,12 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const organizationName = 'Organisation_to_dissociate_of';
-      const schoolingRegistrationToDissociate = this.server.create('schooling-registration', {
+      const organizationLearnerToDissociate = this.server.create('organization-learner', {
         id: 10,
         organizationName,
         canBeDissociated: true,
       });
-      user.schoolingRegistrations.models.push(schoolingRegistrationToDissociate);
+      user.organizationLearners.models.push(organizationLearnerToDissociate);
       user.save();
 
       const screen = await visit(`/users/${user.id}`);

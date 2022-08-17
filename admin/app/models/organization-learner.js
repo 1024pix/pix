@@ -1,6 +1,6 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default class SchoolingRegistration extends Model {
+export default class OrganizationLearner extends Model {
   @attr() firstName;
   @attr() lastName;
   @attr('date-only') birthdate;

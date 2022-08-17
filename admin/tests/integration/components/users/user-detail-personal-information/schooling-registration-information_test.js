@@ -19,7 +19,7 @@ module(
         test('should display no result in schooling registrations table', async function (assert) {
           // given
           this.toggleDisplayDissociateModal = sinon.spy();
-          this.set('user', { schoolingRegistrations: [] });
+          this.set('user', { organizationLearners: [] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -35,7 +35,7 @@ module(
       test('should display schooling registrations in table', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
-        this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
+        this.set('user', { organizationLearners: [{ id: 1 }, { id: 2 }] });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
@@ -51,7 +51,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'John', lastName: 'Doe', birthdate: new Date('2020-10-02') }],
+          organizationLearners: [{ firstName: 'John', lastName: 'Doe', birthdate: new Date('2020-10-02') }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -70,7 +70,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ division: '3A' }],
+          organizationLearners: [{ division: '3A' }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -87,7 +87,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ division: 'groupe 2' }],
+          organizationLearners: [{ division: 'groupe 2' }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -104,7 +104,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ organizationId: 42, organizationName: 'Dragon & Co' }],
+          organizationLearners: [{ organizationId: 42, organizationName: 'Dragon & Co' }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -122,7 +122,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ createdAt: new Date('2020-01-01'), updatedAt: new Date('2020-01-02') }],
+          organizationLearners: [{ createdAt: new Date('2020-01-01'), updatedAt: new Date('2020-01-02') }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -140,7 +140,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ isDisabled: false }],
+          organizationLearners: [{ isDisabled: false }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -157,7 +157,7 @@ module(
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ isDisabled: true }],
+          organizationLearners: [{ isDisabled: true }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -175,7 +175,7 @@ module(
         const toggleDisplayDissociateModal = sinon.stub();
         this.set('toggleDisplayDissociateModal', toggleDisplayDissociateModal);
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: true }],
+          organizationLearners: [{ firstName: 'some name', canBeDissociated: true }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -195,7 +195,7 @@ module(
         const toggleDisplayDissociateModal = sinon.stub();
         this.set('toggleDisplayDissociateModal', toggleDisplayDissociateModal);
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: false }],
+          organizationLearners: [{ firstName: 'some name', canBeDissociated: false }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
@@ -216,7 +216,7 @@ module(
           hasAccessToUsersActionsScope = false;
         }
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: true }],
+          organizationLearners: [{ firstName: 'some name', canBeDissociated: true }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 

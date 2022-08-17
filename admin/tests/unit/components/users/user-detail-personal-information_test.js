@@ -17,33 +17,33 @@ module('Unit | Component | users | user-detail-personal-information', function (
   });
 
   module('#dissociate', function (hooks) {
-    let schoolingRegistration;
+    let organizationLearner;
 
     hooks.beforeEach(function () {
-      schoolingRegistration = {
+      organizationLearner = {
         id: 1,
         destroyRecord: sinon.stub(),
       };
     });
 
-    test('it should call destroy on model schooling-registration', async function (assert) {
+    test('it should call destroy on model organization-learner', async function (assert) {
       // given
-      component.toggleDisplayDissociateModal(schoolingRegistration);
+      component.toggleDisplayDissociateModal(organizationLearner);
 
       // when
-      await component.dissociate(schoolingRegistration);
+      await component.dissociate(organizationLearner);
 
       // then
-      assert.ok(schoolingRegistration.destroyRecord.called);
+      assert.ok(organizationLearner.destroyRecord.called);
       assert.ok(component.notifications.success.called);
     });
 
     test('it should notify an error if destroyRecord fail', async function (assert) {
       // given
-      schoolingRegistration.destroyRecord.rejects();
+      organizationLearner.destroyRecord.rejects();
 
       // when
-      await component.dissociate(schoolingRegistration);
+      await component.dissociate(organizationLearner);
 
       // then
       assert.ok(component.notifications.error.called);
