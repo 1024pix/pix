@@ -9,7 +9,7 @@ import { createUserManagingStudents, createPrescriberByUser } from '../helpers/t
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Sup Student List', function (hooks) {
+module('Acceptance | Sup Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

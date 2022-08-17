@@ -1,8 +1,8 @@
-{{page-title (t "pages.students-sup.title")}}
+{{page-title (t "pages.sup-organization-participants.title")}}
 <div class="list-students-page">
-  <Student::Sup::HeaderActions />
+  <SupOrganizationParticipant::HeaderActions />
 
-  <Student::Sup::List
+  <SupOrganizationParticipant::List
     @students={{@model}}
     @lastNameFilter={{this.lastName}}
     @firstNameFilter={{this.firstName}}

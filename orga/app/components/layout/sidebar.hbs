@@ -37,11 +37,11 @@
       </LinkTo>
     {{/if}}
     {{#if this.currentUser.isSUPManagingStudents}}
-      <LinkTo @route="authenticated.sup-students" class="sidebar-nav__item">
+      <LinkTo @route="authenticated.sup-organization-participants" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
           <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
         </span>
-        {{t "navigation.main.students-sup"}}
+        {{t "navigation.main.sup-organization-participants"}}
       </LinkTo>
     {{/if}}
     <LinkTo @route="authenticated.team" class="sidebar-nav__item">

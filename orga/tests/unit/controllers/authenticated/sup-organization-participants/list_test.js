@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sup-students/list', function (hooks) {
+module('Unit | Controller | authenticated/sup-organization-participants/list', function (hooks) {
   setupTest(hooks);
   let controller;
 
   hooks.beforeEach(function () {
-    controller = this.owner.lookup('controller:authenticated/sup-students/list');
+    controller = this.owner.lookup('controller:authenticated/sup-organization-participants/list');
   });
 
   module('#triggerFiltering', function () {

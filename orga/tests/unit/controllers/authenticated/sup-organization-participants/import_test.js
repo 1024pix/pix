@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sup-students/import', function (hooks) {
+module('Unit | Controller | authenticated/sup-organization-participants/import', function (hooks) {
   setupTest(hooks);
   const files = Symbol('files');
   const currentUser = { organization: { id: 1 } };
@@ -12,7 +12,7 @@ module('Unit | Controller | authenticated/sup-students/import', function (hooks)
 
   hooks.beforeEach(function () {
     this.owner.lookup('service:intl').setLocale('fr');
-    controller = this.owner.lookup('controller:authenticated/sup-students/import');
+    controller = this.owner.lookup('controller:authenticated/sup-organization-participants/import');
     controller.send = sinon.stub();
     controller.transitionToRoute = sinon.stub();
     controller.currentUser = currentUser;

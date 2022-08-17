@@ -19,12 +19,12 @@ export default class EditStudentNumberModal extends Component {
   async updateStudentNumber(event) {
     event.preventDefault();
     if (!this.newStudentNumber.trim()) {
-      return (this.error = this.intl.t('pages.students-sup.edit-student-number-modal.form.error'));
+      return (this.error = this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.error'));
     }
     try {
       await this.args.onSubmit(this.newStudentNumber.trim());
       this.notifications.sendSuccess(
-        this.intl.t('pages.students-sup.edit-student-number-modal.form.success', {
+        this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
           firstName: this.args.student.firstName,
           lastName: this.args.student.lastName,
         })

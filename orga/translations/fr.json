@@ -201,7 +201,7 @@
       "documentation": "Documentation",
       "organization-participants": "Participants",
       "sco-organization-participants": "Élèves",
-      "students-sup": "Étudiants",
+      "sup-organization-participants": "Étudiants",
       "team": "Équipe",
       "aria-label": "Navigation principale"
     },
@@ -847,7 +847,7 @@
         "row-title": "Élève"
       }
     },
-    "students-sup": {
+    "sup-organization-participants": {
       "title": "Étudiants",
       "actions": {
         "download-template": "Télécharger le modèle",
@@ -900,7 +900,7 @@
         "row-title": "Étudiant"
       }
     },
-    "students-sup-import": {
+    "sup-organization-participants-import": {
       "description": "Quel type d'import souhaitez-vous réaliser ?",
       "title": "Importer des étudiants",
       "actions": {

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { render } from '@1024pix/ember-testing-library';
@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | Student::Sup::List', function (hooks) {
+module('Integration | Component | SupOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
   hooks.beforeEach(function () {
     const store = this.owner.lookup('service:store');
@@ -26,7 +26,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     this.set('groups', []);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
 
     // then
     assert.contains('Numéro étudiant');
@@ -46,7 +46,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     this.set('groups', []);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
 
     // then
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
@@ -70,7 +70,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     this.set('groups', []);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
 
     // then
     assert.contains('LATERREURGIGI123');
@@ -96,7 +96,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     this.set('students', students);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} />`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} />`);
 
     // then
     assert.contains('SUP - Campagne de collecte de profils');
@@ -112,7 +112,9 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       this.set('groups', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
+      await render(
+        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+      );
 
       await fillByLabel('Entrer un nom', 'bob');
 
@@ -128,7 +130,9 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       this.set('groups', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
+      await render(
+        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+      );
 
       await fillByLabel('Entrer un prénom', 'bob');
 
@@ -144,7 +148,9 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       this.set('groups', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
+      await render(
+        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+      );
 
       await fillByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
 
@@ -159,7 +165,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       this.set('students', []);
 
       // when
-      const { getByPlaceholderText } = await render(hbs`<Student::Sup::List
+      const { getByPlaceholderText } = await render(hbs`<SupOrganizationParticipant::List
         @students={{students}}
         @onFilter={{triggerFiltering}}
         @groups={{groups}}

@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | edit-student-number-modal', function (hooks) {
+module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberModal', function (hooks) {
   setupIntlRenderingTest(hooks);
   let closeStub;
   let notificationsStub;
@@ -33,7 +33,7 @@ module('Integration | Component | edit-student-number-modal', function (hooks) {
     this.set('onSaveStudentNumber', onSaveStudentNumberStub);
 
     return render(
-      hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+      hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
     );
   });
 
@@ -49,7 +49,7 @@ module('Integration | Component | edit-student-number-modal', function (hooks) {
       test('should not render component with student number text', async function (assert) {
         this.student.set('studentNumber', null);
         render(
-          hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
         );
 
         assert.notContains(
@@ -214,7 +214,7 @@ module('Integration | Component | edit-student-number-modal', function (hooks) {
       // given
       this.set('display', false);
       render(
-        hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}}/>`
+        hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}}/>`
       );
 
       // then
