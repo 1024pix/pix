@@ -1,6 +1,7 @@
 const settings = require('../../../lib/config');
 const Bookshelf = require('../bookshelf');
 const BookshelfPoleEmploiSending = require('../orm-models/PoleEmploiSending');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 
 module.exports = {
   create({ poleEmploiSending }) {
@@ -19,7 +20,7 @@ module.exports = {
       )
       .join('campaign-participations', 'campaign-participations.id', 'pole-emploi-sendings.campaignParticipationId')
       .join('authentication-methods', 'authentication-methods.userId', 'campaign-participations.userId')
-      .where('authentication-methods.identityProvider', 'POLE_EMPLOI')
+      .where('authentication-methods.identityProvider', OidcIdentityProviders.POLE_EMPLOI.code)
       .modify(_olderThan, sending)
       .modify(_filterByStatus, filters)
       .orderBy([

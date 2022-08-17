@@ -156,10 +156,9 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   });
 
   context('When type is POLE_EMPLOI', function () {
-    const type = 'POLE_EMPLOI';
-
     it('should remove POLE_EMPLOI authentication method', async function () {
       // given
+      const type = OidcIdentityProviders.POLE_EMPLOI.code;
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);

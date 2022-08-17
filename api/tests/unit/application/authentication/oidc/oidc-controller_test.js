@@ -5,6 +5,7 @@ const oidcSerializer = require('../../../../../lib/infrastructure/serializers/js
 const usecases = require('../../../../../lib/domain/usecases');
 const settings = require('../../../../../lib/config');
 const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
@@ -167,7 +168,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       it('should send the authenticated user id for pole emploi', async function () {
         // given
         settings.featureToggles.isSsoAccountReconciliationEnabled = false;
-        const identityProvider = 'POLE_EMPLOI';
+        const identityProvider = OidcIdentityProviders.POLE_EMPLOI.code;
         const oidcAuthenticationService = {};
         sinon
           .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
@@ -200,7 +201,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       it('should not send the authenticated user id for pole emploi when toggle is enabled', async function () {
         // given
         settings.featureToggles.isSsoAccountReconciliationEnabled = true;
-        const identityProvider = 'POLE_EMPLOI';
+        const identityProvider = OidcIdentityProviders.POLE_EMPLOI.code;
         const oidcAuthenticationService = {};
         sinon
           .stub(authenticationServiceRegistry, 'lookupAuthenticationService')

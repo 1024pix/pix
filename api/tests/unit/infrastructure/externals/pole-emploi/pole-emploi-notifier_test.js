@@ -149,7 +149,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           // then
           expect(
             authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).to.have.been.calledWith({ authenticationComplement, userId, identityProvider: 'POLE_EMPLOI' });
+          ).to.have.been.calledWith({
+            authenticationComplement,
+            userId,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          });
         });
 
         it('should send the notification to Pole Emploi', async function () {

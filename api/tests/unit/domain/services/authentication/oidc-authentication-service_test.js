@@ -13,6 +13,7 @@ const DomainTransaction = require('../../../../../lib/infrastructure/DomainTrans
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const logger = require('../../../../../lib/infrastructure/logger');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
@@ -378,7 +379,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const userId = 1;
         userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-        const identityProvider = 'CNAV';
+        const identityProvider = OidcIdentityProviders.CNAV.code;
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider,
           externalIdentifier: externalIdentityId,

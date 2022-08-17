@@ -56,7 +56,7 @@ module.exports = {
       await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
         authenticationComplement,
         userId,
-        identityProvider: 'POLE_EMPLOI',
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       });
     }
 
