@@ -1,0 +1,61 @@
+.training-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: $pix-neutral-0;
+  box-shadow: $box-shadow-competence-cards;
+  border-radius: 10px;
+
+  & + .training-card {
+    margin-top: 1rem;
+  }
+
+  &:hover {
+    box-shadow: $box-shadow-competence-cards-hover;
+  }
+}
+
+.training-card__visual {
+  flex-shrink: 0;
+  margin-right: 1.5rem;
+
+  img {
+    width: 90px;
+  }
+}
+
+.training-card__title {
+  color: $pix-neutral-100;
+  font-family: $font-roboto;
+  font-size: 1.12rem;
+  font-weight: $font-medium;
+  line-height: inherit;
+  letter-spacing: 0.028rem;
+}
+
+.training-card__infos {
+  display: flex;
+  margin: 12px 0 0;
+  padding-left: 0;
+  list-style: none;
+  color: $pix-neutral-45;
+  font-family: $font-roboto;
+  letter-spacing: 0.0093rem;
+  line-height: 1.2rem;
+
+  & > * + *::before {
+    content: '-';
+    margin: 0 1ch;
+  }
+}
+
+.training-card__duration {
+  display: flex;
+  align-items: center;
+
+  [data-icon="clock"] {
+    height: 0.875rem;
+    margin-right: 0.5ch;
+    padding-bottom: 0.1em;
+  }
+}

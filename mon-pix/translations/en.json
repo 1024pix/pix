@@ -66,6 +66,7 @@
       "visible-password": "Show password"
     },
     "french-republic": "French Republic",
+    "french-education-ministry": "Ministry of national education and youth",
     "level": "level",
     "loading": {
       "default": "Loading",
@@ -1326,6 +1327,10 @@
         "abstract": "Congratulations, you went all the way !",
         "pixCount": "You got {count, number, ::.} Pix",
         "nonDefinitive": "(non-definitive calculation)"
+      },
+      "trainings": {
+        "title": "Do you want to learn more?",
+        "description": "Discover national or academic trainings to progress in this field!"
       }
     },
     "terms-of-service": {

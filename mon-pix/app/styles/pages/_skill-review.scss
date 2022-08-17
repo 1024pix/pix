@@ -33,6 +33,12 @@
     }
   }
 
+  &__trainings {
+    padding: 2.5rem 4rem 3rem;
+    background-color: $pix-neutral-10;
+    border-radius: 10px;
+  }
+
   &__share {
     flex: auto;
     align-items: center;
@@ -130,6 +136,25 @@
   &__button {
     font-size: 0.875rem;
     padding: 10px;
+  }
+}
+
+.skill-review-trainings {
+
+  &__title {
+    color: $pix-neutral-100;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  &__description {
+    margin: 0.5rem 0 2rem;
+    font-family: $font-open-sans;
+    font-size: 1.125rem;
+    color: $pix-neutral-45;
+    line-height: 1.8rem;
+    text-align: center;
   }
 }
 
