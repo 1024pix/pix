@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.243.0 (17/08/2022)
+
+
+### :rocket: Amélioration
+- [#4779](https://github.com/1024pix/pix/pull/4779) [FEATURE] Mettre le archivedBy à null lors du désarchivage (PIX-5490)
+- [#4773](https://github.com/1024pix/pix/pull/4773) [FEATURE] Ajouter l'id de l'utilisateur qui a archivé la campagne en BDD (PIX-5491)
+- [#4712](https://github.com/1024pix/pix/pull/4712) [FEATURE] Ajouter un visuel au tableau de participants quand celui-ci est vide (PIX-5121).
+- [#4749](https://github.com/1024pix/pix/pull/4749) [FEATURE] Afficher les formations dans Pix App en fin de parcours (PIX-5466).
+- [#4772](https://github.com/1024pix/pix/pull/4772) [FEATURE] Ne prends plus en compte les places supprimées (PIX-5344)
+- [#4774](https://github.com/1024pix/pix/pull/4774) [FEATURE] N'afficher que le résultat de la certif Pix+ Edu correspondant au volet Pix (PIX-5425)
+
+### :building_construction: Tech
+- [#4778](https://github.com/1024pix/pix/pull/4778) [TECH] Corriger le design de la section "Certification Pix+ Edu" dans Pix Admin (PIX-5366)
+- [#4755](https://github.com/1024pix/pix/pull/4755) [TECH] Ajout de la colonne 'label' à la table complementary-certification-badges
+
 ## v3.242.0 (16/08/2022)
 
 
