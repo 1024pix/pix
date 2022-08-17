@@ -8,7 +8,7 @@ import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccept
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Organization Participants List', function (hooks) {
+module('Acceptance | Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
