@@ -279,7 +279,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           server.create('student', { isSelected: false, isEnrolled: false });
           const enrolledStudent = server.create('student', { isSelected: false, isEnrolled: true });
           server.create('certification-candidate', {
-            schoolingRegistrationId: enrolledStudent.id,
+            organizationLearnerId: enrolledStudent.id,
             sessionId: sessionWithEnrolledStudent.id,
           });
           const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
