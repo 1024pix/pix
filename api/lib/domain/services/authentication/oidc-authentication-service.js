@@ -32,6 +32,10 @@ class OidcAuthenticationService {
     this.userInfoUrl = userInfoUrl;
   }
 
+  get code() {
+    return this.identityProvider;
+  }
+
   createAccessToken(userId) {
     return jsonwebtoken.sign(
       {
