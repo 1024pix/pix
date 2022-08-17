@@ -100,8 +100,8 @@ exports.register = async (server) => {
         auth: false,
         pre: [
           {
-            method: featureToggles.checkIfSSOAccountReconciliationIsEnabled,
-            assign: 'checkIfSSOAccountReconciliationIsEnabled',
+            method: featureToggles.checkIfSsoAccountReconciliationIsEnabled,
+            assign: 'checkIfSsoAccountReconciliationIsEnabled',
           },
         ],
         validate: {
