@@ -4,6 +4,7 @@ const querystring = require('querystring');
 const monitoringTools = require('../../monitoring-tools');
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
 const { UnexpectedUserAccountError } = require('../../../domain/errors');
@@ -12,7 +13,7 @@ module.exports = {
   async notify(userId, payload) {
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
     });
     let accessToken = get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {

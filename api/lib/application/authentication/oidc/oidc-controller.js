@@ -1,7 +1,7 @@
 const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const get = require('lodash/get');
 const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const usecases = require('../../../domain/usecases');
 const { UnauthorizedError } = require('../../http-errors');
 const config = require('../../../config');
@@ -50,7 +50,7 @@ module.exports = {
     let authenticatedUserId;
     if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
       authenticatedUserId =
-        identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
+        identityProvider === OidcIdentityProviders.POLE_EMPLOI.code
           ? get(request.auth, 'credentials.userId')
           : undefined;
     }
