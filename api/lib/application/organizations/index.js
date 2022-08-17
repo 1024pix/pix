@@ -384,7 +384,7 @@ exports.register = async (server) => {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: organizationController.attachTargetProfiles,
+        handler: organizationController.attachTargetProfiles_old,
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -404,6 +404,43 @@ exports.register = async (server) => {
           },
         },
         tags: ['api', 'organizations'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/organizations/{id}/attach-target-profiles',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            'target-profile-ids': Joi.array().items(Joi.number().integer()).required(),
+          }),
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new NotFoundError("L'id d'un des profils cible ou de l'organisation n'est pas valide"),
+              h
+            );
+          },
+        },
+        handler: organizationController.attachTargetProfiles,
+        tags: ['api', 'admin', 'target-profiles', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de rattacher des profil-cibles à une organisation',
+        ],
       },
     },
   ];
