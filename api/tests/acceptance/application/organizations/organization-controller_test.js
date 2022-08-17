@@ -665,9 +665,9 @@ describe('Acceptance | Application | organization-controller', function () {
                   },
                 ],
               },
-              'target-profiles': {
+              'target-profile-summaries': {
                 links: {
-                  related: `/api/organizations/${organization.id}/target-profiles`,
+                  related: `/api/admin/organizations/${organization.id}/target-profile-summaries`,
                 },
               },
             },
