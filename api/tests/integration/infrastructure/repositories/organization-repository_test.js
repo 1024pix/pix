@@ -169,7 +169,6 @@ describe('Integration | Repository | Organization', function () {
           provinceCode: '75',
           isManagingStudents: true,
           email: 'sco.generic.account@example.net',
-          students: [],
           targetProfileShares: [],
           organizationInvitations: [],
           tags: [],
