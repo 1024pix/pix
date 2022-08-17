@@ -228,7 +228,7 @@ module.exports = {
   async enrollStudentsToSession(request, h) {
     const referentId = requestResponseUtils.extractUserIdFromRequest(request);
     const sessionId = request.params.id;
-    const studentIds = request.payload.data.attributes['student-ids'];
+    const studentIds = request.deserializedPayload.studentIds || request.deserializedPayload.organizationLearnerIds;
 
     await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });
     const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });

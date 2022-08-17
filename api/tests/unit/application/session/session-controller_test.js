@@ -500,21 +500,18 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#enrollStudentsToSession', function () {
-    let request;
+  describe('#enrollStudentsToSession with student-ids', function () {
+    let request, studentIds, studentList, serializedCertificationCandidate;
     const sessionId = 1;
     const userId = 2;
     const student1 = { id: 1 };
     const student2 = { id: 2 };
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const studentIds = [student1.id, student2.id];
-    const studentList = [student1, student2];
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const serializedCertificationCandidate = Symbol('CertificationCandidates');
 
     beforeEach(function () {
+      studentIds = [student1.id, student2.id];
+      studentList = [student1, student2];
+      serializedCertificationCandidate = Symbol('CertificationCandidates');
+
       // given
       request = {
         params: { id: sessionId },
@@ -523,12 +520,8 @@ describe('Unit | Controller | sessionController', function () {
             userId,
           },
         },
-        payload: {
-          data: {
-            attributes: {
-              'student-ids': [student1.id, student2.id],
-            },
-          },
+        deserializedPayload: {
+          'student-ids': [student1.id, student2.id],
         },
       };
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
@@ -538,6 +531,55 @@ describe('Unit | Controller | sessionController', function () {
     });
 
     context('when the user has access to session and there studentIds are corrects', function () {
+      beforeEach(function () {
+        requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
+        usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
+        usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
+        certificationCandidateSerializer.serialize.withArgs(studentList).returns(serializedCertificationCandidate);
+      });
+
+      it('should return certificationCandidates', async function () {
+        // when
+        const response = await sessionController.enrollStudentsToSession(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.source).to.deep.equal(serializedCertificationCandidate);
+      });
+    });
+  });
+
+  describe('#enrollStudentsToSession with organization-learner-ids', function () {
+    let request, studentIds, studentList, serializedCertificationCandidate;
+    const sessionId = 1;
+    const userId = 2;
+    const student1 = { id: 1 };
+    const student2 = { id: 2 };
+
+    beforeEach(function () {
+      studentIds = [student1.id, student2.id];
+      studentList = [student1, student2];
+      serializedCertificationCandidate = Symbol('CertificationCandidates');
+
+      // given
+      request = {
+        params: { id: sessionId },
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        deserializedPayload: {
+          'organization-learner-ids': [student1.id, student2.id],
+        },
+      };
+      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
+      sinon.stub(usecases, 'enrollStudentsToSession');
+      sinon.stub(usecases, 'getSessionCertificationCandidates');
+      sinon.stub(certificationCandidateSerializer, 'serialize');
+    });
+
+    context('when the user has access to session and there organizationLearnerIds are corrects', function () {
       beforeEach(function () {
         requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
