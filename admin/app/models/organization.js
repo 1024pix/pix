@@ -26,7 +26,7 @@ export default class Organization extends Model {
   @equal('type', 'SUP') isOrganizationSUP;
 
   @hasMany('membership') memberships;
-  @hasMany('targetProfile') targetProfiles;
+  @hasMany('targetProfileSummary') targetProfileSummaries;
   @hasMany('tag') tags;
 
   async hasMember(userId) {
@@ -46,7 +46,7 @@ export default class Organization extends Model {
     path: 'attach-target-profiles',
     type: 'post',
     after() {
-      this.targetProfiles.reload();
+      this.targetProfileSummaries.reload();
     },
   });
 }

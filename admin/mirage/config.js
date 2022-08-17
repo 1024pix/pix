@@ -2,11 +2,11 @@ import {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
   findTargetProfileStages,
-  getOrganizationTargetProfiles,
   outdate,
   updateTargetProfile,
   createBadge,
@@ -137,7 +137,7 @@ export default function () {
   this.get('/admin/organizations');
   this.get('/admin/organizations/:id');
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
-  this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
+  this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);
   this.post('/admin/organizations/:id/attach-target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);

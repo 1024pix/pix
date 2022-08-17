@@ -3,12 +3,11 @@ import _get from 'lodash/get';
 import _slice from 'lodash/slice';
 
 function attachTargetProfiles(schema, request) {
-  const ownerOrganizationId = request.params.id;
   const params = JSON.parse(request.requestBody);
   const targetProfilesToAttach = params['target-profile-ids'];
-  targetProfilesToAttach.forEach((targetProfileId) =>
-    schema.targetProfiles.create({ ownerOrganizationId, name: `Profil ${targetProfileId}` })
-  );
+  targetProfilesToAttach.forEach((targetProfileId) => {
+    schema.targetProfileSummaries.create({ name: `Profil ${targetProfileId}` });
+  });
   return new Response(204);
 }
 
@@ -29,9 +28,8 @@ function attachOrganizationsFromExistingTargetProfile(schema, request) {
   return new Response(204);
 }
 
-async function getOrganizationTargetProfiles(schema, request) {
-  const ownerOrganizationId = request.params.id;
-  return schema.targetProfiles.where({ ownerOrganizationId });
+async function findOrganizationTargetProfileSummaries(schema) {
+  return schema.targetProfileSummaries.all();
 }
 
 function findPaginatedTargetProfileOrganizations(schema, request) {
@@ -125,7 +123,7 @@ export {
   attachTargetProfileToOrganizations,
   createBadge,
   createBadgeCriterion,
-  getOrganizationTargetProfiles,
+  findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
