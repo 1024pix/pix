@@ -1,8 +1,33 @@
-{{#if @model.meta.rowCount}}
-  <div class="user-tutorials-content-v2__container">
-    <Tutorials::Cards @tutorials={{@model}} />
-    <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} @isCondensed="true" />
+<header role="banner">
+  <NavbarHeader @burger={{burger}} />
+  <Tutorials::Header @filterAction={{this.openFilter}} />
+</header>
+
+<main id="main" class="main" role="main">
+  <div class="user-tutorials-content-v2">
+    <PixSidebar @title="test" @showSidebar={{this.showSidebar}} @onClose={{this.closeSidebar}}>
+      <:content>
+        Test Sidebar
+      </:content>
+      <:footer>
+        <div style="display: flex; gap: 8px">
+          <PixButton @backgroundColor="transparent-light" @isBorderVisible="true">
+            Annuler
+          </PixButton>
+          <PixButton>
+            Appliquer
+          </PixButton>
+        </div>
+      </:footer>
+    </PixSidebar>
+    {{#if @model.meta.rowCount}}
+      <div class="user-tutorials-content-v2__container">
+        <Tutorials::Cards @tutorials={{@model}} />
+        <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} @isCondensed="true" />
+      </div>
+    {{else}}
+      <Tutorials::RecommendedEmpty />
+    {{/if}}
   </div>
-{{else}}
-  <Tutorials::RecommendedEmpty />
-{{/if}}
+</main>
+

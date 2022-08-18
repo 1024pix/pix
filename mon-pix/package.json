@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.5.0",
-    "@1024pix/pix-ui": "^16.1.0",
+    "@1024pix/pix-ui": "github:1024pix/pix-ui#pix-4298-add-sidebar-component",
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.0.4",
@@ -128,5 +128,8 @@
     "stylelint-config-standard": "^22.0.0",
     "uuid": "^8.3.2",
     "xss": "^1.0.9"
+  },
+  "dependencies": {
+    "ember-css-transitions": "^3.1.0"
   }
 }
