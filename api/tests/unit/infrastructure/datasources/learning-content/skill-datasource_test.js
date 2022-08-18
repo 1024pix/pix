@@ -182,4 +182,22 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       expect(_.map(skills, 'id')).to.have.members(['recSkill1', 'recSkill2']);
     });
   });
+
+  describe('#findOperativeByTubeId', function () {
+    beforeEach(function () {
+      const acquix1 = { id: 'recSkill1', status: 'actif', tubeId: 'recTube' };
+      const acquix2 = { id: 'recSkill2', status: 'archivé', tubeId: 'recTube' };
+      const acquix3 = { id: 'recSkill3', status: 'périmé', tubeId: 'recTube' };
+      const acquix4 = { id: 'recSkill4', status: 'actif', tubeId: 'recOtherTube' };
+      sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [acquix1, acquix2, acquix3, acquix4] });
+    });
+
+    it('should retrieve all operative skills from learning content for one tube', async function () {
+      // when
+      const skills = await skillDatasource.findOperativeByTubeId('recTube');
+
+      // then
+      expect(_.map(skills, 'id')).to.have.members(['recSkill1', 'recSkill2']);
+    });
+  });
 });
