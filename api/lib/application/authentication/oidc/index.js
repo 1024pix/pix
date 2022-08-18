@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const oidcController = require('./oidc-controller');
+const featureToggles = require('../../preHandlers/feature-toggles');
 
 exports.register = async (server) => {
   server.route([
@@ -90,6 +91,38 @@ exports.register = async (server) => {
             "- Elle retournera un access token Pix correspondant à l'utilisateur.",
         ],
         tags: ['api', 'oidc', 'authentication'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/oidc/token-reconciliation',
+      config: {
+        auth: false,
+        pre: [
+          {
+            method: featureToggles.checkIfSsoAccountReconciliationIsEnabled,
+            assign: 'checkIfSsoAccountReconciliationIsEnabled',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+                'identity-provider': Joi.string().required().valid('POLE_EMPLOI', 'CNAV'),
+                'authentication-key': Joi.string().required(),
+              }),
+              type: Joi.string(),
+            }),
+          }),
+        },
+        handler: oidcController.findUserForReconciliation,
+        notes: [
+          "- Cette route permet d'identifier un utilisateur Pix provenant de la double mire oidc.\n" +
+            '- Elle retournera un access token et une uri de déconnexion',
+        ],
+        tags: ['api', 'oidc'],
       },
     },
   ]);

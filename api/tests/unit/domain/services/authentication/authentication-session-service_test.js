@@ -45,4 +45,27 @@ describe('Unit | Domain | Services | authentication session', function () {
       expect(key).to.exist;
     });
   });
+
+  describe('#update', function () {
+    it('should set a new value', async function () {
+      // given
+      const key = await authenticationSessionService.save({
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Eva', lastName: 'Porée' },
+      });
+
+      // when
+      await authenticationSessionService.update(key, {
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Celine', lastName: 'Évitable', userId: 123 },
+      });
+
+      // then
+      const result = await authenticationSessionService.getByKey(key);
+      expect(result).to.deep.equal({
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Celine', lastName: 'Évitable', userId: 123 },
+      });
+    });
+  });
 });

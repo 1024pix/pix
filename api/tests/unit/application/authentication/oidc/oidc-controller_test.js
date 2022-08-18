@@ -1,6 +1,7 @@
 const { sinon, expect, hFake, catchErr } = require('../../../../test-helper');
 const authenticationServiceRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
 const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
+const oidcSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer');
 const usecases = require('../../../../../lib/domain/usecases');
 const settings = require('../../../../../lib/config');
 const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
@@ -247,6 +248,37 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       //then
       expect(result.source.access_token).to.equal(accessToken);
       expect(result.source.logout_url_uuid).to.equal('logoutUrlUUID');
+    });
+  });
+
+  describe('#findUserForReconciliation', function () {
+    context('when user has an oidc authentication method with same external identifier', function () {
+      it('should return an access token and logout url uuid', async function () {
+        // given
+        const email = 'eva.poree@example.net';
+        const password = '123pix';
+        const identityProvider = 'OIDC';
+        const authenticationKey = '123abc';
+        const request = {
+          deserializedPayload: {
+            identityProvider,
+            email,
+            password,
+            authenticationKey,
+          },
+        };
+        sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
+        sinon
+          .stub(usecases, 'findUserForOidcReconciliation')
+          .resolves({ accessToken: 'accessToken', logoutUrlUUID: 'logoutUrl', isAuthenticationComplete: true });
+        sinon.stub(oidcSerializer, 'serialize').returns({ access_token: 'accessToken', logout_url_uuid: 'logoutUrl' });
+
+        // when
+        const result = await oidcController.findUserForReconciliation(request, hFake);
+
+        // then
+        expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrl' });
+      });
     });
   });
 });
