@@ -145,4 +145,52 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       });
     });
   });
+
+  context('#login', function () {
+    it('should request api for reconciliation', async function () {
+      // given
+      const email = 'glace.alo@example.net';
+      const password = 'pix123';
+      const identityProvider = 'CNAV';
+      const authenticationKey = '1234567azerty';
+      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const login = sinon.stub();
+      component.store = { createRecord: () => ({ login }) };
+      component.email = email;
+      component.password = password;
+      component.args.authenticationKey = authenticationKey;
+      component.args.identityProviderSlug = 'cnav';
+      sinon.spy(component.store, 'createRecord');
+
+      // when
+      await component.login();
+
+      // then
+      sinon.assert.calledWith(component.store.createRecord, 'user-oidc-authentication-request', {
+        password,
+        email,
+        authenticationKey,
+        identityProvider,
+      });
+      sinon.assert.calledOnce(login);
+    });
+
+    context('when form is invalid', function () {
+      it('should not request api for reconciliation', async function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const login = sinon.stub();
+        component.store = { createRecord: () => ({ login }) };
+        component.email = '';
+        sinon.spy(component.store, 'createRecord');
+
+        // when
+        await component.login();
+
+        // then
+        sinon.assert.notCalled(component.store.createRecord);
+        sinon.assert.notCalled(login);
+      });
+    });
+  });
 });

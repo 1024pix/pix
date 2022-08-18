@@ -19,6 +19,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @service intl;
   @service session;
   @service currentDomain;
+  @service store;
 
   @tracked isTermsOfServiceValidated = false;
   @tracked isAuthenticationKeyExpired = false;
@@ -101,9 +102,21 @@ export default class LoginOrRegisterOidcComponent extends Component {
   }
 
   @action
-  confirmReconciliation() {
+  async login(event) {
+    event.preventDefault();
     if (this.isFormValid) {
-      // todo
+      const identityProvider = IdentityProviders[this.args.identityProviderSlug]?.code;
+      try {
+        const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
+          password: this.password,
+          email: this.email,
+          authenticationKey: this.args.authenticationKey,
+          identityProvider,
+        });
+        await authenticationRequest.login();
+      } catch (error) {
+        return error;
+      }
     }
   }
 
