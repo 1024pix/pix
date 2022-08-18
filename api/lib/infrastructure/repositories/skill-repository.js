@@ -35,6 +35,11 @@ module.exports = {
     return skillDatas.map(_toDomain);
   },
 
+  async findOperativeByTubeId(tubeId) {
+    const skillDatas = await skillDatasource.findOperativeByTubeId(tubeId);
+    return skillDatas.map(_toDomain);
+  },
+
   async findActiveByCompetenceId(competenceId) {
     const skillDatas = await skillDatasource.findActiveByCompetenceId(competenceId);
     return skillDatas.map(_toDomain);
