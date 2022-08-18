@@ -64,6 +64,37 @@ module.exports = {
     }
   },
 
+  async createWithTubes({ targetProfileForCreation, domainTransaction }) {
+    const knexConn = domainTransaction.knexTransaction;
+    const targetProfileRawData = _.pick(targetProfileForCreation, [
+      'name',
+      'category',
+      'description',
+      'comment',
+      'isPublic',
+      'imageUrl',
+      'ownerOrganizationId',
+    ]);
+    const [{ id: targetProfileId }] = await knexConn('target-profiles').insert(targetProfileRawData).returning('id');
+
+    const tubesData = targetProfileForCreation.tubes.map((tube) => ({
+      targetProfileId,
+      tubeId: tube.id,
+      level: tube.level,
+    }));
+    await knexConn.batchInsert('target-profile_tubes', tubesData);
+
+    return targetProfileId;
+  },
+
+  async updateTargetProfileWithSkills({ targetProfileId, skills, domainTransaction }) {
+    const knexConn = domainTransaction.knexTransaction;
+    const skillsToAdd = skills.map((skill) => {
+      return { targetProfileId, skillId: skill.id };
+    });
+    await knexConn.batchInsert('target-profiles_skills', skillsToAdd);
+  },
+
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const targetProfileBookshelf = await BookshelfTargetProfile.where({ id }).fetch({
       require: false,

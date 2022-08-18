@@ -1,10 +1,11 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, catchErr, sinon, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const TargetProfileForCreation = require('../../../../lib/domain/models/TargetProfileForCreation');
+const TargetProfileForCreationOld = require('../../../../lib/domain/models/TargetProfileForCreationOld');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const {
   NotFoundError,
   ObjectValidationError,
@@ -21,7 +22,7 @@ describe('Integration | Repository | Target-profile', function () {
     });
 
     it('should return the created target profile', async function () {
-      const targetProfileForCreation = new TargetProfileForCreation({
+      const targetProfileForCreation = new TargetProfileForCreationOld({
         name: 'myFirstTargetProfile',
         imageUrl: 'someUrl',
         isPublic: true,
@@ -60,7 +61,7 @@ describe('Integration | Repository | Target-profile', function () {
     });
 
     it('should attach each skillId once to target profile', async function () {
-      const targetProfileForCreation = new TargetProfileForCreation({
+      const targetProfileForCreation = new TargetProfileForCreationOld({
         name: 'myFirstTargetProfile',
         skillIds: ['skills1', 'skills2', 'skills2'],
         tubes: [],
@@ -80,7 +81,7 @@ describe('Integration | Repository | Target-profile', function () {
     describe('with tubes', function () {
       it('should save the target profile and its tubes', async function () {
         // given
-        const targetProfileForCreation = new TargetProfileForCreation({
+        const targetProfileForCreation = new TargetProfileForCreationOld({
           name: 'myFirstTargetProfile',
           imageUrl: 'someUrl',
           isPublic: true,
@@ -116,7 +117,7 @@ describe('Integration | Repository | Target-profile', function () {
 
     describe("when organization doesn't exist", function () {
       it('should throw an OrganizationNotFoundError', async function () {
-        const targetProfileForCreation = new TargetProfileForCreation({
+        const targetProfileForCreation = new TargetProfileForCreationOld({
           name: 'myFirstTargetProfile',
           skillIds: ['skills1', 'skills2', 'skills2'],
           ownerOrganizationId: -1,
@@ -128,6 +129,163 @@ describe('Integration | Repository | Target-profile', function () {
         // then
         expect(error).to.be.instanceOf(OrganizationNotFoundError);
       });
+    });
+  });
+
+  describe('#createWithTubes', function () {
+    afterEach(async function () {
+      await knex('target-profile_tubes').delete();
+      await knex('target-profiles').delete();
+    });
+
+    it('should return the id and create the target profile in database', async function () {
+      // given
+      databaseBuilder.factory.buildOrganization({ id: 1 });
+      await databaseBuilder.commit();
+      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
+        name: 'myFirstTargetProfile',
+        category: TargetProfile.categories.SUBJECT,
+        description: 'la description',
+        comment: 'le commentaire',
+        isPublic: true,
+        imageUrl: 'mon-image/stylée',
+        ownerOrganizationId: 1,
+      });
+
+      // when
+      const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+        return targetProfileRepository.createWithTubes({
+          targetProfileForCreation,
+          domainTransaction,
+        });
+      });
+
+      // then
+      const targetProfileInDB = await knex('target-profiles')
+        .select(['name', 'category', 'description', 'comment', 'isPublic', 'imageUrl', 'ownerOrganizationId'])
+        .where({ id: targetProfileId })
+        .first();
+      expect(targetProfileInDB).to.deep.equal({
+        name: 'myFirstTargetProfile',
+        category: TargetProfile.categories.SUBJECT,
+        description: 'la description',
+        comment: 'le commentaire',
+        isPublic: true,
+        imageUrl: 'mon-image/stylée',
+        ownerOrganizationId: 1,
+      });
+    });
+
+    it('should create the target profile tubes in database', async function () {
+      // given
+      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
+        ownerOrganizationId: null,
+        tubes: [
+          { id: 'recTube2', level: 5 },
+          { id: 'recTube1', level: 8 },
+        ],
+      });
+
+      // when
+      const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+        return targetProfileRepository.createWithTubes({
+          targetProfileForCreation,
+          domainTransaction,
+        });
+      });
+
+      // then
+      const targetProfileTubesInDB = await knex('target-profile_tubes')
+        .select(['targetProfileId', 'tubeId', 'level'])
+        .where({ targetProfileId })
+        .orderBy('tubeId', 'ASC');
+
+      expect(targetProfileTubesInDB).to.deep.equal([
+        { targetProfileId, tubeId: 'recTube1', level: 8 },
+        { targetProfileId, tubeId: 'recTube2', level: 5 },
+      ]);
+    });
+
+    it('should be transactional through DomainTransaction and do nothing if an error occurs', async function () {
+      // given
+      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
+        ownerOrganizationId: null,
+        tubes: [{ id: 'recTube2', level: 5 }],
+      });
+
+      // when
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await targetProfileRepository.createWithTubes({
+            targetProfileForCreation,
+            domainTransaction,
+          });
+          throw new Error();
+        });
+        // eslint-disable-next-line no-empty
+      } catch (error) {}
+
+      // then
+      const targetProfilesInDB = await knex('target-profiles').select('id');
+      const targetProfileTubesInDB = await knex('target-profile_tubes').select('id');
+      expect(targetProfilesInDB).to.deepEqualArray([]);
+      expect(targetProfileTubesInDB).to.deepEqualArray([]);
+    });
+  });
+
+  describe('#updateTargetProfileWithSkills', function () {
+    afterEach(async function () {
+      await knex('target-profiles_skills').delete();
+    });
+
+    it('should create the target profile skills in database', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      await databaseBuilder.commit();
+      const skills = [domainBuilder.buildSkill({ id: 'recSkill2' }), domainBuilder.buildSkill({ id: 'recSkill1' })];
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await targetProfileRepository.updateTargetProfileWithSkills({
+          targetProfileId: 1,
+          skills,
+          domainTransaction,
+        });
+      });
+
+      // then
+      const targetProfileSkillsInDB = await knex('target-profiles_skills')
+        .select(['targetProfileId', 'skillId'])
+        .where({ targetProfileId: 1 })
+        .orderBy('skillId', 'ASC');
+      expect(targetProfileSkillsInDB).to.deep.equal([
+        { targetProfileId: 1, skillId: 'recSkill1' },
+        { targetProfileId: 1, skillId: 'recSkill2' },
+      ]);
+    });
+
+    it('should be transactional through DomainTransaction and do nothing if an error occurs', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      await databaseBuilder.commit();
+      const skills = [domainBuilder.buildSkill({ id: 'recSkill2' }), domainBuilder.buildSkill({ id: 'recSkill1' })];
+
+      // when
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await targetProfileRepository.updateTargetProfileWithSkills({
+            targetProfileId: 1,
+            skills,
+            domainTransaction,
+          });
+          throw new Error();
+        });
+        // eslint-disable-next-line no-empty
+      } catch (error) {}
+
+      // then
+      const targetProfileSkillsInDB = await knex('target-profiles_skills').select('id');
+      expect(targetProfileSkillsInDB).to.deepEqualArray([]);
     });
   });
 
