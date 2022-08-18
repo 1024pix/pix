@@ -537,7 +537,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
-          .stub(targetProfileController, 'createTargetProfile')
+          .stub(targetProfileController, 'createTargetProfile_old')
           .callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -553,7 +553,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         // given
         sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
-          .stub(targetProfileController, 'createTargetProfile')
+          .stub(targetProfileController, 'createTargetProfile_old')
           .callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1198,6 +1198,294 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         // then
         expect(statusCode).to.equal(403);
       });
+    });
+  });
+
+  describe('POST /api/admin/target-profiles-new', function () {
+    let validPayload;
+
+    beforeEach(function () {
+      validPayload = {
+        data: {
+          attributes: {
+            name: 'targetProfileName',
+            category: 'OTHER',
+            description: 'coucou maman',
+            comment: 'coucou papa',
+            'is-public': false,
+            'image-url': 'http://some/image.ok',
+            'owner-organization-id': null,
+            tubes: [{ id: 'recTube1', level: '5' }],
+          },
+        },
+      };
+    });
+
+    it('should allow to controller if user has role SUPER_ADMIN', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.createTargetProfile);
+    });
+
+    it('should allow to controller if user has role SUPPORT', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.createTargetProfile);
+    });
+
+    it('should allow to controller if user has role METIER', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 403 without reaching controller if user has not an allowed role', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong name format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      delete payload.data.attributes.name;
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong category format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      delete payload.data.attributes.category;
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong description format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      payload.data.attributes.description = 123;
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong comment format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      payload.data.attributes.comment = 123;
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong isPublic format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      payload.data.attributes['is-public'] = 123;
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong imageUrl format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      payload.data.attributes['image-url'] = 123;
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong ownerOrganizationId format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      payload.data.attributes['owner-organization-id'] = 'coucou';
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
+    });
+
+    it('should return 400 without reaching controller if payload has wrong tubes format', async function () {
+      // given
+      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const payload = { ...validPayload };
+      payload.data.attributes.tubes = 'les tubes c cool';
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      sinon.assert.notCalled(targetProfileController.createTargetProfile);
     });
   });
 });

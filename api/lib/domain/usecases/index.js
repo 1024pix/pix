@@ -222,6 +222,7 @@ module.exports = injectDependencies(
     createSession: require('./create-session'),
     createStage: require('./create-stage'),
     createTag: require('./create-tag'),
+    createTargetProfile_old: require('./create-target-profile-old'),
     createTargetProfile: require('./create-target-profile'),
     createUser: require('./create-user'),
     createUserAndReconcileToOrganizationLearnerFromExternalUser: require('./create-user-and-reconcile-to-organization-learner-from-external-user'),
