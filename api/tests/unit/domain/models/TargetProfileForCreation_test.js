@@ -1,5 +1,5 @@
 const { expect, catchErr } = require('../../../test-helper');
-const TargetProfileForCreation = require('../../../../lib/domain/models/TargetProfileForCreation');
+const TargetProfileForCreation = require('../../../../lib/domain/models/TargetProfileForCreationOld');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 

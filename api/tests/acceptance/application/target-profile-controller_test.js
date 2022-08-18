@@ -107,6 +107,68 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     });
   });
 
+  describe('POST /api/admin/target-profiles-new', function () {
+    let user;
+
+    beforeEach(function () {
+      user = databaseBuilder.factory.buildUser.withRole();
+      const learningContentForTest = {
+        skills: [
+          {
+            id: 'recSkill1',
+            name: 'skill1',
+            status: 'actif',
+            tubeId: 'recTube1',
+          },
+        ],
+      };
+      mockLearningContent(learningContentForTest);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('target-profiles_skills').delete();
+      await knex('target-profile_tubes').delete();
+      await knex('target-profiles').delete();
+    });
+
+    it('should return 200', async function () {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/admin/target-profiles-new',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            attributes: {
+              name: 'targetProfileName',
+              category: 'OTHER',
+              description: 'coucou maman',
+              comment: 'coucou papa',
+              'is-public': false,
+              'image-url': 'http://some/image.ok',
+              'owner-organization-id': null,
+              tubes: [{ id: 'recTube1', level: '5' }],
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const { id: targetProfileId } = await knex('target-profiles').select('id').first();
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'target-profiles',
+          id: `${targetProfileId}`,
+        },
+      });
+    });
+  });
+
   describe('GET /api/admin/target-profiles/{id}', function () {
     let user;
     let targetProfileId;

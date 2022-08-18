@@ -10,6 +10,7 @@ const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-
 const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
   async findPaginatedFilteredTargetProfileSummariesForAdmin(request) {
@@ -79,13 +80,25 @@ module.exports = {
     return h.response({}).code(204);
   },
 
-  async createTargetProfile(request) {
+  async createTargetProfile_old(request) {
     const targetProfileData = targetProfileSerializer.deserialize(request.payload);
 
-    const targetProfile = await usecases.createTargetProfile({
+    const targetProfile = await usecases.createTargetProfile_old({
       targetProfileData,
     });
     return targetProfileWithLearningContentSerializer.serialize(targetProfile);
+  },
+
+  async createTargetProfile(request) {
+    const targetProfileCreationCommand = targetProfileSerializer.deserializeCreationCommand(request.payload);
+
+    const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+      return usecases.createTargetProfile({
+        targetProfileCreationCommand,
+        domainTransaction,
+      });
+    });
+    return targetProfileSerializer.serializeId(targetProfileId);
   },
 
   async findByTargetProfileId(request) {

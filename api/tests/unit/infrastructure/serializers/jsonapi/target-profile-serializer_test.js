@@ -40,6 +40,22 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
     });
   });
 
+  describe('#serializeId', function () {
+    it('should return a serialized target profile to JSONAPI with only ID filled', function () {
+      // when
+      const serializedTargetProfile = serializer.serializeId(123);
+
+      // then
+      const expectedTargetProfileSerialized = {
+        data: {
+          id: '123',
+          type: 'target-profiles',
+        },
+      };
+      return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfileSerialized);
+    });
+  });
+
   describe('#deserialize', function () {
     it('should deserialize JSONAPI to target profile', function () {
       // given
@@ -85,6 +101,48 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
 
       // then
       expect(deserializedTargetProfile).to.deep.equal(expectTargetProfileObject);
+    });
+  });
+
+  describe('#deserializeCreationCommand', function () {
+    it('should deserialize JSONAPI to target profile creation command', function () {
+      // given
+      const json = {
+        data: {
+          attributes: {
+            name: 'Les compétences de BRO 2.0',
+            category: 'OTHER',
+            description: 'Amazing description',
+            comment: 'Interesting comment',
+            'is-public': false,
+            'image-url': 'superImage.png',
+            'owner-organization-id': 12,
+            tubes: [
+              { id: 'tubeId1', level: '5' },
+              { id: 'tubeId2', level: '7' },
+            ],
+          },
+        },
+      };
+
+      // when
+      const deserializedTargetProfileCreationCommand = serializer.deserializeCreationCommand(json);
+
+      // then
+      const expectedTargetProfileCreationCommand = {
+        name: 'Les compétences de BRO 2.0',
+        category: 'OTHER',
+        description: 'Amazing description',
+        comment: 'Interesting comment',
+        isPublic: false,
+        imageUrl: 'superImage.png',
+        ownerOrganizationId: 12,
+        tubes: [
+          { id: 'tubeId1', level: '5' },
+          { id: 'tubeId2', level: '7' },
+        ],
+      };
+      expect(deserializedTargetProfileCreationCommand).to.deep.equal(expectedTargetProfileCreationCommand);
     });
   });
 });

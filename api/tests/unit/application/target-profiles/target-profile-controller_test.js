@@ -2,8 +2,61 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | target-profile-controller', function () {
+  describe('#createTargetProfile', function () {
+    it('should succeed', async function () {
+      // given
+      const domainTransaction = Symbol('domainTr');
+      sinon.stub(usecases, 'createTargetProfile');
+      const targetProfileCreationCommand = {
+        name: 'targetProfileName',
+        category: 'OTHER',
+        description: 'coucou maman',
+        comment: 'coucou papa',
+        isPublic: false,
+        imageUrl: 'http://some/image.ok',
+        ownerOrganizationId: null,
+        tubes: [{ id: 'recTube1', level: '5' }],
+      };
+      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
+        return usecases.createTargetProfile({
+          targetProfileCreationCommand,
+          domainTransaction,
+        });
+      });
+      usecases.createTargetProfile.withArgs({ targetProfileCreationCommand, domainTransaction }).resolves(123);
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              name: 'targetProfileName',
+              category: 'OTHER',
+              description: 'coucou maman',
+              comment: 'coucou papa',
+              'is-public': false,
+              'image-url': 'http://some/image.ok',
+              'owner-organization-id': null,
+              tubes: [{ id: 'recTube1', level: '5' }],
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await targetProfileController.createTargetProfile(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({
+        data: {
+          type: 'target-profiles',
+          id: '123',
+        },
+      });
+    });
+  });
+
   describe('#updateTargetProfile', function () {
     let request;
 
