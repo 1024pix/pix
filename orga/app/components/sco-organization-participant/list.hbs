@@ -77,7 +77,7 @@
             <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
             <td class="table__column--center">{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="ellipsis">{{student.division}}</td>
-            <td class="list-students-page__authentication-methods">
+            <td class="sco-organization-participant-list-page__authentication-methods">
               {{#each student.authenticationMethods as |authenticationMethod|}}
                 <p>{{t authenticationMethod}}</p>
               {{/each}}
@@ -85,7 +85,7 @@
             <td class="table__column--right">{{student.participationCount}}</td>
             <td class="table__column--center">
               {{#if student.lastParticipationDate}}
-                <div class="list-students-page__last-participation">
+                <div class="organization-participant-list-page__last-participation">
                   <span>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
                   <Ui::LastParticipationDateTooltip
                     @id={{index}}
@@ -96,12 +96,12 @@
                 </div>
               {{/if}}
             </td>
-            <td class="list-students-page__actions hide-on-mobile">
+            <td class="organization-participant-list-page__actions hide-on-mobile">
               {{#if student.isAssociated}}
                 <Dropdown::IconTrigger
                   @icon="ellipsis-v"
-                  @dropdownButtonClass="list-students-page__dropdown-button"
-                  @dropdownContentClass="list-students-page__dropdown-content"
+                  @dropdownButtonClass="organization-participant-list-page__dropdown-button"
+                  @dropdownContentClass="organization-participant-list-page__dropdown-content"
                   @ariaLabel={{t "pages.sco-organization-participants.actions.show-actions"}}
                 >
                   <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
