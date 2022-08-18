@@ -53,16 +53,21 @@ describe('a11y', () => {
       { url: '/mon-profil', skipFailures: true },
       { url: '/mes-tutos/recommandes',skipFailures: true },
       { url: '/mes-certifications', skipFailures: true },
+      { url: '/campagnes/NERA/evaluation/resultats' },
     ];
 
     authenticatedPages.forEach(({ url, skipFailures = false }) => {
-      it(`${url} should be accessible`, () => {
+      beforeEach(() => {
         // given
         cy.visitMonPix('/');
         cy.login('john.snow@pix.fr', 'pix123');
+      });
 
+      it(`${url} should be accessible`, () => {
         // when
         cy.visitMonPix(url);
+        cy.get('.app-loader').should('not.exist');
+
         cy.injectAxe();
 
         // then
