@@ -721,6 +721,13 @@ class NotFoundError extends DomainError {
   }
 }
 
+class DeletedError extends DomainError {
+  constructor(message = 'Erreur, ressource supprimée.', code) {
+    super(message);
+    this.code = code;
+  }
+}
+
 class NoCertificationResultForDivision extends DomainError {
   constructor(message = 'Aucun résultat de certification pour cette classe.') {
     super(message);
@@ -1234,6 +1241,7 @@ module.exports = {
   NoOrganizationToAttach,
   NotEligibleCandidateError,
   NotFoundError,
+  DeletedError,
   NotImplementedError,
   ObjectValidationError,
   OrganizationArchivedError,
