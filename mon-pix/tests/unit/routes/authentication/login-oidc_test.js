@@ -40,6 +40,19 @@ describe('Unit | Route | login-oidc', function () {
             nonce,
           }),
         });
+        const oidcPartner = {
+          id: 'oidc-partner',
+          code: 'OIDC_PARTNER',
+          organizationName: 'Partenaire OIDC',
+          hasLogoutUrl: false,
+          source: 'oidc-externe',
+        };
+        class OidcIdentityProvidersStub extends Service {
+          'oidc-partner' = oidcPartner;
+          list = [oidcPartner];
+          load = sinon.stub().resolves();
+        }
+        this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       });
 
       afterEach(function () {
@@ -53,7 +66,7 @@ describe('Unit | Route | login-oidc', function () {
           route.router = { replaceWith: sinon.stub() };
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'idp' } } });
 
           // then
           sinon.assert.calledWith(route.router.replaceWith, 'authentication.login');
@@ -63,74 +76,59 @@ describe('Unit | Route | login-oidc', function () {
       context('when attempting transition', function () {
         it('should store the intent url in session data nextUrl', async function () {
           // given
-          const authenticateStub = sinon.stub().resolves();
           const sessionStub = Service.create({
-            attemptedTransition: {
-              intent: {
-                url: '/campagnes/PIXEMPLOI/acces',
-              },
-            },
-            authenticate: authenticateStub,
+            attemptedTransition: { intent: { url: '/campagnes/PIXOIDC01/acces' } },
+            authenticate: sinon.stub().resolves(),
             data: {},
           });
           const route = this.owner.lookup('route:authentication/login-oidc');
           route.set('session', sessionStub);
-          route.location = { replace: sinon.stub() };
+          route.location.replace = sinon.stub();
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
           // then
-          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
+          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXOIDC01/acces');
         });
 
         it('should build the url from the intent name and contexts in session data nextUrl', async function () {
           // given
           const authenticateStub = sinon.stub().resolves();
           const sessionStub = Service.create({
-            attemptedTransition: {
-              intent: {
-                name: 'campaigns.access',
-                contexts: ['PIXEMPLOI'],
-              },
-            },
+            attemptedTransition: { intent: { name: 'campaigns.access', contexts: ['PIXOIDC01'] } },
             authenticate: authenticateStub,
             data: {},
           });
           const route = this.owner.lookup('route:authentication/login-oidc');
           route.set('session', sessionStub);
-          route.location = { replace: sinon.stub() };
+          route.location.replace = sinon.stub();
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
           // then
-          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
+          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXOIDC01/acces');
         });
       });
 
       it('should direct user to identity provider login page and set state and nonce', async function () {
         // given
-        const authenticateStub = sinon.stub().resolves();
         const sessionStub = Service.create({
-          attemptedTransition: {
-            intent: {
-              url: '/campagnes/PIXEMPLOI/acces',
-            },
-          },
-          authenticate: authenticateStub,
+          attemptedTransition: { intent: { url: '/campagnes/PIXOIDC01/acces' } },
+          authenticate: sinon.stub().resolves(),
           data: {},
         });
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.set('session', sessionStub);
-        route.location = { replace: sinon.stub() };
+        route.location.replace = sinon.stub();
 
         // when
-        await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
+        await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
         // then
         sinon.assert.calledWithMatch(route.location.replace, 'https://oidc/connexion');
-        expect(sessionStub.data).to.deep.equal({ nextURL: '/campagnes/PIXEMPLOI/acces', state, nonce });
+        expect(sessionStub.data).to.deep.equal({ nextURL: '/campagnes/PIXOIDC01/acces', state, nonce });
       });
     });
   });
@@ -210,7 +208,7 @@ describe('Unit | Route | login-oidc', function () {
       route.set('session', sessionStub);
 
       // when
-      await route.model({ identity_provider_slug: 'oidc' }, { to: { queryParams: { code: 'test' } } });
+      await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
 
       // then
       sinon.assert.calledWithMatch(authenticateStub, 'authenticator:oidc', {
@@ -235,14 +233,17 @@ describe('Unit | Route | login-oidc', function () {
       route.router = { replaceWith: sinon.stub() };
 
       // when
-      const response = await route.model({ identity_provider_slug: 'oidc' }, { to: { queryParams: { code: 'test' } } });
+      const response = await route.model(
+        { identity_provider_slug: 'oidc-partner' },
+        { to: { queryParams: { code: 'test' } } }
+      );
 
       // then
       sinon.assert.calledOnce(authenticateStub);
       expect(response).to.deep.equal({
         shouldValidateCgu: true,
         authenticationKey: 'key',
-        identityProviderSlug: 'oidc',
+        identityProviderSlug: 'oidc-partner',
       });
     });
 
@@ -259,7 +260,7 @@ describe('Unit | Route | login-oidc', function () {
 
       try {
         // when
-        await route.model({ identity_provider_slug: 'oidc' }, { to: { queryParams: { code: 'test' } } });
+        await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
       } catch (error) {
         // then
         sinon.assert.calledOnce(authenticateStub);

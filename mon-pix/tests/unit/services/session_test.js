@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
+import Service from '@ember/service';
 
 describe('Unit | Services | session', function () {
   setupTest();
@@ -28,6 +29,21 @@ describe('Unit | Services | session', function () {
   });
 
   describe('#handleAuthentication', function () {
+    beforeEach(function () {
+      const oidcPartner = {
+        id: 'oidc-partner',
+        code: 'OIDC_PARTNER',
+        organizationName: 'Partenaire OIDC',
+        hasLogoutUrl: false,
+        source: 'oidc-externe',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        'oidc-partner' = oidcPartner;
+        list = [oidcPartner];
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+    });
+
     context('when current URL domain extension is .fr', function () {
       it('should load current user and set locale to fr', async function () {
         // given
@@ -74,7 +90,7 @@ describe('Unit | Services | session', function () {
 
     it('should replace the URL with the one set before the identity provider authentication', async function () {
       // given
-      sessionService.data = { nextURL: '/campagnes', authenticated: { identity_provider_code: 'POLE_EMPLOI' } };
+      sessionService.data = { nextURL: '/campagnes', authenticated: { identityProviderCode: 'OIDC_PARTNER' } };
 
       // when
       await sessionService.handleAuthentication();

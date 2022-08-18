@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 describe('Unit | Route | Access', function () {
   setupTest();
@@ -24,6 +25,10 @@ describe('Unit | Route | Access', function () {
 
     route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
     route.session = sessionStub;
+    class OidcIdentityProvidersStub extends Service {
+      list = [];
+    }
+    this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
   });
 
   describe('#beforeModel', function () {
@@ -63,63 +68,47 @@ describe('Unit | Route | Access', function () {
       );
     });
 
-    context('when campaign belongs to pole emploi and user is not connected with pole emploi', function () {
-      it('should override authentication route with login-pole-emploi', async function () {
-        // given
-        route.session.data.externalUser = 'some external user';
-        campaign.isRestrictedByIdentityProvider.withArgs('POLE_EMPLOI').returns(true);
-
-        // when
-        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
-
-        // then
-        sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'pole-emploi');
+    context('when campaign belongs to an oidc provider', function () {
+      beforeEach(function () {
+        const oidcPartner = {
+          id: 'oidc-partner',
+          code: 'OIDC_PARTNER',
+        };
+        class OidcIdentityProvidersStub extends Service {
+          'oidc-partner' = oidcPartner;
+          list = [oidcPartner];
+        }
+        this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       });
-    });
 
-    context('when campaign belongs to pole emploi and user is connected with pole emploi', function () {
-      it('should not override authentication route with login-pole-emploi', async function () {
-        // given
-        route.session.data.externalUser = 'some external user';
-        const POLE_EMPLOI = 'POLE_EMPLOI';
-        route.session.data.authenticated.identity_provider_code = POLE_EMPLOI;
-        campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
+      context('and user is not connected with that provider', function () {
+        it('should use provider route', async function () {
+          // given
+          route.session.data.externalUser = 'some external user';
+          campaign.isRestrictedByIdentityProvider.withArgs('OIDC_PARTNER').returns(true);
 
-        // when
-        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+          // when
+          await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
-        // then
-        sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'pole-emploi');
+          // then
+          sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'oidc-partner');
+        });
       });
-    });
 
-    context('when campaign belongs to cnav and user is not connected with cnav', function () {
-      it('should override authentication route with login-cnav', async function () {
-        // given
-        route.session.data.externalUser = 'some external user';
-        campaign.isRestrictedByIdentityProvider.withArgs('CNAV').returns(true);
+      context('and user is connected with that provider', function () {
+        it('should not use provider route', async function () {
+          // given
+          route.session.data.externalUser = 'some external user';
+          const OIDC_PARTNER = 'OIDC_PARTNER';
+          route.session.data.authenticated.identityProviderCode = OIDC_PARTNER;
+          campaign.isRestrictedByIdentityProvider.withArgs(OIDC_PARTNER).returns(true);
 
-        // when
-        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+          // when
+          await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
-        // then
-        sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'cnav');
-      });
-    });
-
-    context('when campaign belongs to cnav and user is connected with cnav', function () {
-      it('should not override authentication route with login-cnav', async function () {
-        // given
-        route.session.data.externalUser = 'some external user';
-        const CNAV = 'CNAV';
-        route.session.data.authenticated.identity_provider_code = CNAV;
-        campaign.isRestrictedByIdentityProvider.withArgs(CNAV).returns(true);
-
-        // when
-        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
-
-        // then
-        sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'cnav');
+          // then
+          sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'oidc-partner');
+        });
       });
     });
 
