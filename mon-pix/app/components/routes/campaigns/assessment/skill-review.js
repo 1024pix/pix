@@ -17,6 +17,10 @@ export default class SkillReview extends Component {
   @tracked showGlobalErrorMessage = false;
   @tracked isShareButtonClicked = false;
 
+  get title() {
+    return this.args.model.campaign.title || this.intl.t('pages.skill-review.title');
+  }
+
   get showCleaCompetences() {
     const cleaBadge = this.args.model.campaignParticipationResult.cleaBadge;
     return !!cleaBadge;

@@ -26,5 +26,12 @@
     "state": "completed",
     "type": "CAMPAIGN",
     "userId": 5
+  },
+  {
+    "id": 5,
+    "campaignParticipationId": 7,
+    "state": "started",
+    "type": "CAMPAIGN",
+    "userId": 3
   }
 ]
