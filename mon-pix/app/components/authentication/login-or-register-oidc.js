@@ -114,6 +114,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
           identityProvider,
         });
         await authenticationRequest.login();
+        this.args.toggleOidcReconciliation();
       } catch (error) {
         return error;
       }
