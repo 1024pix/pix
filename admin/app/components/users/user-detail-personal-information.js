@@ -21,15 +21,15 @@ export default class UserDetailPersonalInformationComponent extends Component {
 
   @service notifications;
 
-  schoolingRegistrationToDissociate = null;
+  organizationLearnerToDissociate = null;
 
   get translatedType() {
     return typesLabel[this.authenticationMethodType];
   }
 
   @action
-  toggleDisplayDissociateModal(schoolingRegistration) {
-    this.schoolingRegistrationToDissociate = schoolingRegistration;
+  toggleDisplayDissociateModal(organizationLearner) {
+    this.organizationLearnerToDissociate = organizationLearner;
     this.displayDissociateModal = !this.displayDissociateModal;
   }
 
@@ -43,7 +43,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
   async dissociate() {
     this.isLoading = true;
     try {
-      await this.schoolingRegistrationToDissociate.destroyRecord();
+      await this.organizationLearnerToDissociate.destroyRecord();
       this.notifications.success(DISSOCIATE_SUCCESS_NOTIFICATION_MESSAGE);
     } catch (response) {
       const errorMessage = 'Une erreur est survenue !';
