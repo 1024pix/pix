@@ -147,7 +147,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
   });
 
   context('#login', function () {
-    it('should request api for reconciliation', async function () {
+    it('should request api for login', async function () {
       // given
       const email = 'glace.alo@example.net';
       const password = 'pix123';
@@ -160,10 +160,12 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.password = password;
       component.args.authenticationKey = authenticationKey;
       component.args.identityProviderSlug = 'cnav';
+      component.args.toggleOidcReconciliation = sinon.stub();
       sinon.spy(component.store, 'createRecord');
+      const eventStub = { preventDefault: sinon.stub() };
 
       // when
-      await component.login();
+      await component.login(eventStub);
 
       // then
       sinon.assert.calledWith(component.store.createRecord, 'user-oidc-authentication-request', {
@@ -173,6 +175,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
         identityProvider,
       });
       sinon.assert.calledOnce(login);
+      sinon.assert.calledOnce(component.args.toggleOidcReconciliation);
     });
 
     context('when form is invalid', function () {
@@ -183,9 +186,10 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
         component.store = { createRecord: () => ({ login }) };
         component.email = '';
         sinon.spy(component.store, 'createRecord');
+        const eventStub = { preventDefault: sinon.stub() };
 
         // when
-        await component.login();
+        await component.login(eventStub);
 
         // then
         sinon.assert.notCalled(component.store.createRecord);
