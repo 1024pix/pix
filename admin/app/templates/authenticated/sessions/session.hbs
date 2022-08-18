@@ -20,7 +20,12 @@
     <LinkTo @route="authenticated.sessions.session.informations" @model={{@model.id}} class="navbar-item">
       Informations
     </LinkTo>
-    <LinkTo @route="authenticated.sessions.session.certifications" @model={{@model.id}} class="navbar-item">
+    <LinkTo
+      @route="authenticated.sessions.session.certifications"
+      @model={{@model.id}}
+      class="navbar-item"
+      aria-label="Liste des certifications de la session"
+    >
       Certifications
     </LinkTo>
   </nav>

@@ -228,6 +228,38 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#juryLevelOptions', function () {
+    test('should return an array of labels and values', function (assert) {
+      // given
+      const complementaryCertificationCourseResultsWithExternal = EmberObject.create({
+        allowedExternalLevels: [
+          {
+            value: 'COMME',
+            label: 'je veux',
+          },
+        ],
+      });
+      controller.model = {
+        certification: EmberObject.create({
+          status: 'cancelled',
+          complementaryCertificationCourseResultsWithExternal,
+        }),
+      };
+
+      // when
+      const juryLevelOptions = controller.juryLevelOptions;
+
+      //then
+      assert.deepEqual(juryLevelOptions, [
+        {
+          value: 'COMME',
+          label: 'je veux',
+        },
+        { value: 'REJECTED', label: 'Rejetée' },
+      ]);
+    });
+  });
+
   module('#impactfulCertificationIssueReports', () => {
     test('it should return certification issue reports with action required', async function (assert) {
       // given

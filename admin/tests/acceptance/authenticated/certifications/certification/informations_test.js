@@ -339,6 +339,84 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           assert.dom(finalResult.getByText('Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)')).exists();
         });
+
+        /**
+         * This test has been created to ensure a bug is fixed
+         * Step to reproduce :
+         * - open select of jury level option of one Pix+ Edu 1er degré certification
+         * - open select of jury level option of Pix+ Edu 2nd degré certification in the same session
+         * - expected bug result : jury level options should be only Pix+ Edu 1er degré
+         */
+        test('it should not display previously opened jury level options', async function (assert) {
+          //given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          this.server.create('user', { id: 777 });
+          this.server.create('user', { id: 666 });
+          const juryCertificationSummaries = [
+            server.create('jury-certification-summary', {
+              id: 123,
+            }),
+            server.create('jury-certification-summary', {
+              id: 456,
+            }),
+          ];
+          const session = server.create('session', { id: 321, juryCertificationSummaries });
+          const complementaryCertificationCourseResultsWithExternal1 = server.create(
+            'complementary-certification-course-results-with-external',
+            {
+              complementaryCertificationCourseId: 1234,
+              pixResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
+              externalResult: 'En attente',
+              finalResult: 'En attente',
+              allowedExternalLevels: [
+                {
+                  value: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+                  label: 'Pix+ Édu Initiale 1er degré Confirmé',
+                },
+              ],
+            }
+          );
+          const certification1 = this.server.create('certification', {
+            id: 398,
+            sessionId: session.id,
+            userId: 777,
+            complementaryCertificationCourseResultsWithExternal: complementaryCertificationCourseResultsWithExternal1,
+            competencesWithMark: [],
+          });
+
+          const complementaryCertificationCourseResultsWithExternal2 = server.create(
+            'complementary-certification-course-results-with-external',
+            {
+              complementaryCertificationCourseId: 5678,
+              pixResult: 'Pix+ Édu Initiale 2nd degré Initié (entrée dans le métier)',
+              externalResult: 'En attente',
+              finalResult: 'En attente',
+              allowedExternalLevels: [
+                {
+                  value: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME',
+                  label: 'Pix+ Édu Initiale 2nd degré Confirmé',
+                },
+              ],
+            }
+          );
+          const certification2 = this.server.create('certification', {
+            id: 456,
+            userId: 666,
+            sessionId: session.id,
+            complementaryCertificationCourseResultsWithExternal: complementaryCertificationCourseResultsWithExternal2,
+            competencesWithMark: [],
+          });
+
+          const screen = await visit(`/certifications/${certification1.id}`);
+          await click(screen.getByRole('button', { name: 'Modifier le volet jury' }));
+          await _switchCertificationDetail(screen, session.id, certification2.id);
+
+          // when
+          await selectByLabelAndOption('Sélectionner un niveau', 'Choisir un niveau');
+
+          // then
+          assert.dom(screen.getByText('Pix+ Édu Initiale 2nd degré Confirmé')).exists();
+        });
       });
 
       test('it displays common complementary certifications result', async function (assert) {
@@ -764,3 +842,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
   });
 });
+
+async function _switchCertificationDetail(screen, sessionId, certificationId) {
+  await click(screen.getByRole('link', { name: sessionId }));
+  await click(screen.getByLabelText('Liste des certifications de la session'));
+  await click(screen.getByRole('link', { name: certificationId }));
+}
