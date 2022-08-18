@@ -106,4 +106,17 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
       expect(await storage.get('123:a-key')).to.be.undefined;
     });
   });
+
+  describe('#update', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.update('key', 'value');
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
 });

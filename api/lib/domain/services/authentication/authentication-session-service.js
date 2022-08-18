@@ -14,4 +14,8 @@ module.exports = {
       expirationDelaySeconds: EXPIRATION_DELAY_SECONDS,
     });
   },
+
+  update(key, value) {
+    temporaryStorage.update(key, value);
+  },
 };

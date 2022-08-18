@@ -1,6 +1,12 @@
 const { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } = require('../../../../test-helper');
 const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
+const { featureToggles } = require('../../../../../lib/config');
 const moduleUnderTest = require('../../../../../lib/application/authentication/oidc');
+const {
+  UserNotFoundError,
+  AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
+} = require('../../../../../lib/domain/errors');
 
 describe('Integration | Application | Route | OidcRouter', function () {
   let server;
@@ -80,6 +86,94 @@ describe('Integration | Application | Route | OidcRouter', function () {
 
         // then
         expect(statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('POST /api/oidc/token-reconciliation', function () {
+    context('error cases', function () {
+      context('when user is not found', function () {
+        it('should return a response with HTTP status code 404', async function () {
+          // given
+          sinon.stub(oidcController, 'findUserForReconciliation').rejects(new UserNotFoundError());
+          const httpTestServer = new HttpTestServer();
+          featureToggles.isSsoAccountReconciliationEnabled = true;
+          httpTestServer.setupAuthentication();
+          await httpTestServer.register(moduleUnderTest);
+
+          const response = await httpTestServer.requestObject({
+            method: 'POST',
+            url: '/api/oidc/token-reconciliation',
+            payload: {
+              data: {
+                attributes: {
+                  email: 'eva.poree@example.net',
+                  password: 'pix123',
+                  'identity-provider': 'POLE_EMPLOI',
+                  'authentication-key': '123abc',
+                },
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].detail).to.equal('Ce compte est introuvable.');
+        });
+      });
+
+      context('when authentication key expired', function () {
+        it('should return a response with HTTP status code 401', async function () {
+          // given
+          sinon.stub(oidcController, 'findUserForReconciliation').rejects(new AuthenticationKeyExpired());
+          const httpTestServer = new HttpTestServer();
+          featureToggles.isSsoAccountReconciliationEnabled = true;
+          httpTestServer.setupAuthentication();
+          await httpTestServer.register(moduleUnderTest);
+
+          const response = await httpTestServer.request('POST', `/api/oidc/token-reconciliation`, {
+            data: {
+              attributes: {
+                email: 'eva.poree@example.net',
+                password: 'pix123',
+                'identity-provider': 'POLE_EMPLOI',
+                'authentication-key': '123abc',
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(401);
+          expect(response.result.errors[0].detail).to.equal('This authentication key has expired.');
+        });
+      });
+
+      context('when external identity id and external identifier are different', function () {
+        it('should return a response with HTTP status code 412', async function () {
+          // given
+          sinon.stub(oidcController, 'findUserForReconciliation').rejects(new DifferentExternalIdentifierError());
+          const httpTestServer = new HttpTestServer();
+          featureToggles.isSsoAccountReconciliationEnabled = true;
+          httpTestServer.setupAuthentication();
+          await httpTestServer.register(moduleUnderTest);
+
+          const response = await httpTestServer.request('POST', `/api/oidc/token-reconciliation`, {
+            data: {
+              attributes: {
+                email: 'eva.poree@example.net',
+                password: 'pix123',
+                'identity-provider': 'POLE_EMPLOI',
+                'authentication-key': '123abc',
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(412);
+          expect(response.result.errors[0].detail).to.equal(
+            "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire."
+          );
+        });
       });
     });
   });

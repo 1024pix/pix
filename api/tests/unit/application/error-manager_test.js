@@ -7,6 +7,7 @@ const {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
   EntityValidationError,
   InvalidExternalAPIResponseError,
   MissingOrInvalidCredentialsError,
@@ -450,6 +451,19 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    it('should instantiate PreconditionFailedError when DifferentExternalIdentifierError', async function () {
+      // given
+      const error = new DifferentExternalIdentifierError();
+      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PreconditionFailedError).to.have.been.calledWithExactly(error.message);
     });
   });
 });

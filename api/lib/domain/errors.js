@@ -1123,6 +1123,14 @@ class SessionStartedDeletionError extends DomainError {
   }
 }
 
+class DifferentExternalIdentifierError extends DomainError {
+  constructor(
+    message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire."
+  ) {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1190,6 +1198,7 @@ module.exports = {
   CsvParsingError,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
+  DifferentExternalIdentifierError,
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,

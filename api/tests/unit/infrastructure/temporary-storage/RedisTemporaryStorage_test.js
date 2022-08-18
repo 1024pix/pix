@@ -106,6 +106,22 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
     });
   });
 
+  describe('#update', function () {
+    it('should call client set to set new value with KEEPTTL parameters', async function () {
+      // given
+      const KEEPTTL_PARAMETER = 'keepttl';
+      const key = 'valueKey';
+      const value = { name: 'name' };
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.update(key, value);
+
+      // then
+      expect(clientStub.set).to.have.been.calledWith(sinon.match.any, JSON.stringify(value), KEEPTTL_PARAMETER);
+    });
+  });
+
   describe('#delete', function () {
     it('should call client del to delete value', async function () {
       // given
