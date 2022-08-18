@@ -22,5 +22,10 @@ export default class LogoutRoute extends Route {
       }
       return this.session.invalidate();
     }
+    this._redirectToHomePage();
+  }
+
+  _redirectToHomePage() {
+    window.location.replace(this.url.homeUrl);
   }
 }
