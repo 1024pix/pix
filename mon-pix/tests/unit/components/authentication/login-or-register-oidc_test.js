@@ -6,7 +6,7 @@ import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Component | authentication::login-or-register-oidc', function () {
+describe('Unit | Component | authentication | login-or-register-oidc', function () {
   setupTest();
   setupIntl();
 
@@ -142,11 +142,26 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
   });
 
   describe('#login', function () {
+    beforeEach(function () {
+      const oidcPartner = {
+        id: 'oidc-partner',
+        code: 'OIDC_PARTNER',
+        organizationName: 'Partenaire OIDC',
+        hasLogoutUrl: false,
+        source: 'oidc-externe',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        'oidc-partner' = oidcPartner;
+        list = [oidcPartner];
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+    });
+
     it('should request api for login', async function () {
       // given
       const email = 'glace.alo@example.net';
       const password = 'pix123';
-      const identityProvider = 'CNAV';
+      const identityProvider = 'OIDC_PARTNER';
       const authenticationKey = '1234567azerty';
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
       const login = sinon.stub();
@@ -154,7 +169,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.email = email;
       component.password = password;
       component.args.authenticationKey = authenticationKey;
-      component.args.identityProviderSlug = 'cnav';
+      component.args.identityProviderSlug = 'oidc-partner';
       component.args.toggleOidcReconciliation = sinon.stub();
       sinon.spy(component.store, 'createRecord');
       const eventStub = { preventDefault: sinon.stub() };

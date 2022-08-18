@@ -4,12 +4,12 @@ import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
-import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class LoginOidcRoute extends Route {
   @service session;
   @service router;
   @service location;
+  @service oidcIdentityProviders;
   @service featureToggles;
 
   beforeModel(transition) {
@@ -20,7 +20,7 @@ export default class LoginOidcRoute extends Route {
 
     if (!queryParams.code) {
       const identityProviderSlug = transition.to.params.identity_provider_slug.toString();
-      const isSupportedIdentityProvider = Object.keys(IdentityProviders).some((key) => key === identityProviderSlug);
+      const isSupportedIdentityProvider = this.oidcIdentityProviders[identityProviderSlug] ?? null;
       if (isSupportedIdentityProvider) return this._handleRedirectRequest(identityProviderSlug);
 
       return this.router.replaceWith('authentication.login');
@@ -106,7 +106,7 @@ export default class LoginOidcRoute extends Route {
     }
 
     const redirectUri = this._getRedirectUri(identityProviderSlug);
-    const identityProvider = IdentityProviders[identityProviderSlug]?.code;
+    const identityProvider = this.oidcIdentityProviders[identityProviderSlug]?.code;
     const response = await fetch(
       `${
         ENV.APP.API_HOST

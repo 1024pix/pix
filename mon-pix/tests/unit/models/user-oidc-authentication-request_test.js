@@ -26,7 +26,7 @@ describe('Unit | Model | user-oidc-authentication-request', function () {
         password: 'pix123',
         email: 'glace.alo@example.net',
         authenticationKey: '123456azerty',
-        identityProvider: 'oidc',
+        identityProvider: 'oidc-partner',
       });
 
       // when
@@ -41,7 +41,7 @@ describe('Unit | Model | user-oidc-authentication-request', function () {
               password: 'pix123',
               email: 'glace.alo@example.net',
               'authentication-key': '123456azerty',
-              'identity-provider': 'oidc',
+              'identity-provider': 'oidc-partner',
             },
             type: 'user-oidc-authentication-requests',
           },

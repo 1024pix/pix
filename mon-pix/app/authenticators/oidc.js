@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 import { decodeToken } from 'mon-pix/helpers/jwt';
-import IdentityProviders from 'mon-pix/identity-providers';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
@@ -13,6 +12,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
   @service featureToggles;
+  @service oidcIdentityProviders;
 
   async authenticate({ code, redirectUri, state, identityProviderSlug, authenticationKey }) {
     const request = {
@@ -24,18 +24,18 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     };
     const host = `${ENV.APP.API_HOST}/api/oidc/`;
     let hostSlug, body;
-    const identity_provider = IdentityProviders[identityProviderSlug]?.code;
+    const identityProvider = this.oidcIdentityProviders[identityProviderSlug] || {};
 
     if (authenticationKey) {
       hostSlug = 'users';
       body = {
-        identity_provider,
+        identity_provider: identityProvider.code,
         authentication_key: authenticationKey,
       };
     } else {
       hostSlug = 'token';
       body = {
-        identity_provider,
+        identity_provider: identityProvider.code,
         code,
         redirect_uri: redirectUri,
         state_sent: this.session.data.state,
@@ -64,10 +64,11 @@ export default class OidcAuthenticator extends BaseAuthenticator {
 
     return {
       access_token: data.access_token,
-      logout_url_uuid: data.logout_url_uuid,
-      source: decodedAccessToken.source,
+      logoutUrlUuid: data.logout_url_uuid,
       user_id: decodedAccessToken.user_id,
-      identity_provider_code: decodedAccessToken.identity_provider,
+      source: identityProvider.source,
+      hasLogoutUrl: identityProvider.hasLogoutUrl,
+      identityProviderCode: identityProvider.code,
     };
   }
 
@@ -81,12 +82,11 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   }
 
   async invalidate(data) {
-    if (data?.identity_provider_code !== 'POLE_EMPLOI') return;
-
-    const { access_token, logout_url_uuid } = this.session.data.authenticated;
+    const { access_token, hasLogoutUrl, identityProviderCode, logoutUrlUuid } = data || {};
+    if (!hasLogoutUrl) return;
 
     const response = await fetch(
-      `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=${logout_url_uuid}`,
+      `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
       {
         headers: {
           Authorization: `Bearer ${access_token}`,
