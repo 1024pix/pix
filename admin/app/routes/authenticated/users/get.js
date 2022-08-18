@@ -6,9 +6,7 @@ export default class AuthenticatedUsersGetRoute extends Route {
   @service store;
 
   model(params) {
-    return this.store.findRecord('user', params.user_id, {
-      include: 'schoolingRegistrations,authenticationMethods',
-    });
+    return this.store.findRecord('user', params.user_id);
   }
 
   @action

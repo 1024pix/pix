@@ -23,7 +23,7 @@ export default class User extends Model {
 
   @hasMany('membership') memberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;
-  @hasMany('schooling-registration') schoolingRegistrations;
+  @hasMany('organization-learner') organizationLearners;
   @hasMany('authentication-method') authenticationMethods;
   @hasMany('user-participation') participations;
 

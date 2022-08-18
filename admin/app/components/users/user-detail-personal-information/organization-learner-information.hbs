@@ -2,7 +2,7 @@
   <h2 class="page-section__title">Informations prescrit</h2>
 </header>
 
-<div class="schooling-registrations-table content-text content-text--small">
+<div class="organization-learners-table content-text content-text--small">
   <table class="table-admin">
     <thead>
       <tr>
@@ -18,42 +18,42 @@
       </tr>
     </thead>
     <tbody>
-      {{#each @user.schoolingRegistrations as |schoolingRegistration|}}
+      {{#each @user.organizationLearners as |organizationLearner|}}
         <tr aria-label="Inscription">
-          <td>{{schoolingRegistration.firstName}}</td>
-          <td>{{schoolingRegistration.lastName}}</td>
-          <td>{{format-date schoolingRegistration.birthdate}}</td>
+          <td>{{organizationLearner.firstName}}</td>
+          <td>{{organizationLearner.lastName}}</td>
+          <td>{{format-date organizationLearner.birthdate}}</td>
           <td>
-            {{if schoolingRegistration.division schoolingRegistration.division}}
-            {{if schoolingRegistration.group schoolingRegistration.group}}
+            {{if organizationLearner.division organizationLearner.division}}
+            {{if organizationLearner.group organizationLearner.group}}
           </td>
           <td>
-            <LinkTo @route="authenticated.organizations.get" @model={{schoolingRegistration.organizationId}}>
-              {{schoolingRegistration.organizationName}}
+            <LinkTo @route="authenticated.organizations.get" @model={{organizationLearner.organizationId}}>
+              {{organizationLearner.organizationName}}
             </LinkTo>
           </td>
-          <td>{{format-date schoolingRegistration.createdAt}}</td>
-          <td>{{format-date schoolingRegistration.updatedAt}}</td>
-          <td class="table-admin-schooling-registrations-status">
-            {{#if schoolingRegistration.isDisabled}}
+          <td>{{format-date organizationLearner.createdAt}}</td>
+          <td>{{format-date organizationLearner.updatedAt}}</td>
+          <td class="table-admin-organization-learners-status">
+            {{#if organizationLearner.isDisabled}}
               <FaIcon
                 @icon="times-circle"
-                class="schooling-registrations-table__status--isDisabled"
+                class="organization-learners-table__status--isDisabled"
                 aria-label="Inscription désactivée"
               />
             {{else}}
               <FaIcon
                 @icon="check-circle"
-                class="schooling-registrations-table__status--isEnabled"
+                class="organization-learners-table__status--isEnabled"
                 aria-label="Inscription activée"
               />
             {{/if}}
           </td>
           <td>
             {{#if this.accessControl.hasAccessToUsersActionsScope}}
-              {{#if schoolingRegistration.canBeDissociated}}
+              {{#if organizationLearner.canBeDissociated}}
                 <PixButton
-                  @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
+                  @triggerAction={{fn @toggleDisplayDissociateModal organizationLearner}}
                   @size="small"
                   @backgroundColor="red"
                 >

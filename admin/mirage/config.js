@@ -315,8 +315,8 @@ export default function () {
   });
 
   this.delete('/admin/organization-learners/:id/association', (schema, request) => {
-    const schoolingRegistrationId = request.params.id;
-    schema.db.schoolingRegistrations.remove(schoolingRegistrationId);
+    const organizationLearnerId = request.params.id;
+    schema.db.organizationLearners.remove(organizationLearnerId);
     return new Response(204);
   });
 

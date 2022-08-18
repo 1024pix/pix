@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 
 module(
-  'Integration | Component | users | user-detail-personal-information/schooling-registration-information',
+  'Integration | Component | users | user-detail-personal-information/organization-learner-information',
   function (hooks) {
     setupRenderingTest(hooks);
 
@@ -15,16 +15,16 @@ module(
         hasAccessToUsersActionsScope = true;
       }
 
-      module('When user has no schoolingRegistrations', function () {
-        test('should display no result in schooling registrations table', async function (assert) {
+      module('When user has no organizationLearners', function () {
+        test('should display no result in organization learners table', async function (assert) {
           // given
           this.toggleDisplayDissociateModal = sinon.spy();
-          this.set('user', { schoolingRegistrations: [] });
+          this.set('user', { organizationLearners: [] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
           const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+            hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
           );
 
           // then
@@ -32,32 +32,32 @@ module(
         });
       });
 
-      test('should display schooling registrations in table', async function (assert) {
+      test('should display organization learners in table', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
-        this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
+        this.set('user', { organizationLearners: [{ id: 1 }, { id: 2 }] });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
         );
 
         // then
         assert.strictEqual(screen.getAllByLabelText('Inscription').length, 2);
       });
 
-      test('should display schooling registration’s info', async function (assert) {
+      test('should display organization learner’s info', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'John', lastName: 'Doe', birthdate: new Date('2020-10-02') }],
+          organizationLearners: [{ firstName: 'John', lastName: 'Doe', birthdate: new Date('2020-10-02') }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -66,51 +66,51 @@ module(
         assert.dom(screen.getByText('02/10/2020')).exists();
       });
 
-      test('should display schooling registration’s division', async function (assert) {
+      test('should display organization learner’s division', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ division: '3A' }],
+          organizationLearners: [{ division: '3A' }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
         assert.dom(screen.getByText('3A')).exists();
       });
 
-      test('should display schooling registration’s group', async function (assert) {
+      test('should display organization learner’s group', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ division: 'groupe 2' }],
+          organizationLearners: [{ division: 'groupe 2' }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
         assert.dom(screen.getByText('groupe 2')).exists();
       });
 
-      test('should display schooling registration’s organization info', async function (assert) {
+      test('should display organization learner’s organization info', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ organizationId: 42, organizationName: 'Dragon & Co' }],
+          organizationLearners: [{ organizationId: 42, organizationName: 'Dragon & Co' }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -118,17 +118,17 @@ module(
         assert.dom('[href="/organizations/42"]').exists();
       });
 
-      test('should display schooling registration’s import date and re-import date', async function (assert) {
+      test('should display organization learner’s import date and re-import date', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ createdAt: new Date('2020-01-01'), updatedAt: new Date('2020-01-02') }],
+          organizationLearners: [{ createdAt: new Date('2020-01-01'), updatedAt: new Date('2020-01-02') }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -136,34 +136,34 @@ module(
         assert.dom(screen.getByText('02/01/2020')).exists();
       });
 
-      test('should display schooling registration as active', async function (assert) {
+      test('should display organization learner as active', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ isDisabled: false }],
+          organizationLearners: [{ isDisabled: false }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
         assert.dom(screen.getByLabelText('Inscription activée')).exists();
       });
 
-      test('should display schooling registration as inactive', async function (assert) {
+      test('should display organization learner as inactive', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
-          schoolingRegistrations: [{ isDisabled: true }],
+          organizationLearners: [{ isDisabled: true }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -175,13 +175,13 @@ module(
         const toggleDisplayDissociateModal = sinon.stub();
         this.set('toggleDisplayDissociateModal', toggleDisplayDissociateModal);
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: true }],
+          organizationLearners: [{ firstName: 'some name', canBeDissociated: true }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
         await clickByName('Dissocier');
 
@@ -195,13 +195,13 @@ module(
         const toggleDisplayDissociateModal = sinon.stub();
         this.set('toggleDisplayDissociateModal', toggleDisplayDissociateModal);
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: false }],
+          organizationLearners: [{ firstName: 'some name', canBeDissociated: false }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -216,13 +216,13 @@ module(
           hasAccessToUsersActionsScope = false;
         }
         this.set('user', {
-          schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: true }],
+          organizationLearners: [{ firstName: 'some name', canBeDissociated: true }],
         });
         this.owner.register('service:access-control', AccessControlStub);
 
         // When
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}}/>`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}}/>`
         );
 
         // Then
