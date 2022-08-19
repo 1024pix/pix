@@ -33,7 +33,7 @@ describe('Unit | Model | user-oidc-authentication-request', function () {
       const result = await userOidcAuthenticationRequest.login();
 
       // then
-      const url = `${ENV.APP.API_HOST}/api/oidc/token-reconciliation`;
+      const url = `${ENV.APP.API_HOST}/api/oidc/user/check-reconciliation`;
       const payload = {
         data: {
           data: {
