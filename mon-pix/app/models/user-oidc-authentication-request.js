@@ -10,7 +10,7 @@ export default class UserOidcAuthenticationRequest extends Model {
   @attr('string') logoutUrlUUID;
 
   login = memberAction({
-    path: 'token-reconciliation',
+    path: 'check-reconciliation',
     type: 'post',
     before() {
       const payload = this.serialize();

@@ -12,7 +12,7 @@ describe('Unit | Adapters | user-oidc-authentication-request', function () {
       const url = adapter.buildURL();
 
       // then
-      expect(url.endsWith('oidc/')).to.be.true;
+      expect(url.endsWith('user/')).to.be.true;
     });
   });
 });
