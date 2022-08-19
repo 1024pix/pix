@@ -202,36 +202,6 @@ describe('Integration | Repository | Organization', function () {
         expect(error.message).to.equal('Not found organization for ID 10083');
       });
     });
-
-    describe('when a target profile is shared with the organization', function () {
-      let insertedOrganization;
-      let sharedProfile;
-
-      beforeEach(async function () {
-        insertedOrganization = databaseBuilder.factory.buildOrganization();
-        sharedProfile = databaseBuilder.factory.buildTargetProfile({
-          isPublic: false,
-        });
-        databaseBuilder.factory.buildTargetProfileShare({
-          organizationId: insertedOrganization.id,
-          targetProfileId: sharedProfile.id,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return a list of profile containing the shared profile', async function () {
-        // when
-        const organization = await organizationRepository.get(insertedOrganization.id);
-
-        // then
-        const firstTargetProfileShare = organization.targetProfileShares[0];
-        expect(firstTargetProfileShare.targetProfileId).to.deep.equal(sharedProfile.id);
-        expect(firstTargetProfileShare.organizationId).to.deep.equal(insertedOrganization.id);
-
-        expect(firstTargetProfileShare.targetProfile).to.deep.equal(sharedProfile);
-      });
-    });
   });
 
   describe('#getIdByCertificationCenterId', function () {
@@ -940,10 +910,12 @@ describe('Integration | Repository | Organization', function () {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({
-          filter,
-          page,
-        });
+        const { models: matchingOrganizations, pagination } =
+          await organizationRepository.findPaginatedFilteredByTargetProfile({
+            targetProfileId,
+            filter,
+            page,
+          });
 
         // then
         expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2']);
