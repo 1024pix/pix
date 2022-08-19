@@ -35,10 +35,13 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
     test('it calls the organization action when the input is not empty and user clicks on button', async function (assert) {
       // given
+      const getStub = sinon.stub();
+      getStub.returns([]);
       const organization = EmberObject.create({
         id: 1,
         targetProfiles: [],
         attachTargetProfiles: sinon.stub(),
+        get: getStub,
       });
       this.set('organization', organization);
 

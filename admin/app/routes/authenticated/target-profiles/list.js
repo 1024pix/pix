@@ -32,7 +32,6 @@ export default class ListRoute extends Route {
         },
       });
     } catch (errorResponse) {
-      console.log('error');
       if (!isEmpty(errorResponse)) {
         errorResponse.errors.forEach((error) => this.notifications.error(error.detail));
       }

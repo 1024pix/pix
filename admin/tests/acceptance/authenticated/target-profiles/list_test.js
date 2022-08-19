@@ -42,9 +42,8 @@ module('Acceptance | Target Profiles | List', function (hooks) {
         const screen = await visit('/target-profiles/list');
 
         // then
-        assert.dom(screen.getByText('COUCOU'));
-        assert.dom(screen.getByText('CAVA'));
-        assert.ok(true);
+        assert.dom(screen.getByText('COUCOU')).exists();
+        assert.dom(screen.getByText('CAVA')).exists();
       });
 
       test('it should redirect to target profile details on click', async function (assert) {

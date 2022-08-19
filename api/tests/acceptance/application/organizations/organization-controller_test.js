@@ -1682,7 +1682,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
 
     context('when a target profile does not exist', function () {
-      it('should return a 404 error without attaching no more target profile', async function () {
+      it('should return a 404 error without attaching any target profile', async function () {
         // given
         const options = {
           method: 'POST',

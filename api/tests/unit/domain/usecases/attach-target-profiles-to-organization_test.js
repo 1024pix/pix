@@ -6,7 +6,8 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
   let targetProfileRepository;
   let targetProfileShareRepository;
   const organizationId = 1;
-  const targetProfileIds = [55, 66];
+  const targetProfileIds = [55, 66, 66];
+  const uniqTargetProfileIds = [55, 66];
 
   beforeEach(function () {
     targetProfileRepository = {
@@ -20,7 +21,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
   context('when unknown target profile ids are passed', function () {
     it('should throw a NotFound error', async function () {
       // given
-      targetProfileRepository.findByIds.withArgs(targetProfileIds).resolves([]);
+      targetProfileRepository.findByIds.withArgs(uniqTargetProfileIds).resolves([]);
       targetProfileShareRepository.addTargetProfilesToOrganization.throws(new Error('I should not be called'));
 
       // when
@@ -38,10 +39,10 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
   });
 
   context('when existing target profile ids are passed', function () {
-    it('should call repository method to attach target profiles', async function () {
+    it('should call repository method to attach target profiles in a unique fashion', async function () {
       // given
       targetProfileRepository.findByIds
-        .withArgs(targetProfileIds)
+        .withArgs(uniqTargetProfileIds)
         .resolves([domainBuilder.buildTargetProfile({ id: 55 }), domainBuilder.buildTargetProfile({ id: 66 })]);
       targetProfileShareRepository.addTargetProfilesToOrganization.resolves();
 
@@ -56,7 +57,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
       // then
       expect(targetProfileShareRepository.addTargetProfilesToOrganization).to.have.been.calledWithExactly({
         organizationId,
-        targetProfileIdList: targetProfileIds,
+        targetProfileIdList: uniqTargetProfileIds,
       });
     });
   });
