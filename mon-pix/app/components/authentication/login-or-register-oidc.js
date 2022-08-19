@@ -55,7 +55,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
   }
 
   @action
-  async submit() {
+  async register() {
     if (this.isTermsOfServiceValidated) {
       this.errorMessage = null;
       try {
