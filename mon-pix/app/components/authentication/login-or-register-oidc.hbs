@@ -33,9 +33,9 @@
           </p>
         </div>
 
-        {{#if this.errorMessage}}
+        {{#if this.registerError}}
           <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
-            {{this.errorMessage}}
+            {{this.registerErrorMessage}}
           </PixMessage>
         {{/if}}
 
@@ -78,6 +78,12 @@
               {{t "pages.sign-in.forgotten-password"}}
             </LinkTo>
           </div>
+
+          {{#if this.loginError}}
+            <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
+              {{this.loginErrorMessage}}
+            </PixMessage>
+          {{/if}}
 
           <PixButton @type="submit" class="login-or-register-oidc-form__submit-button">
             {{t "pages.login-or-register-oidc.login-form.button"}}
