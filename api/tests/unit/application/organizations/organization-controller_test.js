@@ -27,7 +27,6 @@ const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
-const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
@@ -644,65 +643,65 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#attachTargetProfiles', function () {
-    const userId = 1;
-    let targetProfile;
-    let organizationId;
-    let targetProfileId;
-    let targetProfilesToAttachAsArray;
+    let request;
 
-    beforeEach(function () {
-      targetProfile = domainBuilder.buildTargetProfile();
-      organizationId = targetProfile.ownerOrganizationId;
-      targetProfileId = parseInt(targetProfile.id);
-      targetProfilesToAttachAsArray = [targetProfileId];
+    it('should succeed', async function () {
+      // given
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
       request = {
-        auth: { credentials: { userId } },
-        params: { id: organizationId },
+        params: {
+          id: 123,
+        },
         payload: {
-          data: {
-            type: 'target-profile-share',
-            attributes: {
-              'target-profiles-to-attach': [targetProfileId],
-            },
-          },
+          'target-profile-ids': [1, 2],
         },
       };
-      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
-      sinon.stub(organizationAttachTargetProfilesSerializer, 'serialize');
-    });
-
-    it('should return 201 when some target profiles are attached', async function () {
-      // given
-      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
-      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
-      usecases.attachTargetProfilesToOrganization
-        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
-        .resolves({ attachedIds: targetProfilesToAttachAsArray });
+      usecases.attachTargetProfilesToOrganization.resolves();
 
       // when
       const response = await organizationController.attachTargetProfiles(request, hFake);
 
       // then
-      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
-      expect(response.source).to.equal(serializer);
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(204);
+      expect(usecases.attachTargetProfilesToOrganization).to.have.been.calledWithExactly({
+        organizationId: 123,
+        targetProfileIds: [1, 2],
+      });
     });
+  });
 
-    it('should return 200 when no target profiles was attached', async function () {
+  describe('#findTargetProfileSummariesForAdmin', function () {
+    it('should return serialized summaries', async function () {
       // given
-      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
-      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
-      usecases.attachTargetProfilesToOrganization
-        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
-        .resolves({ attachedIds: [], duplicatedIds: targetProfilesToAttachAsArray });
+      sinon.stub(usecases, 'findOrganizationTargetProfileSummariesForAdmin');
+      const request = {
+        params: { id: 123 },
+      };
+      const targetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin({
+        id: 456,
+        name: 'Super profil cible',
+        outdated: false,
+      });
+      usecases.findOrganizationTargetProfileSummariesForAdmin
+        .withArgs({ organizationId: 123 })
+        .resolves([targetProfileSummary]);
 
       // when
-      const response = await organizationController.attachTargetProfiles(request, hFake);
+      const response = await organizationController.findTargetProfileSummariesForAdmin(request);
 
       // then
-      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
-      expect(response.source).to.equal(serializer);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal({
+        data: [
+          {
+            type: 'target-profile-summaries',
+            id: '456',
+            attributes: {
+              name: 'Super profil cible',
+              outdated: false,
+            },
+          },
+        ],
+      });
     });
   });
 

@@ -33,15 +33,17 @@ module('Acceptance | Target Profiles | List', function (hooks) {
         assert.strictEqual(currentURL(), '/target-profiles/list');
       });
 
-      test('it should list target profiles', async function (assert) {
+      test('it should list target profile summaries', async function (assert) {
         // given
-        server.createList('target-profile', 12);
+        server.create('target-profile-summary', { id: 1, name: 'COUCOU', outdated: true });
+        server.create('target-profile-summary', { id: 2, name: 'CAVA', outdated: false });
 
         // when
         const screen = await visit('/target-profiles/list');
 
         // then
-        assert.strictEqual(screen.getAllByLabelText('Profil cible').length, 12);
+        assert.dom(screen.getByText('COUCOU')).exists();
+        assert.dom(screen.getByText('CAVA')).exists();
       });
 
       test('it should redirect to target profile details on click', async function (assert) {
@@ -59,6 +61,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
           tubes: [tube],
           skills: [skill],
         });
+        server.create('target-profile-summary', { id: 1, name: 'Profil Cible', outdated: true });
         const screen = await visit('/target-profiles/list');
 
         // when

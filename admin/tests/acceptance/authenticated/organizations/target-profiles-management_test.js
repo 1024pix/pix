@@ -15,7 +15,7 @@ module('Acceptance | Organizations | Target profiles management', function (hook
   test('should display organization target profiles', async function (assert) {
     // given
     const ownerOrganizationId = this.server.create('organization').id;
-    this.server.create('target-profile', { name: 'Profil cible du ghetto', ownerOrganizationId });
+    this.server.create('target-profile-summary', { name: 'Profil cible du ghetto' });
 
     // when
     const screen = await visit(`/organizations/${ownerOrganizationId}/target-profiles`);
@@ -43,7 +43,7 @@ module('Acceptance | Organizations | Target profiles management', function (hook
     // given
     await authenticateAdminMemberWithRole({ isCertif: true })(server);
     const ownerOrganizationId = this.server.create('organization').id;
-    this.server.create('target-profile', { name: 'Profil cible du ghetto', ownerOrganizationId });
+    this.server.create('target-profile-summary', { name: 'Profil cible du ghetto', ownerOrganizationId });
 
     // when
     const screen = await visit(`/organizations/${ownerOrganizationId}/target-profiles`);

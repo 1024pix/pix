@@ -38,6 +38,7 @@ module('Acceptance | Target Profiles | Target Profile', function (hooks) {
         module('when user goes to another page then comes back to a target profile details page', function () {
           test('it should have ended edit mode', async function (assert) {
             // given
+            server.create('target-profile-summary', { id: 1, name: 'Mon super profil cible' });
             const screen = await visit('/target-profiles/1');
             await clickByName('Éditer');
             await clickByName('Tous les profils cibles');

@@ -9,7 +9,7 @@ exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/target-profiles',
+      path: '/api/admin/target-profile-summaries',
       config: {
         pre: [
           {
@@ -36,7 +36,7 @@ exports.register = async (server) => {
             return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
           },
         },
-        handler: targetProfileController.findPaginatedFilteredTargetProfiles,
+        handler: targetProfileController.findPaginatedFilteredTargetProfileSummariesForAdmin,
         tags: ['api', 'admin', 'target-profiles'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +

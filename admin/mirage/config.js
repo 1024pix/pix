@@ -2,10 +2,11 @@ import {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
+  findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
   findTargetProfileStages,
-  getOrganizationTargetProfiles,
   outdate,
   updateTargetProfile,
   createBadge,
@@ -136,15 +137,15 @@ export default function () {
   this.get('/admin/organizations');
   this.get('/admin/organizations/:id');
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
-  this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
-  this.post('/admin/organizations/:id/target-profiles', attachTargetProfiles);
+  this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);
+  this.post('/admin/organizations/:id/attach-target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places/capacity', getOrganizationPlacesCapacity);
   this.get('/admin/badges/:id', getBadge);
   this.post('/admin/badges/:id/badge-criteria', createBadgeCriterion);
   this.post('/admin/target-profiles');
-  this.get('/admin/target-profiles');
+  this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
   this.get('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);

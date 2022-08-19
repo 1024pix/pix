@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
@@ -9,14 +10,16 @@ const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
 module.exports = {
-  async findPaginatedFilteredTargetProfiles(request) {
+  async findPaginatedFilteredTargetProfileSummariesForAdmin(request) {
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: targetProfiles, pagination } = await usecases.findPaginatedFilteredTargetProfiles({
-      filter: options.filter,
-      page: options.page,
-    });
-    return targetProfileSerializer.serialize(targetProfiles, pagination);
+    const { models: targetProfileSummaries, meta } = await usecases.findPaginatedFilteredTargetProfileSummariesForAdmin(
+      {
+        filter: options.filter,
+        page: options.page,
+      }
+    );
+    return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
   },
 
   async getTargetProfileDetails(request) {

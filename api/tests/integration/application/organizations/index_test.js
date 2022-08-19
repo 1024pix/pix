@@ -151,33 +151,6 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('POST /api/admin/organizations/:id/target-profiles', function () {
-    it('should resolve with a 204 status code', async function () {
-      // given
-      const method = 'POST';
-      const url = '/api/admin/organizations/1/target-profiles';
-      const payload = {
-        data: {
-          type: 'target-profile-shares',
-          attributes: {
-            'target-profiles-to-attach': [1, 2],
-          },
-        },
-      };
-
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-  });
-
   describe('GET /api/organizations/:id/campaigns', function () {
     it('should call the organization controller to get the campaigns', async function () {
       // given

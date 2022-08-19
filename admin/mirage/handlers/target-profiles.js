@@ -3,13 +3,12 @@ import _get from 'lodash/get';
 import _slice from 'lodash/slice';
 
 function attachTargetProfiles(schema, request) {
-  const ownerOrganizationId = request.params.id;
   const params = JSON.parse(request.requestBody);
-  const targetProfilesToAttach = params.data.attributes['target-profiles-to-attach'];
-  targetProfilesToAttach.forEach((targetProfileId) =>
-    schema.targetProfiles.create({ ownerOrganizationId, name: `Profil ${targetProfileId}` })
-  );
-  return { data: { attributes: { 'duplicated-ids': [], 'attached-ids': targetProfilesToAttach } } };
+  const targetProfilesToAttach = params['target-profile-ids'];
+  targetProfilesToAttach.forEach((targetProfileId) => {
+    schema.targetProfileSummaries.create({ name: `Profil ${targetProfileId}` });
+  });
+  return new Response(204);
 }
 
 function attachTargetProfileToOrganizations(schema, request) {
@@ -29,9 +28,8 @@ function attachOrganizationsFromExistingTargetProfile(schema, request) {
   return new Response(204);
 }
 
-async function getOrganizationTargetProfiles(schema, request) {
-  const ownerOrganizationId = request.params.id;
-  return schema.targetProfiles.where({ ownerOrganizationId });
+async function findOrganizationTargetProfileSummaries(schema) {
+  return schema.targetProfileSummaries.all();
 }
 
 function findPaginatedTargetProfileOrganizations(schema, request) {
@@ -48,6 +46,18 @@ function findPaginatedTargetProfileOrganizations(schema, request) {
     pageSize: pagination.pageSize,
     rowCount,
     pageCount: Math.ceil(rowCount / pagination.pageSize),
+  };
+  return json;
+}
+
+function findPaginatedFilteredTargetProfileSummaries(schema) {
+  const summaries = schema.targetProfileSummaries.all().models;
+  const json = this.serialize({ modelName: 'target-profile-summary', models: summaries }, 'target-profile-summary');
+  json.meta = {
+    page: 1,
+    pageSize: 5,
+    rowCount: 5,
+    pageCount: 1,
   };
   return json;
 }
@@ -113,8 +123,9 @@ export {
   attachTargetProfileToOrganizations,
   createBadge,
   createBadgeCriterion,
-  getOrganizationTargetProfiles,
+  findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
+  findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
   findTargetProfileStages,
   updateTargetProfile,

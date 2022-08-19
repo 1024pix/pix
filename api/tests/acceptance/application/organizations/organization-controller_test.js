@@ -665,9 +665,9 @@ describe('Acceptance | Application | organization-controller', function () {
                   },
                 ],
               },
-              'target-profiles': {
+              'target-profile-summaries': {
                 links: {
-                  related: `/api/organizations/${organization.id}/target-profiles`,
+                  related: `/api/admin/organizations/${organization.id}/target-profile-summaries`,
                 },
               },
             },
@@ -1590,66 +1590,120 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('POST /api/admin/organizations/{id}/target-profiles', function () {
-    let payload;
-    let options;
-
+  describe('GET /api/admin/organizations/{id}/target-profile-summaries', function () {
     let userId;
     let organizationId;
-    let targetProfileId1;
-    let targetProfileId2;
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser.withRole().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
-      targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;
-
+      databaseBuilder.factory.buildTargetProfile({
+        id: 1,
+        name: 'Super profil cible',
+        isPublic: true,
+        outdated: false,
+      });
       await databaseBuilder.commit();
+    });
 
-      payload = {
-        data: {
-          type: 'target-profile-share',
-          attributes: {
-            'target-profiles-to-attach': [targetProfileId1, targetProfileId2],
-          },
-        },
-      };
-      options = {
-        method: 'POST',
-        url: `/api/admin/organizations/${organizationId}/target-profiles`,
-        payload,
+    it('should return serialized target profile summaries', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/admin/organizations/${organizationId}/target-profile-summaries`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: [
+          {
+            type: 'target-profile-summaries',
+            id: '1',
+            attributes: {
+              name: 'Super profil cible',
+              outdated: false,
+            },
+          },
+        ],
+      });
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/attach-target-profiles', function () {
+    let userId;
+    let organizationId;
+    let alreadyAttachedTargetProfileId;
+    let toAttachTargetProfileId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser.withRole().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      alreadyAttachedTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      toAttachTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileShare({
+        organizationId,
+        targetProfileId: alreadyAttachedTargetProfileId,
+      });
+      await databaseBuilder.commit();
     });
 
     afterEach(async function () {
       await knex('target-profile-shares').delete();
     });
 
-    it('should create target profile share related to organization', async function () {
-      // when
-      const response = await server.inject(options);
+    context('when target profiles to attach exists', function () {
+      it('should attach target profiles to organization', async function () {
+        // given
+        const options = {
+          method: 'POST',
+          url: `/api/admin/organizations/${organizationId}/attach-target-profiles`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {
+            'target-profile-ids': [alreadyAttachedTargetProfileId, toAttachTargetProfileId],
+          },
+        };
 
-      // then
-      expect(response.statusCode).to.equal(201);
-      const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
-      expect(targetProfileShares).to.have.lengthOf(2);
-      expect(_map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileId1, targetProfileId2]);
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const attachedTargetProfileIds = await knex('target-profile-shares')
+          .pluck('targetProfileId')
+          .where({ organizationId })
+          .orderBy('targetProfileId', 'ASC');
+        expect(response.statusCode).to.equal(204);
+        expect(attachedTargetProfileIds).to.deepEqualArray([alreadyAttachedTargetProfileId, toAttachTargetProfileId]);
+      });
     });
 
-    it('should return a 404 error and insert none of the target profiles', async function () {
-      // given
-      payload.data.attributes['target-profiles-to-attach'] = [targetProfileId1, targetProfileId2, '999'];
-      options.payload = payload;
+    context('when a target profile does not exist', function () {
+      it('should return a 404 error without attaching any target profile', async function () {
+        // given
+        const options = {
+          method: 'POST',
+          url: `/api/admin/organizations/${organizationId}/attach-target-profiles`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {
+            'target-profile-ids': [alreadyAttachedTargetProfileId, 6000, toAttachTargetProfileId],
+          },
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(404);
-      const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
-      expect(targetProfileShares).to.have.lengthOf(0);
+        // then
+        const attachedTargetProfileIds = await knex('target-profile-shares')
+          .pluck('targetProfileId')
+          .where({ organizationId })
+          .orderBy('targetProfileId', 'ASC');
+        expect(response.statusCode).to.equal(404);
+        expect(attachedTargetProfileIds).to.deepEqualArray([alreadyAttachedTargetProfileId]);
+      });
     });
   });
 

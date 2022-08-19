@@ -132,18 +132,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, targetProfilesBookshelf);
   },
 
-  findPaginatedFiltered({ filter, page }) {
-    return BookshelfTargetProfile.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-      })
-      .then(({ models, pagination }) => {
-        const targetProfiles = bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, models);
-        return { models: targetProfiles, pagination };
-      });
-  },
-
   async update(targetProfile) {
     let results;
     const editedAttributes = _.pick(targetProfile, [
@@ -211,14 +199,4 @@ function _getLearningContentDataObjectsSkills(bookshelfTargetProfile) {
     .related('skillIds')
     .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
   return skillDatasource.findOperativeByRecordIds(skillRecordIds);
-}
-
-function _setSearchFiltersForQueryBuilder(filter, qb) {
-  const { name, id } = filter;
-  if (name) {
-    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
-  }
-  if (id) {
-    qb.where({ id });
-  }
 }

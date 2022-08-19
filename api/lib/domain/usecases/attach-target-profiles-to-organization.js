@@ -3,22 +3,20 @@ const { NotFoundError } = require('../errors');
 
 module.exports = async function attachTargetProfilesToOrganization({
   organizationId,
-  targetProfileIdsToAttach,
+  targetProfileIds,
   targetProfileRepository,
   targetProfileShareRepository,
 }) {
-  const uniqueTargetProfileIdsToAttach = _.uniq(targetProfileIdsToAttach);
-
-  const foundTargetProfiles = await targetProfileRepository.findByIds(uniqueTargetProfileIdsToAttach);
-
-  if (foundTargetProfiles.length !== uniqueTargetProfileIdsToAttach.length) {
-    const foundTargetProfileIds = _.map(foundTargetProfiles, 'id');
-    const [targetProfileIdNotExisting] = _.difference(uniqueTargetProfileIdsToAttach, foundTargetProfileIds);
-    throw new NotFoundError(`Le profil cible ${targetProfileIdNotExisting} n'existe pas.`);
+  const uniqTargetProfileIds = _.uniq(targetProfileIds);
+  const foundTargetProfiles = await targetProfileRepository.findByIds(uniqTargetProfileIds);
+  const foundTargetProfileIds = foundTargetProfiles.map((tp) => tp.id);
+  const unknownTargetProfileIds = _.difference(uniqTargetProfileIds, foundTargetProfileIds);
+  if (unknownTargetProfileIds.length > 0) {
+    throw new NotFoundError(`Le(s) profil-cible(s) [${unknownTargetProfileIds.join(', ')}] n'existe(nt) pas.`);
   }
 
   return targetProfileShareRepository.addTargetProfilesToOrganization({
     organizationId,
-    targetProfileIdList: uniqueTargetProfileIdsToAttach,
+    targetProfileIdList: uniqTargetProfileIds,
   });
 };

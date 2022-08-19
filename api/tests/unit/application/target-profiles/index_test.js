@@ -5,9 +5,9 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
 describe('Unit | Application | Target Profiles | Routes', function () {
-  describe('GET /api/admin/target-profiles', function () {
+  describe('GET /api/admin/target-profile-summaries', function () {
     const method = 'GET';
-    const url = '/api/admin/target-profiles';
+    const url = '/api/admin/target-profile-summaries';
 
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 200', async function () {
@@ -21,7 +21,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
-          .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
+          .stub(targetProfileController, 'findPaginatedFilteredTargetProfileSummariesForAdmin')
           .callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -67,7 +67,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         // given
         sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
-          .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
+          .stub(targetProfileController, 'findPaginatedFilteredTargetProfileSummariesForAdmin')
           .callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -85,7 +85,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         // given
         sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
-          .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
+          .stub(targetProfileController, 'findPaginatedFilteredTargetProfileSummariesForAdmin')
           .callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
