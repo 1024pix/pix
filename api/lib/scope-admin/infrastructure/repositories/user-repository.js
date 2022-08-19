@@ -1,5 +1,5 @@
 const { knex } = require('../../../../db/knex-database-connection');
-const User = require('../../../domain/scope-admin/models/User');
+const User = require('../../domain/models/User');
 const { UserNotFoundError } = require('../../../domain/errors');
 module.exports = {
   async getByEmail(email) {

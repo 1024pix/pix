@@ -1,5 +1,5 @@
 const adminMemberController = require('./controller');
-const securityPreHandlers = require('../../security-pre-handlers');
+const securityPreHandlers = require('../../../application/security-pre-handlers');
 
 exports.register = async function (server) {
   server.route([

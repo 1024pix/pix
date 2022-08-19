@@ -1,5 +1,5 @@
 const adminMemberSerializer = require('./serializer');
-const usecases = require('../../../domain/scope-admin/usecases');
+const usecases = require('../../domain/usecases');
 
 module.exports = {
   async addAdminRole(request, h) {

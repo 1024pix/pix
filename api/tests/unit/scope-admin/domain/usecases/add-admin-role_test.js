@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../../test-helper');
-const addAdminRole = require('../../../../../lib/domain/scope-admin/usecases/add-admin-role');
-const User = require('../../../../../lib/domain/scope-admin/models/User');
+const addAdminRole = require('../../../../../lib/scope-admin/domain/usecases/add-admin-role');
+const User = require('../../../../../lib/scope-admin/domain/models/User');
 const { ROLES } = require('../../../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Unit | UseCase | save-admin-member', function () {

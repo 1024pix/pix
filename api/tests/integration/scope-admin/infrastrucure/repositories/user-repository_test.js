@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../../../test-helper');
-const userRepository = require('../../../../../lib/infrastructure/scope-admin/repositories/user-repository');
+const userRepository = require('../../../../../lib/scope-admin/infrastructure/repositories/user-repository');
 const { UserNotFoundError } = require('../../../../../lib/domain/errors');
 
 const { ROLES } = require('../../../../../lib/domain/constants').PIX_ADMIN;

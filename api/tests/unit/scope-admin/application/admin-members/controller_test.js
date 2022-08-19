@@ -1,9 +1,9 @@
 const { expect, sinon, hFake } = require('../../../../test-helper');
 
-const adminMemberController = require('../../../../../lib/application/scope-admin/admin-members/controller');
-const usecases = require('../../../../../lib/domain/scope-admin/usecases');
+const adminMemberController = require('../../../../../lib/scope-admin/application/admin-members/controller');
+const usecases = require('../../../../../lib/scope-admin/domain/usecases');
 const { ROLES } = require('../../../../../lib/domain/constants').PIX_ADMIN;
-const User = require('../../../../../lib/domain/scope-admin/models/User');
+const User = require('../../../../../lib/scope-admin/domain/models/User');
 
 describe('Unit | Controller | scope-admin | admin-member | controller', function () {
   describe('#addAdminRole', function () {

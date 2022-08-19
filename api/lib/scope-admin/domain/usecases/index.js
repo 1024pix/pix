@@ -1,5 +1,5 @@
 const dependencies = {
-  userRepository: require('../../../infrastructure/scope-admin/repositories/user-repository'),
+  userRepository: require('../../infrastructure/repositories/user-repository'),
 };
 
 const { injectDependencies } = require('../../../infrastructure/utils/dependency-injection');

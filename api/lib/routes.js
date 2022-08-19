@@ -1,6 +1,5 @@
 module.exports = [
   require('./application/account-recovery'),
-  require('./application/scope-admin/admin-members'),
   require('./application/admin-members'),
   require('./application/answers'),
   require('./application/assessment-results'),
@@ -53,4 +52,5 @@ module.exports = [
   require('./application/user-orga-settings'),
   require('./application/user-tutorials'),
   require('./application/users'),
+  require('./scope-admin/application/admin-members'),
 ];

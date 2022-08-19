@@ -1,7 +1,7 @@
-const { ROLES } = require('../../constants').PIX_ADMIN;
+const { ROLES } = require('../../../domain/constants').PIX_ADMIN;
 const Joi = require('joi').extend(require('@joi/date'));
 const isNil = require('lodash/isNil');
-const { ObjectValidationError } = require('../../errors');
+const { ObjectValidationError } = require('../../../domain/errors');
 const schema = Joi.object({
   role: Joi.string().valid(ROLES.SUPER_ADMIN, ROLES.SUPPORT, ROLES.METIER, ROLES.CERTIF).required(),
 });

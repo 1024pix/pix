@@ -1,6 +1,6 @@
 const { expect, catchErr } = require('../../../../test-helper');
 
-const User = require('../../../../../lib/domain/scope-admin/models/User');
+const User = require('../../../../../lib/scope-admin/domain/models/User');
 const { ROLES } = require('../../../../../lib/domain/constants').PIX_ADMIN;
 const { ObjectValidationError } = require('../../../../../lib/domain/errors');
 
