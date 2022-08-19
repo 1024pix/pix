@@ -17,15 +17,16 @@ module.exports = async function findUserForOidcReconciliation({
     userRepository,
   });
 
-  const oidcAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
-    userId: foundUser.id,
-    identityProvider: identityProvider,
-  });
+  const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId: foundUser.id });
 
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();
   }
+
+  const oidcAuthenticationMethod = authenticationMethods.find(
+    (authenticationMethod) => authenticationMethod.identityProvider === identityProvider
+  );
 
   if (!oidcAuthenticationMethod) {
     sessionContentAndUserInfo.userInfo.userId = foundUser.id;
@@ -39,6 +40,7 @@ module.exports = async function findUserForOidcReconciliation({
       fullNameFromExternalIdentityProvider,
       email: foundUser.email,
       username: foundUser.username,
+      authenticationMethods,
     };
   }
 
