@@ -115,7 +115,7 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/oidc/token-reconciliation',
+      path: '/api/oidc/user/check-reconciliation',
       config: {
         auth: false,
         pre: [
