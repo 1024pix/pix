@@ -502,9 +502,9 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('POST /api/admin/target-profiles', function () {
+  describe('POST /api/admin/target-profiles-old', function () {
     const method = 'POST';
-    const url = '/api/admin/target-profiles';
+    const url = '/api/admin/target-profiles-old';
     const payload = {
       data: {
         attributes: {
@@ -1201,7 +1201,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('POST /api/admin/target-profiles-new', function () {
+  describe('POST /api/admin/target-profiles', function () {
     let validPayload;
 
     beforeEach(function () {
@@ -1235,7 +1235,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+      await httpTestServer.request('POST', '/api/admin/target-profiles', validPayload);
 
       // then
       sinon.assert.calledOnce(targetProfileController.createTargetProfile);
@@ -1255,7 +1255,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+      await httpTestServer.request('POST', '/api/admin/target-profiles', validPayload);
 
       // then
       sinon.assert.calledOnce(targetProfileController.createTargetProfile);
@@ -1275,7 +1275,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+      await httpTestServer.request('POST', '/api/admin/target-profiles', validPayload);
 
       // then
       sinon.assert.calledOnce(targetProfileController.createTargetProfile);
@@ -1297,7 +1297,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', validPayload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', validPayload);
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -1320,7 +1320,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       delete payload.data.attributes.name;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1343,7 +1343,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       delete payload.data.attributes.category;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1366,7 +1366,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes.description = 123;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1389,7 +1389,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes.comment = 123;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1412,7 +1412,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes['is-public'] = 123;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1435,7 +1435,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes['image-url'] = 123;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1458,7 +1458,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes['owner-organization-id'] = 'coucou';
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -1481,7 +1481,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes.tubes = 'les tubes c cool';
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles-new', payload);
+      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
