@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
 const { NotFoundError } = require('../../domain/errors');

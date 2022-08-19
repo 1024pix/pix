@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CampaignToJoin = require('../../domain/read-models/CampaignToJoin');
 const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');

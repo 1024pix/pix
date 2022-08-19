@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
 const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../domain/errors');

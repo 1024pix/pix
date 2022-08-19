@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const PixPlusDroitMaitreCertificationResult = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { PIX_DROIT_MAITRE_CERTIF } = require('../../../lib/domain/models/Badge').keys;
 

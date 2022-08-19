@@ -1,6 +1,6 @@
 const CampaignAssessmentParticipationResult = require('../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const targetProfileWithLearningContentRepository = require('./target-profile-with-learning-content-repository');
 

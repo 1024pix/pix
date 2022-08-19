@@ -1,5 +1,5 @@
 const Bookshelf = require('../bookshelf');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadgeAcquisition = require('../orm-models/BadgeAcquisition');
 const DomainTransaction = require('../DomainTransaction');

@@ -4,7 +4,7 @@ const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { groupBy, map, head, uniqBy, omit } = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async getWithAnswers(id) {

@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const _ = require('lodash');
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult');
