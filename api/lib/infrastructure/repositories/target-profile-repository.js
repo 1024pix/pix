@@ -1,69 +1,19 @@
 const _ = require('lodash');
-
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../orm-models/TargetProfile');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
-const {
-  TargetProfileCannotBeCreated,
-  NotFoundError,
-  ObjectValidationError,
-  InvalidSkillSetError,
-  OrganizationNotFoundError,
-} = require('../../domain/errors');
+const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
-const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 const Stage = require('../../domain/models/Stage');
 const Skill = require('../../domain/models/Skill');
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
 module.exports = {
-  async create(targetProfileForCreation) {
-    try {
-      return await knex.transaction(async (trx) => {
-        const targetProfileRawData = _.pick(targetProfileForCreation, [
-          'name',
-          'isPublic',
-          'imageUrl',
-          'ownerOrganizationId',
-          'comment',
-          'description',
-          'category',
-          'targetProfileTemplateId',
-        ]);
-
-        const [{ id: targetProfileId }] = await trx(TARGET_PROFILE_TABLE).insert(targetProfileRawData).returning('id');
-
-        const skillsIdList = _.uniq(targetProfileForCreation.skillIds);
-
-        const skillToAdd = skillsIdList.map((skillId) => {
-          return { targetProfileId, skillId };
-        });
-
-        await trx.batchInsert('target-profiles_skills', skillToAdd);
-
-        const tubes = targetProfileForCreation.tubes.map((tube) => ({
-          targetProfileId,
-          tubeId: tube.id,
-          level: tube.level,
-        }));
-        await trx.batchInsert('target-profile_tubes', tubes);
-
-        return targetProfileId;
-      });
-    } catch (e) {
-      if (e.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
-        throw new OrganizationNotFoundError();
-      }
-
-      throw new TargetProfileCannotBeCreated();
-    }
-  },
-
   async createWithTubes({ targetProfileForCreation, domainTransaction }) {
     const knexConn = domainTransaction.knexTransaction;
     const targetProfileRawData = _.pick(targetProfileForCreation, [
@@ -75,7 +25,7 @@ module.exports = {
       'imageUrl',
       'ownerOrganizationId',
     ]);
-    const [{ id: targetProfileId }] = await knexConn('target-profiles').insert(targetProfileRawData).returning('id');
+    const [{ id: targetProfileId }] = await knexConn(TARGET_PROFILE_TABLE).insert(targetProfileRawData).returning('id');
 
     const tubesData = targetProfileForCreation.tubes.map((tube) => ({
       targetProfileId,

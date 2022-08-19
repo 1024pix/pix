@@ -55,58 +55,6 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     server = await createServer();
   });
 
-  describe('POST /api/admin/target-profiles-old', function () {
-    let user;
-
-    beforeEach(async function () {
-      mockLearningContent(learningContent);
-
-      user = databaseBuilder.factory.buildUser.withRole();
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('target-profile_tubes').delete();
-      await knex('target-profiles_skills').delete();
-      await knex('target-profiles').delete();
-    });
-
-    it('should return 200', async function () {
-      const options = {
-        method: 'POST',
-        url: '/api/admin/target-profiles-old',
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            attributes: {
-              name: 'targetProfileName',
-              'is-public': false,
-              'owner-organization-id': null,
-              'skill-ids': [skillId],
-              comment: 'comment',
-              description: null,
-              'image-url': null,
-              'tubes-selection': [
-                { id: 'tubeId1', level: 5 },
-                { id: 'tubeId2', level: 7 },
-              ],
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-
-      expect(response.result.data.relationships.skills.data.length).to.equal(1);
-      expect(response.result.data.relationships.skills.data[0].id).to.equal(skillId);
-    });
-  });
-
   describe('POST /api/admin/target-profiles', function () {
     let user;
 

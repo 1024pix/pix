@@ -1,137 +1,13 @@
 const _ = require('lodash');
 const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const TargetProfileForCreationOld = require('../../../../lib/domain/models/TargetProfileForCreationOld');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const {
-  NotFoundError,
-  ObjectValidationError,
-  InvalidSkillSetError,
-  OrganizationNotFoundError,
-} = require('../../../../lib/domain/errors');
+const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function () {
-  describe('#create', function () {
-    afterEach(async function () {
-      await knex('target-profile_tubes').delete();
-      await knex('target-profiles_skills').delete();
-      await knex('target-profiles').delete();
-    });
-
-    it('should return the created target profile', async function () {
-      const targetProfileForCreation = new TargetProfileForCreationOld({
-        name: 'myFirstTargetProfile',
-        imageUrl: 'someUrl',
-        isPublic: true,
-        ownerOrganizationId: null,
-        skillIds: [1],
-        description: 'public description of target profile',
-        comment: 'This is a high level target profile',
-        category: TargetProfile.categories.SUBJECT,
-        tubes: [],
-      });
-      // when
-      const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
-
-      const [targetProfile] = await knex('target-profiles')
-        .select([
-          'name',
-          'imageUrl',
-          'outdated',
-          'isPublic',
-          'ownerOrganizationId',
-          'comment',
-          'description',
-          'category',
-        ])
-        .where({ id: targetProfileId });
-
-      // then
-      expect(targetProfile.name).to.equal(targetProfileForCreation.name);
-      expect(targetProfile.imageUrl).to.equal(targetProfileForCreation.imageUrl);
-      expect(targetProfile.outdated).to.equal(false);
-      expect(targetProfile.isPublic).to.equal(targetProfileForCreation.isPublic);
-      expect(targetProfile.ownerOrganizationId).to.equal(targetProfileForCreation.ownerOrganizationId);
-      expect(targetProfile.comment).to.equal(targetProfileForCreation.comment);
-      expect(targetProfile.description).to.equal(targetProfileForCreation.description);
-      expect(targetProfile.category).to.equal(TargetProfile.categories.SUBJECT);
-    });
-
-    it('should attach each skillId once to target profile', async function () {
-      const targetProfileForCreation = new TargetProfileForCreationOld({
-        name: 'myFirstTargetProfile',
-        skillIds: ['skills1', 'skills2', 'skills2'],
-        tubes: [],
-      });
-      // when
-      const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
-
-      const skillsList = await knex('target-profiles_skills')
-        .select(['skillId'])
-        .where({ targetProfileId: targetProfileId });
-
-      const skillsId = skillsList.map((skill) => skill.skillId);
-      // then
-      expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
-    });
-
-    describe('with tubes', function () {
-      it('should save the target profile and its tubes', async function () {
-        // given
-        const targetProfileForCreation = new TargetProfileForCreationOld({
-          name: 'myFirstTargetProfile',
-          imageUrl: 'someUrl',
-          isPublic: true,
-          ownerOrganizationId: null,
-          skillIds: [1],
-          description: 'public description of target profile',
-          comment: 'This is a high level target profile',
-          category: TargetProfile.categories.SUBJECT,
-          tubes: [
-            { id: 'tubeId1', level: 8 },
-            { id: 'tubeId2', level: 4 },
-            { id: 'tubeId3', level: 5 },
-          ],
-        });
-
-        // when
-        const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
-
-        // then
-        const tubesList = await knex('target-profile_tubes')
-          .select(['tubeId', 'level'])
-          .where({ targetProfileId })
-          .orderBy('tubeId');
-
-        // then
-        expect(tubesList).to.exactlyContain([
-          { tubeId: 'tubeId1', level: 8 },
-          { tubeId: 'tubeId2', level: 4 },
-          { tubeId: 'tubeId3', level: 5 },
-        ]);
-      });
-    });
-
-    describe("when organization doesn't exist", function () {
-      it('should throw an OrganizationNotFoundError', async function () {
-        const targetProfileForCreation = new TargetProfileForCreationOld({
-          name: 'myFirstTargetProfile',
-          skillIds: ['skills1', 'skills2', 'skills2'],
-          ownerOrganizationId: -1,
-        });
-
-        // when
-        const error = await catchErr(targetProfileRepository.create)(targetProfileForCreation);
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationNotFoundError);
-      });
-    });
-  });
-
   describe('#createWithTubes', function () {
     afterEach(async function () {
       await knex('target-profile_tubes').delete();

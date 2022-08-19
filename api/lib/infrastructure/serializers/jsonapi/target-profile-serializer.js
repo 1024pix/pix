@@ -12,20 +12,6 @@ module.exports = {
     return new Serializer('target-profile', {}).serialize({ id: targetProfileId });
   },
 
-  deserialize(json) {
-    return {
-      name: json.data.attributes['name'],
-      ownerOrganizationId: json.data.attributes['owner-organization-id'],
-      isPublic: json.data.attributes['is-public'],
-      imageUrl: json.data.attributes['image-url'],
-      skillIds: json.data.attributes['skill-ids'],
-      comment: json.data.attributes['comment'],
-      description: json.data.attributes['description'],
-      category: json.data.attributes['category'],
-      tubes: json.data.attributes['tubes-selection'],
-    };
-  },
-
   deserializeCreationCommand(json) {
     return {
       name: json.data.attributes['name'],
