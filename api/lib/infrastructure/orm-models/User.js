@@ -3,7 +3,6 @@ const Bookshelf = require('../bookshelf');
 require('./Assessment');
 require('./KnowledgeElement');
 require('./Membership');
-require('./PixAdminRole');
 require('./CertificationCenterMembership');
 require('./UserOrgaSettings');
 require('./OrganizationLearner');
