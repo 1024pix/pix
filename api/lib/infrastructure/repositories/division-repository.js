@@ -1,5 +1,5 @@
 const Division = require('../../domain/models/Division');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 async function findByCampaignId(campaignId) {
   const divisions = await knex('organization-learners')

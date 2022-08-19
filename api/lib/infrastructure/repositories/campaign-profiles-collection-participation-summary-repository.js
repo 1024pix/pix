@@ -1,6 +1,6 @@
 const chunk = require('lodash/chunk');
 const bluebird = require('bluebird');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const placementProfileService = require('../../domain/services/placement-profile-service');
 const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');

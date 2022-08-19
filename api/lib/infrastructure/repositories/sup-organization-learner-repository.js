@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 

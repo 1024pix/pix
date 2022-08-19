@@ -1,5 +1,5 @@
 const Group = require('../../domain/models/Group');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 async function findByCampaignId(campaignId) {
   const groups = await knex('organization-learners')

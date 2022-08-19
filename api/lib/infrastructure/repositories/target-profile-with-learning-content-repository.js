@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const fp = require('lodash/fp');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const TargetProfileWithLearningContent = require('../../domain/models/TargetProfileWithLearningContent');
 const TargetedSkill = require('../../domain/models/TargetedSkill');
 const TargetedTube = require('../../domain/models/TargetedTube');

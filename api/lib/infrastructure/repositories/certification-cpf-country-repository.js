@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CertificationCpfCountry = require('../../domain/models/CertificationCpfCountry');
 
 module.exports = {

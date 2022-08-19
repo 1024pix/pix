@@ -1,5 +1,5 @@
 const { _ } = require('lodash');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
 const AssessmentBookshelf = require('../orm-models/Assessment');

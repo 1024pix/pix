@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../../domain/models/Badge').keys;
 

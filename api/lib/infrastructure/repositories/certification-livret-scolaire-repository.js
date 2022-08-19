@@ -1,5 +1,5 @@
 const Certificate = require('../../domain/read-models/livret-scolaire/Certificate');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async getCertificatesByOrganizationUAI(uai) {
