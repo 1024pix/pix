@@ -18,7 +18,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
     });
 
     context('when user has no oidc authentication method', function () {
-      it('should return 204 HTTP status', async function () {
+      it('should return 200 HTTP status', async function () {
         // given
         databaseBuilder.factory.buildUser.withRawPassword({ email: 'eva.poree@example.net', rawPassword: 'pix123' });
         await databaseBuilder.commit();
@@ -59,7 +59,11 @@ describe('Acceptance | Application | Oidc | Routes', function () {
         });
 
         // then
-        expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['full-name-from-pix']).to.exist;
+        expect(response.result.data.attributes['full-name-from-external-identity-provider']).to.exist;
+        expect(response.result.data.attributes['email']).to.exist;
+        expect(response.result.data.attributes['authentication-methods']).to.exist;
       });
     });
 
