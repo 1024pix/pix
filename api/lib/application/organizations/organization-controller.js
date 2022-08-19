@@ -10,7 +10,6 @@ const organizationSerializer = require('../../infrastructure/serializers/jsonapi
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const userWithOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
-const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const organizationPlacesLotManagmentSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
@@ -19,6 +18,7 @@ const organizationPlacesCapacitySerializer = require('../../infrastructure/seria
 const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
 const scoOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
 const supOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 
 const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -203,17 +203,11 @@ module.exports = {
   },
 
   async attachTargetProfiles(request, h) {
+    const targetProfileIds = request.payload['target-profile-ids'];
     const organizationId = request.params.id;
-    const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
-      // eslint-disable-next-line no-restricted-syntax
-      .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
-    const results = await usecases.attachTargetProfilesToOrganization({
-      organizationId,
-      targetProfileIdsToAttach,
-    });
-    return h
-      .response(organizationAttachTargetProfilesSerializer.serialize({ ...results, organizationId }))
-      .code(results.attachedIds.length > 0 ? 201 : 200);
+    await usecases.attachTargetProfilesToOrganization({ organizationId, targetProfileIds });
+
+    return h.response({}).code(204);
   },
 
   async getDivisions(request) {
@@ -426,5 +420,13 @@ module.exports = {
       filters: options.filter,
     });
     return organizationParticipantsSerializer.serialize(results);
+  },
+
+  async findTargetProfileSummariesForAdmin(request) {
+    const organizationId = request.params.id;
+    const targetProfileSummaries = await usecases.findOrganizationTargetProfileSummariesForAdmin({
+      organizationId,
+    });
+    return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
   },
 };

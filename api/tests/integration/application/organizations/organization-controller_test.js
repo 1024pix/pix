@@ -24,7 +24,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
-    sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
     sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
@@ -343,59 +342,6 @@ describe('Integration | Application | Organizations | organization-controller', 
 
         // then
         expect(response.statusCode).to.equal(200);
-      });
-    });
-  });
-
-  describe('#attachTargetProfilesToOrganization', function () {
-    const payload = {
-      data: {
-        type: 'target-profiles-shares',
-        attributes: {
-          'target-profiles-to-attach': [1, 2],
-        },
-      },
-    };
-
-    context('Error cases', function () {
-      context('when user has no authorization to access Pix Admin', function () {
-        it('should return a 403 HTTP response', async function () {
-          // given
-          securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) =>
-            h.response().code(403).takeover()
-          );
-
-          // when
-          const response = await httpTestServer.request(
-            'POST',
-            '/api/admin/organizations/1234/target-profiles',
-            payload
-          );
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-
-      context('when target-profile-id does not contain only numbers', function () {
-        it('should return a 404 HTTP response', async function () {
-          // given
-          securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) =>
-            h.response().code(403).takeover()
-          );
-
-          // when
-          payload.data.attributes['target-profiles-to-attach'] = ['sdqdqsd', 'qsqsdqd'];
-          const response = await httpTestServer.request(
-            'POST',
-            '/api/admin/organizations/1234/target-profiles',
-            payload
-          );
-
-          // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.payload).to.have.string("L'id d'un des profils cible n'est pas valide");
-        });
       });
     });
   });

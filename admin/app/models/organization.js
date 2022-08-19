@@ -26,7 +26,7 @@ export default class Organization extends Model {
   @equal('type', 'SUP') isOrganizationSUP;
 
   @hasMany('membership') memberships;
-  @hasMany('targetProfile') targetProfiles;
+  @hasMany('targetProfileSummary') targetProfileSummaries;
   @hasMany('tag') tags;
 
   async hasMember(userId) {
@@ -42,17 +42,12 @@ export default class Organization extends Model {
     return !!this.archivistFullName;
   }
 
+  get sortedTargetProfileSummaries() {
+    return this.targetProfileSummaries.sortBy('id');
+  }
+
   attachTargetProfiles = memberAction({
-    path: 'target-profiles',
+    path: 'attach-target-profiles',
     type: 'post',
-    before(attributes) {
-      const payload = this.serialize();
-      payload.data.attributes = Object.assign(payload.data.attributes, attributes);
-      return payload;
-    },
-    after(response) {
-      this.targetProfiles.reload();
-      return response;
-    },
   });
 }

@@ -371,7 +371,7 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/admin/organizations/{id}/target-profiles',
+      path: '/api/admin/organizations/{id}/attach-target-profiles',
       config: {
         pre: [
           {
@@ -384,26 +384,54 @@ exports.register = async (server) => {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
+        validate: {
+          payload: Joi.object({
+            'target-profile-ids': Joi.array().items(Joi.number().integer()).required(),
+          }),
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new NotFoundError("L'id d'un des profils cible ou de l'organisation n'est pas valide"),
+              h
+            );
+          },
+        },
         handler: organizationController.attachTargetProfiles,
+        tags: ['api', 'admin', 'target-profiles', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de rattacher des profil-cibles à une organisation',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/organizations/{id}/target-profile-summaries',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'target-profiles-to-attach': Joi.array().items(
-                  Joi.string().pattern(/^[0-9]+$/),
-                  Joi.number().integer()
-                ),
-              },
-            },
-          }).options({ allowUnknown: true }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new NotFoundError("L'id d'un des profils cible n'est pas valide"), h);
-          },
         },
-        tags: ['api', 'organizations'],
+        handler: organizationController.findTargetProfileSummariesForAdmin,
+        tags: ['api', 'organizations', 'target-profiles'],
+        notes: [
+          `- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n- Elle retourne la liste des profil-cibles d'une organisation`,
+        ],
       },
     },
   ];

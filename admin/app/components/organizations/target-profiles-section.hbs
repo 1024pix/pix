@@ -31,24 +31,24 @@
           </tr>
         </thead>
 
-        {{#if @organization.targetProfiles}}
+        {{#if @organization.targetProfileSummaries}}
           <tbody>
-            {{#each @organization.targetProfiles as |targetProfile|}}
+            {{#each @organization.sortedTargetProfileSummaries as |summary|}}
               <tr
                 aria-label="Profil cible"
                 role="button"
-                {{on "click" (fn this.goToTargetProfilePage targetProfile.id)}}
+                {{on "click" (fn this.goToTargetProfilePage summary.id)}}
                 class="tr--clickable"
               >
-                <td class="table__column table__column--id">{{targetProfile.id}}</td>
-                <td>{{targetProfile.name}}</td>
+                <td class="table__column table__column--id">{{summary.id}}</td>
+                <td>{{summary.name}}</td>
               </tr>
             {{/each}}
           </tbody>
         {{/if}}
       </table>
 
-      {{#unless @organization.targetProfiles}}
+      {{#unless @organization.targetProfileSummaries}}
         <div class="table__empty">Aucun résultat</div>
       {{/unless}}
     </div>

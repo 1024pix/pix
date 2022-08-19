@@ -6,8 +6,8 @@ export default ApplicationSerializer.extend({
       memberships: {
         related: `/api/organizations/${organization.id}/memberships`,
       },
-      targetProfiles: {
-        related: `/api/organizations/${organization.id}/target-profiles`,
+      targetProfileSummaries: {
+        related: `/api/admin/organizations/${organization.id}/target-profile-summaries`,
       },
     };
   },

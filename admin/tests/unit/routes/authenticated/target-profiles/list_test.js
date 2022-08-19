@@ -35,7 +35,7 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         };
 
         // then
-        sinon.assert.calledWith(route.store.query, 'target-profile', expectedQueryArgs);
+        sinon.assert.calledWith(route.store.query, 'target-profile-summary', expectedQueryArgs);
         assert.ok(true);
       });
     });
@@ -54,7 +54,7 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         await route.model(params);
 
         // then
-        sinon.assert.calledWith(route.store.query, 'target-profile', expectedQueryArgs);
+        sinon.assert.calledWith(route.store.query, 'target-profile-summary', expectedQueryArgs);
         assert.ok(true);
       });
     });
