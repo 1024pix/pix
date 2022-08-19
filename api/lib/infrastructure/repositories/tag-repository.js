@@ -1,43 +1,40 @@
-const BookshelfTag = require('../orm-models/Tag');
-const bookshelfUtils = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const knexUtils = require('../utils/knex-utils');
 const { AlreadyExistingEntityError, NotFoundError } = require('../../domain/errors');
 const omit = require('lodash/omit');
-
+const { knex } = require('../../../db/knex-database-connection');
+const Tag = require('../../domain/models/Tag');
 module.exports = {
   async create(tag) {
     try {
       const tagToCreate = omit(tag, 'id');
-      const bookshelfTag = await new BookshelfTag(tagToCreate).save();
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, bookshelfTag);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+      const [row] = await knex('tags').insert(tagToCreate).returning('*');
+      return new Tag(row);
+    } catch (error) {
+      if (knexUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(`A tag with name ${tag.name} already exists.`);
       }
-      throw err;
+      throw error;
     }
   },
 
   async findByName({ name }) {
-    const tag = await BookshelfTag.where({ name }).fetch({ require: false });
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
+    const row = await knex('tags').where({ name }).first();
+    if (!row) {
+      return null;
+    }
+    return new Tag(row);
   },
 
   async findAll() {
-    const allTags = await BookshelfTag.fetchAll();
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfTag, allTags);
+    const rows = await knex('tags');
+    return rows.map((row) => new Tag(row));
   },
 
   async get(id) {
-    try {
-      const tag = await BookshelfTag.where({ id }).fetch();
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
-    } catch (err) {
-      if (err instanceof BookshelfTag.NotFoundError) {
-        throw new NotFoundError("Le tag n'existe pas");
-      }
-      throw err;
+    const row = await knex('tags').where({ id }).first();
+    if (!row) {
+      throw new NotFoundError("Le tag n'existe pas");
     }
+    return new Tag(row);
   },
 };
