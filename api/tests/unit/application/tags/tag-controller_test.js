@@ -11,7 +11,7 @@ describe('Unit | Application | Tags | tag-controller', function () {
       const createdTag = domainBuilder.buildTag({ id: 1, name: 'TAG1' });
       const serializedTag = Symbol('a serialized tag');
 
-      sinon.stub(usecases, 'createTag').resolves(createdTag);
+      sinon.stub(usecases.createTag, 'execute').resolves(createdTag);
       sinon.stub(tagSerializer, 'serialize').withArgs(createdTag).returns(serializedTag);
 
       const request = { payload: { data: { attributes: { name: 'tag1' } } } };

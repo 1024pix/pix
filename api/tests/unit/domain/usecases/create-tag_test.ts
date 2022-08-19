@@ -1,6 +1,6 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const { Tag } = require('../../../../lib/domain/models/Tag');
-const createTag = require('../../../../lib/domain/usecases/create-tag');
+const {CreateTag} = require('../../../../lib/domain/usecases/create-tag');
 
 describe('Unit | UseCase | create-tag', function () {
   it('should allow to create a tag', async function () {
@@ -11,9 +11,10 @@ describe('Unit | UseCase | create-tag', function () {
 
     const tagRepository = { create: sinon.stub() };
     tagRepository.create.withArgs(tag).resolves(createdTag);
+    const createTag = new CreateTag(tagRepository);
 
     // when
-    const result = await createTag({ tagName, tagRepository });
+    const result = await createTag.execute(tagName);
 
     // then
     expect(result).to.be.equal(createdTag);
