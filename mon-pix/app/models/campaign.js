@@ -1,9 +1,5 @@
 import Model, { attr } from '@ember-data/model';
 
-export const identityProviders = {
-  POLE_EMPLOI: 'POLE_EMPLOI',
-};
-
 export default class Campaign extends Model {
   @attr('string') code;
   @attr('string') title;

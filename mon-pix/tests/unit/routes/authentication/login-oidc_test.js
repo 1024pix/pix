@@ -215,7 +215,7 @@ describe('Unit | Route | login-oidc', function () {
         code: 'test',
         state: undefined,
       });
-      expect(authenticateStub.getCall(0).args[1].redirectUri).to.contain('connexion-oidc');
+      expect(authenticateStub.getCall(0).args[1].redirectUri).to.contain('connexion/oidc');
       expect(sessionStub.data).to.deep.equal({ state: undefined, nonce: undefined });
     });
 
