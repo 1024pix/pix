@@ -103,11 +103,24 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   });
 
   context('when user has no oidc authentication method', function () {
-    it('should save user id in existing key', async function () {
+    it('should return full names', async function () {
       // given
-      const sessionContentAndUserInfo = { sessionContent: { idToken: 'idToken' }, userInfo: { firstName: 'Anne' } };
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
+      const firstName = 'Sarah';
+      const lastName = 'Pix';
+      const sessionContentAndUserInfo = {
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Sarah', lastName: 'Idp' },
+      };
+      const pixAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({});
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(null);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves({
+        id: 2,
+        firstName,
+        lastName,
+        email: 'sarahcroche@example.net',
+        username: 'sarahcroche123',
+      });
       authenticationSessionService.getByKey.resolves(sessionContentAndUserInfo);
 
       // when
@@ -124,7 +137,12 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
       // then
       expect(authenticationSessionService.update).to.be.calledOnceWith('authenticationKey', sessionContentAndUserInfo);
-      expect(result).to.deep.equal({ isAuthenticationComplete: false });
+      expect(result).to.deep.equal({
+        fullNameFromPix: 'Sarah Pix',
+        fullNameFromExternalIdentityProvider: 'Sarah Idp',
+        email: 'sarahcroche@example.net',
+        username: 'sarahcroche123',
+      });
     });
   });
 
@@ -273,7 +291,6 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
         expect(result).to.deep.equal({
           accessToken: 'accessToken',
           logoutUrlUUID: 'logoutUrl',
-          isAuthenticationComplete: true,
         });
       });
     });
