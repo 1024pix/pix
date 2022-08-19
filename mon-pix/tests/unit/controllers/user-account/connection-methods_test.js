@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
 describe('Unit | Controller | user-account | connection-methods', function () {
   setupTest();
@@ -52,12 +53,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
     it('should display pix authentication method', function () {
       // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [
-        EmberObject.create({
-          identityProvider: 'PIX',
-          isPixIdentityProvider: true,
-        }),
-      ];
+      const authenticationMethods = [EmberObject.create({ identityProvider: 'PIX' })];
       const model = {
         user: {},
         authenticationMethods,
@@ -73,12 +69,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
     it('should display gar authentication method', function () {
       // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [
-        EmberObject.create({
-          identityProvider: 'GAR',
-          isGarIdentityProvider: true,
-        }),
-      ];
+      const authenticationMethods = [EmberObject.create({ identityProvider: 'GAR' })];
       const model = {
         user: {},
         authenticationMethods,
@@ -93,13 +84,16 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#shouldShowPoleEmploiAuthenticationMethod', function () {
     it('should display pole emploi authentication method', function () {
       // given & when
+      const poleEmploi = {
+        id: 'pole-emploi',
+        code: 'POLE_EMPLOI',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        'pole-emploi' = poleEmploi;
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [
-        EmberObject.create({
-          identityProvider: 'POLE_EMPLOI',
-          isPoleEmploiIdentityProvider: true,
-        }),
-      ];
+      const authenticationMethods = [EmberObject.create({ identityProvider: 'POLE_EMPLOI' })];
       const model = {
         user: {},
         authenticationMethods,
@@ -114,13 +108,16 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#shouldShowCnavAuthenticationMethod', function () {
     it('should display cnav authentication method', function () {
       // given
+      const cnav = {
+        id: 'cnav',
+        code: 'CNAV',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        cnav = cnav;
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [
-        EmberObject.create({
-          identityProvider: 'CNAV',
-          isCnavIdentityProvider: true,
-        }),
-      ];
+      const authenticationMethods = [EmberObject.create({ identityProvider: 'CNAV' })];
       const model = {
         user: {},
         authenticationMethods,

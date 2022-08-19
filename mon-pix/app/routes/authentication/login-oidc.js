@@ -81,8 +81,7 @@ export default class LoginOidcRoute extends Route {
 
   _getRedirectUri(identityProviderSlug) {
     const { protocol, host } = location;
-    // TODO a modifier en connexion/identityProviderSlug quand la CNAV et Pole Emploi ont pris en compte le changement
-    return `${protocol}//${host}/connexion-${identityProviderSlug}`;
+    return `${protocol}//${host}/connexion/${identityProviderSlug}`;
   }
 
   async _handleRedirectRequest(identityProviderSlug) {

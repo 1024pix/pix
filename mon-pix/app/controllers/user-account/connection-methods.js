@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class ConnectionMethodsController extends Controller {
   @service featureToggles;
+  @service oidcIdentityProviders;
 
   @tracked isEmailEditionMode = false;
   @tracked showEmailUpdatedMessage = false;
@@ -18,21 +19,28 @@ export default class ConnectionMethodsController extends Controller {
   }
 
   get shouldShowPixAuthenticationMethod() {
-    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isPixIdentityProvider);
+    return this.model.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+    );
   }
 
   get shouldShowGarAuthenticationMethod() {
-    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isGarIdentityProvider);
+    return this.model.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+    );
   }
 
   get shouldShowPoleEmploiAuthenticationMethod() {
     return this.model.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.isPoleEmploiIdentityProvider
+      (authenticationMethod) =>
+        authenticationMethod.identityProvider === this.oidcIdentityProviders['pole-emploi']?.code
     );
   }
 
   get shouldShowCnavAuthenticationMethod() {
-    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isCnavIdentityProvider);
+    return this.model.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === this.oidcIdentityProviders.cnav?.code
+    );
   }
 
   @action
