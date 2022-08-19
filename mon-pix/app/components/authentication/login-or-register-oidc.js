@@ -22,7 +22,6 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @service store;
 
   @tracked isTermsOfServiceValidated = false;
-  @tracked isAuthenticationKeyExpired = false;
   @tracked errorMessage = null;
   @tracked email = '';
   @tracked password = '';

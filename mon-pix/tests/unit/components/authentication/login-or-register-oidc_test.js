@@ -61,7 +61,6 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
         component.args.identityProviderSlug = 'super-idp';
         component.args.authenticationKey = 'super-key';
         component.isTermsOfServiceValidated = true;
-        component.isAuthenticationKeyExpired = false;
         component.errorMessage = null;
 
         // when
@@ -71,7 +70,6 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
         expect(component.errorMessage).to.equal(
           this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
-        expect(component.isAuthenticationKeyExpired).to.be.true;
       });
     });
 
