@@ -139,7 +139,7 @@
     "db:create": "ts-node scripts/database/create-database",
     "db:delete": "ts-node scripts/database/drop-database",
     "db:empty": "ts-node scripts/database/empty-database",
-    "db:migrate": "TS_NODE_TRANSPILE_ONLY=true knex --knexfile db/knexfile.ts migrate:latest",
+    "db:migrate": "TS_NODE_TRANSPILE_ONLY=true knex --knexfile db/knexfile.ts migrate:latest && node scripts/database/pg-boss-migration.js",
     "db:rollback:latest": "TS_NODE_TRANSPILE_ONLY=true knex --knexfile db/knexfile.ts migrate:down",
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
     "db:seed": "TS_NODE_TRANSPILE_ONLY=true knex --knexfile db/knexfile.ts seed:run",
