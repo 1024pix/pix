@@ -18,14 +18,14 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.errorMessage = null;
 
       // when
-      component.submit();
+      component.register();
 
       // then
       expect(component.errorMessage).to.equal(this.intl.t('pages.login-or-register-oidc.error.error-message'));
     });
   });
 
-  describe('#submit', function () {
+  describe('#register', function () {
     it('should create session', function () {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
@@ -40,7 +40,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.errorMessage = null;
 
       // when
-      component.submit();
+      component.register();
 
       // then
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
@@ -65,7 +65,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
         component.errorMessage = null;
 
         // when
-        await component.submit();
+        await component.register();
 
         // then
         expect(component.errorMessage).to.equal(
@@ -89,7 +89,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.errorMessage = null;
 
       // when
-      await component.submit();
+      await component.register();
 
       // then
       expect(component.errorMessage).to.equal(`${this.intl.t('common.error')} (some detail)`);
@@ -109,7 +109,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.errorMessage = null;
 
       // when
-      await component.submit();
+      await component.register();
 
       // then
       expect(component.errorMessage).to.equal(this.intl.t('common.error'));
