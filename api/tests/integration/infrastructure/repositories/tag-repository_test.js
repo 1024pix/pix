@@ -3,7 +3,7 @@ const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../.
 const { AlreadyExistingEntityError, NotFoundError } = require('../../../../lib/domain/errors');
 
 const { Tag } = require('../../../../lib/domain/models/Tag');
-const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
+const { tagRepository } = require('../../../../lib/infrastructure/repositories/tag-repository');
 
 describe('Integration | Repository | TagRepository', function () {
   afterEach(async function () {
