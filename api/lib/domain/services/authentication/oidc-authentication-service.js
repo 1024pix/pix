@@ -43,15 +43,7 @@ class OidcAuthenticationService {
   }
 
   createAccessToken(userId) {
-    return jsonwebtoken.sign(
-      {
-        user_id: userId,
-        source: this.source,
-        identity_provider: this.identityProvider,
-      },
-      settings.authentication.secret,
-      this.jwtOptions
-    );
+    return jsonwebtoken.sign({ user_id: userId }, settings.authentication.secret, this.jwtOptions);
   }
 
   createAuthenticationComplement() {

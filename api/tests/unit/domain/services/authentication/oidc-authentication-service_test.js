@@ -17,23 +17,17 @@ const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
-    it('should create access token with user id, source and identityProvider', function () {
+    it('should create access token with user id', function () {
       // given
       const userId = 42;
       const accessToken = Symbol('valid access token');
-      const source = Symbol('an oidc source');
-      const identityProvider = Symbol('name of identityProvider');
       settings.authentication.secret = 'a secret';
-      const payload = {
-        user_id: userId,
-        source,
-        identity_provider: identityProvider,
-      };
+      const payload = { user_id: userId };
       const secret = 'a secret';
       const jwtOptions = { expiresIn: 1 };
       sinon.stub(jsonwebtoken, 'sign').withArgs(payload, secret, jwtOptions).returns(accessToken);
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ source, identityProvider, jwtOptions });
+      const oidcAuthenticationService = new OidcAuthenticationService({ jwtOptions });
 
       // when
       const result = oidcAuthenticationService.createAccessToken(userId);
