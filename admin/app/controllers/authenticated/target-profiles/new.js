@@ -23,7 +23,8 @@ export default class NewController extends Controller {
     }
 
     try {
-      await targetProfile.save();
+      console.log(targetProfile.tubesSelection);
+      await targetProfile.save({ adapterOptions: { tubes: targetProfile.tubesSelection } });
 
       this.notifications.success('Le profil cible a été créé avec succès.');
       this.router.transitionTo('authenticated.target-profiles.target-profile', targetProfile.id);

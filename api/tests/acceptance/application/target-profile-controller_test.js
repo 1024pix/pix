@@ -55,7 +55,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     server = await createServer();
   });
 
-  describe('POST /api/admin/target-profiles', function () {
+  describe('POST /api/admin/target-profiles-old', function () {
     let user;
 
     beforeEach(async function () {
@@ -75,7 +75,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     it('should return 200', async function () {
       const options = {
         method: 'POST',
-        url: '/api/admin/target-profiles',
+        url: '/api/admin/target-profiles-old',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           data: {
@@ -107,7 +107,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     });
   });
 
-  describe('POST /api/admin/target-profiles-new', function () {
+  describe('POST /api/admin/target-profiles', function () {
     let user;
 
     beforeEach(function () {
@@ -136,7 +136,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       // given
       const options = {
         method: 'POST',
-        url: '/api/admin/target-profiles-new',
+        url: '/api/admin/target-profiles',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           data: {
@@ -148,7 +148,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
               'is-public': false,
               'image-url': 'http://some/image.ok',
               'owner-organization-id': null,
-              tubes: [{ id: 'recTube1', level: '5' }],
+              tubes: [{ id: 'recTube1', level: 5 }],
             },
           },
         },

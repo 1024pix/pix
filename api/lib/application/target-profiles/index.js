@@ -167,7 +167,7 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/admin/target-profiles',
+      path: '/api/admin/target-profiles-old',
       config: {
         pre: [
           {
@@ -212,7 +212,7 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/admin/target-profiles-new',
+      path: '/api/admin/target-profiles',
       config: {
         pre: [
           {
@@ -242,9 +242,7 @@ exports.register = async (server) => {
                 tubes: Joi.array()
                   .items({
                     id: Joi.string().required(),
-                    level: Joi.string()
-                      .pattern(/^[0-9]+$/, 'numbers')
-                      .required(),
+                    level: Joi.number().required(),
                   })
                   .required(),
               },
