@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
 const ComplementaryCertificationCourseResultBookshelf = require('../orm-models/ComplementaryCertificationCourseResult');
 const CleaCertificationScoring = require('../../domain/models/CleaCertificationScoring');

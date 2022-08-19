@@ -1,7 +1,7 @@
 const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile');
 const placementProfileService = require('../../domain/services/placement-profile-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async findProfile({ campaignId, campaignParticipationId, locale }) {

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CertifiableProfileForLearningContent = require('../../domain/models/CertifiableProfileForLearningContent');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 

@@ -1,5 +1,5 @@
 const { Country } = require('../../domain/read-models/Country');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async findAll() {

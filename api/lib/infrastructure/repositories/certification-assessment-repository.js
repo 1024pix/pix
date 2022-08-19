@@ -5,7 +5,7 @@ const CertificationChallengeWithType = require('../../domain/models/Certificatio
 const Answer = require('../../domain/models/Answer');
 const challengeRepository = require('./challenge-repository');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError } = require('../../domain/errors');
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {

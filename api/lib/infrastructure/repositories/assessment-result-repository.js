@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const BookshelfAssessmentResult = require('../orm-models/AssessmentResult');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
 const AssessmentResult = require('../../domain/models/AssessmentResult');

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const settings = require('../../config');
 const BookshelfUser = require('../orm-models/User');
 const BookshelfMembership = require('../orm-models/Membership');

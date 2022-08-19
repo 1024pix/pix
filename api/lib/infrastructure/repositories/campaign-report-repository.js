@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 
 const CampaignReport = require('../../domain/read-models/CampaignReport');
 const TargetProfileForSpecifier = require('../../domain/read-models/campaign/TargetProfileForSpecifier');

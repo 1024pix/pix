@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError } = require('../../domain/errors');
 const CertificationPointOfContact = require('../../domain/read-models/CertificationPointOfContact');
 const AllowedCertificationCenterAccess = require('../../domain/read-models/AllowedCertificationCenterAccess');

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const CampaignAnalysis = require('../../domain/read-models/CampaignAnalysis');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');

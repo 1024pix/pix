@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CampaignManagement = require('../../domain/read-models/CampaignManagement');
 const { fetchPage } = require('../utils/knex-utils');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');

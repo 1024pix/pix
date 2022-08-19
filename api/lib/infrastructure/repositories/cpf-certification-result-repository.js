@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CpfCertificationResult = require('../../domain/read-models/CpfCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 

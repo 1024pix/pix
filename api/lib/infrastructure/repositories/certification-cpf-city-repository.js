@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const CertificationCpfCity = require('../../domain/models/CertificationCpfCity');
 
 const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
