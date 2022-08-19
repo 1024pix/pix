@@ -1,14 +1,10 @@
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
-const Bookshelf = require('../bookshelf');
-const BookshelfOrganization = require('../orm-models/Organization');
 const Organization = require('../../domain/models/Organization');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 const { knex } = require('../../../db/knex-database-connection');
-
-const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_PAGE_NUMBER = 1;
+const Tag = require('../../domain/models/Tag');
+const { fetchPage } = require('../utils/knex-utils');
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({
@@ -35,7 +31,7 @@ function _toDomain(rawOrganization) {
   return organization;
 }
 
-function _setSearchFiltersForQueryBuilder(filter, qb) {
+function _setSearchFiltersForQueryBuilder(qb, filter) {
   const { id, name, type, externalId } = filter;
   if (id) {
     qb.where('organizations.id', id);
@@ -86,13 +82,13 @@ module.exports = {
         'documentationUrl',
       ])
     );
-    return Bookshelf.knex
+    return knex
       .batchInsert('organizations', organizationsRawData)
       .transacting(domainTransaction.knexTransaction)
       .returning(['id', 'externalId', 'email', 'name']);
   },
 
-  update(organization) {
+  async update(organization) {
     const organizationRawData = _.pick(organization, [
       'name',
       'type',
@@ -106,26 +102,32 @@ module.exports = {
       'showSkills',
     ]);
 
-    return new BookshelfOrganization({ id: organization.id })
-      .save(organizationRawData, { patch: true })
-      .then((model) => model.refresh({ withRelated: 'tags' }))
-      .then((model) => model.toJSON())
-      .then(_toDomain);
+    const [organizationDB] = await knex('organizations')
+      .update(organizationRawData)
+      .where({ id: organization.id })
+      .returning('*');
+
+    const tagsDB = await knex('tags')
+      .select(['tags.id', 'tags.name'])
+      .join('organization-tags', 'organization-tags.organizationId', knex.raw('?', [organization.id]));
+
+    const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+
+    return _toDomain({ ...organizationDB, tags });
   },
 
-  get(id) {
-    return BookshelfOrganization.where({ id })
-      .fetch({
-        withRelated: ['targetProfileShares.targetProfile', 'tags'],
-      })
-      .then((model) => model.toJSON())
-      .then(_toDomain)
-      .catch((err) => {
-        if (err instanceof BookshelfOrganization.NotFoundError) {
-          throw new NotFoundError(`Not found organization for ID ${id}`);
-        }
-        throw err;
-      });
+  async get(id) {
+    const organizationDB = await knex('organizations').where({ id }).first();
+    if (!organizationDB) {
+      throw new NotFoundError(`Not found organization for ID ${id}`);
+    }
+
+    const tagsDB = await knex('tags')
+      .select(['tags.id', 'tags.name'])
+      .join('organization-tags', 'organization-tags.organizationId', knex.raw('?', [id]));
+
+    const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+    return _toDomain({ ...organizationDB, tags });
   },
 
   async getIdByCertificationCenterId(certificationCenterId) {
@@ -146,56 +148,50 @@ module.exports = {
   },
 
   async getScoOrganizationByExternalId(externalId) {
-    const organizationBookshelf = await BookshelfOrganization.query((qb) =>
-      qb.where({ type: Organization.types.SCO }).whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
-    ).fetch({ require: false });
+    const organizationDB = await knex('organizations')
+      .where({ type: Organization.types.SCO })
+      .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
+      .first();
 
-    if (organizationBookshelf) {
-      return _toDomain(organizationBookshelf.toJSON());
+    if (!organizationDB) {
+      throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
     }
-    throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
+    return _toDomain(organizationDB);
   },
 
-  findByExternalIdsFetchingIdsOnly(externalIds) {
-    return BookshelfOrganization.where('externalId', 'in', externalIds)
-      .fetchAll({ columns: ['id', 'externalId'] })
-      .then((organizations) => organizations.models.map((model) => _toDomain(model.toJSON())));
+  async findByExternalIdsFetchingIdsOnly(externalIds) {
+    const organizationsDB = await knex('organizations')
+      .whereInArray('externalId', externalIds)
+      .select(['id', 'externalId']);
+
+    return organizationsDB.map((model) => _toDomain(model));
   },
 
-  findScoOrganizationsByUai({ uai }) {
-    return BookshelfOrganization.query((qb) =>
-      qb.where({ type: Organization.types.SCO }).whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`)
-    )
-      .fetchAll({ columns: ['id', 'type', 'externalId', 'email', 'archivedAt'] })
-      .then((organizations) => organizations.models.map((model) => _toDomain(model.toJSON())));
+  async findScoOrganizationsByUai({ uai }) {
+    const organizationsDB = await knex('organizations')
+      .where({ type: Organization.types.SCO })
+      .whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`);
+
+    return organizationsDB.map((model) => _toDomain(model));
   },
 
-  findPaginatedFiltered({ filter, page }) {
-    const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
-    const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
-      .fetchPage({
-        page: pageNumber,
-        pageSize: pageSize,
-      })
-      .then(({ models, pagination }) => {
-        const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);
-        return { models: organizations, pagination };
-      });
+  async findPaginatedFiltered({ filter, page }) {
+    const query = knex('organizations').modify(_setSearchFiltersForQueryBuilder, filter);
+
+    const { results, pagination } = await fetchPage(query, page);
+    const organizations = results.map((model) => _toDomain(model));
+    return { models: organizations, pagination };
   },
 
   async findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page }) {
-    const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
-    const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const { models, pagination } = await BookshelfOrganization.query((qb) => {
-      qb.where({ 'target-profile-shares.targetProfileId': targetProfileId });
-      _setSearchFiltersForQueryBuilder(filter, qb);
-      qb.innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId');
-    }).fetchPage({
-      page: pageNumber,
-      pageSize,
-    });
-    const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);
+    const query = knex('organizations')
+      .select('organizations.*')
+      .innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId')
+      .where({ 'target-profile-shares.targetProfileId': targetProfileId })
+      .modify(_setSearchFiltersForQueryBuilder, filter);
+
+    const { results, pagination } = await fetchPage(query, page);
+    const organizations = results.map((model) => _toDomain(model));
     return { models: organizations, pagination };
   },
 };
