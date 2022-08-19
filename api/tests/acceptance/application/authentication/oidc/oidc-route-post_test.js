@@ -5,7 +5,7 @@ const authenticationSessionService = require('../../../../../lib/domain/services
 const { featureToggles } = require('../../../../../lib/config');
 
 describe('Acceptance | Application | Oidc | Routes', function () {
-  describe('POST /api/oidc/token-reconciliation', function () {
+  describe('POST /api/oidc/user/check-reconciliation', function () {
     let server;
 
     beforeEach(async function () {
@@ -45,7 +45,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
         // when
         const response = await server.inject({
           method: 'POST',
-          url: `/api/oidc/token-reconciliation`,
+          url: `/api/oidc/user/check-reconciliation`,
           payload: {
             data: {
               attributes: {
@@ -99,7 +99,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
         // when
         const response = await server.inject({
           method: 'POST',
-          url: `/api/oidc/token-reconciliation`,
+          url: `/api/oidc/user/check-reconciliation`,
           payload: {
             data: {
               attributes: {
@@ -152,7 +152,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
           // when
           const response = await server.inject({
             method: 'POST',
-            url: `/api/oidc/token-reconciliation`,
+            url: `/api/oidc/user/check-reconciliation`,
             payload: {
               data: {
                 attributes: {
