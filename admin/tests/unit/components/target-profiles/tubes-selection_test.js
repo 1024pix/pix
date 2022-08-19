@@ -188,35 +188,16 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
     });
   });
 
-  module('#getSelectedTubesWithLevelAndSkills', function () {
-    test('it should return selected tubes', async function (assert) {
+  module('#_getSelectedTubesWithLevel', function () {
+    test('it should return selected tubes with level', async function (assert) {
       // given
-      const skills1 = Promise.resolve([
-        { id: 'skillId1', level: 1 },
-        { id: 'skillId2', level: 2 },
-        { id: 'skillId3', level: 3 },
-      ]);
-
-      const skills2 = Promise.resolve([
-        { id: 'skillId4', level: 1 },
-        { id: 'skillId5', level: 3 },
-        { id: 'skillId6', level: 7 },
-      ]);
-
-      const tubes1 = [
-        { id: 'tubeId1' },
-        {
-          id: 'tubeId2',
-          skills: skills1,
-        },
-      ];
+      const tubes1 = [{ id: 'tubeId1' }, { id: 'tubeId2' }];
 
       const tubes2 = [
         {
           id: 'tubeId3',
           practicalTitle: 'Tube 3',
           practicalDescription: 'Description 3',
-          skills: skills2,
         },
         {
           id: 'tubeId4',
@@ -251,19 +232,17 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
       };
 
       // when
-      const result = await component._getSelectedTubesWithLevelAndSkills();
+      const result = component._getSelectedTubesWithLevel();
 
       // then
       assert.deepEqual(result, [
         {
           id: 'tubeId2',
           level: 2,
-          skills: ['skillId1', 'skillId2'],
         },
         {
           id: 'tubeId3',
           level: 8,
-          skills: ['skillId4', 'skillId5', 'skillId6'],
         },
       ]);
     });
