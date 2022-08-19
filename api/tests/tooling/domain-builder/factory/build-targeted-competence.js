@@ -8,7 +8,6 @@ const buildTargetedCompetence = function buildTargetedCompetence({
   origin = 'Pix',
   areaId = 'someAreaId',
   tubes = [buildTargetedTube()],
-  thematics = [],
 } = {}) {
   return new TargetedCompetence({
     id,
@@ -17,7 +16,6 @@ const buildTargetedCompetence = function buildTargetedCompetence({
     origin,
     areaId,
     tubes,
-    thematics,
   });
 };
 

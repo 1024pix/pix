@@ -167,51 +167,6 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/admin/target-profiles-old',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          payload: Joi.object({
-            data: {
-              attributes: {
-                name: Joi.string().required(),
-                'is-public': Joi.boolean().required(),
-                'owner-organization-id': Joi.string()
-                  .pattern(/^[0-9]+$/, 'numbers')
-                  .allow(null)
-                  .required(),
-                'image-url': Joi.string().uri().allow(null).required(),
-                'skill-ids': Joi.array().required(),
-                comment: Joi.string().allow(null).max(500).required(),
-                description: Joi.string().allow(null).max(500).required(),
-                'tubes-selection': Joi.array().required(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: targetProfileController.createTargetProfile_old,
-        tags: ['api', 'admin', 'target-profiles', 'create'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de créer un profil cible avec ses acquis ainsi qu'un gabarit de ce profil cible",
-        ],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/target-profiles',
       config: {
         pre: [

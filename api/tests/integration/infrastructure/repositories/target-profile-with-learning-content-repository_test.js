@@ -4,7 +4,6 @@ const TargetProfileWithLearningContent = require('../../../../lib/domain/models/
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
-const TargetProfileTube = require('../../../../lib/domain/models/TargetProfileTube');
 
 async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   const badgeCriterion1 = domainBuilder.buildBadgeCriterion();
@@ -441,107 +440,6 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
       // then
       expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
-    });
-
-    it('should return target profile with tubes selection', async function () {
-      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-      const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
-      const expectedTubesSelection = [
-        new TargetProfileTube({ id: 'tubeId123', level: 6 }),
-        new TargetProfileTube({ id: 'tubeId456', level: 2 }),
-      ];
-      domainBuilder.buildTargetProfileWithLearningContent({
-        id: targetProfileDB.id,
-        tubesSelection: expectedTubesSelection,
-      });
-      databaseBuilder.factory.buildTargetProfileTube({
-        targetProfileId: targetProfileDB.id,
-        tubeId: expectedTubesSelection[0].id,
-        level: expectedTubesSelection[0].level,
-      });
-      databaseBuilder.factory.buildTargetProfileTube({
-        targetProfileId: targetProfileDB.id,
-        tubeId: expectedTubesSelection[1].id,
-        level: expectedTubesSelection[1].level,
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId: targetProfileDB.id,
-        skillId: basicTargetProfile.skills[0].id,
-      });
-
-      const expectedTubesSelectionAreas = [
-        domainBuilder.buildTargetedArea({
-          id: 'recArea1',
-          competences: [
-            {
-              id: 'recArea1_Competence1',
-              name: 'someName',
-              index: 'someIndex',
-              areaId: 'recArea1',
-              origin: 'Pix',
-              thematics: [],
-              tubes: [],
-            },
-          ],
-        }),
-      ];
-
-      const learningContent = {
-        areas: [
-          {
-            id: 'recArea1',
-            titleFrFr: 'someTitle',
-            code: 'someCode',
-            color: 'someColor',
-            frameworkId: 'someFmkId',
-            competenceIds: ['recArea1_Competence1'],
-          },
-        ],
-        competences: [
-          {
-            id: 'recArea1_Competence1',
-            nameFrFr: 'someName',
-            index: 'someIndex',
-            areaId: 'recArea1',
-            skillIds: [basicTargetProfile.skills[0].id],
-            origin: 'Pix',
-          },
-        ],
-        tubes: [
-          {
-            id: 'tubeId123',
-            competenceId: 'recArea1_Competence1',
-            practicalTitleFrFr: 'somePracticalTitle',
-          },
-          {
-            id: 'tubeId456',
-            competenceId: 'recArea1_Competence1',
-            practicalTitleFrFr: 'somePracticalTitle',
-          },
-        ],
-        skills: [
-          {
-            id: basicTargetProfile.skills[0].id,
-            name: 'someSkillName5',
-            status: 'actif',
-            tubeId: 'tubeId123',
-            competenceId: 'recArea1_Competence1',
-            tutorialIds: [],
-          },
-        ],
-        thematics: [],
-        challenges: [],
-      };
-
-      mockLearningContent(learningContent);
-      await databaseBuilder.commit();
-
-      // when
-      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
-
-      // then
-      expect(targetProfile.tubesSelection).to.deep.eq(expectedTubesSelection);
-      expect(targetProfile.tubesSelectionAreas).to.deep.eq(expectedTubesSelectionAreas);
     });
 
     it('should throw a NotFoundError when targetProfile does not exists', async function () {

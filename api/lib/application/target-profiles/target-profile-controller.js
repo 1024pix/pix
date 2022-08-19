@@ -1,7 +1,6 @@
 const usecases = require('../../domain/usecases');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
 const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
 const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -78,15 +77,6 @@ module.exports = {
 
     await usecases.outdateTargetProfile({ id });
     return h.response({}).code(204);
-  },
-
-  async createTargetProfile_old(request) {
-    const targetProfileData = targetProfileSerializer.deserialize(request.payload);
-
-    const targetProfile = await usecases.createTargetProfile_old({
-      targetProfileData,
-    });
-    return targetProfileWithLearningContentSerializer.serialize(targetProfile);
   },
 
   async createTargetProfile(request) {
