@@ -7,15 +7,16 @@ module.exports = async function attachTargetProfilesToOrganization({
   targetProfileRepository,
   targetProfileShareRepository,
 }) {
-  const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
+  const uniqTargetProfileIds = _.uniq(targetProfileIds);
+  const foundTargetProfiles = await targetProfileRepository.findByIds(uniqTargetProfileIds);
   const foundTargetProfileIds = foundTargetProfiles.map((tp) => tp.id);
-  const unknownTargetProfileIds = _.difference(targetProfileIds, foundTargetProfileIds);
+  const unknownTargetProfileIds = _.difference(uniqTargetProfileIds, foundTargetProfileIds);
   if (unknownTargetProfileIds.length > 0) {
     throw new NotFoundError(`Le(s) profil-cible(s) [${unknownTargetProfileIds.join(', ')}] n'existe(nt) pas.`);
   }
 
   return targetProfileShareRepository.addTargetProfilesToOrganization({
     organizationId,
-    targetProfileIdList: targetProfileIds,
+    targetProfileIdList: uniqTargetProfileIds,
   });
 };

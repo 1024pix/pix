@@ -23,11 +23,33 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
     const organization = this.args.organization;
 
     try {
+      const targetProfileIdsBefore = organization.get('targetProfileSummaries').map(({ id }) => id);
+      const targetProfileIdsToAttach = this._getUniqueTargetProfileIds();
       await organization.attachTargetProfiles({
-        'target-profile-ids': this._getUniqueTargetProfiles(),
+        'target-profile-ids': targetProfileIdsToAttach,
       });
+      await organization.get('targetProfileSummaries').reload();
+      const targetProfileIdsAfter = organization.get('targetProfileSummaries').map(({ id }) => id);
+      const attachedIds = targetProfileIdsAfter.filter((id) => !targetProfileIdsBefore.includes(id));
+      const duplicatedIds = targetProfileIdsBefore.filter((id) => targetProfileIdsToAttach.includes(id));
+      const hasInserted = attachedIds.length > 0;
+      const hasDuplicated = duplicatedIds.length > 0;
+      const message = [];
+      if (hasInserted) {
+        message.push('Profil(s) cible(s) rattaché(s) avec succès.');
+      }
+      if (hasInserted && hasDuplicated) {
+        message.push('<br/>');
+      }
+      if (hasDuplicated) {
+        message.push(
+          `Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : ${duplicatedIds.join(
+            ', '
+          )}.`
+        );
+      }
       this.targetProfilesToAttach = '';
-      return this.notifications.success('Profil(s) cible(s) rattaché(s) avec succès.');
+      return this.notifications.success(message.join(''), { htmlContent: true });
     } catch (responseError) {
       this._handleResponseError(responseError);
     }
@@ -50,7 +72,7 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
     });
   }
 
-  _getUniqueTargetProfiles() {
+  _getUniqueTargetProfileIds() {
     const targetProfileIds = this.targetProfilesToAttach.split(',').map((targetProfileId) => targetProfileId.trim());
     return uniq(targetProfileIds);
   }

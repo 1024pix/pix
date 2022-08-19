@@ -33,7 +33,7 @@
 
         {{#if @organization.targetProfileSummaries}}
           <tbody>
-            {{#each @organization.targetProfileSummaries as |summary|}}
+            {{#each @organization.sortedTargetProfileSummaries as |summary|}}
               <tr
                 aria-label="Profil cible"
                 role="button"

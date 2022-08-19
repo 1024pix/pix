@@ -42,11 +42,12 @@ export default class Organization extends Model {
     return !!this.archivistFullName;
   }
 
+  get sortedTargetProfileSummaries() {
+    return this.targetProfileSummaries.sortBy('id');
+  }
+
   attachTargetProfiles = memberAction({
     path: 'attach-target-profiles',
     type: 'post',
-    after() {
-      this.targetProfileSummaries.reload();
-    },
   });
 }

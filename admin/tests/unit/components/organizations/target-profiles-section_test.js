@@ -18,9 +18,18 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
       test('it displays a success message', async function (assert) {
         const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
+        const getStub = sinon.stub();
+        const mapStub = sinon.stub();
+        getStub.returns({
+          reload: sinon.stub(),
+          map: mapStub,
+        });
+        mapStub.onCall(0).returns([]);
+        mapStub.onCall(1).returns(['1', '2']);
         component.args = {
           organization: {
             attachTargetProfiles: sinon.stub(),
+            get: getStub,
           },
         };
         component.args.organization.attachTargetProfiles.resolves();
@@ -29,10 +38,44 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         await component.attachTargetProfiles(event);
 
         assert.ok(component.args.organization.attachTargetProfiles.calledWith({ 'target-profile-ids': ['1', '2'] }));
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.organizationsToAttach, null);
-        assert.ok(component.notifications.success.calledWith('Profil(s) cible(s) rattaché(s) avec succès.'));
+        assert.strictEqual(component.targetProfilesToAttach, '');
+        assert.ok(
+          component.notifications.success.calledWithExactly('Profil(s) cible(s) rattaché(s) avec succès.', {
+            htmlContent: true,
+          })
+        );
+      });
+
+      test('it displays a message with duplicated ids when trying to attach already attached target profiles', async function (assert) {
+        const component = createComponent('component:organizations/target-profiles-section');
+        component.notifications = { success: sinon.stub() };
+        const getStub = sinon.stub();
+        const mapStub = sinon.stub();
+        getStub.returns({
+          reload: sinon.stub(),
+          map: mapStub,
+        });
+        mapStub.onCall(0).returns(['1', '2']);
+        mapStub.onCall(1).returns(['1', '2', '3']);
+        component.args = {
+          organization: {
+            attachTargetProfiles: sinon.stub(),
+            get: getStub,
+          },
+        };
+        component.args.organization.attachTargetProfiles.resolves();
+        component.targetProfilesToAttach = '1,2,3';
+
+        await component.attachTargetProfiles(event);
+
+        assert.ok(
+          component.notifications.success.calledWith(
+            'Profil(s) cible(s) rattaché(s) avec succès.<br/>Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : 1, 2.',
+            {
+              htmlContent: true,
+            }
+          )
+        );
       });
     });
 
@@ -47,14 +90,14 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             ],
           };
           component.notifications = { error: sinon.stub() };
-          component.args = { organization: { attachTargetProfiles: sinon.stub().rejects(errors) } };
+          const getStub = sinon.stub();
+          getStub.returns([]);
+          component.args = { organization: { get: getStub, attachTargetProfiles: sinon.stub().rejects(errors) } };
           component.targetProfilesToAttach = '1,1,2,3,3';
 
           await component.attachTargetProfiles(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.targetProfilesToAttach, '1,1,2,3,3');
+          assert.strictEqual(component.targetProfilesToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed 2'));
         });
@@ -68,14 +111,14 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             ],
           };
           component.notifications = { error: sinon.stub() };
-          component.args = { organization: { attachTargetProfiles: sinon.stub().rejects(errors) } };
+          const getStub = sinon.stub();
+          getStub.returns([]);
+          component.args = { organization: { get: getStub, attachTargetProfiles: sinon.stub().rejects(errors) } };
           component.targetProfilesToAttach = '1,1,5,3,3';
 
           await component.attachTargetProfiles(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.targetProfilesToAttach, '1,1,5,3,3');
+          assert.strictEqual(component.targetProfilesToAttach, '1,1,5,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed too 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed too 2'));
         });
@@ -89,17 +132,15 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             ],
           };
           component.notifications = { error: sinon.stub() };
-          component.args = { organization: { attachTargetProfiles: sinon.stub().rejects(errors) } };
+          const getStub = sinon.stub();
+          getStub.returns([]);
+          component.args = { organization: { get: getStub, attachTargetProfiles: sinon.stub().rejects(errors) } };
           component.targetProfilesToAttach = '1,1,2,3,3';
 
           await component.attachTargetProfiles(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.targetProfilesToAttach, '1,1,2,3,3');
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
+          assert.strictEqual(component.targetProfilesToAttach, '1,1,2,3,3');
+          assert.strictEqual(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
       });
 
@@ -108,14 +149,14 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
           const component = createComponent('component:organizations/target-profiles-section');
           const errors = {};
           component.notifications = { error: sinon.stub() };
-          component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
+          const getStub = sinon.stub();
+          getStub.returns([]);
+          component.args = { targetProfile: { get: getStub, attachOrganizations: sinon.stub().rejects(errors) } };
           component.targetProfilesToAttach = '1,1,2,3,3';
 
           await component.attachTargetProfiles(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.targetProfilesToAttach, '1,1,2,3,3');
+          assert.strictEqual(component.targetProfilesToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('Une erreur est survenue.'));
         });
       });
