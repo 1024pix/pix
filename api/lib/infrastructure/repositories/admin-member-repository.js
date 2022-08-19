@@ -1,4 +1,4 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const AdminMember = require('../../domain/models/AdminMember');
 const { AdminMemberError } = require('../../domain/errors');
 

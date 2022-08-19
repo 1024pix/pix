@@ -1,5 +1,5 @@
 const bluebird = require('bluebird');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const { fetchPage } = require('../utils/knex-utils');
 const targetProfileRepository = require('./target-profile-with-learning-content-repository');
 const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');

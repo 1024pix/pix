@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const constants = require('../constants');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
