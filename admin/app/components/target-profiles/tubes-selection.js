@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
 
+const MAX_TUBE_LEVEL = 8;
+
 export default class TubesSelection extends Component {
   @service notifications;
 
@@ -48,34 +50,34 @@ export default class TubesSelection extends Component {
   }
 
   @action
-  async checkTube(tube) {
+  checkTube(tube) {
     if (this.selectedTubeIds.includes(tube.id)) {
       return;
     }
     this.selectedTubeIds.pushObject(tube.id);
 
-    await this._triggerOnChange();
+    this._triggerOnChange();
   }
 
   @action
-  async uncheckTube(tube) {
+  uncheckTube(tube) {
     const index = this.selectedTubeIds.indexOf(tube.id);
     if (index === -1) {
       return;
     }
     this.selectedTubeIds.removeAt(index);
 
-    await this._triggerOnChange();
+    this._triggerOnChange();
   }
 
   @action
-  async setLevelTube(tubeId, level) {
+  setLevelTube(tubeId, level) {
     this.tubeLevels = {
       ...this.tubeLevels,
       [tubeId]: parseInt(level),
     };
 
-    await this._triggerOnChange();
+    this._triggerOnChange();
   }
 
   @action
@@ -95,7 +97,7 @@ export default class TubesSelection extends Component {
       return area1.code - area2.code;
     });
 
-    await this._triggerOnChange();
+    this._triggerOnChange();
   }
 
   @action
@@ -105,9 +107,9 @@ export default class TubesSelection extends Component {
     reader.readAsText(file);
   }
 
-  async _triggerOnChange() {
-    const selectedTubesWithLevelAndSkills = await this._getSelectedTubesWithLevelAndSkills();
-    this.args.onChange(selectedTubesWithLevelAndSkills);
+  _triggerOnChange() {
+    const selectedTubesWithLevel = this._getSelectedTubesWithLevel();
+    this.args.onChange(selectedTubesWithLevel);
   }
 
   get selectedTubesCount() {
@@ -128,7 +130,7 @@ export default class TubesSelection extends Component {
     );
   }
 
-  async _onFileLoad(event) {
+  _onFileLoad(event) {
     try {
       const data = JSON.parse(event.target.result);
 
@@ -143,7 +145,7 @@ export default class TubesSelection extends Component {
         throw new Error("Le format du fichier n'est pas reconnu.");
       }
 
-      await this._triggerOnChange();
+      this._triggerOnChange();
       this.notifications.success('Fichier bien importé.');
     } catch (e) {
       this.notifications.error(e.message);
@@ -175,22 +177,10 @@ export default class TubesSelection extends Component {
     return tubes.length;
   }
 
-  async _getSelectedTubesWithLevelAndSkills() {
-    return Promise.all(
-      this._selectedTubes.map(async (tube) => {
-        const skills = await tube.skills;
-
-        const level = this.tubeLevels[tube.id] ?? 8;
-
-        return {
-          id: tube.id,
-          level,
-          skills: skills
-            .toArray()
-            .filter((skill) => skill.level <= level)
-            .map((skill) => skill.id),
-        };
-      })
-    );
+  _getSelectedTubesWithLevel() {
+    return this._selectedTubes.map((tube) => {
+      const level = this.tubeLevels[tube.id] ?? MAX_TUBE_LEVEL;
+      return { id: tube.id, level };
+    });
   }
 }
