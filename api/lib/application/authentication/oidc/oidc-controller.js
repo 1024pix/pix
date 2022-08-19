@@ -37,10 +37,7 @@ module.exports = {
       oidcAuthenticationService,
     });
 
-    if (result.isAuthenticationComplete) {
-      return h.response(oidcSerializer.serialize(result)).code(200);
-    }
-    return h.response().code(204);
+    return h.response(oidcSerializer.serialize(result)).code(200);
   },
 
   async getAuthenticationUrl(request, h) {
