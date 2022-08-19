@@ -1,5 +1,14 @@
 const _ = require('lodash');
+
 const Models = require('../../domain/models');
+const path = require('path');
+const fs = require('fs');
+
+const typescriptModelList = fs
+  .readdirSync(path.join(__dirname, '..', '..', 'domain', 'models'))
+  .filter((file) => file.endsWith('.ts'))
+  .map((fileName) => fileName.replace('.ts', ''));
+
 
 module.exports = {
   buildDomainObjects,
@@ -19,6 +28,11 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
 
 function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
   const Model = Models[BookshelfClass.modelName];
+
+  if (typescriptModelList.includes(BookshelfClass.modelName)) {
+    return new Model(bookshelfObjectJson);
+  }
+
   const domainObject = new Model();
 
   const mappedObject = _.mapValues(domainObject, (value, key) => {
