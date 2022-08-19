@@ -1,5 +1,5 @@
+import { Request } from "@hapi/hapi";
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
-
 const tagController = require('../../../../lib/application/tags/tag-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const tagSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
@@ -14,7 +14,7 @@ describe('Unit | Application | Tags | tag-controller', function () {
       sinon.stub(usecases.createTag, 'execute').resolves(createdTag);
       sinon.stub(tagSerializer, 'serialize').withArgs(createdTag).returns(serializedTag);
 
-      const request = { payload: { data: { attributes: { name: 'tag1' } } } };
+      const request = { payload: { data: { attributes: { name: 'tag1' } } } } as Request;
 
       // when
       const result = await tagController.create(request, hFake);
