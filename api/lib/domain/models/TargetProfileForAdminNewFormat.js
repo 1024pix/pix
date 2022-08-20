@@ -41,6 +41,11 @@ class TargetProfileForAdminNewFormat {
         })
     );
   }
+
+  getContentAsJson() {
+    const cappedTubes = this.areas.flatMap((area) => area.getCappedTubes());
+    return JSON.stringify(cappedTubes);
+  }
 }
 
 class TP_Area {
@@ -62,6 +67,10 @@ class TP_Area {
           })
       );
   }
+
+  getCappedTubes() {
+    return this.competences.flatMap((competence) => competence.getCappedTubes());
+  }
 }
 
 class TP_Competence {
@@ -80,6 +89,10 @@ class TP_Competence {
             tubes,
           })
       );
+  }
+
+  getCappedTubes() {
+    return this.thematics.flatMap((thematic) => thematic.getCappedTubes());
   }
 }
 
@@ -102,6 +115,10 @@ class TP_Thematic {
           })
       );
   }
+
+  getCappedTubes() {
+    return this.tubes.map((tube) => tube.asCappedTubeDTO());
+  }
 }
 
 class TP_Tube {
@@ -112,6 +129,13 @@ class TP_Tube {
     this.level = level;
     this.mobile = mobile;
     this.tablet = tablet;
+  }
+
+  asCappedTubeDTO() {
+    return {
+      id: this.id,
+      level: this.level,
+    };
   }
 }
 

@@ -166,6 +166,34 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/target-profiles/{id}/content-json',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.getContentAsJsonFile,
+        tags: ['api', 'admin', 'target-profiles', 'json'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer le profil cible dans un fichier json',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/target-profiles',
       config: {
