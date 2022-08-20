@@ -1,6 +1,7 @@
 import { memberAction } from 'ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
 import map from 'lodash/map';
+import ENV from 'pix-admin/config/environment';
 
 export const categories = {
   COMPETENCES: 'Les 16 compétences',
@@ -40,6 +41,10 @@ export default class TargetProfile extends Model {
 
   get sortedNewAreas() {
     return this.newAreas.sortBy('code');
+  }
+
+  get urlToJsonContent() {
+    return `${ENV.APP.API_HOST}/api/admin/target-profiles/${this.id}/content-json`;
   }
 
   attachOrganizations = memberAction({
