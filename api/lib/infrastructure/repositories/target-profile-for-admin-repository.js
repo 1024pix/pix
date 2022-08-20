@@ -95,7 +95,11 @@ async function _toDomainOldFormat(targetProfileDTO, skillIds, locale) {
 }
 
 async function _toDomainNewFormat(targetProfileDTO, tubesData, locale) {
-  const { areas, competences, thematics, tubes } = await _getLearningContent_new(tubesData, locale);
+  const { areas, competences, thematics, tubes } = await _getLearningContent_new(
+    targetProfileDTO.id,
+    tubesData,
+    locale
+  );
 
   return new TargetProfileForAdminNewFormat({
     ...targetProfileDTO,
@@ -125,9 +129,17 @@ async function _getLearningContent_old(skillIds, locale) {
   };
 }
 
-async function _getLearningContent_new(tubesData, locale) {
+async function _getLearningContent_new(targetProfileId, tubesData, locale) {
   const tubeIds = tubesData.map((data) => data.tubeId);
   const tubes = await tubeRepository.findByRecordIds(tubeIds, locale);
+  const notFoundTubeIds = tubeIds.filter((id) => !tubes.map((tube) => tube.id).includes(id));
+  if (notFoundTubeIds.length > 0) {
+    throw new NotFoundError(
+      `Les sujets [${notFoundTubeIds.join(
+        ', '
+      )}] du profil cible ${targetProfileId} n'existent pas dans le référentiel.`
+    );
+  }
 
   const competenceIds = _.keys(_.groupBy(tubes, 'competenceId'));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
