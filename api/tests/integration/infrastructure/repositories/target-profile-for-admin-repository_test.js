@@ -346,6 +346,91 @@ describe('Integration | Repository | target-profile-for-admin', function () {
       });
     });
 
+    context('when some target profile tubes do no exist in learning content', function () {
+      it('should throw a NotFound error', async function () {
+        // given
+        databaseBuilder.factory.buildOrganization({ id: 66 });
+        const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
+          id: 1,
+          name: 'Mon Super Profil Cible qui déchire',
+          outdated: false,
+          isPublic: true,
+          createdAt: new Date('2020-01-01'),
+          ownerOrganizationId: 66,
+          imageUrl: 'some/image/url',
+          description: 'cool stuff',
+          comment: 'i like it',
+          category: 'SOME_CATEGORY',
+          isSimplifiedAccess: true,
+        });
+        databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfileDB.id,
+          tubeId: 'recTube1',
+          level: 4,
+        });
+        databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfileDB.id,
+          tubeId: 'recTube2',
+          level: 2,
+        });
+        databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfileDB.id,
+          tubeId: 'recTube3',
+          level: 8,
+        });
+        await databaseBuilder.commit();
+        const learningContent = {
+          areas: [
+            {
+              id: 'recAreaA',
+              titleFrFr: 'titleFRA',
+              color: 'colorA',
+              code: 'codeA',
+              frameworkId: 'fmk1',
+              competenceIds: ['recCompA', 'recCompB'],
+            },
+          ],
+          competences: [
+            {
+              id: 'recCompA',
+              nameFrFr: 'nameFRA',
+              index: '1',
+              areaId: 'recAreaA',
+              origin: 'Pix',
+              thematicIds: ['recThemA', 'recThemB'],
+            },
+          ],
+          thematics: [
+            {
+              id: 'recThemA',
+              name: 'nameFRA',
+              index: '1',
+              competenceId: 'recCompA',
+              tubeIds: ['recTube1'],
+            },
+          ],
+          tubes: [
+            {
+              id: 'recTube2',
+              competenceId: 'recCompA',
+              name: 'tubeName2',
+              practicalTitleFrFr: 'practicalTitleFR2',
+            },
+          ],
+        };
+        mockLearningContent(learningContent);
+
+        // when
+        const err = await catchErr(targetProfileForAdminRepository.getAsNewFormat)({ id: 1 });
+
+        // then
+        expect(err).to.be.instanceOf(NotFoundError);
+        expect(err.message).to.deep.equal(
+          "Les sujets [recTube1, recTube3] du profil cible 1 n'existent pas dans le référentiel."
+        );
+      });
+    });
+
     context('when target profile exists and is valid', function () {
       it('should return a new format target profile', async function () {
         // given
