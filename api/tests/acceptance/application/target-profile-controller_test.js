@@ -669,4 +669,45 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       expect(response.result.data).to.deep.equal(expectedData);
     });
   });
+
+  describe('GET /api/admin/target-profiles/{id}/content-json', function () {
+    let user;
+    let targetProfileId;
+
+    beforeEach(function () {
+      const learningContent = {
+        areas: [{ id: 'recArea', competenceIds: ['recCompetence'] }],
+        competences: [{ id: 'recCompetence', areaId: 'recArea', thematicIds: ['recThematic'] }],
+        thematics: [{ id: 'recThematic', name: 'somename', tubeIds: ['recTube'], competenceId: 'recCompetence' }],
+        tubes: [{ id: 'recTube', competenceId: 'recCompetence' }],
+        skills: [],
+        challenges: [],
+      };
+      mockLearningContent(learningContent);
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({ name: 'Roxane est très jolie' }).id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube', level: 6 });
+      user = databaseBuilder.factory.buildUser.withRole();
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return 200 and the json file', async function () {
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfileId}/content-json`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.payload).to.equal('[{"id":"recTube","level":6}]');
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename=profil_cible_Roxane est très jolie.json'
+      );
+      expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
+    });
+  });
 });

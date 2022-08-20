@@ -117,6 +117,7 @@ module.exports = {
   buildTargetedSkill: require('./build-targeted-skill'),
   buildTargetedTube: require('./build-targeted-tube'),
   buildTargetProfile: require('./build-target-profile'),
+  buildTargetProfileForAdmin: require('./build-target-profile-for-admin'),
   buildTargetProfileForCreation: require('./build-target-profile-for-creation'),
   buildOrganizationsToAttachToTargetProfile: require('./build-organizations-to-attach-to-target-profile'),
   buildTargetProfileWithLearningContent: require('./build-target-profile-with-learning-content'),

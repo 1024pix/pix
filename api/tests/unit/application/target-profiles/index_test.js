@@ -501,6 +501,91 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
+  describe('GET /api/admin/target-profiles/{id}/content-json', function () {
+    it('should allow to controller if user has role SUPER_ADMIN', async function () {
+      // given
+      sinon.stub(targetProfileController, 'getContentAsJsonFile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/admin/target-profiles/1/content-json');
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.getContentAsJsonFile);
+    });
+
+    it('should allow to controller if user has role SUPPORT', async function () {
+      // given
+      sinon.stub(targetProfileController, 'getContentAsJsonFile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/admin/target-profiles/1/content-json');
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.getContentAsJsonFile);
+    });
+
+    it('should allow to controller if user has role METIER', async function () {
+      // given
+      sinon.stub(targetProfileController, 'getContentAsJsonFile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/admin/target-profiles/1/content-json');
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.getContentAsJsonFile);
+    });
+
+    it('should return 403 without reaching controller if user has not an allowed role', async function () {
+      // given
+      sinon.stub(targetProfileController, 'getContentAsJsonFile').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/target-profiles/1/content-json');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(targetProfileController.getContentAsJsonFile);
+    });
+  });
+
   describe('POST /api/admin/target-profiles/{id}/attach-organizations', function () {
     const method = 'POST';
     const url = '/api/admin/target-profiles/3/attach-organizations';

@@ -212,4 +212,30 @@ describe('Unit | Controller | target-profile-controller', function () {
       });
     });
   });
+
+  describe('#getContentAsJsonFile', function () {
+    it('should succeed', async function () {
+      // given
+      sinon.stub(usecases, 'getTargetProfileContentAsJson');
+      usecases.getTargetProfileContentAsJson.withArgs({ targetProfileId: 123 }).resolves({
+        jsonContent: 'json_content',
+        fileName: 'file_name',
+      });
+      const request = {
+        params: {
+          id: 123,
+        },
+      };
+
+      // when
+      const response = await targetProfileController.getContentAsJsonFile(request, hFake);
+
+      // then
+      expect(response.source).to.equal('json_content');
+      expect(response.headers).to.deep.equal({
+        'Content-Type': 'text/json;charset=utf-8',
+        'Content-Disposition': 'attachment; filename=file_name',
+      });
+    });
+  });
 });

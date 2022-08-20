@@ -50,6 +50,17 @@ module.exports = {
     return badgeSerializer.serialize(badges);
   },
 
+  async getContentAsJsonFile(request, h) {
+    const targetProfileId = request.params.id;
+
+    const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ targetProfileId });
+
+    return h
+      .response(jsonContent)
+      .header('Content-Type', 'text/json;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
+
   async attachOrganizations(request, h) {
     const organizationIds = request.payload['organization-ids'];
     const targetProfileId = request.params.id;

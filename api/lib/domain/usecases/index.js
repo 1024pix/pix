@@ -349,6 +349,7 @@ module.exports = injectDependencies(
     getSupervisorKitSessionInfo: require('./get-supervisor-kit-session-info'),
     getTargetProfileDetails: require('./get-target-profile-details'),
     getTargetProfileForAdmin: require('./get-target-profile-for-admin'),
+    getTargetProfileContentAsJson: require('./get-target-profile-content-as-json'),
     getFrameworks: require('./get-frameworks'),
     getFrameworkAreas: require('./get-framework-areas'),
     getAccountRecoveryDetails: require('./account-recovery/get-account-recovery-details'),
