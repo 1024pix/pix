@@ -112,9 +112,9 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
     });
 
     it('should have fetched the target profile', function () {
-      expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWithExactly(
-        campaignParticipationId
-      );
+      expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWithExactly({
+        campaignParticipationId,
+      });
     });
 
     it('should have fetched the most recent knowledge elements', function () {

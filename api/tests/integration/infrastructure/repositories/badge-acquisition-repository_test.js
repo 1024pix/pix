@@ -28,7 +28,10 @@ describe('Integration | Repository | Badge Acquisition', function () {
     it('should persist the badge acquisition in db', async function () {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
+        return badgeAcquisitionRepository.createOrUpdate({
+          badgeAcquisitionsToCreate: [badgeAcquisitionToCreate],
+          domainTransaction,
+        });
       });
 
       // then
@@ -48,7 +51,10 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
+        return badgeAcquisitionRepository.createOrUpdate({
+          badgeAcquisitionToCreate: [badgeAcquisitionToCreate],
+          domainTransaction,
+        });
       });
 
       // then
@@ -60,42 +66,22 @@ describe('Integration | Repository | Badge Acquisition', function () {
       expect(result[0]).to.contains(badgeAcquisitionToCreate);
       expect(result[0].createdAt).to.not.equal(result[0].updatedAt);
     });
-  });
 
-  describe('#hasAcquiredBadge', function () {
-    it('should return true when user has acquired badge', async function () {
-      // given
-      databaseBuilder.factory.buildUser({ id: 123 });
-      databaseBuilder.factory.buildBadge({ id: 456, key: 'someKey' });
-      databaseBuilder.factory.buildBadgeAcquisition({
-        badgeId: 456,
-        userId: 123,
+    context('when no domainTransaction is passed in parameters', function () {
+      it('should use knex instead to persist the badge acquisition', async function () {
+        // when
+        await badgeAcquisitionRepository.createOrUpdate({
+          badgeAcquisitionsToCreate: [badgeAcquisitionToCreate],
+        });
+
+        // then
+        const result = await knex('badge-acquisitions')
+          .where('userId', badgeAcquisitionToCreate.userId)
+          .andWhere('badgeId', badgeAcquisitionToCreate.badgeId)
+          .andWhere('campaignParticipationId', badgeAcquisitionToCreate.campaignParticipationId);
+        expect(result).to.have.lengthOf(1);
+        expect(result[0]).to.contains(badgeAcquisitionToCreate);
       });
-      await databaseBuilder.commit();
-
-      // when
-      const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ badgeKey: 'someKey', userId: 123 });
-
-      // then
-      expect(hasAcquiredBadge).to.be.true;
-    });
-
-    it('should return false when user has not acquired badge', async function () {
-      // given
-      databaseBuilder.factory.buildUser({ id: 123 });
-      databaseBuilder.factory.buildUser({ id: 789 });
-      databaseBuilder.factory.buildBadge({ id: 456, key: 'someKey' });
-      databaseBuilder.factory.buildBadgeAcquisition({
-        badgeId: 456,
-        userId: 789,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ badgeKey: 'someKey', userId: 123 });
-
-      // then
-      expect(hasAcquiredBadge).to.be.false;
     });
   });
 
@@ -113,7 +99,13 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
     it('should check that the user has acquired the badge', async function () {
       // when
-      const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [badgeId] });
+      const acquiredBadgeIds = await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.getAcquiredBadgeIds({
+          userId,
+          badgeIds: [badgeId],
+          domainTransaction,
+        });
+      });
 
       // then
       expect(acquiredBadgeIds).to.deep.equal([badgeId]);
@@ -121,10 +113,25 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
     it('should check that the user has not acquired the badge', async function () {
       // when
-      const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1] });
+      const acquiredBadgeIds = await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1], domainTransaction });
+      });
 
       // then
       expect(acquiredBadgeIds.length).to.equal(0);
+    });
+
+    context('when no domainTransaction is passed in parameters', function () {
+      it('should use knex instead to return acquired badges', async function () {
+        // when
+        const acquiredBadgesIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
+          userId,
+          badgeIds: [badgeId],
+        });
+
+        // then
+        expect(acquiredBadgesIds).to.deep.equal([badgeId]);
+      });
     });
   });
 
@@ -163,15 +170,30 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
       it('should return badge ids acquired by user for a campaignParticipation', async function () {
         // when
-        const acquiredBadgesByCampaignParticipations =
-          await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
+        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async (domainTransaction) => {
+          return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
             campaignParticipationsIds: [campaignParticipationId],
+            domainTransaction,
           });
+        });
 
         // then
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId][0]).to.includes(badge1);
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId][1]).to.includes(badge2);
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId].length).to.eq(2);
+      });
+
+      context('when no domainTransaction is passed in parameters', function () {
+        it('should use knex instead to return badge ids acquired by user for a campaignParticipation', async function () {
+          // when
+          const acquiredBadgesByCampaignParticipations =
+            await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
+              campaignParticipationsIds: [campaignParticipationId],
+            });
+
+          // then
+          expect(acquiredBadgesByCampaignParticipations[campaignParticipationId].length).to.equal(2);
+        });
       });
     });
 
@@ -223,9 +245,12 @@ describe('Integration | Repository | Badge Acquisition', function () {
       it('should return badge ids acquired by user for a campaignParticipation', async function () {
         // when
         const campaignParticipationsIds = [campaignParticipationId1, campaignParticipationId2];
-        const acquiredBadgesByCampaignParticipations =
-          await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
-
+        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async (domainTransaction) => {
+          return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
+            campaignParticipationsIds,
+            domainTransaction,
+          });
+        });
         // then
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId2][0]).to.includes(badge1);
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId2][1]).to.includes(badge3);
@@ -288,8 +313,12 @@ describe('Integration | Repository | Badge Acquisition', function () {
       it('should return badge ids acquired by user for a campaignParticipation', async function () {
         // when
         const campaignParticipationsIds = [campaignParticipationId];
-        const acquiredBadgesByCampaignParticipations =
-          await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
+        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async (domainTransaction) => {
+          return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
+            campaignParticipationsIds,
+            domainTransaction,
+          });
+        });
 
         // then
         expect(_.map(acquiredBadgesByCampaignParticipations[campaignParticipationId], 'id')).to.deep.equal([
@@ -297,44 +326,6 @@ describe('Integration | Repository | Badge Acquisition', function () {
           badge2.id,
         ]);
       });
-    });
-  });
-
-  describe('#getCampaignAcquiredBadgesByUsers', function () {
-    let campaign;
-    let user1;
-    let user2;
-    let user3;
-    let badge1;
-    let badge2;
-
-    beforeEach(async function () {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-      badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
-      badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: targetProfile.id });
-      user1 = databaseBuilder.factory.buildUser();
-      user2 = databaseBuilder.factory.buildUser();
-      user3 = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user2.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user2.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user3.id });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return badge ids acquired by user for a campaign', async function () {
-      // when
-      const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({
-        campaignId: campaign.id,
-        userIds: [user1.id, user2.id],
-      });
-
-      // then
-      expect(acquiredBadgeIdsByUsers[user1.id][0]).to.includes(badge1);
-      expect(acquiredBadgeIdsByUsers[user2.id][0]).to.includes(badge1);
-      expect(acquiredBadgeIdsByUsers[user2.id][1]).to.includes(badge2);
     });
   });
 
@@ -367,8 +358,11 @@ describe('Integration | Repository | Badge Acquisition', function () {
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
-          userId: user.id,
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+          return badgeAcquisitionRepository.findHighestCertifiable({
+            userId: user.id,
+            domainTransaction,
+          });
         });
 
         // then
@@ -411,6 +405,81 @@ describe('Integration | Repository | Badge Acquisition', function () {
           }),
           ['id']
         );
+      });
+
+      context('when no domainTransaction is passed in parameters', function () {
+        it('should use knex instead to return the highest level certifiable acquired badge', async function () {
+          // given
+          const user = databaseBuilder.factory.buildUser();
+          const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
+            key: 'PIX_DROIT_MAITRE_CERTIF',
+          });
+
+          databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
+
+          const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
+          const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
+            badgeId: acquiredBadge.id,
+            complementaryCertificationId,
+            level: 2,
+            label: 'Label Certif Complémentaire',
+          });
+
+          const skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: acquiredBadge.id });
+
+          const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
+            badgeId: acquiredBadge.id,
+            skillSetIds: [skillSet.id],
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
+            userId: user.id,
+          });
+
+          // then
+          const expectedSkillSetsForCertifiableBadge = [
+            {
+              id: skillSet.id,
+              badgeId: acquiredBadge.id,
+              name: skillSet.name,
+              skillIds: skillSet.skillIds,
+            },
+          ];
+
+          const expectedBadgeCriteria = [
+            {
+              id: badgeCriterion.id,
+              scope: badgeCriterion.scope,
+              threshold: badgeCriterion.threshold,
+              skillSetIds: badgeCriterion.skillSetIds,
+              badgeId: acquiredBadge.id,
+            },
+          ];
+
+          const expectedBadge = new Badge({
+            ...acquiredBadge,
+            complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
+              ...complementaryCertificationBadge,
+            }),
+          });
+          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+          expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(
+            domainBuilder.buildBadgeAcquisition({
+              badge: domainBuilder.buildBadge({
+                ...expectedBadge,
+                skillSets: expectedSkillSetsForCertifiableBadge,
+                badgeCriteria: expectedBadgeCriteria,
+              }),
+              userId: user.id,
+              badgeId: expectedBadge.id,
+              campaignParticipationId: null,
+            }),
+            ['id']
+          );
+        });
       });
     });
 
@@ -473,8 +542,11 @@ describe('Integration | Repository | Badge Acquisition', function () {
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
-          userId: user.id,
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+          return badgeAcquisitionRepository.findHighestCertifiable({
+            userId: user.id,
+            domainTransaction,
+          });
         });
 
         // then
@@ -499,8 +571,11 @@ describe('Integration | Repository | Badge Acquisition', function () {
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
-          userId: userWithoutCertifiableBadge.id,
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+          return badgeAcquisitionRepository.findHighestCertifiable({
+            userId: userWithoutCertifiableBadge.id,
+            domainTransaction,
+          });
         });
 
         // then

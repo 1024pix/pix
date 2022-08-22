@@ -288,7 +288,7 @@ describe('Integration | Repository | Target-profile', function () {
   });
 
   describe('#getByCampaignParticipationId', function () {
-    let campaignParticipationId, targetProfileId;
+    let campaignParticipationId, targetProfileId, skillAssociatedToTargetProfile;
 
     beforeEach(async function () {
       const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -300,7 +300,7 @@ describe('Integration | Repository | Target-profile', function () {
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
-      const skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
+      skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
       databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildCampaign();
       databaseBuilder.factory.buildStage({ targetProfileId, threshold: 40 });
@@ -312,7 +312,7 @@ describe('Integration | Repository | Target-profile', function () {
 
     it('should return the target profile matching the campaign participation id', async function () {
       // when
-      const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipationId);
+      const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
 
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
@@ -320,13 +320,53 @@ describe('Integration | Repository | Target-profile', function () {
 
     it('should return the target profile with the stages ordered by threshold ASC', async function () {
       // when
-      const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipationId);
+      const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
 
       // then
       expect(targetProfile.stages).to.exist;
       expect(targetProfile.stages).to.have.lengthOf(2);
       expect(targetProfile.stages[0].threshold).to.equal(20);
       expect(targetProfile.stages[1].threshold).to.equal(40);
+    });
+
+    it('should return the target profile with the related skills', async function () {
+      // when
+      const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
+
+      // then
+      expect(targetProfile.skills).to.exist;
+      expect(targetProfile.skills).to.have.lengthOf(1);
+      expect(targetProfile.skills[0]).to.deep.equal(new Skill(skillAssociatedToTargetProfile));
+    });
+
+    context('when they are same skillId for the target profile', function () {
+      it('should return only one skill', async function () {
+        // given
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        const { skillId: skillId1 } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
+        const { skillId: skillId2 } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
+
+        const skillAssociatedToTargetProfile1 = { id: skillId1, name: '@Acquis2' };
+        const skillAssociatedToTargetProfile2 = { id: skillId2, name: '@Acquis3' };
+
+        const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+
+        await databaseBuilder.commit();
+
+        skillDatasource.findOperativeByRecordIds.resolves([
+          skillAssociatedToTargetProfile1,
+          skillAssociatedToTargetProfile2,
+        ]);
+
+        // when
+        const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
+
+        // then
+        expect(targetProfile.skills).to.exist;
+        expect(targetProfile.skills).to.have.lengthOf(1);
+        expect(targetProfile.skills[0]).to.deep.equal(new Skill(skillAssociatedToTargetProfile));
+      });
     });
   });
 
