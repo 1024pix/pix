@@ -6,21 +6,26 @@ const { NotFoundError, UserNotFoundError } = require('../../../../../lib/domain/
 describe('Integration | Infrastructure | Repository | campaign-for-archiving-repository', function () {
   describe('#save', function () {
     it('updates the campaign', async function () {
-      databaseBuilder.factory.buildCampaign({ code: '123ABC', archivedAt: null, archivedBy: null });
+      databaseBuilder.factory.buildCampaign({ id: 1, code: '123ABC', archivedAt: null, archivedBy: null });
       databaseBuilder.factory.buildUser({ id: 12 });
       await databaseBuilder.commit();
-      const campaign = new Campaign({ code: '123ABC', archivedAt: '2022-01-22', archivedBy: 12 });
+      const campaign = new Campaign({ id: 1, code: '123ABC', archivedAt: '2022-01-22', archivedBy: 12 });
 
       await campaignForArchivingRepository.save(campaign);
       const actualCampaign = await campaignForArchivingRepository.getByCode('123ABC');
 
-      expect(actualCampaign).to.deep.equal({ code: '123ABC', archivedAt: new Date('2022-01-22'), archivedBy: 12 });
+      expect(actualCampaign).to.deep.equal({
+        id: 1,
+        code: '123ABC',
+        archivedAt: new Date('2022-01-22'),
+        archivedBy: 12,
+      });
     });
 
     context('when there is several campaign', function () {
       it('updates the campaign with the correct code', async function () {
-        databaseBuilder.factory.buildCampaign({ code: 'ABC123', archivedAt: null, archivedBy: null });
-        databaseBuilder.factory.buildCampaign({ code: 'ABC456', archivedAt: null, archivedBy: null });
+        databaseBuilder.factory.buildCampaign({ id: 1, code: 'ABC123', archivedAt: null, archivedBy: null });
+        databaseBuilder.factory.buildCampaign({ id: 2, code: 'ABC456', archivedAt: null, archivedBy: null });
         databaseBuilder.factory.buildUser({ id: 12 });
         await databaseBuilder.commit();
 
@@ -30,8 +35,8 @@ describe('Integration | Infrastructure | Repository | campaign-for-archiving-rep
         const campaign1 = await campaignForArchivingRepository.getByCode('ABC123');
         const campaign2 = await campaignForArchivingRepository.getByCode('ABC456');
 
-        expect(campaign1).to.deep.equal({ code: 'ABC123', archivedAt: new Date('2022-01-22'), archivedBy: 12 });
-        expect(campaign2).to.deep.equal({ code: 'ABC456', archivedAt: null, archivedBy: null });
+        expect(campaign1).to.deep.equal({ id: 1, code: 'ABC123', archivedAt: new Date('2022-01-22'), archivedBy: 12 });
+        expect(campaign2).to.deep.equal({ id: 2, code: 'ABC456', archivedAt: null, archivedBy: null });
       });
     });
 
@@ -51,18 +56,38 @@ describe('Integration | Infrastructure | Repository | campaign-for-archiving-rep
 
   describe('#getByCode', function () {
     it('find the campaign with the correct code', async function () {
-      databaseBuilder.factory.buildCampaign({ code: '123ABC', archivedAt: null, archivedBy: null });
+      databaseBuilder.factory.buildCampaign({ id: 1, code: '123ABC', archivedAt: null, archivedBy: null });
       databaseBuilder.factory.buildUser({ id: 12 });
       await databaseBuilder.commit();
 
       const actualCampaign = await campaignForArchivingRepository.getByCode('123ABC');
 
-      expect(actualCampaign).to.deep.equal({ code: '123ABC', archivedAt: null, archivedBy: null });
+      expect(actualCampaign).to.deep.equal({ id: 1, code: '123ABC', archivedAt: null, archivedBy: null });
     });
 
     context('when there the campaign does not exists', function () {
       it('throws an error', async function () {
         const error = await catchErr(campaignForArchivingRepository.getByCode)('ABC123');
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+  });
+
+  describe('#get', function () {
+    it('find the campaign with the correct id', async function () {
+      databaseBuilder.factory.buildCampaign({ id: 2, code: '123ABC', archivedAt: null, archivedBy: null });
+      databaseBuilder.factory.buildUser({ id: 12 });
+      await databaseBuilder.commit();
+
+      const actualCampaign = await campaignForArchivingRepository.get(2);
+
+      expect(actualCampaign).to.deep.equal({ id: 2, code: '123ABC', archivedAt: null, archivedBy: null });
+    });
+
+    context('when there the campaign does not exists', function () {
+      it('throws an error', async function () {
+        const error = await catchErr(campaignForArchivingRepository.get)(1);
 
         expect(error).to.be.an.instanceOf(NotFoundError);
       });

@@ -15,7 +15,15 @@ async function save(campaign) {
 }
 
 async function getByCode(code) {
-  const row = await knex('campaigns').select(['code', 'archivedAt', 'archivedBy']).where({ code }).first();
+  const row = await knex('campaigns').select(['id', 'code', 'archivedAt', 'archivedBy']).where({ code }).first();
+  if (!row) {
+    throw new NotFoundError('Campaign Not Found');
+  }
+  return new Campaign(row);
+}
+
+async function get(id) {
+  const row = await knex('campaigns').select(['id', 'code', 'archivedAt', 'archivedBy']).where({ id }).first();
   if (!row) {
     throw new NotFoundError();
   }
@@ -25,4 +33,5 @@ async function getByCode(code) {
 module.exports = {
   save,
   getByCode,
+  get,
 };
