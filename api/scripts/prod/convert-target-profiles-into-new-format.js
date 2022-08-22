@@ -1,6 +1,8 @@
+require('dotenv').config();
 const _ = require('lodash');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const logger = require('../../lib/infrastructure/logger');
+const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
 let allSkills;
 let allTubes;
@@ -16,7 +18,10 @@ async function main() {
     await doJob();
   } catch (err) {
     logger.error(err);
-    process.exit(1);
+    throw err;
+  } finally {
+    await disconnect();
+    cache.quit();
   }
 }
 
@@ -100,12 +105,7 @@ async function _createTargetProfileTubes(targetProfileId, tubes, trx) {
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    () => {
-      process.exit(1);
-    }
-  );
+  main();
 }
 
 module.exports = {
