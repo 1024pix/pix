@@ -20,6 +20,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
         const learningContent = {
           skills: [{ id: 'skill_1' }, { id: 'skill_2' }, { id: 'skill_3' }],
+          competences: [],
         };
         mockLearningContent(learningContent);
 
@@ -30,6 +31,80 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         expect(participantResultsShared.id).to.equal(participation.id);
         expect(participantResultsShared.pixScore).to.equals(4);
         expect(participantResultsShared.validatedSkillsCount).to.equals(3);
+      });
+
+      it('computes isCertifiable as false', async function () {
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
+
+        const participation = _buildParticipationWithSnapshot({ campaignId, sharedAt: new Date('2020-01-02') }, [
+          { skillId: 'skill_1', competenceId: 'competence_1', status: 'validated', earnedPix: 8 },
+          { skillId: 'skill_2', competenceId: 'competence_2', status: 'validated', earnedPix: 0 },
+          { skillId: 'skill_3', competenceId: 'competence_3', status: 'validated', earnedPix: 10 },
+          { skillId: 'skill_4', competenceId: 'competence_4', status: 'validated', earnedPix: 11 },
+          { skillId: 'skill_5', competenceId: 'competence_5', status: 'invalidated', earnedPix: 0 },
+        ]);
+
+        await databaseBuilder.commit();
+
+        const learningContent = {
+          skills: [
+            { id: 'skill_1', competenceId: 'competence_1' },
+            { id: 'skill_2', competenceId: 'competence_2' },
+            { id: 'skill_3', competenceId: 'competence_3' },
+            { id: 'skill_4', competenceId: 'competence_4' },
+            { id: 'skill_5', competenceId: 'competence_5' },
+          ],
+          competences: [
+            { id: 'competence_1', origin: 'Pix' },
+            { id: 'competence_2', origin: 'Pix' },
+            { id: 'competence_3', origin: 'Pix' },
+            { id: 'competence_4', origin: 'Pix' },
+            { id: 'competence_5', origin: 'Pix' },
+          ],
+        };
+        mockLearningContent(learningContent);
+
+        //when
+        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+
+        expect(participantResultsShared.isCertifiable).to.equal(false);
+      });
+
+      it('computes isCertifiable as true', async function () {
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
+
+        const participation = _buildParticipationWithSnapshot({ campaignId, sharedAt: new Date('2020-01-02') }, [
+          { skillId: 'skill_1', competenceId: 'competence_1', status: 'validated', earnedPix: 8 },
+          { skillId: 'skill_2', competenceId: 'competence_2', status: 'validated', earnedPix: 9 },
+          { skillId: 'skill_3', competenceId: 'competence_3', status: 'validated', earnedPix: 10 },
+          { skillId: 'skill_4', competenceId: 'competence_4', status: 'validated', earnedPix: 11 },
+          { skillId: 'skill_5', competenceId: 'competence_5', status: 'validated', earnedPix: 12 },
+        ]);
+
+        await databaseBuilder.commit();
+
+        const learningContent = {
+          skills: [
+            { id: 'skill_1', competenceId: 'competence_1' },
+            { id: 'skill_2', competenceId: 'competence_2' },
+            { id: 'skill_3', competenceId: 'competence_3' },
+            { id: 'skill_4', competenceId: 'competence_4' },
+            { id: 'skill_5', competenceId: 'competence_5' },
+          ],
+          competences: [
+            { id: 'competence_1', origin: 'Pix' },
+            { id: 'competence_2', origin: 'Pix' },
+            { id: 'competence_3', origin: 'Pix' },
+            { id: 'competence_4', origin: 'Pix' },
+            { id: 'competence_5', origin: 'Pix' },
+          ],
+        };
+        mockLearningContent(learningContent);
+
+        //when
+        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+
+        expect(participantResultsShared.isCertifiable).to.equal(true);
       });
     });
 
@@ -53,6 +128,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
             { id: 'skill_2', status: 'actif' },
             { id: 'skill_3', status: 'actif' },
           ],
+          competences: [],
         };
         mockLearningContent(learningContent);
 
@@ -85,6 +161,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
               { id: 'skill_2', status: 'archivé' },
               { id: 'skill_3', status: 'périmé' },
             ],
+            competences: [],
           };
           mockLearningContent(learningContent);
 
@@ -117,6 +194,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
               { id: 'skill_2', status: 'actif' },
               { id: 'skill_3', status: 'actif' },
             ],
+            competences: [],
           };
           mockLearningContent(learningContent);
 
@@ -128,6 +206,45 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
           expect(participantResultsShared.pixScore).to.equals(4);
           expect(participantResultsShared.validatedSkillsCount).to.equals(2);
         });
+      });
+
+      it('computes isCertifiable as null', async function () {
+        const skillIds = ['skill_1', 'skill_2', 'skill_3', 'skill_4', 'skill_5'];
+
+        const { id: campaignId } = _buildCampaignForSkills(skillIds);
+
+        const participation = _buildParticipationWithSnapshot({ campaignId, sharedAt: new Date('2020-01-02') }, [
+          { skillId: 'skill_1', competenceId: 'competence_1', status: 'validated', earnedPix: 8 },
+          { skillId: 'skill_2', competenceId: 'competence_2', status: 'validated', earnedPix: 9 },
+          { skillId: 'skill_3', competenceId: 'competence_3', status: 'validated', earnedPix: 10 },
+          { skillId: 'skill_4', competenceId: 'competence_4', status: 'validated', earnedPix: 11 },
+          { skillId: 'skill_5', competenceId: 'competence_5', status: 'validated', earnedPix: 12 },
+        ]);
+
+        await databaseBuilder.commit();
+
+        const learningContent = {
+          skills: [
+            { id: 'skill_1', competenceId: 'competence_1', status: 'actif' },
+            { id: 'skill_2', competenceId: 'competence_2', status: 'actif' },
+            { id: 'skill_3', competenceId: 'competence_3', status: 'actif' },
+            { id: 'skill_4', competenceId: 'competence_4', status: 'actif' },
+            { id: 'skill_5', competenceId: 'competence_5', status: 'actif' },
+          ],
+          competences: [
+            { id: 'competence_1', origin: 'Pix' },
+            { id: 'competence_2', origin: 'Pix' },
+            { id: 'competence_3', origin: 'Pix' },
+            { id: 'competence_4', origin: 'Pix' },
+            { id: 'competence_5', origin: 'Pix' },
+          ],
+        };
+        mockLearningContent(learningContent);
+
+        //when
+        const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
+
+        expect(participantResultsShared.isCertifiable).to.equal(null);
       });
     });
 
@@ -142,7 +259,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
       await databaseBuilder.commit();
 
-      const learningContent = { skills: [{ id: 'skill_1', status: 'actif' }] };
+      const learningContent = { skills: [{ id: 'skill_1', status: 'actif' }], competences: [] };
       mockLearningContent(learningContent);
 
       //when
