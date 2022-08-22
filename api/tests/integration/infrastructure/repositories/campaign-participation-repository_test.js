@@ -309,7 +309,6 @@ describe('Integration | Repository | Campaign Participation', function () {
         id: campaignParticipationId,
         status: STARTED,
         sharedAt: null,
-        validatedSkillsCount: null,
       });
 
       await databaseBuilder.commit();
@@ -318,9 +317,6 @@ describe('Integration | Repository | Campaign Participation', function () {
         ...campaignParticipationToUpdate,
         sharedAt: new Date('2021-01-01'),
         status: SHARED,
-        validatedSkillsCount: 10,
-        pixScore: 10,
-        masteryRate: 0.9,
       });
       const campaignParticipation = await knex('campaign-participations')
         .where({ id: campaignParticipationId })
@@ -328,9 +324,6 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       expect(campaignParticipation.sharedAt).to.deep.equals(new Date('2021-01-01'));
       expect(campaignParticipation.status).to.equals(SHARED);
-      expect(campaignParticipation.validatedSkillsCount).to.equals(10);
-      expect(campaignParticipation.pixScore).to.equals(10);
-      expect(campaignParticipation.masteryRate).to.equals('0.90');
     });
 
     it('should not update because the leaner can not have 2 active participations for the same campaign', async function () {
