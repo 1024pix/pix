@@ -16,8 +16,11 @@ describe('Unit | Model | user-oidc-authentication-request', function () {
       adapter.ajax.resolves({
         data: {
           attributes: {
-            accessToken: 'accessToken',
-            logoutUrlUuid: 'url',
+            'full-name-from-pix': 'Loyd Pix',
+            'full-name-from-external-identity-provider': 'Loyd Cé',
+            username: 'loyd.ce123',
+            email: 'loyd.ce@example.net',
+            'authentication-methods': [{ identityProvider: 'oidc' }],
           },
         },
       });
@@ -48,10 +51,11 @@ describe('Unit | Model | user-oidc-authentication-request', function () {
         },
       };
       sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
-      expect(result).to.deep.equal({
-        accessToken: 'accessToken',
-        logoutUrlUuid: 'url',
-      });
+      expect(result.email).to.deep.equal('loyd.ce@example.net');
+      expect(result.fullNameFromPix).to.deep.equal('Loyd Pix');
+      expect(result.fullNameFromExternalIdentityProvider).to.deep.equal('Loyd Cé');
+      expect(result.username).to.deep.equal('loyd.ce123');
+      expect(result.authenticationMethods).to.deep.equal([{ identityProvider: 'oidc' }]);
     });
   });
 });
