@@ -23,13 +23,13 @@ Router.map(function () {
   this.route('terms-of-service', { path: '/cgu' });
 
   this.route('authenticated', { path: '' }, function () {
-    this.route('sco-students', { path: 'eleves' }, function () {
+    this.route('sco-organization-participants', { path: 'eleves' }, function () {
       this.route('list', { path: '/' });
     });
     this.route('organization-participants', { path: 'participants' }, function () {
       this.route('list', { path: '/' });
     });
-    this.route('sup-students', { path: 'etudiants' }, function () {
+    this.route('sup-organization-participants', { path: 'etudiants' }, function () {
       this.route('list', { path: '/' });
       this.route('import');
     });

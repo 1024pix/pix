@@ -200,8 +200,8 @@
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
-      "students-sco": "Students",
-      "students-sup": "Students",
+      "sco-organization-participants": "Students",
+      "sup-organization-participants": "Students",
       "team": "Team",
       "aria-label": "Main navigation"
     },
@@ -755,7 +755,7 @@
         "title": "List of submitted profiles"
       }
     },
-    "students-sco": {
+    "sco-organization-participants": {
       "title": "Students",
       "actions": {
         "import-file": {
@@ -847,7 +847,7 @@
         "row-title": "Student"
       }
     },
-    "students-sup": {
+    "sup-organization-participants": {
       "title": "Students",
       "actions": {
         "download-template": "Download the template",
@@ -900,7 +900,7 @@
         "row-title": "Student"
       }
     },
-    "students-sup-import": {
+    "sup-organization-participants-import": {
       "title": "Import students",
       "description": "What type of import would you like to use?",
       "actions": {

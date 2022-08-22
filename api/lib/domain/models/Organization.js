@@ -22,7 +22,6 @@ class Organization {
     credit = defaultValues.credit,
     email,
     targetProfileShares = [],
-    students = [],
     organizationInvitations = [],
     tags = [],
     documentationUrl,
@@ -42,7 +41,6 @@ class Organization {
     this.credit = credit;
     this.email = email;
     this.targetProfileShares = targetProfileShares;
-    this.students = students;
     this.organizationInvitations = organizationInvitations;
     this.tags = tags;
     this.documentationUrl = documentationUrl;

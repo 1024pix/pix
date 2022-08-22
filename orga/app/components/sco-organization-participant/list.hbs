@@ -1,0 +1,134 @@
+<div class="panel">
+  <table class="table content-text content-text--small">
+    <colgroup class="table__column">
+      <col />
+      <col />
+      <col class="table__column--center" />
+      <col />
+      <col />
+      <col class="table__column--right" />
+      <col class="table__column--center" />
+      <col class="hide-on-mobile" />
+    </colgroup>
+    <thead>
+      <tr>
+        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.last-name"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sco-organization-participants.table.column.date-of-birth"}}
+        </Table::Header>
+        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.division"}}</Table::Header>
+        <Table::Header @size="wide">
+          {{t "pages.sco-organization-participants.table.column.login-method"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="right">
+          {{t "pages.sco-organization-participants.table.column.participation-count"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sco-organization-participants.table.column.last-participation-date"}}
+        </Table::Header>
+        <Table::Header @size="small" class="hide-on-mobile" />
+      </tr>
+      <tr class="hide-on-mobile">
+        <Table::HeaderFilterInput
+          @field="lastName"
+          @value={{@lastNameFilter}}
+          @placeholder={{t "pages.sco-organization-participants.table.filter.last-name.label"}}
+          @ariaLabel={{t "pages.sco-organization-participants.table.filter.last-name.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::HeaderFilterInput
+          @field="firstName"
+          @value={{@firstNameFilter}}
+          @placeholder={{t "pages.sco-organization-participants.table.filter.first-name.label"}}
+          @ariaLabel={{t "pages.sco-organization-participants.table.filter.first-name.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::Header />
+        <Table::HeaderFilterMultiSelect
+          @field="divisions"
+          @title={{t "pages.sco-organization-participants.table.column.division"}}
+          @onSelect={{@onFilter}}
+          @selectedOption={{@divisionsFilter}}
+          @onLoadOptions={{this.loadDivisions}}
+          @placeholder={{t "pages.sco-organization-participants.table.filter.division.label"}}
+          @ariaLabel={{t "pages.sco-organization-participants.table.filter.division.aria-label"}}
+          @emptyMessage={{t "pages.sco-organization-participants.table.filter.division.empty"}}
+        />
+        <Table::HeaderFilterSelect
+          @field="connexionType"
+          @options={{@connectionTypesOptions}}
+          @selectedOption={{@connexionTypeFilter}}
+          @triggerFiltering={{@onFilter}}
+          @ariaLabel={{t "pages.sco-organization-participants.table.filter.login-method.aria-label"}}
+          @emptyOptionLabel={{t "pages.sco-organization-participants.table.filter.login-method.empty-option"}}
+        />
+        <Table::Header class="table__column--right" />
+        <Table::Header />
+        <Table::Header />
+      </tr>
+    </thead>
+
+    {{#if @students}}
+      <tbody>
+        {{#each @students as |student index|}}
+          <tr aria-label={{t "pages.sco-organization-participants.table.row-title"}}>
+            <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
+            <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
+            <td class="table__column--center">{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td class="ellipsis">{{student.division}}</td>
+            <td class="sco-organization-participant-list-page__authentication-methods">
+              {{#each student.authenticationMethods as |authenticationMethod|}}
+                <p>{{t authenticationMethod}}</p>
+              {{/each}}
+            </td>
+            <td class="table__column--right">{{student.participationCount}}</td>
+            <td class="table__column--center">
+              {{#if student.lastParticipationDate}}
+                <div class="organization-participant-list-page__last-participation">
+                  <span>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
+                  <Ui::LastParticipationDateTooltip
+                    @id={{index}}
+                    @campaignName={{student.campaignName}}
+                    @campaignType={{student.campaignType}}
+                    @participationStatus={{student.participationStatus}}
+                  />
+                </div>
+              {{/if}}
+            </td>
+            <td class="organization-participant-list-page__actions hide-on-mobile">
+              {{#if student.isAssociated}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-v"
+                  @dropdownButtonClass="organization-participant-list-page__dropdown-button"
+                  @dropdownContentClass="organization-participant-list-page__dropdown-content"
+                  @ariaLabel={{t "pages.sco-organization-participants.actions.show-actions"}}
+                >
+                  <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
+                    {{t "pages.sco-organization-participants.actions.manage-account"}}
+                  </Dropdown::Item>
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @students}}
+    <div class="table__empty content-text">
+      {{t "pages.sco-organization-participants.table.empty"}}
+    </div>
+  {{/unless}}
+</div>
+
+<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @organizationId={{this.currentUser.organization.id}}
+  @student={{this.student}}
+  @display={{this.isShowingAuthenticationMethodModal}}
+  @onClose={{this.closeAuthenticationMethodModal}}
+/>
+
+<Table::PaginationControl @pagination={{@students.meta}} />

@@ -1,0 +1,25 @@
+<article class="import-students-page">
+
+  <header class="import-students-page__header">
+    <img src="{{this.rootURL}}/images/import-participant.svg" alt="" role="none" />
+    <h1 class="page-title import-students-page-header__title">
+      {{t "pages.sup-organization-participants-import.title"}}
+    </h1>
+    <p class="import-students-page-header__details">
+      {{t "pages.sup-organization-participants-import.description"}}
+    </p>
+    <p class="import-students-page-header__details import-students-page-header__details--small">
+      {{t "pages.sup-organization-participants-import.supported-formats"}}
+    </p>
+  </header>
+
+  {{#if @isLoading}}
+    <Ui::PixLoader />
+  {{else}}
+    <div class="import-type-list">
+      <SupOrganizationParticipant::ImportCards::Add @onAddStudents={{@onImportStudents}} />
+      <SupOrganizationParticipant::ImportCards::Replace @onReplaceStudents={{@onReplaceStudents}} />
+    </div>
+  {{/if}}
+
+</article>
