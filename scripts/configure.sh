@@ -33,10 +33,9 @@ function display_banner() {
 
 function display_header {
   echo "👋 Welcome to the Pix developer environment installation & configuration procedure."
-  echo "The good news is that the procedure is fully automated!"
-  echo "The bad news is that it will take up to 15mn (as 7,000 tests should be run)."
+  echo "The good news is that the procedure is fully automated and last less than 5 minutes!"
   echo "So, please take a ☕️ and enjoy this awesome moment."
-  echo "If you get bored, you can always visit or website https://pix.fr or follow us on Twitter https://twitter.com/pix_officiel 😉"
+  echo "If you get bored, you can always visit our website https://pix.fr or follow us on Twitter https://twitter.com/pix_officiel 😉"
   echo ""
 }
 
@@ -118,32 +117,8 @@ function setup_and_run_infrastructure() {
   echo ""
 }
 
-function execute_apps_tests() {
-  echo "Executing Pix apps tests…"
-
-  (cd admin && npm test)
-  (cd api && npm test)
-  (cd certif && npm test)
-  (cd mon-pix && npm test)
-  (cd orga && npm test)
-
-  echo "✅ Tests passed."
-  echo ""
-}
-
 function display_footer {
-  echo "🎉 Congratulations! Your environment is now running."
-  echo ""
-  echo "In this terminal window, execute the following command:"
-  echo ""
-  echo "  $ npx run-p start:api start:mon-pix"
-  echo ""
-  echo "Then navigate to http://localhost:4200"
-  echo ""
-  echo "Other links:"
-  echo "  - Website: https://pix.fr"
-  echo "  - GitHub: https://github.com/1024pix/pix"
-  echo ""
+  echo "🎉 Congratulations! Your environment has been set up."
 }
 
 # Main
@@ -154,5 +129,4 @@ verify_prerequesite_programs
 generate_environment_config_file
 install_apps_dependencies
 setup_and_run_infrastructure
-execute_apps_tests
 display_footer
