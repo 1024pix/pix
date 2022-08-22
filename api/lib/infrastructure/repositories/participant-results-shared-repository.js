@@ -38,6 +38,10 @@ function _fetchUserIdAndSharedAt(campaignParticipationId) {
 }
 
 const participantResultsSharedRepository = {
+  async save(participantResultShared) {
+    await knex('campaign-participations').update(participantResultShared).where({ id: participantResultShared.id });
+  },
+
   async get(campaignParticipationId) {
     const targetedSkillIds = await _fetchTargetedSkillIds(campaignParticipationId);
     const knowledgeElements = await _fetchKnowledgeElements(campaignParticipationId);
