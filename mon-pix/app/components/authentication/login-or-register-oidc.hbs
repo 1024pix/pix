@@ -33,13 +33,13 @@
           </p>
         </div>
 
-        {{#if this.errorMessage}}
+        {{#if this.registerError}}
           <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
-            {{this.errorMessage}}
+            {{this.registerErrorMessage}}
           </PixMessage>
         {{/if}}
 
-        <PixButton @type="submit" @triggerAction={{this.submit}}>
+        <PixButton @type="submit" @triggerAction={{this.register}}>
           {{t "pages.login-or-register-oidc.register-form.button"}}
         </PixButton>
       </div>
@@ -51,7 +51,7 @@
         <p class="login-or-register-oidc-form__description">
           {{t "pages.login-or-register-oidc.login-form.description"}}
         </p>
-        <form {{on "submit" this.confirmReconciliation}}>
+        <form {{on "submit" this.login}}>
           <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
 
           <PixInput
@@ -72,11 +72,18 @@
               @label={{t "pages.login-or-register-oidc.login-form.password"}}
               autocomplete="off"
               required
+              {{on "change" this.setPassword}}
             />
             <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
               {{t "pages.sign-in.forgotten-password"}}
             </LinkTo>
           </div>
+
+          {{#if this.loginError}}
+            <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
+              {{this.loginErrorMessage}}
+            </PixMessage>
+          {{/if}}
 
           <PixButton @type="submit" class="login-or-register-oidc-form__submit-button">
             {{t "pages.login-or-register-oidc.login-form.button"}}

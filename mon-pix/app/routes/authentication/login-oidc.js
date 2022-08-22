@@ -10,6 +10,7 @@ export default class LoginOidcRoute extends Route {
   @service session;
   @service router;
   @service location;
+  @service featureToggles;
 
   beforeModel(transition) {
     const queryParams = transition.to.queryParams;
@@ -35,14 +36,25 @@ export default class LoginOidcRoute extends Route {
   }
 
   afterModel({ shouldValidateCgu, authenticationKey, identityProviderSlug } = {}) {
-    if (shouldValidateCgu && authenticationKey) {
-      return this.router.replaceWith('terms-of-service-oidc', {
+    const shouldCreateAnAccountForUser = shouldValidateCgu && authenticationKey;
+
+    if (!shouldCreateAnAccountForUser) return;
+
+    if (this.featureToggles.featureToggles.isSsoAccountReconciliationEnabled) {
+      return this.router.replaceWith('authentication.login-or-register-oidc', {
         queryParams: {
           authenticationKey,
           identityProviderSlug,
         },
       });
     }
+
+    return this.router.replaceWith('terms-of-service-oidc', {
+      queryParams: {
+        authenticationKey,
+        identityProviderSlug,
+      },
+    });
   }
 
   async _handleCallbackRequest(code, state, identityProviderSlug) {

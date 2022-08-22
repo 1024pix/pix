@@ -12,6 +12,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   unknownError: 'common.error',
   expiredAuthenticationKey: 'pages.login-or-register-oidc.error.expired-authentication-key',
   invalidEmail: 'pages.login-or-register-oidc.error.invalid-email',
+  loginUnauthorizedError: 'pages.login-or-register-oidc.error.login-unauthorized-error',
 };
 
 export default class LoginOrRegisterOidcComponent extends Component {
@@ -19,10 +20,13 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @service intl;
   @service session;
   @service currentDomain;
+  @service store;
 
   @tracked isTermsOfServiceValidated = false;
-  @tracked isAuthenticationKeyExpired = false;
-  @tracked errorMessage = null;
+  @tracked loginError = false;
+  @tracked registerError = false;
+  @tracked loginErrorMessage = null;
+  @tracked registerErrorMessage = null;
   @tracked email = '';
   @tracked password = '';
   @tracked emailValidationMessage = null;
@@ -54,27 +58,29 @@ export default class LoginOrRegisterOidcComponent extends Component {
   }
 
   @action
-  async submit() {
+  async register() {
     if (this.isTermsOfServiceValidated) {
-      this.errorMessage = null;
+      this.registerErrorMessage = null;
+      this.registerError = false;
       try {
         await this.session.authenticate('authenticator:oidc', {
           authenticationKey: this.args.authenticationKey,
           identityProviderSlug: this.args.identityProviderSlug,
         });
       } catch (error) {
+        this.registerError = true;
         const status = get(error, 'errors[0].status');
         if (status === '401') {
-          this.isAuthenticationKeyExpired = true;
-          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']);
+          this.registerErrorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']);
         } else {
           const errorDetail = get(error, 'errors[0].detail');
-          this.errorMessage =
+          this.registerErrorMessage =
             this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']) + (errorDetail ? ` (${errorDetail})` : '');
         }
       }
     } else {
-      this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['termsOfServiceNotSelected']);
+      this.registerError = true;
+      this.registerErrorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['termsOfServiceNotSelected']);
     }
   }
 
@@ -91,14 +97,44 @@ export default class LoginOrRegisterOidcComponent extends Component {
     }
   }
 
+  @action
+  setPassword(event) {
+    this.password = event.target.value;
+  }
+
   get isFormValid() {
     return isEmailValid(this.email) && !isEmpty(this.password);
   }
 
   @action
-  confirmReconciliation() {
-    if (this.isFormValid) {
-      // todo
+  async login(event) {
+    event.preventDefault();
+
+    this.loginErrorMessage = null;
+    this.loginError = false;
+
+    if (!this.isFormValid) return;
+
+    const identityProvider = IdentityProviders[this.args.identityProviderSlug]?.code;
+
+    try {
+      const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
+        password: this.password,
+        email: this.email,
+        authenticationKey: this.args.authenticationKey,
+        identityProvider,
+      });
+      await authenticationRequest.login();
+      this.args.toggleOidcReconciliation();
+    } catch (error) {
+      this.loginError = true;
+      const status = get(error, 'errors[0].status', 'unknown');
+
+      const errorsMapping = {
+        401: this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']),
+        404: this.intl.t(ERROR_INPUT_MESSAGE_MAP['loginUnauthorizedError']),
+      };
+      this.loginErrorMessage = errorsMapping[status] || this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
     }
   }
 

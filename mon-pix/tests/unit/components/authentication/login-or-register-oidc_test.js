@@ -10,22 +10,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
   setupTest();
   setupIntl();
 
-  describe('when terms of service are not selected in register form', function () {
-    it('should display error', function () {
-      // given
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
-      component.isTermsOfServiceValidated = false;
-      component.errorMessage = null;
-
-      // when
-      component.submit();
-
-      // then
-      expect(component.errorMessage).to.equal(this.intl.t('pages.login-or-register-oidc.error.error-message'));
-    });
-  });
-
-  describe('#submit', function () {
+  describe('#register', function () {
     it('should create session', function () {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
@@ -37,10 +22,9 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
-      component.errorMessage = null;
 
       // when
-      component.submit();
+      component.register();
 
       // then
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
@@ -49,7 +33,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       });
     });
 
-    describe('when authentication key has expired', function () {
+    context('when authentication key has expired', function () {
       it('should display error', async function () {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
@@ -61,17 +45,30 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
         component.args.identityProviderSlug = 'super-idp';
         component.args.authenticationKey = 'super-key';
         component.isTermsOfServiceValidated = true;
-        component.isAuthenticationKeyExpired = false;
-        component.errorMessage = null;
 
         // when
-        await component.submit();
+        await component.register();
 
         // then
-        expect(component.errorMessage).to.equal(
+        expect(component.registerErrorMessage).to.equal(
           this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
-        expect(component.isAuthenticationKeyExpired).to.be.true;
+      });
+    });
+
+    context('when terms of service are not selected', function () {
+      it('should display error', function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        component.isTermsOfServiceValidated = false;
+
+        // when
+        component.register();
+
+        // then
+        expect(component.registerErrorMessage).to.equal(
+          this.intl.t('pages.login-or-register-oidc.error.error-message')
+        );
       });
     });
 
@@ -86,13 +83,12 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
-      component.errorMessage = null;
 
       // when
-      await component.submit();
+      await component.register();
 
       // then
-      expect(component.errorMessage).to.equal(`${this.intl.t('common.error')} (some detail)`);
+      expect(component.registerErrorMessage).to.equal(`${this.intl.t('common.error')} (some detail)`);
     });
 
     it('it should display generic error', async function () {
@@ -106,17 +102,16 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
-      component.errorMessage = null;
 
       // when
-      await component.submit();
+      await component.register();
 
       // then
-      expect(component.errorMessage).to.equal(this.intl.t('common.error'));
+      expect(component.registerErrorMessage).to.equal(this.intl.t('common.error'));
     });
   });
 
-  context('#validateEmail', function () {
+  describe('#validateEmail', function () {
     it('should trim on email validation', function () {
       // given
       const emailWithSpaces = '   glace@aleau.net   ';
@@ -143,6 +138,123 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
           this.intl.t('pages.login-or-register-oidc.error.invalid-email')
         );
       });
+    });
+  });
+
+  describe('#login', function () {
+    it('should request api for login', async function () {
+      // given
+      const email = 'glace.alo@example.net';
+      const password = 'pix123';
+      const identityProvider = 'CNAV';
+      const authenticationKey = '1234567azerty';
+      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const login = sinon.stub();
+      component.store = { createRecord: () => ({ login }) };
+      component.email = email;
+      component.password = password;
+      component.args.authenticationKey = authenticationKey;
+      component.args.identityProviderSlug = 'cnav';
+      component.args.toggleOidcReconciliation = sinon.stub();
+      sinon.spy(component.store, 'createRecord');
+      const eventStub = { preventDefault: sinon.stub() };
+
+      // when
+      await component.login(eventStub);
+
+      // then
+      sinon.assert.calledWith(component.store.createRecord, 'user-oidc-authentication-request', {
+        password,
+        email,
+        authenticationKey,
+        identityProvider,
+      });
+      sinon.assert.calledOnce(login);
+      sinon.assert.calledOnce(component.args.toggleOidcReconciliation);
+    });
+
+    context('when form is invalid', function () {
+      it('should not request api for reconciliation', async function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const login = sinon.stub();
+        component.store = { createRecord: () => ({ login }) };
+        component.email = '';
+        sinon.spy(component.store, 'createRecord');
+        const eventStub = { preventDefault: sinon.stub() };
+
+        // when
+        await component.login(eventStub);
+
+        // then
+        sinon.assert.notCalled(component.store.createRecord);
+        sinon.assert.notCalled(login);
+      });
+    });
+
+    context('when authentication key has expired', function () {
+      it('should display error', async function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const login = sinon.stub().rejects({ errors: [{ status: '401' }] });
+        component.store = { createRecord: () => ({ login }) };
+        sinon.spy(component.store, 'createRecord');
+        component.args.identityProviderSlug = 'super-idp';
+        component.args.authenticationKey = 'super-key';
+        component.email = 'glace.alo@example.net';
+        component.password = 'pix123';
+        const eventStub = { preventDefault: sinon.stub() };
+
+        // when
+        await component.login(eventStub);
+
+        // then
+        expect(component.loginErrorMessage).to.equal(
+          this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
+        );
+      });
+    });
+
+    context('when user is not found', function () {
+      it('should display error', async function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const login = sinon.stub().rejects({ errors: [{ status: '404' }] });
+        component.store = { createRecord: () => ({ login }) };
+        sinon.spy(component.store, 'createRecord');
+        component.args.identityProviderSlug = 'super-idp';
+        component.args.authenticationKey = 'super-key';
+        component.email = 'glace.alo@example.net';
+        component.password = 'pix123';
+        const eventStub = { preventDefault: sinon.stub() };
+
+        // when
+        await component.login(eventStub);
+
+        // then
+        expect(component.loginErrorMessage).to.equal(
+          this.intl.t('pages.login-or-register-oidc.error.login-unauthorized-error')
+        );
+      });
+    });
+
+    it('it should display generic error', async function () {
+      // given
+      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const login = sinon.stub().rejects({ errors: [{ status: '500' }] });
+      component.store = { createRecord: () => ({ login }) };
+      sinon.spy(component.store, 'createRecord');
+      component.args.identityProviderSlug = 'super-idp';
+      component.args.authenticationKey = 'super-key';
+      component.email = 'glace.alo@example.net';
+      component.password = 'pix123';
+      const eventStub = { preventDefault: sinon.stub() };
+
+      // when
+      await component.login(eventStub);
+
+      // then
+      expect(component.loginErrorMessage).to.equal(this.intl.t('common.error'));
     });
   });
 });
