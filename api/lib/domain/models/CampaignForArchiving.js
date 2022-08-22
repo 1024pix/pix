@@ -1,7 +1,8 @@
 const { ArchivedCampaignError, ObjectValidationError } = require('../errors');
 
 class CampaignForArchiving {
-  constructor({ code, archivedAt, archivedBy } = {}) {
+  constructor({ id, code, archivedAt, archivedBy } = {}) {
+    this.id = id;
     this.code = code;
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
@@ -20,6 +21,11 @@ class CampaignForArchiving {
 
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
+  }
+
+  unarchive() {
+    this.archivedAt = null;
+    this.archivedBy = null;
   }
 }
 

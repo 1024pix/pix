@@ -5,16 +5,16 @@ const { ArchivedCampaignError, ObjectValidationError } = require('../../../../li
 describe('Unit | Domain | Models | CampaignForArchiving', function () {
   describe('#archive', function () {
     it('archives the campaigns', function () {
-      const campaign = new Campaign({ code: 'ABC123', archivedAt: null, archivedBy: null });
+      const campaign = new Campaign({ id: 1, code: 'ABC123', archivedAt: null, archivedBy: null });
 
       campaign.archive('2023-02-27', 1);
 
-      expect(campaign).to.deep.equal({ code: 'ABC123', archivedAt: '2023-02-27', archivedBy: 1 });
+      expect(campaign).to.deep.equal({ id: 1, code: 'ABC123', archivedAt: '2023-02-27', archivedBy: 1 });
     });
 
     context('when the campaign is already archived', function () {
       it('archives the campaigns', async function () {
-        const campaign = new Campaign({ code: 'ABC123', archivedAt: '2023-01-01', archivedBy: 2 });
+        const campaign = new Campaign({ id: 1, code: 'ABC123', archivedAt: '2023-01-01', archivedBy: 2 });
 
         const error = await catchErr(campaign.archive, campaign)('2023-02-27', 1);
 
@@ -40,6 +40,16 @@ describe('Unit | Domain | Models | CampaignForArchiving', function () {
 
         expect(error).to.be.an.instanceOf(ObjectValidationError);
       });
+    });
+  });
+
+  describe('#unarchive', function () {
+    it('unarchives the campaigns', function () {
+      const campaign = new Campaign({ id: 1, code: 'ABC123', archivedAt: new Date('2022-01-01'), archivedBy: 1 });
+
+      campaign.unarchive();
+
+      expect(campaign).to.deep.equal({ id: 1, code: 'ABC123', archivedAt: null, archivedBy: null });
     });
   });
 });
