@@ -1,13 +1,6 @@
 {{page-title (t "pages.terms-of-service-oidc.title")}}
 
-{{#if this.featureToggles.featureToggles.isSsoAccountReconciliationEnabled}}
-  <Authentication::LoginOrRegisterOidc
-    @identityProviderSlug={{this.identityProviderSlug}}
-    @authenticationKey={{this.authenticationKey}}
-  />
-{{else}}
-  <Authentication::TermsOfServiceOidc
-    @identityProviderSlug={{this.identityProviderSlug}}
-    @authenticationKey={{this.authenticationKey}}
-  />
-{{/if}}
+<Authentication::TermsOfServiceOidc
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationKey={{this.authenticationKey}}
+/>

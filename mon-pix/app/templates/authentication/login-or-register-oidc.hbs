@@ -1,0 +1,14 @@
+{{page-title (t "pages.login-or-register-oidc.title")}}
+
+{{#if this.showOidcReconciliation}}
+  <Authentication::OidcReconciliation
+    @identityProviderSlug={{this.identityProviderSlug}}
+    @authenticationKey={{this.authenticationKey}}
+  />
+{{else}}
+  <Authentication::LoginOrRegisterOidc
+    @identityProviderSlug={{this.identityProviderSlug}}
+    @authenticationKey={{this.authenticationKey}}
+    @toggleOidcReconciliation={{this.toggleOidcReconciliation}}
+  />
+{{/if}}
