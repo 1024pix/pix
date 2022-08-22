@@ -14,7 +14,7 @@ export default class CertificationCandidate extends Model {
   @attr('string') externalId;
   @attr('number') extraTimePercentage;
   @attr('boolean') isLinked;
-  @attr('string') schoolingRegistrationId;
+  @attr('string') organizationLearnerId;
   @attr('string') sex;
   @attr('string') billingMode;
   @attr('string') prepaymentCode;
