@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v3.244.0 (22/08/2022)
+
+
+### :rocket: Amélioration
+- [#4793](https://github.com/1024pix/pix/pull/4793) [FEATURE] Accéder à la page de réconciliation depuis la nouvelle double mire oidc sur Pix App (PIX-5486).
+- [#4697](https://github.com/1024pix/pix/pull/4697) [FEATURE] Améliorations pages de maintenance Pix App
+- [#4756](https://github.com/1024pix/pix/pull/4756) [FEATURE] Créer la nouvelle route de pré-réconciliation pour la nouvelle pérennité des comptes (PIX-5050).
+- [#4775](https://github.com/1024pix/pix/pull/4775) [FEATURE] Rendre la page de résultat d'une campagne accessible.
+
+### :building_construction: Tech
+- [#4790](https://github.com/1024pix/pix/pull/4790) [TECH] Ne plus utiliser la route /students dans Pix Orga (Pix-5501).
+- [#4767](https://github.com/1024pix/pix/pull/4767) [TECH] Mettre à jour ember-simple-auth en 3.1.0 dans Pix App (PIX-5071).
+- [#4787](https://github.com/1024pix/pix/pull/4787) [TECH] Ajout d'un test sur le message de log du plugin Pino (PIX-5504)
+- [#4788](https://github.com/1024pix/pix/pull/4788) [TECH] Ne plus utiliser de routes dépréciées sur les prescrits dans Pix Certif (Pix-5499).
+- [#4690](https://github.com/1024pix/pix/pull/4690) [TECH] S'assurer qu'un nouvel arrivant puisse installer un environnement local rapidement (PIX-5394).
+- [#4791](https://github.com/1024pix/pix/pull/4791) [TECH] Remplacer les modèles d'affichage de profil-cible existant par des modèles réduits type "summary" dans PixAdmin (PIX-5503)
+- [#4800](https://github.com/1024pix/pix/pull/4800) [TECH] Supprimer bookshelf du repository organisation (PIX-5510).
+- [#4799](https://github.com/1024pix/pix/pull/4799) [TECH] Supprimer bookshelf du TagRepository (PIX-5509).
+- [#4798](https://github.com/1024pix/pix/pull/4798) [TECH] Corriger les import de KNEX (PIX-5508).
+- [#4797](https://github.com/1024pix/pix/pull/4797) [TECH] Supprimer le model PixAdminRole ORM (PIX-5507).
+- [#4785](https://github.com/1024pix/pix/pull/4785) [TECH] Ne plus utiliser de routes dépréciées sur les prescrits dans Pix Admin (Pix-5498).
+
+### :bug: Correction
+- [#4782](https://github.com/1024pix/pix/pull/4782) [BUGFIX] Retirer la taille défini du formulaire de saisie d'un code de campagne (PIX-5472)
+
 ## v3.243.0 (17/08/2022)
 
 
