@@ -15,7 +15,7 @@ class ParticipantResultsShared {
       this.isCertifiable = null;
     } else {
       this.masteryRate = this.pixScore / MAX_PIX_SCORE;
-      this.isCertifiable = placementProfile?.isCertifiable();
+      this.isCertifiable = placementProfile.isCertifiable();
     }
   }
 }
