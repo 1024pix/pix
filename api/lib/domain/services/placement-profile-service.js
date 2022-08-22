@@ -153,6 +153,25 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
   return placementProfilesList;
 }
 
+async function getPlacementProfileWithSnapshotting({ userId, limitDate, competences, allowExcessPixAndLevels = true }) {
+  const snapshots = await knowledgeElementRepository.findSnapshotForUsers({
+    [userId]: limitDate,
+  });
+  const knowledgeElements = snapshots[userId];
+  const knowledgeElementsByCompetence = _.groupBy(knowledgeElements, 'competenceId');
+
+  const userCompetences = _createUserCompetencesV2({
+    knowledgeElementsByCompetence,
+    competences,
+    allowExcessPixAndLevels,
+  });
+  return new PlacementProfile({
+    userId,
+    profileDate: limitDate,
+    userCompetences,
+  });
+}
+
 function _matchingDirectlyValidatedSkillsForCompetence(knowledgeElementsForCompetence, skillMap) {
   const competenceSkills = knowledgeElementsForCompetence
     .filter((ke) => ke.isDirectlyValidated())
@@ -166,4 +185,5 @@ function _matchingDirectlyValidatedSkillsForCompetence(knowledgeElementsForCompe
 module.exports = {
   getPlacementProfile,
   getPlacementProfilesWithSnapshotting,
+  getPlacementProfileWithSnapshotting,
 };
