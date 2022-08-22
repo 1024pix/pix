@@ -11,26 +11,29 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 > ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que
 > l'application fonctionne avec des versions différentes.
 
-Assurez-vous aussi de ne pas avoir de process:
+Assurez-vous aussi de ne pas avoir de processus écoutant sur le port:
 
-- sur le port 5432 (PostgreSQL), ou surchargez la variable `PIX_DATABASE_PORT`;
-- sur le port 6379 (redis), ou surchargez la variable `PIX_CACHE_PORT`.
+- 5432 (PostgreSQL), ou surchargez la variable `PIX_DATABASE_PORT`;
+- 6379 (redis), ou surchargez la variable `PIX_CACHE_PORT`.
 
 ## Instructions
 
-### 1. Récupérer le code source.
+### Récupérer le code source.
+
+Récupérer le code source en local
 
 ```bash
-git clone git@github.com:1024pix/pix.git
+git clone git@github.com:1024pix/pix.git && cd pix
 ```
 
-Se rendre dans le répertoire projet.
+⚠️ Cela prend environ 10 minutes avec une connexion standard.
+Pour ne récupérer que la dernière version, qui ne prend qu'une minute, exécuter plutôt :
 
 ```bash
-cd pix
+git clone --filter tree:0  git@github.com:1024pix/pix.git && cd pix
 ```
 
-### 2 Configurer sous Windows (si applicable)
+### Configurer l'environnement de développement sous Windows (si applicable)
 
 Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine.
 La `windows-build-tools@4.0.0` semble plus stable à l'installation.
@@ -63,29 +66,66 @@ git rm -r --cached .
 git reset --hard
 ```
 
-### 3. Configurer l'environnement de développement
+### Configurer l'environnement de développement
 
-Configurer l'environnement :
+Le script d'installation effectue les tâches suivantes :
 
-- création de la BDD et du cache
-- exécution des tests automatisés
+- créer la base de données et le cache (conteneurs Docker)
+- installer les librairies
 
-Exécuter
+Il prend moins de 5 minutes.
+Exécutez-le avec  `npm run configure`
 
-```bash
-npm run configure
-```
+Vérifiez que le script s'est bien terminé : le message "🎉 Congratulations! Your environment has been set up." doit être
+affiché. Si ce n'est pas le cas, contactez les équipes de développement en
+ouvrant [une issue](https://github.com/1024pix/pix/issues).
 
-⚠️ Compter entre 10 et 15mn pour l'exécution du script.
+### Démarrer les applications
+
+Pour démarrer l'ensemble des applications, exécuter `npm start `
+
+⚠️ Cela prend entre 10 et 15 minutes et la consommation mémoire est élevée lors de cette opération.
+
+Si cela pose problème, démarrer sélectivement les applications :
+
+- Admin : `npm run start:admin`
+- Api : `npm run start:api`
+- App : `npm run start:mon-pix`
+- Certif : `npm run start:certif`
+- Orga : `npm run start:orga`
+
+### Accéder aux applications
+
+- [Pix Admin](http://localhost:4202) - port 4202 avec le compte `superadmin@example.net` / `pix123`
+- [Pix API](http://localhost:3000/api) - port 3000
+- [Pix App](http://localhost:4200) - port 4200 avec le compte `certif-success@example.net` / `pix123`
+- [Pix Orga](http://localhost:4201) - port 4201 avec le compte `sup.admin@example.net` / `pix123`
+- [Pix Certif](http://localhost:4203) - port 4203 avec le compte `certifsup@example.net` / `pix123`
+
+Le mot de passe est par défaut `pix123`.
+D'autres comptes sont disponibles dans les [seeds](api/db/seeds/data).
+
+### Complément
+
+#### Accès aux sources de données
+
+Se connecter à la base de données :
+
+- de test manuel : `docker exec -it pix-api-postgres psql -U postgres pix`;
+- de test automatique : `docker exec -it pix-api-postgres psql -U postgres pix_test`.
+
+Se connecter au cache :  `docker exec -it pix-api-redis redis-cli`
+
+#### Configuration
 
 Pix s'appuie sur la bibliothèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement
 en local.
 
-Le script `scripts/configure.sh` génére un fichier `.env` standard.
+Le script `scripts/configure.sh` génère un fichier [.env](api/.env) standard.
 
 Vous pouvez l'adapter à vos besoins:
 
-- configurer le logging :
+- activer le logging détaillé avec pretty-print :
 
 ```dotenv
 LOG_ENABLED=true
@@ -93,7 +133,7 @@ LOG_LEVEL=debug
 LOG_FOR_HUMANS=true
 ```
 
-- permettre la suppression du schéma de la base de données sans attendre le fin des connexions :
+- permettre la suppression du schéma de la base de données sans arrêter l'API :
 
 ```dotenv
 FORCE_DROP_DATABASE=true
@@ -105,29 +145,6 @@ FORCE_DROP_DATABASE=true
 LCMS_API_KEY=<SOME_KEY>
 LCMS_API_URL=<SOME_URL>
 ```
-
-Vérifier les connexions à la base de donnée :
-
-- de test manuel (présence de table et de données) `docker exec -it pix-api-postgres psql -U postgres pix`;
-- de test automatique (présence de tables) `docker exec -it pix-api-postgres psql -U postgres pix_test`.
-
-### 4. Démarrer les applications.
-
-Exécuter
-
-```bash
-npm start
-```
-
-### 5. Accéder aux applications.
-
-- [Pix API](http://localhost:3000) sur le port 3000
-- [Pix App](http://localhost:4200) sur le port 4200
-- [Pix Orga](http://localhost:4201) sur le port 4201
-- [Pix Admin](http://localhost:4202) sur le port 4202
-- [Pix Certif](http://localhost:4203) sur le port 4203
-
-### Facultatif
 
 #### Configurer les domaines locaux.
 
@@ -151,13 +168,13 @@ Pour configurer les domaines locaux, exécuter le script :
 npm run domains:install
 ```
 
-On peut ensuite démarrer le container docker nécessaire avec :
+Démarrer le conteneur docker :
 
 ```bash
 npm run domains:start
 ```
 
-Et arrêter le container avec :
+Arrêter le conteneur :
 
 ```bash
 npm run domains:stop
@@ -165,6 +182,8 @@ npm run domains:stop
 
 #### Activer le lint à chaque commit
 
-```
-npm run local:trigger-lint-on-commit
-```
+Ce repository est configuré pour indiquer aux IDE Webstorm et Vscode la configuration du linter.
+Malgré cela, il peut arriver que des erreurs de lint soient introduites.
+
+Pour tenter de les corriger automatiquement lors du commit, installer un hook de pre-commit.
+Pour cela, exécuter `npm run local:trigger-lint-on-commit`
