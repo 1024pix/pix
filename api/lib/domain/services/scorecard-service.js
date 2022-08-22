@@ -134,7 +134,9 @@ async function _resetCampaignAssessment({
   targetProfileRepository,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
-  const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
+  const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
+    campaignParticipationId: assessment.campaignParticipationId,
+  });
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
     targetedSkillIds: targetProfile.skills.map((skill) => skill.id),

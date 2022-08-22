@@ -1,54 +1,46 @@
-const Bookshelf = require('../bookshelf');
-const { knex } = require('../../../db/knex-database-connection');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfBadgeAcquisition = require('../orm-models/BadgeAcquisition');
-const DomainTransaction = require('../DomainTransaction');
 const bluebird = require('bluebird');
 const BadgeAcquisition = require('../../domain/models/BadgeAcquisition');
 const Badge = require('../../domain/models/Badge');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion');
 const SkillSet = require('../../domain/models/SkillSet');
 const ComplementaryCertificationBadge = require('../../domain/models/ComplementaryCertificationBadge');
+const { knex } = require('../../../db/knex-database-connection');
+const DomainTransaction = require('../DomainTransaction');
+
+const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
 module.exports = {
-  async createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
-    return bluebird.mapSeries(badgeAcquisitionsToCreate, async (badgeAcquisitionToCreate) => {
-      const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions')
+  async createOrUpdate({ badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return bluebird.mapSeries(badgeAcquisitionsToCreate, async ({ badgeId, userId, campaignParticipationId }) => {
+      const alreadyCreatedBadgeAcquisition = await knexConn(BADGE_ACQUISITIONS_TABLE)
         .select('id')
-        .where(badgeAcquisitionToCreate);
+        .where({ badgeId, userId, campaignParticipationId });
       if (alreadyCreatedBadgeAcquisition.length === 0) {
-        return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate);
+        return knexConn(BADGE_ACQUISITIONS_TABLE).insert(badgeAcquisitionsToCreate);
       } else {
-        return knexConn('badge-acquisitions')
-          .update({ updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') })
-          .where(badgeAcquisitionToCreate);
+        return knexConn(BADGE_ACQUISITIONS_TABLE)
+          .update({ updatedAt: knex.raw('CURRENT_TIMESTAMP') })
+          .where({ userId, badgeId, campaignParticipationId });
       }
     });
   },
 
-  async hasAcquiredBadge({ badgeKey, userId }) {
-    const badgeAcquisition = await Bookshelf.knex('badge-acquisitions')
-      .select('badge-acquisitions.id')
-      .innerJoin('badges', 'badges.id', 'badgeId')
-      .where({ userId, key: badgeKey })
-      .first();
-    return Boolean(badgeAcquisition);
+  async getAcquiredBadgeIds({ badgeIds, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return knexConn(BADGE_ACQUISITIONS_TABLE).pluck('badgeId').where({ userId }).whereIn('badgeId', badgeIds);
   },
 
-  async getAcquiredBadgeIds({ badgeIds, userId }) {
-    const collectionResult = await BookshelfBadgeAcquisition.where({ userId })
-      .where('badgeId', 'in', badgeIds)
-      .fetchAll({ columns: ['badge-acquisitions.badgeId'], require: false });
-    return collectionResult.map((obj) => obj.attributes.badgeId);
-  },
-
-  async getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds }) {
-    const badges = await Bookshelf.knex('badges')
+  async getAcquiredBadgesByCampaignParticipations({
+    campaignParticipationsIds,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const badges = await knexConn('badges')
       .distinct('badges.id')
       .select('badge-acquisitions.campaignParticipationId AS campaignParticipationId', 'badges.*')
       .from('badges')
-      .join('badge-acquisitions', 'badges.id', 'badge-acquisitions.badgeId')
+      .join(BADGE_ACQUISITIONS_TABLE, 'badges.id', 'badge-acquisitions.badgeId')
       .where('badge-acquisitions.campaignParticipationId', 'IN', campaignParticipationsIds)
       .orderBy('badges.id');
 
@@ -63,36 +55,9 @@ module.exports = {
     return acquiredBadgesByCampaignParticipations;
   },
 
-  async getCampaignAcquiredBadgesByUsers({ campaignId, userIds }) {
-    const results = await BookshelfBadgeAcquisition.query((qb) => {
-      qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
-      qb.join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId');
-      qb.where('campaigns.id', '=', campaignId);
-      qb.where('badge-acquisitions.userId', 'IN', userIds);
-    }).fetchAll({
-      withRelated: ['badge'],
-      require: false,
-    });
-
-    const badgeAcquisitions = results.map((result) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result)
-    );
-
-    const acquiredBadgesByUsers = {};
-    for (const badgeAcquisition of badgeAcquisitions) {
-      const { userId, badge } = badgeAcquisition;
-      if (acquiredBadgesByUsers[userId]) {
-        acquiredBadgesByUsers[userId].push(badge);
-      } else {
-        acquiredBadgesByUsers[userId] = [badge];
-      }
-    }
-    return acquiredBadgesByUsers;
-  },
-
   async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
-    const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
+    const certifiableBadgeAcquisitions = await knexConn(BADGE_ACQUISITIONS_TABLE)
       .select(
         'badges.*',
         'badge-acquisitions.*',
@@ -116,13 +81,13 @@ module.exports = {
       (certifiableBadgeAcquisition) => certifiableBadgeAcquisition.badgeId
     );
 
-    const badgeCriteria = await knex('badge-criteria').whereIn('badgeId', certifiableBadgeAcquisitionBadgeIds);
+    const badgeCriteria = await knexConn('badge-criteria').whereIn('badgeId', certifiableBadgeAcquisitionBadgeIds);
 
     const skillSetIds = badgeCriteria.flatMap((badgeCriterion) => badgeCriterion.skillSetIds);
 
     const uniqueSkillSetIds = [...new Set(skillSetIds)];
 
-    const skillSets = await knex('skill-sets').whereIn('id', uniqueSkillSetIds);
+    const skillSets = await knexConn('skill-sets').whereIn('id', uniqueSkillSetIds);
 
     return _toDomain(certifiableBadgeAcquisitions, badgeCriteria, skillSets);
   },

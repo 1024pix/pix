@@ -26,10 +26,15 @@ module.exports = async function completeAssessment({
     );
   }
 
-  return new AssessmentCompleted({
+  const assessmentCompleted = new AssessmentCompleted({
     assessmentId: assessment.id,
     userId: assessment.userId,
     campaignParticipationId: assessment.campaignParticipationId,
     certificationCourseId: assessment.certificationCourseId,
   });
+
+  return {
+    event: assessmentCompleted,
+    assessment,
+  };
 };

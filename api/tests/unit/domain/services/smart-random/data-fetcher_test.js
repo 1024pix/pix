@@ -48,7 +48,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       targetProfileRepository.getByCampaignParticipationId
-        .withArgs(assessment.campaignParticipationId)
+        .withArgs({ campaignParticipationId: assessment.campaignParticipationId })
         .resolves(targetProfile);
       challengeRepository.findOperativeBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);

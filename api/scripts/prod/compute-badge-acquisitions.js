@@ -92,7 +92,9 @@ async function computeBadgeAcquisition({
   }
 
   const userId = campaignParticipation.userId;
-  const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipation.id);
+  const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
+    campaignParticipationId: campaignParticipation.id,
+  });
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
   const validatedBadgesByUser = associatedBadges.filter((badge) =>
@@ -104,7 +106,7 @@ async function computeBadgeAcquisition({
     userId,
   });
 
-  const badgesAcquisitionToCreate = validatedBadgesByUser
+  const badgeAcquisitionsToCreate = validatedBadgesByUser
     .filter((badge) => !acquiredBadgeIds.includes(badge.id))
     .map((badge) => {
       return {
@@ -114,19 +116,19 @@ async function computeBadgeAcquisition({
       };
     });
 
-  if (_.isEmpty(badgesAcquisitionToCreate)) {
+  if (_.isEmpty(badgeAcquisitionsToCreate)) {
     return 0;
   }
 
   if (!dryRun) {
-    await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
+    await badgeAcquisitionRepository.createOrUpdate({ badgeAcquisitionsToCreate });
   }
 
-  return badgesAcquisitionToCreate.length;
+  return badgeAcquisitionsToCreate.length;
 }
 
 function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository) {
-  return badgeRepository.findByCampaignParticipationId(campaignParticipation.id);
+  return badgeRepository.findByCampaignParticipationId({ campaignParticipationId: campaignParticipation.id });
 }
 
 async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {
