@@ -1,10 +1,9 @@
 import get from 'lodash/get';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import IdentityProviders from 'mon-pix/identity-providers';
 
-export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
+export default class AccessRoute extends Route {
   @service currentUser;
   @service session;
   @service campaignStorage;
@@ -26,7 +25,7 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     });
 
     if (identityProviderToVisit) {
-      this.session.set('attemptedTransition', transition);
+      this.session.setAttemptedTransition(transition);
       return this.router.replaceWith('authentication.login-oidc', identityProviderToVisit);
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
@@ -36,7 +35,7 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
       this.authenticationRoute = 'campaigns.join.anonymous';
     }
 
-    super.beforeModel(...arguments);
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition, this.authenticationRoute);
   }
 
   model() {

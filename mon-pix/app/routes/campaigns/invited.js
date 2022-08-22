@@ -1,16 +1,17 @@
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
+export default class InvitedRoute extends Route {
   @service campaignStorage;
+  @service session;
   @service router;
 
   beforeModel(transition) {
     if (!transition.from) {
       return this.router.replaceWith('campaigns.entry-point');
     }
-    super.beforeModel(...arguments);
+
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
   }
 
   model() {

@@ -1,12 +1,16 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class StudentSupRoute extends Route.extend(SecuredRouteMixin) {
+export default class StudentSupRoute extends Route {
   @service currentUser;
   @service campaignStorage;
   @service store;
+  @service session;
   @service router;
+
+  beforeModel(transition) {
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
+  }
 
   model() {
     return this.modelFor('campaigns');

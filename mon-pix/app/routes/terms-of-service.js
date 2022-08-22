@@ -1,13 +1,12 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRouteMixin) {
+export default class TermsOfServiceRoute extends Route {
   @service currentUser;
   @service session;
   @service router;
 
-  beforeModel() {
+  beforeModel(transition) {
     const isUserExternal = Boolean(this.session.data.externalUser);
     if (isUserExternal || !this.currentUser.user.mustValidateTermsOfService) {
       if (this.session.attemptedTransition) {
@@ -16,6 +15,8 @@ export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRoute
         this.router.replaceWith('');
       }
     }
+
+    this.session.requireAuthentication(transition, 'login');
   }
 
   model() {

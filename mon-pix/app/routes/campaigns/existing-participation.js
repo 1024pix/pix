@@ -1,10 +1,14 @@
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default class ExistingParticipation extends Route.extend(SecuredRouteMixin) {
+export default class ExistingParticipation extends Route {
   @service store;
   @service currentUser;
+  @service session;
+
+  beforeModel(transition) {
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
+  }
 
   model() {
     const { code } = this.paramsFor('campaigns');

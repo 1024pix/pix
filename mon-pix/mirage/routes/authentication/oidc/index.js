@@ -35,9 +35,11 @@ export default function (config) {
   config.post('/oidc/users', (schema, request) => {
     const payload = JSON.parse(request.requestBody);
     const identityProvider = payload.data.attributes.identity_provider;
+    const profile = schema.profiles.create({ pixScore: 1 });
     const createdUser = schema.users.create({
       firstName: 'Lloyd',
       lastName: 'Cé',
+      profile,
     });
 
     return {
