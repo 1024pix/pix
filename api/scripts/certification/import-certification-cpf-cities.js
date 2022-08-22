@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// eslint-disable-file node/no-process-exit
+
 require('dotenv').config();
 const logger = require('../../lib/infrastructure/logger');
 // Usage: node scripts/import-certification-cpf-cities path/file.csv
@@ -9,6 +11,17 @@ const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
 const { knex } = require('../../lib/infrastructure/bookshelf');
 const uniqBy = require('lodash/uniqBy');
 const values = require('lodash/values');
+
+const wordsToReplace = [
+  {
+    regex: /(^|\s)STE($|\s)/,
+    value: 'SAINTE',
+  },
+  {
+    regex: /(^|\s)ST($|\s)/,
+    value: 'SAINT',
+  },
+];
 
 const specificCities = [
   {
@@ -41,6 +54,7 @@ const headers = {
 function buildCities({ csvData }) {
   const citiesWithAlternates = csvData.flatMap((data) => {
     const result = [];
+
     result.push({
       name: data[headers.cityName],
       postalCode: data[headers.postalCode],
@@ -56,6 +70,16 @@ function buildCities({ csvData }) {
         isActualName: false,
       });
     }
+
+    if (_doesCityNameContainWordToReplace(data[headers.cityName])) {
+      result.push({
+        name: _buildCityNameWithWordReplaced(data[headers.cityName]),
+        postalCode: data[headers.postalCode],
+        INSEECode: data[headers.inseeCode],
+        isActualName: false,
+      });
+    }
+
     return result;
   });
 
@@ -110,6 +134,15 @@ if (require.main === module) {
 
 function _getInsertedLineNumber(batchInfo) {
   return batchInfo.map(({ rowCount }) => rowCount).reduce((acc, count) => acc + count, 0);
+}
+
+function _doesCityNameContainWordToReplace(cityName) {
+  return wordsToReplace.some(({ regex }) => regex.test(cityName));
+}
+
+function _buildCityNameWithWordReplaced(cityName) {
+  const entry = wordsToReplace.find(({ regex }) => regex.test(cityName));
+  return cityName.replace(entry.regex, ` ${entry.value} `).trim();
 }
 
 module.exports = {

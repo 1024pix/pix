@@ -95,5 +95,46 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
         ]);
       });
     });
+
+    describe('#when there is a word to replace in the city name', function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        { cityName: 'STE CECILE', expectedCityName: 'SAINTE CECILE' },
+        { cityName: 'ST NAZAIRE', expectedCityName: 'SAINT NAZAIRE' },
+        { cityName: 'NAZAIRE STE CECILE', expectedCityName: 'NAZAIRE SAINTE CECILE' },
+        { cityName: 'CECILE ST NAZAIRE', expectedCityName: 'CECILE SAINT NAZAIRE' },
+      ].forEach(({ cityName, expectedCityName }) => {
+        it('should return 2 lines with both long and short city names', function () {
+          // given
+          const csvData = [
+            {
+              code_commune_insee: '50453',
+              nom_de_la_commune: cityName,
+              code_postal: '50800',
+              ligne_5: null,
+            },
+          ];
+
+          // when
+          const cities = buildCities({ csvData });
+
+          // then
+          expect(cities).to.deep.equal([
+            {
+              INSEECode: '50453',
+              isActualName: true,
+              name: cityName,
+              postalCode: '50800',
+            },
+            {
+              INSEECode: '50453',
+              isActualName: false,
+              name: expectedCityName,
+              postalCode: '50800',
+            },
+          ]);
+        });
+      });
+    });
   });
 });
