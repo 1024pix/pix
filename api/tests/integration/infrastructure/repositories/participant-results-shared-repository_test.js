@@ -146,7 +146,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         //when
         const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
-        expect(participantResultsShared.isCertifiable).to.equal(false);
+        expect(participantResultsShared.isCertifiable).to.be.false;
       });
 
       it('computes isCertifiable as true', async function () {
@@ -183,7 +183,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         //when
         const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
-        expect(participantResultsShared.isCertifiable).to.equal(true);
+        expect(participantResultsShared.isCertifiable).to.be.true;
       });
     });
 
@@ -323,7 +323,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         //when
         const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
-        expect(participantResultsShared.isCertifiable).to.equal(null);
+        expect(participantResultsShared.isCertifiable).to.be.null;
       });
     });
 

@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
         });
 
         // then
-        expect(participantResultsShared.isCertifiable).to.equal(null);
+        expect(participantResultsShared.isCertifiable).to.be.null;
       });
     });
 
