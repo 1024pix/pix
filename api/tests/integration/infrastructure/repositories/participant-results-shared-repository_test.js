@@ -1,10 +1,89 @@
-const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
-
+const { expect, knex, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const participantResultsSharedRepository = require('../../../../lib/infrastructure/repositories/participant-results-shared-repository');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
 
 describe('Integration | Repository | Campaign Participant Result Shared Repository', function () {
+  describe('#save', function () {
+    it('updates the campaign participation', async function () {
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 1,
+        pixScore: null,
+        masteryRate: null,
+        validatedSkillsCount: null,
+        isCertifiable: null,
+      });
+      await databaseBuilder.commit();
+      const participantResultsShared = {
+        id: 1,
+        pixScore: 42,
+        masteryRate: 0.03,
+        validatedSkillsCount: 21,
+        isCertifiable: true,
+      };
+
+      await participantResultsSharedRepository.save(participantResultsShared);
+
+      const campaignParticipation = await knex('campaign-participations').where({ id: 1 }).first();
+
+      expect(campaignParticipation).to.deep.includes({
+        id: 1,
+        pixScore: 42,
+        masteryRate: '0.03',
+        validatedSkillsCount: 21,
+        isCertifiable: true,
+      });
+    });
+
+    context('when there is several campaign', function () {
+      it('updates the campaign participation with correct id', async function () {
+        databaseBuilder.factory.buildCampaignParticipation({
+          id: 1,
+          pixScore: null,
+          masteryRate: null,
+          validatedSkillsCount: null,
+          isCertifiable: null,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          id: 2,
+          pixScore: null,
+          masteryRate: null,
+          validatedSkillsCount: null,
+          isCertifiable: null,
+        });
+        await databaseBuilder.commit();
+
+        const participantResultsShared = {
+          id: 2,
+          pixScore: 42,
+          masteryRate: 0.03,
+          validatedSkillsCount: 21,
+          isCertifiable: true,
+        };
+
+        await participantResultsSharedRepository.save(participantResultsShared);
+
+        const campaignParticipation1 = await knex('campaign-participations').where({ id: 1 }).first();
+        const campaignParticipation2 = await knex('campaign-participations').where({ id: 2 }).first();
+
+        expect(campaignParticipation1).to.deep.includes({
+          id: 1,
+          pixScore: null,
+          masteryRate: null,
+          validatedSkillsCount: null,
+          isCertifiable: null,
+        });
+        expect(campaignParticipation2).to.deep.includes({
+          id: 2,
+          pixScore: 42,
+          masteryRate: '0.03',
+          validatedSkillsCount: 21,
+          isCertifiable: true,
+        });
+      });
+    });
+  });
+
   describe('#get', function () {
     describe('when there is no target profile', function () {
       it('computes the participant results for the complete learning content', async function () {
