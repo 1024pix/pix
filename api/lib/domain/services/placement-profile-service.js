@@ -107,26 +107,25 @@ function _createUserCompetencesV2({
 }
 
 async function _generatePlacementProfileV2({ userId, profileDate, competences, allowExcessPixAndLevels }) {
-  const placementProfile = new PlacementProfile({
-    userId,
-    profileDate,
-  });
-
   const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
-    userId: placementProfile.userId,
-    limitDate: placementProfile.profileDate,
+    userId,
+    limitDate: profileDate,
   });
 
   const skills = await skillRepository.list();
 
-  placementProfile.userCompetences = _createUserCompetencesV2({
+  const userCompetences = _createUserCompetencesV2({
     knowledgeElementsByCompetence,
     competences,
     allowExcessPixAndLevels,
     skills,
   });
 
-  return placementProfile;
+  return new PlacementProfile({
+    userId,
+    profileDate,
+    userCompetences,
+  });
 }
 
 async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
@@ -136,15 +135,16 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
   const placementProfilesList = [];
   for (const [strUserId, knowledgeElementsByCompetence] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
     const userId = parseInt(strUserId);
-    const placementProfile = new PlacementProfile({
-      userId,
-      profileDate: userIdsAndDates[userId],
-    });
 
-    placementProfile.userCompetences = _createUserCompetencesV2({
+    const userCompetences = _createUserCompetencesV2({
       knowledgeElementsByCompetence,
       competences,
       allowExcessPixAndLevels,
+    });
+    const placementProfile = new PlacementProfile({
+      userId,
+      profileDate: userIdsAndDates[userId],
+      userCompetences,
     });
 
     placementProfilesList.push(placementProfile);
