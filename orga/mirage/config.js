@@ -1,7 +1,8 @@
 import Response from 'ember-cli-mirage/response';
 import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
-import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
+import { findFilteredPaginatedScoOrganizationParticipants } from './handlers/find-filtered-paginated-sco-organization-participants';
+import { findFilteredPaginatedSupOrganizationParticipants } from './handlers/find-filtered-paginated-sup-organization-participants';
 import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
 import { findFilteredPaginatedOrganizationParticipants } from './handlers/find-filtered-paginated-organization-participants';
 
@@ -249,7 +250,9 @@ export default function () {
     return invitation;
   });
 
-  this.get('/organizations/:id/students', findFilteredPaginatedStudents);
+  this.get('/organizations/:id/sco-participants', findFilteredPaginatedScoOrganizationParticipants);
+
+  this.get('/organizations/:id/sup-participants', findFilteredPaginatedSupOrganizationParticipants);
 
   this.get('/organizations/:id/participants', findFilteredPaginatedOrganizationParticipants);
 
@@ -268,7 +271,7 @@ export default function () {
       });
     } else if (type === 'valid-file') {
       const organizationId = request.params.id;
-      return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+      return schema.scoOrganizationParticipants.create({ organizationId, firstName: 'Harry', lastName: 'Cover' });
     }
   });
 
@@ -277,10 +280,10 @@ export default function () {
 
     if (type === 'valid-file') {
       const organizationId = request.params.id;
-      return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+      return schema.supOrganizationParticipants.create({ organizationId, firstName: 'Harry', lastName: 'Cover' });
     } else if (type === 'valid-file-with-warnings') {
       const organizationId = request.params.id;
-      await schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+      await schema.supOrganizationParticipants.create({ organizationId, firstName: 'Harry', lastName: 'Cover' });
       return Promise.resolve(
         new Response(
           200,
@@ -303,10 +306,10 @@ export default function () {
       },
     } = JSON.parse(request.requestBody);
 
-    if (schema.students.all().models.find((student) => student.studentNumber === studentNumber)) {
+    if (schema.supOrganizationParticipants.all().models.find((student) => student.studentNumber === studentNumber)) {
       return new Response(412, {}, { errors: [{ status: '412', detail: 'STUDENT_NUMBER_EXISTS' }] });
     }
-    const student = schema.students.find(studentId);
+    const student = schema.supOrganizationParticipants.find(studentId);
     return student.update({ studentNumber });
   });
 

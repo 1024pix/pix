@@ -48,11 +48,6 @@ describe('Unit | Serializer | organization-serializer', function () {
                 related: `/api/organizations/${organization.id}/memberships`,
               },
             },
-            students: {
-              links: {
-                related: `/api/organizations/${organization.id}/students`,
-              },
-            },
             'target-profiles': {
               links: {
                 related: `/api/organizations/${organization.id}/target-profiles`,
@@ -94,17 +89,6 @@ describe('Unit | Serializer | organization-serializer', function () {
           some: 'meta',
         },
       });
-    });
-
-    it('should include serialized student data when organization has organizationLearner', function () {
-      // given
-      const organization = domainBuilder.buildOrganization.withOrganizationLearners();
-
-      // when
-      const serializedOrganization = serializer.serialize(organization);
-
-      // then
-      expect(serializedOrganization.data.relationships.students).to.be.ok;
     });
   });
 

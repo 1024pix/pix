@@ -200,8 +200,8 @@
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
-      "students-sco": "Élèves",
-      "students-sup": "Étudiants",
+      "sco-organization-participants": "Élèves",
+      "sup-organization-participants": "Étudiants",
       "team": "Équipe",
       "aria-label": "Navigation principale"
     },
@@ -755,7 +755,7 @@
         "title": "Liste des profils reçus"
       }
     },
-    "students-sco": {
+    "sco-organization-participants": {
       "title": "Élèves",
       "actions": {
         "import-file": {
@@ -847,7 +847,7 @@
         "row-title": "Élève"
       }
     },
-    "students-sup": {
+    "sup-organization-participants": {
       "title": "Étudiants",
       "actions": {
         "download-template": "Télécharger le modèle",
@@ -900,7 +900,7 @@
         "row-title": "Étudiant"
       }
     },
-    "students-sup-import": {
+    "sup-organization-participants-import": {
       "description": "Quel type d'import souhaitez-vous réaliser ?",
       "title": "Importer des étudiants",
       "actions": {
