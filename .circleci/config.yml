@@ -23,12 +23,14 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.2.4
+  slack: circleci/slack@4.9.3
 
 workflows:
   version: 2
   build-and-test:
     jobs:
       - checkout:
+          context: Pix
           filters:
             branches:
               ignore:
@@ -38,22 +40,27 @@ workflows:
                 - /release-.*/
 
       - api_build_and_test:
+          context: Pix
           requires:
             - checkout
 
       - mon_pix_build_and_test:
+          context: Pix
           requires:
             - checkout
 
       - orga_build_and_test:
+          context: Pix
           requires:
             - checkout
 
       - certif_build_and_test:
+          context: Pix
           requires:
             - checkout
 
       - admin_build_and_test:
+          context: Pix
           requires:
             - checkout
 
@@ -63,6 +70,7 @@ workflows:
             - checkout
 
       - algo_test:
+          context: Pix
           requires:
             - checkout
 
@@ -86,6 +94,7 @@ jobs:
           root: ~/pix
           paths:
             - .
+      - notify-ci-errors-on-slack
 
   api_build_and_test:
     docker:
@@ -124,6 +133,7 @@ jobs:
           path: /home/circleci/test-results
       - store_artifacts:
           path: /home/circleci/test-results
+      - notify-ci-errors-on-slack
 
   mon_pix_build_and_test:
     docker:
@@ -152,6 +162,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:ci
+      - notify-ci-errors-on-slack
 
   orga_build_and_test:
     docker:
@@ -179,6 +190,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:ci
+      - notify-ci-errors-on-slack
 
   certif_build_and_test:
     docker:
@@ -206,6 +218,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:ci
+      - notify-ci-errors-on-slack
 
   admin_build_and_test:
     docker:
@@ -233,6 +246,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:ci
+      - notify-ci-errors-on-slack
 
   e2e_test:
     docker:
@@ -332,6 +346,7 @@ jobs:
           command: npm run test:ci
       - store_test_results:
           path: /home/circleci/test-results
+      - notify-ci-errors-on-slack
 
   algo_test:
     docker:
@@ -375,4 +390,12 @@ jobs:
       - run:
           name: Test
           command: npm run test:ci
+      - notify-ci-errors-on-slack
 
+commands:
+  notify-ci-errors-on-slack:
+    steps:
+      - slack/notify:
+          event: fail
+          channel: engineering
+          branch_pattern: dev
