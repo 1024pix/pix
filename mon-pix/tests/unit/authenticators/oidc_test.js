@@ -180,16 +180,8 @@ describe('Unit | Authenticator | oidc', function () {
 
   describe('#invalidate', function () {
     context('when user has logoutUrlUUID in their session', function () {
-      it('should redirect to the correct url', async function () {
+      it('should set alternativeRootURL with the redirect logout url', async function () {
         // given
-        const replaceLocationStub = sinon.stub().resolves();
-        this.owner.register(
-          'service:location',
-          // eslint-disable-next-line ember/no-classic-classes
-          Service.extend({
-            replace: replaceLocationStub,
-          })
-        );
         const sessionStub = Service.create({
           isAuthenticated: true,
           data: {
@@ -210,7 +202,7 @@ describe('Unit | Authenticator | oidc', function () {
         await authenticator.invalidate({ identity_provider_code: 'POLE_EMPLOI' });
 
         // then
-        expect(replaceLocationStub.getCall(0).args[0]).to.equal(redirectLogoutUrl);
+        expect(authenticator.session.alternativeRootURL).to.equal(redirectLogoutUrl);
       });
     });
   });

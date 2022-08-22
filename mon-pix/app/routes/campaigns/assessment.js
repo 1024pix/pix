@@ -1,9 +1,14 @@
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default class AssessmentRoute extends Route.extend(SecuredRouteMixin) {
+export default class AssessmentRoute extends Route {
+  @service currentUser;
+  @service session;
   @service store;
+
+  beforeModel(transition) {
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
+  }
 
   async model() {
     const campaign = this.modelFor('campaigns');

@@ -11,30 +11,21 @@ export default class LogoutRoute extends Route {
   @service router;
 
   beforeModel() {
-    const session = this.session;
-    this.source = session.data.authenticated.source;
-    delete session.data.externalUser;
+    delete this.session.data.externalUser;
     this.campaignStorage.clearAll();
 
-    if (session.isAuthenticated) {
-      return session.invalidate();
+    if (this.session.isAuthenticated) {
+      if (this.session.data.authenticated.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
+        this.session.alternativeRootURL = '/nonconnecte';
+      } else if (this.session.data.authenticated.source !== 'pole_emploi_connect') {
+        this.session.alternativeRootURL = null;
+      }
+      return this.session.invalidate();
     }
+    this._redirectToHomePage();
   }
 
-  afterModel() {
-    if (this.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
-      return this._redirectToDisconnectedPage();
-    } else if (this.source !== 'pole_emploi_connect') {
-      return this._redirectToHome();
-    }
-  }
-
-  _redirectToDisconnectedPage() {
-    this.router.transitionTo('not-connected');
-    return;
-  }
-
-  _redirectToHome() {
-    return window.location.replace(this.url.homeUrl);
+  _redirectToHomePage() {
+    window.location.replace(this.url.homeUrl);
   }
 }

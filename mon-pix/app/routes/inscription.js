@@ -1,11 +1,14 @@
 import { inject as service } from '@ember/service';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 
-export default class Inscription extends Route.extend(UnauthenticatedRouteMixin) {
+export default class InscriptionRoute extends Route {
   @service session;
   @service store;
+
+  beforeModel() {
+    this.session.prohibitAuthentication('user-dashboard');
+  }
 
   model() {
     // XXX: Model needs to be initialize with empty to handle validations on all fields from Api
@@ -19,7 +22,7 @@ export default class Inscription extends Route.extend(UnauthenticatedRouteMixin)
   }
 
   @action
-  refresh() {
+  refreshModel() {
     this.refresh();
   }
 

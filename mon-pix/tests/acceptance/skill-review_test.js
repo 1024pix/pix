@@ -5,6 +5,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
+import { click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -282,11 +283,15 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
 
     it('should redirect to sign up page on click when user is anonymous', async function () {
       // given
-      await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
+      await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaignForNovice.code });
 
       await visit(`/campagnes/${campaignForNovice.code}`);
+      await fillIn('#campaign-code', campaignForNovice.code);
+      await click('.fill-in-campaign-code__start-button');
+
       //TODO: locale is UNDEFINED after using visit
       this.intl.setLocale(['fr']);
+
       await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 

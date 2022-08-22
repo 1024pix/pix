@@ -1,11 +1,15 @@
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 
-export default class UserDashboard extends Route.extend(SecuredRouteMixin) {
-  @service currentUser;
+export default class UserDashboard extends Route {
   @service store;
+  @service currentUser;
+  @service session;
+
+  beforeModel(transition) {
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
+  }
 
   async model() {
     const user = this.currentUser.user;
