@@ -1,50 +1,33 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
+const Campaign = require('../../../../lib/domain/models/CampaignForArchiving');
 const archiveCampaign = require('../../../../lib/domain/usecases/archive-campaign');
-const { UserNotAuthorizedToUpdateCampaignError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | archive-campaign', function () {
-  const userId = 'user id';
-  const campaignId = 'campaign id';
-  let campaignRepository;
+  let clock;
+  let now;
+  let campaignForArchivingRepository;
 
   beforeEach(function () {
-    campaignRepository = {
-      update: sinon.stub(),
-      checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
+    now = new Date('2022-01-01');
+    clock = sinon.useFakeTimers(now);
+    campaignForArchivingRepository = {
+      get: sinon.stub(),
+      save: sinon.stub(),
     };
   });
 
-  context('when the user has the rights to update the campaign', function () {
-    beforeEach(function () {
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      return archiveCampaign({ campaignId, userId, campaignRepository });
-    });
-
-    it('should verify that the user has the rights', async function () {
-      expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign).to.have.been.calledWithExactly(
-        campaignId,
-        userId
-      );
-    });
-
-    it('should update the campaign', function () {
-      expect(campaignRepository.update).to.have.been.calledWithExactly({
-        id: campaignId,
-        archivedAt: sinon.match.instanceOf(Date),
-        archivedBy: userId,
-      });
-    });
+  afterEach(function () {
+    clock.restore();
   });
 
-  context('when the user has no rights to update the campaign', function () {
-    it('should throw a UserNotAuthorizedToUpdateCampaignError', async function () {
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.rejects(
-        new UserNotAuthorizedToUpdateCampaignError()
-      );
+  it('should update the campaign', async function () {
+    const campaign = new Campaign({ id: 1, code: 'ABC123' });
+    const expectedCampaign = new Campaign({ id: 1, code: 'ABC123', archivedBy: 12, archivedAt: now });
+    campaignForArchivingRepository.get.resolves(campaign);
 
-      const error = await catchErr(archiveCampaign)({ campaignId, userId, campaignRepository });
+    await archiveCampaign({ campaignId: 1, userId: 12, campaignForArchivingRepository });
 
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateCampaignError);
-    });
+    expect(campaignForArchivingRepository.get).to.have.been.calledWith(1);
+    expect(campaignForArchivingRepository.save).to.have.been.calledWith(expectedCampaign);
   });
 });
