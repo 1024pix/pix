@@ -13,25 +13,25 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
         const csvData = [
           {
             code_commune_insee: '30288',
-            nom_de_la_commune: 'ST NAZAIRE',
+            nom_de_la_commune: 'NAZAIRE',
             code_postal: '30200',
             ligne_5: null,
           },
           {
             code_commune_insee: '44184',
-            nom_de_la_commune: 'ST NAZAIRE',
+            nom_de_la_commune: 'NAZAIRE',
             code_postal: '44600',
             ligne_5: 'ST MARC SUR MER',
           },
           {
             code_commune_insee: '66186',
-            nom_de_la_commune: 'ST NAZAIRE',
+            nom_de_la_commune: 'NAZAIRE',
             code_postal: '66570',
             ligne_5: null,
           },
           {
             code_commune_insee: '44184',
-            nom_de_la_commune: 'ST NAZAIRE',
+            nom_de_la_commune: 'NAZAIRE',
             code_postal: '44600',
             ligne_5: null,
           },
@@ -45,13 +45,13 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
           {
             INSEECode: '30288',
             isActualName: true,
-            name: 'ST NAZAIRE',
+            name: 'NAZAIRE',
             postalCode: '30200',
           },
           {
             INSEECode: '44184',
             isActualName: true,
-            name: 'ST NAZAIRE',
+            name: 'NAZAIRE',
             postalCode: '44600',
           },
           {
@@ -63,7 +63,7 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
           {
             INSEECode: '66186',
             isActualName: true,
-            name: 'ST NAZAIRE',
+            name: 'NAZAIRE',
             postalCode: '66570',
           },
         ]);
