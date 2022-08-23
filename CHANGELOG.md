@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.245.0 (23/08/2022)
+
+
+### :rocket: Amélioration
+- [#4804](https://github.com/1024pix/pix/pull/4804) [FEATURE] Permettre l'import de candidats avec un nom de commune contenant Saint/Sainte (PIX-5303)
+
+### :building_construction: Tech
+- [#4805](https://github.com/1024pix/pix/pull/4805) [TECH] Remplissage de la nouvelle colonne `isCertifiable` au partage de profil (PIX-5478).
+- [#4766](https://github.com/1024pix/pix/pull/4766) [TECH] Notifier par Slack d'une erreur de build sur dev
+
+### :bug: Correction
+- [#4810](https://github.com/1024pix/pix/pull/4810) [BUGFIX] Corriger l'édition d'une organisation sur Pix Admin (PIX-5520).
+- [#4762](https://github.com/1024pix/pix/pull/4762) [BUGFIX] Lancer l'acquisition de badge dans la même transaction que la complétion d'assessment (PIX-5477)
+
 ## v3.244.0 (22/08/2022)
 
 
