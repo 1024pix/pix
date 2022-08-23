@@ -69,7 +69,6 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
       });
 
       // then
-
       expect(data).to.have.lengthOf(1);
     });
 
@@ -376,6 +375,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
+          isCertifiable: null,
         });
         await databaseBuilder.commit();
 
@@ -420,6 +420,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
+          isCertifiable: null,
         });
         await databaseBuilder.commit();
 
@@ -457,6 +458,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
+          isCertifiable: null,
         });
         await databaseBuilder.commit();
 
@@ -780,6 +782,259 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         // then
         const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
         expect(lastParticipationDatesAsArray).to.deep.equal([null]);
+      });
+    });
+
+    context('#isCertifiable', function () {
+      it('should take the shared participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: false,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.STARTED,
+          sharedAt: null,
+          isCertifiable: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([campaignParticipation.isCertifiable]);
+      });
+
+      it('should take the last shared participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2021-01-01'),
+          isCertifiable: false,
+        });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([campaignParticipation.isCertifiable]);
+      });
+
+      it('should take the last shared participation of profile collection campaign', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const profileCollectionCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const assessmentCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.ASSESSMENT,
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: profileCollectionCampaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2021-01-01'),
+          isCertifiable: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: assessmentCampaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([campaignParticipation.isCertifiable]);
+      });
+
+      it('should take the last shared participation not deleted', async function () {
+        // given
+        const deletedBy = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2021-01-01'),
+          isCertifiable: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: false,
+          deletedAt: new Date(),
+          deletedBy,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([campaignParticipation.isCertifiable]);
+      });
+
+      it('should take the last shared participation even if isImproved is true', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: true,
+          isImproved: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2021-01-01'),
+          isCertifiable: false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([campaignParticipation.isCertifiable]);
+      });
+
+      it('should take the last shared participation for campaign of given organization', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId: otherOrganizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2021-01-01'),
+          isCertifiable: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([campaignParticipation.isCertifiable]);
+      });
+
+      it('should be null when sco participant has no participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        const isCertifiablesAsArray = data.map((result) => result.isCertifiable);
+        expect(isCertifiablesAsArray).to.deep.equal([null]);
       });
     });
   });
