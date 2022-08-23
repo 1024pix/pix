@@ -8,11 +8,9 @@ describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationRe
       // given
       const event = new CampaignParticipationResultsShared({ campaignParticipationId: 1 });
       const participationResultsShared = Symbol('participation results shared');
-      const participantResultsSharedRepository = { get: sinon.stub() };
-      const campaignParticipationRepository = { update: sinon.stub() };
+      const participantResultsSharedRepository = { get: sinon.stub(), save: sinon.stub() };
       const handler = new ParticipationResultCalculationJobHandler({
         participantResultsSharedRepository,
-        campaignParticipationRepository,
       });
       participantResultsSharedRepository.get.withArgs(1).resolves(participationResultsShared);
 
@@ -20,7 +18,7 @@ describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationRe
       await handler.handle(event);
 
       // then
-      expect(campaignParticipationRepository.update).to.have.been.calledWith(participationResultsShared);
+      expect(participantResultsSharedRepository.save).to.have.been.calledWith(participationResultsShared);
     });
   });
 });
