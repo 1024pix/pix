@@ -55,6 +55,10 @@ class CertificationCenter {
   get isHabilitatedClea() {
     return this.habilitations.some((habilitation) => habilitation.key === CLEA);
   }
+
+  isHabilitated(key) {
+    return this.habilitations.some((habilitation) => habilitation.key === key);
+  }
 }
 
 module.exports = CertificationCenter;

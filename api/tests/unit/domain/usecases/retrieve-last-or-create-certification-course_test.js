@@ -500,7 +500,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                           const pixDroitMaitreBadgeAcquisition =
-                            domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
+                            domainBuilder.buildCertifiableBadgeAcquisition.forPixDroitMaitre(
+                              complementaryCertificationPixPlusDroit
+                            );
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({ userId: 2, domainTransaction })
                             .resolves([pixDroitMaitreBadgeAcquisition]);
@@ -616,7 +618,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                           const pixDroitMaitreBadgeAcquisition =
-                            domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
+                            domainBuilder.buildCertifiableBadgeAcquisition.forPixDroitMaitre(
+                              complementaryCertificationPixPlusDroit
+                            );
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({ userId: 2, domainTransaction })
                             .resolves([pixDroitMaitreBadgeAcquisition]);
@@ -741,9 +745,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             key: 'PIX_DROIT_EXPERT_CERTIF',
                             targetProfileId: 22,
                           });
-                          domainBuilder.buildBadgeAcquisition({ badge: maitreBadge });
-                          const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({
+                          domainBuilder.buildCertifiableBadgeAcquisition({ badge: maitreBadge });
+                          const certifiableBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({
                             badge: expertBadge,
+                            complementaryCertification: complementaryCertificationPixPlusDroit,
                           });
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({ userId: 2, domainTransaction })
@@ -865,10 +870,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
                             const certifiableBadge1 = domainBuilder.buildBadge({ key: 'COUCOU', targetProfileId: 11 });
                             const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
-                            const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({
+                            const certifiableBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({
                               badge: certifiableBadge1,
                             });
-                            const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({
+                            const certifiableBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({
                               badge: certifiableBadge2,
                             });
 
@@ -1231,6 +1236,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           const complementaryCertificationCleA = domainBuilder.buildComplementaryCertification({
                             key: CLEA,
                           });
+
+                          const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forCleaV3();
+                          certificationBadgesService.findStillValidBadgeAcquisitions
+                            .withArgs({ userId: 2, domainTransaction })
+                            .resolves([badgeAcquisition]);
+
                           const certificationCenter = domainBuilder.buildCertificationCenter({
                             habilitations: [complementaryCertificationCleA],
                           });
@@ -1329,7 +1340,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCenterRepository.getBySessionId.resolves(certificationCenter);
                         complementaryCertificationRepository.findAll.resolves([complementaryCertificationCleA]);
 
-                        const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV3();
+                        const cleaBadgeAcquisition =
+                          domainBuilder.buildCertifiableBadgeAcquisition.forCleaV3(complementaryCertificationCleA);
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
@@ -1465,7 +1477,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           assessmentRepository.save
                             .withArgs({ assessment: assessmentToSave, domainTransaction })
                             .resolves(savedAssessment);
-                          const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV2();
+                          const cleaBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forCleaV2();
 
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({
@@ -1558,7 +1570,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .withArgs({ assessment: assessmentToSave, domainTransaction })
                           .resolves(savedAssessment);
 
-                        const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
+                        const cleaBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forCleaV1();
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({
@@ -1640,7 +1652,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                         const pixEduBadgeAcquisition =
-                          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme();
+                          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme(
+                            complementaryCertificationPixPlusEdu1erDegre
+                          );
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
                           .resolves([pixEduBadgeAcquisition]);
@@ -1758,7 +1772,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                         const pixEduBadgeAcquisition =
-                          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme();
+                          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme(
+                            complementaryCertificationPixPlusEdu1erDegre
+                          );
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
                           .resolves([pixEduBadgeAcquisition]);
@@ -1871,7 +1887,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       ]);
 
                       const pixEduBadgeAcquisition =
-                        domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme();
+                        domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme();
 
                       certificationBadgesService.findStillValidBadgeAcquisitions
                         .withArgs({ userId: 2, domainTransaction })
@@ -1973,7 +1989,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                         const pixEduBadgeAcquisition =
-                          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme();
+                          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme(
+                            complementaryCertificationPixPlusEdu2ndDegre
+                          );
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
                           .resolves([pixEduBadgeAcquisition]);
@@ -2091,7 +2109,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                         const pixEduBadgeAcquisition =
-                          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme();
+                          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme(
+                            complementaryCertificationPixPlusEdu2ndDegre
+                          );
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
                           .resolves([pixEduBadgeAcquisition]);
@@ -2204,7 +2224,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       ]);
 
                       const pixEduBadgeAcquisition =
-                        domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme();
+                        domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme();
 
                       certificationBadgesService.findStillValidBadgeAcquisitions
                         .withArgs({ userId: 2, domainTransaction })
