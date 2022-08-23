@@ -30,72 +30,109 @@ const buildCertifiableBadgeAcquisition = function ({ id = 123, userId = 456, bad
   });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT }) });
+buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE }) });
+buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme = function () {
+buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme = function (complementaryCertification) {
   return buildCertifiableBadgeAcquisition({
     badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME }),
+    complementaryCertification,
   });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme = function () {
+buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme = function (complementaryCertification) {
   return buildCertifiableBadgeAcquisition({
     badge: buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME }),
+    complementaryCertification,
   });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }) });
+buildCertifiableBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreExpert = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT }) });
+buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreExpert = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreAvance = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE }) });
+buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreAvance = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreConfirme = function () {
+buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreConfirme = function (complementaryCertification) {
   return buildCertifiableBadgeAcquisition({
     badge: buildBadge({ key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME }),
+    complementaryCertification,
   });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme = function () {
+buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreConfirme = function (complementaryCertification) {
   return buildCertifiableBadgeAcquisition({
     badge: buildBadge({ key: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME }),
+    complementaryCertification,
   });
 };
 
-buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreInitie = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE }) });
+buildCertifiableBadgeAcquisition.forPixEduFormationInitiale1erDegreInitie = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixDroitMaitre = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_DROIT_MAITRE_CERTIF }) });
+buildCertifiableBadgeAcquisition.forPixDroitMaitre = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_DROIT_MAITRE_CERTIF }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forPixDroitExpert = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_DROIT_EXPERT_CERTIF }) });
+buildCertifiableBadgeAcquisition.forPixDroitExpert = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_DROIT_EXPERT_CERTIF }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forCleaV1 = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EMPLOI_CLEA_V1 }) });
+buildCertifiableBadgeAcquisition.forCleaV1 = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EMPLOI_CLEA_V1 }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forCleaV2 = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EMPLOI_CLEA_V2 }) });
+buildCertifiableBadgeAcquisition.forCleaV2 = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EMPLOI_CLEA_V2 }),
+    complementaryCertification,
+  });
 };
 
-buildCertifiableBadgeAcquisition.forCleaV3 = function () {
-  return buildCertifiableBadgeAcquisition({ badge: buildBadge({ key: PIX_EMPLOI_CLEA_V3 }) });
+buildCertifiableBadgeAcquisition.forCleaV3 = function (complementaryCertification) {
+  return buildCertifiableBadgeAcquisition({
+    badge: buildBadge({ key: PIX_EMPLOI_CLEA_V3 }),
+    complementaryCertification,
+  });
 };
 
 module.exports = buildCertifiableBadgeAcquisition;

@@ -207,6 +207,10 @@ class CertificationCandidate {
     return this.complementaryCertifications.some((comp) => comp.key === PIX_PLUS_EDU_2ND_DEGRE);
   }
 
+  isGranted(key) {
+    return this.complementaryCertifications.some((comp) => comp.key === key);
+  }
+
   isBillingModePrepaid() {
     return this.billingMode === CertificationCandidate.BILLING_MODES.PREPAID;
   }

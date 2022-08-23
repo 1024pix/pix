@@ -116,4 +116,27 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       expect(certificationCenter.isHabilitatedClea).to.be.true;
     });
   });
+
+  describe('#isHabilitated', function () {
+    it('should return false when the certification center does not have the complementary certification', function () {
+      // given
+      const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
+
+      // then
+      expect(certificationCenter.isHabilitated()).to.be.false;
+    });
+
+    it('should return true when the certification center has complementary certification', function () {
+      // given
+      const cleaComplementaryCertification = domainBuilder.buildComplementaryCertification({
+        key: CLEA,
+      });
+      const certificationCenter = domainBuilder.buildCertificationCenter({
+        habilitations: [cleaComplementaryCertification],
+      });
+
+      // then
+      expect(certificationCenter.isHabilitated(CLEA)).to.be.true;
+    });
+  });
 });

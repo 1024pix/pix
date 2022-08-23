@@ -699,4 +699,26 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(certificationCandidate.isGrantedPixPlusEdu2ndDegre()).to.be.false;
     });
   });
+
+  describe('isGranted', function () {
+    it('should return true when certification candidate has acquired complementary certification', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_EDU_2ND_DEGRE })],
+      });
+
+      // then
+      expect(certificationCandidate.isGranted(PIX_PLUS_EDU_2ND_DEGRE)).to.be.true;
+    });
+
+    it('should return false when certification candidate has not acquired complementary certification', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
+      });
+
+      // then
+      expect(certificationCandidate.isGranted(PIX_PLUS_EDU_2ND_DEGRE)).to.be.false;
+    });
+  });
 });
