@@ -10,6 +10,13 @@
       <Authentication::OidcReconciliation
         @identityProviderSlug={{this.identityProviderSlug}}
         @authenticationKey={{this.authenticationKey}}
+        @email={{this.email}}
+        @username={{this.username}}
+        @username={{this.username}}
+        @fullNameFromPix={{this.fullNameFromPix}}
+        @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}}
+        @authenticationMethods={{this.authenticationMethods}}
+        @toggleOidcReconciliation={{this.toggleOidcReconciliation}}
       />
     {{else}}
       <Authentication::LoginOrRegisterOidc
