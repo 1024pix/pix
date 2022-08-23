@@ -680,4 +680,189 @@ describe('Integration | Service | Placement Profile Service', function () {
       });
     });
   });
+
+  describe('#getPlacementProfileWithSnapshotting', function () {
+    const competences = [
+      {
+        id: 'competenceRecordIdOne',
+        area: { id: 'areaOne', code: '1' },
+        name: 'Construire un flipper',
+        index: '1.1',
+        skillIds: ['recCitation4', 'recMoteur3', 'recRecherche4'],
+      },
+      {
+        id: 'competenceRecordIdTwo',
+        area: { id: 'areaOne', code: '1' },
+        name: 'Adopter un dauphin',
+        index: '1.2',
+        skillIds: ['recRemplir2', 'recRemplir4', 'recUrl3', 'recWeb1'],
+      },
+      {
+        id: 'competenceRecordIdThree',
+        area: { id: 'areaOne', code: '1' },
+        name: 'Se faire manger par un requin',
+        index: '1.3',
+        skillIds: ['recRequin5', 'recRequin8'],
+      },
+    ];
+
+    it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function () {
+      // when
+      const actualPlacementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
+        userId,
+        limitDate: new Date(),
+        competences,
+      });
+
+      // then
+      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+        {
+          id: 'competenceRecordIdOne',
+          index: '1.1',
+          area: { id: 'areaOne', code: '1' },
+          name: 'Construire un flipper',
+          skills: [],
+          pixScore: 0,
+          estimatedLevel: 0,
+        },
+        {
+          id: 'competenceRecordIdTwo',
+          index: '1.2',
+          area: { id: 'areaOne', code: '1' },
+          name: 'Adopter un dauphin',
+          skills: [],
+          pixScore: 0,
+          estimatedLevel: 0,
+        },
+        {
+          id: 'competenceRecordIdThree',
+          index: '1.3',
+          area: { id: 'areaOne', code: '1' },
+          name: 'Se faire manger par un requin',
+          skills: [],
+          pixScore: 0,
+          estimatedLevel: 0,
+        },
+      ]);
+    });
+
+    describe('PixScore by competences', function () {
+      it('should assign pixScore and level to user competence based on knowledge elements', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          competenceId: 'competenceRecordIdTwo',
+          skillId: 'recRemplir2',
+          earnedPix: 23,
+          userId,
+          assessmentId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
+          userId,
+          limitDate: new Date(),
+          competences,
+        });
+
+        // then
+        expect(actualPlacementProfile.userCompetences[0]).to.include({
+          id: 'competenceRecordIdOne',
+          pixScore: 0,
+          estimatedLevel: 0,
+        });
+        expect(actualPlacementProfile.userCompetences[1]).to.include({
+          id: 'competenceRecordIdTwo',
+          pixScore: 23,
+          estimatedLevel: 2,
+        });
+      });
+
+      it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          competenceId: 'competenceRecordIdTwo',
+          skillId: 'recRemplir2',
+          earnedPix: 8,
+          source: KnowledgeElement.SourceType.INFERRED,
+          userId,
+          assessmentId,
+        });
+
+        databaseBuilder.factory.buildKnowledgeElement({
+          competenceId: 'competenceRecordIdTwo',
+          skillId: 'recRemplir4',
+          earnedPix: 9,
+          source: KnowledgeElement.SourceType.DIRECT,
+          userId,
+          assessmentId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
+          userId,
+          limitDate: new Date(),
+          competences,
+        });
+
+        // then
+        expect(actualPlacementProfile.userCompetences[1].pixScore).to.equal(17);
+      });
+
+      context('when we dont want to limit pix score', function () {
+        it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function () {
+          databaseBuilder.factory.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdOne',
+            earnedPix: 64,
+            userId,
+            assessmentId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const actualPlacementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
+            userId,
+            limitDate: new Date(),
+            competences,
+            allowExcessPixAndLevels: true,
+          });
+
+          // then
+          expect(actualPlacementProfile.userCompetences[0]).to.include({
+            id: 'competenceRecordIdOne',
+            pixScore: 64,
+            estimatedLevel: 8,
+          });
+        });
+      });
+
+      context('when we want to limit pix score', function () {
+        it('should limit pixScore to 40 and level to 5', async function () {
+          databaseBuilder.factory.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdOne',
+            earnedPix: 64,
+            userId,
+            assessmentId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const actualPlacementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
+            userId,
+            limitDate: new Date(),
+            competences,
+            allowExcessPixAndLevels: false,
+          });
+
+          // then
+          expect(actualPlacementProfile.userCompetences[0]).to.include({
+            id: 'competenceRecordIdOne',
+            pixScore: 40,
+            estimatedLevel: 5,
+          });
+        });
+      });
+    });
+  });
 });

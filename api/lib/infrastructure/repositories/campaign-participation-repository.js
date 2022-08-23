@@ -223,9 +223,6 @@ function _getAttributes(campaignParticipation) {
     status: campaignParticipation.status,
     campaignId: campaignParticipation.campaignId,
     userId: campaignParticipation.userId,
-    validatedSkillsCount: campaignParticipation.validatedSkillsCount,
-    pixScore: campaignParticipation.pixScore,
-    masteryRate: campaignParticipation.masteryRate,
     organizationLearnerId: campaignParticipation.organizationLearnerId,
   };
 }

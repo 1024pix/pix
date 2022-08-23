@@ -1,13 +1,9 @@
 const CampaignParticipationResultShared = require('./CampaignParticipationResultsShared');
 
-module.exports = async function computeCampaignParticipationResults({
-  event,
-  participantResultsSharedRepository,
-  campaignParticipationRepository,
-}) {
+module.exports = async function computeCampaignParticipationResults({ event, participantResultsSharedRepository }) {
   const { campaignParticipationId } = event;
   const participantResultsShared = await participantResultsSharedRepository.get(campaignParticipationId);
-  await campaignParticipationRepository.update(participantResultsShared);
+  await participantResultsSharedRepository.save(participantResultsShared);
 };
 
 module.exports.eventTypes = [CampaignParticipationResultShared];

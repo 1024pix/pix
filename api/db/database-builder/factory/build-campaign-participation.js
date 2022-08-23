@@ -22,6 +22,7 @@ module.exports = function buildCampaignParticipation({
   isImproved = false,
   deletedAt = null,
   deletedBy = null,
+  isCertifiable = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   organizationLearnerId = _.isUndefined(organizationLearnerId) ? buildOrganizationLearner().id : organizationLearnerId;
@@ -44,6 +45,7 @@ module.exports = function buildCampaignParticipation({
     isImproved,
     deletedAt,
     deletedBy,
+    isCertifiable,
   };
   databaseBuffer.pushInsertable({
     tableName: 'campaign-participations',
