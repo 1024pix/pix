@@ -39,11 +39,11 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         .withArgs(certificationCandidateId)
         .resolves(candidateWithComplementaryCertifications);
 
-      const pixPlusDroitExpertBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+      const pixPlusDroitExpertBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
         badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF }),
       });
 
-      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
+      const cleaBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forCleaV1();
 
       certificationBadgesService.findStillValidBadgeAcquisitions
         .withArgs({ userId })
@@ -168,7 +168,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         complementaryCertifications: [pixPlusDroitComplementaryCertification, cleaComplementaryCertifications],
       });
 
-      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
+      const cleaBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forCleaV1();
 
       certificationCandidateRepository.getWithComplementaryCertifications
         .withArgs(certificationCandidateId)

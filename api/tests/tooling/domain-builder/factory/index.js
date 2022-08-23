@@ -23,6 +23,7 @@ module.exports = {
   buildCampaignReport: require('./build-campaign-report'),
   buildCampaignToJoin: require('./build-campaign-to-join'),
   buildCampaignToStartParticipation: require('./build-campaign-to-start-participation'),
+  buildCertifiableBadgeAcquisition: require('./build-certifiable-badge-acquisition'),
   buildCertificationAssessment: require('./build-certification-assessment'),
   buildCertificationAssessmentScore: require('./build-certification-assessment-score'),
   buildCertificationCandidate: require('./build-certification-candidate'),
