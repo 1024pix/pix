@@ -1,4 +1,4 @@
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 export default function (config) {
   config.post('/oidc/token', (schema, request) => {

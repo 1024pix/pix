@@ -73,7 +73,7 @@
                 name="attachment_selector"
                 value="{{attachmentUrl}}"
                 {{on "click" (fn this.chooseAttachmentUrl attachmentUrl)}}
-                checked="{{if (eq attachmentUrl this.selectedAttachmentUrl) "checked"}}"
+                checked="{{if (eq attachmentUrl this.selectedAttachmentUrl) 'checked'}}"
               />
 
               <label class="label-checkbox-downloadable" for="attachment{{index}}">

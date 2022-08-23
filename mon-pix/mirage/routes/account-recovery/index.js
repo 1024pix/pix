@@ -1,4 +1,4 @@
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 
 export default function index(config) {
   config.post('/account-recovery', (schema, request) => {

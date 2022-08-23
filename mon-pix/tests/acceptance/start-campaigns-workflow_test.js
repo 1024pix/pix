@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
@@ -218,7 +218,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
                   type: 'sco-organization-learners',
                 },
               };
-
               return new Response(200, {}, studentFoundWithUsernameGenerated);
             });
 

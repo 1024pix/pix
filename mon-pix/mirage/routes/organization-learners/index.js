@@ -1,4 +1,4 @@
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 export default function index(config) {
   config.get('/organization-learners', (schema, request) => {

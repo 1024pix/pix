@@ -1,5 +1,5 @@
 import postAuthentications from './post-authentications';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 export default function index(config) {
   config.post('/revoke', () => {});
