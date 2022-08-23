@@ -74,9 +74,24 @@ describe('Integration | Repository | Organization', function () {
   describe('#update', function () {
     it('should return an Organization domain object with related tags', async function () {
       // given
-      const organization = databaseBuilder.factory.buildOrganization({ id: 1 });
-      const tagId = databaseBuilder.factory.buildTag().id;
-      databaseBuilder.factory.buildOrganizationTag({ organizationId: 1, tagId });
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        type: 'SCO',
+        logoUrl: 'http://new.logo.url',
+        externalId: '999Z527F',
+        provinceCode: '999',
+        isManagingStudents: true,
+        credit: 50,
+        email: 'email@example.net',
+        documentationUrl: 'https://pix.fr/',
+        archivedAt: null,
+        createdAt: '2022-03-07',
+        createdBy: userId,
+      });
+      const tagId = databaseBuilder.factory.buildTag({ name: 'orga tag' }).id;
+      databaseBuilder.factory.buildTag({ name: 'other tag' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId });
       await databaseBuilder.commit();
 
       // when
@@ -84,6 +99,26 @@ describe('Integration | Repository | Organization', function () {
 
       // then
       expect(organizationSaved).to.be.an.instanceof(Organization);
+      expect(organizationSaved).to.deep.equal({
+        id: organization.id,
+        name: 'super orga',
+        type: 'SCO',
+        logoUrl: 'http://new.logo.url',
+        externalId: '999Z527F',
+        provinceCode: '999',
+        isManagingStudents: true,
+        credit: 50,
+        email: 'email@example.net',
+        documentationUrl: 'https://pix.fr/',
+        tags: [{ id: tagId, name: 'orga tag' }],
+        formNPSUrl: null,
+        organizationInvitations: [],
+        showNPS: false,
+        showSkills: false,
+        archivedAt: null,
+        createdBy: userId,
+        targetProfileShares: [],
+      });
       expect(organizationSaved.tags[0].id).to.be.equal(tagId);
     });
 
@@ -99,41 +134,6 @@ describe('Integration | Repository | Organization', function () {
       // then
       const { count: nbOrganizationsAfterUpdate } = await knex('organizations').count('*').first();
       expect(nbOrganizationsAfterUpdate).to.equal(nbOrganizationsBeforeUpdate);
-    });
-
-    it('should update model in database', async function () {
-      // given
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.commit();
-
-      const organization = domainBuilder.buildOrganization({
-        id: organizationId,
-        name: 'New name',
-        type: 'SCO',
-        logoUrl: 'http://new.logo.url',
-        externalId: '999Z527F',
-        provinceCode: '999',
-        isManagingStudents: true,
-        credit: 50,
-        email: 'email@example.net',
-        documentationUrl: 'https://pix.fr/',
-      });
-
-      // when
-      const organizationSaved = await organizationRepository.update(organization);
-
-      // then
-      expect(organizationSaved.id).to.equal(organization.id);
-      expect(organizationSaved.name).to.equal('New name');
-      expect(organizationSaved.type).to.equal('SCO');
-      expect(organizationSaved.logoUrl).to.equal('http://new.logo.url');
-      expect(organizationSaved.externalId).to.equal(organization.externalId);
-      expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
-      expect(organizationSaved.isManagingStudents).to.equal(organization.isManagingStudents);
-      expect(organizationSaved.credit).to.equal(organization.credit);
-      expect(organizationSaved.email).to.equal(organization.email);
-      expect(organizationSaved.documentationUrl).to.equal('https://pix.fr/');
-      expect(organizationSaved.showSkills).to.equal(organization.showSkills);
     });
   });
 
@@ -158,8 +158,17 @@ describe('Integration | Repository | Organization', function () {
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
         });
+        const tag = databaseBuilder.factory.buildTag({ name: 'SUPER-TAG' });
+        databaseBuilder.factory.buildTag({ name: 'OTHER-TAG' });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: insertedOrganization.id, tagId: tag.id });
 
-        const expectedAttributes = {
+        await databaseBuilder.commit();
+
+        // when
+        const foundOrganization = await organizationRepository.get(insertedOrganization.id);
+
+        // then
+        expect(foundOrganization).to.deep.equal({
           id: insertedOrganization.id,
           type: 'SCO',
           name: 'Organization of the dark side',
@@ -171,22 +180,14 @@ describe('Integration | Repository | Organization', function () {
           email: 'sco.generic.account@example.net',
           targetProfileShares: [],
           organizationInvitations: [],
-          tags: [],
+          tags: [{ id: tag.id, name: 'SUPER-TAG' }],
           documentationUrl: 'https://pix.fr/',
           createdBy: insertedOrganization.createdBy,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
           archivedAt: null,
-        };
-
-        await databaseBuilder.commit();
-
-        // when
-        const foundOrganization = await organizationRepository.get(insertedOrganization.id);
-
-        // then
-        expect(foundOrganization).to.deep.equal(expectedAttributes);
+        });
       });
 
       it('should return a rejection when organization id is not found', async function () {
