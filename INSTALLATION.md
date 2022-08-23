@@ -165,7 +165,7 @@ plutôt que `localhost:port` :
 Pour configurer les domaines locaux, exécuter le script :
 
 ```bash
-npm run domains:install
+sudo npm run domains:install
 ```
 
 Démarrer le conteneur docker :
@@ -180,10 +180,18 @@ Arrêter le conteneur :
 npm run domains:stop
 ```
 
-#### Activer le lint à chaque commit
+#### Exécuter le lint à chaque commit
+
+Activer
 
 Ce repository est configuré pour indiquer aux IDE Webstorm et Vscode la configuration du linter.
 Malgré cela, il peut arriver que des erreurs de lint soient introduites.
 
 Pour tenter de les corriger automatiquement lors du commit, installer un hook de pre-commit.
 Pour cela, exécuter `npm run local:trigger-lint-on-commit`
+
+Désactiver
+
+```
+npm run local:prevent-trigger-lint-on-commit
+```
