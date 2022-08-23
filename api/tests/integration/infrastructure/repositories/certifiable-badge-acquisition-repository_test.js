@@ -15,12 +15,16 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
 
         databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
 
-        const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 123,
+          label: 'Label Certif Complémentaire',
+          key: 'KEY',
+        });
         const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
           badgeId: acquiredBadge.id,
-          complementaryCertificationId,
+          complementaryCertificationId: 123,
           level: 2,
-          label: 'Label Certif Complémentaire',
+          label: 'Label badge',
         });
 
         const skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: acquiredBadge.id });
@@ -75,8 +79,11 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
               badgeCriteria: expectedBadgeCriteria,
             }),
             userId: user.id,
-            badgeId: expectedBadge.id,
-            campaignParticipationId: null,
+            complementaryCertification: domainBuilder.buildComplementaryCertification({
+              id: 123,
+              label: 'Label Certif Complémentaire',
+              key: 'KEY',
+            }),
           }),
           ['id']
         );
@@ -92,10 +99,10 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
 
           databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
 
-          const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
+          const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
           const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
             badgeId: acquiredBadge.id,
-            complementaryCertificationId,
+            complementaryCertificationId: complementaryCertification.id,
             level: 2,
             label: 'Label Certif Complémentaire',
           });
@@ -150,11 +157,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
               }),
               userId: user.id,
               badgeId: expectedBadge.id,
-              complementaryCertification: domainBuilder.buildComplementaryCertification({
-                id: 100013,
-                key: 'SUPERCERTIF',
-                label: 'UneSuperCertifComplémentaire',
-              }),
+              complementaryCertification: domainBuilder.buildComplementaryCertification(complementaryCertification),
             }),
             ['id']
           );
