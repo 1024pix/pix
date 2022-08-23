@@ -77,9 +77,15 @@ workflows:
           requires:
             - certif_install
 
-      - admin_build_and_test:
+      - admin_install:
           requires:
             - checkout
+      - admin_lint:
+          requires:
+            - admin_install
+      - admin_test:
+          requires:
+            - admin_install
 
       - e2e_test:
           context: Pix
@@ -286,11 +292,10 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  admin_build_and_test:
+  admin_install:
     executor: front
     working_directory: ~/pix/admin
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -302,9 +307,28 @@ jobs:
           key: v7-admin-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - .
+
+  admin_lint:
+    executor: front
+    working_directory: ~/pix/admin
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
+
+  admin_test:
+    executor: front
+    working_directory: ~/pix/admin
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Test
           command: npm run test:ci
