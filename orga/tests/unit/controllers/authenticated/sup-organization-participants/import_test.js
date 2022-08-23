@@ -43,9 +43,8 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+
+        assert.strictEqual(
           notificationMessage,
           '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a></div>'
         );
@@ -59,9 +58,8 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+
+        assert.strictEqual(
           notificationMessage,
           '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>'
         );
@@ -75,9 +73,8 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+
+        assert.strictEqual(
           notificationMessage,
           '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>'
         );
@@ -105,9 +102,8 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+
+        assert.strictEqual(
           notificationMessage,
           '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a></div>'
         );
@@ -121,9 +117,8 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+
+        assert.strictEqual(
           notificationMessage,
           '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>'
         );
@@ -137,9 +132,8 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+
+        assert.strictEqual(
           notificationMessage,
           '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>'
         );

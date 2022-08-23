@@ -20,9 +20,7 @@ module('Acceptance | Campaign Details', function (hooks) {
       await visit('/campagnes/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -42,9 +40,7 @@ module('Acceptance | Campaign Details', function (hooks) {
       await clickByName('Retour');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
     });
 
     test('[A11Y] it should contain accessibility aria-label nav', async function (assert) {
