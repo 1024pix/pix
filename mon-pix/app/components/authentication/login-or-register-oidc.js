@@ -15,7 +15,6 @@ const ERROR_INPUT_MESSAGE_MAP = {
 };
 
 export default class LoginOrRegisterOidcComponent extends Component {
-  @service url;
   @service intl;
   @service session;
   @service currentDomain;
@@ -37,10 +36,6 @@ export default class LoginOrRegisterOidcComponent extends Component {
 
   get currentLanguage() {
     return this.intl.t('current-lang');
-  }
-
-  get homeUrl() {
-    return this.url.homeUrl;
   }
 
   get cguUrl() {
@@ -115,17 +110,8 @@ export default class LoginOrRegisterOidcComponent extends Component {
 
     if (!this.isFormValid) return;
 
-    const identityProvider = this.oidcIdentityProviders[this.args.identityProviderSlug]?.code;
-
     try {
-      const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
-        password: this.password,
-        email: this.email,
-        authenticationKey: this.args.authenticationKey,
-        identityProvider,
-      });
-      await authenticationRequest.login();
-      this.args.toggleOidcReconciliation();
+      await this.args.onLogin({ enteredEmail: this.email, enteredPassword: this.password });
     } catch (error) {
       this.loginError = true;
       const status = get(error, 'errors[0].status', 'unknown');
