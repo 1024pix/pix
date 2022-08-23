@@ -109,7 +109,8 @@ module.exports = {
 
     const tagsDB = await knex('tags')
       .select(['tags.id', 'tags.name'])
-      .join('organization-tags', 'organization-tags.organizationId', knex.raw('?', [organization.id]));
+      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+      .where('organization-tags.organizationId', organizationDB.id);
 
     const tags = tagsDB.map((tagDB) => new Tag(tagDB));
 
@@ -124,7 +125,8 @@ module.exports = {
 
     const tagsDB = await knex('tags')
       .select(['tags.id', 'tags.name'])
-      .join('organization-tags', 'organization-tags.organizationId', knex.raw('?', [id]));
+      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+      .where('organization-tags.organizationId', id);
 
     const tags = tagsDB.map((tagDB) => new Tag(tagDB));
     return _toDomain({ ...organizationDB, tags });
