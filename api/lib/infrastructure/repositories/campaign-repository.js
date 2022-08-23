@@ -129,4 +129,12 @@ module.exports = {
   incrementParticipationsCount(id, domainTransaction) {
     return domainTransaction.knexTransaction('campaigns').where({ id }).increment('participationsCount', 1);
   },
+
+  decrementParticipationsCount(id, domainTransaction) {
+    return domainTransaction.knexTransaction('campaigns').where({ id }).increment('participationsCount', -1);
+  },
+
+  decrementSharedParticipationsCount(id, domainTransaction) {
+    return domainTransaction.knexTransaction('campaigns').where({ id }).increment('sharedParticipationsCount', -1);
+  },
 };

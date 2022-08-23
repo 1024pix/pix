@@ -291,7 +291,12 @@ describe('Acceptance | API | Campaign Participations', function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, user }).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        user,
+        participationsCount: 1,
+        sharedParticipationsCount: 1,
+      }).id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationRole: 'ADMIN', organizationId });
 
@@ -307,6 +312,9 @@ describe('Acceptance | API | Campaign Participations', function () {
 
       // then
       expect(response.statusCode).to.equal(204);
+      const campaign = await knex('campaigns').where({ id: campaignId }).first();
+      expect(campaign.participationsCount).to.equal(0);
+      expect(campaign.sharedParticipationsCount).to.equal(0);
     });
   });
 

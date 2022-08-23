@@ -19,4 +19,6 @@ module.exports = async function deleteCampaignParticipation({
     const { id, deletedAt, deletedBy } = campaignParticipation;
     await campaignParticipationRepository.delete({ id, deletedAt, deletedBy, domainTransaction });
   });
+
+  return campaignParticipations;
 };

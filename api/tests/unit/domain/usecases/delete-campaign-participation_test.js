@@ -15,7 +15,7 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
     clock.restore();
   });
 
-  it('should call repository method to delete a campaign participation', async function () {
+  it('should call repository method to delete a campaign participation and return it', async function () {
     const campaignParticipationRepository = {
       getAllCampaignParticipationsInCampaignFromCampaignParticipationId: sinon.stub(),
       delete: sinon.stub(),
@@ -51,7 +51,7 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
       .resolves(campaignParticipations);
 
     //when
-    await deleteCampaignParticipation({
+    const deletedCampaignParticipations = await deleteCampaignParticipation({
       userId: ownerId,
       campaignId,
       campaignParticipationId,
@@ -74,5 +74,6 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
         domainTransaction,
       });
     });
+    expect(deletedCampaignParticipations).to.deep.equal(deletedCampaignParticipations);
   });
 });

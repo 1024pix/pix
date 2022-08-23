@@ -439,7 +439,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
   });
 
   describe('#deleteParticipation', function () {
-    it('should call the usecase to delete the campaignParticipation', async function () {
+    it('should call the usecase to delete the campaignParticipation and update the campaign participation counts', async function () {
       // given
       const campaignParticipationId = 1;
       const campaignId = 6;
@@ -449,12 +449,13 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         auth: { credentials: { userId } },
       };
       const domainTransaction = Symbol();
+      const deletedCampaignParticipations = Symbol();
 
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
       };
-      sinon.stub(usecases, 'deleteCampaignParticipation');
-      usecases.deleteCampaignParticipation.resolves();
+      sinon.stub(usecases, 'deleteCampaignParticipation').resolves(deletedCampaignParticipations);
+      sinon.stub(usecases, 'updateCampaignCountsAfterDeleteParticipation');
 
       // when
       await campaignParticipationController.deleteParticipation(request, hFake);
@@ -464,6 +465,51 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         campaignParticipationId,
         campaignId,
         userId,
+        domainTransaction,
+      });
+      expect(usecases.updateCampaignCountsAfterDeleteParticipation).to.have.been.calledWith({
+        campaignId,
+        deletedCampaignParticipations,
+        domainTransaction,
+      });
+    });
+  });
+
+  describe('#deleteCampaignParticipationForAdmin', function () {
+    it('should call the usecase to delete the campaignParticipation and update the campaign participation counts', async function () {
+      // given
+      const campaignParticipationId = 1;
+      const userId = 2;
+      const campaignId = 6;
+      const request = {
+        params: { id: campaignParticipationId },
+        auth: { credentials: { userId } },
+      };
+      const domainTransaction = Symbol();
+      const deletedCampaignParticipations = [
+        {
+          campaignId,
+        },
+      ];
+
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
+      sinon.stub(usecases, 'deleteCampaignParticipationForAdmin').resolves(deletedCampaignParticipations);
+      sinon.stub(usecases, 'updateCampaignCountsAfterDeleteParticipation');
+
+      // when
+      await campaignParticipationController.deleteCampaignParticipationForAdmin(request, hFake);
+
+      // then
+      expect(usecases.deleteCampaignParticipationForAdmin).to.have.been.calledOnceWith({
+        campaignParticipationId,
+        userId,
+        domainTransaction,
+      });
+      expect(usecases.updateCampaignCountsAfterDeleteParticipation).to.have.been.calledWith({
+        campaignId,
+        deletedCampaignParticipations,
         domainTransaction,
       });
     });

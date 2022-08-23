@@ -14,6 +14,7 @@ class CampaignParticipation {
     createdAt,
     participantExternalId,
     status,
+    isImproved,
     sharedAt,
     deletedAt,
     deletedBy,
@@ -27,6 +28,7 @@ class CampaignParticipation {
     this.id = id;
     this.createdAt = createdAt;
     this.status = status;
+    this.isImproved = isImproved;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
     this.deletedAt = deletedAt;

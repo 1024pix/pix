@@ -55,7 +55,7 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
       .resolves(campaignParticipations);
 
     //when
-    await deleteCampaignParticipationForAdmin({
+    const deletedCampaignParticipations = await deleteCampaignParticipationForAdmin({
       userId: ownerId,
       campaignParticipationId,
       domainTransaction,
@@ -64,6 +64,7 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
     });
 
     //then
+    expect(deletedCampaignParticipations).to.equal(campaignParticipations);
     expect(campaignParticipationRepository.delete).to.have.been.calledTwice;
     campaignParticipations.forEach((campaignParticipation) => {
       const deletedCampaignParticipation = new CampaignParticipation({

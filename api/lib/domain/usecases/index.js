@@ -406,6 +406,7 @@ module.exports = injectDependencies(
     deactivateAdminMember: require('./deactivate-admin-member'),
     updateBadge: require('./update-badge'),
     updateCampaign: require('./update-campaign'),
+    updateCampaignCountsAfterDeleteParticipation: require('./update-campaign-counts-after-delete-participation'),
     updateCampaignDetailsManagement: require('./update-campaign-details-management'),
     updateCertificationCenter: require('./update-certification-center'),
     updateExpiredPassword: require('./update-expired-password'),

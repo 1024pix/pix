@@ -112,10 +112,15 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { id, campaignParticipationId } = request.params;
     await DomainTransaction.execute(async (domainTransaction) => {
-      await usecases.deleteCampaignParticipation({
+      const deletedCampaignParticipations = await usecases.deleteCampaignParticipation({
         userId,
         campaignId: id,
         campaignParticipationId,
+        domainTransaction,
+      });
+      await usecases.updateCampaignCountsAfterDeleteParticipation({
+        campaignId: id,
+        deletedCampaignParticipations,
         domainTransaction,
       });
     });
@@ -173,9 +178,14 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { id: campaignParticipationId } = request.params;
     await DomainTransaction.execute(async (domainTransaction) => {
-      await usecases.deleteCampaignParticipationForAdmin({
+      const deletedCampaignParticipations = await usecases.deleteCampaignParticipationForAdmin({
         userId,
         campaignParticipationId,
+        domainTransaction,
+      });
+      await usecases.updateCampaignCountsAfterDeleteParticipation({
+        campaignId: deletedCampaignParticipations[0].campaignId,
+        deletedCampaignParticipations,
         domainTransaction,
       });
     });
