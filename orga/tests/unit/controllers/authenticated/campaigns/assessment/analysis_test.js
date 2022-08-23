@@ -11,8 +11,6 @@ module('Unit | Controller | authenticated/campaigns/assessment/analysis', functi
       lastName: 'attends',
     };
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(controller.pageTitle, 'Analyse pour Jaune attends');
+    assert.strictEqual(controller.pageTitle, 'Analyse pour Jaune attends');
   });
 });

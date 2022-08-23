@@ -132,9 +132,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         await clickByName('Annuler');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(memberMembership.organizationRole, 'MEMBER');
+
+        assert.strictEqual(memberMembership.organizationRole, 'MEMBER');
         sinon.assert.notCalled(memberMembership.save);
       });
 
@@ -152,9 +151,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         await clickByText('Enregistrer');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(memberMembership.organizationRole, 'ADMIN');
+
+        assert.strictEqual(memberMembership.organizationRole, 'ADMIN');
         sinon.assert.called(memberMembership.save);
       });
 
@@ -172,9 +170,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         await clickByText('Enregistrer');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(adminMembership.organizationRole, 'MEMBER');
+
+        assert.strictEqual(adminMembership.organizationRole, 'MEMBER');
         sinon.assert.called(adminMembership.save);
       });
 

@@ -25,15 +25,9 @@ module('Unit | Model | campaignAssessmentParticipationResult', function (hooks) 
       const sortedCompetenceResults = model.get('sortedCompetenceResults');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sortedCompetenceResults[0].index, '1.1');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sortedCompetenceResults[1].index, '1.2');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sortedCompetenceResults[2].index, '4.1');
+      assert.strictEqual(sortedCompetenceResults[0].index, '1.1');
+      assert.strictEqual(sortedCompetenceResults[1].index, '1.2');
+      assert.strictEqual(sortedCompetenceResults[2].index, '4.1');
     });
   });
 });

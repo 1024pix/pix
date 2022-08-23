@@ -10,9 +10,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // Then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(applicationAdapter.namespace, 'api');
+    assert.strictEqual(applicationAdapter.namespace, 'api');
   });
 
   module('get headers()', function () {
@@ -25,9 +23,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
+      assert.strictEqual(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
     });
 
     test('should not add header authentication token when the session is not authenticated', function (assert) {
@@ -54,9 +50,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       });
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(applicationAdapter.headers['Accept-Language'], 'fr-fr');
+      assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'fr-fr');
     });
 
     test('should add Accept-Language header set to fr when the current domain contains pix.org and locale is "fr"', function (assert) {
@@ -72,9 +66,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       });
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(applicationAdapter.headers['Accept-Language'], 'fr');
+      assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'fr');
     });
 
     test('should add Accept-Language header set to en when locale is "en"', function (assert) {
@@ -85,9 +77,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       applicationAdapter.intl = { get: () => ['en'] };
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(applicationAdapter.headers['Accept-Language'], 'en');
+      assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'en');
     });
   });
 
