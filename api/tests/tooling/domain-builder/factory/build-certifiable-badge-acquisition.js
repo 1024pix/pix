@@ -1,4 +1,5 @@
 const buildBadge = require('./build-badge');
+const buildComplementaryCertification = require('./build-complementary-certification');
 const CertifiableBadgeAcquisition = require('../../../../lib/domain/models/CertifiableBadgeAcquisition');
 const {
   PIX_DROIT_MAITRE_CERTIF,
@@ -18,20 +19,14 @@ const {
   PIX_EMPLOI_CLEA_V3,
 } = require('../../../../lib/domain/models/Badge').keys;
 
-const buildCertifiableBadgeAcquisition = function ({
-  id = 123,
-  userId = 456,
-  badgeId = 789,
-  campaignParticipationId = 159,
-  badge,
-} = {}) {
-  badge = badge || buildBadge({ id: badgeId });
+const buildCertifiableBadgeAcquisition = function ({ id = 123, userId = 456, badge, complementaryCertification } = {}) {
+  badge = badge || buildBadge({ id: 1234 });
+  complementaryCertification = complementaryCertification || buildComplementaryCertification();
   return new CertifiableBadgeAcquisition({
     id,
     userId,
-    badgeId,
-    campaignParticipationId,
     badge,
+    complementaryCertification,
   });
 };
 

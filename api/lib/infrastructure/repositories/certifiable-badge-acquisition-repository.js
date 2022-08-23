@@ -5,6 +5,7 @@ const SkillSet = require('../../domain/models/SkillSet');
 const ComplementaryCertificationBadge = require('../../domain/models/ComplementaryCertificationBadge');
 const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
@@ -18,10 +19,18 @@ module.exports = {
         'complementary-certification-badges.id as complementaryCertificationBadgeId',
         'complementary-certification-badges.level as complementaryCertificationBadgeLevel',
         'complementary-certification-badges.imageUrl as complementaryCertificationBadgeImageUrl',
-        'complementary-certification-badges.label as complementaryCertificationBadgeLabel'
+        'complementary-certification-badges.label as complementaryCertificationBadgeLabel',
+        'complementary-certifications.id as complementaryCertificationId',
+        'complementary-certifications.label as complementaryCertificationLabel',
+        'complementary-certifications.key as complementaryCertificationKey'
       )
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
       .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+      .join(
+        'complementary-certifications',
+        'complementary-certifications.id',
+        'complementary-certification-badges.complementaryCertificationId'
+      )
       .where({
         'badge-acquisitions.userId': userId,
         'badges.isCertifiable': true,
@@ -69,8 +78,15 @@ function _toDomain(certifiableBadgeAcquisitionsDto, badgeCriteriaDto, skillSetsD
       }),
     });
 
+    const complementaryCertification = new ComplementaryCertification({
+      id: certifiableBadgeAcquisitionDto.complementaryCertificationId,
+      label: certifiableBadgeAcquisitionDto.complementaryCertificationLabel,
+      key: certifiableBadgeAcquisitionDto.complementaryCertificationKey,
+    });
+
     return new CertifiableBadgeAcquisition({
       ...certifiableBadgeAcquisitionDto,
+      complementaryCertification,
       badge,
     });
   });

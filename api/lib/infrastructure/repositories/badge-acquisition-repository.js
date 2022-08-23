@@ -1,9 +1,4 @@
 const bluebird = require('bluebird');
-const BadgeAcquisition = require('../../domain/models/BadgeAcquisition');
-const Badge = require('../../domain/models/Badge');
-const BadgeCriterion = require('../../domain/models/BadgeCriterion');
-const SkillSet = require('../../domain/models/SkillSet');
-const ComplementaryCertificationBadge = require('../../domain/models/ComplementaryCertificationBadge');
 const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
 

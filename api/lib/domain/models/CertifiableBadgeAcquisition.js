@@ -17,12 +17,11 @@ const {
 } = require('./Badge').keys;
 
 class CertifiableBadgeAcquisition {
-  constructor({ id, badge, userId, badgeId, campaignParticipationId } = {}) {
+  constructor({ id, badge, userId, complementaryCertification } = {}) {
     this.id = id;
     this.badge = badge;
     this.userId = userId;
-    this.badgeId = badgeId;
-    this.campaignParticipationId = campaignParticipationId;
+    this.complementaryCertification = complementaryCertification;
   }
 
   get badgeKey() {
