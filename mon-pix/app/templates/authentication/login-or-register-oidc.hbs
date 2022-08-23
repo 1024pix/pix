@@ -3,7 +3,7 @@
 <PixBackgroundHeader>
   <PixBlock @shadow="light" class="login-or-register-oidc-form">
     <a href={{this.homeUrl}} class="login-or-register-oidc-form__logo">
-      <img src="/images/pix-logo.svg" alt="{{t "common.pix"}}" />
+      <img src="/images/pix-logo.svg" alt="{{t 'common.pix'}}" />
     </a>
 
     {{#if this.showOidcReconciliation}}
@@ -11,7 +11,6 @@
         @identityProviderSlug={{this.identityProviderSlug}}
         @authenticationKey={{this.authenticationKey}}
         @email={{this.email}}
-        @username={{this.username}}
         @username={{this.username}}
         @fullNameFromPix={{this.fullNameFromPix}}
         @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}}
