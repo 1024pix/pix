@@ -67,9 +67,15 @@ workflows:
           requires:
             - orga_install
 
-      - certif_build_and_test:
+      - certif_install:
           requires:
             - checkout
+      - certif_lint:
+          requires:
+            - certif_install
+      - certif_test:
+          requires:
+            - certif_install
 
       - admin_build_and_test:
           requires:
@@ -239,11 +245,10 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  certif_build_and_test:
+  certif_install:
     executor: front
     working_directory: ~/pix/certif
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -255,9 +260,28 @@ jobs:
           key: v7-certif-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - .
+
+  certif_lint:
+    executor: front
+    working_directory: ~/pix/certif
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
+
+  certif_test:
+    executor: front
+    working_directory: ~/pix/certif
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Test
           command: npm run test:ci
