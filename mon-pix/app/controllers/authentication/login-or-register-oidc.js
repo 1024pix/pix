@@ -2,15 +2,21 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class LoginOrRegisterOidcController extends Controller {
   queryParams = ['authenticationKey', 'identityProviderSlug'];
 
   @service url;
+  @service oidcIdentityProviders;
+
   @tracked showOidcReconciliation = false;
   @tracked authenticationKey = null;
   @tracked identityProviderSlug = null;
+  @tracked email = '';
+  @tracked fullNameFromPix = '';
+  @tracked fullNameFromExternalIdentityProvider = '';
+  @tracked username = '';
+  @tracked authenticationMethods = [];
 
   get homeUrl() {
     return this.url.homeUrl;
@@ -22,7 +28,7 @@ export default class LoginOrRegisterOidcController extends Controller {
 
   @action
   async onLogin({ enteredEmail, enteredPassword }) {
-    const identityProvider = IdentityProviders[this.identityProviderSlug]?.code;
+    const identityProvider = this.oidcIdentityProviders[this.identityProviderSlug]?.code;
 
     const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
       password: enteredPassword,
@@ -30,7 +36,13 @@ export default class LoginOrRegisterOidcController extends Controller {
       authenticationKey: this.authenticationKey,
       identityProvider,
     });
-    await authenticationRequest.login();
+    const { email, username, authenticationMethods, fullNameFromPix, fullNameFromExternalIdentityProvider } =
+      await authenticationRequest.login();
+    this.email = email;
+    this.username = username;
+    this.authenticationMethods = authenticationMethods;
+    this.fullNameFromPix = fullNameFromPix;
+    this.fullNameFromExternalIdentityProvider = fullNameFromExternalIdentityProvider;
     this.toggleOidcReconciliation();
   }
 }
