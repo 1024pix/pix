@@ -23,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
           campaignName: 'King Karam',
           campaignType: 'ASSESSMENT',
           participationStatus: campaignParticipationsStatuses.TO_SHARE,
+          isCertifiable: null,
         }),
         new ScoOrganizationParticipant({
           id: 778,
@@ -39,6 +40,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
           campaignName: 'King Xavier',
           campaignType: 'PROFILES_COLLECTION',
           participationStatus: campaignParticipationsStatuses.SHARED,
+          isCertifiable: true,
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -62,6 +64,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
               'campaign-name': scoOrganizationParticipants[0].campaignName,
               'campaign-type': scoOrganizationParticipants[0].campaignType,
               'participation-status': scoOrganizationParticipants[0].participationStatus,
+              'is-certifiable': scoOrganizationParticipants[0].isCertifiable,
             },
           },
           {
@@ -81,6 +84,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
               'campaign-name': scoOrganizationParticipants[1].campaignName,
               'campaign-type': scoOrganizationParticipants[1].campaignType,
               'participation-status': scoOrganizationParticipants[1].participationStatus,
+              'is-certifiable': scoOrganizationParticipants[1].isCertifiable,
             },
           },
         ],
