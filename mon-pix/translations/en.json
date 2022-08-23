@@ -952,6 +952,20 @@
         "login-unauthorized-error": "There was an error in the email address or password entered."
       }
     },
+    "oidc-reconciliation": {
+      "title": "Attention",
+      "sub-title": "Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
+      "information": "L'évaluation des compétences étant personnalisée, votre compte doit rester strictement personnel",
+      "current-authentication-methods": "Mes méthodes de connexion actuelles :",
+      "authentication-method-to-add": "Méthode de connexion ajoutée :",
+      "external-connection": "Connexion externe",
+      "external-connection-via": "Connexion via",
+      "switch-account": "Changer de compte",
+      "confirm": "Continuer",
+      "return": "Retour",
+      "email": "Adresse e-mail",
+      "username": "Identifiant"
+    },
     "not-connected": {
       "title": "Logged out",
       "message": "You've been logged out.'<br>'Thanks! See you soon"

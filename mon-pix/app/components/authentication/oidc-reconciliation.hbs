@@ -1,5 +1,65 @@
-<PixBackgroundHeader>
-  <PixBlock @shadow="light">
-    <p>{{@authenticationKey}}</p>
-  </PixBlock>
-</PixBackgroundHeader>
+<h1 class="oidc-reconciliation__title">
+  {{t "pages.oidc-reconciliation.title"}}
+  <span class="oidc-reconciliation__subtitle">{{t "pages.oidc-reconciliation.sub-title"}}</span>
+</h1>
+<p class="oidc-reconciliation__information">{{t "pages.oidc-reconciliation.information"}}</p>
+<div class="oidc-reconciliation__container">
+  <div class="oidc-reconciliation__user-information">
+    <FaIcon @icon="circle-user" />
+    <p>{{@fullNameFromPix}}</p>
+    <div class="oidc-reconciliation__user-authentication-methods">
+      <p>{{t "pages.oidc-reconciliation.current-authentication-methods"}}</p>
+      <dl
+        class="oidc-reconciliation__user-authentication-methods-list"
+        title={{t "pages.oidc-reconciliation.current-authentication-methods"}}
+      >
+        {{#if this.shouldShowEmail}}
+          <dt>{{t "pages.oidc-reconciliation.email"}}</dt>
+          <dd>{{@email}}</dd>
+        {{/if}}
+        {{#if this.shouldShowUsername}}
+          <dt>{{t "pages.oidc-reconciliation.username"}}</dt>
+          <dd>{{@username}}</dd>
+        {{/if}}
+        {{#if this.shouldShowGarAuthenticationMethod}}
+          <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
+          <dd>{{t "pages.user-account.connexion-methods.authentication-methods.gar"}}</dd>
+        {{/if}}
+        {{#if this.shouldShowPoleEmploiAuthenticationMethod}}
+          <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
+          <dd>{{t "pages.user-account.connexion-methods.authentication-methods.pole-emploi"}}</dd>
+        {{/if}}
+        {{#if this.shouldShowCnavAuthenticationMethod}}
+          <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
+          <dd>{{t "pages.user-account.connexion-methods.authentication-methods.cnav"}}</dd>
+        {{/if}}
+      </dl>
+    </div>
+  </div>
+
+  <div class="oidc-reconciliation__switch-account-button">
+    <PixButton @triggerAction={{this.backToLoginOrRegisterForm}} @backgroundColor="transparent-light">{{t
+        "pages.oidc-reconciliation.switch-account"
+      }}</PixButton>
+  </div>
+
+  <FaIcon class="oidc-reconciliation__arrow" @icon="arrow-up" />
+  <div class="oidc-reconciliation__new-authentication-method">
+    <p>{{t "pages.oidc-reconciliation.authentication-method-to-add"}}</p>
+    <PixBlock class="oidc-reconciliation__authentication-method-to-add">
+      <dl title={{t "pages.oidc-reconciliation.authentication-method-to-add"}}>
+        <dt>{{t "pages.oidc-reconciliation.external-connection-via"}} {{this.identityProviderOrganizationName}}</dt>
+        <dd>{{@fullNameFromExternalIdentityProvider}}</dd>
+      </dl>
+    </PixBlock>
+  </div>
+
+  <div class="oidc-reconciliation__action-buttons">
+    <PixButton
+      @triggerAction={{this.backToLoginOrRegisterForm}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+    >{{t "pages.oidc-reconciliation.return"}}</PixButton>
+    <PixButton @triggerAction={{this.reconcile}}>{{t "pages.oidc-reconciliation.confirm"}}</PixButton>
+  </div>
+</div>

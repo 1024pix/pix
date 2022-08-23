@@ -6,7 +6,7 @@ import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Component | authentication | login-or-register-oidc', function () {
+describe('Unit | Component | authentication | oidc-reconciliation', function () {
   setupTest();
   setupIntl();
 
