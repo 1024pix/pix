@@ -49,7 +49,7 @@ workflows:
 
       - api_install:
           requires:
-            - checkout
+            - root_install
       - api_lint:
           requires:
             - api_install
@@ -59,7 +59,7 @@ workflows:
 
       - mon_pix_install:
           requires:
-            - checkout
+            - root_install
       - mon_pix_lint:
           requires:
             - mon_pix_install
@@ -69,7 +69,7 @@ workflows:
 
       - orga_install:
           requires:
-            - checkout
+            - root_install
       - orga_lint:
           requires:
             - orga_install
@@ -79,7 +79,7 @@ workflows:
 
       - certif_install:
           requires:
-            - checkout
+            - root_install
       - certif_lint:
           requires:
             - certif_install
@@ -89,7 +89,7 @@ workflows:
 
       - admin_install:
           requires:
-            - checkout
+            - root_install
       - admin_lint:
           requires:
             - admin_install
@@ -104,7 +104,7 @@ workflows:
 
       - algo_test:
           requires:
-            - checkout
+            - root_install
 
 jobs:
   checkout:
