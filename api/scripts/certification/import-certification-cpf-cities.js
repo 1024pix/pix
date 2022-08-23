@@ -3,8 +3,15 @@
 
 require('dotenv').config();
 const logger = require('../../lib/infrastructure/logger');
-// Usage: node scripts/import-certification-cpf-cities path/file.csv
-// File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
+
+/**
+ * Usage: node scripts/import-certification-cpf-cities path/file.csv
+ * File is semi-colon separated values, headers being:
+ * code_commune_insee;nom_de_la_commune;code_postal;ligne_5
+ * ligne_5 is used for potential alternative city name
+ *
+ * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
+ **/
 
 ('use strict');
 const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
@@ -421,5 +428,5 @@ function _buildCityNameWithWordReplaced(cityName) {
 
 module.exports = {
   buildCities,
-  getCitiesWithDistricts
+  getCitiesWithDistricts,
 };
