@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const Campaign = require('../../domain/models/Campaign');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
   isCodeAvailable(code) {
@@ -115,19 +116,26 @@ module.exports = {
     return campaign.code;
   },
 
-  async getCampaignIdByCampaignParticipationId(campaignParticipationId) {
-    const campaign = await knex('campaigns')
-      .select('campaigns.id')
-      .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-      .where({ 'campaign-participations.id': campaignParticipationId })
+  async getCampaignIdByCampaignParticipationId(
+    campaignParticipationId,
+    domainTransaction = DomainTransaction.emptyTransaction()
+  ) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const campaignParticipation = await knexConn('campaign-participations')
+      .select('campaignId')
+      .where({ id: campaignParticipationId })
       .first();
 
-    if (!campaign) return null;
-    return campaign.id;
+    if (!campaignParticipation) return null;
+    return campaignParticipation.campaignId;
   },
 
   incrementParticipationsCount(id, domainTransaction) {
     return domainTransaction.knexTransaction('campaigns').where({ id }).increment('participationsCount', 1);
+  },
+
+  incrementSharedParticipationsCount(id, domainTransaction) {
+    return domainTransaction.knexTransaction('campaigns').where({ id }).increment('sharedParticipationsCount', 1);
   },
 
   decrementParticipationsCount(id, domainTransaction) {

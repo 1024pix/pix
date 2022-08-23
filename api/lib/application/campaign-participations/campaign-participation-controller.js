@@ -51,6 +51,7 @@ module.exports = {
         campaignParticipationId,
         domainTransaction,
       });
+      await usecases.updateSharedCampaignParticipationsCount({ campaignParticipationId, domainTransaction });
       await events.eventBus.publish(event, domainTransaction);
       return event;
     });

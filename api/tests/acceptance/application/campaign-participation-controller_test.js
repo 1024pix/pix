@@ -65,7 +65,10 @@ describe('Acceptance | API | Campaign Participations', function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
-      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaign = databaseBuilder.factory.buildCampaign({
+        targetProfileId: targetProfile.id,
+        sharedParticipationsCount: 0,
+      });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
         userId: user.id,
@@ -89,6 +92,8 @@ describe('Acceptance | API | Campaign Participations', function () {
       // then
       expect(response.statusCode).to.equal(204);
       expect(result.status).to.equal(SHARED);
+      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+      expect(updatedCampaign.sharedParticipationsCount).to.equal(1);
     });
   });
 

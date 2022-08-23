@@ -417,6 +417,7 @@ module.exports = injectDependencies(
     uncancelCertificationCourse: require('./uncancel-certification-course'),
     updateOrganizationLearnerDependentUserPassword: require('./update-organization-learner-dependent-user-password'),
     updateSession: require('./update-session'),
+    updateSharedCampaignParticipationsCount: require('./update-shared-campaign-participations-count'),
     updateStage: require('./update-stage'),
     updateStudentNumber: require('./update-student-number'),
     updateTargetProfile: require('./update-target-profile'),
