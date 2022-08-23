@@ -131,6 +131,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
 
     beforeEach(function () {
       sinon.stub(usecases, 'startCampaignParticipation');
+      sinon.stub(usecases, 'incrementCampaignParticipationCounter');
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(events.eventDispatcher, 'dispatch');
       sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
@@ -159,8 +160,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
     it('should call the usecases to start the campaign participation', async function () {
       // given
       usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
+      const domainTransaction = Symbol('domain-transaction');
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
+        return callback(domainTransaction);
       });
       events.eventDispatcher.dispatch.resolves();
 
@@ -173,10 +175,36 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const args = usecases.startCampaignParticipation.firstCall.args[0];
 
       expect(args.userId).to.equal(userId);
+      expect(args.domainTransaction).to.equal(domainTransaction);
 
       const campaignParticipation = args.campaignParticipation;
       expect(campaignParticipation).to.have.property('campaignId', campaignId);
       expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
+    });
+
+    it('should call the usecases to increment campaign participation counter', async function () {
+      // given
+      const createdCampaignParticipation = Symbol('campaign-participation');
+      usecases.startCampaignParticipation.resolves({
+        campaignParticipation: createdCampaignParticipation,
+        event: new CampaignParticipationStarted(),
+      });
+      const domainTransaction = Symbol('domain-transaction');
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
+      events.eventDispatcher.dispatch.resolves();
+
+      // when
+      await campaignParticipationController.save(request, hFake);
+
+      // then
+      expect(usecases.incrementCampaignParticipationCounter).to.have.been.calledOnce;
+
+      const args = usecases.incrementCampaignParticipationCounter.firstCall.args[0];
+
+      expect(args.campaignParticipation).to.equal(createdCampaignParticipation);
+      expect(args.domainTransaction).to.equal(domainTransaction);
     });
 
     it('should dispatch CampaignParticipationStartedEvent', async function () {

@@ -368,6 +368,7 @@ module.exports = injectDependencies(
     importSupOrganizationLearners: require('./import-sup-organization-learners'),
     importOrganizationLearnersFromSIECLEFormat: require('./import-organization-learners-from-siecle'),
     improveCompetenceEvaluation: require('./improve-competence-evaluation'),
+    incrementCampaignParticipationCounter: require('./increment-campaign-participation-counter'),
     linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate')
       .linkUserToSessionCertificationCandidate,
     markTargetProfileAsSimplifiedAccess: require('./mark-target-profile-as-simplified-access'),

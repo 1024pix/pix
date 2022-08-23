@@ -110,14 +110,15 @@ module.exports = {
     });
   },
 
-  async isRetrying({ campaignParticipationId }) {
-    const { id: campaignId, userId } = await knex('campaigns')
+  async isRetrying({ campaignParticipationId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const { id: campaignId, userId } = await knexConn('campaigns')
       .select('campaigns.id', 'userId')
       .join('campaign-participations', 'campaigns.id', 'campaignId')
       .where({ 'campaign-participations.id': campaignParticipationId })
       .first();
 
-    const campaignParticipations = await knex('campaign-participations')
+    const campaignParticipations = await knexConn('campaign-participations')
       .select('sharedAt', 'isImproved')
       .where({ campaignId, userId });
 
@@ -169,15 +170,30 @@ module.exports = {
     campaignParticipationId,
     domainTransaction,
   }) {
-    const organizationLearnerId = await _getOrganizationLearnerFromCampaignParticipationId({ campaignParticipationId, campaignId, domainTransaction });
+    const organizationLearnerId = await _getOrganizationLearnerFromCampaignParticipationId({
+      campaignParticipationId,
+      campaignId,
+      domainTransaction,
+    });
 
+    return this.getAllCampaignParticipationsInCampaignForOrganizationLearnerId({
+      campaignId,
+      organizationLearnerId,
+      domainTransaction,
+    });
+  },
+
+  async getAllCampaignParticipationsInCampaignForOrganizationLearnerId({
+    campaignId,
+    organizationLearnerId,
+    domainTransaction,
+  }) {
     const campaignParticipations = await domainTransaction.knexTransaction('campaign-participations').where({
       campaignId,
       organizationLearnerId,
       deletedAt: null,
       deletedBy: null,
     });
-
     return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
   },
 
@@ -187,8 +203,13 @@ module.exports = {
   },
 };
 
-async function _getOrganizationLearnerFromCampaignParticipationId({ campaignParticipation, campaignId, domainTransaction }) {
-  const result = await domainTransaction.knexTransaction('campaign-participations')
+async function _getOrganizationLearnerFromCampaignParticipationId({
+  campaignParticipationId,
+  campaignId,
+  domainTransaction,
+}) {
+  const result = await domainTransaction
+    .knexTransaction('campaign-participations')
     .select('organizationLearnerId')
     .where({ id: campaignParticipationId, campaignId })
     .first();

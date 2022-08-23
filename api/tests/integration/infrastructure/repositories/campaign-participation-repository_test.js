@@ -1322,6 +1322,113 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
+  describe('#getAllCampaignParticipationsInCampaignForOrganizationLearnerId', function () {
+    let campaignId;
+    let organizationLearnerId;
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+    });
+
+    context('When the participant only has participations for the same campaign', function () {
+      it('should return all participations for the given campaign', async function () {
+        const campaignParticipationImproved = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: SHARED,
+          isImproved: true,
+        });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: SHARED,
+          isImproved: false,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+        await databaseBuilder.commit();
+
+        const participations = await DomainTransaction.execute((domainTransaction) => {
+          return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForOrganizationLearnerId({
+            campaignId,
+            organizationLearnerId: campaignParticipation.organizationLearnerId,
+            domainTransaction,
+          });
+        });
+
+        expect(participations[0]).to.be.instanceOf(CampaignParticipation);
+        expect(participations[1]).to.be.instanceOf(CampaignParticipation);
+        expect(participations.map((participation) => participation.id)).to.deep.equal([
+          campaignParticipationImproved.id,
+          campaignParticipation.id,
+        ]);
+      });
+    });
+
+    context('When the participant has deleted participations for the same campaigns', function () {
+      it('should return only participations which are not deleted', async function () {
+        const userId = databaseBuilder.factory.buildUser().id;
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          deletedBy: userId,
+          deletedAt: new Date('2021-06-07'),
+        });
+
+        await databaseBuilder.commit();
+
+        const participations = await DomainTransaction.execute((domainTransaction) => {
+          return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForOrganizationLearnerId({
+            campaignId,
+            organizationLearnerId: campaignParticipation.organizationLearnerId,
+            domainTransaction,
+          });
+        });
+
+        expect(participations.map((participation) => participation.id)).to.deep.equal([campaignParticipation.id]);
+      });
+    });
+
+    context('When the participant has participations for differents campaigns', function () {
+      it('should return only participations for the given campaign', async function () {
+        const otherOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: otherOrganizationLearnerId,
+          campaignId,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId,
+          campaignId: otherCampaignId,
+        });
+
+        await databaseBuilder.commit();
+
+        const participations = await DomainTransaction.execute((domainTransaction) => {
+          return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForOrganizationLearnerId({
+            campaignId,
+            organizationLearnerId: campaignParticipation.organizationLearnerId,
+            domainTransaction,
+          });
+        });
+
+        expect(participations.map((participation) => participation.id)).to.deep.equal([campaignParticipation.id]);
+      });
+    });
+  });
+
   describe('#delete', function () {
     it('should update the campaign-participations with deletedAt and deletedBy attributes', async function () {
       const ownerId = databaseBuilder.factory.buildUser().id;

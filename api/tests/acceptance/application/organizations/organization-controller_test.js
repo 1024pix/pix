@@ -409,7 +409,7 @@ describe('Acceptance | Application | organization-controller', function () {
             organizationId,
             archivedAt: new Date('2000-02-01T10:00:00Z'),
           },
-          { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId },
+          { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId, participationsCount: 1, sharedParticipationsCount: 1 },
         ],
         (camp) => {
           const builtCampaign = databaseBuilder.factory.buildCampaign(camp);

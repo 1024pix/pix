@@ -94,31 +94,30 @@ describe('Acceptance | API | Campaign Participations', function () {
 
   describe('POST /api/campaign-participations', function () {
     let campaignId;
-    const options = {
-      method: 'POST',
-      url: '/api/campaign-participations',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      headers: { authorization: generateValidRequestAuthorizationHeader() },
-      payload: {
-        data: {
-          type: 'campaign-participations',
-          attributes: {
-            'participant-external-id': 'iuqezfh13736',
-          },
-          relationships: {
-            campaign: {
-              data: {
-                id: null,
-                type: 'campaigns',
+    let options;
+
+    beforeEach(async function () {
+      options = {
+        method: 'POST',
+        url: '/api/campaign-participations',
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+        payload: {
+          data: {
+            type: 'campaign-participations',
+            attributes: {
+              'participant-external-id': 'iuqezfh13736',
+            },
+            relationships: {
+              campaign: {
+                data: {
+                  id: null,
+                  type: 'campaigns',
+                },
               },
             },
           },
         },
-      },
-    };
-
-    beforeEach(async function () {
+      };
       options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
       mockLearningContent({ skills: [] });
@@ -139,6 +138,8 @@ describe('Acceptance | API | Campaign Participations', function () {
       const response = await server.inject(options);
 
       // then
+      const campaign = await knex('campaigns').where({ id: campaignId }).first();
+      expect(campaign.participationsCount).to.equal(1);
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.id).to.exist;
     });
