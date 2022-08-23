@@ -57,9 +57,15 @@ workflows:
           requires:
             - mon_pix_install
 
-      - orga_build_and_test:
+      - orga_install:
           requires:
             - checkout
+      - orga_lint:
+          requires:
+            - orga_install
+      - orga_test:
+          requires:
+            - orga_install
 
       - certif_build_and_test:
           requires:
@@ -192,11 +198,10 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  orga_build_and_test:
+  orga_install:
     executor: front
     working_directory: ~/pix/orga
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -208,9 +213,28 @@ jobs:
           key: v7-orga-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - .
+
+  orga_lint:
+    executor: front
+    working_directory: ~/pix/orga
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
+
+  orga_test:
+    executor: front
+    working_directory: ~/pix/orga
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Test
           command: npm run test:ci
