@@ -8,7 +8,7 @@ module.exports = async function deleteCampaignParticipation({
   campaignParticipationRepository,
 }) {
   const campaignParticipations =
-    await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
+    await campaignParticipationRepository.getAllCampaignParticipationsInCampaignFromCampaignParticipationId({
       campaignId,
       campaignParticipationId,
       domainTransaction,

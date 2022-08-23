@@ -20,7 +20,7 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
       getCampaignIdByCampaignParticipationId: sinon.stub(),
     };
     const campaignParticipationRepository = {
-      getAllCampaignParticipationsInCampaignForASameLearner: sinon.stub(),
+      getAllCampaignParticipationsInCampaignFromCampaignParticipationId: sinon.stub(),
       delete: sinon.stub(),
     };
     const campaignParticipationId = 1234;
@@ -46,7 +46,7 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
     const campaignParticipations = [campaignParticipation1, campaignParticipation2];
 
     campaignRepository.getCampaignIdByCampaignParticipationId.withArgs(campaignParticipationId).resolves(campaignId);
-    campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner
+    campaignParticipationRepository.getAllCampaignParticipationsInCampaignFromCampaignParticipationId
       .withArgs({
         campaignId,
         campaignParticipationId,

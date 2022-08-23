@@ -164,7 +164,7 @@ module.exports = {
     return mapToParticipationByStatus(row, campaignType);
   },
 
-  async getAllCampaignParticipationsInCampaignForASameLearner({
+  async getAllCampaignParticipationsInCampaignFromCampaignParticipationId({
     campaignId,
     campaignParticipationId,
     domainTransaction,
