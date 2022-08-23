@@ -112,10 +112,9 @@ module.exports = {
 
   async isRetrying({ campaignParticipationId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
-    const { id: campaignId, userId } = await knexConn('campaigns')
-      .select('campaigns.id', 'userId')
-      .join('campaign-participations', 'campaigns.id', 'campaignId')
-      .where({ 'campaign-participations.id': campaignParticipationId })
+    const { campaignId, userId } = await knexConn('campaign-participations')
+      .select('campaignId', 'userId')
+      .where({ id: campaignParticipationId })
       .first();
 
     const campaignParticipations = await knexConn('campaign-participations')
