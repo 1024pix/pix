@@ -20,6 +20,7 @@ const CertificationCenterMembership = require('../../domain/models/Certification
 const Organization = require('../../domain/models/Organization');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 
 module.exports = {
   getByEmail(email) {
@@ -494,7 +495,7 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
       shouldChangePassword: Boolean(authenticationComplement.shouldChangePassword),
     });
     externalIdentifier = undefined;
-  } else if (identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) {
+  } else if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
     authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken: authenticationComplement.accessToken,
       refreshToken: authenticationComplement.refreshToken,

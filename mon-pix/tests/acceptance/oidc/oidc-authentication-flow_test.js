@@ -12,10 +12,10 @@ describe('Acceptance | OIDC | authentication flow', function () {
   setupMirage();
   setupIntl();
 
-  context('when user is logged in with Pole Emploi and logs out', function () {
+  context('when user is logged in to external provider with logout url and logs out', function () {
     it('should redirect the user to logout url', async function () {
       // given
-      const screen = await visit('/connexion/pole-emploi?code=code&state=state');
+      const screen = await visit('/connexion/oidc-partner?code=code&state=state');
 
       // when
       await click(

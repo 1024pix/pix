@@ -4,6 +4,7 @@ const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
 const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../domain/errors');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 
 function _toDomain(authenticationMethodDTO) {
   if (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.PIX) {
@@ -25,7 +26,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
     return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
-  if (identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) {
+  if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
     return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 

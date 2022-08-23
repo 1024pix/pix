@@ -10,10 +10,11 @@ describe('Unit | Authenticator | oidc', function () {
 
   describe('#authenticate', function () {
     const userId = 1;
-    const source = 'source';
+    const source = 'oidc-externe';
+    const hasLogoutUrl = true;
     const logoutUrlUuid = 'uuid';
-    const identityProviderCode = 'CNAV';
-    const identityProviderSlug = 'cnav';
+    const identityProviderCode = 'OIDC_PARTNER';
+    const identityProviderSlug = 'oidc-partner';
     const code = 'code';
     const redirectUri = 'redirectUri';
     const state = 'state';
@@ -51,6 +52,18 @@ describe('Unit | Authenticator | oidc', function () {
         json: sinon.stub().resolves({ access_token: accessToken, logout_url_uuid: logoutUrlUuid }),
         ok: true,
       });
+      const oidcPartner = {
+        id: identityProviderSlug,
+        code: identityProviderCode,
+        organizationName: 'Partenaire OIDC',
+        hasLogoutUrl,
+        source,
+      };
+      class OidcIdentityProvidersStub extends Service {
+        [identityProviderSlug] = oidcPartner;
+        list = [oidcPartner];
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
     });
 
     afterEach(function () {
@@ -76,10 +89,11 @@ describe('Unit | Authenticator | oidc', function () {
       sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/users`, request);
       expect(token).to.deep.equal({
         access_token: accessToken,
-        logout_url_uuid: logoutUrlUuid,
+        logoutUrlUuid,
         source,
+        hasLogoutUrl,
         user_id: userId,
-        identity_provider_code: identityProviderCode,
+        identityProviderCode,
       });
     });
 
@@ -95,10 +109,11 @@ describe('Unit | Authenticator | oidc', function () {
       sinon.assert.calledWith(fetch.default, 'http://localhost:3000/api/oidc/token', request);
       expect(token).to.deep.equal({
         access_token: accessToken,
-        logout_url_uuid: logoutUrlUuid,
+        logoutUrlUuid,
         source,
+        hasLogoutUrl,
         user_id: userId,
-        identity_provider_code: identityProviderCode,
+        identityProviderCode,
       });
     });
 
@@ -110,7 +125,7 @@ describe('Unit | Authenticator | oidc', function () {
           invalidate: sinon.stub(),
           data: {
             authenticated: {
-              logout_url_uuid: logoutUrlUuid,
+              logoutUrlUuid,
               access_token: accessToken,
             },
           },
@@ -135,10 +150,11 @@ describe('Unit | Authenticator | oidc', function () {
         sinon.assert.calledOnce(sessionStub.invalidate);
         expect(token).to.deep.equal({
           access_token: accessToken,
-          logout_url_uuid: logoutUrlUuid,
+          logoutUrlUuid,
           source,
+          hasLogoutUrl,
           user_id: userId,
-          identity_provider_code: identityProviderCode,
+          identityProviderCode,
         });
       });
 
@@ -150,7 +166,7 @@ describe('Unit | Authenticator | oidc', function () {
             invalidate: sinon.stub(),
             data: {
               authenticated: {
-                logout_url_uuid: logoutUrlUuid,
+                logoutUrlUuid,
                 access_token: accessToken,
               },
             },
@@ -179,7 +195,7 @@ describe('Unit | Authenticator | oidc', function () {
   });
 
   describe('#invalidate', function () {
-    context('when user has logoutUrlUUID in their session', function () {
+    context('when user has logout url in their session', function () {
       it('should set alternativeRootURL with the redirect logout url', async function () {
         // given
         const sessionStub = Service.create({
@@ -199,7 +215,11 @@ describe('Unit | Authenticator | oidc', function () {
         });
 
         // when
-        await authenticator.invalidate({ identity_provider_code: 'POLE_EMPLOI' });
+        await authenticator.invalidate({
+          hasLogoutUrl: true,
+          identityProviderCode: 'OIDC_PARTNER',
+          logoutUrlUuid: 'uuid',
+        });
 
         // then
         expect(authenticator.session.alternativeRootURL).to.equal(redirectLogoutUrl);

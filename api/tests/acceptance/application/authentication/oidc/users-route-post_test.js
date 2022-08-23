@@ -3,6 +3,7 @@ const { expect, knex } = require('../../../../test-helper');
 const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
 const createServer = require('../../../../../server');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Acceptance | Route | oidc users', function () {
   let server;
@@ -51,7 +52,7 @@ describe('Acceptance | Route | oidc users', function () {
         payload: {
           data: {
             attributes: {
-              identity_provider: 'CNAV',
+              identity_provider: OidcIdentityProviders.CNAV.code,
               authentication_key: userAuthenticationKey,
             },
           },
@@ -84,7 +85,7 @@ describe('Acceptance | Route | oidc users', function () {
           payload: {
             data: {
               attributes: {
-                identity_provider: 'CNAV',
+                identity_provider: OidcIdentityProviders.CNAV.code,
                 authentication_key: userAuthenticationKey,
               },
             },

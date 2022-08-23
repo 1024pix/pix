@@ -10,9 +10,9 @@ const {
 
 const createServer = require('../../../../../server');
 const settings = require('../../../../../lib/config');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 
@@ -29,7 +29,7 @@ describe('Acceptance | Route | oidc | token', function () {
       payload = {
         data: {
           attributes: {
-            identity_provider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
             code: 'code',
             redirect_uri: 'redirect_uri',
             state_sent: 'state',
@@ -110,7 +110,7 @@ describe('Acceptance | Route | oidc | token', function () {
       }).id;
 
       databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         externalIdentifier,
         accessToken: 'access_token',
         refreshToken: 'refresh_token',

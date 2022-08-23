@@ -1,7 +1,6 @@
 import get from 'lodash/get';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class AccessRoute extends Route {
   @service currentUser;
@@ -9,6 +8,7 @@ export default class AccessRoute extends Route {
   @service campaignStorage;
   @service router;
   @service store;
+  @service oidcIdentityProviders;
 
   beforeModel(transition) {
     if (!transition.from) {
@@ -18,15 +18,15 @@ export default class AccessRoute extends Route {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
 
-    const identityProviderToVisit = Object.keys(IdentityProviders).find((key) => {
+    const identityProviderToVisit = this.oidcIdentityProviders.list.find((identityProvider) => {
       const isUserLoggedInToIdentityProvider =
-        get(this.session, 'data.authenticated.identity_provider_code') === IdentityProviders[key].code;
-      return campaign.isRestrictedByIdentityProvider(IdentityProviders[key].code) && !isUserLoggedInToIdentityProvider;
+        get(this.session, 'data.authenticated.identityProviderCode') === identityProvider.code;
+      return campaign.isRestrictedByIdentityProvider(identityProvider.code) && !isUserLoggedInToIdentityProvider;
     });
 
     if (identityProviderToVisit) {
       this.session.setAttemptedTransition(transition);
-      return this.router.replaceWith('authentication.login-oidc', identityProviderToVisit);
+      return this.router.replaceWith('authentication.login-oidc', identityProviderToVisit.id);
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {

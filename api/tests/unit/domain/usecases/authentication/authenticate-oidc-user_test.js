@@ -6,6 +6,7 @@ const authenticateOidcUser = require('../../../../../lib/domain/usecases/authent
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const moment = require('moment');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   let oidcAuthenticationService;
@@ -16,7 +17,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
   beforeEach(function () {
     oidcAuthenticationService = {
-      identityProvider: 'POLE_EMPLOI',
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       createAccessToken: sinon.stub(),
       saveIdToken: sinon.stub(),
       createAuthenticationComplement: sinon.stub(),

@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
-import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class CurrentSessionService extends SessionService {
   @service currentUser;
@@ -10,6 +9,7 @@ export default class CurrentSessionService extends SessionService {
   @service moment;
   @service url;
   @service router;
+  @service oidcIdentityProviders;
 
   routeAfterAuthentication = 'user-dashboard';
 
@@ -17,9 +17,11 @@ export default class CurrentSessionService extends SessionService {
     await this._loadCurrentUserAndSetLocale();
 
     const nextURL = this.data.nextURL;
-    const isFromIdentityProviderLoginPage = Object.keys(IdentityProviders).some((key) =>
-      this._isFromIdentityProviderLoginPage(nextURL, IdentityProviders[key].code)
-    );
+    const isFromIdentityProviderLoginPage = this.oidcIdentityProviders.list.some((identityProvider) => {
+      const isUserLoggedInToIdentityProvider =
+        get(this, 'data.authenticated.identityProviderCode') === identityProvider.code;
+      return nextURL && isUserLoggedInToIdentityProvider;
+    });
 
     if (isFromIdentityProviderLoginPage) {
       // eslint-disable-next-line ember/classic-decorator-no-classic-methods
@@ -155,11 +157,5 @@ export default class CurrentSessionService extends SessionService {
     delete super.data.expectedUserId;
     delete super.data.externalUser;
     return super.invalidate();
-  }
-
-  _isFromIdentityProviderLoginPage(nextUrl, identityProviderCode) {
-    const isUserLoggedInToIdentityProvider =
-      get(this, 'data.authenticated.identity_provider_code') === identityProviderCode;
-    return nextUrl && isUserLoggedInToIdentityProvider;
   }
 }

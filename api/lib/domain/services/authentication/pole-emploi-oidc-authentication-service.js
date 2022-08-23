@@ -1,5 +1,4 @@
 const settings = require('../../../config');
-const constants = require('../../constants');
 const OidcAuthenticationService = require('./oidc-authentication-service');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
@@ -9,14 +8,7 @@ const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-sto
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
-    const source = 'pole_emploi_connect';
-    const identityProvider = constants.IDENTITY_PROVIDER.POLE_EMPLOI;
-    const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
-    const jwtOptions = { expiresIn: expirationDelaySeconds };
-    const clientSecret = settings.poleEmploi.clientSecret;
     const clientId = settings.poleEmploi.clientId;
-    const tokenUrl = settings.poleEmploi.tokenUrl;
-    const authenticationUrl = settings.poleEmploi.authenticationUrl;
     const authenticationUrlParameters = [
       { key: 'realm', value: '/individu' },
       {
@@ -24,18 +16,20 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
         value: `application_${clientId} api_peconnect-individuv1 openid profile`,
       },
     ];
-    const userInfoUrl = settings.poleEmploi.userInfoUrl;
 
     super({
-      source,
-      identityProvider,
-      jwtOptions,
-      clientSecret,
-      clientId,
-      tokenUrl,
-      authenticationUrl,
+      source: 'pole_emploi_connect',
+      identityProvider: 'POLE_EMPLOI',
+      slug: 'pole-emploi',
+      organizationName: 'Pôle Emploi',
+      hasLogoutUrl: true,
+      jwtOptions: { expiresIn: settings.poleEmploi.accessTokenLifespanMs / 1000 },
+      clientSecret: settings.poleEmploi.clientSecret,
+      clientId: clientId,
+      tokenUrl: settings.poleEmploi.tokenUrl,
+      authenticationUrl: settings.poleEmploi.authenticationUrl,
       authenticationUrlParameters,
-      userInfoUrl,
+      userInfoUrl: settings.poleEmploi.userInfoUrl,
     });
 
     this.logoutUrl = settings.poleEmploi.logoutUrl;
@@ -44,7 +38,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 
   // Override because we need idToken to send results after a campaign
-  // Sending campaign results is specific for Pole Emploi
+  // Sending campaign results is specific to Pole Emploi
   async createUserAccount({
     user,
     sessionContent,
@@ -57,7 +51,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
 
       const authenticationMethod = new AuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        identityProvider: this.identityProvider,
         userId: createdUserId,
         externalIdentifier: externalIdentityId,
         authenticationComplement: this.createAuthenticationComplement({ sessionContent }),

@@ -7,6 +7,7 @@ export default class ApplicationRoute extends Route {
   @service intl;
   @service headData;
   @service featureToggles;
+  @service oidcIdentityProviders;
 
   activate() {
     this.splash.hide();
@@ -16,6 +17,8 @@ export default class ApplicationRoute extends Route {
     this.headData.description = this.intl.t('application.description');
 
     await this.featureToggles.load().catch();
+
+    await this.oidcIdentityProviders.load().catch();
 
     await this.session.handleUserLanguageAndLocale(transition);
   }

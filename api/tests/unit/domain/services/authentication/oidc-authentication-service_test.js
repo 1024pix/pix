@@ -13,26 +13,21 @@ const DomainTransaction = require('../../../../../lib/infrastructure/DomainTrans
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const logger = require('../../../../../lib/infrastructure/logger');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
-    it('should create access token with user id, source and identityProvider', function () {
+    it('should create access token with user id', function () {
       // given
       const userId = 42;
       const accessToken = Symbol('valid access token');
-      const source = Symbol('an oidc source');
-      const identityProvider = Symbol('name of identityProvider');
       settings.authentication.secret = 'a secret';
-      const payload = {
-        user_id: userId,
-        source,
-        identity_provider: identityProvider,
-      };
+      const payload = { user_id: userId };
       const secret = 'a secret';
       const jwtOptions = { expiresIn: 1 };
       sinon.stub(jsonwebtoken, 'sign').withArgs(payload, secret, jwtOptions).returns(accessToken);
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ source, identityProvider, jwtOptions });
+      const oidcAuthenticationService = new OidcAuthenticationService({ jwtOptions });
 
       // when
       const result = oidcAuthenticationService.createAccessToken(userId);
@@ -378,7 +373,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const userId = 1;
         userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-        const identityProvider = 'CNAV';
+        const identityProvider = OidcIdentityProviders.CNAV.code;
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider,
           externalIdentifier: externalIdentityId,

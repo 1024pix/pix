@@ -4,6 +4,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-hel
 const settings = require('../../../../../lib/config');
 const { UnexpectedUserAccountError } = require('../../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 const { notify } = require('../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
@@ -62,7 +63,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     it('should throw an error if the user is not known as PoleEmploi user', async function () {
       // given
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-        .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+        .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
         .resolves(null);
 
       // when
@@ -87,7 +88,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         };
 
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code });
 
@@ -108,7 +109,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         // given
         const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
           .resolves(authenticationMethod);
         const params = {
           grant_type: 'refresh_token',
@@ -133,7 +134,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         it('should update the authentication method', async function () {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
             .resolves(authenticationMethod);
           httpAgent.post.resolves({ isSuccessful: true, code, data });
           const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
@@ -148,7 +149,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           // then
           expect(
             authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).to.have.been.calledWith({ authenticationComplement, userId, identityProvider: 'POLE_EMPLOI' });
+          ).to.have.been.calledWith({
+            authenticationComplement,
+            userId,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          });
         });
 
         it('should send the notification to Pole Emploi', async function () {
@@ -171,7 +176,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .resolves();
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
             .resolves(authenticationMethod);
 
           httpAgent.post
