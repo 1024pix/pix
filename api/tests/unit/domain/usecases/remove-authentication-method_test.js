@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const removeAuthenticationMethod = require('../../../../lib/domain/usecases/remove-authentication-method');
 const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | UseCase | remove-authentication-method', function () {
   let userRepository;
@@ -155,10 +156,9 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   });
 
   context('When type is POLE_EMPLOI', function () {
-    const type = 'POLE_EMPLOI';
-
     it('should remove POLE_EMPLOI authentication method', async function () {
       // given
+      const type = OidcIdentityProviders.POLE_EMPLOI.code;
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
@@ -170,7 +170,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
         userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       });
     });
   });

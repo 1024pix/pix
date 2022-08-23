@@ -1,8 +1,7 @@
 describe('a11y', () => {
-
   const viewports = [
     { width: 350, height: 667 },
-    { width: 1280,height: 800 },
+    { width: 1280, height: 800 },
   ];
 
   beforeEach(() => {
@@ -23,7 +22,6 @@ describe('a11y', () => {
   });
 
   describe('Not authenticated pages', () => {
-
     const notAuthenticatedPages = [
       { url: '/connexion' },
       { url: '/inscription' },
@@ -32,10 +30,11 @@ describe('a11y', () => {
       { url: '/campagnes/WALL/presentation' },
     ];
 
-    notAuthenticatedPages.forEach(({ url , skipFailures = false }) => {
+    notAuthenticatedPages.forEach(({ url, skipFailures = false }) => {
       it(`${url} should be accessible`, () => {
         // when
         cy.visitMonPix(url);
+        cy.get('.app-loader').should('not.exist');
         cy.injectAxe();
 
         // then
@@ -45,13 +44,12 @@ describe('a11y', () => {
   });
 
   describe('Authenticated pages', () => {
-
     const authenticatedPages = [
       { url: '/accueil', skipFailures: true },
       { url: '/competences', skipFailures: true },
       { url: '/certifications', skipFailures: true },
       { url: '/mon-profil', skipFailures: true },
-      { url: '/mes-tutos/recommandes',skipFailures: true },
+      { url: '/mes-tutos/recommandes', skipFailures: true },
       { url: '/mes-certifications', skipFailures: true },
       { url: '/campagnes/NERA/evaluation/resultats' },
     ];
@@ -71,10 +69,10 @@ describe('a11y', () => {
         cy.injectAxe();
 
         // then
-        viewports.forEach(({ width, height}) => {
+        viewports.forEach(({ width, height }) => {
           cy.viewport(width, height);
           cy.checkA11yAndShowViolations({ skipFailures, url });
-        })
+        });
       });
     });
   });

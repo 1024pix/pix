@@ -7,6 +7,7 @@ const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
 const { EntityValidationError } = require('../../domain/errors');
 const identifiersType = require('../../domain/types/identifiers-type');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 
 exports.register = async function (server) {
   const adminRoutes = [
@@ -139,7 +140,7 @@ exports.register = async function (server) {
             data: {
               attributes: {
                 'user-id': identifiersType.userId,
-                'identity-provider': Joi.string().valid('GAR', 'POLE_EMPLOI').required(),
+                'identity-provider': Joi.string().valid('GAR', OidcIdentityProviders.POLE_EMPLOI.code).required(),
               },
             },
           }),
@@ -178,7 +179,7 @@ exports.register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                type: Joi.string().valid('GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI').required(),
+                type: Joi.string().valid('GAR', 'EMAIL', 'USERNAME', OidcIdentityProviders.POLE_EMPLOI.code).required(),
               },
             },
           }),

@@ -21,6 +21,7 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -187,7 +188,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // when
         const foundUser = await userRepository.findByExternalIdentifier({
           externalIdentityId,
-          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then
@@ -202,7 +203,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // when
         const foundUser = await userRepository.findByExternalIdentifier({
           externalIdentityId: badId,
-          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then

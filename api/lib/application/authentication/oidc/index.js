@@ -1,17 +1,31 @@
 const Joi = require('joi');
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const oidcController = require('./oidc-controller');
 const featureToggles = require('../../preHandlers/feature-toggles');
 
+const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.code);
+
 exports.register = async (server) => {
   server.route([
+    {
+      method: 'GET',
+      path: '/api/oidc/identity-providers',
+      config: {
+        auth: false,
+        handler: oidcController.getIdentityProviders,
+        notes: [
+          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires oidc',
+        ],
+        tags: ['api', 'oidc'],
+      },
+    },
     {
       method: 'GET',
       path: '/api/oidc/redirect-logout-url',
       config: {
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string().required().valid(AuthenticationMethod.identityProviders.POLE_EMPLOI),
+            identity_provider: Joi.string().required().valid(OidcIdentityProviders.POLE_EMPLOI.code),
             logout_url_uuid: Joi.string()
               .regex(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
               .required(),
@@ -32,7 +46,9 @@ exports.register = async (server) => {
         auth: false,
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string().required(),
+            identity_provider: Joi.string()
+              .required()
+              .valid(...validProviders),
             redirect_uri: Joi.string().required(),
           }),
         },
@@ -53,7 +69,9 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                identity_provider: Joi.string().required(),
+                identity_provider: Joi.string()
+                  .required()
+                  .valid(...validProviders),
                 code: Joi.string().required(),
                 redirect_uri: Joi.string().required(),
                 state_sent: Joi.string().required(),
@@ -79,7 +97,9 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                identity_provider: Joi.string().required(),
+                identity_provider: Joi.string()
+                  .required()
+                  .valid(...validProviders),
                 authentication_key: Joi.string().required(),
               },
             },
@@ -110,7 +130,9 @@ exports.register = async (server) => {
               attributes: Joi.object({
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
-                'identity-provider': Joi.string().required().valid('POLE_EMPLOI', 'CNAV'),
+                'identity-provider': Joi.string()
+                  .required()
+                  .valid(...validProviders),
                 'authentication-key': Joi.string().required(),
               }),
               type: Joi.string(),

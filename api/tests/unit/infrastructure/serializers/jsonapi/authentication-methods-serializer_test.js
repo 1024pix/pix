@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
 
 describe('Unit | Serializer | JSONAPI | authentication-methods-serializer', function () {
@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | authentication-methods-serializer', func
           {
             type: 'authentication-methods',
             attributes: {
-              'identity-provider': AuthenticationMethod.identityProviders.POLE_EMPLOI,
+              'identity-provider': OidcIdentityProviders.POLE_EMPLOI.code,
             },
           },
         ],

@@ -7,19 +7,36 @@ export default function (config) {
     }
 
     const createdUser = schema.users.create({
-      firstName: 'Paul',
-      lastName: 'Emploi',
+      firstName: 'Lloyd',
+      lastName: 'Cé',
     });
 
     return {
       access_token:
         'aaa.' +
         btoa(
-          `{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958,"identity_provider":"POLE_EMPLOI"}`
+          `{"user_id":${createdUser.id},"source":"oidc-externe","iat":1545321469,"exp":4702193958,"identity_provider":"OIDC_PARTNER"}`
         ) +
         '.bbb',
       logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
       user_id: createdUser.id,
+    };
+  });
+
+  config.get('/oidc/identity-providers', () => {
+    return {
+      data: [
+        {
+          type: 'oidc-identity-providers',
+          id: 'oidc-partner',
+          attributes: {
+            code: 'OIDC_PARTNER',
+            'organization-name': 'Partenaire OIDC',
+            'has-logout-url': false,
+            source: 'oidc-externe',
+          },
+        },
+      ],
     };
   });
 
@@ -46,7 +63,7 @@ export default function (config) {
       access_token:
         'aaa.' +
         btoa(
-          `{"user_id":${createdUser.id},"source":"pole_emploi_connect","identity_provider":"${identityProvider}","iat":1545321469,"exp":4702193958}`
+          `{"user_id":${createdUser.id},"source":"oidc-externe","identity_provider":"${identityProvider}","iat":1545321469,"exp":4702193958}`
         ) +
         '.bbb',
       user_id: createdUser.id,

@@ -5,9 +5,25 @@ const oidcSerializer = require('../../../../../lib/infrastructure/serializers/js
 const usecases = require('../../../../../lib/domain/usecases');
 const settings = require('../../../../../lib/config');
 const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
+
+  describe('#getIdentityProviders', function () {
+    it('should return the list of oidc identity providers', async function () {
+      // given & when
+      const response = await oidcController.getIdentityProviders();
+
+      // then
+      const expectedCnavProvider = {
+        type: 'oidc-identity-providers',
+        id: 'cnav',
+        attributes: { code: 'CNAV', 'organization-name': 'CNAV', 'has-logout-url': false, source: 'cnav' },
+      };
+      expect(response.data).to.deep.contain(expectedCnavProvider);
+    });
+  });
 
   describe('#getRedirectLogoutUrl', function () {
     context('when identity provider is POLE_EMPLOI', function () {
@@ -167,7 +183,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       it('should send the authenticated user id for pole emploi', async function () {
         // given
         settings.featureToggles.isSsoAccountReconciliationEnabled = false;
-        const identityProvider = 'POLE_EMPLOI';
+        const identityProvider = OidcIdentityProviders.POLE_EMPLOI.code;
         const oidcAuthenticationService = {};
         sinon
           .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
@@ -200,7 +216,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       it('should not send the authenticated user id for pole emploi when toggle is enabled', async function () {
         // given
         settings.featureToggles.isSsoAccountReconciliationEnabled = true;
-        const identityProvider = 'POLE_EMPLOI';
+        const identityProvider = OidcIdentityProviders.POLE_EMPLOI.code;
         const oidcAuthenticationService = {};
         sinon
           .stub(authenticationServiceRegistry, 'lookupAuthenticationService')

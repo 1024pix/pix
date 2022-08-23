@@ -1,13 +1,18 @@
 const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const get = require('lodash/get');
 const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const usecases = require('../../../domain/usecases');
 const { UnauthorizedError } = require('../../http-errors');
 const config = require('../../../config');
 const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
 
 module.exports = {
+  async getIdentityProviders() {
+    return serializer.serialize(Object.values(OidcIdentityProviders));
+  },
+
   async getRedirectLogoutUrl(request, h) {
     const userId = request.auth.credentials.userId;
     const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
@@ -50,7 +55,7 @@ module.exports = {
     let authenticatedUserId;
     if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
       authenticatedUserId =
-        identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
+        identityProvider === OidcIdentityProviders.POLE_EMPLOI.code
           ? get(request.auth, 'credentials.userId')
           : undefined;
     }

@@ -1,6 +1,7 @@
 const { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } = require('../../../test-helper');
 const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -351,7 +352,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // when
         const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then
@@ -793,7 +794,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
           id: 123,
-          identityProvider: 'POLE_EMPLOI',
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           externalIdentifier: 'identifier',
           accessToken: 'to_be_updated',
           refreshToken: 'to_be_updated',
@@ -821,7 +822,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
           authenticationComplement,
           userId,
-          identityProvider: 'POLE_EMPLOI',
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then
@@ -848,7 +849,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
             authenticationComplement,
             userId,
-            identityProvider: 'POLE_EMPLOI',
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           });
 
         // then
@@ -877,7 +878,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         )({
           authenticationComplement,
           userId,
-          identityProvider: 'POLE_EMPLOI',
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then

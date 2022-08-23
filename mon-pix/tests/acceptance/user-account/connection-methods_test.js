@@ -1,14 +1,11 @@
 import { describe, it } from 'mocha';
-import {
-  authenticateByEmail,
-  authenticateByGAR,
-  authenticateByUsername,
-  authenticateByCnav,
-} from '../../helpers/authentication';
+import { authenticateByEmail, authenticateByGAR, authenticateByUsername } from '../../helpers/authentication';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { triggerEvent } from '@ember/test-helpers';
+import Service from '@ember/service';
 import { visit } from '@1024pix/ember-testing-library';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
@@ -55,14 +52,27 @@ describe('Acceptance | user-account | connection-methods', function () {
 
     it("should display user's Pole Emploi authentication method", async function () {
       // given
+      const poleEmploi = {
+        id: 'pole-emploi',
+        code: 'POLE_EMPLOI',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        'pole-emploi' = poleEmploi;
+        load = sinon.stub().resolves();
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const userDetails = {
         email: 'john.doe@example.net',
       };
       const user = server.create('user', 'withEmail', userDetails);
       server.create('authentication-method', 'withPoleEmploiIdentityProvider', { user });
-      await authenticateByEmail(user);
 
       // when
+      await visit(
+        '/?token=aaa.' +
+          btoa(`{"user_id":${user.id},"source":"pole-emploi","iat":1545321469,"exp":4702193958}`) +
+          '.bbb'
+      );
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
@@ -72,11 +82,22 @@ describe('Acceptance | user-account | connection-methods', function () {
 
     it("should display user's Cnav authentication method", async function () {
       // given
-      const garUser = server.create('user', 'external');
-      server.create('authentication-method', 'withCnavIdentityProvider', { user: garUser });
-      await authenticateByCnav(garUser);
+      const cnav = {
+        id: 'cnav',
+        code: 'CNAV',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        cnav = cnav;
+        load = sinon.stub().resolves();
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      const cnavUser = server.create('user', 'external');
+      server.create('authentication-method', 'withCnavIdentityProvider', { user: cnavUser });
 
       // when
+      await visit(
+        '/?token=aaa.' + btoa(`{"user_id":${cnavUser.id},"source":"cnav","iat":1545321469,"exp":4702193958}`) + '.bbb'
+      );
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then

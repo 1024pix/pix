@@ -13,6 +13,9 @@ class OidcAuthenticationService {
   constructor({
     source,
     identityProvider,
+    slug,
+    organizationName,
+    hasLogoutUrl = false,
     jwtOptions,
     clientSecret,
     clientId,
@@ -23,6 +26,9 @@ class OidcAuthenticationService {
   }) {
     this.source = source;
     this.identityProvider = identityProvider;
+    this.slug = slug;
+    this.hasLogoutUrl = hasLogoutUrl;
+    this.organizationName = organizationName;
     this.jwtOptions = jwtOptions;
     this.clientSecret = clientSecret;
     this.clientId = clientId;
@@ -32,16 +38,12 @@ class OidcAuthenticationService {
     this.userInfoUrl = userInfoUrl;
   }
 
+  get code() {
+    return this.identityProvider;
+  }
+
   createAccessToken(userId) {
-    return jsonwebtoken.sign(
-      {
-        user_id: userId,
-        source: this.source,
-        identity_provider: this.identityProvider,
-      },
-      settings.authentication.secret,
-      this.jwtOptions
-    );
+    return jsonwebtoken.sign({ user_id: userId }, settings.authentication.secret, this.jwtOptions);
   }
 
   createAuthenticationComplement() {
