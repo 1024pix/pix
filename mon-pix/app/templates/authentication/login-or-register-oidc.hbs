@@ -1,14 +1,23 @@
 {{page-title (t "pages.login-or-register-oidc.title")}}
 
-{{#if this.showOidcReconciliation}}
-  <Authentication::OidcReconciliation
-    @identityProviderSlug={{this.identityProviderSlug}}
-    @authenticationKey={{this.authenticationKey}}
-  />
-{{else}}
-  <Authentication::LoginOrRegisterOidc
-    @identityProviderSlug={{this.identityProviderSlug}}
-    @authenticationKey={{this.authenticationKey}}
-    @toggleOidcReconciliation={{this.toggleOidcReconciliation}}
-  />
-{{/if}}
+<PixBackgroundHeader>
+  <PixBlock @shadow="light" class="login-or-register-oidc-form">
+    <a href={{this.homeUrl}} class="login-or-register-oidc-form__logo">
+      <img src="/images/pix-logo.svg" alt="{{t "common.pix"}}" />
+    </a>
+
+    {{#if this.showOidcReconciliation}}
+      <Authentication::OidcReconciliation
+        @identityProviderSlug={{this.identityProviderSlug}}
+        @authenticationKey={{this.authenticationKey}}
+      />
+    {{else}}
+      <Authentication::LoginOrRegisterOidc
+        @identityProviderSlug={{this.identityProviderSlug}}
+        @authenticationKey={{this.authenticationKey}}
+        @onLogin={{this.onLogin}}
+      />
+    {{/if}}
+
+  </PixBlock>
+</PixBackgroundHeader>
