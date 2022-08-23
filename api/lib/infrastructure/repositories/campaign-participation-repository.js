@@ -187,12 +187,15 @@ module.exports = {
     organizationLearnerId,
     domainTransaction,
   }) {
-    const campaignParticipations = await domainTransaction.knexTransaction('campaign-participations').where({
-      campaignId,
-      organizationLearnerId,
-      deletedAt: null,
-      deletedBy: null,
-    });
+    const campaignParticipations = await domainTransaction
+      .knexTransaction('campaign-participations')
+      .where({
+        campaignId,
+        organizationLearnerId,
+        deletedAt: null,
+        deletedBy: null,
+      })
+      .orderBy('createdAt');
     return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
   },
 

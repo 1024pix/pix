@@ -13,5 +13,11 @@ module.exports = async function incrementCampaignParticipationCounter({
 
   if (campaignParticipations.length == 1) {
     return campaignRepository.incrementParticipationsCount(campaignParticipation.campaignId, domainTransaction);
+  } else {
+    const previousCampaignParticipation = campaignParticipations.at(-2);
+    const hasSharedLastParticipation = previousCampaignParticipation.sharedAt;
+    if (hasSharedLastParticipation) {
+      return campaignRepository.decrementSharedParticipationsCount(campaignParticipation.campaignId, domainTransaction);
+    }
   }
 };
