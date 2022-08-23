@@ -22,7 +22,7 @@ describe('Integration | Component |  authentication | oidc-reconciliation', func
     this.set('fullNameFromExternalIdentityProvider', 'Lloyd Cé');
     this.set('email', 'lloyidce@example.net');
     this.set('identityProviderSlug', 'oidc-partner');
-    this.set('authenticationMethods', [{ identityProvider: 'CNAV' }]);
+    this.set('authenticationMethods', [{ identityProvider: 'CNAV' }, { identityProvider: 'POLE_EMPLOI' }]);
 
     //  when
     const screen = await render(
@@ -41,9 +41,11 @@ describe('Integration | Component |  authentication | oidc-reconciliation', func
     expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.current-authentication-methods'))).to.exist;
     expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.email'))).to.exist;
     expect(screen.getByText('lloyidce@example.net')).to.exist;
+    expect(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav'))).to.exist;
+    expect(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.pole-emploi'))).to
+      .exist;
 
     expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.authentication-method-to-add'))).to.exist;
-    expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.external-connection'))).to.exist;
     expect(screen.getByText(`${this.intl.t('pages.oidc-reconciliation.external-connection-via')} Partenaire OIDC`)).to
       .exist;
 
