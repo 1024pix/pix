@@ -14,7 +14,7 @@
           <MarkdownToHtml
             @class="qcm-proposal-label__answer-details"
             @markdown={{get labeledCheckbox 0}}
-            data-goodness="{{if (get this.solutionArray (concat index)) "good" "bad"}}"
+            data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
             data-checked={{if (get labeledCheckbox 1) "yes" "no"}}
           />
         </label>

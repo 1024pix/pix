@@ -66,7 +66,7 @@
 
           <div
             class="skill-review-result-abstract__share-container
-              {{if this.showStages "skill-review-result-abstract__share-container--left"}}"
+              {{if this.showStages 'skill-review-result-abstract__share-container--left'}}"
           >
             {{#if this.showNotFinishedYetMessage}}
               <div class="skill-review-share__error-container">
@@ -218,7 +218,7 @@
             </h2>
             <CircleChart @value={{this.masteryPercentage}}>
               <span
-                aria-label="{{t "pages.skill-review.details.result"}}"
+                aria-label="{{t 'pages.skill-review.details.result'}}"
                 class="skill-review-table-header__circle-chart-value"
               >
                 {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}

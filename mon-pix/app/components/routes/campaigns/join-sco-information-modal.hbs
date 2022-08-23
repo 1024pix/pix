@@ -23,7 +23,7 @@
           <li>
             {{t "api-error-messages.join-error.r90.details.if-account-belonging-to-user"}}
             <a
-              href="{{t "api-error-messages.join-error.r90.details.contact-support.link-url"}}"
+              href="{{t 'api-error-messages.join-error.r90.details.contact-support.link-url'}}"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -48,7 +48,7 @@
       </PixButton>
     {{else}}
       <PixButton
-        @backgroundColor="{{if this.displayContinueButton "transparent-light" "blue"}}"
+        @backgroundColor="{{if this.displayContinueButton 'transparent-light' 'blue'}}"
         @isBorderVisible={{true}}
         @triggerAction={{this.goToHome}}
       >

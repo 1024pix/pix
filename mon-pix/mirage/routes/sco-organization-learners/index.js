@@ -1,4 +1,4 @@
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default function index(config) {
