@@ -169,21 +169,11 @@ module.exports = {
     campaignParticipationId,
     domainTransaction,
   }) {
-    const knexConn = domainTransaction.knexTransaction;
-    const result = await knexConn('campaign-participations')
-      .select('organizationLearnerId')
-      .where({ id: campaignParticipationId, campaignId })
-      .first();
+    const organizationLearnerId = await _getOrganizationLearnerFromCampaignParticipationId({ campaignParticipationId, campaignId, domainTransaction });
 
-    if (!result) {
-      throw new NotFoundError(
-        `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`
-      );
-    }
-
-    const campaignParticipations = await knexConn('campaign-participations').where({
+    const campaignParticipations = await domainTransaction.knexTransaction('campaign-participations').where({
       campaignId,
-      organizationLearnerId: result.organizationLearnerId,
+      organizationLearnerId,
       deletedAt: null,
       deletedBy: null,
     });
@@ -196,6 +186,20 @@ module.exports = {
     return await knexConn('campaign-participations').where({ id }).update({ deletedAt, deletedBy });
   },
 };
+
+async function _getOrganizationLearnerFromCampaignParticipationId({ campaignParticipation, campaignId, domainTransaction }) {
+  const result = await domainTransaction.knexTransaction('campaign-participations')
+    .select('organizationLearnerId')
+    .where({ id: campaignParticipationId, campaignId })
+    .first();
+
+  if (!result) {
+    throw new NotFoundError(
+      `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`
+    );
+  }
+  return result.organizationLearnerId;
+}
 
 function _rowToResult(row) {
   return {
