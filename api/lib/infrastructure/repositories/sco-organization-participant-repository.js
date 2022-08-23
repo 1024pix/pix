@@ -4,6 +4,8 @@ const AuthenticationMethod = require('../../domain/models/AuthenticationMethod')
 const { knex } = require('../../../db/knex-database-connection');
 const { fetchPage } = require('../utils/knex-utils');
 const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganizationParticipant');
+const CampaignTypes = require('../../domain/models/CampaignTypes');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
 function _setFilters(qb, { lastName, firstName, divisions, connexionType } = {}) {
   if (lastName) {
@@ -30,9 +32,29 @@ function _setFilters(qb, { lastName, firstName, divisions, connexionType } = {})
   }
 }
 
+function _buildIsCertifiable(queryBuilder, organizationId) {
+  queryBuilder
+    .distinct('organization-learners.id')
+    .select([
+      'organization-learners.id as organizationLearnerId',
+      knex.raw(
+        'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"'
+      ),
+    ])
+    .from('organization-learners')
+    .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+    .where('campaign-participations.status', CampaignParticipationStatuses.SHARED)
+    .where('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
+    .where('organization-learners.organizationId', organizationId)
+    .where('campaigns.organizationId', organizationId)
+    .where('campaign-participations.deletedAt', null);
+}
+
 module.exports = {
   async findPaginatedFilteredScoParticipants({ organizationId, filter, page = {} }) {
     const query = knex
+      .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
       .distinct('organization-learners.id')
       .select([
         'organization-learners.id',
@@ -47,23 +69,25 @@ module.exports = {
         'users.username',
         'users.email',
         'authentication-methods.externalIdentifier as samlId',
+        'subquery.isCertifiable',
         knex.raw(
-          'FIRST_VALUE("name") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
+          'FIRST_VALUE("name") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
         ),
         knex.raw(
-          'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"'
+          'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"'
         ),
         knex.raw(
-          'FIRST_VALUE("type") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"'
+          'FIRST_VALUE("type") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"'
         ),
         knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "organizationLearnerId") AS "participationCount"'
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "organization-learners"."id") AS "participationCount"'
         ),
         knex.raw(
-          'max("campaign-participations"."createdAt") OVER(PARTITION BY "organizationLearnerId") AS "lastParticipationDate"'
+          'max("campaign-participations"."createdAt") OVER(PARTITION BY "organization-learners"."id") AS "lastParticipationDate"'
         ),
       ])
       .from('organization-learners')
+      .leftJoin('subquery', 'subquery.organizationLearnerId', 'organization-learners.id')
       .leftJoin('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
       .leftJoin('users', 'users.id', 'organization-learners.userId')
       .leftJoin('authentication-methods', function () {
