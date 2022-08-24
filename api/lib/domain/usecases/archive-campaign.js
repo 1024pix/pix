@@ -1,16 +1,6 @@
-const { UserNotAuthorizedToUpdateCampaignError } = require('../errors');
-
-module.exports = async function archiveCampaign({
-  // Parameters
-  campaignId,
-  userId,
-  // Repositories
-  campaignRepository,
-}) {
-  const isUserCampaignAdmin = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
-  if (!isUserCampaignAdmin) {
-    throw new UserNotAuthorizedToUpdateCampaignError();
-  }
-
-  return campaignRepository.update({ id: campaignId, archivedAt: new Date(), archivedBy: userId });
+module.exports = async function archiveCampaign({ campaignId, userId, campaignForArchivingRepository }) {
+  const campaign = await campaignForArchivingRepository.get(campaignId);
+  campaign.archive(new Date(), userId);
+  await campaignForArchivingRepository.save(campaign);
+  return campaign;
 };
