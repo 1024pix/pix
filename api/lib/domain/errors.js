@@ -1144,6 +1144,12 @@ class DifferentExternalIdentifierError extends DomainError {
   }
 }
 
+class NoSkillsInCampaignError extends DomainError {
+  constructor(message = 'La campagne ne contient aucun acquis opérationnel.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1244,6 +1250,7 @@ module.exports = {
   NoCampaignParticipationForUserAndCampaign,
   CantImproveCampaignParticipationError,
   NoCertificationResultForDivision,
+  NoSkillsInCampaignError,
   NoStagesForCampaign,
   NoOrganizationToAttach,
   NotEligibleCandidateError,
