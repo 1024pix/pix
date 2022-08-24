@@ -1,12 +1,6 @@
 const { expect, domainBuilder, catchErr } = require('../../../test-helper');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 const {
-  PIX_PLUS_DROIT,
-  CLEA,
-  PIX_PLUS_EDU_1ER_DEGRE,
-  PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../../lib/domain/models/ComplementaryCertification');
-const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
@@ -612,103 +606,15 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     });
   });
 
-  describe('isGrantedPixPlusDroit', function () {
-    it('should return true when certification candidate has acquired PIX+ Droit complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_DROIT })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedPixPlusDroit()).to.be.true;
-    });
-
-    it('should return false when certification candidate has not acquired PIX+ Droit complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedPixPlusDroit()).to.be.false;
-    });
-  });
-
-  describe('isGrantedCleA', function () {
-    it('should return true when certification candidate has acquired CleA complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: CLEA })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedCleA()).to.be.true;
-    });
-
-    it('should return false when certification candidate has not acquired CleA complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedCleA()).to.be.false;
-    });
-  });
-
-  describe('isGrantedPixPlusEdu1erDegre', function () {
-    it('should return true when certification candidate has acquired Pix+ Edu 1er degre complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_EDU_1ER_DEGRE })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedPixPlusEdu1erDegre()).to.be.true;
-    });
-
-    it('should return false when certification candidate has not acquired Pix+ Edu 1er degre complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedPixPlusEdu1erDegre()).to.be.false;
-    });
-  });
-
-  describe('isGrantedPixPlusEdu2ndDegre', function () {
-    it('should return true when certification candidate has acquired Pix+ Edu 2nd degre complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_EDU_2ND_DEGRE })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedPixPlusEdu2ndDegre()).to.be.true;
-    });
-
-    it('should return false when certification candidate has not acquired Pix+ Edu 2nd degre complementary certification', function () {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
-      });
-
-      // then
-      expect(certificationCandidate.isGrantedPixPlusEdu2ndDegre()).to.be.false;
-    });
-  });
-
   describe('isGranted', function () {
     it('should return true when certification candidate has acquired complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_EDU_2ND_DEGRE })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'PIX+' })],
       });
 
       // then
-      expect(certificationCandidate.isGranted(PIX_PLUS_EDU_2ND_DEGRE)).to.be.true;
+      expect(certificationCandidate.isGranted('PIX+')).to.be.true;
     });
 
     it('should return false when certification candidate has not acquired complementary certification', function () {
@@ -718,7 +624,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
 
       // then
-      expect(certificationCandidate.isGranted(PIX_PLUS_EDU_2ND_DEGRE)).to.be.false;
+      expect(certificationCandidate.isGranted('PIX+')).to.be.false;
     });
   });
 });
