@@ -77,6 +77,7 @@ module.exports = {
   buildJuryCertificationSummary: require('./build-jury-certification-summary'),
   buildJurySession: require('./build-jury-session'),
   buildKnowledgeElement: require('./build-knowledge-element'),
+  buildLearningContent: require('./build-learning-content'),
   buildMembership: require('./build-membership'),
   buildOrganization: require('./build-organization'),
   buildOrganizationPlacesLot: require('./build-organization-places-lot'),

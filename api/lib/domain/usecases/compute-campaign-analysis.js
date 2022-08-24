@@ -5,7 +5,7 @@ module.exports = async function computeCampaignAnalysis({
   campaignId,
   campaignRepository,
   campaignAnalysisRepository,
-  targetProfileWithLearningContentRepository,
+  learningContentRepository,
   tutorialRepository,
   locale,
 } = {}) {
@@ -15,11 +15,8 @@ module.exports = async function computeCampaignAnalysis({
     throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
   }
 
-  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({
-    campaignId,
-    locale,
-  });
+  const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
   const tutorials = await tutorialRepository.list({ locale });
 
-  return campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfileWithLearningContent, tutorials);
+  return campaignAnalysisRepository.getCampaignAnalysis(campaignId, learningContent, tutorials);
 };

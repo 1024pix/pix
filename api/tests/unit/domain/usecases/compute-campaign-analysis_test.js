@@ -6,7 +6,7 @@ const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 describe('Unit | UseCase | compute-campaign-analysis', function () {
   let campaignRepository;
   let campaignAnalysisRepository;
-  let targetProfileWithLearningContentRepository;
+  let learningContentRepository;
   let tutorialRepository;
 
   const userId = 1;
@@ -16,7 +16,7 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
   beforeEach(function () {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignAnalysisRepository = { getCampaignAnalysis: sinon.stub() };
-    targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
+    learningContentRepository = { findByCampaignId: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
 
@@ -27,8 +27,8 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
       const tutorials = Symbol('tutorials');
       const campaignAnalysis = Symbol('analysis');
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      targetProfileWithLearningContentRepository.getByCampaignId
-        .withArgs({ campaignId, locale })
+      learningContentRepository.findByCampaignId
+        .withArgs(campaignId, locale)
         .resolves(targetProfile);
       tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
       campaignAnalysisRepository.getCampaignAnalysis
@@ -41,7 +41,7 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
         campaignId,
         campaignRepository,
         campaignAnalysisRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         tutorialRepository,
         locale,
       });
@@ -63,7 +63,7 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
         campaignId,
         campaignRepository,
         campaignAnalysisRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         locale,
       });
 

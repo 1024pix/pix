@@ -191,12 +191,10 @@ module.exports = {
     return knowledgeElementsGroupedByUserAndCompetence;
   },
 
-  async findValidatedTargetedGroupedByTubes(userIdsAndDates, targetProfileWithLearningContent) {
+  async findValidatedTargetedGroupedByTubes(userIdsAndDates, learningContent) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
 
-    return targetProfileWithLearningContent.getValidatedKnowledgeElementsGroupedByTube(
-      _.flatMap(knowledgeElementsGroupedByUser)
-    );
+    return learningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
   },
 
   async findSnapshotForUsers(userIdsAndDates) {
