@@ -1,50 +1,25 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const unarchiveCampaign = require('../../../../lib/domain/usecases/unarchive-campaign');
-const { UserNotAuthorizedToUpdateCampaignError } = require('../../../../lib/domain/errors');
+const Campaign = require('../../../../lib/domain/models/CampaignForArchiving');
 
 describe('Unit | UseCase | unarchive-campaign', function () {
-  const userId = 'user id';
-  const campaignId = 'campaign id';
-  let campaignRepository;
+  let campaignForArchivingRepository;
 
   beforeEach(function () {
-    campaignRepository = {
-      update: sinon.stub(),
-      checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
+    campaignForArchivingRepository = {
+      get: sinon.stub(),
+      save: sinon.stub(),
     };
   });
 
-  context('when the user has the rights to update the campaign', function () {
-    beforeEach(function () {
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      return unarchiveCampaign({ campaignId, userId, campaignRepository });
-    });
+  it('unarchives the campaign', async function () {
+    const campaign = new Campaign({ id: 1, code: 'ABC123', archivedBy: 12, archivedAt: new Date('2022-01-01') });
+    const expectedCampaign = new Campaign({ id: 1, code: 'ABC123', archivedBy: null, archivedAt: null });
+    campaignForArchivingRepository.get.resolves(campaign);
 
-    it('should verify that the user has the rights', async function () {
-      expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign).to.have.been.calledWithExactly(
-        campaignId,
-        userId
-      );
-    });
+    await unarchiveCampaign({ campaignId: 1, campaignForArchivingRepository });
 
-    it('should update the campaign', function () {
-      expect(campaignRepository.update).to.have.been.calledWithExactly({
-        id: campaignId,
-        archivedAt: null,
-        archivedBy: null,
-      });
-    });
-  });
-
-  context('when the user has no rights to update the campaign', function () {
-    it('should throw a UserNotAuthorizedToUpdateCampaignError', async function () {
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.rejects(
-        new UserNotAuthorizedToUpdateCampaignError()
-      );
-
-      const error = await catchErr(unarchiveCampaign)({ campaignId, userId, campaignRepository });
-
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateCampaignError);
-    });
+    expect(campaignForArchivingRepository.get).to.have.been.calledWith(1);
+    expect(campaignForArchivingRepository.save).to.have.been.calledWith(expectedCampaign);
   });
 });
