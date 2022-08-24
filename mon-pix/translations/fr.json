@@ -126,7 +126,8 @@
     },
     "user-logged-menu": {
       "details": "Consulter mes informations"
-    }
+    },
+    "mobile-button-title": "Ouvrir le menu"
   },
   "pages": {
     "assessment-banner": {
