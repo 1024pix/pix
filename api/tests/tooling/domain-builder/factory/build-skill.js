@@ -9,7 +9,7 @@ const buildSkill = function buildSkill({
   learningMoreTutorialIds = [],
   tubeId = 'recTUB123',
   version = 1,
-  level = 1,
+  difficulty = 6,
 } = {}) {
   return new Skill({
     id,
@@ -20,7 +20,7 @@ const buildSkill = function buildSkill({
     learningMoreTutorialIds,
     tubeId,
     version,
-    level,
+    difficulty,
   });
 };
 

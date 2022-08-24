@@ -5,7 +5,7 @@ describe('Unit | Domain | Models | Skill', function () {
   describe('#Difficulty', function () {
     it('should return the difficulty of the skill', function () {
       // given
-      const url1 = new Skill({ name: '@url1' });
+      const url1 = new Skill({ name: '@url', difficulty: 1 });
 
       // then
       expect(url1.difficulty).to.be.equal(1);

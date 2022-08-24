@@ -10,7 +10,7 @@ module.exports = {
       tutorialIds: datasourceObject.tutorialIds,
       tubeId: datasourceObject.tubeId,
       version: datasourceObject.version,
-      level: datasourceObject.level,
+      difficulty: datasourceObject.level,
     });
   },
 };

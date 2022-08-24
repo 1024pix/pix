@@ -35,10 +35,12 @@ describe('Acceptance | API | Badges', function () {
                     {
                       id: 'recABC123',
                       nom: '@recSkill3',
+                      level: 3,
                     },
                     {
                       id: 'recDEF456',
                       nom: '@recSkill2',
+                      level: 2,
                     },
                   ],
                 },

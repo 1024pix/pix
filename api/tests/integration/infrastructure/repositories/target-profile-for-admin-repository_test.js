@@ -148,6 +148,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               tubeId: 'recArea1_Competence1_Tube1',
               competenceId: 'recArea1_Competence1',
               tutorialIds: [],
+              level: 4,
             },
             {
               id: 'recArea1_Competence2_Tube1_Skill1',
@@ -156,6 +157,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               tubeId: 'recArea1_Competence2_Tube1',
               competenceId: 'recArea1_Competence2',
               tutorialIds: [],
+              level: 3,
             },
           ],
           thematics: [],
@@ -283,6 +285,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               tubeId: 'recTube1',
               competenceId: 'recCompetence1',
               tutorialIds: [],
+              level: 1,
             },
           ],
           thematics: [],

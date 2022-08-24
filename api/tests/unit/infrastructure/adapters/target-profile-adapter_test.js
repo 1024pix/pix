@@ -10,7 +10,10 @@ describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
     const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
     bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([organizationWhichShared]);
-    const skillLearningContentDataObject = domainBuilder.buildSkillLearningContentDataObject();
+    const skillLearningContentDataObject = domainBuilder.buildSkillLearningContentDataObject({
+      name: '@coucou',
+      level: 3,
+    });
     const associatedSkillDatasourceObjects = [skillLearningContentDataObject];
     const skill = domainBuilder.buildSkill({
       id: skillLearningContentDataObject.id,
@@ -19,6 +22,7 @@ describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
       competenceId: skillLearningContentDataObject.competenceId,
       tutorialIds: ['recCO0X22abcdefgh'],
       tubeId: skillLearningContentDataObject.tubeId,
+      difficulty: skillLearningContentDataObject.level,
     });
     const expectedTargetProfile = domainBuilder.buildTargetProfile({
       id: bookshelfTargetProfile.get('id'),

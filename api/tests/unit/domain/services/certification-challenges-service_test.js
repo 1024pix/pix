@@ -118,29 +118,76 @@ describe('Unit | Service | Certification Challenge Service', function () {
       area: '1',
     });
 
-    skillCitation4 = domainBuilder.buildSkill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
-    skillCollaborer4 = domainBuilder.buildSkill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
-    skillMoteur3 = domainBuilder.buildSkill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
-    skillRecherche4 = domainBuilder.buildSkill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
+    skillCitation4 = domainBuilder.buildSkill({
+      id: 10,
+      name: '@citation4',
+      difficulty: 4,
+      competenceId: competenceFlipper.id,
+    });
+    skillCollaborer4 = domainBuilder.buildSkill({
+      id: 20,
+      name: '@collaborer4',
+      difficulty: 4,
+      competenceId: competenceFlipper.id,
+    });
+    skillMoteur3 = domainBuilder.buildSkill({
+      id: 30,
+      name: '@moteur3',
+      difficulty: 3,
+      competenceId: competenceFlipper.id,
+    });
+    skillRecherche4 = domainBuilder.buildSkill({
+      id: 40,
+      name: '@recherche4',
+      difficulty: 4,
+      competenceId: competenceFlipper.id,
+    });
     skillRemplir2 = domainBuilder.buildSkill({
       id: 50,
       name: '@remplir2',
+      difficulty: 2,
       competenceId: competenceRemplir.id,
       version: 1,
     });
     skillRemplir2Focus = domainBuilder.buildSkill({
       id: 1789,
       name: '@remplir2',
+      difficulty: 2,
       competenceId: competenceRemplir.id,
       version: 2,
     });
-    skillRemplir4 = domainBuilder.buildSkill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
-    skillUrl3 = domainBuilder.buildSkill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
-    skillWeb1 = domainBuilder.buildSkill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
-    skillRequin5 = domainBuilder.buildSkill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
-    skillRequin8 = domainBuilder.buildSkill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
-    skillKoala1 = domainBuilder.buildSkill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
-    skillKoala2 = domainBuilder.buildSkill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
+    skillRemplir4 = domainBuilder.buildSkill({
+      id: 60,
+      name: '@remplir4',
+      difficulty: 4,
+      competenceId: competenceRemplir.id,
+    });
+    skillUrl3 = domainBuilder.buildSkill({ id: 70, name: '@url3', difficulty: 3, competenceId: competenceRemplir.id });
+    skillWeb1 = domainBuilder.buildSkill({ id: 80, name: '@web1', difficulty: 1, competenceId: competenceRemplir.id });
+    skillRequin5 = domainBuilder.buildSkill({
+      id: 110,
+      name: '@requin5',
+      difficulty: 5,
+      competenceId: competenceRequin.id,
+    });
+    skillRequin8 = domainBuilder.buildSkill({
+      id: 120,
+      name: '@requin7',
+      difficulty: 7,
+      competenceId: competenceRequin.id,
+    });
+    skillKoala1 = domainBuilder.buildSkill({
+      id: 110,
+      name: '@koala1',
+      difficulty: 1,
+      competenceId: competenceKoala.id,
+    });
+    skillKoala2 = domainBuilder.buildSkill({
+      id: 120,
+      name: '@koala2',
+      difficulty: 2,
+      competenceId: competenceKoala.id,
+    });
 
     challengeForSkillCollaborer4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdThree',
@@ -727,24 +774,28 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const toto6 = domainBuilder.buildSkill({
         id: 'toto6',
         name: '@toto6',
+        difficulty: 6,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const toto5 = domainBuilder.buildSkill({
         id: 'toto5',
         name: '@toto5',
+        difficulty: 5,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const toto4 = domainBuilder.buildSkill({
         id: 'toto4',
         name: '@toto4',
+        difficulty: 4,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const zaza4 = domainBuilder.buildSkill({
         id: 'zaza4',
         name: '@zaza4',
+        difficulty: 4,
         tubeId: 'zazaId',
         competenceId: 'competenceId',
       });
@@ -819,30 +870,35 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const toto6 = domainBuilder.buildSkill({
         id: 'toto6',
         name: '@toto6',
+        difficulty: 6,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const toto5 = domainBuilder.buildSkill({
         id: 'toto5',
         name: '@toto5',
+        difficulty: 5,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const mama5 = domainBuilder.buildSkill({
         id: 'mama5',
         name: '@mama5',
+        difficulty: 5,
         tubeId: 'mamaId',
         competenceId: 'competenceId',
       });
       const toto4 = domainBuilder.buildSkill({
         id: 'toto4',
         name: '@toto4',
+        difficulty: 4,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const zaza4 = domainBuilder.buildSkill({
         id: 'zaza4',
         name: '@zaza4',
+        difficulty: 4,
         tubeId: 'zazaId',
         competenceId: 'competenceId',
       });
