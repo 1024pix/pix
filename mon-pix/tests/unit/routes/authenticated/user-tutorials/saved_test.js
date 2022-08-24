@@ -6,7 +6,7 @@ describe('Unit | Route | user-tutorials/saved', function () {
   setupTest();
 
   it('exists', function () {
-    const route = this.owner.lookup('route:user-tutorials.saved');
+    const route = this.owner.lookup('route:authenticated.user-tutorials.saved');
     expect(route).to.be.ok;
   });
 });

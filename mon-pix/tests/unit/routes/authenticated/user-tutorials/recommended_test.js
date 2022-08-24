@@ -6,7 +6,7 @@ describe('Unit | Route | user-tutorials/recommended', function () {
   setupTest();
 
   it('exists', function () {
-    const route = this.owner.lookup('route:user-tutorials.recommended');
+    const route = this.owner.lookup('route:authenticated.user-tutorials.recommended');
     expect(route).to.be.ok;
   });
 });
