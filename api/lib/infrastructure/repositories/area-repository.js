@@ -45,8 +45,14 @@ async function findByFrameworkIdWithCompetences({ frameworkId, locale }) {
   return areas;
 }
 
+async function findByRecordIds({ areaIds, locale }) {
+  const areaDataObjects = await areaDatasource.list();
+  return areaDataObjects.filter(({ id }) => areaIds.includes(id)).map((areaData) => _toDomain({ areaData, locale }));
+}
+
 module.exports = {
   list,
   listWithPixCompetencesOnly,
   findByFrameworkIdWithCompetences,
+  findByRecordIds,
 };
