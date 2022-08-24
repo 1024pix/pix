@@ -5,6 +5,7 @@ const {
   knex,
   mockLearningContent,
   learningContentBuilder,
+  MockDate,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 const omit = require('lodash/omit');
@@ -675,6 +676,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     let targetProfileId;
 
     beforeEach(function () {
+      MockDate.set(new Date('2020-11-01'));
       const learningContent = {
         areas: [{ id: 'recArea', competenceIds: ['recCompetence'] }],
         competences: [{ id: 'recCompetence', areaId: 'recArea', thematicIds: ['recThematic'] }],
@@ -689,6 +691,10 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       user = databaseBuilder.factory.buildUser.withRole();
 
       return databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      MockDate.reset();
     });
 
     it('should return 200 and the json file', async function () {
@@ -707,7 +713,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal('[{"id":"recTube","level":6}]');
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename=profil_cible_Roxane est très jolie.json'
+        'attachment; filename=20201101_profil_cible_Roxane est très jolie.json'
       );
       expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
     });

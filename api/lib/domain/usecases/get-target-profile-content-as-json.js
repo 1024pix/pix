@@ -1,4 +1,5 @@
 const { ForbiddenAccess } = require('../../domain/errors');
+const dayjs = require('dayjs');
 
 module.exports = async function getTargetProfileContentAsJson({
   userId,
@@ -10,7 +11,8 @@ module.exports = async function getTargetProfileContentAsJson({
   if (!_hasAuthorizationToDownloadContent(adminMember))
     throw new ForbiddenAccess("L'utilisateur n'est pas autorisé à effectuer cette opération.");
   const targetProfileForAdmin = await targetProfileForAdminRepository.getAsNewFormat({ id: targetProfileId });
-  const fileName = `profil_cible_${targetProfileForAdmin.name}.json`;
+  const now = dayjs();
+  const fileName = `${now.format('YYYYMMDD')}_profil_cible_${targetProfileForAdmin.name}.json`;
   const jsonContent = targetProfileForAdmin.getContentAsJson();
   return {
     jsonContent,
