@@ -666,6 +666,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           title: 'titleFRA',
           code: 'codeA',
           color: 'colorA',
+          frameworkId: 'fmk1',
         };
         const expectedTargetProfile = new TargetProfileForAdminNewFormat({
           id: targetProfileDB.id,
@@ -807,6 +808,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           title: 'titleENA',
           code: 'codeA',
           color: 'colorA',
+          frameworkId: 'fmk1',
         };
         const expectedTargetProfile = new TargetProfileForAdminNewFormat({
           id: targetProfileDB.id,

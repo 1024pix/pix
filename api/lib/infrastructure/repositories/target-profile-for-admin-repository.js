@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const areaRepository = require('./area-repository');
 const competenceRepository = require('./competence-repository');
 const thematicRepository = require('./thematic-repository');
 const tubeRepository = require('./tube-repository');
@@ -148,8 +149,9 @@ async function _getLearningContent_new(targetProfileId, tubesData, locale) {
   const uniqThematicIds = _.uniq(thematicIds);
   const thematics = await thematicRepository.findByRecordIds(uniqThematicIds, locale);
 
-  const allAreas = _.map(competences, (competence) => competence.area);
-  const uniqAreas = _.uniqBy(allAreas, 'id');
+  const areaIds = _.map(competences, (competence) => competence.areaId);
+  const uniqAreaIds = _.uniq(areaIds);
+  const areas = await areaRepository.findByRecordIds({ areaIds: uniqAreaIds, locale });
 
   const challenges = await challengeRepository.findValidatedPrototype();
 
@@ -166,7 +168,7 @@ async function _getLearningContent_new(targetProfileId, tubesData, locale) {
   }
 
   return {
-    areas: uniqAreas,
+    areas,
     competences,
     thematics,
     tubes,
