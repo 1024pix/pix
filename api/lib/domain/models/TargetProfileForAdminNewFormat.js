@@ -32,6 +32,7 @@ class TargetProfileForAdminNewFormat {
       (area) =>
         new TP_Area({
           id: area.id,
+          frameworkId: area.frameworkId,
           title: area.title,
           code: area.code,
           color: area.color,
@@ -49,8 +50,9 @@ class TargetProfileForAdminNewFormat {
 }
 
 class TP_Area {
-  constructor({ id, title, code, color, competences, thematics, tubes }) {
+  constructor({ id, frameworkId, title, code, color, competences, thematics, tubes }) {
     this.id = id;
+    this.frameworkId = frameworkId;
     this.title = title;
     this.code = code;
     this.color = color;
