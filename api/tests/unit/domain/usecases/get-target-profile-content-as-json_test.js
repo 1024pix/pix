@@ -1,5 +1,6 @@
 const { expect, sinon, catchErr, domainBuilder, MockDate } = require('../../../test-helper');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+const learningContentConversionService = require('../../../../lib/domain/services/learning-content/learning-content-conversion-service');
 const getTargetProfileContentAsJson = require('../../../../lib/domain/usecases/get-target-profile-content-as-json');
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
@@ -14,6 +15,8 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
     beforeEach(function () {
       targetProfileForAdminRepository = { getAsNewFormat: sinon.stub() };
       targetProfileForAdminRepository.getAsNewFormat.rejects(new Error('I should not be called'));
+      sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
+      learningContentConversionService.findActiveSkillsForCappedTubes.rejects(new Error('I should not be called'));
     });
 
     it('should throw a ForbiddenAccess error', async function () {
@@ -37,7 +40,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   context('when the user has the authorization to get the content', function () {
     beforeEach(function () {
       MockDate.set(new Date('2020-12-01'));
-      const area = domainBuilder.buildArea({ id: 'recArea' });
+      const area = domainBuilder.buildArea({ id: 'recArea', frameworkId: 'recFramework' });
       const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({
         name: 'Profil Rentrée scolaire',
         areas: [area],
@@ -66,6 +69,29 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
       });
       targetProfileForAdminRepository = { getAsNewFormat: sinon.stub() };
       targetProfileForAdminRepository.getAsNewFormat.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
+      const skillsForTube1 = [domainBuilder.buildSkill({ id: 'skill1Tube1', tubeId: 'recTube1' })];
+      const skillsForTube2 = [
+        domainBuilder.buildSkill({ id: 'skill1Tube2', tubeId: 'recTube2' }),
+        domainBuilder.buildSkill({ id: 'skill2Tube2', tubeId: 'recTube2' }),
+      ];
+      const skillsForTube3 = [];
+      sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
+      learningContentConversionService.findActiveSkillsForCappedTubes
+        .withArgs([
+          {
+            id: 'recTube1',
+            level: 8,
+          },
+          {
+            id: 'recTube2',
+            level: 7,
+          },
+          {
+            id: 'recTube3',
+            level: 1,
+          },
+        ])
+        .resolves([...skillsForTube1, ...skillsForTube2, ...skillsForTube3]);
     });
 
     context('when the user has role SUPPORT', function () {
@@ -85,7 +111,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         // then
         expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8},{"id":"recTube2","level":7},{"id":"recTube3","level":1}]'
+          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]'
         );
       });
     });
@@ -107,7 +133,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         // then
         expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8},{"id":"recTube2","level":7},{"id":"recTube3","level":1}]'
+          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]'
         );
       });
     });
@@ -129,7 +155,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         // then
         expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8},{"id":"recTube2","level":7},{"id":"recTube3","level":1}]'
+          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]'
         );
       });
     });
