@@ -11,7 +11,7 @@ describe('Integration | Component | Tutorials | Header', function () {
 
   beforeEach(function () {
     class RouterStub extends Service {
-      currentRouteName = 'user-tutorials.recommended';
+      currentRouteName = 'authenticated.user-tutorials.recommended';
     }
     this.owner.register('service:router', RouterStub);
   });
