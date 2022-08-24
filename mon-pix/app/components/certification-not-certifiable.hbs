@@ -5,7 +5,10 @@
   <p class="certification-not-certifiable__text">
     {{t "pages.certification-not-certifiable.text"}}
   </p>
-  <LinkTo @route="index" class="button button--link button--big button--thin certification-not-certifiable__button">
+  <LinkTo
+    @route="authenticated"
+    class="button button--link button--big button--thin certification-not-certifiable__button"
+  >
     {{t "pages.certification-not-certifiable.action.back"}}
   </LinkTo>
 </PixBlock>

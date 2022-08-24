@@ -8,12 +8,12 @@
     <p class="skill-review-share__thanks">
       {{t "pages.send-profile.form.shared"}}
     </p>
-    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+    <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">
       {{t "pages.send-profile.form.continue"}}
     </LinkTo>
   {{else if @errorMessage}}
     <p class="skill-review-share__thanks">{{@errorMessage}}</p>
-    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+    <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">
       {{t "pages.send-profile.form.continue"}}
     </LinkTo>
   {{else}}
