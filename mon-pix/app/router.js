@@ -23,6 +23,7 @@ Router.map(function () {
     this.route('index', { path: '' });
     this.route('user-dashboard', { path: '/accueil' });
     this.route('profile', { path: '/competences' });
+    this.route('user-tests', { path: '/mes-parcours' });
 
     this.route('user-tutorials', { path: '/mes-tutos' }, function () {
       this.route('recommended', { path: '/recommandes' });
@@ -34,8 +35,6 @@ Router.map(function () {
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-
-  this.route('user-tests', { path: '/mes-parcours' });
 
   this.route('user-account', { path: '/mon-compte' }, function () {
     this.route('personal-information', { path: '/informations-personnelles' });

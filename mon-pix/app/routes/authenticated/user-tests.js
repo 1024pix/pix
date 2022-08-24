@@ -5,13 +5,8 @@ import { isEmpty } from '@ember/utils';
 
 export default class UserTestsRoute extends Route {
   @service currentUser;
-  @service session;
   @service store;
   @service router;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   model() {
     const user = this.currentUser.user;
