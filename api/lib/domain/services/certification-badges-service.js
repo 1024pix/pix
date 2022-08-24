@@ -1,13 +1,13 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const badgeAcquisitionRepository = require('../../infrastructure/repositories/badge-acquisition-repository');
+const certifiableBadgeAcquisitionRepository = require('../../infrastructure/repositories/certifiable-badge-acquisition-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const badgeCriteriaService = require('../../domain/services/badge-criteria-service');
 
 module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
-    const highestCertifiableBadgeAcquisitions = await badgeAcquisitionRepository.findHighestCertifiable({
+    const highestCertifiableBadgeAcquisitions = await certifiableBadgeAcquisitionRepository.findHighestCertifiable({
       userId,
       domainTransaction,
     });

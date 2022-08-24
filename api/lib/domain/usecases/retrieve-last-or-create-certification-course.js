@@ -9,6 +9,7 @@ const {
   CandidateNotAuthorizedToResumeCertificationTestError,
 } = require('../errors');
 const { features } = require('../../config');
+const bluebird = require('bluebird');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -20,7 +21,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
-  complementaryCertificationRepository,
   sessionRepository,
   certificationCenterRepository,
   certificationChallengesService,
@@ -86,7 +86,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationChallengesService,
     placementProfileService,
     verifyCertificateCodeService,
-    complementaryCertificationRepository,
     certificationBadgesService,
   });
 };
@@ -104,7 +103,6 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
-  complementaryCertificationRepository,
 }) {
   const challengesForCertification = [];
 
@@ -135,96 +133,28 @@ async function _startNewCertification({
 
   const complementaryCertificationIds = [];
 
-  const complementaryCertifications = await complementaryCertificationRepository.findAll();
-
   const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId,
     domainTransaction,
   });
 
-  if (certificationCenter.isHabilitatedClea && certificationCandidate.isGrantedCleA()) {
-    const cleaBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-      badgeAcquisition.isClea()
-    );
-    if (cleaBadgeAcquisition) {
-      const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.isClea());
-      if (cleAComplementaryCertification) {
-        complementaryCertificationIds.push(cleAComplementaryCertification.id);
-      }
+  await bluebird.each(highestCertifiableBadgeAcquisitions, async (badgeAcquisition) => {
+    const { key, id } = badgeAcquisition.complementaryCertification;
+    if (certificationCenter.isHabilitated(key) && certificationCandidate.isGranted(key)) {
+      complementaryCertificationIds.push(id);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+        badgeAcquisition.badge,
+        userId,
+        locale
+      );
+      challengesForCertification.push(...certificationChallenges);
     }
-  }
-
-  if (certificationCenter.isHabilitatedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit()) {
-    const pixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-      badgeAcquisition.isPixDroit()
-    );
-    if (pixDroitBadgeAcquisition) {
-      const pixDroitComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusDroit());
-      if (pixDroitComplementaryCertification) {
-        complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
-      }
-
-      const certificationChallengesForPixDroit =
-        await certificationChallengesService.pickCertificationChallengesForPixPlus(
-          pixDroitBadgeAcquisition.badge,
-          userId,
-          locale
-        );
-      challengesForCertification.push(...certificationChallengesForPixDroit);
-    }
-  }
-
-  if (certificationCenter.isHabilitatedPixPlusEdu2ndDegre && certificationCandidate.isGrantedPixPlusEdu2ndDegre()) {
-    const pixEdu2ndDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-      badgeAcquisition.isPixEdu2ndDegre()
-    );
-    if (pixEdu2ndDegreBadgeAcquisition) {
-      const certificationChallengesForPixEdu =
-        await certificationChallengesService.pickCertificationChallengesForPixPlus(
-          pixEdu2ndDegreBadgeAcquisition.badge,
-          userId,
-          locale
-        );
-      challengesForCertification.push(...certificationChallengesForPixEdu);
-      if (certificationChallengesForPixEdu.length) {
-        const pixEduComplementaryCertification = complementaryCertifications.find((comp) =>
-          comp.isPixPlusEdu2ndDegre()
-        );
-        if (pixEduComplementaryCertification) {
-          complementaryCertificationIds.push(pixEduComplementaryCertification.id);
-        }
-      }
-    }
-  }
-
-  if (certificationCenter.isHabilitatedPixPlusEdu1erDegre && certificationCandidate.isGrantedPixPlusEdu1erDegre()) {
-    const pixEdu1erDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-      badgeAcquisition.isPixEdu1erDegre()
-    );
-    if (pixEdu1erDegreBadgeAcquisition) {
-      const certificationChallengesForPixEdu =
-        await certificationChallengesService.pickCertificationChallengesForPixPlus(
-          pixEdu1erDegreBadgeAcquisition.badge,
-          userId,
-          locale
-        );
-      challengesForCertification.push(...certificationChallengesForPixEdu);
-      if (certificationChallengesForPixEdu.length) {
-        const pixEduComplementaryCertification = complementaryCertifications.find((comp) =>
-          comp.isPixPlusEdu1erDegre()
-        );
-        if (pixEduComplementaryCertification) {
-          complementaryCertificationIds.push(pixEduComplementaryCertification.id);
-        }
-      }
-    }
-  }
+  });
 
   return _createCertificationCourse({
     certificationCandidate,
     certificationCourseRepository,
     assessmentRepository,
-    complementaryCertificationRepository,
     userId,
     certificationChallenges: challengesForCertification,
     domainTransaction,
