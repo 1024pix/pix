@@ -21,6 +21,7 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('authenticated', { path: '/' }, function () {
     this.route('index', { path: '' });
+    this.route('user-dashboard', { path: '/accueil' });
     this.route('profile', { path: '/competences' });
 
     this.route('user-tutorials', { path: '/mes-tutos' }, function () {
@@ -34,7 +35,6 @@ Router.map(function () {
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 
-  this.route('user-dashboard', { path: '/accueil' });
   this.route('user-tests', { path: '/mes-parcours' });
 
   this.route('user-account', { path: '/mon-compte' }, function () {

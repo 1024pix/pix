@@ -25,7 +25,7 @@ describe('Unit | Route | User-Dashboard', function () {
       const campaignParticipationOverviews = [EmberObject.create({ id: 10 })];
       const storeStub = { query: sinon.stub().returns(campaignParticipationOverviews) };
 
-      const route = this.owner.lookup('route:user-dashboard');
+      const route = this.owner.lookup('route:authenticated.user-dashboard');
       route.set('currentUser', currentUserStub);
       route.set('store', storeStub);
 

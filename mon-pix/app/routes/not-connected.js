@@ -5,6 +5,6 @@ export default class NotConnectedRoute extends Route {
   @service session;
 
   beforeModel() {
-    this.session.prohibitAuthentication('user-dashboard');
+    this.session.prohibitAuthentication('authenticated.user-dashboard');
   }
 }

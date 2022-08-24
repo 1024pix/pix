@@ -7,7 +7,7 @@ export default class InscriptionRoute extends Route {
   @service store;
 
   beforeModel() {
-    this.session.prohibitAuthentication('user-dashboard');
+    this.session.prohibitAuthentication('authenticated.user-dashboard');
   }
 
   model() {

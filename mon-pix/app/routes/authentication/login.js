@@ -8,7 +8,7 @@ export default class LoginRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.session.prohibitAuthentication('user-dashboard');
+    this.session.prohibitAuthentication('authenticated.user-dashboard');
   }
 
   @action
