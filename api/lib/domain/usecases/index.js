@@ -86,6 +86,7 @@ const dependencies = {
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   jurySessionRepository: require('../../infrastructure/repositories/sessions/jury-session-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
+  learningContentRepository: require('../../infrastructure/repositories/learning-content-repository'),
   mailService: require('../../domain/services/mail-service'),
   membershipRepository: require('../../infrastructure/repositories/membership-repository'),
   obfuscationService: require('../../domain/services/obfuscation-service'),
