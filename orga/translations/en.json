@@ -819,6 +819,12 @@
           "date-of-birth": "Date of birth",
           "division": "Class",
           "first-name": "First name",
+          "is-certifiable": {
+            "eligible": "Eligible",
+            "label": "Eligibility for certification",
+            "non-eligible": "Non-eligible",
+            "not-available": "Not available"
+          },
           "last-name": "Last name",
           "last-participation-date": "Latest participation",
           "login-method": "Log in method(s)",
