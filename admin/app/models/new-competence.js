@@ -9,8 +9,4 @@ export default class NewCompetence extends Model {
   get sortedThematics() {
     return this.thematics.sortBy('index');
   }
-
-  get fullName() {
-    return `${this.index} ${this.name}`;
-  }
 }

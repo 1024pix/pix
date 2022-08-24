@@ -5,8 +5,4 @@ export default class NewThematic extends Model {
   @attr() index;
 
   @hasMany('new-tube') tubes;
-
-  get sortedTubes() {
-    return this.tubes.sortBy('practicalTitle');
-  }
 }

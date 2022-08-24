@@ -1,5 +1,5 @@
 {{#if @model.isNewFormat}}
-  <TargetProfiles::Details @targetProfile={{@model}} />
+  <TargetProfiles::Details @areas={{this.areas}} />
 {{else}}
   <TargetProfiles::OldDetails @targetProfile={{@model}} />
 {{/if}}

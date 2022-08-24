@@ -6,8 +6,4 @@ export default class NewTube extends Model {
   @attr() level;
   @attr() mobile;
   @attr() tablet;
-
-  get title() {
-    return `${this.name} : ${this.practicalTitle}`;
-  }
 }
