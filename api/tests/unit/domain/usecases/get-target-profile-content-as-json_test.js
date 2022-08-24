@@ -1,10 +1,15 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder, MockDate } = require('../../../test-helper');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 const getTargetProfileContentAsJson = require('../../../../lib/domain/usecases/get-target-profile-content-as-json');
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   let targetProfileForAdminRepository;
   let adminMemberRepository;
+
+  afterEach(function () {
+    MockDate.reset();
+  });
+
   context('when the user does not have the authorization to get the content', function () {
     beforeEach(function () {
       targetProfileForAdminRepository = { getAsNewFormat: sinon.stub() };
@@ -31,6 +36,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   });
   context('when the user has the authorization to get the content', function () {
     beforeEach(function () {
+      MockDate.set(new Date('2020-12-01'));
       const area = domainBuilder.buildArea({ id: 'recArea' });
       const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({
         name: 'Profil Rentrée scolaire',
@@ -77,7 +83,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         });
 
         // then
-        expect(fileName).to.equal('profil_cible_Profil Rentrée scolaire.json');
+        expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
           '[{"id":"recTube1","level":8},{"id":"recTube2","level":7},{"id":"recTube3","level":1}]'
         );
@@ -99,7 +105,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         });
 
         // then
-        expect(fileName).to.equal('profil_cible_Profil Rentrée scolaire.json');
+        expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
           '[{"id":"recTube1","level":8},{"id":"recTube2","level":7},{"id":"recTube3","level":1}]'
         );
@@ -121,7 +127,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         });
 
         // then
-        expect(fileName).to.equal('profil_cible_Profil Rentrée scolaire.json');
+        expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
           '[{"id":"recTube1","level":8},{"id":"recTube2","level":7},{"id":"recTube3","level":1}]'
         );
