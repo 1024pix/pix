@@ -114,6 +114,10 @@ module.exports = (function () {
       passwordResetTokenLifespan: '1h',
     },
 
+    anonymous: {
+      accessTokenLifespanMs: ms(process.env.ANONYMOUS_ACCESS_TOKEN_LIFESPAN || '4h'),
+    },
+
     apiManager: {
       url: process.env.APIM_URL || 'https://gateway.pix.fr',
     },
