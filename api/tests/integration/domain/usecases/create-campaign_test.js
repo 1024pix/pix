@@ -65,9 +65,6 @@ describe('Integration | UseCases | create-campaign', function () {
     expect(result).to.be.an.instanceOf(Campaign);
 
     expect(_.pick(result, expectedAttributes)).to.deep.equal(_.pick(campaign, expectedAttributes));
-
-    expect('code').to.be.ok;
-    expect('id').to.be.ok;
   });
 
   it('should save a new campaign of type PROFILES_COLLECTION', async function () {
@@ -93,10 +90,7 @@ describe('Integration | UseCases | create-campaign', function () {
 
     // then
     expect(result).to.be.an.instanceOf(Campaign);
-
     expect(_.pick(result, expectedAttributes)).to.deep.equal(_.pick(campaign, expectedAttributes));
-
-    expect('code').to.be.ok;
-    expect('id').to.be.ok;
+    expect(result.code).to.have.lengthOf.above(0);
   });
 });

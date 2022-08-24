@@ -6,7 +6,8 @@ describe('Unit | chai-custom-helpers | deepEqualArray', function () {
       expect([]).to.deepEqualArray('coucou');
     }, "expected 'String' to equal 'Array'");
     global.chaiErr(function () {
-      expect('coucou').to.deepEqualArray([]);
+      const foo = 'bar';
+      expect(foo).to.deepEqualArray([]);
     }, "expected 'String' to equal 'Array'");
   });
 

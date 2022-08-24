@@ -30,8 +30,9 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       const campaigns = await prepareCampaigns([campaignData]);
 
       // then
-      expect(typeof campaigns[0].code === 'string').to.be.true;
-      expect(campaigns[0].code.length).to.equal(9);
+      const code = campaigns[0].code;
+      expect(code).to.be.a('string');
+      expect(code).to.have.lengthOf(9);
     });
 
     it('should be a profile collection type for the campaign model', async function () {
