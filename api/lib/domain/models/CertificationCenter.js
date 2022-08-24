@@ -1,10 +1,3 @@
-const {
-  PIX_PLUS_DROIT,
-  CLEA,
-  PIX_PLUS_EDU_1ER_DEGRE,
-  PIX_PLUS_EDU_2ND_DEGRE,
-} = require('./ComplementaryCertification');
-
 const SUP = 'SUP';
 const SCO = 'SCO';
 const PRO = 'PRO';
@@ -40,20 +33,8 @@ class CertificationCenter {
     return this.type === types.SCO;
   }
 
-  get isHabilitatedPixPlusDroit() {
-    return this.habilitations.some((habilitation) => habilitation.key === PIX_PLUS_DROIT);
-  }
-
-  get isHabilitatedPixPlusEdu1erDegre() {
-    return this.habilitations.some((habilitation) => habilitation.key === PIX_PLUS_EDU_1ER_DEGRE);
-  }
-
-  get isHabilitatedPixPlusEdu2ndDegre() {
-    return this.habilitations.some((habilitation) => habilitation.key === PIX_PLUS_EDU_2ND_DEGRE);
-  }
-
-  get isHabilitatedClea() {
-    return this.habilitations.some((habilitation) => habilitation.key === CLEA);
+  isHabilitated(key) {
+    return this.habilitations.some((habilitation) => habilitation.key === key);
   }
 }
 

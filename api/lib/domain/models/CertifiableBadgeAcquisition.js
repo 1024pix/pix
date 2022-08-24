@@ -1,0 +1,60 @@
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+  PIX_EMPLOI_CLEA_V1,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
+} = require('./Badge').keys;
+
+class CertifiableBadgeAcquisition {
+  constructor({ id, badge, userId, complementaryCertification } = {}) {
+    this.id = id;
+    this.badge = badge;
+    this.userId = userId;
+    this.complementaryCertification = complementaryCertification;
+  }
+
+  get badgeKey() {
+    return this.badge.key;
+  }
+
+  isClea() {
+    return [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(this.badgeKey);
+  }
+
+  isPixDroit() {
+    return [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(this.badgeKey);
+  }
+
+  isPixEdu2ndDegre() {
+    return [
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+    ].includes(this.badgeKey);
+  }
+
+  isPixEdu1erDegre() {
+    return [
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+    ].includes(this.badgeKey);
+  }
+}
+
+module.exports = CertifiableBadgeAcquisition;

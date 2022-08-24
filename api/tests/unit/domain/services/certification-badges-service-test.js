@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationBadgesService = require('./../../../../lib/domain/services/certification-badges-service');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
+const certifiableBadgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
@@ -8,7 +8,7 @@ const badgeCriteriaService = require('../../../../lib/domain/services/badge-crit
 describe('Unit | Service | Certification Badges Service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {
     beforeEach(function () {
-      sinon.stub(badgeAcquisitionRepository, 'findHighestCertifiable');
+      sinon.stub(certifiableBadgeAcquisitionRepository, 'findHighestCertifiable');
       sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
       sinon.stub(targetProfileRepository, 'get');
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
@@ -19,7 +19,9 @@ describe('Unit | Service | Certification Badges Service', function () {
         // given
         const userId = 12;
         const domainTransaction = Symbol('someDomainTransaction');
-        badgeAcquisitionRepository.findHighestCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
+        certifiableBadgeAcquisitionRepository.findHighestCertifiable
+          .withArgs({ userId, domainTransaction })
+          .resolves([]);
 
         // when
         const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
@@ -42,7 +44,7 @@ describe('Unit | Service | Certification Badges Service', function () {
         targetProfile = { id: 12 };
         badge = domainBuilder.buildBadge({ targetProfileId: targetProfile.id });
         badgeAcquisition = domainBuilder.buildBadgeAcquisition({ id: 'badgeId', userId, badge });
-        badgeAcquisitionRepository.findHighestCertifiable
+        certifiableBadgeAcquisitionRepository.findHighestCertifiable
           .withArgs({ userId, domainTransaction })
           .resolves([badgeAcquisition]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
@@ -109,7 +111,7 @@ describe('Unit | Service | Certification Badges Service', function () {
             userId,
             badge: badgeLevel1,
           });
-          badgeAcquisitionRepository.findHighestCertifiable
+          certifiableBadgeAcquisitionRepository.findHighestCertifiable
             .withArgs({ userId, domainTransaction })
             .resolves([badgeAcquisitionLevel1]);
           knowledgeElementRepository.findUniqByUserId
@@ -154,7 +156,7 @@ describe('Unit | Service | Certification Badges Service', function () {
             userId,
             badge: badgeLevel2,
           });
-          badgeAcquisitionRepository.findHighestCertifiable
+          certifiableBadgeAcquisitionRepository.findHighestCertifiable
             .withArgs({ userId, domainTransaction })
             .resolves([badgeAcquisitionLevel2]);
           knowledgeElementRepository.findUniqByUserId
@@ -186,17 +188,17 @@ describe('Unit | Service | Certification Badges Service', function () {
         const targetProfile = { id: 456 };
 
         const pixEduFormationContinue1erDegreExpertBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreAvance();
+          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreAvance();
         const pixEduFormationContinue1erAvanceBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreConfirme();
+          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationContinue1erDegreConfirme();
         const pixEduFormationContinue2ndDegreExpertBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance();
+          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance();
         const pixEduFormationContinue2ndAvanceBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme();
-        const pixDroitMaitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
-        const pixDroitExpertBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forPixDroitExpert();
+          domainBuilder.buildCertifiableBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme();
+        const pixDroitMaitreBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forPixDroitMaitre();
+        const pixDroitExpertBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition.forPixDroitExpert();
 
-        badgeAcquisitionRepository.findHighestCertifiable
+        certifiableBadgeAcquisitionRepository.findHighestCertifiable
           .withArgs({ userId, domainTransaction })
           .resolves([
             pixEduFormationContinue1erDegreExpertBadgeAcquisition,
