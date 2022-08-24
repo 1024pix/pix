@@ -25,7 +25,7 @@
           </li>
           {{#if this.showMyTestsLink}}
             <li>
-              <LinkTo @route="user-tests" class="logged-user-menu__link">
+              <LinkTo @route="authenticated.user-tests" class="logged-user-menu__link">
                 {{t "navigation.user.tests"}}
               </LinkTo>
             </li>

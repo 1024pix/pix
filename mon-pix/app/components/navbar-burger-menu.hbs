@@ -47,7 +47,7 @@
     <ul class="navbar-burger-menu-user-info__list">
       {{#if this.showMyTestsLink}}
         <li class="navbar-burger-menu-user-info__item">
-          <LinkTo @route="user-tests" class="navbar-burger-menu-user-info-item__link">
+          <LinkTo @route="authenticated.user-tests" class="navbar-burger-menu-user-info-item__link">
             {{t "navigation.user.tests"}}
           </LinkTo>
         </li>

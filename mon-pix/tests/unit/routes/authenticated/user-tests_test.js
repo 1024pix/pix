@@ -25,7 +25,7 @@ describe('Unit | Route | User-Tests', function () {
         })
         .returns(campaignParticipationOverviews);
 
-      const route = this.owner.lookup('route:user-tests');
+      const route = this.owner.lookup('route:authenticated/user-tests');
       route.set('currentUser', currentUserStub);
       route.set('store', store);
 
@@ -39,7 +39,7 @@ describe('Unit | Route | User-Tests', function () {
 
   describe('redirect', function () {
     it('should redirect to default page if there is no campaign participation', function () {
-      const route = this.owner.lookup('route:user-tests');
+      const route = this.owner.lookup('route:authenticated/user-tests');
       sinon.stub(route.router, 'replaceWith');
 
       route.redirect([], {});
@@ -47,7 +47,7 @@ describe('Unit | Route | User-Tests', function () {
     });
 
     it('should continue on user-tests if there is some campaign participations', function () {
-      const route = this.owner.lookup('route:user-tests');
+      const route = this.owner.lookup('route:authenticated/user-tests');
       sinon.stub(route.router, 'replaceWith');
       const campaignParticipationOverviews = [EmberObject.create({ id: 10 })];
 
