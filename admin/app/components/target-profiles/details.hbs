@@ -1,9 +1,5 @@
-{{#each @targetProfile.sortedNewAreas as |area|}}
-  <TargetProfiles::TubesDetails::Area
-    @title={{area.fullTitle}}
-    @color={{area.color}}
-    @competences={{area.sortedCompetences}}
-  />
+{{#each @areas as |area|}}
+  <TargetProfiles::TubesDetails::Area @title={{area.title}} @color={{area.color}} @competences={{area.competences}} />
 {{else}}
   <section class="page-section">
     <div class="table__empty">Profil cible vide.</div>

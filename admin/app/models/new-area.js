@@ -10,8 +10,4 @@ export default class NewArea extends Model {
   get sortedCompetences() {
     return this.competences.sortBy('index');
   }
-
-  get fullTitle() {
-    return `${this.code} · ${this.title}`;
-  }
 }
