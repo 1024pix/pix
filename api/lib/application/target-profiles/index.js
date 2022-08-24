@@ -169,17 +169,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/content-json',
       config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
+        auth: false,
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
