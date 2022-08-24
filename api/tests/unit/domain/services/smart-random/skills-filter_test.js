@@ -18,7 +18,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
   describe('#getFilteredSkillsForFirstChallenge', function () {
     it('should return a first skill possible', function () {
       // given
-      const skill1 = domainBuilder.buildSkill({ name: '@web3' });
+      const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
       const targetProfile = new TargetProfile({ skills: [skill1] });
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skill1] })];
@@ -37,7 +37,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
     it('should return a skill even if the only tube has a skill with difficulty > 3', function () {
       // given
-      const skill1 = domainBuilder.buildSkill({ name: '@web4' });
+      const skill1 = domainBuilder.buildSkill({ name: '@web4', difficulty: 4 });
       const targetProfile = new TargetProfile({ skills: [skill1] });
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skill1] })];
@@ -56,10 +56,10 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
     it('should return a skill valid from a tubes with max level at 3 (HAPPY PATH)', function () {
       // given
-      const skillTube1Level2 = domainBuilder.buildSkill({ id: 'rec1', name: '@web2' });
-      const skillTube1Level4 = domainBuilder.buildSkill({ id: 'rec2', name: '@web4' });
-      const skillFromEasyTubeLevel2 = domainBuilder.buildSkill({ id: 'rec3', name: '@url2' });
-      const skillFromEasyTubeLevel1 = domainBuilder.buildSkill({ id: 'rec4', name: '@url1' });
+      const skillTube1Level2 = domainBuilder.buildSkill({ id: 'rec1', name: '@web2', difficulty: 2 });
+      const skillTube1Level4 = domainBuilder.buildSkill({ id: 'rec2', name: '@web4', difficulty: 4 });
+      const skillFromEasyTubeLevel2 = domainBuilder.buildSkill({ id: 'rec3', name: '@url2', difficulty: 2 });
+      const skillFromEasyTubeLevel1 = domainBuilder.buildSkill({ id: 'rec4', name: '@url1', difficulty: 1 });
 
       const targetProfile = new TargetProfile({
         skills: [skillTube1Level2, skillTube1Level4, skillFromEasyTubeLevel2, skillFromEasyTubeLevel1],
@@ -84,9 +84,9 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
     it('should return non timed skills', function () {
       // given
-      const skillTube1Level2Timed = domainBuilder.buildSkill({ id: 'rec1', name: '@web2' });
+      const skillTube1Level2Timed = domainBuilder.buildSkill({ id: 'rec1', name: '@web2', difficulty: 2 });
       skillTube1Level2Timed.timed = true;
-      const skillTube2Level2 = domainBuilder.buildSkill({ id: 'rec2', name: '@url2' });
+      const skillTube2Level2 = domainBuilder.buildSkill({ id: 'rec2', name: '@url2', difficulty: 2 });
       const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed, skillTube2Level2] });
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skillTube1Level2Timed] }), new Tube({ skills: [skillTube2Level2] })];
@@ -105,9 +105,9 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
     it('should return timed skills if there is only timed skills', function () {
       // given
-      const skillTube1Level2Timed = domainBuilder.buildSkill({ id: 'rec1', name: '@web2' });
+      const skillTube1Level2Timed = domainBuilder.buildSkill({ id: 'rec1', name: '@web2', difficulty: 2 });
       skillTube1Level2Timed.timed = true;
-      const skillTube2Level2Timed = domainBuilder.buildSkill({ id: 'rec2', name: '@url2' });
+      const skillTube2Level2Timed = domainBuilder.buildSkill({ id: 'rec2', name: '@url2', difficulty: 2 });
       skillTube2Level2Timed.timed = true;
       const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed, skillTube2Level2Timed] });
       const knowledgeElements = [];
@@ -127,8 +127,8 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
     it('should return only playable skills', function () {
       // given
-      const playableSkill = domainBuilder.buildSkill({ name: '@web2' });
-      const notPlayableSkill = domainBuilder.buildSkill({ name: '@url2' });
+      const playableSkill = domainBuilder.buildSkill({ name: '@web2', difficulty: 2 });
+      const notPlayableSkill = domainBuilder.buildSkill({ name: '@url2', difficulty: 2 });
       const targetProfile = new TargetProfile({ skills: [playableSkill, notPlayableSkill] });
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [playableSkill, notPlayableSkill] })];
@@ -184,10 +184,10 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
     describe('Verify rules : Not skill with timed challenge after timed challenge', function () {
       it('should return a skill without timed challenge if last one was timed', function () {
         // given
-        const skill1 = domainBuilder.buildSkill({ id: 'rec1', name: '@test2' });
-        const skillWithoutTimedChallenge = domainBuilder.buildSkill({ id: 'rec2', name: '@url2' });
+        const skill1 = domainBuilder.buildSkill({ id: 'rec1', name: '@test2', difficulty: 2 });
+        const skillWithoutTimedChallenge = domainBuilder.buildSkill({ id: 'rec2', name: '@url2', difficulty: 2 });
         skillWithoutTimedChallenge.timed = false;
-        const skillWithTimedChallenge = domainBuilder.buildSkill({ id: 'rec3', name: '@web2' });
+        const skillWithTimedChallenge = domainBuilder.buildSkill({ id: 'rec3', name: '@web2', difficulty: 2 });
         skillWithTimedChallenge.timed = true;
 
         const targetProfile = domainBuilder.buildTargetProfile({

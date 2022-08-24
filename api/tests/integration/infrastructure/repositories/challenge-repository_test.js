@@ -25,7 +25,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const expectedChallenge = domainBuilder.buildChallenge({
         ...challenge,
         focused: challenge.focusable,
-        skill: domainBuilder.buildSkill(skill),
+        skill: domainBuilder.buildSkill({ ...skill, difficulty: skill.level }),
       });
 
       // when
@@ -73,7 +73,11 @@ describe('Integration | Repository | challenge-repository', function () {
       const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
       const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
       const learningContent = {
-        skills: [skill1, skill2, skill3],
+        skills: [
+          { ...skill1, level: skill1.difficulty },
+          { ...skill2, level: skill2.difficulty },
+          { ...skill3, level: skill3.difficulty },
+        ],
         challenges: [
           { ...challenge1, skillId: 'recSkill1' },
           { ...challenge2, skillId: 'recSkill2' },
@@ -101,7 +105,11 @@ describe('Integration | Repository | challenge-repository', function () {
       const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
       const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
       const learningContent = {
-        skills: [skill1, skill2, skill3],
+        skills: [
+          { ...skill1, level: skill1.difficulty },
+          { ...skill2, level: skill2.difficulty },
+          { ...skill3, level: skill3.difficulty },
+        ],
         challenges: [
           { ...challenge1, skillId: 'recSkill1' },
           { ...challenge2, skillId: 'recSkill2' },
@@ -128,7 +136,11 @@ describe('Integration | Repository | challenge-repository', function () {
       const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
       const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
       const learningContent = {
-        skills: [skill1, skill2, skill3],
+        skills: [
+          { ...skill1, level: skill1.difficulty },
+          { ...skill2, level: skill2.difficulty },
+          { ...skill3, level: skill3.difficulty },
+        ],
         challenges: [
           { ...challenge1, skillId: 'recSkill1' },
           { ...challenge2, skillId: 'recSkill2' },
@@ -158,7 +170,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const validatedChallenge = domainBuilder.buildChallenge({ skill, status: 'validé' });
       const nonValidatedChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS validé' });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           { ...validatedChallenge, skillId: 'recSkill1' },
           { ...nonValidatedChallenge, skillId: 'recSkill1' },
@@ -184,7 +196,7 @@ describe('Integration | Repository | challenge-repository', function () {
         status: 'validé',
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           {
             ...validatedChallenge,
@@ -219,7 +231,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const operativeChallenge = domainBuilder.buildChallenge({ skill, status: 'archivé' });
       const nonOperativeChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS operative' });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           { ...operativeChallenge, skillId: 'recSkill1' },
           { ...nonOperativeChallenge, skillId: 'recSkill1' },
@@ -245,7 +257,7 @@ describe('Integration | Repository | challenge-repository', function () {
         status: 'validé',
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           {
             ...operativeChallenge,
@@ -281,7 +293,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const nonFrfrOperativeChallenge = domainBuilder.buildChallenge({ skill, locales: ['en'] });
       const locale = 'fr-fr';
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           { ...frfrOperativeChallenge, skillId: 'recSkill1' },
           { ...nonFrfrOperativeChallenge, skillId: 'recSkill1' },
@@ -312,7 +324,7 @@ describe('Integration | Repository | challenge-repository', function () {
       });
       const notInCompetenceValidatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'validé' });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           { ...validatedChallenge, skillId: 'recSkill1' },
           { ...nonValidatedChallenge, skillId: 'recSkill1' },
@@ -339,7 +351,7 @@ describe('Integration | Repository | challenge-repository', function () {
         status: 'validé',
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           {
             ...validatedChallenge,
@@ -376,8 +388,8 @@ describe('Integration | Repository | challenge-repository', function () {
       const operativeNotInSkillChallenge = domainBuilder.buildChallenge({ skill: anotherSkill, status: 'validé' });
       const learningContent = {
         skills: [
-          { ...skill, status: 'actif' },
-          { ...anotherSkill, status: 'actif' },
+          { ...skill, status: 'actif', level: skill.difficulty },
+          { ...anotherSkill, status: 'actif', level: anotherSkill.difficulty },
         ],
         challenges: [
           { ...operativeInSkillChallenge, skillId: 'recSkill1' },
@@ -405,7 +417,7 @@ describe('Integration | Repository | challenge-repository', function () {
         status: 'validé',
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           {
             ...operativeChallenge,
@@ -444,7 +456,7 @@ describe('Integration | Repository | challenge-repository', function () {
       });
       const nonFlashCompatibleChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS validé' });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
           { ...flashCompatibleChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
           { ...nonFlashCompatibleChallenge, skillId: 'recSkill1' },
@@ -480,7 +492,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const expectedValidatedChallenge = domainBuilder.buildChallenge({
         ...challenge1,
         focused: challenge1.focusable,
-        skill: domainBuilder.buildSkill(skill),
+        skill: domainBuilder.buildSkill({ ...skill, difficulty: skill.level }),
       });
 
       // when

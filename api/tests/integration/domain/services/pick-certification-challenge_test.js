@@ -43,6 +43,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
+          level: 1,
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill2',
@@ -50,6 +51,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
+          level: 2,
         },
       ],
       challenges: [
@@ -570,6 +572,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
+          level: 1,
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill2',
@@ -577,6 +580,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
+          level: 2,
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill3',
@@ -584,6 +588,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
+          level: 3,
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill4',
@@ -591,6 +596,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
+          level: 4,
         },
       ],
       challenges: [

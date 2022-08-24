@@ -8,7 +8,7 @@ class Skill {
     learningMoreTutorialIds = [],
     tubeId,
     version,
-    level,
+    difficulty,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -18,11 +18,7 @@ class Skill {
     this.learningMoreTutorialIds = learningMoreTutorialIds;
     this.tubeId = tubeId;
     this.version = version;
-    this.level = level;
-  }
-
-  get difficulty() {
-    return parseInt(this.name.slice(-1));
+    this.difficulty = difficulty;
   }
 
   get tubeName() {
