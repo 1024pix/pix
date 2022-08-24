@@ -1,4 +1,5 @@
 const usecases = require('../../domain/usecases');
+const tokenService = require('../../domain/services/token-service');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
@@ -52,8 +53,10 @@ module.exports = {
 
   async getContentAsJsonFile(request, h) {
     const targetProfileId = request.params.id;
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
 
-    const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ targetProfileId });
+    const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
 
     return h
       .response(jsonContent)

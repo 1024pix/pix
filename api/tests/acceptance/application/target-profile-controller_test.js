@@ -692,10 +692,12 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     });
 
     it('should return 200 and the json file', async function () {
+      const authHeader = generateValidRequestAuthorizationHeader(user.id);
+      const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/admin/target-profiles/${targetProfileId}/content-json`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        url: `/api/admin/target-profiles/${targetProfileId}/content-json?accessToken=${token}`,
+        payload: {},
       };
 
       // when

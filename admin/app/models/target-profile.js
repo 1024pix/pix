@@ -2,6 +2,7 @@ import { memberAction } from 'ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
 import map from 'lodash/map';
 import ENV from 'pix-admin/config/environment';
+import { inject as service } from '@ember/service';
 
 export const categories = {
   COMPETENCES: 'Les 16 compétences',
@@ -17,6 +18,8 @@ export const optionsCategoryList = map(categories, function (key, value) {
 });
 
 export default class TargetProfile extends Model {
+  @service session;
+
   @attr('nullable-string') name;
   @attr('boolean') isPublic;
   @attr('date') createdAt;
@@ -44,7 +47,7 @@ export default class TargetProfile extends Model {
   }
 
   get urlToJsonContent() {
-    return `${ENV.APP.API_HOST}/api/admin/target-profiles/${this.id}/content-json`;
+    return `${ENV.APP.API_HOST}/api/admin/target-profiles/${this.id}/content-json?accessToken=${this.session.data.authenticated.access_token}`;
   }
 
   attachOrganizations = memberAction({

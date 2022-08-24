@@ -1,6 +1,7 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const tokenService = require('../../../../lib/domain/services/token-service');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -216,8 +217,9 @@ describe('Unit | Controller | target-profile-controller', function () {
   describe('#getContentAsJsonFile', function () {
     it('should succeed', async function () {
       // given
+      const accessToken = 'ABC123';
       sinon.stub(usecases, 'getTargetProfileContentAsJson');
-      usecases.getTargetProfileContentAsJson.withArgs({ targetProfileId: 123 }).resolves({
+      usecases.getTargetProfileContentAsJson.withArgs({ userId: 66, targetProfileId: 123 }).resolves({
         jsonContent: 'json_content',
         fileName: 'file_name',
       });
@@ -225,7 +227,11 @@ describe('Unit | Controller | target-profile-controller', function () {
         params: {
           id: 123,
         },
+        query: {
+          accessToken,
+        },
       };
+      sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(66);
 
       // when
       const response = await targetProfileController.getContentAsJsonFile(request, hFake);
