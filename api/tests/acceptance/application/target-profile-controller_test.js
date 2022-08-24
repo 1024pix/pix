@@ -678,11 +678,11 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     beforeEach(function () {
       MockDate.set(new Date('2020-11-01'));
       const learningContent = {
-        areas: [{ id: 'recArea', competenceIds: ['recCompetence'] }],
+        areas: [{ id: 'recArea', frameworkId: 'recFmwk', competenceIds: ['recCompetence'] }],
         competences: [{ id: 'recCompetence', areaId: 'recArea', thematicIds: ['recThematic'] }],
         thematics: [{ id: 'recThematic', name: 'somename', tubeIds: ['recTube'], competenceId: 'recCompetence' }],
         tubes: [{ id: 'recTube', competenceId: 'recCompetence' }],
-        skills: [],
+        skills: [{ id: 'recSkill', tubeId: 'recTube', status: 'actif', level: 5, name: 'skill5' }],
         challenges: [],
       };
       mockLearningContent(learningContent);
@@ -711,7 +711,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.payload).to.equal('[{"id":"recTube","level":6}]');
+      expect(response.payload).to.equal('[{"id":"recTube","level":6,"frameworkId":"recFmwk","skills":["recSkill"]}]');
       expect(response.headers['content-disposition']).to.equal(
         'attachment; filename=20201101_profil_cible_Roxane est très jolie.json'
       );

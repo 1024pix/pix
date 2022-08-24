@@ -43,9 +43,12 @@ class TargetProfileForAdminNewFormat {
     );
   }
 
-  getContentAsJson() {
-    const cappedTubes = this.areas.flatMap((area) => area.getCappedTubes());
-    return JSON.stringify(cappedTubes);
+  get cappedTubes() {
+    return this.areas.flatMap((area) => area.getCappedTubes());
+  }
+
+  getContentAsJson(skills) {
+    return JSON.stringify(this.areas.flatMap((area) => area.getTubesForContentJson(skills)));
   }
 }
 
@@ -73,6 +76,10 @@ class TP_Area {
   getCappedTubes() {
     return this.competences.flatMap((competence) => competence.getCappedTubes());
   }
+
+  getTubesForContentJson(skills) {
+    return this.competences.flatMap((competence) => competence.getTubesForContentJson(skills, this.frameworkId));
+  }
 }
 
 class TP_Competence {
@@ -95,6 +102,10 @@ class TP_Competence {
 
   getCappedTubes() {
     return this.thematics.flatMap((thematic) => thematic.getCappedTubes());
+  }
+
+  getTubesForContentJson(skills, frameworkId) {
+    return this.thematics.flatMap((thematic) => thematic.getTubesForContentJson(skills, frameworkId));
   }
 }
 
@@ -121,6 +132,10 @@ class TP_Thematic {
   getCappedTubes() {
     return this.tubes.map((tube) => tube.asCappedTubeDTO());
   }
+
+  getTubesForContentJson(skills, frameworkId) {
+    return this.tubes.flatMap((tube) => tube.asContentJson(skills, frameworkId));
+  }
 }
 
 class TP_Tube {
@@ -137,6 +152,15 @@ class TP_Tube {
     return {
       id: this.id,
       level: this.level,
+    };
+  }
+
+  asContentJson(skills, frameworkId) {
+    return {
+      id: this.id,
+      level: this.level,
+      frameworkId,
+      skills: skills.filter((skill) => skill.tubeId === this.id).map((skill) => skill.id),
     };
   }
 }
