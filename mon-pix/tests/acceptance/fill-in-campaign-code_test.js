@@ -8,6 +8,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
+import { waitForDialog } from '../helpers/wait-for';
 
 describe('Acceptance | Fill in campaign code page', function () {
   setupApplicationTest();
@@ -89,6 +90,7 @@ describe('Acceptance | Fill in campaign code page', function () {
           const screen = await visit(`/campagnes`);
           await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+          await waitForDialog();
           await click(screen.getByRole('link', { name: 'Continuer' }));
 
           // then
@@ -109,6 +111,7 @@ describe('Acceptance | Fill in campaign code page', function () {
           const screen = await visit(`/campagnes`);
           await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+          await waitForDialog();
           await click(screen.getByRole('button', { name: 'Quitter' }));
 
           // then
