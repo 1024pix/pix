@@ -212,7 +212,7 @@ export default class SkillReview extends Component {
       await this.session.invalidate();
       this.router.transitionTo('inscription');
     } else {
-      this.router.transitionTo('index');
+      this.router.transitionTo('authenticated');
     }
   }
 }

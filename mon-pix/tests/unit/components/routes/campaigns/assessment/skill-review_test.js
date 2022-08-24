@@ -578,7 +578,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
 
       // then
-      sinon.assert.calledWith(component.router.transitionTo, 'index');
+      sinon.assert.calledWith(component.router.transitionTo, 'authenticated');
     });
 
     it('prevents default behaviour', async function () {
