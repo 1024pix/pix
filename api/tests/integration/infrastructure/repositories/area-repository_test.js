@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, mockLearningContent } = require('../../../test-helper');
+const { expect, domainBuilder, mockLearningContent } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 
@@ -298,6 +298,124 @@ describe('Integration | Repository | area-repository', function () {
       expect(areas[0].competences[1].id).to.equal('recCompetence1');
       expect(areas[0].competences[1].name).to.equal('competence1NameEn');
       expect(areas[0].competences[1].description).to.equal('competence1DescriptionEn');
+    });
+  });
+
+  describe('#findByRecordIds', function () {
+    it('should return a list of areas', async function () {
+      // given
+      const area1 = domainBuilder.buildArea({
+        id: 'recArea1',
+        code: 4,
+        name: 'area_name1',
+        title: 'area_title1FR',
+        color: 'blue1',
+        frameworkId: 'recFwkId1',
+      });
+      const area2 = domainBuilder.buildArea({
+        id: 'recArea2',
+        code: 6,
+        name: 'area_name2',
+        title: 'area_title2FR',
+        color: 'blue2',
+        frameworkId: 'recFwkId2',
+      });
+
+      const learningContentArea0 = {
+        id: 'recArea0',
+        code: 1,
+        name: 'area_name0',
+        titleFrFr: 'area_title0FR',
+        titleEnUs: 'area_title0EN',
+        color: 'blue0',
+        frameworkId: 'recFwkId0',
+      };
+
+      const learningContentArea1 = {
+        id: 'recArea1',
+        code: 4,
+        name: 'area_name1',
+        titleFrFr: 'area_title1FR',
+        titleEnUs: 'area_title1EN',
+        color: 'blue1',
+        frameworkId: 'recFwkId1',
+      };
+
+      const learningContentArea2 = {
+        id: 'recArea2',
+        code: 6,
+        name: 'area_name2',
+        titleFrFr: 'area_title2FR',
+        titleEnUs: 'area_title2EN',
+        color: 'blue2',
+        frameworkId: 'recFwkId2',
+      };
+
+      mockLearningContent({ areas: [learningContentArea0, learningContentArea1, learningContentArea2] });
+
+      // when
+      const areas = await areaRepository.findByRecordIds({ areaIds: ['recArea1', 'recArea2'] });
+
+      // then
+      expect(areas).to.deepEqualArray([area1, area2]);
+    });
+
+    it('should return a list of english areas', async function () {
+      // given
+      const area1 = domainBuilder.buildArea({
+        id: 'recArea1',
+        code: 4,
+        name: 'area_name1',
+        title: 'area_title1EN',
+        color: 'blue1',
+        frameworkId: 'recFwkId1',
+      });
+      const area2 = domainBuilder.buildArea({
+        id: 'recArea2',
+        code: 6,
+        name: 'area_name2',
+        title: 'area_title2EN',
+        color: 'blue2',
+        frameworkId: 'recFwkId2',
+      });
+
+      const learningContentArea0 = {
+        id: 'recArea0',
+        code: 1,
+        name: 'area_name0',
+        titleFrFr: 'area_title0FR',
+        titleEnUs: 'area_title0EN',
+        color: 'blue0',
+        frameworkId: 'recFwkId0',
+      };
+
+      const learningContentArea1 = {
+        id: 'recArea1',
+        code: 4,
+        name: 'area_name1',
+        titleFrFr: 'area_title1FR',
+        titleEnUs: 'area_title1EN',
+        color: 'blue1',
+        frameworkId: 'recFwkId1',
+      };
+
+      const learningContentArea2 = {
+        id: 'recArea2',
+        code: 6,
+        name: 'area_name2',
+        titleFrFr: 'area_title2FR',
+        titleEnUs: 'area_title2EN',
+        color: 'blue2',
+        frameworkId: 'recFwkId2',
+      };
+
+      mockLearningContent({ areas: [learningContentArea0, learningContentArea1, learningContentArea2] });
+
+      // when
+      const areas = await areaRepository.findByRecordIds({ areaIds: ['recArea1', 'recArea2'], locale: 'en' });
+
+      // then
+      expect(areas).to.deepEqualArray([area1, area2]);
     });
   });
 });
