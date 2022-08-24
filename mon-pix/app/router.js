@@ -21,11 +21,10 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('authenticated', { path: '/' }, function () {
     this.route('index', { path: '' });
+    this.route('profile', { path: '/competences' });
   });
 
   this.route('inscription');
-
-  this.route('profile', { path: '/competences' });
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });

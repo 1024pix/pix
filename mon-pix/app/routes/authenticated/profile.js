@@ -4,11 +4,6 @@ import { action } from '@ember/object';
 
 export default class ProfileRoute extends Route {
   @service currentUser;
-  @service session;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   async model() {
     await this.currentUser.user.belongsTo('profile').reload();

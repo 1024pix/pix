@@ -14,7 +14,7 @@
   <section class="dashboard-content__score">
     <div class="dashboard-content-score__wrapper">
       <HexagonScore @pixScore={{this.userScore}} />
-      <LinkTo @route="profile" class="dashboard-content-score-wrapper__button">{{t
+      <LinkTo @route="authenticated.profile" class="dashboard-content-score-wrapper__button">{{t
           "pages.dashboard.score.profile-link"
         }}</LinkTo>
     </div>
@@ -39,7 +39,7 @@
             @image="/images/illustrations/fusee.png"
             @backgroundColorClass="new-information--yellow-background"
             @linkText={{t "pages.dashboard.empty-dashboard.link-to-competences"}}
-            @linkTo="profile"
+            @linkTo="authenticated.profile"
             @linkDisplayType="button"
             @textColorClass="new-information--black-text"
           />
@@ -74,7 +74,7 @@
         data-test-recommended-competences
         @title={{t "pages.dashboard.recommended-competences.title"}}
         @subtitle={{t "pages.dashboard.recommended-competences.subtitle"}}
-        @linkRoute="profile"
+        @linkRoute="authenticated.profile"
         @linkText={{t "pages.dashboard.recommended-competences.profile-link"}}
       >
         <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
@@ -85,7 +85,7 @@
       <Dashboard::Section
         @title={{t "pages.dashboard.improvable-competences.title"}}
         @subtitle={{t "pages.dashboard.improvable-competences.subtitle"}}
-        @linkRoute="profile"
+        @linkRoute="authenticated.profile"
         @linkText={{t "pages.dashboard.improvable-competences.profile-link"}}
       >
         <CompetenceCard::List @scorecards={{this.improvableScorecards}} />
