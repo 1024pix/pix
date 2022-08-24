@@ -5,6 +5,6 @@ export default class AuthenticatedIndexRoute extends Route {
   @service router;
 
   redirect() {
-    this.router.replaceWith('user-dashboard');
+    this.router.replaceWith('authenticated.user-dashboard');
   }
 }

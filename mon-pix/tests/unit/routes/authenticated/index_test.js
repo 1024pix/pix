@@ -15,6 +15,6 @@ describe('Unit | Route | authenticated/index', function () {
     route.redirect();
 
     // then
-    sinon.assert.calledWith(router.replaceWith, 'user-dashboard');
+    sinon.assert.calledWith(router.replaceWith, 'authenticated.user-dashboard');
   });
 });

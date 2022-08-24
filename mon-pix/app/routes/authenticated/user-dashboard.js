@@ -5,11 +5,6 @@ import Route from '@ember/routing/route';
 export default class UserDashboard extends Route {
   @service store;
   @service currentUser;
-  @service session;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   async model() {
     const user = this.currentUser.user;

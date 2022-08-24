@@ -11,7 +11,7 @@ export default class CurrentSessionService extends SessionService {
   @service router;
   @service oidcIdentityProviders;
 
-  routeAfterAuthentication = 'user-dashboard';
+  routeAfterAuthentication = 'authenticated.user-dashboard';
 
   async handleAuthentication() {
     await this._loadCurrentUserAndSetLocale();

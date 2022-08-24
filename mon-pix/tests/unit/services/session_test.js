@@ -106,7 +106,7 @@ describe('Unit | Services | session', function () {
 
       // then
       sinon.assert.calledOnce(routerService.transitionTo);
-      sinon.assert.calledWith(routerService.transitionTo, 'user-dashboard');
+      sinon.assert.calledWith(routerService.transitionTo, 'authenticated.user-dashboard');
     });
   });
 
