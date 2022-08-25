@@ -97,6 +97,7 @@
     "copyrights": "©",
     "error": "Error",
     "footer": {
+      "label": "Secondary navigation",
       "a11y": "Accessibility",
       "data-protection-policy": "Personal data protection policy",
       "eula": "Terms and conditions",
@@ -105,6 +106,7 @@
     },
     "homepage": "Pix's Homepage",
     "main": {
+      "label": "Main navigation",
       "code": "I have a code",
       "dashboard": "Home",
       "help": "Help",
