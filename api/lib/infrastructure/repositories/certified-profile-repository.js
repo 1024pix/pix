@@ -75,6 +75,7 @@ async function _createCertifiedSkills(skillIds, askedSkillIds) {
       name: learningContentSkill.name,
       hasBeenAskedInCertif: askedSkillIds.includes(learningContentSkill.id),
       tubeId: learningContentSkill.tubeId,
+      difficulty: learningContentSkill.level,
     });
   });
 }

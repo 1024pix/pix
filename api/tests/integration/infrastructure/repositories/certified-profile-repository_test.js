@@ -55,6 +55,7 @@ describe('Integration | Repository | Certified Profile', function () {
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
+            level: 1,
           },
           {
             id: 'recArea1_Competence1_Tube1_Skill2',
@@ -63,6 +64,7 @@ describe('Integration | Repository | Certified Profile', function () {
             tubeId: 'recArea1_Competence1_Tube1',
             competenceId: 'recArea1_Competence1',
             tutorialIds: [],
+            level: 2,
           },
           {
             id: 'recArea1_Competence2_Tube1_Skill1',
@@ -71,6 +73,7 @@ describe('Integration | Repository | Certified Profile', function () {
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
+            level: 3,
           },
         ],
       };
@@ -79,6 +82,7 @@ describe('Integration | Repository | Certified Profile', function () {
         name: 'skill1_1_1_2_name',
         hasBeenAskedInCertif: false,
         tubeId: 'recArea1_Competence1_Tube1',
+        difficulty: 2,
       });
       const tube1_1_1 = domainBuilder.buildCertifiedTube({
         id: 'recArea1_Competence1_Tube1',
