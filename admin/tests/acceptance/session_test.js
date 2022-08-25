@@ -86,7 +86,7 @@ module('Acceptance | Session pages', function (hooks) {
         test('tab "Certifications" is clickable', async function (assert) {
           // when
           const screen = await visit('/sessions/1');
-          await click(screen.getAllByRole('link', { name: 'Certifications' })[1]);
+          await click(screen.getByLabelText('Liste des certifications de la session'));
 
           // then
           assert.dom(screen.getByRole('heading', { name: 'Certifications' })).exists();

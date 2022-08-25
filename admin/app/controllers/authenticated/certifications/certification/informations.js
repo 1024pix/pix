@@ -32,10 +32,7 @@ export default class CertificationInformationsController extends Controller {
   @tracked confirmAction = 'onCandidateResultsSave';
   @tracked isCandidateEditModalOpen = false;
   @tracked displayJuryLevelSelect = false;
-  @tracked juryLevelOptions = [
-    ...this.certification.complementaryCertificationCourseResultsWithExternal.get('allowedExternalLevels'),
-    { value: 'REJECTED', label: 'Rejetée' },
-  ];
+
   @tracked selectedJuryLevel = null;
 
   // private properties
@@ -83,6 +80,13 @@ export default class CertificationInformationsController extends Controller {
 
   get isModifyButtonDisabled() {
     return this.editingCandidateResults || this.certification.wasRegisteredBeforeCPF;
+  }
+
+  get juryLevelOptions() {
+    return [
+      ...this.certification.complementaryCertificationCourseResultsWithExternal.get('allowedExternalLevels'),
+      { value: 'REJECTED', label: 'Rejetée' },
+    ];
   }
 
   @action
