@@ -3,11 +3,6 @@ import Route from '@ember/routing/route';
 
 export default class Sitemap extends Route {
   @service currentUser;
-  @service session;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   async model() {
     const user = this.currentUser.user;

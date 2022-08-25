@@ -50,7 +50,10 @@
             </a>
           </li>
           <li>
-            <LinkTo @route="sitemap" class="footer-navigation__item footer-navigation__item--internal-link">
+            <LinkTo
+              @route="authenticated.sitemap"
+              class="footer-navigation__item footer-navigation__item--internal-link"
+            >
               {{t "navigation.footer.sitemap"}}
             </LinkTo>
           </li>
