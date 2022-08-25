@@ -16,20 +16,20 @@
             <nav class="user-account-menu" role="navigation">
               <ul>
                 <li>
-                  <LinkTo @route="user-account.personal-information" class="user-account-menu__link">
+                  <LinkTo @route="authenticated.user-account.personal-information" class="user-account-menu__link">
                     <FaIcon @icon="user" />
                     {{t "pages.user-account.personal-information.menu-link-title"}}
                   </LinkTo>
                 </li>
                 <li>
-                  <LinkTo @route="user-account.connection-methods" class="user-account-menu__link">
+                  <LinkTo @route="authenticated.user-account.connection-methods" class="user-account-menu__link">
                     <FaIcon @icon="link" />
                     {{t "pages.user-account.connexion-methods.menu-link-title"}}
                   </LinkTo>
                 </li>
                 {{#if this.displayLanguageSwitch}}
                   <li>
-                    <LinkTo @route="user-account.language" class="user-account-menu__link">
+                    <LinkTo @route="authenticated.user-account.language" class="user-account-menu__link">
                       <FaIcon @icon="globe" />
                       {{t "pages.user-account.language.menu-link-title"}}
                     </LinkTo>

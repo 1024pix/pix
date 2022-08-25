@@ -8,7 +8,7 @@ describe('Unit | Controller | user-account/language', function () {
   context('#onChangeLang', function () {
     it('should refresh page on change lang if domain is not french', function () {
       // given
-      const controller = this.owner.lookup('controller:user-account/language');
+      const controller = this.owner.lookup('controller:authenticated/user-account/language');
       controller.url = { isFrenchDomainExtension: false };
       const event = { target: { value: 'en' } };
       const replaceStub = sinon.stub();
