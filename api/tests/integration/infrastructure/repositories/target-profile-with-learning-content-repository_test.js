@@ -88,11 +88,13 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         id: 'recArea1_Competence1_Tube1_Skill2',
         name: 'skill1_1_1_2_name',
         tubeId: 'recArea1_Competence1_Tube1',
+        difficulty: 1,
       });
       const skill1_2_1_1 = domainBuilder.buildTargetedSkill({
         id: 'recArea1_Competence2_Tube1_Skill1',
         name: 'skill1_2_1_1_name',
         tubeId: 'recArea1_Competence2_Tube1',
+        difficulty: 2,
       });
       const tube1_1_1 = domainBuilder.buildTargetedTube({
         id: 'recArea1_Competence1_Tube1',
@@ -214,6 +216,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tubeId: 'recArea1_Competence1_Tube1',
             competenceId: 'recArea1_Competence1',
             tutorialIds: [],
+            level: 1,
           },
           {
             id: 'recArea1_Competence2_Tube1_Skill1',
@@ -222,6 +225,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
+            level: 2,
           },
         ],
         thematics: [],
@@ -423,6 +427,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tubeId: 'tubeId',
             competenceId: 'competenceId',
             tutorialIds: [],
+            level: 5,
           },
         ],
         thematics: [],
@@ -511,11 +516,13 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         id: 'recArea1_Competence1_Tube1_Skill2',
         name: 'skill1_1_1_2_name',
         tubeId: 'recArea1_Competence1_Tube1',
+        difficulty: 1,
       });
       const skill1_2_1_1 = domainBuilder.buildTargetedSkill({
         id: 'recArea1_Competence2_Tube1_Skill1',
         name: 'skill1_2_1_1_name',
         tubeId: 'recArea1_Competence2_Tube1',
+        difficulty: 2,
       });
       const tube1_1_1 = domainBuilder.buildTargetedTube({
         id: 'recArea1_Competence1_Tube1',
@@ -629,6 +636,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tubeId: 'recArea1_Competence1_Tube1',
             competenceId: 'recArea1_Competence1',
             tutorialIds: [],
+            level: 1,
           },
           {
             id: 'recArea1_Competence2_Tube1_Skill1',
@@ -637,6 +645,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
+            level: 2,
           },
         ],
         thematics: [],
@@ -840,6 +849,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tubeId: 'tubeId',
             competenceId: 'competenceId',
             tutorialIds: [],
+            level: 5,
           },
         ],
         thematics: [],

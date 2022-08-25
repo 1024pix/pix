@@ -113,8 +113,18 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
     it('should add up to obtain expected average recommendation score on a tube when finalizing ', function () {
       // given
       const participantCount = 2;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const skill1 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
       const tube = domainBuilder.buildTargetedTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
@@ -159,8 +169,18 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('computes average recommendation when some participants does not have knowledge element', function () {
       const participantCount = 2;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const skill1 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
       const tube = domainBuilder.buildTargetedTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
@@ -200,8 +220,18 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
     });
 
     it('returns null when there is no participant', function () {
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const skill1 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
       const tube = domainBuilder.buildTargetedTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
@@ -236,9 +266,24 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('returns the difficulty score when there are participant but no knowledge elements', function () {
       const participantCount = 6;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
-      const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill3', name: '@difficulty4', tubeId: 'recTubeId2' });
+      const skill1 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
+      const skill3 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill3',
+        name: '@difficulty4',
+        tubeId: 'recTubeId2',
+        difficulty: 4,
+      });
       const tube1 = domainBuilder.buildTargetedTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
@@ -280,8 +325,18 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('should work for all the tubes', function () {
       const participantCount = 2;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId2' });
+      const skill1 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildTargetedSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId2',
+        difficulty: 2,
+      });
       const tube1 = domainBuilder.buildTargetedTube({
         id: 'recTubeId1',
         competenceId: 'recCompetenceId',
