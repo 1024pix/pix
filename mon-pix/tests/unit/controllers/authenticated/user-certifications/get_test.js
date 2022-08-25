@@ -7,7 +7,7 @@ describe('Unit | Controller | user-certifications/get', function () {
 
   context('#get shouldDisplayDetailsSection', function () {
     it('should return true when certification has a commentForCandidate', function () {
-      const controller = this.owner.lookup('controller:user-certifications/get');
+      const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
         firstName: 'Laura',
@@ -25,7 +25,7 @@ describe('Unit | Controller | user-certifications/get', function () {
     });
 
     it('should return true when certification has an acquired clea certification', function () {
-      const controller = this.owner.lookup('controller:user-certifications/get');
+      const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
         firstName: 'Laura',
@@ -43,7 +43,7 @@ describe('Unit | Controller | user-certifications/get', function () {
     });
 
     it('should return true when certification has at least one certified badge image', function () {
-      const controller = this.owner.lookup('controller:user-certifications/get');
+      const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
         firstName: 'Laura',
@@ -61,7 +61,7 @@ describe('Unit | Controller | user-certifications/get', function () {
     });
 
     it('should return false when none of the above is checked', function () {
-      const controller = this.owner.lookup('controller:user-certifications/get');
+      const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
         firstName: 'Laura',
