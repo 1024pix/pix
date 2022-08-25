@@ -62,40 +62,52 @@ module.exports = async function getCertificationCandidateSubscription({
   const eligibleSubscriptions = [];
   const nonEligibleSubscriptions = [];
   if (certificationCandidate.complementaryCertifications.length) {
-    const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    const certifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId: certificationCandidate.userId,
     });
 
-    for (const complementaryCertification of certificationCandidate.complementaryCertifications) {
-      if (complementaryCertification.isPixPlusDroit()) {
-        if (_hasStillValidPixPlusDroit(stillValidCertifiableBadgeAcquisitions)) {
-          eligibleSubscriptions.push(complementaryCertification);
-        } else {
-          nonEligibleSubscriptions.push(complementaryCertification);
-        }
+    certificationCandidate.complementaryCertifications.map((registeredComplementaryCertification) => {
+      const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
+        ({ complementaryCertification }) => complementaryCertification.key === registeredComplementaryCertification.key
+      );
+
+      if (isSubscriptionEligible) {
+        eligibleSubscriptions.push(registeredComplementaryCertification);
+      } else {
+        nonEligibleSubscriptions.push(registeredComplementaryCertification);
       }
-      if (complementaryCertification.isClea()) {
-        if (_hasStillValidClea(stillValidCertifiableBadgeAcquisitions)) {
-          eligibleSubscriptions.push(complementaryCertification);
-        } else {
-          nonEligibleSubscriptions.push(complementaryCertification);
-        }
-      }
-      if (complementaryCertification.isPixPlusEdu1erDegre()) {
-        if (_hasStillValidPixPlusEdu1erDegre(stillValidCertifiableBadgeAcquisitions)) {
-          eligibleSubscriptions.push(complementaryCertification);
-        } else {
-          nonEligibleSubscriptions.push(complementaryCertification);
-        }
-      }
-      if (complementaryCertification.isPixPlusEdu2ndDegre()) {
-        if (_hasStillValidPixPlusEdu2ndDegre(stillValidCertifiableBadgeAcquisitions)) {
-          eligibleSubscriptions.push(complementaryCertification);
-        } else {
-          nonEligibleSubscriptions.push(complementaryCertification);
-        }
-      }
-    }
+    });
+
+    // for (const complementaryCertification of certificationCandidate.complementaryCertifications) {
+    //   if (complementaryCertification.isPixPlusDroit()) {
+    //     if (_hasStillValidPixPlusDroit(certifiableBadgeAcquisitions)) {
+    //       eligibleSubscriptions.push(complementaryCertification);
+    //     } else {
+    //       nonEligibleSubscriptions.push(complementaryCertification);
+    //     }
+    //   }
+    //   if (complementaryCertification.isClea()) {
+    //     if (_hasStillValidClea(certifiableBadgeAcquisitions)) {
+    //       eligibleSubscriptions.push(complementaryCertification);
+    //     } else {
+    //       nonEligibleSubscriptions.push(complementaryCertification);
+    //     }
+    //   }
+    //   if (complementaryCertification.isPixPlusEdu1erDegre()) {
+    //     if (_hasStillValidPixPlusEdu1erDegre(certifiableBadgeAcquisitions)) {
+    //       eligibleSubscriptions.push(complementaryCertification);
+    //     } else {
+    //       nonEligibleSubscriptions.push(complementaryCertification);
+    //     }
+    //   }
+    //   if (complementaryCertification.isPixPlusEdu2ndDegre()) {
+    //     if (_hasStillValidPixPlusEdu2ndDegre(certifiableBadgeAcquisitions)) {
+    //       eligibleSubscriptions.push(complementaryCertification);
+    //     } else {
+    //       nonEligibleSubscriptions.push(complementaryCertification);
+    //     }
+    //   }
+    // }
   }
 
   return new CertificationCandidateSubscription({
