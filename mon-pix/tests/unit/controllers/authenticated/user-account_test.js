@@ -8,7 +8,7 @@ describe('Unit | Controller | user-account', function () {
   context('#displayLanguageSwitch', function () {
     it('should return false if domain is french', function () {
       // given
-      const controller = this.owner.lookup('controller:user-account');
+      const controller = this.owner.lookup('controller:authenticated/user-account');
       controller.url = { isFrenchDomainExtension: true };
 
       // when / then
@@ -17,7 +17,7 @@ describe('Unit | Controller | user-account', function () {
 
     it('should return true if domain is not french', function () {
       // given
-      const controller = this.owner.lookup('controller:user-account');
+      const controller = this.owner.lookup('controller:authenticated/user-account');
       controller.url = { isFrenchDomainExtension: false };
 
       // when / then

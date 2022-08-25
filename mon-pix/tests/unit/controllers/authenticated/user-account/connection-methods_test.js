@@ -10,7 +10,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#enableEmailEditionMode', function () {
     it('should show email edition form', async function () {
       // given
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       controller.set('isEmailEditionMode', false);
 
       // when
@@ -24,7 +24,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#disableEmailEditionMode', function () {
     it('should hide email edition form when cancelling process', async function () {
       // given
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       controller.set('isEmailEditionMode', true);
 
       // when
@@ -38,7 +38,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#displayEmailUpdateMessage', function () {
     it('should display email update message', function () {
       // given
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       controller.set('showEmailUpdatedMessage', false);
 
       // when
@@ -52,7 +52,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#shouldShowPixAuthenticationMethod', function () {
     it('should display pix authentication method', function () {
       // given & when
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       const authenticationMethods = [EmberObject.create({ identityProvider: 'PIX' })];
       const model = {
         user: {},
@@ -68,7 +68,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
   context('#shouldShowGarAuthenticationMethod', function () {
     it('should display gar authentication method', function () {
       // given & when
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       const authenticationMethods = [EmberObject.create({ identityProvider: 'GAR' })];
       const model = {
         user: {},
@@ -92,7 +92,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
         'pole-emploi' = poleEmploi;
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       const authenticationMethods = [EmberObject.create({ identityProvider: 'POLE_EMPLOI' })];
       const model = {
         user: {},
@@ -116,7 +116,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
         cnav = cnav;
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
-      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
       const authenticationMethods = [EmberObject.create({ identityProvider: 'CNAV' })];
       const model = {
         user: {},

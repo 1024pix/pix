@@ -29,18 +29,18 @@ Router.map(function () {
       this.route('recommended', { path: '/recommandes' });
       this.route('saved', { path: '/enregistres' });
     });
+
+    this.route('user-account', { path: '/mon-compte' }, function () {
+      this.route('personal-information', { path: '/informations-personnelles' });
+      this.route('connection-methods', { path: '/methodes-de-connexion' });
+      this.route('language', { path: '/langue' });
+    });
   });
 
   this.route('inscription');
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-
-  this.route('user-account', { path: '/mon-compte' }, function () {
-    this.route('personal-information', { path: '/informations-personnelles' });
-    this.route('connection-methods', { path: '/methodes-de-connexion' });
-    this.route('language', { path: '/langue' });
-  });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function () {
     this.route('resume');

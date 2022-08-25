@@ -5,7 +5,7 @@ export default class ConnectionMethodsRoute extends Route {
   @service store;
 
   async model() {
-    const user = this.modelFor('user-account');
+    const user = this.modelFor('authenticated.user-account');
     const authenticationMethods = await this.store.findAll('authentication-method', user.id);
     return {
       user,
