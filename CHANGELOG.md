@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.246.0 (25/08/2022)
+
+
+### :rocket: Amélioration
+- [#4819](https://github.com/1024pix/pix/pull/4819) [FEATURE] Améliorer l'accessibilité de nos menus (PIX-5527)
+- [#4809](https://github.com/1024pix/pix/pull/4809) [FEATURE] Assouplir l'import des candidats sur les villes de naissance à arrondissements (PIX-5304)
+- [#4792](https://github.com/1024pix/pix/pull/4792) [FEATURE] création du script d'archivage de campagne en masse (PIX-5489).
+
+### :building_construction: Tech
+- [#4818](https://github.com/1024pix/pix/pull/4818) [TECH] Refactorer le usecase de récupération des inscriptions au certifications complémentaires d'un candidat (PIX-5514).
+- [#4816](https://github.com/1024pix/pix/pull/4816) [TECH] Documenter le choix de l'image de base Docker.
+- [#4683](https://github.com/1024pix/pix/pull/4683) [TECH] Prévenir les faux négatifs dans les tests.
+- [#4812](https://github.com/1024pix/pix/pull/4812) [TECH] Refactorer la sélection des épreuves pour les certifications complémentaires (PIX-5513).
+- [#4806](https://github.com/1024pix/pix/pull/4806) [TECH] Script pour remplir la colonne `isCertifiable` pour toutes les participations déjà partagées (PIX-5479).
+- [#4764](https://github.com/1024pix/pix/pull/4764) [TECH] Corriger l'installation des domaines locaux.
+- [#4783](https://github.com/1024pix/pix/pull/4783) [TECH] Centraliser les valeurs des partenaires (PIX-5497).
+- [#4769](https://github.com/1024pix/pix/pull/4769) [TECH] Mise à jours mineurs des packages sur mon-pix.
+
+### :bug: Correction
+- [#4796](https://github.com/1024pix/pix/pull/4796) [BUGFIX] Corriger l'affichage de la liste des niveaux jury sélectionnables dans la page de détail d'une certification Pix+ Édu (PIX-5505)
+
+### :coffee: Autre
+- [#4808](https://github.com/1024pix/pix/pull/4808) Ajout d'un message informatif sur la suppression des participations dans l'onglet d'un utilisateur (PIX-5453)
+
 ## v3.245.0 (23/08/2022)
 
 
