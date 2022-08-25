@@ -823,7 +823,8 @@
             "eligible": "Eligible",
             "label": "Eligibility for certification",
             "non-eligible": "Non-eligible",
-            "not-available": "Not available"
+            "not-available": "Not available",
+            "tooltip": "To know if a student is eligible for certification, their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
           },
           "last-name": "Last name",
           "last-participation-date": "Latest participation",

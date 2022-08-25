@@ -29,7 +29,23 @@
           {{t "pages.sco-organization-participants.table.column.last-participation-date"}}
         </Table::Header>
         <Table::Header @size="medium" @align="center">
-          {{t "pages.sco-organization-participants.table.column.is-certifiable.label"}}
+          <div class="sco-organization-participant-list-page__certificability-header">
+            {{t "pages.sco-organization-participants.table.column.is-certifiable.label"}}
+            <div class="sco-organization-participant-list-page__certificability-header__tooltip">
+              <PixTooltip
+                @position="top-left"
+                @isWide={{true}}
+                aria-label={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip"}}
+              >
+                <:triggerElement>
+                  <FaIcon @icon="question-circle" tabindex="0" />
+                </:triggerElement>
+                <:tooltip>
+                  {{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip"}}
+                </:tooltip>
+              </PixTooltip>
+            </div>
+          </div>
         </Table::Header>
         <Table::Header @size="small" class="hide-on-mobile" />
       </tr>
