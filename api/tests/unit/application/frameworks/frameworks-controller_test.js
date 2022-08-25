@@ -85,4 +85,23 @@ describe('Unit | Controller | frameworks-controller', function () {
       expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
     });
   });
+
+  describe('#getPixFrameworkAreasWithoutThematics', function () {
+    it('should fetch and return framework, serialized as JSONAPI', async function () {
+      // given
+      const request = {
+        headers: {
+          'accept-language': 'en',
+        },
+      };
+
+      // when
+      const result = await frameworksController.getPixFrameworkAreasWithoutThematics(request);
+
+      // then
+      expect(result).to.equal(serializedAreas);
+      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkName: 'Pix', locale: 'en' });
+      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas, { withoutThematics: true });
+    });
+  });
 });
