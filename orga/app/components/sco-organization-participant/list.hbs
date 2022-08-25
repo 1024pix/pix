@@ -1,3 +1,48 @@
+<PixFilterBanner
+  @title={{t "pages.sco-organization-participants.filter.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.sco-organization-participants.filter.aria-label"}}
+  @details={{t "pages.sco-organization-participants.filter.students-count" count=@students.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.sco-organization-participants.filter.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+>
+  <Ui::SearchInputFilter
+    @field="firstName"
+    @value={{@firstNameFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.first-name.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.first-name.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+
+  <Ui::SearchInputFilter
+    @field="lastName"
+    @value={{@lastNameFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.last-name.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.last-name.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+
+  <Ui::MultiSelectFilter
+    @field="divisions"
+    @title={{t "pages.sco-organization-participants.filter.division.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@divisionsFilter}}
+    @onLoadOptions={{this.loadDivisions}}
+    @placeholder={{t "pages.sco-organization-participants.filter.division.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.division.aria-label"}}
+    @emptyMessage={{t "pages.sco-organization-participants.filter.division.empty"}}
+  />
+
+  <Ui::SelectFilter
+    @field="connexionType"
+    @options={{@connectionTypesOptions}}
+    @selectedOption={{@connexionTypeFilter}}
+    @triggerFiltering={{@onFilter}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
+    @emptyOptionLabel={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
+  />
+</PixFilterBanner>
+
 <div class="panel">
   <table class="table content-text content-text--small">
     <colgroup class="table__column">
@@ -48,45 +93,6 @@
           </div>
         </Table::Header>
         <Table::Header @size="small" class="hide-on-mobile" />
-      </tr>
-      <tr class="hide-on-mobile">
-        <Table::HeaderFilterInput
-          @field="lastName"
-          @value={{@lastNameFilter}}
-          @placeholder={{t "pages.sco-organization-participants.table.filter.last-name.label"}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.last-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::HeaderFilterInput
-          @field="firstName"
-          @value={{@firstNameFilter}}
-          @placeholder={{t "pages.sco-organization-participants.table.filter.first-name.label"}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.first-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::Header />
-        <Table::HeaderFilterMultiSelect
-          @field="divisions"
-          @title={{t "pages.sco-organization-participants.table.column.division"}}
-          @onSelect={{@onFilter}}
-          @selectedOption={{@divisionsFilter}}
-          @onLoadOptions={{this.loadDivisions}}
-          @placeholder={{t "pages.sco-organization-participants.table.filter.division.label"}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.division.aria-label"}}
-          @emptyMessage={{t "pages.sco-organization-participants.table.filter.division.empty"}}
-        />
-        <Table::HeaderFilterSelect
-          @field="connexionType"
-          @options={{@connectionTypesOptions}}
-          @selectedOption={{@connexionTypeFilter}}
-          @triggerFiltering={{@onFilter}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.login-method.aria-label"}}
-          @emptyOptionLabel={{t "pages.sco-organization-participants.table.filter.login-method.empty-option"}}
-        />
-        <Table::Header class="table__column--right" />
-        <Table::Header />
-        <Table::Header />
-        <Table::Header />
       </tr>
     </thead>
 

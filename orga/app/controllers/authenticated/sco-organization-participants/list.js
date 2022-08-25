@@ -26,6 +26,15 @@ export default class ListController extends Controller {
     this.pageNumber = null;
   }
 
+  @action
+  resetFiltering() {
+    this.pageNumber = null;
+    this.divisions = [];
+    this.connexionType = null;
+    this.firstName = null;
+    this.lastName = null;
+  }
+
   get connectionTypesOptions() {
     return [
       { value: 'none', label: this.intl.t(CONNECTION_TYPES.none) },
