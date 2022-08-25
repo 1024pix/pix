@@ -14,7 +14,7 @@
         <ul class="sitemap-content-items-link-skills">
           {{#each @model.scorecards as |scorecard|}}
             <li class="sitemap-content-items-link-skills__skill">
-              <LinkTo @route="competences.details" @model={{scorecard.competenceId}}>
+              <LinkTo @route="authenticated.competences.details" @model={{scorecard.competenceId}}>
                 {{scorecard.name}}
               </LinkTo>
             </li>

@@ -46,6 +46,12 @@ Router.map(function () {
     this.route('user-certifications', { path: 'mes-certifications' }, function () {
       this.route('get', { path: '/:id' });
     });
+
+    this.route('competences', { path: '/competences/:competence_id' }, function () {
+      this.route('details');
+      this.route('results', { path: '/resultats/:assessment_id' });
+      this.route('resume', { path: '/evaluer' });
+    });
   });
 
   this.route('inscription');
@@ -103,12 +109,6 @@ Router.map(function () {
       this.route('skill-review', { path: '/resultats' });
     });
     this.route('existing-participation', { path: '/participation-existante' });
-  });
-
-  this.route('competences', { path: '/competences/:competence_id' }, function () {
-    this.route('details');
-    this.route('results', { path: '/resultats/:assessment_id' });
-    this.route('resume', { path: '/evaluer' });
   });
 
   this.route('terms-of-service', { path: '/cgu' });
