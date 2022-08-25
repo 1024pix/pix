@@ -3,11 +3,17 @@
   <div class="navbar-mobile-header__container">
     {{#if @burger}}
       {{#if this.isUserLogged}}
-        <button class="navbar-mobile-header__burger-icon" {{on "click" @burger.state.actions.toggle}} type="button">
-          {{#unless @burger.state.open}}
+        {{#unless @burger.state.open}}
+          <button
+            class="navbar-mobile-header__burger-icon"
+            {{on "click" @burger.state.actions.toggle}}
+            type="button"
+            aria-labelledby="nav-mobile-button"
+          >
+            <span id="nav-mobile-button" class="sr-only">{{t "navigation.mobile-button-title"}}</span>
             <FaIcon @icon="bars" />
-          {{/unless}}
-        </button>
+          </button>
+        {{/unless}}
 
         {{#@burger.menu as |menu|}}
           <NavbarBurgerMenu class="navbar-burger-menu-content" @burger={{@burger}} />
