@@ -24,6 +24,7 @@ Router.map(function () {
     this.route('user-dashboard', { path: '/accueil' });
     this.route('profile', { path: '/competences' });
     this.route('user-tests', { path: '/mes-parcours' });
+    this.route('sitemap', { path: '/plan-du-site' });
 
     this.route('user-tutorials', { path: '/mes-tutos' }, function () {
       this.route('recommended', { path: '/recommandes' });
@@ -120,7 +121,6 @@ Router.map(function () {
     this.route('login-or-register-oidc', { path: '/oidc' });
   });
 
-  this.route('sitemap', { path: '/plan-du-site' });
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
