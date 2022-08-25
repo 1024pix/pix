@@ -97,6 +97,7 @@
     "copyrights": "©",
     "error": "Erreur",
     "footer": {
+      "label": "Menu secondaire",
       "a11y": "Accessibilité : partiellement conforme",
       "data-protection-policy": "Politique de protection des données",
       "eula": "CGU",
@@ -105,6 +106,7 @@
     },
     "homepage": "Page d'accueil de Pix",
     "main": {
+      "label": "Menu principal",
       "code": "J'ai un code",
       "dashboard": "Accueil",
       "help": "Aide",
