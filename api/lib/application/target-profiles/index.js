@@ -65,7 +65,7 @@ exports.register = async (server) => {
             id: identifiersType.targetProfileId,
           }),
         },
-        handler: targetProfileController.getTargetProfileDetails,
+        handler: targetProfileController.getTargetProfileForAdmin,
         tags: ['api', 'admin', 'target-profiles'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
@@ -165,7 +165,24 @@ exports.register = async (server) => {
         ],
       },
     },
-
+    {
+      method: 'GET',
+      path: '/api/admin/target-profiles/{id}/content-json',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.getContentAsJsonFile,
+        tags: ['api', 'admin', 'target-profiles', 'json'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer le profil cible dans un fichier json',
+        ],
+      },
+    },
     {
       method: 'POST',
       path: '/api/admin/target-profiles',
@@ -186,16 +203,21 @@ exports.register = async (server) => {
             data: {
               attributes: {
                 name: Joi.string().required(),
+                category: Joi.string().required(),
+                description: Joi.string().allow(null).max(500).required(),
+                comment: Joi.string().allow(null).max(500).required(),
                 'is-public': Joi.boolean().required(),
+                'image-url': Joi.string().uri().allow(null).required(),
                 'owner-organization-id': Joi.string()
                   .pattern(/^[0-9]+$/, 'numbers')
                   .allow(null)
                   .required(),
-                'image-url': Joi.string().uri().allow(null).required(),
-                'skill-ids': Joi.array().required(),
-                comment: Joi.string().allow(null).max(500).required(),
-                description: Joi.string().allow(null).max(500).required(),
-                'tubes-selection': Joi.array().required(),
+                tubes: Joi.array()
+                  .items({
+                    id: Joi.string().required(),
+                    level: Joi.number().required(),
+                  })
+                  .required(),
               },
             },
           }),

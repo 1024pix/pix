@@ -80,6 +80,60 @@ describe('Integration | Repository | skill-repository', function () {
     });
   });
 
+  describe('#findActiveByTubeId', function () {
+    it('should return all active skills in the given tube', async function () {
+      // given
+      const tubeId = 'recTubeId';
+      const activeSkill = domainBuilder.buildSkill({ tubeId });
+      const nonActiveSkill = domainBuilder.buildSkill({ tubeId });
+      const activeSkill_otherTube = domainBuilder.buildSkill({ tubeId: 'recAnotherTube' });
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif' },
+          { ...nonActiveSkill, status: 'archivé' },
+          { ...activeSkill_otherTube, status: 'actif' },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const skills = await skillRepository.findActiveByTubeId(tubeId);
+
+      // then
+      expect(skills).to.have.lengthOf(1);
+      expect(skills[0]).to.be.instanceof(Skill);
+      expect(skills[0]).to.be.deep.equal(activeSkill);
+    });
+  });
+
+  describe('#findOperativeByTubeId', function () {
+    it('should resolve all operative skills for one tube', async function () {
+      // given
+      const tubeId = 'recTubeId';
+      const activeSkill = domainBuilder.buildSkill({ tubeId });
+      const archivedSkill = domainBuilder.buildSkill({ tubeId });
+      const nonOperativeSkill = domainBuilder.buildSkill({ tubeId });
+      const activeSkill_otherTube = domainBuilder.buildSkill({ tubeId: 'recAnotherTube' });
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif' },
+          { ...archivedSkill, status: 'archivé' },
+          { ...nonOperativeSkill, status: 'BLABLA' },
+          { ...activeSkill_otherTube, status: 'actif' },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const skills = await skillRepository.findOperativeByTubeId(tubeId);
+
+      // then
+      expect(skills).to.have.lengthOf(2);
+      expect(skills[0]).to.be.instanceof(Skill);
+      expect(skills).to.deep.include.members([activeSkill, archivedSkill]);
+    });
+  });
+
   describe('#findOperativeByIds', function () {
     it('should resolve all skills passed by ids', async function () {
       // given

@@ -1,13 +1,16 @@
 const usecases = require('../../domain/usecases');
+const tokenService = require('../../domain/services/token-service');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
+const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
+const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
 const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
   async findPaginatedFilteredTargetProfileSummariesForAdmin(request) {
@@ -22,10 +25,11 @@ module.exports = {
     return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
   },
 
-  async getTargetProfileDetails(request) {
+  async getTargetProfileForAdmin(request) {
     const targetProfileId = request.params.id;
-    const targetProfilesDetails = await usecases.getTargetProfileDetails({ targetProfileId });
-    return targetProfileWithLearningContentSerializer.serialize(targetProfilesDetails);
+    const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId });
+    if (targetProfileForAdmin.isNewFormat) return targetProfileForAdminNewSerializer.serialize(targetProfileForAdmin);
+    return targetProfileForAdminOldSerializer.serialize(targetProfileForAdmin);
   },
 
   async findPaginatedFilteredTargetProfileOrganizations(request) {
@@ -45,6 +49,19 @@ module.exports = {
 
     const badges = await usecases.findTargetProfileBadges({ targetProfileId });
     return badgeSerializer.serialize(badges);
+  },
+
+  async getContentAsJsonFile(request, h) {
+    const targetProfileId = request.params.id;
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+
+    const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
+
+    return h
+      .response(jsonContent)
+      .header('Content-Type', 'text/json;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
   async attachOrganizations(request, h) {
@@ -77,12 +94,15 @@ module.exports = {
   },
 
   async createTargetProfile(request) {
-    const targetProfileData = targetProfileSerializer.deserialize(request.payload);
+    const targetProfileCreationCommand = targetProfileSerializer.deserializeCreationCommand(request.payload);
 
-    const targetProfile = await usecases.createTargetProfile({
-      targetProfileData,
+    const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+      return usecases.createTargetProfile({
+        targetProfileCreationCommand,
+        domainTransaction,
+      });
     });
-    return targetProfileWithLearningContentSerializer.serialize(targetProfile);
+    return targetProfileSerializer.serializeId(targetProfileId);
   },
 
   async findByTargetProfileId(request) {

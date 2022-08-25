@@ -68,10 +68,17 @@
             Marquer comme accès simplifié
           </PixButton>
         {{/unless}}
-        {{#if @model.tubesSelection}}
-          <PixButton @size="small" @backgroundColor="green" @triggerAction={{this.openDownloadModal}}>
+        {{#if @model.isNewFormat}}
+          <PixButtonLink
+            @size="small"
+            @backgroundColor="green"
+            @href={{@model.urlToJsonContent}}
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+          >
             Télécharger le profil cible (JSON)
-          </PixButton>
+          </PixButtonLink>
         {{/if}}
         {{#unless @model.outdated}}
           <div class="target-profile__actions-spacer"></div>
@@ -139,14 +146,5 @@
         </PixButton>
       </:footer>
     </PixModal>
-  {{/if}}
-
-  {{#if this.isDownloadModalOpened}}
-    <TargetProfiles::DownloadModal
-      @title="Télécharger le profil cible"
-      @content={{this.targetProfileContent}}
-      @close={{this.closeDownloadModal}}
-      @fileNameSuffix={{@model.name}}
-    />
   {{/if}}
 </main>

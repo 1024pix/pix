@@ -219,6 +219,115 @@ describe('Integration | Repository | tube-repository', function () {
     });
   });
 
+  describe('#findByRecordIds', function () {
+    beforeEach(function () {
+      const learningContentTube0 = {
+        id: 'recTube0',
+        name: 'tubeName0',
+        title: 'tubeTitle0',
+        description: 'tubeDescription0',
+        practicalTitleFrFr: 'practicalTitreFR0',
+        practicalTitleEnUs: 'practicalTitreEN0',
+        practicalDescriptionFrFr: 'practicalDescriptionFR0',
+        practicalDescriptionEnUs: 'practicalDescriptionEN0',
+        competenceId: 'recCompetence0',
+      };
+      const learningContentTube1 = {
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitleFrFr: 'practicalTitreFR1',
+        practicalTitleEnUs: 'practicalTitreEN1',
+        practicalDescriptionFrFr: 'practicalDescriptionFR1',
+        practicalDescriptionEnUs: 'practicalDescriptionEN1',
+        competenceId: 'recCompetence1',
+      };
+      const learningContentTube2 = {
+        id: 'recTube2',
+        name: 'tubeName2',
+        title: 'tubeTitle2',
+        description: 'tubeDescription2',
+        practicalTitleFrFr: 'practicalTitreFR2',
+        practicalTitleEnUs: 'practicalTitreEN2',
+        practicalDescriptionFrFr: 'practicalDescriptionFR2',
+        practicalDescriptionEnUs: 'practicalDescriptionEN2',
+        competenceId: 'recCompetence1',
+      };
+      const skills = [
+        {
+          id: 'skillId0',
+          tubeId: 'recTube0',
+        },
+        {
+          id: 'skillId1',
+          tubeId: 'recTube1',
+        },
+        {
+          id: 'skillId2',
+          tubeId: 'recTube2',
+        },
+      ];
+      mockLearningContent({ tubes: [learningContentTube1, learningContentTube0, learningContentTube2], skills });
+    });
+
+    it('should return a list of tubes (locale FR - default)', async function () {
+      // given
+      const tube1 = new Tube({
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitle: 'practicalTitreFR1',
+        practicalDescription: 'practicalDescriptionFR1',
+        competenceId: 'recCompetence1',
+      });
+      const tube2 = new Tube({
+        id: 'recTube2',
+        name: 'tubeName2',
+        title: 'tubeTitle2',
+        description: 'tubeDescription2',
+        practicalTitle: 'practicalTitreFR2',
+        practicalDescription: 'practicalDescriptionFR2',
+        competenceId: 'recCompetence1',
+      });
+
+      // when
+      const tubes = await tubeRepository.findByRecordIds(['recTube2', 'recTube1']);
+
+      // then
+      expect(tubes).to.deepEqualArray([tube1, tube2]);
+    });
+
+    it('should return a list of tubes (locale EN)', async function () {
+      // given
+      const tube1 = new Tube({
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitle: 'practicalTitreEN1',
+        practicalDescription: 'practicalDescriptionEN1',
+        competenceId: 'recCompetence1',
+      });
+      const tube2 = new Tube({
+        id: 'recTube2',
+        name: 'tubeName2',
+        title: 'tubeTitle2',
+        description: 'tubeDescription2',
+        practicalTitle: 'practicalTitreEN2',
+        practicalDescription: 'practicalDescriptionEN2',
+        competenceId: 'recCompetence1',
+      });
+
+      // when
+      const tubes = await tubeRepository.findByRecordIds(['recTube2', 'recTube1'], 'en');
+
+      // then
+      expect(tubes).to.deepEqualArray([tube1, tube2]);
+    });
+  });
+
   describe('#findActiveByRecordIds', function () {
     it('should return a list of active tubes', async function () {
       // given

@@ -19,8 +19,6 @@ class TargetProfileWithLearningContent {
     imageUrl,
     category,
     isSimplifiedAccess,
-    tubesSelection,
-    tubesSelectionAreas,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -39,8 +37,6 @@ class TargetProfileWithLearningContent {
     this.imageUrl = imageUrl;
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
-    this.tubesSelection = tubesSelection;
-    this.tubesSelectionAreas = tubesSelectionAreas;
   }
 
   get skillNames() {
