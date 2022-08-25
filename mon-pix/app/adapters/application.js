@@ -35,4 +35,12 @@ export default class Application extends JSONAPIAdapter {
     }
     return currentLocale;
   }
+
+  handleResponse(status, headers, payload) {
+    if (status === 401 && payload.errors[0].code === 'SESSION_EXPIRED') {
+      return this.session.invalidate();
+    }
+
+    return super.handleResponse(...arguments);
+  }
 }
