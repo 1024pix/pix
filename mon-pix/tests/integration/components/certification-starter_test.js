@@ -241,7 +241,7 @@ describe('Integration | Component | certification-starter', function () {
           });
           sinon.assert.calledOnce(certificationCourse.save);
           sinon.assert.calledOnce(resetStub);
-          sinon.assert.calledWithExactly(replaceWithStub, 'certifications.resume', 456);
+          sinon.assert.calledWithExactly(replaceWithStub, 'authenticated.certifications.resume', 456);
         });
       });
 
