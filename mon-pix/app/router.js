@@ -42,6 +42,10 @@ Router.map(function () {
       this.route('resume', { path: '/:certification_course_id' });
       this.route('results', { path: '/:certification_id/results' });
     });
+
+    this.route('user-certifications', { path: 'mes-certifications' }, function () {
+      this.route('get', { path: '/:id' });
+    });
   });
 
   this.route('inscription');
@@ -68,9 +72,6 @@ Router.map(function () {
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 
   this.route('shared-certification', { path: '/partage-certificat/:id' });
-  this.route('user-certifications', { path: 'mes-certifications' }, function () {
-    this.route('get', { path: '/:id' });
-  });
 
   this.route('fill-in-certificate-verification-code', { path: '/verification-certificat' });
   this.route('fill-in-campaign-code', { path: '/campagnes' });
