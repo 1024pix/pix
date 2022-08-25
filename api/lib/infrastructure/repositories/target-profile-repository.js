@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../orm-models/TargetProfile');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
+const skillRepository = require('./skill-repository');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
@@ -9,7 +10,6 @@ const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
 const Stage = require('../../domain/models/Stage');
-const Skill = require('../../domain/models/Skill');
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -90,13 +90,9 @@ module.exports = {
       .where({ 'campaign-participations.id': campaignParticipationId })
       .first();
 
-    const targetProfileSkillIds = await knexConn('target-profiles_skills')
-      .distinct('skillId', 'targetProfileId')
-      .where({
-        targetProfileId: targetProfileDTO.id,
-      });
-
-    const skillIds = targetProfileSkillIds.map(({ skillId }) => skillId);
+    const skillIds = await knexConn('target-profiles_skills').distinct('skillId').pluck('skillId').where({
+      targetProfileId: targetProfileDTO.id,
+    });
 
     const targetProfileStages = await knexConn('stages')
       .where({
@@ -104,9 +100,9 @@ module.exports = {
       })
       .orderBy('threshold', 'ASC');
 
-    const skills = await skillDatasource.findOperativeByRecordIds(skillIds);
+    const skills = await skillRepository.findOperativeByIds(skillIds);
 
-    return _toDomain({ targetProfileDTO, targetProfileSkillIds, targetProfileStages, skills });
+    return _toDomain({ targetProfileDTO, targetProfileStages, skills });
   },
 
   async findAllTargetProfilesOrganizationCanUse(ownerOrganizationId) {
@@ -195,19 +191,12 @@ function _getLearningContentDataObjectsSkills(bookshelfTargetProfile) {
   return skillDatasource.findOperativeByRecordIds(skillRecordIds);
 }
 
-function _toDomain({ targetProfileDTO, targetProfileSkillIds, targetProfileStages, skills }) {
+function _toDomain({ targetProfileDTO, targetProfileStages, skills }) {
   return new TargetProfile({
     ...targetProfileDTO,
-    skills: targetProfileSkillIds
-      .filter(({ targetProfileId }) => targetProfileId === targetProfileDTO.id)
-      .map(({ skillId }) => _skillsToDomain({ skillId, skills }))
-      .filter(({ id }) => id !== undefined),
+    skills,
     stages: targetProfileStages
       .filter(({ targetProfileId }) => targetProfileId === targetProfileDTO.id)
       .map((s) => new Stage(s)),
   });
-}
-
-function _skillsToDomain({ skillId, skills }) {
-  return new Skill(skills.find((skill) => skill.id === skillId));
 }
