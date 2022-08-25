@@ -46,11 +46,11 @@ describe('a11y', () => {
   describe('Authenticated pages', () => {
     const authenticatedPages = [
       { url: '/accueil', skipFailures: true },
-      { url: '/competences', skipFailures: true },
+      { url: '/competences' },
       { url: '/certifications', skipFailures: true },
       { url: '/mon-profil', skipFailures: true },
-      { url: '/mes-tutos/recommandes', skipFailures: true },
-      { url: '/mes-certifications', skipFailures: true },
+      { url: '/mes-tutos/recommandes' },
+      { url: '/mes-certifications' },
       { url: '/campagnes/NERA/evaluation/resultats' },
     ];
 
