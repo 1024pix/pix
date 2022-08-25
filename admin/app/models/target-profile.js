@@ -1,6 +1,8 @@
 import { memberAction } from 'ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
 import map from 'lodash/map';
+import ENV from 'pix-admin/config/environment';
+import { inject as service } from '@ember/service';
 
 export const categories = {
   COMPETENCES: 'Les 16 compétences',
@@ -16,6 +18,8 @@ export const optionsCategoryList = map(categories, function (key, value) {
 });
 
 export default class TargetProfile extends Model {
+  @service session;
+
   @attr('nullable-string') name;
   @attr('boolean') isPublic;
   @attr('date') createdAt;
@@ -26,16 +30,25 @@ export default class TargetProfile extends Model {
   @attr('string') ownerOrganizationId;
   @attr('string') category;
   @attr('boolean') isSimplifiedAccess;
-  @attr('array') skillIds;
-  @attr('array') tubesSelection;
 
   @hasMany('badge') badges;
   @hasMany('stage') stages;
-  @hasMany('skill') skills;
-  @hasMany('tube') tubes;
-  @hasMany('competence') competences;
-  @hasMany('area') areas;
-  @hasMany('area') tubesSelectionAreas;
+
+  @attr() isNewFormat;
+  @hasMany('old-area') oldAreas;
+  @hasMany('new-area') newAreas;
+
+  get sortedOldAreas() {
+    return this.oldAreas.sortBy('code');
+  }
+
+  get sortedNewAreas() {
+    return this.newAreas.sortBy('code');
+  }
+
+  get urlToJsonContent() {
+    return `${ENV.APP.API_HOST}/api/admin/target-profiles/${this.id}/content-json?accessToken=${this.session.data.authenticated.access_token}`;
+  }
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',

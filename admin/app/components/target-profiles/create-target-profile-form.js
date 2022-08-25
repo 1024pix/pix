@@ -8,6 +8,7 @@ export default class CreateTargetProfileForm extends Component {
   @service notifications;
 
   @tracked submitting = false;
+  selectedTubes = [];
 
   constructor() {
     super(...arguments);
@@ -35,21 +36,18 @@ export default class CreateTargetProfileForm extends Component {
   }
 
   @action
-  updateTubesAndSkills(tubesWithLevelAndSkills) {
-    this.args.targetProfile.skillIds = tubesWithLevelAndSkills.flatMap(
-      (tubeWithLevelAndSkills) => tubeWithLevelAndSkills.skills
-    );
-    this.args.targetProfile.tubesSelection = tubesWithLevelAndSkills.map(({ id, level }) => ({
+  updateTubes(tubesWithLevel) {
+    this.selectedTubes = tubesWithLevel.map(({ id, level }) => ({
       id,
       level,
     }));
   }
 
   @action
-  async onSubmit(...args) {
+  async onSubmit(event) {
     try {
       this.submitting = true;
-      await this.args.onSubmit(...args);
+      await this.args.onSubmit(event, this.selectedTubes);
     } finally {
       this.submitting = false;
     }

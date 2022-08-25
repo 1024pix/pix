@@ -1,5 +1,6 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 const _ = require('lodash');
+const MockDate = require('mockdate');
 const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
@@ -225,6 +226,7 @@ module.exports = {
   knex,
   nock,
   sinon,
+  MockDate,
   streamToPromise,
   catchErr,
   testErr: new Error('Fake Error'),

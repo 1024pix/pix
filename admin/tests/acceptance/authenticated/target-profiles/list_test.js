@@ -48,18 +48,13 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
       test('it should redirect to target profile details on click', async function (assert) {
         // given
-        const area = server.create('area', { id: 'area1', title: 'Area 1' });
-        const competence = server.create('competence', { id: 'competence1', name: 'Competence 1', areaId: 'area1' });
-        const tube = server.create('tube', { id: 'tube1', practicalTitle: 'Tube 1', competenceId: 'competence1' });
-        const skill = server.create('skill', { id: 'skill1', name: '@web3', difficulty: 1, tubeId: 'tube1' });
+        const area = server.create('new-area', { id: 'area1', title: 'Area 1', code: '1' });
 
         server.create('target-profile', {
           id: 1,
           name: 'Profil Cible',
-          areas: [area],
-          competences: [competence],
-          tubes: [tube],
-          skills: [skill],
+          newAreas: [area],
+          isNewFormat: true,
         });
         server.create('target-profile-summary', { id: 1, name: 'Profil Cible', outdated: true });
         const screen = await visit('/target-profiles/list');
@@ -69,7 +64,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1');
-        assert.dom(screen.getByText('Competence 1')).exists();
+        assert.dom(screen.getByText('1 · Area 1')).exists();
       });
 
       test('it should redirect to target profile creation form on click "Nouveau profil cible"', async function (assert) {

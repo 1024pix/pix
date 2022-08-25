@@ -14,6 +14,10 @@ class Competence {
   get reference() {
     return `${this.index} ${this.name}`;
   }
+
+  get areaId() {
+    return this.area.id;
+  }
 }
 
 module.exports = Competence;

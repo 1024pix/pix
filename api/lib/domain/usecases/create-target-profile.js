@@ -1,10 +1,21 @@
 const TargetProfileForCreation = require('../models/TargetProfileForCreation');
+const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service');
+
 module.exports = async function createTargetProfile({
-  targetProfileData,
+  targetProfileCreationCommand,
+  domainTransaction,
   targetProfileRepository,
-  targetProfileWithLearningContentRepository,
 }) {
-  const targetProfileForCreation = new TargetProfileForCreation(targetProfileData);
-  const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
-  return targetProfileWithLearningContentRepository.get({ id: targetProfileId });
+  const targetProfileForCreation = TargetProfileForCreation.fromCreationCommand(targetProfileCreationCommand);
+  const targetProfileId = await targetProfileRepository.createWithTubes({
+    targetProfileForCreation,
+    domainTransaction,
+  });
+  const skills = await learningContentConversionService.findActiveSkillsForCappedTubes(targetProfileForCreation.tubes);
+  await targetProfileRepository.updateTargetProfileWithSkills({
+    targetProfileId,
+    skills,
+    domainTransaction,
+  });
+  return targetProfileId;
 };

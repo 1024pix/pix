@@ -5,6 +5,7 @@ const {
   knex,
   mockLearningContent,
   learningContentBuilder,
+  MockDate,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 const omit = require('lodash/omit');
@@ -58,21 +59,30 @@ describe('Acceptance | Controller | target-profile-controller', function () {
   describe('POST /api/admin/target-profiles', function () {
     let user;
 
-    beforeEach(async function () {
-      mockLearningContent(learningContent);
-
+    beforeEach(function () {
       user = databaseBuilder.factory.buildUser.withRole();
-
-      await databaseBuilder.commit();
+      const learningContentForTest = {
+        skills: [
+          {
+            id: 'recSkill1',
+            name: 'skill1',
+            status: 'actif',
+            tubeId: 'recTube1',
+          },
+        ],
+      };
+      mockLearningContent(learningContentForTest);
+      return databaseBuilder.commit();
     });
 
     afterEach(async function () {
-      await knex('target-profile_tubes').delete();
       await knex('target-profiles_skills').delete();
+      await knex('target-profile_tubes').delete();
       await knex('target-profiles').delete();
     });
 
     it('should return 200', async function () {
+      // given
       const options = {
         method: 'POST',
         url: '/api/admin/target-profiles',
@@ -81,16 +91,13 @@ describe('Acceptance | Controller | target-profile-controller', function () {
           data: {
             attributes: {
               name: 'targetProfileName',
+              category: 'OTHER',
+              description: 'coucou maman',
+              comment: 'coucou papa',
               'is-public': false,
+              'image-url': 'http://some/image.ok',
               'owner-organization-id': null,
-              'skill-ids': [skillId],
-              comment: 'comment',
-              description: null,
-              'image-url': null,
-              'tubes-selection': [
-                { id: 'tubeId1', level: 5 },
-                { id: 'tubeId2', level: 7 },
-              ],
+              tubes: [{ id: 'recTube1', level: 5 }],
             },
           },
         },
@@ -100,10 +107,14 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const response = await server.inject(options);
 
       // then
+      const { id: targetProfileId } = await knex('target-profiles').select('id').first();
       expect(response.statusCode).to.equal(200);
-
-      expect(response.result.data.relationships.skills.data.length).to.equal(1);
-      expect(response.result.data.relationships.skills.data[0].id).to.equal(skillId);
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'target-profiles',
+          id: `${targetProfileId}`,
+        },
+      });
     });
   });
 
@@ -657,6 +668,54 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         },
       ];
       expect(response.result.data).to.deep.equal(expectedData);
+    });
+  });
+
+  describe('GET /api/admin/target-profiles/{id}/content-json', function () {
+    let user;
+    let targetProfileId;
+
+    beforeEach(function () {
+      MockDate.set(new Date('2020-11-01'));
+      const learningContent = {
+        areas: [{ id: 'recArea', frameworkId: 'recFmwk', competenceIds: ['recCompetence'] }],
+        competences: [{ id: 'recCompetence', areaId: 'recArea', thematicIds: ['recThematic'] }],
+        thematics: [{ id: 'recThematic', name: 'somename', tubeIds: ['recTube'], competenceId: 'recCompetence' }],
+        tubes: [{ id: 'recTube', competenceId: 'recCompetence' }],
+        skills: [{ id: 'recSkill', tubeId: 'recTube', status: 'actif', level: 5, name: 'skill5' }],
+        challenges: [],
+      };
+      mockLearningContent(learningContent);
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({ name: 'Roxane est très jolie' }).id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube', level: 6 });
+      user = databaseBuilder.factory.buildUser.withRole();
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      MockDate.reset();
+    });
+
+    it('should return 200 and the json file', async function () {
+      const authHeader = generateValidRequestAuthorizationHeader(user.id);
+      const token = authHeader.replace('Bearer ', '');
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfileId}/content-json?accessToken=${token}`,
+        payload: {},
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.payload).to.equal('[{"id":"recTube","level":6,"frameworkId":"recFmwk","skills":["recSkill"]}]');
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename=20201101_profil_cible_Roxane est très jolie.json'
+      );
+      expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
     });
   });
 });

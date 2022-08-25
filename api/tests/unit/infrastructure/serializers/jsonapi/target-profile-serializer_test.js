@@ -40,51 +40,61 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
     });
   });
 
-  describe('#deserialize', function () {
-    it('should deserialize JSONAPI to target profile', function () {
-      // given
+  describe('#serializeId', function () {
+    it('should return a serialized target profile to JSONAPI with only ID filled', function () {
+      // when
+      const serializedTargetProfile = serializer.serializeId(123);
 
+      // then
+      const expectedTargetProfileSerialized = {
+        data: {
+          id: '123',
+          type: 'target-profiles',
+        },
+      };
+      return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfileSerialized);
+    });
+  });
+
+  describe('#deserializeCreationCommand', function () {
+    it('should deserialize JSONAPI to target profile creation command', function () {
+      // given
       const json = {
         data: {
-          id: '12',
-          type: 'target-profiles',
           attributes: {
             name: 'Les compétences de BRO 2.0',
-            'is-public': false,
-            'owner-organization-id': 12,
-            'skill-ids': ['skillId1', 'skillIds2'],
-            'image-url': 'superImage.png',
-            'tubes-selection': [
-              { id: 'tubeId1', level: 5 },
-              { id: 'tubeId2', level: 7 },
-            ],
-            comment: 'Interesting comment',
-            description: 'Amazing description',
             category: 'OTHER',
+            description: 'Amazing description',
+            comment: 'Interesting comment',
+            'is-public': false,
+            'image-url': 'superImage.png',
+            'owner-organization-id': 12,
+            tubes: [
+              { id: 'tubeId1', level: '5' },
+              { id: 'tubeId2', level: '7' },
+            ],
           },
         },
       };
 
-      const expectTargetProfileObject = {
-        ownerOrganizationId: 12,
-        name: 'Les compétences de BRO 2.0',
-        isPublic: false,
-        imageUrl: 'superImage.png',
-        skillIds: ['skillId1', 'skillIds2'],
-        comment: 'Interesting comment',
-        description: 'Amazing description',
-        category: 'OTHER',
-        tubes: [
-          { id: 'tubeId1', level: 5 },
-          { id: 'tubeId2', level: 7 },
-        ],
-      };
-
       // when
-      const deserializedTargetProfile = serializer.deserialize(json);
+      const deserializedTargetProfileCreationCommand = serializer.deserializeCreationCommand(json);
 
       // then
-      expect(deserializedTargetProfile).to.deep.equal(expectTargetProfileObject);
+      const expectedTargetProfileCreationCommand = {
+        name: 'Les compétences de BRO 2.0',
+        category: 'OTHER',
+        description: 'Amazing description',
+        comment: 'Interesting comment',
+        isPublic: false,
+        imageUrl: 'superImage.png',
+        ownerOrganizationId: 12,
+        tubes: [
+          { id: 'tubeId1', level: '5' },
+          { id: 'tubeId2', level: '7' },
+        ],
+      };
+      expect(deserializedTargetProfileCreationCommand).to.deep.equal(expectedTargetProfileCreationCommand);
     });
   });
 });

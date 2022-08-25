@@ -13,18 +13,17 @@ export default class NewController extends Controller {
   }
 
   @action
-  async createTargetProfile(event) {
+  async createTargetProfile(event, selectedTubes) {
     event.preventDefault();
     const targetProfile = this.model.targetProfile;
 
-    if (targetProfile.tubesSelection.length === 0) {
+    if (selectedTubes === 0) {
       this.notifications.error('Aucun sujet sélectionné !');
       return;
     }
 
     try {
-      await targetProfile.save();
-
+      await targetProfile.save({ adapterOptions: { tubes: selectedTubes } });
       this.notifications.success('Le profil cible a été créé avec succès.');
       this.router.transitionTo('authenticated.target-profiles.target-profile', targetProfile.id);
     } catch (error) {
