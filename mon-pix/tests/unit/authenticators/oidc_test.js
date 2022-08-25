@@ -223,6 +223,7 @@ describe('Unit | Authenticator | oidc', function () {
 
         // then
         expect(authenticator.session.alternativeRootURL).to.equal(redirectLogoutUrl);
+        sinon.restore();
       });
     });
   });
