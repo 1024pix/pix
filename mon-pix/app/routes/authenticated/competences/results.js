@@ -2,12 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class ResultsRoute extends Route {
-  @service session;
   @service store;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   async model(params) {
     const assessmentId = params.assessment_id;

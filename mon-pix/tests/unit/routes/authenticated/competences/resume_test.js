@@ -26,7 +26,7 @@ describe('Unit | Route | Competence | Resume', function () {
       replaceWith: sinon.stub(),
     });
 
-    route = this.owner.lookup('route:competences.resume');
+    route = this.owner.lookup('route:authenticated/competences.resume');
     route.set('store', storeStub);
     route.set('router', routerStub);
   });

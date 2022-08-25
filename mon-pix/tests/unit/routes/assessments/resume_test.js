@@ -225,7 +225,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.router.replaceWith, 'competences.results', competenceId, 123);
+            sinon.assert.calledWith(route.router.replaceWith, 'authenticated.competences.results', competenceId, 123);
           });
         });
       });
