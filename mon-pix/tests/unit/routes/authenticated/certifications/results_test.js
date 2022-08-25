@@ -19,7 +19,7 @@ describe('Unit | Route | Certifications | Results', function () {
       });
       const findRecordStub = sinon.stub().resolves(certificationCourse);
       const storeStub = Service.create({ findRecord: findRecordStub });
-      const route = this.owner.lookup('route:certifications.results');
+      const route = this.owner.lookup('route:authenticated/certifications.results');
       route.set('store', storeStub);
 
       // when

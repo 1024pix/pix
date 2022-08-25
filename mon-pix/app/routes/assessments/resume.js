@@ -98,7 +98,7 @@ export default class ResumeRoute extends Route {
 
   _routeToResults(assessment) {
     if (assessment.isCertification) {
-      this.router.replaceWith('certifications.results', assessment.certificationNumber);
+      this.router.replaceWith('authenticated.certifications.results', assessment.certificationNumber);
     } else if (assessment.isForCampaign) {
       this.router.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
     } else if (assessment.isCompetenceEvaluation) {

@@ -35,6 +35,13 @@ Router.map(function () {
       this.route('connection-methods', { path: '/methodes-de-connexion' });
       this.route('language', { path: '/langue' });
     });
+
+    this.route('certifications', function () {
+      this.route('join', { path: '/' });
+      this.route('start', { path: '/candidat/:certification_candidate_id' });
+      this.route('resume', { path: '/:certification_course_id' });
+      this.route('results', { path: '/:certification_id/results' });
+    });
   });
 
   this.route('inscription');
@@ -59,12 +66,7 @@ Router.map(function () {
   });
 
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
-  this.route('certifications', function () {
-    this.route('join', { path: '/' });
-    this.route('start', { path: '/candidat/:certification_candidate_id' });
-    this.route('resume', { path: '/:certification_course_id' });
-    this.route('results', { path: '/:certification_id/results' });
-  });
+
   this.route('shared-certification', { path: '/partage-certificat/:id' });
   this.route('user-certifications', { path: 'mes-certifications' }, function () {
     this.route('get', { path: '/:id' });
