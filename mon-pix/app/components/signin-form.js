@@ -33,7 +33,7 @@ export default class SigninForm extends Component {
     event && event.preventDefault();
     this.hasFailed = false;
     try {
-      await this._authenticateUser(this.login, this.password);
+      await this.session.authenticateUser(this.login, this.password);
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
@@ -56,25 +56,8 @@ export default class SigninForm extends Component {
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }
 
-  async _authenticateUser(login, password) {
-    await this._removeExternalUserContext();
-
-    const scope = 'mon-pix';
-    const trimedLogin = login ? login.trim() : '';
-    return this.session.authenticate('authenticator:oauth2', { login: trimedLogin, password, scope });
-  }
-
   async _updateExpiredPassword(passwordResetToken) {
     this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
     return this.router.replaceWith('update-expired-password');
-  }
-
-  async _removeExternalUserContext() {
-    if (this.session.data && this.session.expectedUserId) {
-      delete this.session.data.expectedUserId;
-    }
-    if (this.session.data && this.session.data.externalUser) {
-      delete this.session.data.externalUser;
-    }
   }
 }
