@@ -42,19 +42,17 @@ describe('Integration | Component | Tutorial Panel', function () {
       });
 
       context('when the user is logged in', function () {
-        class StoreStub extends Service {
-          user = {
-            firstName: 'Banana',
-            email: 'banana.split@example.net',
-            fullName: 'Banana Split',
-          };
-        }
-
-        beforeEach(function () {
-          this.owner.register('service:currentUser', StoreStub);
-        });
-
         it('should render the tutorial with actions', async function () {
+          // given
+          class CurrentUserStub extends Service {
+            user = {
+              firstName: 'Banana',
+              email: 'banana.split@example.net',
+              fullName: 'Banana Split',
+            };
+          }
+          this.owner.register('service:currentUser', CurrentUserStub);
+
           // when
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
@@ -71,6 +69,12 @@ describe('Integration | Component | Tutorial Panel', function () {
 
       context('when the user is not logged in', function () {
         it('should render the tutorial without actions', async function () {
+          // given
+          class CurrentUserStub extends Service {
+            user = null;
+          }
+          this.owner.register('service:currentUser', CurrentUserStub);
+
           // when
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
@@ -78,7 +82,7 @@ describe('Integration | Component | Tutorial Panel', function () {
           expect(find('.tutorial-card-v2')).to.exist;
           expect(find('.tutorial-card-v2__content')).to.exist;
           expect(find('.tutorial-card-v2-content__details')).to.exist;
-          expect(find('.tutorial-card-v2-content__actions')).to.exist;
+          expect(find('.tutorial-card-v2-content__actions')).to.not.exist;
         });
       });
     });
