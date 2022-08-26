@@ -2,7 +2,8 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, findAll, find, click } from '@ember/test-helpers';
+import { findAll, find, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
 
 describe('Acceptance | User-tutorials-v2 | Recommended', function () {
@@ -30,14 +31,29 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
     });
 
+    describe('when a tutorial is not already saved', function () {
+      it('should saved it when user click on save button', async function () {
+        // given
+        server.createList('tutorial', 1);
+        const screen = await visit('/mes-tutos/recommandes');
+
+        // when
+        await click(screen.getByLabelText('Enregistrer dans ma liste de tutos'));
+
+        // then
+        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
+        expect(screen.getByLabelText('Retirer de ma liste de tutos')).to.exist;
+      });
+    });
+
     describe('when a tutorial is saved', function () {
       it('should not remove it from the list when clicking on the remove button', async function () {
         // given
         server.createList('tutorial', 1, 'withUserTutorial');
-        await visit('/mes-tutos/recommandes');
+        const screen = await visit('/mes-tutos/recommandes');
 
         // when
-        await click(find('[aria-label="Marquer ce tuto comme utile"]'));
+        await click(screen.getByLabelText('Retirer de ma liste de tutos'));
 
         // then
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
@@ -48,14 +64,14 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       it('should retrieve the appropriate status when changing page', async function () {
         // given
         server.createList('tutorial', 1, 'withUserTutorial', 'withTutorialEvaluation');
-        await visit('/mes-tutos/recommandes');
+        const screen = await visit('/mes-tutos/recommandes');
 
         // when
-        await click(find('[aria-label="Ne plus considérer ce tuto comme utile"]'));
+        await click(screen.getByLabelText('Ne plus considérer ce tuto comme utile'));
         await visit('/mes-tutos/enregistres');
 
         // then
-        expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
+        expect(screen.getByLabelText('Marquer ce tuto comme utile')).to.exist;
       });
     });
   });
