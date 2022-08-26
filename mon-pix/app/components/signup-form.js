@@ -137,8 +137,7 @@ export default class SignupForm extends Component {
     this.args.user
       .save({ adapterOptions: { campaignCode } })
       .then(async () => {
-        const credentials = { login: this.args.user.email, password: this.args.user.password };
-        await this._authenticateUser(credentials);
+        await this.session.authenticateUser(this.args.user.email, this.args.user.password);
         this._tokenHasBeenUsed = true;
         this.args.user.password = null;
       })
@@ -171,12 +170,5 @@ export default class SignupForm extends Component {
       default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
-  }
-
-  _authenticateUser(credentials) {
-    const { login, password } = credentials;
-    const scope = 'mon-pix';
-
-    return this.session.authenticate('authenticator:oauth2', { login, password, scope });
   }
 }

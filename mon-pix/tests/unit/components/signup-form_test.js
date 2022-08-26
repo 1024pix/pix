@@ -61,23 +61,17 @@ describe('Unit | Component | signup-form', function () {
         password: 'Pix12345',
         save: sinon.stub().resolves(),
       });
-      const scope = 'mon-pix';
-      const expectedAuthenticator = 'authenticator:oauth2';
       component.args.user = userWithSpaces;
 
       const authenticateStub = sinon.stub().resolves();
-      const sessionStub = { authenticate: authenticateStub };
+      const sessionStub = { authenticateUser: authenticateStub };
       component.session = sessionStub;
 
       // when
       await component.signup();
 
       // then
-      sinon.assert.calledWith(authenticateStub, expectedAuthenticator, {
-        login: userWithSpaces.email,
-        password: userWithSpaces.password,
-        scope,
-      });
+      sinon.assert.calledWith(authenticateStub, userWithSpaces.email, userWithSpaces.password);
     });
 
     it('should send campaignCode when is defined', () => {

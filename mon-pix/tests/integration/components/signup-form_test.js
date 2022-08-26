@@ -261,7 +261,7 @@ describe('Integration | Component | SignupForm', function () {
     let session;
     beforeEach(function () {
       class sessionService extends Service {
-        authenticate = sinon.stub().resolves();
+        authenticateUser = sinon.stub().resolves();
       }
       this.owner.register('service:session', sessionService);
       session = this.owner.lookup('service:session', sessionService);
@@ -320,12 +320,8 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          sinon.assert.calledOnce(session.authenticate);
-          sinon.assert.calledWith(session.authenticate, 'authenticator:oauth2', {
-            login: 'toto@pix.fr',
-            password: 'gipix2017',
-            scope: 'mon-pix',
-          });
+          sinon.assert.calledOnce(session.authenticateUser);
+          sinon.assert.calledWith(session.authenticateUser, 'toto@pix.fr', 'gipix2017');
           expect(user.password).to.be.null;
         });
       });
@@ -662,7 +658,7 @@ describe('Integration | Component | SignupForm', function () {
     it('should display a loading spinner when user submit signup', async function () {
       // given
       class sessionService extends Service {
-        authenticate = sinon.stub().resolves();
+        authenticateUser = sinon.stub().resolves();
       }
       this.owner.register('service:session', sessionService);
 
@@ -677,7 +673,6 @@ describe('Integration | Component | SignupForm', function () {
         },
       });
       this.set('user', validUser);
-      this.set('authenticateUser', () => {});
       await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
