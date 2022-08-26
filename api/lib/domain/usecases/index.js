@@ -1,4 +1,4 @@
-const {CreateTag} = require('./create-tag');
+const { CreateTag } = require('./create-tag');
 
 const dependencies = {
   accountRecoveryDemandRepository: require('../../infrastructure/repositories/account-recovery-demand-repository'),

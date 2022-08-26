@@ -1,4 +1,4 @@
-import { TagRepositoryType } from "../../infrastructure/repositories/tag-repository";
+import { TagRepositoryType } from '../../infrastructure/repositories/tag-repository';
 import { Tag } from '../models/Tag';
 
 export class CreateTag {
