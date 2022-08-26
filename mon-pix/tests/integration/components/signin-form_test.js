@@ -62,7 +62,7 @@ describe('Integration | Component | signin form', function () {
         // given
         const expectedErrorMessage = ApiErrorMessages.LOGIN_UNAUTHORIZED.MESSAGE;
         class sessionService extends Service {
-          authenticate = sinon.stub().rejects({ status: 401 });
+          authenticateUser = sinon.stub().rejects({ status: 401 });
         }
         this.owner.register('service:session', sessionService);
         await render(hbs`<SigninForm />`);
@@ -80,7 +80,7 @@ describe('Integration | Component | signin form', function () {
         // given
         const expectedErrorMessage = ApiErrorMessages.BAD_REQUEST.MESSAGE;
         class sessionService extends Service {
-          authenticate = sinon.stub().rejects({ status: 400 });
+          authenticateUser = sinon.stub().rejects({ status: 400 });
         }
         this.owner.register('service:session', sessionService);
         await render(hbs`<SigninForm />`);
@@ -98,7 +98,7 @@ describe('Integration | Component | signin form', function () {
         // given
         const stubCatchedApiErrorInternetDisconnected = undefined;
         class sessionService extends Service {
-          authenticate = sinon.stub().rejects({ status: stubCatchedApiErrorInternetDisconnected });
+          authenticateUser = sinon.stub().rejects({ status: stubCatchedApiErrorInternetDisconnected });
         }
         this.owner.register('service:session', sessionService);
         await render(hbs`<SigninForm />`);
@@ -162,7 +162,7 @@ describe('Integration | Component | signin form', function () {
     it('should authenticate user when she submitted sign-in form', async function () {
       // given
       class sessionService extends Service {
-        authenticate = sinon.stub().resolves();
+        authenticateUser = sinon.stub().resolves();
       }
       this.owner.register('service:session', sessionService);
       const session = this.owner.lookup('service:session', sessionService);
@@ -178,7 +178,7 @@ describe('Integration | Component | signin form', function () {
       await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // Then
-      sinon.assert.calledOnce(session.authenticate);
+      sinon.assert.calledOnce(session.authenticateUser);
     });
   });
 });

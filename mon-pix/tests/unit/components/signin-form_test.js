@@ -16,7 +16,7 @@ describe('Unit | Component | signin-form', function () {
         const createRecordStub = sinon.stub();
         const storeStub = { createRecord: createRecordStub };
         const sessionStub = {
-          authenticate: sinon.stub().rejects({
+          authenticateUser: sinon.stub().rejects({
             responseJSON: {
               errors: [
                 {
@@ -53,7 +53,7 @@ describe('Unit | Component | signin-form', function () {
         const authenticateStub = sinon.stub().resolves();
         const component = createGlimmerComponent('component:signin-form');
         const sessionStub = Service.create({
-          authenticate: authenticateStub,
+          authenticateUser: authenticateStub,
         });
         const storeStub = Service.create({
           queryRecord: queryRecordStub,
@@ -68,14 +68,12 @@ describe('Unit | Component | signin-form', function () {
         const password = 'password';
         component.password = password;
         component.login = trimedEmail;
-        const expectedAuthenticator = 'authenticator:oauth2';
-        const scope = 'mon-pix';
 
         // when
         await component.signin(eventStub);
 
         // then
-        sinon.assert.calledWith(authenticateStub, expectedAuthenticator, { login: trimedEmail, password, scope });
+        sinon.assert.calledWith(authenticateStub, trimedEmail, password);
       });
     });
   });
