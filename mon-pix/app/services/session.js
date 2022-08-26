@@ -22,7 +22,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async _removeExternalUserContext() {
-    if (this.data && this.expectedUserId) {
+    if (this.data && this.data.expectedUserId) {
       delete this.data.expectedUserId;
     }
     if (this.data && this.data.externalUser) {
