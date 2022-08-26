@@ -139,8 +139,10 @@ describe('Integration | Application | Organizations | organization-controller', 
         const response = await httpTestServer.request('GET', '/api/organizations/1234/memberships');
 
         // then
-        expect(response.result.data[0].type).to.equal('memberships');
-        expect(response.result.data[0].id).to.equal(membership.id.toString());
+        const memberships = response.result.included[0];
+
+        expect(memberships.type).to.equal('memberships');
+        expect(memberships.id).to.equal(membership.id.toString());
       });
 
       it('should return a JSON:API response including organization, organization role & user information', async function () {
@@ -152,10 +154,10 @@ describe('Integration | Application | Organizations | organization-controller', 
         const response = await httpTestServer.request('GET', '/api/organizations/1234/memberships');
 
         // then
-        expect(response.result.included[0].type).to.equal('organizations');
-        expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
-        expect(response.result.included[1].type).to.equal('users');
-        expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
+        const users = response.result.included[0];
+
+        expect(users.type).to.equal('users');
+        expect(users.id).to.equal(`${membership.user.id}`);
       });
     });
   });

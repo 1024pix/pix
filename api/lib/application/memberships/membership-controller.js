@@ -1,4 +1,5 @@
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
+const minimalMembershipSerializer = require('../../infrastructure/serializers/jsonapi/memberships/minimal-membership-serializer');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const usecases = require('../../domain/usecases');
 const { BadRequestError } = require('../http-errors');
@@ -11,7 +12,7 @@ module.exports = {
     const membership = await usecases.createMembership({ userId, organizationId });
     await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
-    return h.response(membershipSerializer.serialize(membership)).created();
+    return h.response(minimalMembershipSerializer.serialize(membership)).created();
   },
 
   async update(request, h) {

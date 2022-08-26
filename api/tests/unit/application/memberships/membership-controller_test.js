@@ -3,6 +3,7 @@ const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 const membershipController = require('../../../../lib/application/memberships/membership-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
+const minimalMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/memberships/minimal-membership-serializer');
 const Membership = require('../../../../lib/domain/models/Membership');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
@@ -31,7 +32,7 @@ describe('Unit | Controller | membership-controller', function () {
         .withArgs({ userId: user.id, organizationId: organization.id })
         .resolves(membership);
       sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
-      sinon.stub(membershipSerializer, 'serialize').withArgs(membership).returns(serializedMembership);
+      sinon.stub(minimalMembershipSerializer, 'serialize').withArgs(membership).returns(serializedMembership);
 
       // when
       const result = await membershipController.create(request, hFake);

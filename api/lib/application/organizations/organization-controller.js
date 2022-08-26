@@ -5,7 +5,7 @@ const campaignManagementSerializer = require('../../infrastructure/serializers/j
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer');
-const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
+const minimalMembershipSerializer = require('../../infrastructure/serializers/jsonapi/memberships/minimal-membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const userWithOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
@@ -123,7 +123,7 @@ module.exports = {
       filter: options.filter,
       page: options.page,
     });
-    return membershipSerializer.serialize(memberships, pagination);
+    return minimalMembershipSerializer.serialize(memberships, pagination);
   },
 
   async getOrganizationMemberIdentities(request) {

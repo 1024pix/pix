@@ -1,29 +1,14 @@
-const BookshelfMembership = require('../orm-models/Membership');
+const { knex } = require('../../../db/knex-database-connection');
 const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
-const bookshelfUtils = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const Tag = require('../../domain/models/Tag');
+const knexUtils = require('../utils/knex-utils');
+const bluebird = require('bluebird');
+const pick = require('lodash/pick');
 
-const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_PAGE_NUMBER = 1;
-
-function _toDomain(bookshelfMembership) {
-  const membership = new Membership(bookshelfMembership.toJSON());
-
-  if (bookshelfMembership.relations.user) {
-    membership.user = new User(bookshelfMembership.relations.user.toJSON());
-  }
-
-  if (bookshelfMembership.relations.organization) {
-    membership.organization = new Organization(bookshelfMembership.relations.organization.toJSON());
-  }
-
-  return membership;
-}
-
-function _setSearchFiltersForQueryBuilder(filter, qb) {
+function _setSearchFiltersForQueryBuilder(qb, filter) {
   const { firstName, lastName, email, organizationRole } = filter;
   if (firstName) {
     qb.whereRaw('LOWER(users."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
@@ -39,92 +24,87 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
 }
 
+async function _buildMembership(membershipAttributes) {
+  const userDB = await knex('users').where({ id: membershipAttributes.userId }).first();
+  const organizationDB = await knex('organizations').where({ id: membershipAttributes.organizationId }).first();
+  const organizationTagsDT = await knex('tags').join(
+    'organization-tags',
+    'organization-tags.organizationId',
+    organizationDB.id
+  );
+  const tags = organizationTagsDT.map((attributes) => new Tag(attributes));
+  const organization = new Organization({ ...organizationDB, tags });
+  return new Membership({ ...membershipAttributes, user: new User(userDB), organization });
+}
+
 module.exports = {
-  create(userId, organizationId, organizationRole) {
-    return new BookshelfMembership({ userId, organizationId, organizationRole })
-      .save()
-      .then((bookshelfMembership) => bookshelfMembership.load(['user']))
-      .then(_toDomain)
-      .catch((err) => {
-        if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          throw new MembershipCreationError(err.message);
-        }
-        throw err;
-      });
+  async create(userId, organizationId, organizationRole) {
+    try {
+      const rows = await knex('memberships').insert({ userId, organizationId, organizationRole }).returning('*');
+
+      return bluebird.mapSeries(rows, _buildMembership);
+    } catch (err) {
+      if (knexUtils.isUniqConstraintViolated(err)) {
+        throw new MembershipCreationError(err.message);
+      }
+      throw err;
+    }
   },
 
-  async get(membershipId) {
-    let bookshelfMembership;
-    try {
-      bookshelfMembership = await BookshelfMembership.where('id', membershipId).fetch({
-        withRelated: ['user', 'organization'],
-      });
-    } catch (error) {
-      if (error instanceof BookshelfMembership.NotFoundError) {
-        throw new NotFoundError(`Membership ${membershipId} not found`);
-      }
-      throw error;
+  async get(id) {
+    const membershipDB = await knex('memberships')
+      .select(['id', 'userId', 'organizationId', 'updatedByUserId', 'organizationRole'])
+      .where({ id })
+      .first();
+    if (!membershipDB) {
+      throw new NotFoundError(`Membership ${id} not found`);
     }
-
-    return _toDomain(bookshelfMembership);
+    return _buildMembership(membershipDB);
   },
 
   async findByOrganizationId({ organizationId }) {
-    const memberships = await BookshelfMembership.where({ organizationId, disabledAt: null })
-      .orderBy('id', 'ASC')
-      .fetchAll({ withRelated: ['user'] });
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships);
+    const rows = await knex('memberships').where({ organizationId, disabledAt: null }).orderBy('id', 'ASC');
+    return bluebird.mapSeries(rows, _buildMembership);
   },
 
   async findPaginatedFiltered({ organizationId, filter, page }) {
-    const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
-    const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const { models, pagination } = await BookshelfMembership.query((qb) => {
-      qb.where({ 'memberships.organizationId': organizationId, 'memberships.disabledAt': null });
-      _setSearchFiltersForQueryBuilder(filter, qb);
-      qb.innerJoin('users', 'memberships.userId', 'users.id');
-      qb.orderByRaw('"organizationRole" ASC, LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
-    }).fetchPage({
-      withRelated: ['user'],
-      page: pageNumber,
-      pageSize,
-    });
-    const memberships = bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, models);
+    const query = knex('memberships')
+      .select('memberships.*')
+      .where({ 'memberships.organizationId': organizationId, 'memberships.disabledAt': null })
+      .innerJoin('users', 'memberships.userId', 'users.id')
+      .orderByRaw('"organizationRole" ASC, LOWER(users."lastName") ASC, LOWER(users."firstName") ASC')
+      .modify(_setSearchFiltersForQueryBuilder, filter);
+
+    const { results, pagination } = await knexUtils.fetchPage(query, page);
+
+    const memberships = await bluebird.mapSeries(results, _buildMembership);
     return { models: memberships, pagination };
   },
 
-  findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization = false }) {
-    return BookshelfMembership.where({ userId, organizationId, disabledAt: null })
-      .fetchAll({ withRelated: includeOrganization ? ['organization', 'organization.tags'] : [] })
-      .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
+  async findByUserIdAndOrganizationId({ userId, organizationId }) {
+    const rows = await knex('memberships').where({ userId, organizationId, disabledAt: null });
+    return bluebird.mapSeries(rows, _buildMembership);
   },
 
-  findByUserId({ userId }) {
-    return BookshelfMembership.where({ userId, disabledAt: null })
-      .fetchAll({ withRelated: ['organization'] })
-      .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
+  async findByUserId({ userId }) {
+    const rows = await knex('memberships').where({ userId, disabledAt: null });
+    return bluebird.mapSeries(rows, _buildMembership);
   },
 
   async updateById({ id, membership }) {
-    let updatedMembership;
+    const attributes = pick(membership, ['organizationRole', 'updatedByUserId', 'disabledAt']);
 
-    if (!membership) {
-      throw new MembershipUpdateError("Le membership n'est pas renseigné");
+    const updatedRowCount = await knex('memberships')
+      .update({
+        ...attributes,
+        updatedAt: knex.fn.now(),
+      })
+      .where({ id });
+
+    if (updatedRowCount !== 1) {
+      throw new MembershipUpdateError('No Rows Updated');
     }
 
-    try {
-      updatedMembership = await new BookshelfMembership({ id }).save(membership, {
-        patch: true,
-        method: 'update',
-        require: true,
-      });
-    } catch (err) {
-      throw new MembershipUpdateError(err.message);
-    }
-
-    const updatedMembershipWithUserAndOrganization = await updatedMembership.refresh({
-      withRelated: ['user', 'organization'],
-    });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
+    return this.get(id);
   },
 };

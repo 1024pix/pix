@@ -14,46 +14,44 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
   describe('#create', function () {
     let userId;
     let organizationId;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const organizationRole = Membership.roles.ADMIN;
 
-    beforeEach(async function () {
+    it('creates a membership', async function () {
+      const organizationRole = Membership.roles.ADMIN;
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
+
+      const { id } = await membershipRepository.create(userId, organizationId, organizationRole);
+
+      const membership = await knex('memberships')
+        .select(['userId', 'organizationId', 'organizationRole'])
+        .where({ id })
+        .first();
+      expect(membership).to.deep.include({ userId, organizationId, organizationRole });
     });
 
-    it('should add a new membership in database', async function () {
-      // given
-      const beforeNbMemberships = await knex('memberships').count('id as count');
+    it('return the user', async function () {
+      const organizationRole = Membership.roles.ADMIN;
+      userId = databaseBuilder.factory.buildUser({ firstName: 'A', lastName: 'B', email: 'a@b.com' }).id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
 
-      // when
-      await membershipRepository.create(userId, organizationId, organizationRole);
-
-      // then
-      const afterNbMemberships = await knex('memberships').count('id as count');
-      expect(parseInt(afterNbMemberships[0].count)).to.equal(parseInt(beforeNbMemberships[0].count + 1));
-    });
-
-    it('should return a Membership domain model object', async function () {
-      // when
       const membership = await membershipRepository.create(userId, organizationId, organizationRole);
 
-      // then
-      expect(membership).to.be.an.instanceOf(Membership);
-      expect(membership.organizationRole).to.equal(Membership.roles.ADMIN);
+      expect(membership.user).to.deep.include({ id: userId, firstName: 'A', lastName: 'B', email: 'a@b.com' });
     });
 
     context('Error cases', function () {
       it('should throw a domain error when a membership already exist for user + organization', async function () {
-        // given
+        const organizationRole = Membership.roles.ADMIN;
+        userId = databaseBuilder.factory.buildUser().id;
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+
         await membershipRepository.create(userId, organizationId, organizationRole);
 
-        // when
         const result = await catchErr(membershipRepository.create)(userId, organizationId, organizationRole);
 
-        // then
         expect(result).to.be.instanceOf(MembershipCreationError);
       });
     });
@@ -640,15 +638,32 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
     context('When membership exist', function () {
       it('should return the updated membership', async function () {
         // given
-        const membership = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
+        const membership = { organizationRole: Membership.roles.ADMIN, updatedByUserId, disabledAt: '2022-01-01' };
 
         // when
         const updatedMembership = await membershipRepository.updateById({ id: existingMembershipId, membership });
 
         // then
         expect(updatedMembership).to.be.an.instanceOf(Membership);
-        expect(updatedMembership.organizationRole).to.equal(updatedMembership.organizationRole);
-        expect(updatedMembership.updatedByUserId).to.equal(updatedMembership.updatedByUserId);
+        expect(updatedMembership.organizationRole).to.equal(membership.organizationRole);
+        expect(updatedMembership.updatedByUserId).to.equal(membership.updatedByUserId);
+      });
+
+      it('should disable a membership', async function () {
+        // given
+        const membership = {
+          updatedByUserId,
+          disabledAt: new Date('2022-01-01'),
+        };
+
+        // when
+        await membershipRepository.updateById({ id: existingMembershipId, membership });
+
+        const updatedMembership = await knex('memberships').where({ id: existingMembershipId }).first();
+
+        // then
+        expect(updatedMembership.updatedByUserId).to.equal(membership.updatedByUserId);
+        expect(updatedMembership.disabledAt).to.deep.equal(membership.disabledAt);
       });
 
       it('should return the organization and user linked to this membership', async function () {
@@ -677,21 +692,6 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
         // then
         expect(error).to.be.an.instanceOf(MembershipUpdateError);
         expect(error.message).to.be.equal(messageNotRowUpdated);
-      });
-    });
-
-    context('When membership attributes are empty', function () {
-      it('should throw MembershipUpdateError', async function () {
-        // given
-        const errorMessage = "Le membership n'est pas renseigné";
-        const membership = undefined;
-
-        // when
-        const error = await catchErr(membershipRepository.updateById)({ id: existingMembershipId, membership });
-
-        // then
-        expect(error).to.be.an.instanceOf(MembershipUpdateError);
-        expect(error.message).to.be.equal(errorMessage);
       });
     });
   });

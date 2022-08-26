@@ -33,6 +33,7 @@ describe('Integration | UseCases | create-certification-center-membership-for-sc
           id: membership.id,
           organizationRole: membership.organizationRole,
           updatedByUserId: adminWhoWantsToMakeTheOrganizationRoleChange.id,
+          userId: userWhoseOrganizationRoleIsToUpdate.id,
         });
 
         // when
