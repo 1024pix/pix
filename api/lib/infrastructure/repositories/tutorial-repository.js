@@ -67,7 +67,7 @@ module.exports = {
       const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
 
       tutorialsForUser.push(
-        ..._toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials, skillId: skill.id })
+        ..._toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userTutorials, skillId: skill.id })
       );
     }
 
@@ -86,7 +86,15 @@ function _toDomain(tutorialData) {
   });
 }
 
-function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials, skillId }) {
+function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials }) {
+  return tutorials.map((tutorial) => {
+    const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+    const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
+    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation, skillId: userTutorial?.skillId });
+  });
+}
+
+function _toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userTutorials, skillId }) {
   return tutorials.map((tutorial) => {
     const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
