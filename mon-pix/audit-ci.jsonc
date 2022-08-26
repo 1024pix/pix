@@ -1,0 +1,29 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "critical": true,
+  // Syntax reference at https://github.com/IBM/audit-ci#allowlisting
+  "allowlist": [
+     // ember-mocha does no execute growl in the malicious context
+     // https://github.com/ember-cli/ember-cli-mocha/issues/258#issuecomment-399158388
+     // https://1024pix.slack.com/archives/CVDB50C5T/p1604682391085400?thread_ts=1604656760.076500&cid=CVDB50C5T
+    "GHSA-qh2h-chj9-jffq|ember-mocha>mocha>growl",
+    // ember-cli is not run on client side, only in CI
+    "GHSA-xvch-5gv4-984h|ember-cli>bower-config>minimist",
+    // ember-mocha is not run on client side, only in CI
+    "GHSA-xvch-5gv4-984h|ember-mocha>mocha>mkdirp>minimist",
+    // ember-exam is not run on client side, only in CI
+    // for unknown reason, the complete path does not work, using last 2 nodes instead
+//    "GHSA-896r-f27r-55mw|ember-exam>@embroider/macros>@embroider/core>jsdom>request>http-signature>jsprim>json-schema"
+//     ❯ npm list --depth=10 json-schema
+//     mon-pix
+//     └─┬ ember-exam@6.0.1
+//       └─┬ @embroider/macros@0.29.0
+//         └─┬ @embroider/core@0.29.0
+//           └─┬ jsdom@16.4.0
+//             └─┬ request@2.88.2
+//               └─┬ http-signature@1.2.0
+//                 └─┬ jsprim@1.4.1
+//                   └── json-schema@0.2.3
+    "GHSA-896r-f27r-55mw|jsprim>json-schema"
+  ]
+}
