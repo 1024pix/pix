@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - dev
+      
+permissions:
+  contents: read
+
 jobs:
   transition-issue:
     name: Transition Issue
@@ -33,6 +37,9 @@ jobs:
           transition: "Move to 'Deployed in Integration'"
 
   notify-team:
+    permissions:
+      contents: read
+      pull-requests: read
     name: Notify team on config file changed
     runs-on: ubuntu-latest
     steps:
