@@ -7,9 +7,16 @@ on:
   check_suite:
     types:
       - completed
+      
+permissions:
+  contents: read
 
 jobs:
   automerge:
+    permissions:
+      pull-requests: write
+      checks: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: 1024pix/pix-actions/auto-merge@v0.1.3
