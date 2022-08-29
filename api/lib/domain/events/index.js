@@ -24,6 +24,7 @@ const dependencies = {
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   complementaryCertificationCourseRepository: require('../../infrastructure/repositories/complementary-certification-course-repository'),
+  complementaryCertificationScoringCriteriaRepository: require('../../infrastructure/repositories/complementary-certification-scoring-criteria-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   endTestScreenRemovalService: require('../services/end-test-screen-removal-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
