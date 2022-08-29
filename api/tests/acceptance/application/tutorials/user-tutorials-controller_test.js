@@ -570,6 +570,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           id: 101,
           userId: 4444,
           tutorialId: 'tuto1',
+          skillId: 'skill123',
         });
 
         await databaseBuilder.commit();
@@ -582,7 +583,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'tuto.com',
               title: 'tuto1',
-              'skill-id': undefined,
+              'skill-id': 'skill123',
             },
             relationships: {
               'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
@@ -627,6 +628,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           id: 102,
           userId: 4444,
           tutorialId: 'tuto2',
+          skillId: 'skill123',
           createdAt: new Date('2022-05-04'),
         });
         databaseBuilder.factory.buildUserSavedTutorial({
@@ -646,7 +648,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example3.html',
               source: 'tuto.com',
               title: 'tuto3',
-              'skill-id': undefined,
+              'skill-id': null,
             },
             id: 'tuto3',
             relationships: {
@@ -669,7 +671,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example2.html',
               source: 'tuto.com',
               title: 'tuto2',
-              'skill-id': undefined,
+              'skill-id': 'skill123',
             },
             id: 'tuto2',
             relationships: {
