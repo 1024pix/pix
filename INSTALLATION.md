@@ -195,3 +195,4 @@ Désactiver
 ```
 npm run local:prevent-trigger-lint-on-commit
 ```
+
