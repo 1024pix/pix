@@ -6,7 +6,7 @@ export default class AnonymousRoute extends Route {
   @service currentUser;
 
   beforeModel() {
-    this.session.prohibitAuthentication('user-dashboard');
+    this.session.prohibitAuthentication('authenticated.user-dashboard');
   }
 
   model() {

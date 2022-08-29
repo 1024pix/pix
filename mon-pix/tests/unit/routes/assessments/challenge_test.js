@@ -418,7 +418,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         // then
         sinon.assert.calledWithExactly(
           route.router.transitionTo,
-          'certifications.results',
+          'authenticated.certifications.results',
           assessment.certificationCourse.get('id')
         );
       });

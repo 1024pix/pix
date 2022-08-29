@@ -10,7 +10,7 @@
           }}</span>{{@title}}</h1>
     {{/if}}
     {{#if @displayHomeLink}}
-      <LinkTo @route="index" class="assessment-banner__home-link">
+      <LinkTo @route="authenticated" class="assessment-banner__home-link">
         {{t "common.actions.quit"}}
         <FaIcon @icon="right-from-bracket" />
       </LinkTo>

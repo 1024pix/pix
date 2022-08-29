@@ -19,25 +19,46 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('index', { path: '/' });
-  this.route('inscription');
+  this.route('authenticated', { path: '/' }, function () {
+    this.route('index', { path: '' });
+    this.route('user-dashboard', { path: '/accueil' });
+    this.route('profile', { path: '/competences' });
+    this.route('user-tests', { path: '/mes-parcours' });
+    this.route('sitemap', { path: '/plan-du-site' });
 
-  this.route('profile', { path: '/competences' });
+    this.route('user-tutorials', { path: '/mes-tutos' }, function () {
+      this.route('recommended', { path: '/recommandes' });
+      this.route('saved', { path: '/enregistres' });
+    });
+
+    this.route('user-account', { path: '/mon-compte' }, function () {
+      this.route('personal-information', { path: '/informations-personnelles' });
+      this.route('connection-methods', { path: '/methodes-de-connexion' });
+      this.route('language', { path: '/langue' });
+    });
+
+    this.route('certifications', function () {
+      this.route('join', { path: '/' });
+      this.route('start', { path: '/candidat/:certification_candidate_id' });
+      this.route('resume', { path: '/:certification_course_id' });
+      this.route('results', { path: '/:certification_id/results' });
+    });
+
+    this.route('user-certifications', { path: 'mes-certifications' }, function () {
+      this.route('get', { path: '/:id' });
+    });
+
+    this.route('competences', { path: '/competences/:competence_id' }, function () {
+      this.route('details');
+      this.route('results', { path: '/resultats/:assessment_id' });
+      this.route('resume', { path: '/evaluer' });
+    });
+  });
+
+  this.route('inscription');
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-  this.route('user-tutorials', { path: '/mes-tutos' }, function () {
-    this.route('recommended', { path: '/recommandes' });
-    this.route('saved', { path: '/enregistres' });
-  });
-  this.route('user-dashboard', { path: '/accueil' });
-  this.route('user-tests', { path: '/mes-parcours' });
-
-  this.route('user-account', { path: '/mon-compte' }, function () {
-    this.route('personal-information', { path: '/informations-personnelles' });
-    this.route('connection-methods', { path: '/methodes-de-connexion' });
-    this.route('language', { path: '/langue' });
-  });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function () {
     this.route('resume');
@@ -56,16 +77,8 @@ Router.map(function () {
   });
 
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
-  this.route('certifications', function () {
-    this.route('join', { path: '/' });
-    this.route('start', { path: '/candidat/:certification_candidate_id' });
-    this.route('resume', { path: '/:certification_course_id' });
-    this.route('results', { path: '/:certification_id/results' });
-  });
+
   this.route('shared-certification', { path: '/partage-certificat/:id' });
-  this.route('user-certifications', { path: 'mes-certifications' }, function () {
-    this.route('get', { path: '/:id' });
-  });
 
   this.route('fill-in-certificate-verification-code', { path: '/verification-certificat' });
   this.route('fill-in-campaign-code', { path: '/campagnes' });
@@ -99,12 +112,6 @@ Router.map(function () {
     this.route('existing-participation', { path: '/participation-existante' });
   });
 
-  this.route('competences', { path: '/competences/:competence_id' }, function () {
-    this.route('details');
-    this.route('results', { path: '/resultats/:assessment_id' });
-    this.route('resume', { path: '/evaluer' });
-  });
-
   this.route('terms-of-service', { path: '/cgu' });
   this.route('terms-of-service-oidc', { path: '/cgu-oidc' });
 
@@ -114,7 +121,6 @@ Router.map(function () {
     this.route('login-or-register-oidc', { path: '/oidc' });
   });
 
-  this.route('sitemap', { path: '/plan-du-site' });
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
