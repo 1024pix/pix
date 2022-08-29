@@ -5,17 +5,16 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
   describe('constructor', function () {
     it('should initialize as many CampaignCompetenceCollectiveResult objects as competences in target profile', function () {
       // given
-      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId' });
-      const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId' });
-      const targetedArea = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'recAreaId',
-        competences: [targetedCompetence1, targetedCompetence2],
       });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence1, targetedCompetence2],
-        areas: [targetedArea],
-      });
-      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+
+      area.competences = [
+        domainBuilder.buildCompetence({ id: 'recCompetence1', area }),
+        domainBuilder.buildCompetence({ id: 'recCompetence2', area }),
+      ];
+      const learningContent = domainBuilder.buildLearningContent([area]);
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults).to.have.length(2);
@@ -23,25 +22,25 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
 
     it('should order CampaignCompetenceCollectiveResult by competenceIndex', function () {
       // given
-      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence1',
-        areaId: 'recAreaId',
-        index: '3.1',
-      });
-      const targetedCompetence2 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence2',
-        areaId: 'recAreaId',
-        index: '1.1',
-      });
-      const targetedArea = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'recAreaId',
-        competences: [targetedCompetence1, targetedCompetence2],
       });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence1, targetedCompetence2],
-        areas: [targetedArea],
-      });
-      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+
+      area.competences = [
+        domainBuilder.buildCompetence({
+          id: 'recCompetence1',
+          area,
+          index: '3.1',
+        }),
+        domainBuilder.buildCompetence({
+          id: 'recCompetence2',
+          area,
+          index: '1.1',
+        }),
+      ];
+
+      const learningContent = domainBuilder.buildLearningContent([area]);
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].competenceId).to.equal('recCompetence2');
@@ -50,17 +49,16 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
 
     it('should initialize CampaignCompetenceCollectiveResult with a computed id', function () {
       // given
-      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence1',
-        areaId: 'recAreaId',
-        index: '3.1',
-      });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence1] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence1],
-        areas: [targetedArea],
-      });
-      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+      const area = domainBuilder.buildArea({ id: 'recAreaId' });
+      area.competences = [
+        domainBuilder.buildCompetence({
+          id: 'recCompetence1',
+          area,
+          index: '3.1',
+        }),
+      ];
+      const learningContent = domainBuilder.buildLearningContent([area]);
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].id).to.equal('123_recCompetence1');
@@ -68,17 +66,16 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
 
     it('should initialize CampaignCompetenceCollectiveResult with a computed areaCode', function () {
       // given
-      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence1',
-        areaId: 'recAreaId',
-        index: '3.1',
-      });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence1] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence1],
-        areas: [targetedArea],
-      });
-      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+      const area = domainBuilder.buildArea({ id: 'recAreaId' });
+      area.competences = [
+        domainBuilder.buildCompetence({
+          id: 'recCompetence1',
+          area,
+          index: '3.1',
+        }),
+      ];
+      const learningContent = domainBuilder.buildLearningContent([area]);
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].areaCode).to.equal('3');
@@ -88,25 +85,24 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
   describe('addValidatedSkillCountToCompetences()', function () {
     it('should add up to obtain expected averageValidatedSkills when finalizing on appropriate competence', function () {
       // given
-      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence1',
-        areaId: 'recAreaId',
-        index: '1.1',
-      });
-      const targetedCompetence2 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence2',
-        areaId: 'recAreaId',
-        index: '2.1',
-      });
-      const targetedArea = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'recAreaId',
-        competences: [targetedCompetence1, targetedCompetence2],
       });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence1, targetedCompetence2],
-        areas: [targetedArea],
-      });
-      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+      area.competences = [
+        domainBuilder.buildCompetence({
+          id: 'recCompetence1',
+          area,
+          index: '1.1',
+        }),
+        domainBuilder.buildCompetence({
+          id: 'recCompetence2',
+          area,
+          index: '2.1',
+        }),
+      ];
+
+      const learningContent = domainBuilder.buildLearningContent([area]);
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence1: 5, recCompetence2: 3 });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence2: 6 });
 
@@ -122,25 +118,24 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
   describe('finalize()', function () {
     it('should obtain expected averageValidatedSkills when finalizing on appropriate competence', function () {
       // given
-      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence1',
-        areaId: 'recAreaId',
-        index: '1.1',
-      });
-      const targetedCompetence2 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence2',
-        areaId: 'recAreaId',
-        index: '2.1',
-      });
-      const targetedArea = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'recAreaId',
-        competences: [targetedCompetence1, targetedCompetence2],
       });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence1, targetedCompetence2],
-        areas: [targetedArea],
-      });
-      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+      area.competences = [
+        domainBuilder.buildCompetence({
+          id: 'recCompetence1',
+          area,
+          index: '1.1',
+        }),
+        domainBuilder.buildCompetence({
+          id: 'recCompetence2',
+          area,
+          index: '2.1',
+        }),
+      ];
+
+      const learningContent = domainBuilder.buildLearningContent([area]);
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence1: 5, recCompetence2: 3 });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence2: 6 });
 
