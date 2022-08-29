@@ -1,11 +1,14 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
-import { fillIn, currentURL, visit } from '@ember/test-helpers';
+import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { currentSession } from 'ember-simple-auth/test-support';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
+import { startCampaignByCode } from '../helpers/campaign';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
+import { Response } from 'miragejs';
 
 describe('Acceptance | Authentication', function () {
   setupApplicationTest();
@@ -64,6 +67,37 @@ describe('Acceptance | Authentication', function () {
 
         // then
         expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+      });
+    });
+
+    context('REST API call returns 401', function () {
+      it('should disconnect user if 401 is a SESSION_EXPIRED error', async function () {
+        // given
+        const campaign = server.create('campaign', { isSimplifiedAccess: true });
+
+        // when
+        const screen = await startCampaignByCode(campaign.code);
+        const userId = currentSession().get('data.authenticated.user_id');
+        server.patch(
+          `/users/${userId}/remember-user-has-seen-assessment-instructions`,
+          () =>
+            new Response(
+              401,
+              {},
+              {
+                errors: [
+                  {
+                    status: '401',
+                    code: 'SESSION_EXPIRED',
+                  },
+                ],
+              }
+            )
+        );
+        await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
+
+        // then
+        expect(currentSession().get('isAuthenticated')).to.be.false;
       });
     });
   });
