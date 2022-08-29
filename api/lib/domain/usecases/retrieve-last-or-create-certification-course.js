@@ -144,7 +144,7 @@ async function _startNewCertification({
         complementaryCertificationId,
       });
       const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition.badge,
+        badgeAcquisition,
         userId,
         locale
       );

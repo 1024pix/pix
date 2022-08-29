@@ -4,7 +4,7 @@ const CertifiableProfileForLearningContent = require('../../domain/models/Certif
 const knowledgeElementRepository = require('./knowledge-element-repository');
 
 module.exports = {
-  async get({ id, profileDate, targetProfileWithLearningContent }) {
+  async get({ id, profileDate, learningContent }) {
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: id, limitDate: profileDate });
     const answerIds = _.map(knowledgeElements, 'answerId');
     const answerAndChallengeIds = await knex
@@ -16,7 +16,7 @@ module.exports = {
     return new CertifiableProfileForLearningContent({
       userId: id,
       profileDate,
-      targetProfileWithLearningContent,
+      learningContent,
       knowledgeElements,
       answerAndChallengeIdsByAnswerId,
     });

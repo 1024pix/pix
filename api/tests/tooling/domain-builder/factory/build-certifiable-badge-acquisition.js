@@ -19,12 +19,19 @@ const {
   PIX_EMPLOI_CLEA_V3,
 } = require('../../../../lib/domain/models/Badge').keys;
 
-const buildCertifiableBadgeAcquisition = function ({ id = 123, userId = 456, badge, complementaryCertification } = {}) {
+const buildCertifiableBadgeAcquisition = function ({
+  id = 123,
+  userId = 456,
+  campaignId = 456,
+  badge,
+  complementaryCertification,
+} = {}) {
   badge = badge || buildBadge({ id: 1234 });
   complementaryCertification = complementaryCertification || buildComplementaryCertification();
   return new CertifiableBadgeAcquisition({
     id,
     userId,
+    campaignId,
     badge,
     complementaryCertification,
   });
