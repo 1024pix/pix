@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 
-describe('Unit | Component | authentication | login-or-register-oidc', function () {
+describe('Unit | Component | authentication | oidc-reconciliation', function () {
   setupTest();
 
   describe('#backToLoginOrRegisterForm', function () {
