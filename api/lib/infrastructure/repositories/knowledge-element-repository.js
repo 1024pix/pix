@@ -84,11 +84,9 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
   return knowledgeElementsGroupedByUser;
 }
 
-async function _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
+async function _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, learningContent) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-  return targetProfileWithLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
-    _.flatMap(knowledgeElementsGroupedByUser)
-  );
+  return learningContent.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
 }
 
 module.exports = {
@@ -171,10 +169,11 @@ module.exports = {
     return knowledgeElementsGroupedByUser;
   },
 
-  async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
-    return _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent);
+  async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, learningContent) {
+    return _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, learningContent);
   },
 
+  // FIXME ATTENTION
   async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, targetProfileWithLearningContent) {
     return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, targetProfileWithLearningContent);
   },

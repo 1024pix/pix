@@ -24,6 +24,10 @@ class Competence {
     return this.area.id;
   }
 
+  get skillCount() {
+    return this.skills.length;
+  }
+
   hasSkill(skillId) {
     return this.getSkill(skillId) !== null;
   }

@@ -54,6 +54,14 @@ module.exports = class LearningContent {
     );
   }
 
+  countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
+    const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(
+      knowledgeElements,
+      (knowledgeElement) => knowledgeElement.isValidated
+    );
+    return _.mapValues(validatedGroupedByCompetence, 'length');
+  }
+
   _getTubeIdOfSkill(skillId) {
     const skillTube = this.tubes.find((tube) => tube.hasSkill(skillId));
 

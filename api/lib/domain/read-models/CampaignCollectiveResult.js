@@ -1,18 +1,18 @@
 const _ = require('lodash');
 
 class CampaignCollectiveResult {
-  constructor({ id, targetProfile } = {}) {
+  constructor({ id, learningContent } = {}) {
     this.id = id;
-    const targetedCompetences = _.sortBy(targetProfile.competences, 'index');
+    const competences = _.sortBy(learningContent.competences, 'index');
 
-    this.campaignCompetenceCollectiveResults = _.map(targetedCompetences, (targetedCompetence) => {
-      const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
-      return new CampaignCompetenceCollectiveResult({
-        campaignId: id,
-        targetedCompetence,
-        targetedArea,
-      });
-    });
+    this.campaignCompetenceCollectiveResults = competences.map(
+      (competence) =>
+        new CampaignCompetenceCollectiveResult({
+          campaignId: id,
+          competence,
+          area: competence.area,
+        })
+    );
   }
 
   addValidatedSkillCountToCompetences(participantsKECountByCompetenceId) {
@@ -32,13 +32,13 @@ class CampaignCollectiveResult {
 }
 
 class CampaignCompetenceCollectiveResult {
-  constructor({ campaignId, targetedArea, targetedCompetence } = {}) {
-    this.areaCode = targetedCompetence.index.split('.')[0];
-    this.competenceId = targetedCompetence.id;
+  constructor({ campaignId, area, competence } = {}) {
+    this.areaCode = competence.index.split('.')[0];
+    this.competenceId = competence.id;
     this.id = `${campaignId}_${this.competenceId}`;
-    this.competenceName = targetedCompetence.name;
-    this.areaColor = targetedArea.color;
-    this.targetedSkillsCount = targetedCompetence.skillCount;
+    this.competenceName = competence.name;
+    this.areaColor = area.color;
+    this.targetedSkillsCount = competence.skillCount;
     this.validatedSkillCount = 0;
     this.averageValidatedSkills = 0;
   }

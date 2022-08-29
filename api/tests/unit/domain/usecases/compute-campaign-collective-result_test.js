@@ -7,31 +7,28 @@ describe('Unit | UseCase | compute-campaign-collective-result', function () {
   const campaignId = 'someCampaignId';
   let campaignRepository;
   let campaignCollectiveResultRepository;
-  let targetProfileWithLearningContentRepository;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const targetProfileWithLearningContent = Symbol('targetProfileWithLearningContent');
+  let learningContentRepository;
+  let learningContent;
   const locale = 'fr';
 
   beforeEach(function () {
+    learningContent = Symbol('learningContent');
     campaignCollectiveResultRepository = { getCampaignCollectiveResult: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
-    targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
+    learningContentRepository = { findByCampaignId: sinon.stub() };
   });
 
   context('User has access to this result', function () {
     beforeEach(function () {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      targetProfileWithLearningContentRepository.getByCampaignId
-        .withArgs({ campaignId, locale })
-        .resolves(targetProfileWithLearningContent);
+      learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(learningContent);
     });
 
     it('should resolve a CampaignCollectiveResult', async function () {
       // given
       const expectedCampaignCollectiveResult = Symbol('campaignCollectiveResult');
       campaignCollectiveResultRepository.getCampaignCollectiveResult
-        .withArgs(campaignId, targetProfileWithLearningContent)
+        .withArgs(campaignId, learningContent)
         .resolves(expectedCampaignCollectiveResult);
 
       // when
@@ -40,12 +37,12 @@ describe('Unit | UseCase | compute-campaign-collective-result', function () {
         campaignId,
         campaignRepository,
         campaignCollectiveResultRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         locale,
       });
 
       // then
-      expect(targetProfileWithLearningContentRepository.getByCampaignId).to.have.been.calledOnce;
+      expect(learningContentRepository.findByCampaignId).to.have.been.calledOnce;
       expect(actualCampaignCollectiveResult).to.equal(expectedCampaignCollectiveResult);
     });
   });
@@ -62,7 +59,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', function () {
         campaignId,
         campaignRepository,
         campaignCollectiveResultRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         locale,
       });
 
