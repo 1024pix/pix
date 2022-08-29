@@ -70,6 +70,10 @@ class Mailer {
   get emailVerificationCodeTemplateId() {
     return mailing[this._providerName].templates.emailVerificationCodeTemplateId;
   }
+
+  get cpfEmailTemplateId() {
+    return mailing[this._providerName].templates.cpfEmailTemplateId;
+  }
 }
 
 module.exports = new Mailer();
