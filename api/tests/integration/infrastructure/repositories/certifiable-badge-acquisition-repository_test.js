@@ -13,7 +13,13 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           key: 'PIX_DROIT_MAITRE_CERTIF',
         });
 
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
+        const { id: campaignParticipationId, campaignId } = databaseBuilder.factory.buildCampaignParticipation();
+
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId: acquiredBadge.id,
+          userId: user.id,
+          campaignParticipationId,
+        });
 
         databaseBuilder.factory.buildComplementaryCertification({
           id: 123,
@@ -70,34 +76,40 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             ...complementaryCertificationBadge,
           }),
         });
-        expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-        expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(
-          domainBuilder.buildCertifiableBadgeAcquisition({
-            badge: domainBuilder.buildBadge({
-              ...expectedBadge,
-              skillSets: expectedSkillSetsForCertifiableBadge,
-              badgeCriteria: expectedBadgeCriteria,
-            }),
-            userId: user.id,
-            complementaryCertification: domainBuilder.buildComplementaryCertification({
-              id: 123,
-              label: 'Label Certif Complémentaire',
-              key: 'KEY',
-            }),
+        const expectedCertifiableBadge = domainBuilder.buildCertifiableBadgeAcquisition({
+          badge: domainBuilder.buildBadge({
+            ...expectedBadge,
+            skillSets: expectedSkillSetsForCertifiableBadge,
+            badgeCriteria: expectedBadgeCriteria,
           }),
-          ['id']
-        );
+          userId: user.id,
+          campaignId,
+          complementaryCertification: domainBuilder.buildComplementaryCertification({
+            id: 123,
+            label: 'Label Certif Complémentaire',
+            key: 'KEY',
+          }),
+        });
+
+        expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+        expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(expectedCertifiableBadge, ['id']);
       });
 
       context('when no domainTransaction is passed in parameters', function () {
         it('should use knex instead to return the highest level certifiable acquired badge', async function () {
           // given
           const user = databaseBuilder.factory.buildUser();
+          const { id: campaignParticipationId, campaignId } = databaseBuilder.factory.buildCampaignParticipation();
+
           const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
             key: 'PIX_DROIT_MAITRE_CERTIF',
           });
 
-          databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: acquiredBadge.id,
+            userId: user.id,
+            campaignParticipationId,
+          });
 
           const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
           const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -147,20 +159,23 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
               ...complementaryCertificationBadge,
             }),
           });
-          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-          expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(
-            domainBuilder.buildCertifiableBadgeAcquisition({
-              badge: domainBuilder.buildBadge({
-                ...expectedBadge,
-                skillSets: expectedSkillSetsForCertifiableBadge,
-                badgeCriteria: expectedBadgeCriteria,
-              }),
-              userId: user.id,
-              badgeId: expectedBadge.id,
-              complementaryCertification: domainBuilder.buildComplementaryCertification(complementaryCertification),
+
+          const expectedCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+            badge: domainBuilder.buildBadge({
+              ...expectedBadge,
+              skillSets: expectedSkillSetsForCertifiableBadge,
+              badgeCriteria: expectedBadgeCriteria,
             }),
-            ['id']
-          );
+            userId: user.id,
+            badgeId: expectedBadge.id,
+            campaignId,
+            complementaryCertification: domainBuilder.buildComplementaryCertification(complementaryCertification),
+          });
+
+          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+          expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(expectedCertifiableBadgeAcquisition, [
+            'id',
+          ]);
         });
       });
     });
@@ -180,8 +195,18 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           key: 'level-3',
         });
 
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeLevel1.id, userId: user.id });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeLevel2.id, userId: user.id });
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId: badgeLevel1.id,
+          userId: user.id,
+          campaignParticipationId,
+        });
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId: badgeLevel2.id,
+          userId: user.id,
+          campaignParticipationId,
+        });
 
         const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
         databaseBuilder.factory.buildComplementaryCertificationBadge({

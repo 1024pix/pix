@@ -17,6 +17,22 @@ module.exports = class LearningContent {
     return this.tubes.flatMap((tube) => tube.skills);
   }
 
+  findSkill(skillId) {
+    return this.skills.find((skill) => skill.id === skillId) ?? null;
+  }
+
+  findTube(tubeId) {
+    return this.tubes.find((tube) => tube.id === tubeId) ?? null;
+  }
+
+  findCompetence(competenceId) {
+    return this.competences.find((competence) => competence.id === competenceId) ?? null;
+  }
+
+  findArea(areaId) {
+    return this.areas.find((area) => area.id === areaId) ?? null;
+  }
+
   get maxSkillDifficulty() {
     const skillMaxDifficulty = _.maxBy(this.skills, 'difficulty');
     return skillMaxDifficulty ? skillMaxDifficulty.difficulty : null;
@@ -57,5 +73,26 @@ module.exports = class LearningContent {
     }
 
     return knowledgeElementsGroupedByTube;
+  }
+
+  _filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
+    const knowledgeElementsGroupedByCompetence = {};
+    for (const competence of this.competences) {
+      knowledgeElementsGroupedByCompetence[competence.id] = [];
+    }
+    for (const knowledgeElement of knowledgeElements) {
+      const competenceId = this.findCompetenceIdOfSkill(knowledgeElement.skillId);
+      if (competenceId && knowledgeElementFilter(knowledgeElement)) {
+        knowledgeElementsGroupedByCompetence[competenceId].push(knowledgeElement);
+      }
+    }
+
+    return knowledgeElementsGroupedByCompetence;
+  }
+
+  findCompetenceIdOfSkill(skillId) {
+    const skillCompetence = this.competences.find((competence) => competence.hasSkill(skillId));
+
+    return skillCompetence ? skillCompetence.id : null;
   }
 };

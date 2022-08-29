@@ -506,7 +506,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves([badgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus
-                          .withArgs(badgeAcquisition.badge, 2)
+                          .withArgs(badgeAcquisition, 2)
                           .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                         const complementaryCertificationCourse = new ComplementaryCertificationCourse({
@@ -634,7 +634,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves([badgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus
-                          .withArgs(badgeAcquisition.badge, 2)
+                          .withArgs(badgeAcquisition, 2)
                           .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                         const complementaryCertificationCourse = new ComplementaryCertificationCourse({
@@ -850,7 +850,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .resolves([badgeAcquisition]);
 
                           certificationChallengesService.pickCertificationChallengesForPixPlus
-                            .withArgs(badgeAcquisition.badge, 2)
+                            .withArgs(badgeAcquisition, 2)
                             .resolves([]);
 
                           const complementaryCertificationCourse = new ComplementaryCertificationCourse({
@@ -1133,7 +1133,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       badge: badge1,
                     });
                     const badgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({
-                      id: 124,
+                      id: 456,
                       complementaryCertification: complementaryCertification2,
                       userId: 2,
                       badge: badge2,
@@ -1183,12 +1183,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .resolves([badgeAcquisition1, badgeAcquisition2]);
 
                     certificationChallengesService.pickCertificationChallengesForPixPlus
-                      .withArgs(badgeAcquisition1.badge, 2)
-                      .onCall(0)
+                      .withArgs(badgeAcquisition1, 2)
                       .resolves([challenge1ForPixPlus1, challenge2ForPixPlus1]);
                     certificationChallengesService.pickCertificationChallengesForPixPlus
-                      .withArgs(badgeAcquisition2.badge, 2)
-                      .onCall(0)
+                      .withArgs(badgeAcquisition2, 2)
                       .resolves([challenge1ForPixPlus2, challenge2ForPixPlus2]);
 
                     const complementaryCertificationCourse1 = new ComplementaryCertificationCourse({
