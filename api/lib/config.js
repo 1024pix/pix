@@ -252,18 +252,6 @@ module.exports = (function () {
 
     graviteeRegisterApplicationsCredentials: [
       {
-        clientId: process.env.LSU_CLIENT_ID,
-        clientSecret: process.env.LSU_CLIENT_SECRET,
-        scope: 'organizations-certifications-result',
-        source: 'lsu',
-      },
-      {
-        clientId: process.env.LSL_CLIENT_ID,
-        clientSecret: process.env.LSL_CLIENT_SECRET,
-        scope: 'organizations-certifications-result',
-        source: 'lsl',
-      },
-      {
         clientId: process.env.GRAVITEE_OSMOSE_CLIENT_ID,
         clientSecret: process.env.GRAVITEE_OSMOSE_CLIENT_SECRET,
         scope: 'organizations-certifications-result',
@@ -369,18 +357,6 @@ module.exports = (function () {
     config.saml.accessTokenLifespanMs = 1000;
 
     config.graviteeRegisterApplicationsCredentials = [
-      {
-        clientId: 'lsuClientId',
-        clientSecret: 'lsuClientSecret',
-        scope: 'organizations-certifications-result',
-        source: 'lsu',
-      },
-      {
-        clientId: 'lslClientId',
-        clientSecret: 'lslClientSecret',
-        scope: 'organizations-certifications-result',
-        source: 'lsl',
-      },
       {
         clientId: 'graviteeOsmoseClientId',
         clientSecret: 'graviteeOsmoseClientSecret',
