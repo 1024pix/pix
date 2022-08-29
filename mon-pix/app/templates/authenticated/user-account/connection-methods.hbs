@@ -55,30 +55,20 @@
       </div>
     {{/if}}
 
-    {{#if this.shouldShowPoleEmploiAuthenticationMethod}}
+    {{#each this.oidcAuthenticationMethodOrganizationNames as |organizationName|}}
       <div class="user-account-panel__item">
         <div class="user-account-panel-item__text">
           <p class="form-textfield__label user-account-panel-item__label">
             {{t "pages.user-account.connexion-methods.authentication-methods.label"}}
           </p>
           <p class="user-account-panel-item__value">
-            {{t "pages.user-account.connexion-methods.authentication-methods.pole-emploi"}}
+            {{t
+              "pages.user-account.connexion-methods.authentication-methods.via"
+              identityProviderOrganizationName=organizationName
+            }}
           </p>
         </div>
       </div>
-    {{/if}}
-
-    {{#if this.shouldShowCnavAuthenticationMethod}}
-      <div class="user-account-panel__item">
-        <div class="user-account-panel-item__text">
-          <p class="form-textfield__label user-account-panel-item__label">
-            {{t "pages.user-account.connexion-methods.authentication-methods.label"}}
-          </p>
-          <p class="user-account-panel-item__value">
-            {{t "pages.user-account.connexion-methods.authentication-methods.cnav"}}
-          </p>
-        </div>
-      </div>
-    {{/if}}
+    {{/each}}
   {{/if}}
 </div>

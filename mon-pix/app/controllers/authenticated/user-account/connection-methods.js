@@ -18,6 +18,10 @@ export default class ConnectionMethodsController extends Controller {
     return !!this.model.user.username;
   }
 
+  get oidcAuthenticationMethodOrganizationNames() {
+    return this.oidcIdentityProviders.getIdentityProviderNamesByAuthenticationMethods(this.model.authenticationMethods);
+  }
+
   get shouldShowPixAuthenticationMethod() {
     return this.model.authenticationMethods.any(
       (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
@@ -27,19 +31,6 @@ export default class ConnectionMethodsController extends Controller {
   get shouldShowGarAuthenticationMethod() {
     return this.model.authenticationMethods.any(
       (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
-    );
-  }
-
-  get shouldShowPoleEmploiAuthenticationMethod() {
-    return this.model.authenticationMethods.any(
-      (authenticationMethod) =>
-        authenticationMethod.identityProvider === this.oidcIdentityProviders['pole-emploi']?.code
-    );
-  }
-
-  get shouldShowCnavAuthenticationMethod() {
-    return this.model.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === this.oidcIdentityProviders.cnav?.code
     );
   }
 
