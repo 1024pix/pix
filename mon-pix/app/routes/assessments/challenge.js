@@ -51,7 +51,7 @@ export default class ChallengeRoute extends Route {
     }).catch((err) => {
       const meta = 'errors' in err ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
-        this.router.transitionTo('index');
+        this.router.transitionTo('authenticated');
         return;
       }
     });
@@ -109,7 +109,7 @@ export default class ChallengeRoute extends Route {
       answer.rollbackAttributes();
 
       if (this._isAssessmentEndedBySupervisorOrByFinalization(error)) {
-        this.router.transitionTo('certifications.results', assessment.certificationCourse.get('id'));
+        this.router.transitionTo('authenticated.certifications.results', assessment.certificationCourse.get('id'));
         return;
       }
 

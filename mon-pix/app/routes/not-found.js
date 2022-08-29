@@ -6,6 +6,6 @@ export default class NotFoundRoute extends Route {
 
   afterModel(model, transition) {
     transition.abort();
-    this.router.transitionTo('index');
+    this.router.transitionTo('authenticated');
   }
 }

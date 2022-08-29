@@ -1,5 +1,5 @@
 <article class="competence-card {{if @interactive 'competence-card--interactive'}}" role="article">
-  <LinkTo @route="competences.details" @model={{@scorecard.competenceId}}>
+  <LinkTo @route="authenticated.competences.details" @model={{@scorecard.competenceId}}>
     <div class="competence-card__title">
       <div class="competence-card__wrapper competence-card__wrapper--{{@scorecard.area.color}}">
         <div class="competence-card__area-name">{{@scorecard.area.title}}</div>
@@ -72,7 +72,7 @@
         <LinkTo
           class="button button--extra-thin button--round button--link button--green competence-card__button"
           @model={{@scorecard.competenceId}}
-          @route="competences.resume"
+          @route="authenticated.competences.resume"
         >
           <span class="competence-card-button__label">
             {{#if @scorecard.isStarted}}
