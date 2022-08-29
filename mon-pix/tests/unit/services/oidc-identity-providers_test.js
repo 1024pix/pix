@@ -9,7 +9,7 @@ import Service from '@ember/service';
 describe('Unit | Service | oidc-identity-providers', function () {
   setupTest();
 
-  describe('oidc identity provider service', function () {
+  describe('load', function () {
     it('should contain identity providers by id and retrieve the whole list', async function () {
       // given
       const oidcPartner = {
