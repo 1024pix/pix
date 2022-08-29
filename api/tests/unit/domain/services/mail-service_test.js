@@ -625,4 +625,27 @@ describe('Unit | Service | MailService', function () {
       });
     });
   });
+
+  describe('#sendCpfEmail', function () {
+    it(`should call sendEmail with the right options`, async function () {
+      // given
+      const email = 'user@example.net';
+      const generatedFiles = Symbol('generatedFiles');
+
+      // when
+      await mailService.sendCpfEmail({
+        email,
+        generatedFiles,
+      });
+
+      // then
+      expect(mailer.sendEmail).to.have.been.calledWith({
+        from: 'ne-pas-repondre@pix.fr',
+        fromName: 'PIX - Ne pas répondre',
+        to: email,
+        template: mailer.cpfEmailTemplateId,
+        variables: { generatedFiles },
+      });
+    });
+  });
 });

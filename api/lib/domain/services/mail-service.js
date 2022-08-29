@@ -330,6 +330,18 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
   return mailer.sendEmail(options);
 }
 
+function sendCpfEmail({ email, generatedFiles }) {
+  const options = {
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_NAME_FR,
+    to: email,
+    template: mailer.cpfEmailTemplateId,
+    variables: { generatedFiles },
+  };
+
+  return mailer.sendEmail(options);
+}
+
 module.exports = {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
@@ -338,4 +350,5 @@ module.exports = {
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
   sendVerificationCodeEmail,
+  sendCpfEmail,
 };

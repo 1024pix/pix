@@ -100,6 +100,7 @@ module.exports = (function () {
           certificationResultTemplateId: process.env.SENDINBLUE_CERTIFICATION_RESULT_TEMPLATE_ID,
           accountRecoveryTemplateId: process.env.SENDINBLUE_ACCOUNT_RECOVERY_TEMPLATE_ID,
           emailVerificationCodeTemplateId: process.env.SENDINBLUE_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
+          cpfEmailTemplateId: process.env.SENDINBLUE_CPF_TEMPLATE_ID,
         },
       },
     },
@@ -286,12 +287,17 @@ module.exports = (function () {
         endpoint: process.env.CPF_STORAGE_ENDPOINT,
         region: process.env.CPF_STORAGE_REGION,
         bucket: process.env.CPF_STORAGE_BUCKET_NAME,
+        preSignedExpiresIn: process.env.CPF_STORAGE_PRE_SIGNED_EXPIRES_IN || 3600,
       },
       plannerJob: {
         chunkSize: process.env.CPF_PLANNER_JOB_CHUNK_SIZE || 50000,
         monthsToProcess: process.env.CPF_PLANNER_JOB_MONTHS_TO_PROCESS || 1,
         minimumReliabilityPeriod: process.env.CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD || 3,
-        cron: process.env.CPF_PLANNER_JOB_CRON,
+        cron: process.env.CPF_PLANNER_JOB_CRON || '0 0 1 1 *',
+      },
+      sendEmailJob: {
+        recipient: process.env.CPF_SEND_EMAIL_JOB_RECIPIENT,
+        cron: process.env.CPF_SEND_EMAIL_JOB_CRON || '0 0 1 1 *',
       },
     },
   };
@@ -334,6 +340,7 @@ module.exports = (function () {
     config.mailing.sendinblue.templates.emailChangeTemplateId = 'test-email-change-template-id';
     config.mailing.sendinblue.templates.accountRecoveryTemplateId = 'test-account-recovery-template-id';
     config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
+    config.mailing.sendinblue.templates.cpfEmailTemplateId = 'test-cpf-email-template-id';
 
     config.bcryptNumberOfSaltRounds = 1;
 
