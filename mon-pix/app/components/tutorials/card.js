@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class Card extends Component {
   @service intl;
   @service store;
+  @service currentUser;
 
   @tracked savingStatus;
   @tracked evaluationStatus;
@@ -15,6 +16,10 @@ export default class Card extends Component {
     super(owner, args);
     this.savingStatus = args.tutorial.isSaved ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
     this.evaluationStatus = args.tutorial.isEvaluated ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
+  }
+
+  get shouldShowActions() {
+    return !!this.currentUser.user;
   }
 
   get saveInformation() {
