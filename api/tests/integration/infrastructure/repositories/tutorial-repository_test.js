@@ -164,6 +164,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         const lastUserSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: tutorialId2,
           userId,
+          skillId: 'skill123',
           createdAt: new Date('2022-05-02'),
         });
         await databaseBuilder.commit();
@@ -182,6 +183,8 @@ describe('Integration | Repository | tutorial-repository', function () {
           lastUserSavedTutorial.createdAt,
           firstUserSavedTutorial.createdAt,
         ]);
+        expect(tutorialsForUser[0].skillId).to.equal(lastUserSavedTutorial.skillId);
+        expect(tutorialsForUser[1].skillId).to.be.null;
       });
 
       context('when user has evaluated tutorial ', function () {
