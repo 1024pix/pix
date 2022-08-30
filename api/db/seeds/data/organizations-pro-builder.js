@@ -7,6 +7,7 @@ const PRO_POLE_EMPLOI_ID = 4;
 const PRO_CNAV_ID = 17;
 const PRO_MED_NUM_ID = 5;
 const PRO_ARCHIVED_ID = 15;
+const PRO_LEARNER_ASSOCIATED_ID = 1200;
 
 function organizationsProBuilder({ databaseBuilder }) {
   /* PRIVATE COMPANY */
@@ -74,6 +75,25 @@ function organizationsProBuilder({ databaseBuilder }) {
     email: userInvited.email,
     status: OrganizationInvitation.StatusType.PENDING,
     organizationId: PRO_COMPANY_ID,
+  });
+
+  // learner associated
+  const userAssociated = databaseBuilder.factory.buildUser.withRawPassword({
+    id: PRO_LEARNER_ASSOCIATED_ID,
+    firstName: 'learnerPro',
+    lastName: 'Associated',
+    email: 'learnerpro.associated@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildOrganizationLearner({
+    id: PRO_LEARNER_ASSOCIATED_ID,
+    firstName: userAssociated.firstName,
+    lastName: userAssociated.lastName,
+    birthdate: '2005-03-28',
+    organizationId: PRO_COMPANY_ID,
+    userId: PRO_LEARNER_ASSOCIATED_ID,
   });
 
   /* POLE EMPLOI */
@@ -213,4 +233,5 @@ module.exports = {
   PRO_POLE_EMPLOI_ID,
   PRO_CNAV_ID,
   PRO_MED_NUM_ID,
+  PRO_LEARNER_ASSOCIATED_ID,
 };
