@@ -174,8 +174,8 @@ module.exports = {
   },
 
   // FIXME ATTENTION
-  async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, targetProfileWithLearningContent) {
-    return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, targetProfileWithLearningContent);
+  async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, learningContent) {
+    return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, learningContent);
   },
 
   async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
