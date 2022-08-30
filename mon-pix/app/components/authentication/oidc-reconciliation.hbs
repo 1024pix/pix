@@ -25,14 +25,10 @@
           <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
           <dd>{{t "pages.user-account.connexion-methods.authentication-methods.gar"}}</dd>
         {{/if}}
-        {{#if this.shouldShowPoleEmploiAuthenticationMethod}}
+        {{#each this.oidcAuthenticationMethodOrganizationNames as |organizationName|}}
           <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
-          <dd>{{t "pages.user-account.connexion-methods.authentication-methods.pole-emploi"}}</dd>
-        {{/if}}
-        {{#if this.shouldShowCnavAuthenticationMethod}}
-          <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
-          <dd>{{t "pages.user-account.connexion-methods.authentication-methods.cnav"}}</dd>
-        {{/if}}
+          <dd>{{organizationName}}</dd>
+        {{/each}}
       </dl>
     </div>
   </div>

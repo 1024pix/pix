@@ -23,27 +23,20 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
     });
   });
 
-  describe('#shouldShowPoleEmploiAuthenticationMethod', function () {
-    context('when pole emploi authentication method exist', function () {
-      it('should display authentication method', function () {
-        // given & when
-        const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
-        component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'POLE_EMPLOI' })];
+  describe('#oidcAuthenticationMethodOrganizationNames', function () {
+    it('should return method organization names', function () {
+      // given & when
+      class OidcIdentityProvidersStub extends Service {
+        getIdentityProviderNamesByAuthenticationMethods() {
+          return ['France Connect', 'Impots.gouv'];
+        }
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
+      component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'FRANCE_CONNECT' })];
 
-        // then
-        expect(component.shouldShowPoleEmploiAuthenticationMethod).to.be.true;
-      });
-    });
-
-    context('when pole emploi authentication method does not exist', function () {
-      it('should not display authentication method', function () {
-        // given & when
-        const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
-        component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'OIDC' })];
-
-        // then
-        expect(component.shouldShowPoleEmploiAuthenticationMethod).to.be.false;
-      });
+      // then
+      expect(component.oidcAuthenticationMethodOrganizationNames).to.be.an('array').that.includes('France Connect');
     });
   });
 
@@ -67,30 +60,6 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
 
         // then
         expect(component.shouldShowGarAuthenticationMethod).to.be.false;
-      });
-    });
-  });
-
-  describe('#shouldShowCnavAuthenticationMethod', function () {
-    context('when cnav authentication method exist', function () {
-      it('should display authentication method', function () {
-        // given & when
-        const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
-        component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'CNAV' })];
-
-        // then
-        expect(component.shouldShowCnavAuthenticationMethod).to.be.true;
-      });
-    });
-
-    context('when cnav authentication method does not exist', function () {
-      it('should not display authentication method', function () {
-        // given & when
-        const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
-        component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'OIDC' })];
-
-        // then
-        expect(component.shouldShowCnavAuthenticationMethod).to.be.false;
       });
     });
   });
