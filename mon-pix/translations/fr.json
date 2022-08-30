@@ -774,7 +774,17 @@
       "first-title-not-connected": "Saisissez votre code",
       "start": "Accéder au parcours",
       "warning-message": "Vous n'êtes pas { firstName } { lastName } ?",
-      "warning-message-logout": "Se déconnecter"
+      "warning-message-logout": "Se déconnecter",
+      "mediacentre-start-campaign-modal": {
+        "title": "Accès au parcours par Mediacentre",
+        "message": "Pour accéder au parcours :",
+        "organised-by": "proposé par ",
+        "message-footer": "Connecte toi à Pix en passant par ton Mediacentre",
+        "actions": {
+          "continue": "Continuer",
+          "quit": "Quitter"
+        }
+      }
     },
     "fill-in-certificate-verification-code": {
       "title": "Vérifier un certificat Pix",
@@ -957,7 +967,7 @@
       "sub-title": "Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
       "information": "L'évaluation des compétences étant personnalisée, votre compte doit rester strictement personnel",
       "current-authentication-methods": "Mes méthodes de connexion actuelles :",
-        "authentication-method-to-add": "Connexion ajoutée :",
+      "authentication-method-to-add": "Connexion ajoutée :",
       "external-connection": "Connexion externe",
       "external-connection-via": "Connexion via",
       "switch-account": "Changer de compte",
