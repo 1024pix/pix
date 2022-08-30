@@ -17,20 +17,31 @@ module.exports = async function findUserForOidcReconciliation({
     userRepository,
   });
 
-  const oidcAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
-    userId: foundUser.id,
-    identityProvider: identityProvider,
-  });
+  const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId: foundUser.id });
 
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();
   }
 
+  const oidcAuthenticationMethod = authenticationMethods.find(
+    (authenticationMethod) => authenticationMethod.identityProvider === identityProvider
+  );
+
   if (!oidcAuthenticationMethod) {
     sessionContentAndUserInfo.userInfo.userId = foundUser.id;
     await authenticationSessionService.update(authenticationKey, sessionContentAndUserInfo);
-    return { isAuthenticationComplete: false };
+
+    const fullNameFromPix = `${foundUser.firstName} ${foundUser.lastName}`;
+    const fullNameFromExternalIdentityProvider = `${sessionContentAndUserInfo.userInfo.firstName} ${sessionContentAndUserInfo.userInfo.lastName}`;
+
+    return {
+      fullNameFromPix,
+      fullNameFromExternalIdentityProvider,
+      email: foundUser.email,
+      username: foundUser.username,
+      authenticationMethods,
+    };
   }
 
   const isSameExternalIdentifier =
@@ -57,7 +68,7 @@ module.exports = async function findUserForOidcReconciliation({
 
   userRepository.updateLastLoggedAt({ userId: foundUser.id });
 
-  return { accessToken, logoutUrlUUID, isAuthenticationComplete: true };
+  return { accessToken, logoutUrlUUID };
 };
 
 async function _updateAuthenticationComplement({
