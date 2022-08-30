@@ -351,4 +351,23 @@ describe('Unit | Domain | Service | Token Service', function () {
       expect(omit(decodedToken, ['iat', 'exp'])).to.deep.equal({ user_id: userId });
     });
   });
+
+  describe('#createAccessTokenFromAnonymousUser', function () {
+    it('should create and return an access token and an expiration delay in seconds', function () {
+      // given
+      const userId = 1;
+      settings.authentication.secret = 'SECRET_KEY';
+      settings.anonymous.accessTokenLifespanMs = 10000;
+      const payload = { user_id: userId, source: 'pix' };
+      const secret = 'SECRET_KEY';
+      const options = { expiresIn: 10 };
+      sinon.stub(jsonwebtoken, 'sign').withArgs(payload, secret, options).returns('VALID_ACCESS_TOKEN');
+
+      // when
+      const result = tokenService.createAccessTokenFromAnonymousUser(userId);
+
+      // then
+      expect(result).to.equal('VALID_ACCESS_TOKEN');
+    });
+  });
 });
