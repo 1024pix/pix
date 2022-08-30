@@ -59,6 +59,16 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
 
     it('should redirect to oidc reconciliation page', async function () {
       // given
+      const oidcPartner = {
+        id: 'oidc-partner',
+        code: 'OIDC_PARTNER',
+      };
+      class OidcIdentityProvidersStub extends Service {
+        'oidc-partner' = oidcPartner;
+        list = [oidcPartner];
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+
       const email = 'glace.alo@example.net';
       const password = 'pix123';
       const controller = this.owner.lookup('controller:authentication/login-or-register-oidc');
@@ -73,6 +83,7 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
       controller.email = email;
       controller.password = password;
       controller.showOidcReconciliation = false;
+      controller.identityProviderSlug = 'oidc-partner';
       sinon.spy(controller.store, 'createRecord');
 
       // when
