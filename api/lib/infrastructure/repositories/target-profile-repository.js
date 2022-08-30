@@ -168,7 +168,7 @@ module.exports = {
 
     const unknownSkillIds = _.difference(skillIds, _.map(result, 'skillId'));
     if (unknownSkillIds.length) {
-      throw new InvalidSkillSetError(`Unknown skillIds : ${unknownSkillIds}`);
+      throw new InvalidSkillSetError(`Les acquis suivants ne font pas partie du profil cible : ${unknownSkillIds}`);
     }
 
     return true;

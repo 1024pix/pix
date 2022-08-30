@@ -522,7 +522,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const expectedError = {
         errors: [
           {
-            detail: 'Unknown skillIds : aki9',
+            detail: 'Les acquis suivants ne font pas partie du profil cible : aki9',
             status: '400',
             title: 'Default Bad Request',
           },
