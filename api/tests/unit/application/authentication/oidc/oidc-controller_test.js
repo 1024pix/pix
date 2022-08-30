@@ -307,4 +307,27 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
     });
   });
+
+  describe('#reconcileUser', function () {
+    it('should call use case and return the result', async function () {
+      // given
+      const request = {
+        deserializedPayload: {
+          identityProvider: 'OIDC',
+          authenticationKey: '123abc',
+        },
+      };
+      sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
+      sinon.stub(usecases, 'reconcileOidcUser').resolves({
+        accessToken: 'accessToken',
+        logoutUrlUUID: 'logoutUrlUUID',
+      });
+
+      // when
+      const result = await oidcController.reconcileUser(request);
+
+      // then
+      expect(result).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
+    });
+  });
 });
