@@ -268,74 +268,42 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   });
 
   describe('#findUserForReconciliation', function () {
-    context('when user has an oidc authentication method with same external identifier', function () {
-      it('should return an access token and logout url uuid', async function () {
-        // given
-        const email = 'eva.poree@example.net';
-        const password = '123pix';
-        const identityProvider = 'OIDC';
-        const authenticationKey = '123abc';
-        const request = {
-          deserializedPayload: {
-            identityProvider,
-            email,
-            password,
-            authenticationKey,
-          },
-        };
-        sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
-        sinon
-          .stub(usecases, 'findUserForOidcReconciliation')
-          .resolves({ accessToken: 'accessToken', logoutUrlUUID: 'logoutUrl', isAuthenticationComplete: true });
-        sinon.stub(oidcSerializer, 'serialize').returns({ access_token: 'accessToken', logout_url_uuid: 'logoutUrl' });
-
-        // when
-        const result = await oidcController.findUserForReconciliation(request, hFake);
-
-        // then
-        expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrl' });
+    it('should call the use case and serialize the result', async function () {
+      // given
+      const pixAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword();
+      const email = 'eva.poree@example.net';
+      const password = '123pix';
+      const identityProvider = 'OIDC';
+      const authenticationKey = '123abc';
+      const request = {
+        deserializedPayload: {
+          identityProvider,
+          email,
+          password,
+          authenticationKey,
+        },
+      };
+      sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
+      sinon.stub(usecases, 'findUserForOidcReconciliation').resolves({
+        firstName: 'sarah',
+        lastName: 'croche',
+        authenticationMethods: [pixAuthenticationMethod],
       });
-    });
+      sinon.stub(oidcSerializer, 'serialize').returns({
+        'full-name-from-pix': 'Sarah Pix',
+        'full-name-from-external-identity-provider': 'Sarah Idp',
+        'authentication-methods': [pixAuthenticationMethod],
+      });
 
-    context('when user has no oidc authentication method ', function () {
-      it('should return their authentication methods and full names', async function () {
-        // given
-        const pixAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword();
-        const email = 'eva.poree@example.net';
-        const password = '123pix';
-        const identityProvider = 'OIDC';
-        const authenticationKey = '123abc';
-        const request = {
-          deserializedPayload: {
-            identityProvider,
-            email,
-            password,
-            authenticationKey,
-          },
-        };
-        sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
-        sinon.stub(usecases, 'findUserForOidcReconciliation').resolves({
-          firstName: 'sarah',
-          lastName: 'croche',
-          authenticationMethods: [pixAuthenticationMethod],
-          isAuthenticationComplete: false,
-        });
-        sinon.stub(oidcSerializer, 'serialize').returns({
-          'full-name-from-pix': 'Sarah Pix',
-          'full-name-from-external-identity-provider': 'Sarah Idp',
-          'authentication-methods': [pixAuthenticationMethod],
-        });
+      // when
+      const result = await oidcController.findUserForReconciliation(request, hFake);
 
-        // when
-        const result = await oidcController.findUserForReconciliation(request, hFake);
-
-        // then
-        expect(result.source).to.deep.equal({
-          'full-name-from-pix': 'Sarah Pix',
-          'full-name-from-external-identity-provider': 'Sarah Idp',
-          'authentication-methods': [pixAuthenticationMethod],
-        });
+      // then
+      expect(result.source).to.deep.equal({
+        'full-name-from-pix': 'Sarah Pix',
+        'full-name-from-external-identity-provider': 'Sarah Idp',
+        'authentication-methods': [pixAuthenticationMethod],
       });
     });
   });
