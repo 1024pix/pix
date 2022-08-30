@@ -5,7 +5,7 @@ module.exports = function buildComplementaryCertification({
   label = 'UneSuperCertifComplémentaire',
   key = 'SUPERCERTIF',
   createdAt = new Date('2020-01-01'),
-  minimumReproducibilityRate,
+  minimumReproducibilityRate = 70.0,
   minimumEarnedPix,
 } = {}) {
   const values = {

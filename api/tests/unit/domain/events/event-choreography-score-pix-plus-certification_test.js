@@ -4,8 +4,8 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const CertificationRescoringCompleted = require('../../../../lib/domain/events/CertificationRescoringCompleted');
 
-describe('Event Choreography | Score Pix+ Droit Certification', function () {
-  it('chains Certification Scoring and Pix+ Droit Certification Scoring on Certification Scoring Completed', async function () {
+describe('Event Choreography | Score Pix+ Certification', function () {
+  it('chains Certification Scoring and Pix+ Certification Scoring on Certification Scoring Completed', async function () {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
 
@@ -21,13 +21,13 @@ describe('Event Choreography | Score Pix+ Droit Certification', function () {
     await eventDispatcher.dispatch(certificationScoringCompleted);
 
     // then
-    expect(handlerStubs.handlePixPlusDroitCertificationsScoring).to.have.been.calledWith({
+    expect(handlerStubs.handlePixPlusCertificationsScoring).to.have.been.calledWith({
       event: certificationScoringCompleted,
       domainTransaction: undefined,
     });
   });
 
-  it('chains Certification Rescoring and Pix+ Droit Certification Rescoring on Certification Rescoring Completed', async function () {
+  it('chains Certification Rescoring and Pix+ Certification Rescoring on Certification Rescoring Completed', async function () {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
 
@@ -43,7 +43,7 @@ describe('Event Choreography | Score Pix+ Droit Certification', function () {
     await eventDispatcher.dispatch(certificationRescoringCompleted);
 
     // then
-    expect(handlerStubs.handlePixPlusDroitCertificationsScoring).to.have.been.calledWith({
+    expect(handlerStubs.handlePixPlusCertificationsScoring).to.have.been.calledWith({
       event: certificationRescoringCompleted,
       domainTransaction: undefined,
     });
