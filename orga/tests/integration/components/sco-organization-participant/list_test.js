@@ -27,7 +27,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('it should display the table headers', async function (assert) {
+  test('it should display the filter banner', async function (assert) {
     // given
     this.set('students', []);
 
@@ -176,6 +176,32 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', 'email');
+      assert.ok(true);
+    });
+
+    test('it should call resetFiltered', async function (assert) {
+      // given
+      const resetFiltered = sinon.spy();
+      this.set('resetFiltered', resetFiltered);
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', [
+        store.createRecord('sco-organization-participant', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+        }),
+      ]);
+
+      await render(
+        hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFiltered}}  />`
+      );
+
+      // when
+      await clickByName('Effacer les filtres');
+
+      // then
+      sinon.assert.called(resetFiltered);
       assert.ok(true);
     });
   });
