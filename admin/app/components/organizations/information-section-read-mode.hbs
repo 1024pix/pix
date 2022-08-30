@@ -36,6 +36,7 @@
         {{/if}}
         <li>Adresse e-mail d'activation SCO : {{@organization.email}}</li>
         <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
+        <li>SSO : {{if @organization.identityProviderName @organization.identityProviderName "Aucun"}}</li>
         <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
         <li>Lien vers le formulaire du Net Promoter Score :
           {{#if @organization.formNPSUrl}}

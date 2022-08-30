@@ -41,6 +41,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
       assert.dom(screen.getByText('Crédits : 350')).exists();
       assert.dom(screen.getByText('https://pix.fr')).exists();
+      assert.dom(screen.getByText('SSO : Aucun')).exists();
     });
 
     test('it renders edit and archive button', async function (assert) {
