@@ -102,7 +102,7 @@ Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
 Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
   cy.intercept('/api/users/me').as('getCurrentUser');
   const token = jsonwebtoken.sign({ user_id: 1 }, Cypress.env('AUTH_SECRET'), {
-    expiresIn: '2s',
+    expiresIn: '4s',
   });
   cy.visitMonPix(`/?token=${token}`);
   cy.wait(['@getCurrentUser']);

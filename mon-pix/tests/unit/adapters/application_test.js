@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import { it, describe } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import REST from '@ember-data/adapter/rest';
 import sinon from 'sinon';
 
-describe('Unit | Adapters | ApplicationAdapter', function () {
+describe('Unit | Adapters | ApplicationAdapter', function () {
   setupTest();
 
   it('should specify /api as the root url', function () {
@@ -93,6 +94,44 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
 
       // Then
       sinon.assert.calledOnce(applicationAdapter.ajaxQueue.add);
+    });
+  });
+
+  describe('handleResponse()', function () {
+    context('when an HTTP status code 401 with code SESSION_EXPIRED is received', function () {
+      it('should invalidate the current session', function () {
+        // given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+        const session = this.owner.lookup('service:session');
+
+        sinon.stub(session, 'invalidate');
+
+        // when
+        const headers = null;
+        const payload = { errors: [{ code: 'SESSION_EXPIRED' }] };
+        applicationAdapter.handleResponse(401, headers, payload);
+
+        // then
+        sinon.assert.calledOnce(session.invalidate);
+      });
+    });
+
+    context('when the HTTP status code received is different from 401', function () {
+      it('should not invalidate the current session', function () {
+        // given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+        const session = this.owner.lookup('service:session');
+        sinon.stub(REST.prototype, 'handleResponse');
+        sinon.stub(session, 'invalidate');
+
+        // when
+        applicationAdapter.handleResponse(302);
+
+        // then
+        sinon.assert.notCalled(session.invalidate);
+        sinon.assert.calledOnce(REST.prototype.handleResponse);
+        sinon.restore();
+      });
     });
   });
 });

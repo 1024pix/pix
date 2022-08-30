@@ -14,8 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
-import 'cypress-axe'
+import './commands';
+import 'cypress-axe';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -25,5 +25,15 @@ beforeEach(() => {
 
   cy.window().then((win) => {
     win.sessionStorage.clear();
+  });
+
+  cy.on('uncaught:exception', (err) => {
+    if (
+      err.message.includes(
+        'You attempted to remove a function listener which did not exist on the instance, which means you may have attempted to remove it before it was added.'
+      )
+    ) {
+      return false;
+    }
   });
 });

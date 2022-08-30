@@ -16,6 +16,5 @@ module.exports = async function authenticateAnonymousUser({
   const userToAdd = UserToCreate.createAnonymous({ lang });
   const newUser = await userToCreateRepository.create({ user: userToAdd });
 
-  const accessToken = tokenService.createAccessTokenFromUser(newUser.id, 'pix').accessToken;
-  return accessToken;
+  return tokenService.createAccessTokenFromAnonymousUser(newUser.id);
 };
