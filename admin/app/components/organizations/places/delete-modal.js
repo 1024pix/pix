@@ -16,6 +16,7 @@ export default class DeleteModal extends Component {
       await this.args.organizationPlacesLot.save({ adapterOptions: { organizationId: this.args.organizationId } });
 
       this.notifications.success(`Le lot de place ${this.args.organizationPlacesLot.reference} a été supprimé.`);
+      this.args.refreshModel();
     } catch (error) {
       this.notifications.error(`Le lot de place ${this.args.organizationPlacesLot.reference} n'a pas été supprimé.`);
     }
