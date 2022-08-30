@@ -30,6 +30,7 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
         authenticationKey: 'super-key',
         identityProviderSlug: 'super-idp',
+        hostSlug: 'users',
       });
     });
 

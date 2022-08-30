@@ -36,6 +36,7 @@ export default class TermsOfServiceOidcComponent extends Component {
         await this.session.authenticate('authenticator:oidc', {
           authenticationKey: this.args.authenticationKey,
           identityProviderSlug: this.args.identityProviderSlug,
+          hostSlug: 'users',
         });
       } catch (error) {
         const status = get(error, 'errors[0].status');
