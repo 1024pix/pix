@@ -819,6 +819,12 @@
           "date-of-birth": "Date de naissance",
           "division": "Classe",
           "first-name": "Prénom",
+          "is-certifiable": {
+            "eligible": "Certifiable",
+            "label": "Certificabilité",
+            "non-eligible": "Non Certifiable",
+            "not-available": "Non communiqué"
+          },
           "last-name": "Nom",
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
