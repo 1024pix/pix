@@ -209,7 +209,7 @@ exports.register = async function (server) {
         tags: ['api', 'campaign', 'participations', 'admin'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs ayant accès à Pix Admin**\n' +
-            "- Elle permet de mettre à jour l'identifaint externe d'une participation ",
+            "- Elle permet de mettre à jour l'identifiant externe d'une participation ",
         ],
       },
     },
