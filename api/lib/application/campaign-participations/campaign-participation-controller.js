@@ -109,7 +109,7 @@ module.exports = {
     return campaignAssessmentParticipationSerializer.serialize(campaignAssessmentParticipation);
   },
 
-  async deleteParticipation(request, h) {
+  async deleteCampaignParticipation(request, h) {
     const { userId } = request.auth.credentials;
     const { id, campaignParticipationId } = request.params;
     await DomainTransaction.execute(async (domainTransaction) => {

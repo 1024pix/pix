@@ -118,7 +118,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       // given
       sinon.stub(securityPreHandlers, 'checkAuthorizationToManageCampaign').callsFake((request, h) => h.response(true));
       sinon
-        .stub(campaignParticipationController, 'deleteParticipation')
+        .stub(campaignParticipationController, 'deleteCampaignParticipation')
         .callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

@@ -94,7 +94,7 @@ exports.register = async function (server) {
             campaignParticipationId: identifiersType.campaignParticipationId,
           }),
         },
-        handler: campaignParticipationController.deleteParticipation,
+        handler: campaignParticipationController.deleteCampaignParticipation,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés, administrateurs de l'espace Pix Orga ou gestionnaire de la campagne**\n" +
             '-Permet de supprimer une campaigne participation',

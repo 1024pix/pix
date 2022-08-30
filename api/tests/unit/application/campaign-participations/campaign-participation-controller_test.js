@@ -453,7 +453,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
     });
   });
 
-  describe('#deleteParticipation', function () {
+  describe('#deleteCampaignParticipation', function () {
     it('should call the usecase to delete the campaignParticipation and update the campaign participation counts', async function () {
       // given
       const campaignParticipationId = 1;
@@ -473,7 +473,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       sinon.stub(usecases, 'updateCampaignCountsAfterDeleteParticipation');
 
       // when
-      await campaignParticipationController.deleteParticipation(request, hFake);
+      await campaignParticipationController.deleteCampaignParticipation(request, hFake);
 
       // then
       expect(usecases.deleteCampaignParticipation).to.have.been.calledOnceWith({
