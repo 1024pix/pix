@@ -1,6 +1,5 @@
 import Object, { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import ENV from 'pix-admin/config/environment';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -105,11 +104,6 @@ export default class OrganizationInformationSection extends Component {
   constructor() {
     super(...arguments);
     this.form = Form.create(getOwner(this).ownerInjection());
-  }
-
-  get externalURL() {
-    const urlDashboardPrefix = ENV.APP.ORGANIZATION_DASHBOARD_URL;
-    return urlDashboardPrefix && urlDashboardPrefix + this.args.organization.id;
   }
 
   @action
