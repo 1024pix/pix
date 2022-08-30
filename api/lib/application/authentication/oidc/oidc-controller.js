@@ -40,6 +40,21 @@ module.exports = {
     return h.response(oidcSerializer.serialize(result)).code(200);
   },
 
+  async reconcileUser(request) {
+    const { identityProvider, authenticationKey } = request.deserializedPayload;
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
+
+    const result = await usecases.reconcileOidcUser({
+      authenticationKey,
+      oidcAuthenticationService,
+    });
+
+    return {
+      access_token: result.accessToken,
+      logout_url_uuid: result.logoutUrlUUID,
+    };
+  },
+
   async getAuthenticationUrl(request, h) {
     const { identity_provider: identityProvider } = request.query;
     const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
