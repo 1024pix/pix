@@ -10,10 +10,8 @@
     </time>
   </header>
   <section class="campaign-participation-overview-card-content">
-    <div
-      class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content__content-archived"
-    >
-      {{#if @model.isShared}}
+    {{#if @model.isShared}}
+      <div class="campaign-participation-overview-card-content__content">
         {{#if this.hasStages}}
           <PixStars
             @count={{@model.validatedStagesCount}}
@@ -30,11 +28,23 @@
             {{t "pages.campaign-participation-overview.card.results" result=@model.masteryRate}}
           </p>
         {{/if}}
-      {{else}}
+      </div>
+      <LinkTo
+        class="link campaign-participation-overview-card-content__see-more campaign-participation-overview-card-content__action"
+        @route="campaigns.entry-point"
+        @model={{@model.campaignCode}}
+      >
+        <FaIcon @icon="arrow-right" aria-hidden="true" />
+        {{t "pages.campaign-participation-overview.card.see-more"}}
+      </LinkTo>
+    {{else}}
+      <div
+        class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content__archived-and-not-shared"
+      >
         <p class="campaign-participation-overview-card-content--archived">
           {{t "pages.campaign-participation-overview.card.text-disabled" htmlSafe=true}}
         </p>
-      {{/if}}
-    </div>
+      </div>
+    {{/if}}
   </section>
 </article>
