@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.247.0 (30/08/2022)
+
+
+### :rocket: Amélioration
+- [#4801](https://github.com/1024pix/pix/pull/4801) [FEATURE] Afficher les informations sur la page de réconciliation - Pix App (PIX-5506).
+- [#4807](https://github.com/1024pix/pix/pull/4807) [FEATURE] Gérer un accès à durée spécifique, étendue et limitée, pour les comptes anonymes (en accès simplifié) (PIX-4633)
+- [#4837](https://github.com/1024pix/pix/pull/4837) [FEATURE] Ajout d'un point (PIX-5552)
+- [#4824](https://github.com/1024pix/pix/pull/4824) [FEATURE] Retourner le contexte du tutoriel dans la page `/mes-tutos/enregistres` (PIX-5545).
+- [#4752](https://github.com/1024pix/pix/pull/4752) [FEATURE] Notifier par email de la génération des fichiers CPF (PIX-5398).
+
+### :building_construction: Tech
+- [#4836](https://github.com/1024pix/pix/pull/4836) [TECH] Si on ne trouve pas un utilisateur, renvoyer une erreur générique (PIX-5538)
+- [#4815](https://github.com/1024pix/pix/pull/4815) [TECH] Refacto l'architecture des routes authentifiées et non authentifiées sur Pix App (PIX-5528)
+- [#4823](https://github.com/1024pix/pix/pull/4823) [TECH] Ajouter un test manquant sur l'enregistrement d'un tutoriel (PIX-5550).
+- [#4829](https://github.com/1024pix/pix/pull/4829) [TECH] Migrer de Bookshelf vers knex le repository des paliers (PIX-5549)
+- [#4821](https://github.com/1024pix/pix/pull/4821) [TECH] Mettre à jour Cypress en 8.7.0 (PIX-5541).
+- [#4803](https://github.com/1024pix/pix/pull/4803) [TECH] Refacto autour du profil cible dans PixAdmin (PIX-5532)
+
+### :bug: Correction
+- [#4828](https://github.com/1024pix/pix/pull/4828) [BUGFIX] Ne pas afficher les boutons d'actions des tutoriels lorsque l'utilisateur n'est pas connecté (PIX-5547).
+
+### :coffee: Autre
+- [#4834](https://github.com/1024pix/pix/pull/4834) [CLEANUP] Nettoie les applications gravitee
+
 ## v3.246.0 (25/08/2022)
 
 
