@@ -11,11 +11,14 @@ describe('Integration | Repository | complementary certification scoring criteri
         key: 'PIX+_TEST_1',
         label: 'label pour PIX+ TEST 1',
         minimumReproducibilityRate: 50,
+        hasComplementaryReferential: true,
       });
       const complementaryCertification2 = databaseBuilder.factory.buildComplementaryCertification({
         key: 'PIX+_TEST_2',
         label: 'label pour PIX+ TEST 2',
         minimumReproducibilityRate: 30,
+        hasComplementaryReferential: false,
+        minimumEarnedPix: 42,
       });
 
       const complementaryCertificationCourse1 = databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -62,11 +65,14 @@ describe('Integration | Repository | complementary certification scoring criteri
           complementaryCertificationCourseId: complementaryCertificationCourse1.id,
           minimumReproducibilityRate: complementaryCertification1.minimumReproducibilityRate,
           complementaryCertificationBadgeKeys: [badge1.key, badge2.key],
+          hasComplementaryReferential: complementaryCertification1.hasComplementaryReferential,
         }),
         domainBuilder.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: complementaryCertificationCourse2.id,
           minimumReproducibilityRate: complementaryCertification2.minimumReproducibilityRate,
           complementaryCertificationBadgeKeys: [badge3.key, badge4.key],
+          hasComplementaryReferential: complementaryCertification2.hasComplementaryReferential,
+          minimumEarnedPix: complementaryCertification2.minimumEarnedPix,
         }),
       ]);
     });

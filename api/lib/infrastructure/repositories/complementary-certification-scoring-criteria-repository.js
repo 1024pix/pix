@@ -8,6 +8,8 @@ module.exports = {
         complementaryCertificationCourseId: 'complementary-certification-courses.id',
         minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
         complementaryCertificationBadgeKeys: knex.raw('json_agg("badges"."key")'),
+        hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
+        minimumEarnedPix: 'complementary-certifications.minimumEarnedPix',
       })
       .join(
         'complementary-certifications',
@@ -25,11 +27,19 @@ module.exports = {
       .where({ certificationCourseId });
 
     return results.map(
-      ({ complementaryCertificationCourseId, minimumReproducibilityRate, complementaryCertificationBadgeKeys }) =>
+      ({
+        complementaryCertificationCourseId,
+        minimumReproducibilityRate,
+        complementaryCertificationBadgeKeys,
+        hasComplementaryReferential,
+        minimumEarnedPix,
+      }) =>
         new ComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId,
           minimumReproducibilityRate: Number(minimumReproducibilityRate),
           complementaryCertificationBadgeKeys,
+          hasComplementaryReferential,
+          minimumEarnedPix,
         })
     );
   },
