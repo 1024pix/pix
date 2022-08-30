@@ -65,6 +65,7 @@ export default class LoginOidcRoute extends Route {
         redirectUri,
         state,
         identityProviderSlug,
+        hostSlug: 'token',
       });
     } catch (response) {
       const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';

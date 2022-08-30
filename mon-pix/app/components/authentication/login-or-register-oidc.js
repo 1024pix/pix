@@ -61,6 +61,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
         await this.session.authenticate('authenticator:oidc', {
           authenticationKey: this.args.authenticationKey,
           identityProviderSlug: this.args.identityProviderSlug,
+          hostSlug: 'users',
         });
       } catch (error) {
         this.registerError = true;
