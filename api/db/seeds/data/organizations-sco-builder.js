@@ -8,6 +8,7 @@ const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
 const SCO_FOREIGNER_USER_ID = 301;
 const SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION = 302;
+const SCO_STUDENT_NOT_CERTIFIABLE_ID = 303;
 const SCO_FRENCH_USER_ID = 311;
 const SCO_DISABLED_USER_ID = 321;
 const SCO_ADMIN_ID = 4;
@@ -158,6 +159,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
 
   // organization learner associated with email
   const userWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_STUDENT_NOT_CERTIFIABLE_ID,
     firstName: 'Lyanna',
     lastName: 'Mormont',
     email: 'mormont.lyanna@example.net',
@@ -166,13 +168,14 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildOrganizationLearner({
+    id: SCO_STUDENT_NOT_CERTIFIABLE_ID,
     firstName: userWithEmail.firstName,
     lastName: userWithEmail.lastName,
     birthdate: '2002-01-07',
     division: '5D',
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
-    userId: userWithEmail.id,
+    userId: SCO_STUDENT_NOT_CERTIFIABLE_ID,
     nationalStudentId: '123456789EE',
   });
 
@@ -446,4 +449,5 @@ module.exports = {
   SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION,
   SCO_FRENCH_USER_ID,
   SCO_DISABLED_USER_ID,
+  SCO_STUDENT_NOT_CERTIFIABLE_ID,
 };

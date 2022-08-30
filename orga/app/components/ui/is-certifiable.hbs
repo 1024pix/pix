@@ -1,0 +1,11 @@
+{{#if this.isCertifiableNotAvailable}}
+  {{t "pages.sco-organization-participants.table.column.is-certifiable.not-available"}}
+{{else if @isCertifiable}}
+  <PixTag @color="green-light">
+    {{t "pages.sco-organization-participants.table.column.is-certifiable.eligible"}}
+  </PixTag>
+{{else}}
+  <PixTag @color="yellow-light">
+    {{t "pages.sco-organization-participants.table.column.is-certifiable.non-eligible"}}
+  </PixTag>
+{{/if}}

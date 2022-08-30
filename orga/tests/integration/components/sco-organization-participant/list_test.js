@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { render } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -90,6 +89,21 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         )
       )
       .exists();
+  });
+
+  test('it should display participant as eligible for certification when the participant is certifiable', async function (assert) {
+    // given
+    this.set('students', [
+      store.createRecord('sco-organization-participant', {
+        isCertifiable: true,
+      }),
+    ]);
+
+    // when
+    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+    // then
+    assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
   });
 
   module('when user is filtering some users', function () {
