@@ -45,6 +45,8 @@ function certificationCentersBuilder({ databaseBuilder }) {
     label: 'CléA Numérique',
     key: 'CLEA',
     id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 50.0,
+    minimumEarnedPix: 70,
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V1,
@@ -74,18 +76,24 @@ function certificationCentersBuilder({ databaseBuilder }) {
     label: 'Pix+ Droit',
     key: 'DROIT',
     id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 75,
+    minimumEarnedPix: null,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
     label: 'Pix+ Édu 2nd degré',
     key: 'EDU_2ND_DEGRE',
     id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 70,
+    minimumEarnedPix: null,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
     label: 'Pix+ Édu 1er degré',
     key: 'EDU_1ER_DEGRE',
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 70,
+    minimumEarnedPix: null,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
