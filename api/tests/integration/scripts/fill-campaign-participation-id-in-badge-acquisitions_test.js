@@ -7,7 +7,7 @@ const {
   updateBadgeAcquisitionWithCampaignParticipationId,
 } = require('../../../scripts/fill-campaign-participation-id-in-badge-acquisitions');
 
-describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', function () {
+describe.skip('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', function () {
   beforeEach(function () {
     sinon.stub(console, 'log');
   });
