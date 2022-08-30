@@ -12,6 +12,7 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
   let places;
   let organizationId;
   let toggleDisplayModal;
+  let refreshModel;
   let showDisplayModal;
   let notificationSuccessStub;
   let notificationErrorStub;
@@ -19,6 +20,7 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
   hooks.beforeEach(async function () {
     notificationSuccessStub = sinon.stub();
     notificationErrorStub = sinon.stub();
+    refreshModel = sinon.stub();
     class NotificationsStub extends Service {
       success = notificationSuccessStub;
       error = notificationErrorStub;
@@ -96,6 +98,7 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
       this.set('places', places);
       this.set('showDisplayModal', showDisplayModal);
       this.set('toggleDisplayModal', toggleDisplayModal);
+      this.set('refreshModel', refreshModel);
 
       // when
       await render(hbs`<Organizations::Places::DeleteModal
@@ -103,6 +106,7 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
         @organizationPlacesLot={{this.places}}
         @show={{this.showDisplayModal}}
         @toggle={{this.toggleDisplayModal}}
+        @refreshModel={{this.refreshModel}}
         />`);
       await clickByText('Confirmer');
 
@@ -110,9 +114,16 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
       sinon.assert.calledOnce(places.deleteRecord);
       sinon.assert.calledWith(places.save, { adapterOptions: { organizationId } });
       sinon.assert.calledOnce(notificationSuccessStub);
+      sinon.assert.calledOnce(refreshModel);
       sinon.assert.calledOnce(toggleDisplayModal);
 
-      sinon.assert.callOrder(places.deleteRecord, places.save, notificationSuccessStub, toggleDisplayModal);
+      sinon.assert.callOrder(
+        places.deleteRecord,
+        places.save,
+        notificationSuccessStub,
+        refreshModel,
+        toggleDisplayModal
+      );
       assert.ok(true);
     });
 
