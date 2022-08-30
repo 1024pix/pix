@@ -133,7 +133,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         });
         await databaseBuilder.commit();
 
-        const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        const partnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
           complementaryCertificationCourseId,
           certifiableBadgeKey: badge.key,
           hasAcquiredPixCertification: false,

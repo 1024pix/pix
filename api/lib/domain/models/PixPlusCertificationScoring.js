@@ -1,12 +1,13 @@
 const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 
-class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
+class PixPlusCertificationScoring extends PartnerCertificationScoring {
   constructor({
     complementaryCertificationCourseId,
     certifiableBadgeKey,
     reproducibilityRate,
     hasAcquiredPixCertification,
+    minimumReproducibilityRate,
   } = {}) {
     super({
       complementaryCertificationCourseId,
@@ -16,11 +17,12 @@ class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
 
     this.reproducibilityRate = reproducibilityRate;
     this.hasAcquiredPixCertification = hasAcquiredPixCertification;
+    this.minimumReproducibilityRate = minimumReproducibilityRate;
   }
 
   isAcquired() {
-    return this.hasAcquiredPixCertification && this.reproducibilityRate.isEqualOrAbove(70);
+    return this.hasAcquiredPixCertification && this.reproducibilityRate.isEqualOrAbove(this.minimumReproducibilityRate);
   }
 }
 
-module.exports = PixPlusEduCertificationScoring;
+module.exports = PixPlusCertificationScoring;
