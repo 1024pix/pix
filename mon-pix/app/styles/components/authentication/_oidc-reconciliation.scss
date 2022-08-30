@@ -1,0 +1,151 @@
+.oidc-reconciliation {
+
+  &__title,
+  &__subtitle,
+  &__information {
+    text-align: center;
+    color: $pix-neutral-90;
+  }
+
+  &__title {
+    @include h2;
+
+    text-align: center;
+    padding-top: $spacing-l;
+  }
+
+  &__subtitle {
+    @include h4;
+
+    padding: $spacing-s 0 $spacing-xxs 0;
+    margin: 0;
+    display: block;
+  }
+
+  &__information {
+    @include subheading;
+
+    font-weight: 400;
+    margin-bottom: $spacing-xxl;
+  }
+
+  &__container {
+    display: flex;
+    min-height: 500px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__user-information {
+    background-color: $pix-neutral-10;
+    width: 570px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: $spacing-xs;
+    padding-top: $spacing-l;
+
+    svg {
+      color: $pix-neutral-50;
+      height: 120px;
+      min-width: 120px;
+    }
+
+    p {
+      @include h4;
+
+      color: $pix-neutral-90;
+      padding-top: $spacing-xs;
+      margin: 0;
+    }
+  }
+
+  &__user-authentication-methods {
+    width: 100%;
+    padding: $spacing-l;
+
+    p {
+      @include subheading;
+
+      font-weight: 400;
+    }
+  }
+
+  &__new-authentication-method {
+    width: 506px;
+    padding-top: $spacing-s;
+
+    p {
+      @include subheading;
+
+      font-weight: 400;
+      color: $pix-neutral-90;
+    }
+  }
+
+  &__user-authentication-methods-list {
+    background-color: $pix-neutral-0;
+    border-radius: $spacing-xs;
+    padding: $spacing-l $spacing-xl;
+
+    dd,
+    dt {
+      display: inline;
+
+      @include text-large;
+
+      color: $pix-neutral-90;
+    }
+
+    dt {
+      display: inline-block;
+      font-weight: 500;
+      width: 38%;
+      padding: $spacing-xxs 0;
+    }
+  }
+
+  &__switch-account-button {
+    display: flex;
+    justify-content: right;
+    width: 570px;
+    margin-top: $spacing-xs;
+  }
+
+  &__arrow {
+    height: 70px;
+    min-width: 50px;
+    color: $pix-neutral-15;
+  }
+
+  &__authentication-method-to-add {
+    border-radius: 8px;
+    padding: 0;
+
+    dl {
+      margin: 0;
+      padding: $spacing-l $spacing-xl;
+
+      @include text-large;
+
+      color: $pix-neutral-90;
+    }
+
+    dd,
+    dt {
+      display: inline;
+    }
+
+    dt {
+      font-weight: 500;
+    }
+  }
+
+  &__action-buttons {
+    padding-top: $spacing-l;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: $spacing-m;
+  }
+}

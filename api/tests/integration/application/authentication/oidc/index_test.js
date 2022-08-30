@@ -90,7 +90,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
     });
   });
 
-  describe('POST /api/oidc/token-reconciliation', function () {
+  describe('POST /api/oidc/user/check-reconciliation', function () {
     context('error cases', function () {
       context('when user is not found', function () {
         it('should return a response with HTTP status code 404', async function () {
@@ -103,7 +103,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
 
           const response = await httpTestServer.requestObject({
             method: 'POST',
-            url: '/api/oidc/token-reconciliation',
+            url: '/api/oidc/user/check-reconciliation',
             payload: {
               data: {
                 attributes: {
@@ -131,7 +131,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
           httpTestServer.setupAuthentication();
           await httpTestServer.register(moduleUnderTest);
 
-          const response = await httpTestServer.request('POST', `/api/oidc/token-reconciliation`, {
+          const response = await httpTestServer.request('POST', `/api/oidc/user/check-reconciliation`, {
             data: {
               attributes: {
                 email: 'eva.poree@example.net',
@@ -157,7 +157,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
           httpTestServer.setupAuthentication();
           await httpTestServer.register(moduleUnderTest);
 
-          const response = await httpTestServer.request('POST', `/api/oidc/token-reconciliation`, {
+          const response = await httpTestServer.request('POST', `/api/oidc/user/check-reconciliation`, {
             data: {
               attributes: {
                 email: 'eva.poree@example.net',

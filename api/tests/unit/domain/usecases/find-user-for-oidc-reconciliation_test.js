@@ -9,7 +9,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
   beforeEach(function () {
     authenticationMethodRepository = {
-      findOneByUserIdAndIdentityProvider: sinon.stub(),
+      findByUserId: sinon.stub(),
       updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
     };
     userRepository = { updateLastLoggedAt: sinon.stub() };
@@ -24,6 +24,10 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
   it('should find pix user and their oidc authentication method', async function () {
     // given
+    const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword(
+      {}
+    );
+    authenticationMethodRepository.findByUserId.resolves([pixAuthenticationMethod]);
     pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
     authenticationSessionService.getByKey.resolves({
       sessionContent: { idToken: 'idToken' },
@@ -48,14 +52,17 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
       userRepository,
     });
 
-    expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.be.calledOnceWith({
+    expect(authenticationMethodRepository.findByUserId).to.be.calledOnceWith({
       userId: 2,
-      identityProvider: 'oidc',
     });
   });
 
   it('should retrieve user session content', async function () {
     // given
+    const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword(
+      {}
+    );
+    authenticationMethodRepository.findByUserId.resolves([pixAuthenticationMethod]);
     pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
     authenticationSessionService.getByKey.resolves({
       sessionContent: { idToken: 'idToken' },
@@ -103,11 +110,24 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   });
 
   context('when user has no oidc authentication method', function () {
-    it('should save user id in existing key', async function () {
+    it('should return authentication methods and full names', async function () {
       // given
-      const sessionContentAndUserInfo = { sessionContent: { idToken: 'idToken' }, userInfo: { firstName: 'Anne' } };
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(null);
+      const firstName = 'Sarah';
+      const lastName = 'Pix';
+      const sessionContentAndUserInfo = {
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Sarah', lastName: 'Idp' },
+      };
+      const pixAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({});
+      authenticationMethodRepository.findByUserId.resolves([pixAuthenticationMethod]);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves({
+        id: 2,
+        firstName,
+        lastName,
+        email: 'sarahcroche@example.net',
+        username: 'sarahcroche123',
+      });
       authenticationSessionService.getByKey.resolves(sessionContentAndUserInfo);
 
       // when
@@ -124,7 +144,13 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
       // then
       expect(authenticationSessionService.update).to.be.calledOnceWith('authenticationKey', sessionContentAndUserInfo);
-      expect(result).to.deep.equal({ isAuthenticationComplete: false });
+      expect(result).to.deep.equal({
+        fullNameFromPix: 'Sarah Pix',
+        fullNameFromExternalIdentityProvider: 'Sarah Idp',
+        email: 'sarahcroche@example.net',
+        username: 'sarahcroche123',
+        authenticationMethods: [pixAuthenticationMethod],
+      });
     });
   });
 
@@ -136,7 +162,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
           externalIdentifier: '789fge',
         });
         pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
+        authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);
         authenticationSessionService.getByKey.resolves({
           sessionContent: {},
           userInfo: { externalIdentityId: '123abc' },
@@ -174,7 +200,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
           });
 
           pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
+          authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);
           authenticationSessionService.getByKey.resolves({
             sessionContent,
             userInfo: { externalIdentityId: '123abc' },
@@ -212,7 +238,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
             externalIdentifier: '123abc',
           });
           pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
+          authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);
           authenticationSessionService.getByKey.resolves({
             sessionContent: { idToken: 'idToken' },
             userInfo: { externalIdentityId: '123abc' },
@@ -245,7 +271,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
           externalIdentifier: '123abc',
         });
         pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
+        authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);
         authenticationSessionService.getByKey.resolves({
           sessionContent: { idToken: 'idToken' },
           userInfo: { externalIdentityId: '123abc' },
@@ -273,7 +299,6 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
         expect(result).to.deep.equal({
           accessToken: 'accessToken',
           logoutUrlUUID: 'logoutUrl',
-          isAuthenticationComplete: true,
         });
       });
     });
