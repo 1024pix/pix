@@ -376,6 +376,7 @@ module.exports = injectDependencies(
     neutralizeChallenge: require('./neutralize-challenge'),
     publishSession: require('./publish-session'),
     publishSessionsInBatch: require('./publish-sessions-in-batch'),
+    reconcileOidcUser: require('./reconcile-oidc-user'),
     reconcileScoOrganizationLearnerManually: require('./reconcile-sco-organization-learner-manually'),
     reconcileSupOrganizationLearner: require('./reconcile-sup-organization-learner'),
     reconcileScoOrganizationLearnerAutomatically: require('./reconcile-sco-organization-learner-automatically'),
