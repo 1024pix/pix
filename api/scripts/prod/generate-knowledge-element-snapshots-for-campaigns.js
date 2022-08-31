@@ -1,6 +1,6 @@
 const yargs = require('yargs');
 const bluebird = require('bluebird');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const { AlreadyExistingEntityError } = require('../../lib/domain/errors');
@@ -78,41 +78,41 @@ async function generateKnowledgeElementSnapshots(campaignParticipationData, conc
   );
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    const commandLineArgs = yargs
-      .option('maxSnapshotCount', {
-        description: 'Nombre de snapshots max. à générer.',
-        type: 'number',
-        default: DEFAULT_MAX_SNAPSHOT_COUNT,
-      })
-      .option('concurrency', {
-        description: 'Concurrence',
-        type: 'number',
-        default: DEFAULT_CONCURRENCY,
-      })
-      .help().argv;
-    const { maxSnapshotCount, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
+  const commandLineArgs = yargs
+    .option('maxSnapshotCount', {
+      description: 'Nombre de snapshots max. à générer.',
+      type: 'number',
+      default: DEFAULT_MAX_SNAPSHOT_COUNT,
+    })
+    .option('concurrency', {
+      description: 'Concurrence',
+      type: 'number',
+      default: DEFAULT_CONCURRENCY,
+    })
+    .help().argv;
+  const { maxSnapshotCount, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
 
-    const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
+  const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
 
-    await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
-  } catch (error) {
-    console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-    yargs.showHelp();
-    process.exit(1);
-  }
+  await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+      yargs.showHelp();
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   getEligibleCampaignParticipations,
