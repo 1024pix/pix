@@ -11,8 +11,6 @@ describe('Unit | Serializer | JSONAPI | oidc-serializer', function () {
         { identityProvider: 'CNAV', userId: 1 },
       ];
       const authenticationContent = {
-        accessToken: 'access.token',
-        logoutUrlUUID: 'logout.url.uuid',
         fullNameFromPix: 'Sarah Pix',
         fullNameFromExternalIdentityProvider: 'Sarah Idp',
         username: 'sarahcroche123',
@@ -27,8 +25,6 @@ describe('Unit | Serializer | JSONAPI | oidc-serializer', function () {
       const expectedJson = {
         data: {
           attributes: {
-            'access-token': 'access.token',
-            'logout-url-uuid': 'logout.url.uuid',
             'full-name-from-pix': 'Sarah Pix',
             'full-name-from-external-identity-provider': 'Sarah Idp',
             username: 'sarahcroche123',

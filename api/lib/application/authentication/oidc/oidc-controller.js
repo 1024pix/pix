@@ -27,14 +27,12 @@ module.exports = {
 
   async findUserForReconciliation(request, h) {
     const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
-    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
 
     const result = await usecases.findUserForOidcReconciliation({
       email,
       password,
       identityProvider,
       authenticationKey,
-      oidcAuthenticationService,
     });
 
     return h.response(oidcSerializer.serialize(result)).code(200);
