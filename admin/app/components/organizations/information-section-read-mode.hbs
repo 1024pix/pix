@@ -31,24 +31,9 @@
         {{#if @organization.provinceCode}}
           <li>Département : {{@organization.provinceCode}}</li>
         {{/if}}
-        {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
-          <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
-        {{/if}}
-        <li>Adresse e-mail d'activation SCO : {{@organization.email}}</li>
-        <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
-        <li>SSO : {{this.identityProviderName}}</li>
-        <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
-        <li>Lien vers le formulaire du Net Promoter Score :
-          {{#if @organization.formNPSUrl}}
-            <a
-              href="{{@organization.formNPSUrl}}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >{{@organization.formNPSUrl}}</a>
-          {{else}}
-            Non spécifié
-          {{/if}}
-        </li>
+
+        <br />
+
         <li>Crédits : {{@organization.credit}}</li>
         <li>Lien vers la documentation :
           {{#if @organization.documentationUrl}}
@@ -61,6 +46,30 @@
             Non spécifié
           {{/if}}
         </li>
+        <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
+        <li>SSO : {{this.identityProviderName}}</li>
+
+        <br />
+
+        <li>Adresse e-mail d'activation SCO : {{@organization.email}}</li>
+        {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+          <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
+        {{/if}}
+
+        <br />
+
+        <li>Lien vers le formulaire du Net Promoter Score :
+          {{#if @organization.formNPSUrl}}
+            <a
+              href="{{@organization.formNPSUrl}}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >{{@organization.formNPSUrl}}</a>
+          {{else}}
+            Non spécifié
+          {{/if}}
+        </li>
+        <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
       </ul>
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
         <div class="form-actions">
