@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const _ = require('lodash');
 const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
@@ -53,28 +53,30 @@ async function _computeScore(assessmentIds) {
   );
   return scores;
 }
+
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    let assessmentIds = [];
-    if (ASSESSMENT_ID) {
-      assessmentIds = [ASSESSMENT_ID];
-    } else {
-      console.error(`Récupération de ${ASSESSMENT_COUNT} assessments...`);
-      assessmentIds = await _retrieveLastScoredAssessmentIds();
-    }
-    const scores = await _computeScore(assessmentIds);
-    scores.forEach((score) => console.log(score));
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+  let assessmentIds = [];
+  if (ASSESSMENT_ID) {
+    assessmentIds = [ASSESSMENT_ID];
+  } else {
+    console.error(`Récupération de ${ASSESSMENT_COUNT} assessments...`);
+    assessmentIds = await _retrieveLastScoredAssessmentIds();
   }
+  const scores = await _computeScore(assessmentIds);
+  scores.forEach((score) => console.log(score));
 }
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
