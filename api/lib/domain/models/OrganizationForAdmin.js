@@ -19,6 +19,7 @@ class OrganizationForAdmin {
     archivistLastName,
     creatorFirstName,
     creatorLastName,
+    identityProviderForCampaigns,
     tags = [],
   } = {}) {
     this.id = id;
@@ -40,6 +41,7 @@ class OrganizationForAdmin {
     this.archivistLastName = archivistLastName;
     this.creatorFirstName = creatorFirstName;
     this.creatorLastName = creatorLastName;
+    this.identityProviderForCampaigns = identityProviderForCampaigns;
     this.tags = tags;
   }
 

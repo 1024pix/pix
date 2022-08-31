@@ -644,6 +644,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'archivist-full-name': 'Jean Bonneau',
               'archived-at': archivedAt,
               'creator-full-name': 'Tom Dereck',
+              'identity-provider-for-campaigns': null,
             },
             id: organization.id.toString(),
             relationships: {
