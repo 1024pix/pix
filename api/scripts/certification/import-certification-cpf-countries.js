@@ -6,7 +6,7 @@
 
 'use strict';
 const { parseCsv } = require('../helpers/csvHelpers');
-const { knex } = require('../../lib/infrastructure/bookshelf');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const { normalizeAndSortChars } = require('../../lib/infrastructure/utils/string-utils');
 const _ = require('lodash');
 
@@ -75,6 +75,8 @@ function checkTransformUnicity(countries) {
   if (hasError) throw new Error('There are more than 1 transformed name with distinct code');
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main(filePath) {
   console.log('Starting script import-certification-cpf-countries');
   const trx = await knex.transaction();
@@ -103,21 +105,21 @@ async function main(filePath) {
     if (trx) {
       trx.rollback();
     }
-    console.error(error);
-    process.exit(1);
   }
 }
 
-if (require.main === module) {
-  const filePath = process.argv[2];
-  main(filePath).then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   buildCountries,
