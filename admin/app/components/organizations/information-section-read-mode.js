@@ -3,7 +3,17 @@ import ENV from 'pix-admin/config/environment';
 import { inject as service } from '@ember/service';
 
 export default class OrganizationInformationSection extends Component {
+  @service oidcIdentityProviders;
   @service accessControl;
+
+  get identityProviderName() {
+    const identityProvider = this.oidcIdentityProviders.list.findBy(
+      'code',
+      this.args.organization.identityProviderForCampaigns
+    );
+    const identityProviderName = identityProvider?.organizationName;
+    return identityProviderName ?? 'Aucun';
+  }
 
   get externalURL() {
     const urlDashboardPrefix = ENV.APP.ORGANIZATION_DASHBOARD_URL;

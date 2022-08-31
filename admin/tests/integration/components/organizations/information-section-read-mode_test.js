@@ -18,6 +18,11 @@ module('Integration | Component | organizations/information-section-read-mode', 
 
     test('it renders general information about organization', async function (assert) {
       // given
+      class OidcIdentityProvidersStub extends Service {
+        list = [{ organizationName: 'super-sso', code: 'IDP' }];
+      }
+      this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
       this.set('organization', {
         type: 'SUP',
         isManagingStudents: false,
@@ -27,6 +32,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
         showSkills: true,
         createdBy: 1,
         creatorFullName: 'Gilles Parbal',
+        identityProviderForCampaigns: 'IDP',
       });
 
       // when
@@ -41,7 +47,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
       assert.dom(screen.getByText('Crédits : 350')).exists();
       assert.dom(screen.getByText('https://pix.fr')).exists();
-      assert.dom(screen.getByText('SSO : Aucun')).exists();
+      assert.dom(screen.getByText('SSO : super-sso')).exists();
     });
 
     test('it renders edit and archive button', async function (assert) {
