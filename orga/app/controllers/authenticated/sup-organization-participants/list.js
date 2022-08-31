@@ -15,4 +15,12 @@ export default class ListController extends Controller {
     this[fieldName] = value || undefined;
     this.pageNumber = null;
   }
+
+  @action
+  onResetFilter() {
+    this.lastName = null;
+    this.firstName = null;
+    this.studentNumber = null;
+    this.groups = [];
+  }
 }
