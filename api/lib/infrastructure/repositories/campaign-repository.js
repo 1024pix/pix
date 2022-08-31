@@ -8,6 +8,8 @@ const targetProfileRepository = require('./target-profile-repository');
 const skillRepository = require('./skill-repository');
 const Stage = require('../../domain/models/Stage');
 
+const CAMPAIGNS_TABLE = 'campaigns';
+
 module.exports = {
   isCodeAvailable(code) {
     return BookshelfCampaign.where({ code })
@@ -57,8 +59,8 @@ module.exports = {
       'multipleSendings',
     ]);
 
-    const createdCampaign = await new BookshelfCampaign(campaignAttributes).save();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, createdCampaign);
+    const [createdCampaign] = await knex(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
+    return new Campaign(createdCampaign);
   },
 
   async update(campaign) {
