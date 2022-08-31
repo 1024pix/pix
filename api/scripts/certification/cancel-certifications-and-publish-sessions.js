@@ -7,7 +7,7 @@ const sessionRepository = require('../../lib/infrastructure/repositories/session
 const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
 const sessionPublicationService = require('../../lib/domain/services/session-publication-service');
 const { parseCsvWithHeader } = require('../helpers/csvHelpers');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 let progression = 0;
 function _logProgression(totalCount) {
@@ -18,23 +18,6 @@ function _logProgression(totalCount) {
 
 function _resetProgression() {
   progression = 0;
-}
-
-async function main() {
-  try {
-    const commandLineArgs = yargs
-      .option('file', {
-        description: 'fichier csv contenant les données de certification à annuler.',
-        type: 'string',
-      })
-      .help().argv;
-    const { file } = _validateArgs(commandLineArgs);
-    await _do({ file });
-  } catch (error) {
-    console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-    yargs.showHelp();
-    process.exit(1);
-  }
 }
 
 function _validateArgs({ file }) {
@@ -185,12 +168,29 @@ async function _findAlreadyPublishedSessions(sessionIdsToPublish) {
   return _.map(results, 'id');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
-    }
-  );
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  const commandLineArgs = yargs
+    .option('file', {
+      description: 'fichier csv contenant les données de certification à annuler.',
+      type: 'string',
+    })
+    .help().argv;
+  const { file } = _validateArgs(commandLineArgs);
+  await _do({ file });
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+      yargs.showHelp();
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
