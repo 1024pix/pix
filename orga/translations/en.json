@@ -892,6 +892,10 @@
         },
         "empty": "No students.",
         "filter": {
+          "actions": {
+            "clear": "Clear filters"
+          },
+          "aria-label":"Filters on students",
           "first-name": {
             "aria-label": "Enter a first name",
             "label": "Search by first name"
@@ -908,7 +912,9 @@
           "student-number": {
             "aria-label": "Enter a student number",
             "label": "Search by student number"
-          }
+          },
+          "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
+          "title": "Filters"
         },
         "row-title": "Student"
       }
