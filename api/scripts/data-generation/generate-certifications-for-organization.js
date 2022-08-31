@@ -1,53 +1,11 @@
 const yargs = require('yargs');
 const _ = require('lodash');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const competenceDatasource = require('../../lib/infrastructure/datasources/learning-content/competence-datasource');
 
 const CERTIF_ERROR_RATE = 0.05;
 const CERTIF_REJECTED_RATE = 0.15;
 const COMPETENCE_MARK_PARTICIPATION_RATES = [0.05, 0.2, 0.5, 0.75];
-
-async function main() {
-  try {
-    console.log('DEBUT');
-    const commandLineArguments = yargs
-      .option('organizationId', {
-        description: "Id de l'organisation.",
-        type: 'number',
-      })
-      .option('certificationCenterId', {
-        description: 'Id du centre de certification.',
-        type: 'number',
-      })
-      .help().argv;
-    console.log('Validation des arguments...');
-    const { organizationId, certificationCenterId } = _validateAndNormalizeArgs(commandLineArguments);
-    console.log('OK');
-    await _do({
-      organizationId,
-      certificationCenterId,
-    });
-    console.log('FIN');
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-}
-
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      console.log(
-        '\n\n Pour que ce script fonctionne pré-requis :' +
-          '- Une organisation SCO isManagingStudents contenant des organization learners' +
-          '- Un centre de certif SCO'
-      );
-      process.exit(1);
-    }
-  );
-}
 
 function _validateAndNormalizeArgs({ organizationId, certificationCenterId }) {
   const finalOrganizationId = _validateAndNormalizeOrganizationId(organizationId);
@@ -345,3 +303,45 @@ function _getChunkSize(objectToBeInserted) {
   }
   return MAX_BINDED_PG;
 }
+
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  console.log('DEBUT');
+  const commandLineArguments = yargs
+    .option('organizationId', {
+      description: "Id de l'organisation.",
+      type: 'number',
+    })
+    .option('certificationCenterId', {
+      description: 'Id du centre de certification.',
+      type: 'number',
+    })
+    .help().argv;
+  console.log('Validation des arguments...');
+  const { organizationId, certificationCenterId } = _validateAndNormalizeArgs(commandLineArguments);
+  console.log('OK');
+  await _do({
+    organizationId,
+    certificationCenterId,
+  });
+  console.log('FIN');
+}
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      console.log(
+        '\n\n Pour que ce script fonctionne pré-requis :' +
+          '- Une organisation SCO isManagingStudents contenant des organization learners' +
+          '- Un centre de certif SCO'
+      );
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
