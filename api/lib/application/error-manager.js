@@ -123,6 +123,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message, error.code);
   }
+  if (error instanceof DomainErrors.DeletedError) {
+    return new HttpErrors.ConflictError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }

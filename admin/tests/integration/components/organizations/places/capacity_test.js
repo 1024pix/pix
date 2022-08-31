@@ -3,7 +3,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Organizations | placesCapacity', function (hooks) {
+module('Integration | Component | Organizations | Places | Capacity', function (hooks) {
   setupRenderingTest(hooks);
 
   module('Display places capacity', function () {
@@ -22,7 +22,7 @@ module('Integration | Component | Organizations | placesCapacity', function (hoo
       this.set('placesCapacity', placesCapacity);
 
       // when
-      const screen = await render(hbs`<Organizations::PlacesCapacity @placesCapacity={{this.placesCapacity}}/>`);
+      const screen = await render(hbs`<Organizations::Places::Capacity @placesCapacity={{this.placesCapacity}}/>`);
 
       // then
       assert.dom(screen.queryByText('7777')).exists();
