@@ -12,7 +12,7 @@ const logger = require('../../lib/infrastructure/logger');
 
 ('use strict');
 const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const values = require('lodash/values');
 
 const headers = {
@@ -107,17 +107,26 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
   logger.info('Done.');
 }
 
-if (require.main === module) {
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
   const dataFilePath = process.argv[2];
   const sessionIdsFilePath = process.argv[3];
-  updateCertificationInfos(dataFilePath, sessionIdsFilePath).then(
-    () => process.exit(0),
-    (err) => {
-      logger.error(err);
-      process.exit(1);
-    }
-  );
+  await updateCertificationInfos(dataFilePath, sessionIdsFilePath);
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      logger.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
 
 module.exports = {
   updateCertificationInfos,
