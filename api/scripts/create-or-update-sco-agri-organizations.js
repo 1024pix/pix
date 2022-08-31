@@ -16,6 +16,7 @@ const OrganizationTag = require('../lib/domain/models/OrganizationTag');
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
+const { disconnect } = require('../db/knex-database-connection');
 
 const TAG_NAME = 'AGRICULTURE';
 
@@ -102,49 +103,48 @@ async function addTag(organizations) {
   }
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting creating or updating SCO AGRICULTURE organizations.');
 
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Reading and parsing csv data file... ');
-    const csvData = await parseCsv(filePath);
-    console.log('ok');
+  console.log('Reading and parsing csv data file... ');
+  const csvData = await parseCsv(filePath);
+  console.log('ok');
 
-    console.log('Checking data... ');
-    const checkedData = checkData({ csvData });
-    console.log('ok');
+  console.log('Checking data... ');
+  const checkedData = checkData({ csvData });
+  console.log('ok');
 
-    console.log('Fetching existing organizations... ');
-    const organizations = await findOrganizationsByExternalIds({ checkedData });
+  console.log('Fetching existing organizations... ');
+  const organizations = await findOrganizationsByExternalIds({ checkedData });
 
-    const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
-    console.log('ok');
+  const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
+  console.log('ok');
 
-    console.log('Creating or updating organizations...');
-    const createOrUpdatedOrganizations = await createOrUpdateOrganizations({ organizationsByExternalId, checkedData });
-    console.log('ok');
+  console.log('Creating or updating organizations...');
+  const createOrUpdatedOrganizations = await createOrUpdateOrganizations({ organizationsByExternalId, checkedData });
+  console.log('ok');
 
-    console.log('Adding AGRICULTURE tag...');
-    await addTag(createOrUpdatedOrganizations);
-    console.log('\nDone.');
-  } catch (error) {
-    console.error(error);
-
-    process.exit(1);
-  }
+  console.log('Adding AGRICULTURE tag...');
+  await addTag(createOrUpdatedOrganizations);
+  console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   addTag,
