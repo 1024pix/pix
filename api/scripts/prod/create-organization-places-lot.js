@@ -1,6 +1,6 @@
 // Usage: node create-organization-places-lot.js path/file.csv
 // To use on file with columns |createdBy, organizationId, count, category, reference, activationDate, expirationDate|, those headers included
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const { parseCsvWithHeader } = require('../helpers/csvHelpers');
 const OrganizationPlacesLot = require('../../lib/domain/models/OrganizationPlacesLot');
 const categories = require('../../lib/domain/constants/organization-places-categories');
@@ -44,40 +44,40 @@ function createOrganizationPlacesLots(organizationPlacesLot) {
   return knex.batchInsert('organization-places', organizationPlacesLot);
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Lecture et parsing du fichier csv... ');
-    const csvData = await parseCsvWithHeader(filePath);
+  console.log('Lecture et parsing du fichier csv... ');
+  const csvData = await parseCsvWithHeader(filePath);
 
-    console.log('Création des modèles et vérification de la cohérence...');
-    const organizationPlacesLot = await prepareOrganizationPlacesLot(csvData);
+  console.log('Création des modèles et vérification de la cohérence...');
+  const organizationPlacesLot = await prepareOrganizationPlacesLot(csvData);
 
-    console.log('Insertion en base...');
-    await createOrganizationPlacesLots(organizationPlacesLot);
+  console.log('Insertion en base...');
+  await createOrganizationPlacesLots(organizationPlacesLot);
 
-    console.log('FIN');
-  } catch (error) {
-    console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-    if (error.invalidAttributes) {
-      error.invalidAttributes.map((invalidAttribute) => {
-        console.error(invalidAttribute.message);
-      });
+  console.log('FIN');
+}
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+      if (error.invalidAttributes) {
+        error.invalidAttributes.map((invalidAttribute) => {
+          console.error(invalidAttribute.message);
+        });
+      }
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-    process.exit(1);
   }
-}
-
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
-    }
-  );
-}
+})();
 
 function _log(message) {
   if (logEnable) {
