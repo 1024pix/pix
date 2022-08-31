@@ -1,7 +1,7 @@
-const { knex } = require('../../lib/infrastructure/bookshelf');
 const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 const { MembershipUpdateError, UserCantBeCreatedError, ForbiddenAccess } = require('../../lib/domain/errors');
 const times = require('lodash/times');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 const INITIAL_ID = 300000;
 
@@ -60,6 +60,8 @@ async function addManyMembersToExistingOrganization({ numberOfUsers }) {
   }
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   const numberOfUsers = process.argv[2];
   const organizationId = process.argv[3];
@@ -75,15 +77,18 @@ async function main() {
   console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   addManyMembersToExistingOrganization,
