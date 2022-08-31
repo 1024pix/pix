@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 async function updateDocumentationUrl() {
   await _updateProOrganizations();
@@ -96,11 +96,21 @@ async function _updateAGRIOrganizations() {
   await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.AGRI });
 }
 
-if (require.main === module) {
-  updateDocumentationUrl()
-    .then(() => process.exit(0))
-    .catch((err) => {
-      console.error(err);
-      process.exit(1);
-    });
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  await updateDocumentationUrl();
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
