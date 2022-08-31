@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
 const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
@@ -120,30 +120,6 @@ async function _printAudit() {
   });
 }
 
-async function main() {
-  try {
-    let finalizedSessionEvents;
-
-    if (IS_FROM_SCRATCH) {
-      await _emptyAuditTable();
-      const sessionsData = await _retrieveFinalizedUnpublishedUnassignedSessionsData();
-      finalizedSessionEvents = sessionsData.map(_sessionDataToEvent);
-      await _writeEventsToAuditTable(finalizedSessionEvents);
-    } else {
-      finalizedSessionEvents = await _retrieveEventsFromAuditTable();
-    }
-
-    await _triggerAutoJuryFromEvents(finalizedSessionEvents);
-
-    console.log('\n\nDone.');
-    console.log('\n***** Results *****');
-    await _printAudit();
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-}
-
 async function _emptyAuditTable() {
   await knex(AUDIT_TABLE).delete();
 }
@@ -162,12 +138,36 @@ async function _toRetry(sessionId, error) {
     .where({ sessionId });
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
-    }
-  );
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  let finalizedSessionEvents;
+
+  if (IS_FROM_SCRATCH) {
+    await _emptyAuditTable();
+    const sessionsData = await _retrieveFinalizedUnpublishedUnassignedSessionsData();
+    finalizedSessionEvents = sessionsData.map(_sessionDataToEvent);
+    await _writeEventsToAuditTable(finalizedSessionEvents);
+  } else {
+    finalizedSessionEvents = await _retrieveEventsFromAuditTable();
+  }
+
+  await _triggerAutoJuryFromEvents(finalizedSessionEvents);
+
+  console.log('\n\nDone.');
+  console.log('\n***** Results *****');
+  await _printAudit();
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
