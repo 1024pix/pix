@@ -1,18 +1,28 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 async function hideSkills() {
   await knex('organizations').where('showSkills', true).update({ showSkills: false });
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  await hideSkills();
+}
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
+
 module.exports = {
   hideSkills,
 };
-
-if (require.main === module) {
-  hideSkills()
-    .then(() => process.exit(0))
-    .catch((err) => {
-      console.error(err);
-      process.exit(1);
-    });
-}
