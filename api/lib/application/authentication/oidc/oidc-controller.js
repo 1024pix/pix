@@ -96,7 +96,12 @@ module.exports = {
   async createUser(request, h) {
     const { identityProvider, authenticationKey } = request.deserializedPayload;
 
-    const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({ authenticationKey, identityProvider });
+    const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
+      authenticationKey,
+      identityProvider,
+      oidcAuthenticationService,
+    });
 
     const response = { access_token: accessToken, logout_url_uuid: logoutUrlUUID };
     return h.response(response).code(200);
