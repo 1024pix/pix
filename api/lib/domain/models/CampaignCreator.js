@@ -11,14 +11,14 @@ class CampaignCreator {
     const { type, targetProfileId } = campaignAttributes;
 
     if (type === CampaignTypes.ASSESSMENT) {
-      _checkAssessmentCampaignCreatationAllowed(targetProfileId, this.availableTargetProfileIds);
+      _checkAssessmentCampaignCreationAllowed(targetProfileId, this.availableTargetProfileIds);
     }
 
     return new CampaignForCreation(campaignAttributes);
   }
 }
 
-function _checkAssessmentCampaignCreatationAllowed(targetProfileId, availableTargetProfileIds) {
+function _checkAssessmentCampaignCreationAllowed(targetProfileId, availableTargetProfileIds) {
   if (targetProfileId && !availableTargetProfileIds.includes(targetProfileId)) {
     throw new UserNotAuthorizedToCreateCampaignError(
       `Organization does not have an access to the profile ${targetProfileId}`
