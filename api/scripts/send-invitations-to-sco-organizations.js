@@ -3,6 +3,7 @@ const bluebird = require('bluebird');
 const { NotFoundError } = require('../lib/domain/errors');
 
 const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
+const { disconnect } = require('../db/knex-database-connection');
 
 const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
 const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
@@ -53,40 +54,40 @@ async function sendJoinOrganizationInvitations(invitations, tags) {
   });
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Start sending "join SCO organization" invitations to users.');
 
-  try {
-    const filePath = process.argv[2];
-    const argTags = process.argv[3];
-    const tags = argTags ? [argTags] : TAGS;
+  const filePath = process.argv[2];
+  const argTags = process.argv[3];
+  const tags = argTags ? [argTags] : TAGS;
 
-    console.log('Reading and parsing csv file... ');
-    const csvData = await parseCsvWithHeader(filePath);
-    console.log(`Succesfully read ${csvData.length} records.`);
+  console.log('Reading and parsing csv file... ');
+  const csvData = await parseCsvWithHeader(filePath);
+  console.log(`Succesfully read ${csvData.length} records.`);
 
-    console.log('Preparing data before sending... ');
-    const invitations = await prepareDataForSending(csvData);
-    console.log('ok');
+  console.log('Preparing data before sending... ');
+  const invitations = await prepareDataForSending(csvData);
+  console.log('ok');
 
-    console.log('Sending invitations...');
-    await sendJoinOrganizationInvitations(invitations, tags);
-    console.log('\nDone.');
-  } catch (error) {
-    console.error('\n', error);
-    process.exit(1);
-  }
+  console.log('Sending invitations...');
+  await sendJoinOrganizationInvitations(invitations, tags);
+  console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error('\n', error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   getOrganizationByExternalId,
