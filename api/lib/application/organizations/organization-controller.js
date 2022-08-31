@@ -144,6 +144,15 @@ module.exports = {
     return organizationPlacesLotManagmentSerializer.serialize(places);
   },
 
+  async deleteOrganizationPlacesLot(request, h) {
+    const organizationPlaceId = request.params.placeId;
+    const userId = request.auth.credentials.userId;
+
+    await usecases.deleteOrganizationPlaceLot({ organizationPlaceId, userId });
+
+    return h.response(null).code(204);
+  },
+
   async createOrganizationPlacesLot(request, h) {
     const organizationId = request.params.id;
     const createdBy = request.auth.credentials.userId;

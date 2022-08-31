@@ -8,7 +8,7 @@ const categories = {
   FULL_RATE: 'Tarif plein',
 };
 
-export default class PlacesCapacity extends Component {
+export default class Capacity extends Component {
   get placesCapacityCategories() {
     return this.args.placesCapacity?.categories
       .filter(({ count }) => count > 0)
