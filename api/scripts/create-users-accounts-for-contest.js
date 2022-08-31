@@ -4,6 +4,7 @@ const userToCreateRepository = require('../lib/infrastructure/repositories/user-
 const authenticationMethodRepository = require('../lib/infrastructure/repositories/authentication-method-repository');
 const userService = require('../lib/domain/services/user-service');
 const encryptionService = require('../lib/domain/services/encryption-service');
+const { disconnect } = require('../db/knex-database-connection');
 
 function prepareDataForInsert(rawUsers) {
   return rawUsers.map(({ firstName, lastName, email, password }) => {
@@ -39,38 +40,38 @@ async function createUsers({ usersInRaw }) {
   });
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting creating users accounts for contest.');
 
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Reading and parsing csv data file... ');
-    const csvData = await parseCsvWithHeader(filePath);
-    console.log('ok');
+  console.log('Reading and parsing csv data file... ');
+  const csvData = await parseCsvWithHeader(filePath);
+  console.log('ok');
 
-    console.log('Preparing data... ');
-    const usersInRaw = prepareDataForInsert(csvData);
-    console.log('ok');
+  console.log('Preparing data... ');
+  const usersInRaw = prepareDataForInsert(csvData);
+  console.log('ok');
 
-    console.log('Creating users...');
-    await createUsers({ usersInRaw });
-    console.log('\nDone.');
-  } catch (error) {
-    console.error('\n', error);
-    process.exit(1);
-  }
+  console.log('Creating users...');
+  await createUsers({ usersInRaw });
+  console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   prepareDataForInsert,
