@@ -24,6 +24,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
+        identityProviderForCampaigns: 'CNAV',
       });
 
       await databaseBuilder.commit();
@@ -56,6 +57,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         archivistLastName: null,
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
+        identityProviderForCampaigns: 'CNAV',
       });
       expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
     });
@@ -154,6 +156,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           archivistLastName: archivist.lastName,
           creatorFirstName: superAdminUser.firstName,
           creatorLastName: superAdminUser.lastName,
+          identityProviderForCampaigns: null,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });

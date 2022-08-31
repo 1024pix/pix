@@ -24,6 +24,7 @@ module.exports = {
         'memberships',
         'students',
         'targetProfileSummaries',
+        'identityProviderForCampaigns',
       ],
       memberships: {
         ref: 'id',

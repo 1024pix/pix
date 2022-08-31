@@ -25,6 +25,7 @@ function _toDomain(rawOrganization) {
     archivistLastName: rawOrganization.archivistLastName,
     creatorFirstName: rawOrganization.creatorFirstName,
     creatorLastName: rawOrganization.creatorLastName,
+    identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
   });
 
   organization.tags = rawOrganization.tags || [];
@@ -55,6 +56,7 @@ module.exports = {
         archivistLastName: 'archivists.lastName',
         creatorFirstName: 'creators.firstName',
         creatorLastName: 'creators.lastName',
+        identityProviderForCampaigns: 'organizations.identityProviderForCampaigns',
       })
       .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
       .leftJoin('users AS creators', 'creators.id', 'organizations.createdBy')

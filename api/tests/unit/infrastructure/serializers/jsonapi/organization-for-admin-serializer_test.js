@@ -16,6 +16,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         documentationUrl: 'https://pix.fr/',
         archivistFirstName: 'John',
         archivistLastName: 'Doe',
+        identityProviderForCampaigns: 'super-idp',
       });
       const meta = { some: 'meta' };
 
@@ -44,6 +45,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'archived-at': organization.archivedAt,
             'archivist-full-name': organization.archivistFullName,
             'creator-full-name': organization.creatorFullName,
+            'identity-provider-for-campaigns': 'super-idp',
           },
           relationships: {
             memberships: {
