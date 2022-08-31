@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const Campaign = require('../../domain/models/Campaign');
+const skillRepository = require('./skill-repository');
 
 const CAMPAIGNS_TABLE = 'campaigns';
 
@@ -42,6 +43,7 @@ module.exports = {
   },
 
   async save(campaign) {
+    const trx = await knex.transaction();
     const campaignAttributes = _.pick(campaign, [
       'name',
       'code',
@@ -55,9 +57,28 @@ module.exports = {
       'targetProfileId',
       'multipleSendings',
     ]);
-
-    const [createdCampaign] = await knex(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
-    return new Campaign(createdCampaign);
+    try {
+      const [createdCampaignDTO] = await trx(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
+      const createdCampaign = new Campaign(createdCampaignDTO);
+      if (createdCampaign.isAssessment()) {
+        const cappedTubes = await trx('target-profile_tubes')
+          .select('tubeId', 'level')
+          .where('targetProfileId', campaignAttributes.targetProfileId);
+        const skillIds = [];
+        for (const cappedTube of cappedTubes) {
+          const allLevelSkills = await skillRepository.findActiveByTubeId(cappedTube.tubeId);
+          const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
+          skillIds.push(...rightLevelSkills.map((skill) => skill.id));
+        }
+        const skillData = skillIds.map((skillId) => ({ skillId, campaignId: createdCampaign.id }));
+        await trx.batchInsert('campaign_skills', skillData);
+      }
+      await trx.commit();
+      return createdCampaign;
+    } catch (err) {
+      await trx.rollback();
+      throw err;
+    }
   },
 
   async update(campaign) {
