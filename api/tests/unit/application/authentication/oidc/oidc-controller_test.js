@@ -253,9 +253,14 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         deserializedPayload: { identityProvider, authenticationKey: 'abcde' },
       };
       const accessToken = 'access.token';
+      const oidcAuthenticationService = {};
+      sinon
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
+        .withArgs(identityProvider)
+        .returns(oidcAuthenticationService);
       sinon
         .stub(usecases, 'createOidcUser')
-        .withArgs({ authenticationKey: 'abcde', identityProvider })
+        .withArgs({ authenticationKey: 'abcde', identityProvider, oidcAuthenticationService })
         .resolves({ accessToken, logoutUrlUUID: 'logoutUrlUUID' });
 
       // when
