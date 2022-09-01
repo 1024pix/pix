@@ -55,6 +55,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     externalId: SCO_COLLEGE_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
+    identityProviderForCampaigns: 'GAR',
   });
 
   databaseBuilder.factory.buildMembership({
