@@ -117,6 +117,12 @@ class OidcAuthenticationService {
       );
     }
 
+    if (!userInfoContent || typeof userInfoContent !== 'object') {
+      const message = 'Les informations utilisateur récupérées ne sont pas au format attendu.';
+      logger.error(message);
+      throw new InvalidExternalAPIResponseError(message);
+    }
+
     if (!userInfoContent.family_name || !userInfoContent.given_name || !userInfoContent.sub) {
       logger.error(`Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify(userInfoContent)}.`);
       throw new InvalidExternalAPIResponseError('Les informations utilisateurs récupérées sont incorrectes.');
