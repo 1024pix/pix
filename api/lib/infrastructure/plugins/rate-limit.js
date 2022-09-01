@@ -1,6 +1,6 @@
 const config = require('../../config');
 const logger = require('../logger');
-const createRedisRateLimit = require('../utils/redis-rate-limit');
+const createRedisRateLimit = require('../utils/redis-rate-limiter');
 const { TooManyRequestsError } = require('../../application/http-errors');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
     key: (request) => {
       return request.auth.credentials.userId;
     },
-    redisClient: config.rateLimit.redisUrl ? createRedisRateLimit(config.rateLimit.redisUrl) : null,
+    redisClient: config.rateLimit.redisUrl ? createRedisRateLimit : null,
     overLimitError: (rate, request, h) => {
       logger.error({ request_id: request.headers['x-request-id'], overLimit: rate.overLimit }, 'Rate limit exceeded');
       if (config.rateLimit.logOnly) {

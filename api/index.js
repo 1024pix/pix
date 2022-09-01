@@ -5,6 +5,10 @@ validateEnvironmentVariables();
 const createServer = require('./server');
 const logger = require('./lib/infrastructure/logger');
 const { disconnect } = require('./db/knex-database-connection');
+const cache = require('./lib/infrastructure/caches/learning-content-cache');
+const temporaryStorage = require('./lib/infrastructure/temporary-storage/index');
+const redisMonitor = require('./lib/infrastructure/utils/redis-monitor');
+const redisRateLimiter = require('./lib/infrastructure/utils/redis-rate-limiter');
 
 let server;
 
@@ -19,8 +23,15 @@ async function _exitOnSignal(signal) {
   await server.stop({ timeout: 30000 });
   logger.info('Closing connexions to database...');
   await disconnect();
-  // eslint-disable-next-line node/no-process-exit
-  process.exit();
+  logger.info('Closing connexions to cache...');
+  cache.quit();
+  logger.info('Closing connexions to temporary storage...');
+  temporaryStorage.quit();
+  logger.info('Closing connexions to redis monitor...');
+  redisMonitor.quit();
+  logger.info('Closing connexions to redis rate limiter...');
+  redisRateLimiter.quit();
+  logger.info('Exiting process...');
 }
 
 process.on('SIGTERM', () => {
