@@ -348,7 +348,6 @@ module.exports = injectDependencies(
     getShareableCertificate: require('./certificate/get-shareable-certificate'),
     getStageDetails: require('./get-stage-details'),
     getSupervisorKitSessionInfo: require('./get-supervisor-kit-session-info'),
-    getTargetProfileDetails: require('./get-target-profile-details'),
     getTargetProfileForAdmin: require('./get-target-profile-for-admin'),
     getTargetProfileContentAsJson: require('./get-target-profile-content-as-json'),
     getFrameworks: require('./get-frameworks'),
