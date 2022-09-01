@@ -957,7 +957,7 @@
       },
       "error": {
         "error-message": "Please agree to the terms and conditions of use.",
-        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in",
+        "expired-authentication-key": "Your authentication demand has expired.",
         "invalid-email": "Your email address is invalid.",
         "login-unauthorized-error": "There was an error in the email address or password entered."
       }
