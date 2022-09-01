@@ -5,18 +5,18 @@ module.exports = async function getCampaignParticipationsCountByStage({
   campaignId,
   campaignRepository,
   campaignParticipationRepository,
-  targetProfileWithLearningContentRepository,
+  targetProfileRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
   }
 
-  const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
-  if (!targetProfile.hasReachableStages()) {
+  const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+  if (!targetProfile.hasReachableStages) {
     throw new NoStagesForCampaign();
   }
 
-  const stagesBoundaries = targetProfile.getStageThresholdBoundaries();
+  const stagesBoundaries = targetProfile.stageThresholdBoundaries;
   const data = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
 
   return targetProfile.stages.map((stage) => ({
