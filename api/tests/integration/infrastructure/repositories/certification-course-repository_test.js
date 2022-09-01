@@ -168,19 +168,36 @@ describe('Integration | Repository | Certification Course', function () {
         [
           {
             certificationCourseId: expectedCertificationCourse.id,
-            partnerKey: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }).key,
+            badge: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }),
+            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
           },
           {
             certificationCourseId: expectedCertificationCourse.id,
-            partnerKey: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }).key,
+            badge: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }),
+            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
           },
           {
             certificationCourseId: anotherCourseId,
-            partnerKey: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }).key,
+            badge: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }),
+            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
           },
         ],
-        (acquiredPartnerCertification) =>
-          databaseBuilder.factory.buildComplementaryCertificationCourseResult(acquiredPartnerCertification)
+        ({ certificationCourseId, complementaryCertificationId, badge }) => {
+          const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+            badgeId: badge.id,
+            complementaryCertificationId,
+          }).id;
+          const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+            certificationCourseId,
+            complementaryCertificationId,
+            complementaryCertificationBadgeId,
+          }).id;
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            partnerKey: badge.partnerKey,
+            complementaryCertificationCourseId,
+            certificationCourseId,
+          });
+        }
       );
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: expectedCertificationCourse.id,

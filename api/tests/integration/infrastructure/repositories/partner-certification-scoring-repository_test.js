@@ -25,20 +25,29 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME).delete();
       await knex(COMPLEMENTARY_CERTIFICATION_COURSES_TABLE_NAME).delete();
       await knex('certification-courses').delete();
+      await knex('complementary-certification-badges').delete();
       await knex('badges').delete();
     });
 
     it('should insert the complementary certification course results in db if it does not already exists by partnerKey', async function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      const badgeId = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST' }).id;
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 123,
+        complementaryCertificationId,
+        badgeId,
+      }).id;
       const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
         certificationCourseId,
+        complementaryCertificationId,
+        complementaryCertificationBadgeId,
       }).id;
-      const partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
+      const partnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
         complementaryCertificationCourseId,
-        certificationCourseId,
+        certifiableBadgeKey: 'PIX+_TEST',
       });
-      databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.partnerKey });
       await databaseBuilder.commit();
       sinon.stub(partnerCertificationScoring, 'isAcquired').returns(true);
 
