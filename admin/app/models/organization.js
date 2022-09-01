@@ -21,6 +21,7 @@ export default class Organization extends Model {
   @attr('nullable-string') archivistFullName;
   @attr('date') archivedAt;
   @attr('nullable-string') creatorFullName;
+  @attr() identityProviderForCampaigns;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
