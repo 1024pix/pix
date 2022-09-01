@@ -54,12 +54,20 @@ module.exports = class LearningContent {
     );
   }
 
+  getKnowledgeElementsGroupedByCompetence(knowledgeElements) {
+    return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+  }
+
   countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
     const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(
       knowledgeElements,
       (knowledgeElement) => knowledgeElement.isValidated
     );
     return _.mapValues(validatedGroupedByCompetence, 'length');
+  }
+
+  get skillNames() {
+    return this.skills.map((skill) => skill.name);
   }
 
   _getTubeIdOfSkill(skillId) {

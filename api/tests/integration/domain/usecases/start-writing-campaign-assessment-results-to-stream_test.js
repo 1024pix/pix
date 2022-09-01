@@ -7,17 +7,7 @@ const {
   streamToPromise,
 } = require('../../../test-helper');
 
-const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
-
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
-
+const usecases = require('../../../../lib/domain/usecases');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
@@ -181,19 +171,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         '"KO"';
 
       // when
-      startWritingCampaignAssessmentResultsToStream({
+      await usecases.startWritingCampaignAssessmentResultsToStream({
         userId: user.id,
         campaignId: campaign.id,
         writableStream,
         i18n,
-        campaignRepository,
-        userRepository,
-        targetProfileWithLearningContentRepository,
-        organizationRepository,
-        campaignParticipationInfoRepository,
-        knowledgeElementRepository,
-        badgeAcquisitionRepository,
-        campaignCsvExportService,
       });
 
       const csv = await csvPromise;
