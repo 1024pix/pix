@@ -9,7 +9,7 @@ const {
 } = require('../../../test-helper');
 
 describe('Acceptance | API | Campaign Participations | Analyses', function () {
-  let server, options, userId, organization, targetProfile, campaign, campaignParticipation;
+  let server, options, userId, organization, campaign, campaignParticipation;
 
   beforeEach(async function () {
     server = await createServer();

@@ -27,9 +27,7 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
       const tutorials = Symbol('tutorials');
       const campaignAnalysis = Symbol('analysis');
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      learningContentRepository.findByCampaignId
-        .withArgs(campaignId, locale)
-        .resolves(targetProfile);
+      learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(targetProfile);
       tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
       campaignAnalysisRepository.getCampaignAnalysis
         .withArgs(campaignId, targetProfile, tutorials)

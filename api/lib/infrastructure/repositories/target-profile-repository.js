@@ -73,6 +73,7 @@ module.exports = {
               query.orderBy('threshold', 'ASC');
             },
           },
+          'badges',
         ],
       });
 

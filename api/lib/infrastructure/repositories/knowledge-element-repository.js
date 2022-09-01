@@ -178,13 +178,13 @@ module.exports = {
     return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, learningContent);
   },
 
-  async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
+  async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, learningContent) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       knowledgeElementsGroupedByUserAndCompetence[userId] =
-        targetProfileWithLearningContent.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
+        learningContent.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
