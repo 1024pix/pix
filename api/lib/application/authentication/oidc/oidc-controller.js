@@ -9,8 +9,8 @@ const config = require('../../../config');
 const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
 
 module.exports = {
-  async getIdentityProviders() {
-    return serializer.serialize(Object.values(OidcIdentityProviders));
+  async getIdentityProviders(request, h) {
+    return h.response(serializer.serialize(Object.values(OidcIdentityProviders))).code(200);
   },
 
   async getRedirectLogoutUrl(request, h) {
@@ -38,7 +38,7 @@ module.exports = {
     return h.response(oidcSerializer.serialize(result)).code(200);
   },
 
-  async reconcileUser(request) {
+  async reconcileUser(request, h) {
     const { identityProvider, authenticationKey } = request.deserializedPayload;
     const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
 
@@ -47,10 +47,7 @@ module.exports = {
       oidcAuthenticationService,
     });
 
-    return {
-      access_token: result.accessToken,
-      logout_url_uuid: result.logoutUrlUUID,
-    };
+    return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
   },
 
   async getAuthenticationUrl(request, h) {
@@ -60,7 +57,7 @@ module.exports = {
     return h.response(result).code(200);
   },
 
-  async authenticateUser(request) {
+  async authenticateUser(request, h) {
     const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
     let authenticatedUserId;
     if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
@@ -81,10 +78,7 @@ module.exports = {
     });
 
     if (result.isAuthenticationComplete) {
-      return {
-        access_token: result.pixAccessToken,
-        logout_url_uuid: result.logoutUrlUUID,
-      };
+      return h.response({ access_token: result.pixAccessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
     } else {
       const message = "L'utilisateur n'a pas de compte Pix";
       const responseCode = 'SHOULD_VALIDATE_CGU';

@@ -13,7 +13,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#getIdentityProviders', function () {
     it('should return the list of oidc identity providers', async function () {
       // given & when
-      const response = await oidcController.getIdentityProviders();
+      const response = await oidcController.getIdentityProviders(null, hFake);
 
       // then
       const expectedCnavProvider = {
@@ -21,7 +21,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         id: 'cnav',
         attributes: { code: 'CNAV', 'organization-name': 'CNAV', 'has-logout-url': false, source: 'cnav' },
       };
-      expect(response.data).to.deep.contain(expectedCnavProvider);
+      expect(response.source.data).to.deep.contain(expectedCnavProvider);
     });
   });
 
@@ -156,7 +156,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         access_token: pixAccessToken,
         logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
       };
-      expect(response).to.deep.equal(expectedResult);
+      expect(response.source).to.deep.equal(expectedResult);
     });
 
     it('should return UnauthorizedError if pix access token does not exist', async function () {
@@ -329,10 +329,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
 
       // when
-      const result = await oidcController.reconcileUser(request);
+      const result = await oidcController.reconcileUser(request, hFake);
 
       // then
-      expect(result).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
+      expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
     });
   });
 });
