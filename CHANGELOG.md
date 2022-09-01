@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.248.0 (01/09/2022)
+
+
+### :rocket: Amélioration
+- [#4846](https://github.com/1024pix/pix/pull/4846) [FEATURE] Afficher le SSO d'une organisation sur la page de détail d'une organisation sur Pix Admin(PIX-5571)
+- [#4795](https://github.com/1024pix/pix/pull/4795) [FEATURE] Permettre la suppression d'un lot de place (PIX-5346)
+- [#4842](https://github.com/1024pix/pix/pull/4842) [FEATURE] Sortir les filtres des étudiants du tableau (PIX-5536).
+- [#4814](https://github.com/1024pix/pix/pull/4814) [FEATURE] Ajout du lien menant au détail de ma participation même si celle ci est désactivée par l'organisateur (PIX-5519)
+- [#4820](https://github.com/1024pix/pix/pull/4820) [FEATURE] Déplacer les filtres de la page élèves dans un bandeau dédié (PIX-5535)
+- [#4832](https://github.com/1024pix/pix/pull/4832) [FEATURE] Ajout d'un tooltip sur l'en-tête de la colonne certificabilité dans le tableau sur la page des élèves (PIX-5476)
+- [#4813](https://github.com/1024pix/pix/pull/4813) [FEATURE] Affichage de la certificabilité dans l'onglet élèves de Pix Orga (PIX-5481).
+- [#4839](https://github.com/1024pix/pix/pull/4839) [FEATURE] Pouvoir identifier les organisations qui utilisent le GAR (PIX-5139)
+
+### :building_construction: Tech
+- [#4666](https://github.com/1024pix/pix/pull/4666) [TECH] Se déconnecter de redis avant d'arrêter le serveur
+- [#4740](https://github.com/1024pix/pix/pull/4740) [TECH] Supprimer la dépendance ember-route-action-helper (PIX-5471).
+- [#4838](https://github.com/1024pix/pix/pull/4838) [TECH] Utiliser le service oidc providers pour afficher les méthodes de connexion OIDC (PIX-5537)
+- [#4835](https://github.com/1024pix/pix/pull/4835) [TECH] Refactorer le scoring des certifications complémentaires hors CléA (PIX-5517)
+
 ## v3.247.0 (30/08/2022)
 
 
