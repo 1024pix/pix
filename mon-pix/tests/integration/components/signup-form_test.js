@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import { clickByLabel } from '../../helpers/click-by-label';
+import Service from '@ember/service';
 
 import { fillIn, find, findAll, settled, triggerEvent, waitUntil } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
@@ -257,6 +258,14 @@ describe('Integration | Component | SignupForm', function () {
   });
 
   describe('Behaviors', function () {
+    let session;
+    beforeEach(function () {
+      class sessionService extends Service {
+        authenticateUser = sinon.stub().resolves();
+      }
+      this.owner.register('service:session', sessionService);
+      session = this.owner.lookup('service:session', sessionService);
+    });
     describe('behavior when signup successful (test external calls)', function () {
       it('should return true if action <Signup> is handled', async function () {
         // given
@@ -276,9 +285,7 @@ describe('Integration | Component | SignupForm', function () {
         this.set('authenticateUser', () => {});
 
         this.set('user', user);
-        await render(
-          hbs`<SignupForm @user={{this.user}} @signup="signup" @authenticateUser={{action this.authenticateUser}} />`
-        );
+        await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
@@ -306,17 +313,15 @@ describe('Integration | Component | SignupForm', function () {
           },
         });
         this.set('user', user);
-        await render(
-          hbs`<SignupForm @user={{this.user}} @signup="signup" @authenticateUser={{action this.authenticateUser}} />`
-        );
+        await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {
-          sinon.assert.calledOnce(authenticateUserStub);
-          sinon.assert.calledWith(authenticateUserStub, { login: 'toto@pix.fr', password: 'gipix2017' });
+          sinon.assert.calledOnce(session.authenticateUser);
+          sinon.assert.calledWith(session.authenticateUser, 'toto@pix.fr', 'gipix2017');
           expect(user.password).to.be.null;
         });
       });
@@ -597,7 +602,7 @@ describe('Integration | Component | SignupForm', function () {
 
         this.set('user', userWithCguAccepted);
         this.set('authenticateUser', () => {});
-        await render(hbs`<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
+        await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
@@ -623,7 +628,7 @@ describe('Integration | Component | SignupForm', function () {
 
         this.set('user', validUser);
         this.set('authenticateUser', () => {});
-        await render(hbs`<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
+        await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
@@ -652,6 +657,11 @@ describe('Integration | Component | SignupForm', function () {
 
     it('should display a loading spinner when user submit signup', async function () {
       // given
+      class sessionService extends Service {
+        authenticateUser = sinon.stub().resolves();
+      }
+      this.owner.register('service:session', sessionService);
+
       const validUser = EmberObject.create({
         email: 'toto@pix.fr',
         firstName: 'Marion',
@@ -663,8 +673,7 @@ describe('Integration | Component | SignupForm', function () {
         },
       });
       this.set('user', validUser);
-      this.set('authenticateUser', () => {});
-      await render(hbs`<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
+      await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
       await clickByLabel("Je m'inscris");

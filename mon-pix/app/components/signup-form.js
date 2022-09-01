@@ -136,9 +136,8 @@ export default class SignupForm extends Component {
     const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
     this.args.user
       .save({ adapterOptions: { campaignCode } })
-      .then(() => {
-        const credentials = { login: this.args.user.email, password: this.args.user.password };
-        this.args.authenticateUser(credentials);
+      .then(async () => {
+        await this.session.authenticateUser(this.args.user.email, this.args.user.password);
         this._tokenHasBeenUsed = true;
         this.args.user.password = null;
       })

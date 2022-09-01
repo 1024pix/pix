@@ -53,6 +53,27 @@ describe('Unit | Component | signup-form', function () {
       expect(pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
     });
 
+    it('should authenticate user after sign up', async () => {
+      const userWithSpaces = EmberObject.create({
+        firstName: 'Chris',
+        lastName: 'MylastName',
+        email: 'user@example.net',
+        password: 'Pix12345',
+        save: sinon.stub().resolves(),
+      });
+      component.args.user = userWithSpaces;
+
+      const authenticateStub = sinon.stub().resolves();
+      const sessionStub = { authenticateUser: authenticateStub };
+      component.session = sessionStub;
+
+      // when
+      await component.signup();
+
+      // then
+      sinon.assert.calledWith(authenticateStub, userWithSpaces.email, userWithSpaces.password);
+    });
+
     it('should send campaignCode when is defined', () => {
       // given
       const userWithSpaces = EmberObject.create({
