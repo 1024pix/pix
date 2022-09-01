@@ -81,54 +81,24 @@ describe('Unit | Controller | user-account | connection-methods', function () {
     });
   });
 
-  context('#shouldShowPoleEmploiAuthenticationMethod', function () {
-    it('should display pole emploi authentication method', function () {
+  describe('#oidcAuthenticationMethodOrganizationNames', function () {
+    it('should return method organization names', function () {
       // given & when
-      const poleEmploi = {
-        id: 'pole-emploi',
-        code: 'POLE_EMPLOI',
-      };
       class OidcIdentityProvidersStub extends Service {
-        'pole-emploi' = poleEmploi;
+        getIdentityProviderNamesByAuthenticationMethods() {
+          return ['France Connect', 'Impots.gouv'];
+        }
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
-      const authenticationMethods = [EmberObject.create({ identityProvider: 'POLE_EMPLOI' })];
       const model = {
         user: {},
-        authenticationMethods,
+        authenticationMethods: [EmberObject.create({ identityProvider: 'FRANCE_CONNECT' })],
       };
       controller.set('model', model);
 
       // then
-      expect(controller.shouldShowPoleEmploiAuthenticationMethod).to.be.true;
-    });
-  });
-
-  context('#shouldShowCnavAuthenticationMethod', function () {
-    it('should display cnav authentication method', function () {
-      // given
-      const cnav = {
-        id: 'cnav',
-        code: 'CNAV',
-      };
-      class OidcIdentityProvidersStub extends Service {
-        cnav = cnav;
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
-      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
-      const authenticationMethods = [EmberObject.create({ identityProvider: 'CNAV' })];
-      const model = {
-        user: {},
-        authenticationMethods,
-      };
-      controller.set('model', model);
-
-      // when
-      const result = controller.shouldShowCnavAuthenticationMethod;
-
-      // then
-      expect(result).to.be.true;
+      expect(controller.oidcAuthenticationMethodOrganizationNames).to.be.an('array').that.includes('France Connect');
     });
   });
 });

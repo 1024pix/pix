@@ -1478,9 +1478,8 @@
         "username": "Identifiant",
         "authentication-methods": {
           "label": "Connexion externe",
-          "gar": "via ENT/Mediacentre",
-          "pole-emploi": "via Pôle Emploi",
-          "cnav": "via CNAV"
+          "via": "via {identityProviderOrganizationName}",
+          "gar": "via ENT/Mediacentre"
         }
       },
       "email-verification": {
