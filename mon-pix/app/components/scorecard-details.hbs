@@ -151,7 +151,7 @@
   {{/if}}
 </div>
 {{#if this.showResetModal}}
-  <PixModal
+  <PixModalDeprecated
     @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide"
     @onClickOverlay={{this.closeModal}}
     @originId="#reset-button"
@@ -209,5 +209,5 @@
         </PixButton>
       </div>
     </div>
-  </PixModal>
+  </PixModalDeprecated>
 {{/if}}
