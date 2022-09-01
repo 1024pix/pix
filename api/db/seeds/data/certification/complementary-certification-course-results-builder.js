@@ -9,7 +9,10 @@ const { CERTIF_DROIT_USER5_ID } = require('./users');
 const {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
 } = require('./certification-centers-builder');
 
 function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
@@ -21,6 +24,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   const { id: complementaryCertifCourseSuccessCleaId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    complementaryCertificationBadgeId: PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessCleaId,
@@ -31,6 +35,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   const { id: complementaryCertifCourseFailureId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: CERTIFICATION_COURSE_FAILURE_ID,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    complementaryCertificationBadgeId: PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseFailureId,
@@ -42,6 +47,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     {
       certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
       complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+      complementaryCertificationBadgeId: PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
     },
   );
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
@@ -52,7 +58,8 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
 
   const { id: complementaryCertifCourseEduId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: CERTIFICATION_COURSE_EDU_ID,
-    complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    complementaryCertificationBadgeId: PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseEduId,

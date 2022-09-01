@@ -55,15 +55,32 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         id: 24,
         name: 'Pix+ Édu',
       }).id;
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 3454,
+        complementaryCertificationId: complementaryEduCertificationId,
+        badgeId: pixEduBadgeId,
+        label: 'Pix+ Edu label',
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 7678,
+        complementaryCertificationId: complementaryDroitCertificationId,
+        badgeId: pixDroitBadgeId,
+        label: 'Pix+ Droit label',
+      });
+
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 123,
         complementaryCertificationId: 23,
         certificationCourseId: 1,
+        complementaryCertificationBadgeId: 7678,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 456,
         complementaryCertificationId: 24,
         certificationCourseId: 1,
+        complementaryCertificationBadgeId: 3454,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
@@ -78,18 +95,6 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         source: 'PIX',
         partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
         acquired: true,
-      });
-
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        complementaryCertificationId: complementaryEduCertificationId,
-        badgeId: pixEduBadgeId,
-        label: 'Pix+ Edu label',
-      });
-
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        complementaryCertificationId: complementaryDroitCertificationId,
-        badgeId: pixDroitBadgeId,
-        label: 'Pix+ Droit label',
       });
 
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
