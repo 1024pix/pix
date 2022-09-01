@@ -1,8 +1,19 @@
 import ApplicationAdapter from './application';
+import queryString from 'query-string';
 
 export default class SessionAdapter extends ApplicationAdapter {
   urlForQuery() {
     return `${this.host}/${this.namespace}/admin/sessions`;
+  }
+
+  findHasMany(store, snapshot, url, relationship) {
+    url = this.urlPrefix(url, this.buildURL(snapshot.modelName, snapshot.id, null, 'findHasMany'));
+    if (relationship.type === 'jury-certification-summary' && snapshot.adapterOptions) {
+      const options = queryString.stringify(snapshot.adapterOptions);
+      url += '?' + options;
+    }
+
+    return this.ajax(url, 'GET');
   }
 
   urlForFindRecord(id) {
