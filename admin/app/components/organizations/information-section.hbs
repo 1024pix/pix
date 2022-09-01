@@ -13,14 +13,14 @@
     </div>
 
     {{#if this.isEditMode}}
-      <Organizations::Information-section-edition-mode
+      <Organizations::InformationSectionEdit
         @organization={{@organization}}
         @toggleEditMode={{this.toggleEditMode}}
         @cancel={{this.cancel}}
         @onSubmit={{@onSubmit}}
       />
     {{else}}
-      <Organizations::Information-section-read-mode
+      <Organizations::InformationSectionView
         @organization={{@organization}}
         @toggleEditMode={{this.toggleEditMode}}
         @toggleArchivingConfirmationModal={{this.toggleArchivingConfirmationModal}}
