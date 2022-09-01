@@ -1,11 +1,9 @@
 import { describe, it } from 'mocha';
 import { authenticateByEmail, authenticateByGAR, authenticateByUsername } from '../../helpers/authentication';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { triggerEvent } from '@ember/test-helpers';
-import Service from '@ember/service';
 import { visit } from '@1024pix/ember-testing-library';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
@@ -50,22 +48,13 @@ describe('Acceptance | user-account | connection-methods', function () {
       expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.gar'))).to.exist;
     });
 
-    it("should display user's Pole Emploi authentication method", async function () {
+    it("should display user's OIDC authentication methods", async function () {
       // given
-      const poleEmploi = {
-        id: 'pole-emploi',
-        code: 'POLE_EMPLOI',
-      };
-      class OidcIdentityProvidersStub extends Service {
-        'pole-emploi' = poleEmploi;
-        load = sinon.stub().resolves();
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const userDetails = {
         email: 'john.doe@example.net',
       };
       const user = server.create('user', 'withEmail', userDetails);
-      server.create('authentication-method', 'withPoleEmploiIdentityProvider', { user });
+      server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
 
       // when
       await visit(
@@ -77,36 +66,7 @@ describe('Acceptance | user-account | connection-methods', function () {
 
       // then
       expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.pole-emploi'))).to.exist;
-    });
-
-    it("should display user's Cnav authentication method", async function () {
-      // given
-      const cnav = {
-        id: 'cnav',
-        code: 'CNAV',
-      };
-      class OidcIdentityProvidersStub extends Service {
-        cnav = cnav;
-        load = sinon.stub().resolves();
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
-      const cnavUser = server.create('user', 'external');
-      server.create('authentication-method', 'withCnavIdentityProvider', { user: cnavUser });
-
-      // when
-      await visit(
-        '/?token=aaa.' + btoa(`{"user_id":${cnavUser.id},"source":"cnav","iat":1545321469,"exp":4702193958}`) + '.bbb'
-      );
-      const screen = await visit('/mon-compte/methodes-de-connexion');
-
-      // then
-      expect(
-        screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))
-      ).to.exist;
-      expect(
-        screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav'))
-      ).to.exist;
+      expect(contains('Partenaire OIDC')).to.exist;
     });
   });
 

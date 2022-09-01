@@ -23,16 +23,8 @@ export default class OidcReconciliationComponent extends Component {
     );
   }
 
-  get shouldShowPoleEmploiAuthenticationMethod() {
-    return this.args.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'POLE_EMPLOI'
-    );
-  }
-
-  get shouldShowCnavAuthenticationMethod() {
-    return this.args.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'CNAV'
-    );
+  get oidcAuthenticationMethodOrganizationNames() {
+    return this.oidcIdentityProviders.getIdentityProviderNamesByAuthenticationMethods(this.args.authenticationMethods);
   }
 
   @action
