@@ -25,6 +25,10 @@ class TemporaryStorage {
     throw new Error('Method #deleteByPrefix(prefix) must be overridden');
   }
 
+  quit() {
+    throw new Error('Method #quit() must be overridden');
+  }
+
   withPrefix(prefix) {
     const storage = this;
     return {
