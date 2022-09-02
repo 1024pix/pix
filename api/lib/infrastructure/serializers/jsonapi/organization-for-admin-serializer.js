@@ -14,6 +14,7 @@ module.exports = {
         'email',
         'documentationUrl',
         'createdBy',
+        'createdAt',
         'showNPS',
         'formNPSUrl',
         'showSkills',
