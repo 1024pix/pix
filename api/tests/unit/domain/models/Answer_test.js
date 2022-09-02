@@ -88,8 +88,8 @@ describe('Unit | Domain | Models | Answer', function () {
 
     it('should return the maximal skill difficulty of a challenge', function () {
       // given
-      const web5 = new Skill({ name: '@web5' });
-      const url1 = new Skill({ name: '@url1' });
+      const web5 = new Skill({ name: '@web', difficulty: 5 });
+      const url1 = new Skill({ name: '@url', difficulty: 1 });
       const challenge = { skills: [web5, url1] };
       const answer = new Answer({ result: 'ko' });
       answer.challenge = challenge;

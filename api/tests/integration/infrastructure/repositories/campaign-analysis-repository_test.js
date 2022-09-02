@@ -57,16 +57,36 @@ describe('Integration | Repository | Campaign analysis repository', function () 
       beforeEach(async function () {
         campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        const url1 = domainBuilder.buildTargetedSkill({ id: 'recUrl1', tubeId: 'recTubeUrl', name: '@url1' });
-        const url2 = domainBuilder.buildTargetedSkill({ id: 'recUrl2', tubeId: 'recTubeUrl', name: '@url2' });
+        const url1 = domainBuilder.buildTargetedSkill({
+          id: 'recUrl1',
+          tubeId: 'recTubeUrl',
+          name: '@url1',
+          difficulty: 1,
+        });
+        const url2 = domainBuilder.buildTargetedSkill({
+          id: 'recUrl2',
+          tubeId: 'recTubeUrl',
+          name: '@url2',
+          difficulty: 2,
+        });
         const tubeUrl = domainBuilder.buildTargetedTube({
           id: 'recTubeUrl',
           competenceId: 'recCompetence',
           skills: [url1, url2],
         });
 
-        const file2 = domainBuilder.buildTargetedSkill({ id: 'recFile2', tubeId: 'recTubeFile', name: '@file2' });
-        const file3 = domainBuilder.buildTargetedSkill({ id: 'recFile3', tubeId: 'recTubeFile', name: '@file3' });
+        const file2 = domainBuilder.buildTargetedSkill({
+          id: 'recFile2',
+          tubeId: 'recTubeFile',
+          name: '@file2',
+          difficulty: 2,
+        });
+        const file3 = domainBuilder.buildTargetedSkill({
+          id: 'recFile3',
+          tubeId: 'recTubeFile',
+          name: '@file3',
+          difficulty: 3,
+        });
         const tubeFile = domainBuilder.buildTargetedTube({
           id: 'recTubeFile',
           competenceId: 'recCompetence',
@@ -428,16 +448,36 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         userId = userWithCampaignParticipation.userId;
         campaignParticipation = { userId, sharedAt };
 
-        const url1 = domainBuilder.buildTargetedSkill({ id: 'recUrl1', tubeId: 'recTubeUrl', name: '@url1' });
-        const url2 = domainBuilder.buildTargetedSkill({ id: 'recUrl2', tubeId: 'recTubeUrl', name: '@url2' });
+        const url1 = domainBuilder.buildTargetedSkill({
+          id: 'recUrl1',
+          tubeId: 'recTubeUrl',
+          name: '@url1',
+          difficulty: 1,
+        });
+        const url2 = domainBuilder.buildTargetedSkill({
+          id: 'recUrl2',
+          tubeId: 'recTubeUrl',
+          name: '@url2',
+          difficulty: 2,
+        });
         const tubeUrl = domainBuilder.buildTargetedTube({
           id: 'recTubeUrl',
           competenceId: 'recCompetence',
           skills: [url1, url2],
         });
 
-        const file2 = domainBuilder.buildTargetedSkill({ id: 'recFile2', tubeId: 'recTubeFile', name: '@file2' });
-        const file3 = domainBuilder.buildTargetedSkill({ id: 'recFile3', tubeId: 'recTubeFile', name: '@file3' });
+        const file2 = domainBuilder.buildTargetedSkill({
+          id: 'recFile2',
+          tubeId: 'recTubeFile',
+          name: '@file2',
+          difficulty: 2,
+        });
+        const file3 = domainBuilder.buildTargetedSkill({
+          id: 'recFile3',
+          tubeId: 'recTubeFile',
+          name: '@file3',
+          difficulty: 3,
+        });
         const tubeFile = domainBuilder.buildTargetedTube({
           id: 'recTubeFile',
           competenceId: 'recCompetence',

@@ -402,6 +402,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                     {
                       id: 'recSkillId1',
                       nom: '@skill1',
+                      level: 1,
                       challenges: [],
                       tutorials: [
                         {

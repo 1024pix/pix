@@ -13,9 +13,9 @@ describe('Integration | Repository | skill-repository', function () {
       const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
       const learningContent = {
         skills: [
-          { ...activeSkill, status: 'actif' },
-          { ...archivedSkill, status: 'archivé' },
-          { ...activeSkill_otherCompetence, status: 'actif' },
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...archivedSkill, status: 'archivé', level: archivedSkill.difficulty },
+          { ...activeSkill_otherCompetence, status: 'actif', level: activeSkill_otherCompetence.difficulty },
         ],
       };
       mockLearningContent(learningContent);
@@ -36,9 +36,9 @@ describe('Integration | Repository | skill-repository', function () {
       const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
       const learningContent = {
         skills: [
-          { ...activeSkill, status: 'actif' },
-          { ...nonActiveSkill, status: 'archivé' },
-          { ...activeSkill_otherCompetence, status: 'actif' },
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...nonActiveSkill, status: 'archivé', level: nonActiveSkill.difficulty },
+          { ...activeSkill_otherCompetence, status: 'actif', level: activeSkill_otherCompetence.difficulty },
         ],
       };
       mockLearningContent(learningContent);
@@ -62,10 +62,10 @@ describe('Integration | Repository | skill-repository', function () {
       const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
       const learningContent = {
         skills: [
-          { ...activeSkill, status: 'actif' },
-          { ...archivedSkill, status: 'archivé' },
-          { ...nonOperativeSkill, status: 'BLABLA' },
-          { ...activeSkill_otherCompetence, status: 'actif' },
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...archivedSkill, status: 'archivé', level: archivedSkill.difficulty },
+          { ...nonOperativeSkill, status: 'BLABLA', level: nonOperativeSkill.difficulty },
+          { ...activeSkill_otherCompetence, status: 'actif', level: activeSkill_otherCompetence.difficulty },
         ],
       };
       mockLearningContent(learningContent);
@@ -89,9 +89,9 @@ describe('Integration | Repository | skill-repository', function () {
       const activeSkill_otherTube = domainBuilder.buildSkill({ tubeId: 'recAnotherTube' });
       const learningContent = {
         skills: [
-          { ...activeSkill, status: 'actif' },
-          { ...nonActiveSkill, status: 'archivé' },
-          { ...activeSkill_otherTube, status: 'actif' },
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...nonActiveSkill, status: 'archivé', level: nonActiveSkill.difficulty },
+          { ...activeSkill_otherTube, status: 'actif', level: activeSkill_otherTube.difficulty },
         ],
       };
       mockLearningContent(learningContent);
@@ -116,10 +116,10 @@ describe('Integration | Repository | skill-repository', function () {
       const activeSkill_otherTube = domainBuilder.buildSkill({ tubeId: 'recAnotherTube' });
       const learningContent = {
         skills: [
-          { ...activeSkill, status: 'actif' },
-          { ...archivedSkill, status: 'archivé' },
-          { ...nonOperativeSkill, status: 'BLABLA' },
-          { ...activeSkill_otherTube, status: 'actif' },
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...archivedSkill, status: 'archivé', level: archivedSkill.difficulty },
+          { ...nonOperativeSkill, status: 'BLABLA', level: nonOperativeSkill.difficulty },
+          { ...activeSkill_otherTube, status: 'actif', level: activeSkill_otherTube.difficulty },
         ],
       };
       mockLearningContent(learningContent);
@@ -143,9 +143,9 @@ describe('Integration | Repository | skill-repository', function () {
       const nonOperativeSkill = domainBuilder.buildSkill({ competenceId });
       const learningContent = {
         skills: [
-          { ...activeSkill, status: 'actif' },
-          { ...archivedSkill, status: 'archivé' },
-          { ...nonOperativeSkill, status: 'BLABLA' },
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...archivedSkill, status: 'archivé', level: archivedSkill.difficulty },
+          { ...nonOperativeSkill, status: 'BLABLA', level: nonOperativeSkill.difficulty },
         ],
       };
       mockLearningContent(learningContent);
@@ -165,7 +165,7 @@ describe('Integration | Repository | skill-repository', function () {
     beforeEach(function () {
       skill = domainBuilder.buildSkill();
       const learningContent = {
-        skills: [skill],
+        skills: [{ ...skill, level: skill.difficulty }],
       };
       mockLearningContent(learningContent);
     });

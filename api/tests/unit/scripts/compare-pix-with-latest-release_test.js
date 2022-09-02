@@ -22,6 +22,7 @@ const skill1 = new Skill({
   tutorialIds: [],
   pixValue: 10,
   competenceId: 'comp1',
+  difficulty: 1,
 });
 const skill2 = new Skill({
   id: 'skill2',
@@ -30,6 +31,7 @@ const skill2 = new Skill({
   tutorialIds: [],
   pixValue: 10,
   competenceId: 'comp1',
+  difficulty: 2,
 });
 const skill3 = new Skill({
   id: 'skill3',
@@ -38,6 +40,7 @@ const skill3 = new Skill({
   tutorialIds: [],
   pixValue: 10,
   competenceId: 'comp1',
+  difficulty: 3,
 });
 
 // additionnal 'active' skill which level is beyond user level
@@ -49,6 +52,7 @@ const skill4 = new Skill({
   tutorialIds: [],
   pixValue: 10,
   competenceId: 'comp1',
+  difficulty: 3,
 });
 
 const activeSkills = [skill1, skill2, skill3, skill4];
