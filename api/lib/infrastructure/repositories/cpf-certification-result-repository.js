@@ -46,5 +46,6 @@ function _selectCpfCertificationResults() {
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false)
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .where('competence-marks.level', '>', -1)
     .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
 }
