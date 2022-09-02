@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | PixPlusCertificationScoring', function () {
       // when
       const pixPlusCertificationScoring = new PixPlusCertificationScoring({
         complementaryCertificationCourseId: 99,
-        certifiableBadgeKey: 'BADGE',
+        complementaryCertificationBadgeKey: 'BADGE',
         reproducibilityRate,
         hasAcquiredPixCertification: false,
       });
