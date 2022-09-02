@@ -5,12 +5,14 @@ const buildTargetedSkill = function buildTargetedSkill({
   name = 'someSkillName5',
   tubeId = 'someTubeId',
   tutorialIds = [],
+  difficulty = 5,
 } = {}) {
   return new TargetedSkill({
     id,
     name,
     tubeId,
     tutorialIds,
+    difficulty,
   });
 };
 

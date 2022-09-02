@@ -1,13 +1,10 @@
 class TargetedSkill {
-  constructor({ id, name, tubeId, tutorialIds } = {}) {
+  constructor({ id, name, tubeId, tutorialIds, difficulty } = {}) {
     this.id = id;
     this.name = name;
     this.tubeId = tubeId;
     this.tutorialIds = tutorialIds;
-  }
-
-  get difficulty() {
-    return parseInt(this.name.slice(-1));
+    this.difficulty = difficulty;
   }
 }
 

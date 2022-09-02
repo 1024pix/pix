@@ -1,10 +1,10 @@
 class CertifiedSkill {
-  constructor({ id, name, hasBeenAskedInCertif, tubeId }) {
+  constructor({ id, name, hasBeenAskedInCertif, tubeId, difficulty }) {
     this.id = id;
     this.name = name;
     this.hasBeenAskedInCertif = hasBeenAskedInCertif;
     this.tubeId = tubeId;
-    this.difficulty = parseInt(name.slice(-1));
+    this.difficulty = difficulty;
   }
 }
 
