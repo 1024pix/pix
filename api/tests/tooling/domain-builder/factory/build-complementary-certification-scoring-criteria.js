@@ -3,14 +3,14 @@ const ComplementaryCertificationScoringCriteria = require('../../../../lib/domai
 function buildComplementaryCertificationScoringCriteria({
   complementaryCertificationCourseId = 123,
   minimumReproducibilityRate = 70,
-  complementaryCertificationBadgeKeys = [],
+  complementaryCertificationBadgeKey = 'badge_key',
   hasComplementaryReferential = false,
   minimumEarnedPix = null,
 } = {}) {
   return new ComplementaryCertificationScoringCriteria({
     complementaryCertificationCourseId,
     minimumReproducibilityRate,
-    complementaryCertificationBadgeKeys,
+    complementaryCertificationBadgeKey,
     hasComplementaryReferential,
     minimumEarnedPix,
   });
