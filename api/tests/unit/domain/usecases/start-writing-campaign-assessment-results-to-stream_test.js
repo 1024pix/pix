@@ -64,12 +64,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
     const tube1 = domainBuilder.buildTube({ id: 'tube1', competenceId: 'comp1_1' });
     const tube2 = domainBuilder.buildTube({ id: 'tube3', competenceId: 'comp2_1' });
-    const area1 = domainBuilder.buildArea({ id: 'area1' });
-    const competence1_1 = domainBuilder.buildCompetence({ id: 'comp1_1', tubes: [tube1], area: area1 });
-    area1.competences = [competence1_1];
-    const area2 = domainBuilder.buildArea({ id: 'area2' });
-    const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2], area: area2 });
-    area2.competences = [competence2_1];
+    const competence1_1 = domainBuilder.buildCompetence({ id: 'comp1_1', tubes: [tube1] });
+    const area1 = domainBuilder.buildArea({ id: 'area1', competences: [competence1_1] });
+    const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2] });
+    const area2 = domainBuilder.buildArea({ id: 'area2', competences: [competence2_1] });
     const targetProfile = domainBuilder.buildTargetProfile();
     const learningContent = domainBuilder.buildLearningContent([area1, area2]);
     campaign.targetProfile = targetProfile;
@@ -310,12 +308,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const skill2_1_1 = domainBuilder.buildSkill({ id: 'skill2_1_1', tubeId: 'tube3', name: '@acquis2' });
     const tube1 = domainBuilder.buildTube({ id: 'tube1', skills: [skill1_1_1], competenceId: 'comp1_1' });
     const tube2 = domainBuilder.buildTube({ id: 'tube3', skills: [skill2_1_1], competenceId: 'comp2_1' });
-    const area1 = domainBuilder.buildArea({ id: 'area1' });
-    const area2 = domainBuilder.buildArea({ id: 'area2' });
-    const competence1_1 = domainBuilder.buildCompetence({ id: 'comp1_1', tubes: [tube1], area: area1 });
-    const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2], area: area2 });
-    area1.competences = [competence1_1];
-    area2.competences = [competence2_1];
+    const competence1_1 = domainBuilder.buildCompetence({ id: 'comp1_1', tubes: [tube1] });
+    const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2] });
+    const area1 = domainBuilder.buildArea({ id: 'area1', competences: [competence1_1] });
+    const area2 = domainBuilder.buildArea({ id: 'area2', competences: [competence2_1] });
     const targetProfile = domainBuilder.buildTargetProfile();
 
     const learningContent = domainBuilder.buildLearningContent([area1, area2]);

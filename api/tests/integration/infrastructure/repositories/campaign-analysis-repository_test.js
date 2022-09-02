@@ -82,15 +82,13 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           competenceId: 'recCompetence',
           skills: [file2, file3],
         });
-        const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa' });
         const competence = domainBuilder.buildCompetence({
           id: 'recCompetence',
-          area,
           tubes: [tubeUrl, tubeFile],
           name: 'The C',
           index: '2.3',
         });
-        area.competences = [competence];
+        const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
         learningContent = domainBuilder.buildLearningContent([area]);
 
         return databaseBuilder.commit();
@@ -463,15 +461,13 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           competenceId: 'recCompetence',
           skills: [file2, file3],
         });
-        const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa' });
         const competence = domainBuilder.buildCompetence({
           id: 'recCompetence',
-          area,
           tubes: [tubeUrl, tubeFile],
           name: 'The C',
           index: '2.3',
         });
-        area.competences = [competence];
+        const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
         learningContent = domainBuilder.buildLearningContent([area]);
 
         return databaseBuilder.commit();

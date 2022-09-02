@@ -22,15 +22,14 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         competenceId: 'competence1_id',
         skills: [skill1, skill2],
       });
-      const area = domainBuilder.buildArea({
-        id: 'area1_id',
-      });
       const competence = domainBuilder.buildCompetence({
         id: 'competence1_id',
-        area,
         tubes: [tube],
       });
-      area.competences = [competence];
+      const area = domainBuilder.buildArea({
+        id: 'area1_id',
+        competences: [competence],
+      });
 
       const learningContent = domainBuilder.buildLearningContent([area]);
 
@@ -96,15 +95,14 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         competenceId: 'competence1_id',
         skills: [skill],
       });
-      const area = domainBuilder.buildArea({
-        id: 'area1_id',
-      });
       const competence = domainBuilder.buildCompetence({
         id: 'competence1_id',
-        area,
         tubes: [tube],
       });
-      area.competences = [competence];
+      const area = domainBuilder.buildArea({
+        id: 'area1_id',
+        competences: [competence],
+      });
 
       const learningContent = domainBuilder.buildLearningContent([area]);
 
@@ -172,16 +170,14 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         competenceId: 'competence1_id',
         skills: [skill1, skill2],
       });
-      const area = domainBuilder.buildArea({
-        id: 'area1_id',
-      });
       const competence = domainBuilder.buildCompetence({
         id: 'competence1_id',
-        area,
         tubes: [tube],
       });
-
-      area.competences = [competence];
+      const area = domainBuilder.buildArea({
+        id: 'area1_id',
+        competences: [competence],
+      });
 
       const learningContent = domainBuilder.buildLearningContent([area]);
 
