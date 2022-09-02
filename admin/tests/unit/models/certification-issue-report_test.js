@@ -15,7 +15,7 @@ module('Unit | Model | certification issue report', function (hooks) {
   setupTest(hooks);
 
   test('it should return the right label for the category', function (assert) {
-    assert.expect(9);
+    assert.expect(10);
     // given
     const store = this.owner.lookup('service:store');
 
