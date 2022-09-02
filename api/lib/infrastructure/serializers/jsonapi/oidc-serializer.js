@@ -4,8 +4,6 @@ module.exports = {
   serialize(authenticationContent) {
     return new Serializer('user-oidc-authentication-requests', {
       attributes: [
-        'accessToken',
-        'logoutUrlUUID',
         'fullNameFromPix',
         'fullNameFromExternalIdentityProvider',
         'email',

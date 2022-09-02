@@ -5,7 +5,7 @@ module.exports = async function createOidcUser({
   identityProvider,
   authenticationKey,
   authenticationSessionService,
-  authenticationServiceRegistry,
+  oidcAuthenticationService,
   authenticationMethodRepository,
   userToCreateRepository,
   userRepository,
@@ -16,7 +16,6 @@ module.exports = async function createOidcUser({
   }
 
   const { userInfo, sessionContent } = sessionContentAndUserInfo;
-  const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
 
   const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
     externalIdentifier: userInfo.externalIdentityId,
