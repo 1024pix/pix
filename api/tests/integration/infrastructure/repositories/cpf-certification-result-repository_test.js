@@ -32,11 +32,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         assessmentResultId: 2244,
         level: 5,
         competence_code: '1.2',
+        area_code: '1',
       });
       databaseBuilder.factory.buildCompetenceMark({
         assessmentResultId: 2244,
         level: 5,
         competence_code: '2.3',
+        area_code: '2',
       });
 
       databaseBuilder.factory.buildCertificationCourse({
@@ -61,11 +63,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         assessmentResultId: 4466,
         level: 5,
         competence_code: '3.1',
+        area_code: '3',
       });
       databaseBuilder.factory.buildCompetenceMark({
         assessmentResultId: 4466,
         level: 4,
         competence_code: '2.3',
+        area_code: '2',
       });
 
       const secondPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-10') }).id;
@@ -91,11 +95,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         assessmentResultId: 4467,
         level: 2,
         competence_code: '2.1',
+        area_code: '2',
       });
       databaseBuilder.factory.buildCompetenceMark({
         assessmentResultId: 4467,
         level: 4,
         competence_code: '3.1',
+        area_code: '3',
       });
       await databaseBuilder.commit();
 
@@ -120,10 +126,12 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           competenceMarks: [
             {
               competenceCode: '2.3',
+              areaCode: '2',
               level: 4,
             },
             {
               competenceCode: '3.1',
+              areaCode: '3',
               level: 5,
             },
           ],
@@ -141,10 +149,12 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           competenceMarks: [
             {
               competenceCode: '2.1',
+              areaCode: '2',
               level: 2,
             },
             {
               competenceCode: '3.1',
+              areaCode: '3',
               level: 4,
             },
           ],
@@ -162,10 +172,12 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           competenceMarks: [
             {
               competenceCode: '1.2',
+              areaCode: '1',
               level: 5,
             },
             {
               competenceCode: '2.3',
+              areaCode: '2',
               level: 5,
             },
           ],
@@ -346,11 +358,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         assessmentResultId: 2244,
         level: 5,
         competence_code: '1.2',
+        area_code: '1',
       });
       databaseBuilder.factory.buildCompetenceMark({
         assessmentResultId: 2244,
         level: 5,
         competence_code: '2.3',
+        area_code: '2',
       });
 
       databaseBuilder.factory.buildCertificationCourse({
@@ -375,11 +389,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         assessmentResultId: 4466,
         level: 5,
         competence_code: '3.1',
+        area_code: '3',
       });
       databaseBuilder.factory.buildCompetenceMark({
         assessmentResultId: 4466,
         level: 4,
         competence_code: '2.3',
+        area_code: '2',
       });
 
       const secondPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-10') }).id;
@@ -405,11 +421,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         assessmentResultId: 4467,
         level: 2,
         competence_code: '2.1',
+        area_code: '2',
       });
       databaseBuilder.factory.buildCompetenceMark({
         assessmentResultId: 4467,
         level: 4,
         competence_code: '3.1',
+        area_code: '3',
       });
       await databaseBuilder.commit();
 
@@ -434,10 +452,12 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           competenceMarks: [
             {
               competenceCode: '1.2',
+              areaCode: '1',
               level: 5,
             },
             {
               competenceCode: '2.3',
+              areaCode: '2',
               level: 5,
             },
           ],
@@ -455,10 +475,12 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           competenceMarks: [
             {
               competenceCode: '2.3',
+              areaCode: '2',
               level: 4,
             },
             {
               competenceCode: '3.1',
+              areaCode: '3',
               level: 5,
             },
           ],
@@ -476,10 +498,12 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           competenceMarks: [
             {
               competenceCode: '2.1',
+              areaCode: '2',
               level: 2,
             },
             {
               competenceCode: '3.1',
+              areaCode: '3',
               level: 4,
             },
           ],

@@ -28,6 +28,7 @@ function _selectCpfCertificationResults() {
       knex.raw(`
         json_agg(json_build_object(
           'competenceCode', "competence-marks"."competence_code",
+          'areaCode', "competence-marks"."area_code",
           'level', "competence-marks"."level"
         ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
     )
