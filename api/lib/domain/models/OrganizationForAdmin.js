@@ -11,6 +11,7 @@ class OrganizationForAdmin {
     email,
     documentationUrl,
     createdBy,
+    createdAt,
     showNPS,
     formNPSUrl,
     showSkills,
@@ -33,6 +34,7 @@ class OrganizationForAdmin {
     this.email = email;
     this.documentationUrl = documentationUrl;
     this.createdBy = createdBy;
+    this.createdAt = createdAt;
     this.showNPS = showNPS;
     this.formNPSUrl = formNPSUrl;
     this.showSkills = showSkills;

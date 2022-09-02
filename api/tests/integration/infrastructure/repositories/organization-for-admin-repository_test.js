@@ -5,6 +5,17 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
 
 describe('Integration | Repository | Organization-for-admin', function () {
+  let clock;
+  const now = new Date('2022-02-02');
+
+  beforeEach(function () {
+    clock = sinon.useFakeTimers(now);
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
   describe('#get', function () {
     it('should return a organization for admin by provided id', async function () {
       // given
@@ -21,6 +32,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         email: 'sco.generic.account@example.net',
         documentationUrl: 'https://pix.fr/',
         createdBy: superAdminUser.id,
+        createdAt: now,
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
@@ -49,6 +61,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         tags: [],
         documentationUrl: 'https://pix.fr/',
         createdBy: insertedOrganization.createdBy,
+        createdAt: now,
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
@@ -119,6 +132,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
           createdBy: superAdminUser.id,
+          createdAt: now,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
@@ -148,6 +162,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           tags: [],
           documentationUrl: 'https://pix.fr/',
           createdBy: insertedOrganization.createdBy,
+          createdAt: now,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
@@ -164,17 +179,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#archive', function () {
-    let clock;
-    const now = new Date('2022-02-02');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
     it('should cancel all pending invitations of a given organization', async function () {
       // given
       const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
