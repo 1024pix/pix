@@ -131,7 +131,7 @@ async function _startNewCertification({
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
 
-  const complementaryCertificationIds = [];
+  const complementaryCertificationCourseData = [];
 
   const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId,
@@ -139,9 +139,12 @@ async function _startNewCertification({
   });
 
   await bluebird.each(highestCertifiableBadgeAcquisitions, async (badgeAcquisition) => {
-    const { key, id } = badgeAcquisition.complementaryCertification;
+    const { key, id: complementaryCertificationId } = badgeAcquisition.complementaryCertification;
     if (certificationCenter.isHabilitated(key) && certificationCandidate.isGranted(key)) {
-      complementaryCertificationIds.push(id);
+      complementaryCertificationCourseData.push({
+        complementaryCertificationBadgeId: badgeAcquisition.badge.complementaryCertificationBadge.id,
+        complementaryCertificationId,
+      });
       const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
         badgeAcquisition.badge,
         userId,
@@ -159,7 +162,7 @@ async function _startNewCertification({
     certificationChallenges: challengesForCertification,
     domainTransaction,
     verifyCertificateCodeService,
-    complementaryCertificationIds,
+    complementaryCertificationCourseData,
   });
 }
 
@@ -193,12 +196,13 @@ async function _createCertificationCourse({
   verifyCertificateCodeService,
   userId,
   certificationChallenges,
-  complementaryCertificationIds,
+  complementaryCertificationCourseData,
   domainTransaction,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
-  const complementaryCertificationCourses = complementaryCertificationIds.map(
-    ComplementaryCertificationCourse.fromComplementaryCertificationId
+  const complementaryCertificationCourses = complementaryCertificationCourseData.map(
+    ({ complementaryCertificationBadgeId, complementaryCertificationId }) =>
+      new ComplementaryCertificationCourse({ complementaryCertificationBadgeId, complementaryCertificationId })
   );
   const newCertificationCourse = CertificationCourse.from({
     certificationCandidate,
