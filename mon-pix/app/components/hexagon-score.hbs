@@ -1,29 +1,34 @@
-<PixTooltip @isLight={{true}} @isWide={{true}} @position="bottom" @id="hexagon-score-tooltip">
-  <:triggerElement>
-    <div class="hexagon-score" tabindex="0" aria-describedby="hexagon-score-tooltip">
-      <div class="hexagon-score__content">
-        <div class="hexagon-score-content__title">{{t "common.pix"}}</div>
-        <div class="hexagon-score-content__pix-score">{{this.score}}</div>
-        <div class="hexagon-score-content__pix-total">
-          1024
-          <div class="hexagon-score-content-pix-total__icon">
-            <FaIcon @icon="circle-info" />
+<div class="hexagon-score">
+  <div class="hexagon-score__content">
+    <div class="hexagon-score-content__title">{{t "common.pix"}}</div>
+    <div class="hexagon-score-content__pix-score">{{this.score}}</div>
+    <div class="hexagon-score-content__pix-total">
+      1024
+      <PixTooltip @isLight={{true}} @isWide={{true}} @position="bottom" @id="hexagon-score-tooltip">
+        <:triggerElement>
+          <button
+            aria-label={{t "score-tooltip-button-label"}}
+            type="button"
+            class="hexagon-score-content-pix-total__icon"
+            aria-describedby="hexagon-score-tooltip"
+          >
+            <FaIcon @icon="circle-info" aria-label={{t "pages.profile.total-score-helper.icon"}} />
+          </button>
+        </:triggerElement>
+        <:tooltip>
+          <div class="hexagon-score__information hexagon-score-information__text">
+            <p class="hexagon-score-information__text--strong">
+              {{t "pages.profile.total-score-helper.title"}}
+            </p>
+            {{t
+              "pages.profile.total-score-helper.explanation"
+              maxReachablePixCount=this.maxReachablePixCount
+              maxReachableLevel=this.maxReachableLevel
+              htmlSafe=true
+            }}
           </div>
-        </div>
-      </div>
+        </:tooltip>
+      </PixTooltip>
     </div>
-  </:triggerElement>
-  <:tooltip>
-    <div class="hexagon-score__information hexagon-score-information__text">
-      <p class="hexagon-score-information__text--strong">
-        {{t "pages.profile.total-score-helper.title"}}
-      </p>
-      {{t
-        "pages.profile.total-score-helper.explanation"
-        maxReachablePixCount=this.maxReachablePixCount
-        maxReachableLevel=this.maxReachableLevel
-        htmlSafe=true
-      }}
-    </div>
-  </:tooltip>
-</PixTooltip>
+  </div>
+</div>
