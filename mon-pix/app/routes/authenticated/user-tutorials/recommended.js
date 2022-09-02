@@ -10,8 +10,9 @@ export default class UserTutorialsRecommendedRoute extends Route {
     pageSize: { refreshModel: true },
   };
 
-  model(params) {
-    return this.store.query(
+  async model(params) {
+    const areas = this.modelFor('authenticated.user-tutorials');
+    const recommendedTutorials = await this.store.query(
       'tutorial',
       {
         type: 'recommended',
@@ -22,6 +23,10 @@ export default class UserTutorialsRecommendedRoute extends Route {
       },
       { reload: true }
     );
+    return {
+      areas,
+      recommendedTutorials,
+    };
   }
 
   resetController(controller, isExiting) {
