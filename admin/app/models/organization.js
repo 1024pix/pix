@@ -15,7 +15,7 @@ export default class Organization extends Model {
   @attr('string') formNPSUrl;
   @attr('number') credit;
   @attr('nullable-string') email;
-  @attr('date') createdBy;
+  @attr() createdBy;
   @attr('date') createdAt;
   @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
