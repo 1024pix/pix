@@ -185,6 +185,71 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       ]);
     });
 
+    it('should only return competence marks with level greater than -1', async function () {
+      // given
+      const startDate = new Date('2022-01-01');
+      const endDate = new Date('2022-01-10');
+
+      const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 545,
+        firstName: 'Barack',
+        lastName: 'Afritt',
+        birthdate: '2004-10-22',
+        sex: 'M',
+        birthINSEECode: '75116',
+        birthPostalCode: null,
+        isPublished: true,
+        sessionId,
+      });
+      databaseBuilder.factory.buildAssessmentResult({
+        id: 2244,
+        pixScore: 132,
+        assessmentId: databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 545,
+        }).id,
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        assessmentResultId: 2244,
+        level: 5,
+        competence_code: '1.2',
+        area_code: '1',
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        assessmentResultId: 2244,
+        level: 0,
+        competence_code: '2.3',
+        area_code: '2',
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        assessmentResultId: 2244,
+        level: -1,
+        competence_code: '4.1',
+        area_code: '4',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const [cpfCertificationResult] = await cpfCertificationResultRepository.findByTimeRange({
+        startDate,
+        endDate,
+      });
+
+      // then
+      expect(cpfCertificationResult.competenceMarks).to.deep.equal([
+        {
+          competenceCode: '1.2',
+          areaCode: '1',
+          level: 5,
+        },
+        {
+          competenceCode: '2.3',
+          areaCode: '2',
+          level: 0,
+        },
+      ]);
+    });
+
     context('when the certification course is not published', function () {
       it('should return an empty array', async function () {
         // given
@@ -332,8 +397,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#findByIdRange', function () {
     it('should return an array of CpfCertificationResult ordered by session publication date, last name and first name', async function () {
       // given
-      const startId = 200;
-      const endId = 600;
+      const startId = 245;
+      const endId = 545;
 
       const firstPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
       databaseBuilder.factory.buildCertificationCourse({
@@ -508,6 +573,71 @@ describe('Integration | Repository | CpfCertificationResult', function () {
             },
           ],
         }),
+      ]);
+    });
+
+    it('should only return competence marks with level greater than -1', async function () {
+      // given
+      const startId = 245;
+      const endId = 545;
+
+      const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 545,
+        firstName: 'Barack',
+        lastName: 'Afritt',
+        birthdate: '2004-10-22',
+        sex: 'M',
+        birthINSEECode: '75116',
+        birthPostalCode: null,
+        isPublished: true,
+        sessionId,
+      });
+      databaseBuilder.factory.buildAssessmentResult({
+        id: 2244,
+        pixScore: 132,
+        assessmentId: databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 545,
+        }).id,
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        assessmentResultId: 2244,
+        level: 5,
+        competence_code: '1.2',
+        area_code: '1',
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        assessmentResultId: 2244,
+        level: 0,
+        competence_code: '2.3',
+        area_code: '2',
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        assessmentResultId: 2244,
+        level: -1,
+        competence_code: '4.1',
+        area_code: '4',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const [cpfCertificationResult] = await cpfCertificationResultRepository.findByIdRange({
+        startId,
+        endId,
+      });
+
+      // then
+      expect(cpfCertificationResult.competenceMarks).to.deep.equal([
+        {
+          competenceCode: '1.2',
+          areaCode: '1',
+          level: 5,
+        },
+        {
+          competenceCode: '2.3',
+          areaCode: '2',
+          level: 0,
+        },
       ]);
     });
 
