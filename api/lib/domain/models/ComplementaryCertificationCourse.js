@@ -5,12 +5,6 @@ class ComplementaryCertificationCourse {
     this.certificationCourseId = certificationCourseId;
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
   }
-
-  static fromComplementaryCertificationId(id) {
-    return new ComplementaryCertificationCourse({
-      complementaryCertificationId: id,
-    });
-  }
 }
 
 module.exports = ComplementaryCertificationCourse;
