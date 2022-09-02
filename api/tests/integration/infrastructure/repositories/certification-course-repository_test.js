@@ -9,16 +9,22 @@ describe('Integration | Repository | Certification Course', function () {
   describe('#save', function () {
     let certificationCourse;
     let complementaryCertificationId;
+    let complementaryCertificationBadgeId;
 
     beforeEach(function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const sessionId = databaseBuilder.factory.buildSession().id;
-      complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({}).id;
+      const badgeId = databaseBuilder.factory.buildBadge().id;
 
+      complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({}).id;
+      complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId,
+        complementaryCertificationId,
+      }).id;
       certificationCourse = domainBuilder.buildCertificationCourse.unpersisted({
         userId,
         sessionId,
-        complementaryCertificationCourses: [{ complementaryCertificationId: complementaryCertificationId }],
+        complementaryCertificationCourses: [{ complementaryCertificationId, complementaryCertificationBadgeId }],
       });
 
       return databaseBuilder.commit();
@@ -65,6 +71,7 @@ describe('Integration | Repository | Certification Course', function () {
         retrievedCertificationCourse.toDTO().complementaryCertificationCourses;
       expect(_.omit(savedComplementaryCertificationCourse, ['createdAt', 'id'])).to.deep.equal({
         complementaryCertificationId,
+        complementaryCertificationBadgeId,
         certificationCourseId: savedCertificationCourse.getId(),
       });
 
