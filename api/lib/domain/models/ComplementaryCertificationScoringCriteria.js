@@ -2,13 +2,13 @@ class ComplementaryCertificationScoringCriteria {
   constructor({
     complementaryCertificationCourseId,
     minimumReproducibilityRate,
-    complementaryCertificationBadgeKeys,
+    complementaryCertificationBadgeKey,
     hasComplementaryReferential,
     minimumEarnedPix,
   } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.minimumReproducibilityRate = minimumReproducibilityRate;
-    this.complementaryCertificationBadgeKeys = complementaryCertificationBadgeKeys;
+    this.complementaryCertificationBadgeKey = complementaryCertificationBadgeKey;
     this.hasComplementaryReferential = hasComplementaryReferential;
     this.minimumEarnedPix = minimumEarnedPix;
   }
