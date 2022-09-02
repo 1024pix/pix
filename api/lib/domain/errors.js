@@ -664,6 +664,12 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
+class MissingUserAccountError extends DomainError {
+  constructor(message = 'Les informations de compte requises sont manquantes') {
+    super(message);
+  }
+}
+
 class UnexpectedUserAccountError extends DomainError {
   constructor({ message = "Ce compte utilisateur n'est pas celui qui est attendu.", code, meta }) {
     super(message);
@@ -1233,6 +1239,7 @@ module.exports = {
   MissingAttributesError,
   MissingBadgeCriterionError,
   MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
   CantImproveCampaignParticipationError,

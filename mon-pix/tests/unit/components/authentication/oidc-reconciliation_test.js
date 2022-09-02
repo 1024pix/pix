@@ -2,12 +2,14 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 
 describe('Unit | Component | authentication | oidc-reconciliation', function () {
   setupTest();
+  setupIntl();
 
   describe('#backToLoginOrRegisterForm', function () {
     it('should redirect back to login or register page', function () {
@@ -129,6 +131,50 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
         // then
         expect(component.shouldShowUsername).to.be.false;
       });
+    });
+  });
+
+  context('when authentication key has expired', function () {
+    it('should display error', async function () {
+      // given
+      const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
+      const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
+      class SessionStub extends Service {
+        authenticate = authenticateStub;
+      }
+      this.owner.register('service:session', SessionStub);
+      component.args.identityProviderSlug = 'super-idp';
+      component.args.authenticationKey = 'super-key';
+      component.isTermsOfServiceValidated = true;
+
+      // when
+      await component.reconcile();
+
+      // then
+      expect(component.reconcileErrorMessage).to.equal(
+        this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
+      );
+    });
+  });
+
+  context('when an error happens', function () {
+    it('should display generic error message', async function () {
+      // given
+      const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
+      const authenticateStub = sinon.stub().rejects({ errors: [{ status: '400' }] });
+      class SessionStub extends Service {
+        authenticate = authenticateStub;
+      }
+      this.owner.register('service:session', SessionStub);
+      component.args.identityProviderSlug = 'super-idp';
+      component.args.authenticationKey = 'super-key';
+      component.isTermsOfServiceValidated = true;
+
+      // when
+      await component.reconcile();
+
+      // then
+      expect(component.reconcileErrorMessage).to.equal(this.intl.t('common.error'));
     });
   });
 });

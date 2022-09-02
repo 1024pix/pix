@@ -50,6 +50,12 @@
     </PixBlock>
   </div>
 
+  {{#if this.reconcileErrorMessage}}
+    <PixMessage @type="error" class="oidc-reconciliation__container-error">
+      {{this.reconcileErrorMessage}}
+    </PixMessage>
+  {{/if}}
+
   <div class="oidc-reconciliation__action-buttons">
     <PixButton
       @triggerAction={{this.backToLoginOrRegisterForm}}
