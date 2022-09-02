@@ -31,6 +31,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
         documentationUrl: 'https://pix.fr',
         showSkills: true,
         createdBy: 1,
+        createdAtFormattedDate: '02/09/2022',
         creatorFullName: 'Gilles Parbal',
         identityProviderForCampaigns: 'IDP',
       });
@@ -44,6 +45,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
       assert.dom(screen.getByText('Type : SUP')).exists();
       assert.dom(screen.getByText('Créée par : Gilles Parbal (1)')).exists();
+      assert.dom(screen.getByText('Créée le : 02/09/2022')).exists();
       assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
       assert.dom(screen.getByText('Crédits : 350')).exists();
       assert.dom(screen.getByText('https://pix.fr')).exists();
