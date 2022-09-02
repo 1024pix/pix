@@ -4,7 +4,6 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const {
   CertificationIssueReportCategories,
-  CertificationIssueReportSubcategories,
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | Domain | Models | FinalizedSession', function () {
@@ -270,8 +269,8 @@ function _noneWithRequiredActionNorError() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          category: 'NON_IMPACTFUL_CATEGORY',
+          subcategory: 'NON_IMPACTFUL_SUBCATEGORY',
         }),
       ],
     }),
@@ -293,8 +292,8 @@ function _noneWithRequiredActionNorErrorButEndScreenNotSeen() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          category: 'NON_IMPACTFUL_CATEGORY',
+          subcategory: 'NON_IMPACTFUL_SUBCATEGORY',
         }),
       ],
     }),
@@ -311,8 +310,8 @@ function _noneWithRequiredActionNorErrorButEndScreenNotSeen() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          category: 'NON_IMPACTFUL_CATEGORY',
+          subcategory: 'NON_IMPACTFUL_SUBCATEGORY',
         }),
       ],
     }),
@@ -334,8 +333,7 @@ function _noneWithRequiredActionButSomeErrorStatus() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
         }),
       ],
     }),
@@ -357,8 +355,7 @@ function _noneWithRequiredActionButSomeStartedStatus() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
         }),
       ],
     }),
