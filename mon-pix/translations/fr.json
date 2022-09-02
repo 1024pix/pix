@@ -770,6 +770,7 @@
         "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur."
       },
       "explanation-message": "Qu’est-ce qu’un code parcours et comment l’utiliser ?",
+      "explanation-link": "https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-",
       "first-title-connected": "{ firstName }, saisissez votre code",
       "first-title-not-connected": "Saisissez votre code",
       "start": "Accéder au parcours",

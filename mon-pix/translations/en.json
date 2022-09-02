@@ -769,7 +769,8 @@
         "missing-code": "Please enter a code.",
         "not-found": "Your code is incorrect. Please check it or contact the organiser."
       },
-      "explanation-message": "Qu’est-ce qu’un code parcours et comment l’utiliser ?",
+      "explanation-message": "What is a customised test code and how do I use it?",
+      "explanation-link": "https://support.pix.org/en/support/solutions/articles/15000029147-what-is-a-customised-test-code-and-how-do-i-use-it-",
       "first-title-connected": "{ firstName }, enter your code",
       "first-title-not-connected": "Enter your code",
       "start": "Start the customised test",
