@@ -189,7 +189,7 @@
         "legal": "Information about your progress will be sent to the organiser so they can help you if necessary. It will only be sent with your permission."
       },
       "warning-message": "If you are not { firstName } { lastName },",
-      "warning-message-logout": "please log out"
+      "warning-message-logout": "Please log out"
     },
     "campaign-participation": {
       "title": "Customised test"
@@ -774,7 +774,17 @@
       "first-title-not-connected": "Enter your code",
       "start": "Start the customised test",
       "warning-message": "If you are not { firstName } { lastName },",
-      "warning-message-logout": "please log out"
+      "warning-message-logout": "please log out",
+      "mediacentre-start-campaign-modal": {
+        "title": "Customised test via Mediacentre",
+        "message": "To access the customised test:",
+        "organised-by": "organised by ",
+        "message-footer": "Connect to Pix via your Mediacentre",
+        "actions": {
+          "continue": "Continue",
+          "quit": "Exit"
+        }
+      }
     },
     "fill-in-certificate-verification-code": {
       "title": "Verify the authenticity of a Pix Certificate",
