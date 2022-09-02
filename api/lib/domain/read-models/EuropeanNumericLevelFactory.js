@@ -75,7 +75,8 @@ function _buildEuropeanNumericLevelFromMergedCompetenceMarks({
     if (foundCompetenceMark) foundCompetenceMarks.push(foundCompetenceMark);
   });
 
-  if (foundCompetenceMarks.length !== competenceCodesToMerge.length) return null;
+  const areAllCompetenceCodesToMergeFound = foundCompetenceMarks.length === competenceCodesToMerge.length;
+  if (!areAllCompetenceCodesToMergeFound) return null;
 
   const level = Math.round(
     foundCompetenceMarks.reduce((total, { level }) => total + level, 0) / foundCompetenceMarks.length
