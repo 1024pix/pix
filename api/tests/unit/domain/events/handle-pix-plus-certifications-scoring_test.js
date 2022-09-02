@@ -84,7 +84,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           domainBuilder.buildComplementaryCertificationScoringCriteria({
             complementaryCertificationCourseId: 999,
             minimumReproducibilityRate: 70,
-            complementaryCertificationBadgeKeys: ['PIX_PLUS_TEST'],
+            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
           }),
         ]);
 
@@ -102,7 +102,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certifiableBadgeKey: 'PIX_PLUS_TEST',
+        complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: true,
       });
@@ -142,7 +142,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
         domainBuilder.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: 999,
           minimumReproducibilityRate: 100,
-          complementaryCertificationBadgeKeys: ['PIX_PLUS_TEST'],
+          complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
         }),
       ];
       complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
@@ -157,7 +157,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
         complementaryCertificationCourseId,
-        certifiableBadgeKey: 'PIX_PLUS_TEST',
+        complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
         source: 'PIX',
         reproducibilityRate: new ReproducibilityRate(100),
         hasAcquiredPixCertification: false,
@@ -203,7 +203,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           domainBuilder.buildComplementaryCertificationScoringCriteria({
             complementaryCertificationCourseId: 999,
             minimumReproducibilityRate: 75,
-            complementaryCertificationBadgeKeys: ['PIX_PLUS_TEST'],
+            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
           }),
         ]);
       certificationAssessmentRepository.getByCertificationCourseId
@@ -219,7 +219,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certifiableBadgeKey: 'PIX_PLUS_TEST',
+        complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
         hasAcquiredPixCertification: true,
         minimumReproducibilityRate: 75,
@@ -262,7 +262,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           domainBuilder.buildComplementaryCertificationScoringCriteria({
             complementaryCertificationCourseId: 999,
             minimumReproducibilityRate: 75,
-            complementaryCertificationBadgeKeys: ['PIX_PLUS_TEST'],
+            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
           }),
         ]);
       certificationAssessmentRepository.getByCertificationCourseId
@@ -278,7 +278,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certifiableBadgeKey: 'PIX_PLUS_TEST',
+        complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: true,
         minimumReproducibilityRate: 75,

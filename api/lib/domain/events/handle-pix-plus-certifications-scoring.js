@@ -28,16 +28,15 @@ async function handlePixPlusCertificationsScoring({
     certificationCourseId,
   });
 
-  const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
+  // TODO REMOVE METHOD BELOW FROM CERTIFICATION ASSESSMENT
+  // const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
 
-  for (const certifiableBadgeKey of certifiableBadgeKeys) {
-    const { minimumReproducibilityRate, complementaryCertificationCourseId } =
-      complementaryCertificationScoringCriteria.find(({ complementaryCertificationBadgeKeys }) =>
-        complementaryCertificationBadgeKeys.includes(certifiableBadgeKey)
-      );
+  for (const complementaryCertificationScoringCriterion of complementaryCertificationScoringCriteria) {
+    const { minimumReproducibilityRate, complementaryCertificationCourseId, complementaryCertificationBadgeKey } =
+      complementaryCertificationScoringCriterion;
 
     const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
-      certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey);
+      certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
     const pixPlusCertificationScoring = _buildPixPlusCertificationScoring(
@@ -45,7 +44,7 @@ async function handlePixPlusCertificationsScoring({
       complementaryCertificationCourseId,
       pixPlusChallenges,
       pixPlusAnswers,
-      certifiableBadgeKey,
+      complementaryCertificationBadgeKey,
       assessmentResult
     );
     await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring });
@@ -57,7 +56,7 @@ function _buildPixPlusCertificationScoring(
   complementaryCertificationCourseId,
   challenges,
   answers,
-  certifiableBadgeKey,
+  complementaryCertificationBadgeKey,
   assessmentResult
 ) {
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges });
@@ -70,7 +69,7 @@ function _buildPixPlusCertificationScoring(
     minimumReproducibilityRate,
     complementaryCertificationCourseId,
     reproducibilityRate,
-    certifiableBadgeKey,
+    complementaryCertificationBadgeKey,
     hasAcquiredPixCertification: assessmentResult.isValidated(),
   });
 }
