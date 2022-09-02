@@ -8,14 +8,12 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube = domainBuilder.buildTube({ id: 'recTube1', competenceId: 'recCompetence1', skills: [skill] });
-      const area = domainBuilder.buildArea({ id: 'recArea1' });
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetence1',
         competenceId: 'recCompetence1',
-        area,
         tubes: [tube],
       });
-      area.competences = [competence];
+      const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
       const learningContent = domainBuilder.buildLearningContent([area]);
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
         answerId: 123,
@@ -79,22 +77,20 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         competenceId: 'a1_c2_id',
         skills: [hardSkillArea1],
       });
-      const area1 = domainBuilder.buildArea({
-        id: 'a1_id',
-      });
       const competence1Area1 = domainBuilder.buildCompetence({
         id: 'a1_c1_id',
-        area: area1,
         tubes: [tube1Area1, tube2Area1],
         origin: 'Origin1',
       });
       const competence2Area1 = domainBuilder.buildCompetence({
         id: 'a1_c2_id',
-        area: area1,
         tubes: [tube3Area1],
         origin: 'Origin2',
       });
-      area1.competences = [competence1Area1, competence2Area1];
+      const area1 = domainBuilder.buildArea({
+        id: 'a1_id',
+        competences: [competence1Area1, competence2Area1],
+      });
       const easySkillArea2 = domainBuilder.buildSkill({
         id: 'a2_c1_t1_s1_id',
         name: '@iziAreaTwo3',
@@ -110,16 +106,15 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         competenceId: 'a2_c1_id',
         skills: [easySkillArea2, mediumSkillArea2],
       });
-      const area2 = domainBuilder.buildArea({
-        id: 'a2_id',
-      });
       const competence1Area2 = domainBuilder.buildCompetence({
         id: 'a2_c1_id',
-        area: area2,
         tubes: [tube1Area2],
         origin: 'Origin1',
       });
-      area2.competences = [competence1Area2];
+      const area2 = domainBuilder.buildArea({
+        id: 'a2_id',
+        competences: [competence1Area2],
+      });
       learningContent = domainBuilder.buildLearningContent([area1, area2]);
     });
 
@@ -311,15 +306,14 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         competenceId: 'competence1',
         skills: [skill1, skill2, skill3, skill4],
       });
-      const area1 = domainBuilder.buildArea({
-        id: 'area1',
-      });
       const competence1 = domainBuilder.buildCompetence({
         id: 'competence1',
-        area: area1,
         tubes: [tube1],
       });
-      area1.competences = [competence1];
+      const area1 = domainBuilder.buildArea({
+        id: 'area1',
+        competences: [competence1],
+      });
       const learningContent = domainBuilder.buildLearningContent([area1]);
 
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement.directlyValidated({

@@ -284,25 +284,20 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             skills: [skill3_1, skill3_2],
             competenceId: 'recCompetence3',
           });
-          const area1 = domainBuilder.buildArea({ id: 'recArea1' });
-          const area2 = domainBuilder.buildArea({ id: 'recArea2' });
           const competence1 = domainBuilder.buildCompetence({
             id: 'recCompetence1',
             tubes: [tube1],
-            area: area1,
           });
           const competence2 = domainBuilder.buildCompetence({
             id: 'recCompetence2',
             tubes: [tube2],
-            area: area1,
           });
           const competence3 = domainBuilder.buildCompetence({
             id: 'recCompetence3',
             tubes: [tube3],
-            area: area2,
           });
-          area1.competences = [competence1, competence2];
-          area2.competences = [competence3];
+          const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
+          const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent([area1, area2]);
 
@@ -410,25 +405,20 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             skills: [skill3_1, skill3_2],
             competenceId: 'recCompetence3',
           });
-          const area1 = domainBuilder.buildArea({ id: 'recArea1' });
-          const area2 = domainBuilder.buildArea({ id: 'recArea2' });
           const competence1 = domainBuilder.buildCompetence({
             id: 'recCompetence1',
             tubes: [tube1],
-            area: area1,
           });
           const competence2 = domainBuilder.buildCompetence({
             id: 'recCompetence2',
             tubes: [tube2],
-            area: area1,
           });
           const competence3 = domainBuilder.buildCompetence({
             id: 'recCompetence3',
             tubes: [tube3],
-            area: area2,
           });
-          area1.competences = [competence1, competence2];
-          area2.competences = [competence3];
+          const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
+          const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent([area1, area2]);
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -602,25 +592,20 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             skills: [skill3_1, skill3_2],
             competenceId: 'recCompetence3',
           });
-          const area1 = domainBuilder.buildArea({ id: 'recArea1' });
-          const area2 = domainBuilder.buildArea({ id: 'recArea2' });
           const competence1 = domainBuilder.buildCompetence({
             id: 'recCompetence1',
             tubes: [tube1],
-            area: area1,
           });
           const competence2 = domainBuilder.buildCompetence({
             id: 'recCompetence2',
             tubes: [tube2],
-            area: area1,
           });
           const competence3 = domainBuilder.buildCompetence({
             id: 'recCompetence3',
             tubes: [tube3],
-            area: area2,
           });
-          area1.competences = [competence1, competence2];
-          area2.competences = [competence3];
+          const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
+          const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
           const learningContent = domainBuilder.buildLearningContent([area1, area2]);
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -721,25 +706,20 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             skills: [skill3_1, skill3_2],
             competenceId: 'recCompetence3',
           });
-          const area1 = domainBuilder.buildArea({ id: 'recArea1' });
-          const area2 = domainBuilder.buildArea({ id: 'recArea2' });
           const competence1 = domainBuilder.buildCompetence({
             id: 'recCompetence1',
             tubes: [tube1],
-            area: area1,
           });
           const competence2 = domainBuilder.buildCompetence({
             id: 'recCompetence2',
             tubes: [tube2],
-            area: area1,
           });
           const competence3 = domainBuilder.buildCompetence({
             id: 'recCompetence3',
             tubes: [tube3],
-            area: area2,
           });
-          area1.competences = [competence1, competence2];
-          area2.competences = [competence3];
+          const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
+          const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
           const learningContent = domainBuilder.buildLearningContent([area1, area2]);
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -983,13 +963,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
               skills: [skill1, skill2, skill3],
               competenceId: 'recCompetence1',
             });
-            const area = domainBuilder.buildArea({ id: 'recArea1' });
             const competence = domainBuilder.buildCompetence({
               id: 'recCompetence1',
               tubes: [tube],
-              area,
             });
-            area.competences = [competence];
+            const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
             const targetProfile = domainBuilder.buildTargetProfile({
               stages: [
                 domainBuilder.buildStage({ threshold: 33 }),
@@ -1043,13 +1021,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
               skills: [skill1, skill2, skill3],
               competenceId: 'recCompetence1',
             });
-            const area = domainBuilder.buildArea({ id: 'recArea1' });
             const competence = domainBuilder.buildCompetence({
               id: 'recCompetence1',
               tubes: [tube],
-              area,
             });
-            area.competences = [competence];
+            const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
             const learningContent = domainBuilder.buildLearningContent([area]);
             const targetProfile = domainBuilder.buildTargetProfile({
               stages: [
@@ -1114,13 +1090,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             skills: [skill1, skill2, skill3],
             competenceId: 'recCompetence1',
           });
-          const area = domainBuilder.buildArea({ id: 'recArea1' });
           const competence = domainBuilder.buildCompetence({
             id: 'recCompetence1',
             tubes: [tube],
-            area,
           });
-          area.competences = [competence];
+          const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
           const learningContent = domainBuilder.buildLearningContent([area]);
           const targetProfile = domainBuilder.buildTargetProfile({
             stages: [domainBuilder.buildStage({ threshold: 30 }), domainBuilder.buildStage({ threshold: 60 })],

@@ -106,53 +106,47 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
         const area1 = domainBuilder.buildArea({
           id: 'recArea1',
-          // competences: [competenceA, competenceB, competenceC],
+          competences: [
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceA',
+              tubes: [tubeA],
+              name: 'Competence A',
+              index: '1.1',
+            }),
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceB',
+              tubes: [tubeB],
+              name: 'Competence B',
+              index: '1.2',
+            }),
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceC',
+              tubes: [tubeC],
+              name: 'Competence C',
+              index: '1.3',
+            }),
+          ],
           color: 'jaffa',
         });
-        area1.competences = [
-          domainBuilder.buildCompetence({
-            id: 'recCompetenceA',
-            area: area1,
-            tubes: [tubeA],
-            name: 'Competence A',
-            index: '1.1',
-          }),
-          domainBuilder.buildCompetence({
-            id: 'recCompetenceB',
-            area: area1,
-            tubes: [tubeB],
-            name: 'Competence B',
-            index: '1.2',
-          }),
-          domainBuilder.buildCompetence({
-            id: 'recCompetenceC',
-            area: area1,
-            tubes: [tubeC],
-            name: 'Competence C',
-            index: '1.3',
-          }),
-        ];
 
         const area2 = domainBuilder.buildArea({
           id: 'recArea2',
           color: 'emerald',
+          competences: [
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceE',
+              tubes: [tubeE],
+              name: 'Competence E',
+              index: '2.2',
+            }),
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceF',
+              tubes: [tubeF],
+              name: 'Competence F',
+              index: '2.3',
+            }),
+          ],
         });
-        area2.competences = [
-          domainBuilder.buildCompetence({
-            id: 'recCompetenceE',
-            area: area2,
-            tubes: [tubeE],
-            name: 'Competence E',
-            index: '2.2',
-          }),
-          domainBuilder.buildCompetence({
-            id: 'recCompetenceF',
-            area: area2,
-            tubes: [tubeF],
-            name: 'Competence F',
-            index: '2.3',
-          }),
-        ];
 
         learningContent = domainBuilder.buildLearningContent([area1, area2]);
       });

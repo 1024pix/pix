@@ -13,32 +13,30 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
       const area1 = domainBuilder.buildArea({
         id: 'area1',
         color: 'jaffa',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'rec1',
+            index: '1.2',
+            name: 'Cuisson des legumes d’automne',
+            tubes: [targetedTube1],
+          }),
+        ],
       });
-      area1.competences = [
-        domainBuilder.buildCompetence({
-          id: 'rec1',
-          index: '1.2',
-          name: 'Cuisson des legumes d’automne',
-          area: area1,
-          tubes: [targetedTube1],
-        }),
-      ];
 
       const skillsCompetence2 = _.times(4, domainBuilder.buildSkill());
       const targetedTube2 = domainBuilder.buildTube({ skills: skillsCompetence2 });
       const area2 = domainBuilder.buildArea({
         id: 'area2',
         color: 'cerulean',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'rec2',
+            index: '3.4',
+            name: 'Tourner un champignon',
+            tubes: [targetedTube2],
+          }),
+        ],
       });
-      area2.competences = [
-        domainBuilder.buildCompetence({
-          id: 'rec2',
-          index: '3.4',
-          name: 'Tourner un champignon',
-          area: area2,
-          tubes: [targetedTube2],
-        }),
-      ];
 
       const learningContent = domainBuilder.buildLearningContent([area1, area2]);
 

@@ -1002,18 +1002,17 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
     }
     function _createAreaForTubes({ tubes, areaName, areaId, origin }) {
-      const area = domainBuilder.buildArea({
-        id: areaId,
-        name: areaName,
-      });
       const competence = domainBuilder.buildCompetence({
         id: `comp_${areaName}_id`,
         name: `comp_${areaName}`,
-        area,
         tubes,
         origin,
       });
-      area.competences = [competence];
+      const area = domainBuilder.buildArea({
+        id: areaId,
+        name: areaName,
+        competences: [competence],
+      });
       return area;
     }
     function _createChallengeWithDecl(challengeBaseId, skill, countDecl) {

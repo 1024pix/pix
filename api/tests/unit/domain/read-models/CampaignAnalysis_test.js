@@ -9,7 +9,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const tube2 = domainBuilder.buildTube({ id: 'recTube2', competenceId: 'recCompetenceId' });
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube1, tube2],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
@@ -35,7 +34,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       });
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetence',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
@@ -83,7 +81,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       });
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetence',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
@@ -130,7 +127,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
@@ -181,7 +177,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
@@ -227,7 +222,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
@@ -280,7 +274,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube1, tube2],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
@@ -328,7 +321,6 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube1, tube2],
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });

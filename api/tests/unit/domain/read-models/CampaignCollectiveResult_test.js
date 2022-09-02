@@ -7,12 +7,11 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
       // given
       const area = domainBuilder.buildArea({
         id: 'recAreaId',
+        competences: [
+          domainBuilder.buildCompetence({ id: 'recCompetence1' }),
+          domainBuilder.buildCompetence({ id: 'recCompetence2' }),
+        ],
       });
-
-      area.competences = [
-        domainBuilder.buildCompetence({ id: 'recCompetence1', area }),
-        domainBuilder.buildCompetence({ id: 'recCompetence2', area }),
-      ];
       const learningContent = domainBuilder.buildLearningContent([area]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
@@ -24,20 +23,17 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
       // given
       const area = domainBuilder.buildArea({
         id: 'recAreaId',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'recCompetence1',
+            index: '3.1',
+          }),
+          domainBuilder.buildCompetence({
+            id: 'recCompetence2',
+            index: '1.1',
+          }),
+        ],
       });
-
-      area.competences = [
-        domainBuilder.buildCompetence({
-          id: 'recCompetence1',
-          area,
-          index: '3.1',
-        }),
-        domainBuilder.buildCompetence({
-          id: 'recCompetence2',
-          area,
-          index: '1.1',
-        }),
-      ];
 
       const learningContent = domainBuilder.buildLearningContent([area]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
@@ -49,14 +45,15 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
 
     it('should initialize CampaignCompetenceCollectiveResult with a computed id', function () {
       // given
-      const area = domainBuilder.buildArea({ id: 'recAreaId' });
-      area.competences = [
-        domainBuilder.buildCompetence({
-          id: 'recCompetence1',
-          area,
-          index: '3.1',
-        }),
-      ];
+      const area = domainBuilder.buildArea({
+        id: 'recAreaId',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'recCompetence1',
+            index: '3.1',
+          }),
+        ],
+      });
       const learningContent = domainBuilder.buildLearningContent([area]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
@@ -66,14 +63,15 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
 
     it('should initialize CampaignCompetenceCollectiveResult with a computed areaCode', function () {
       // given
-      const area = domainBuilder.buildArea({ id: 'recAreaId' });
-      area.competences = [
-        domainBuilder.buildCompetence({
-          id: 'recCompetence1',
-          area,
-          index: '3.1',
-        }),
-      ];
+      const area = domainBuilder.buildArea({
+        id: 'recAreaId',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'recCompetence1',
+            index: '3.1',
+          }),
+        ],
+      });
       const learningContent = domainBuilder.buildLearningContent([area]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
@@ -87,19 +85,17 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
       // given
       const area = domainBuilder.buildArea({
         id: 'recAreaId',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'recCompetence1',
+            index: '1.1',
+          }),
+          domainBuilder.buildCompetence({
+            id: 'recCompetence2',
+            index: '2.1',
+          }),
+        ],
       });
-      area.competences = [
-        domainBuilder.buildCompetence({
-          id: 'recCompetence1',
-          area,
-          index: '1.1',
-        }),
-        domainBuilder.buildCompetence({
-          id: 'recCompetence2',
-          area,
-          index: '2.1',
-        }),
-      ];
 
       const learningContent = domainBuilder.buildLearningContent([area]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
@@ -120,19 +116,17 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
       // given
       const area = domainBuilder.buildArea({
         id: 'recAreaId',
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'recCompetence1',
+            index: '1.1',
+          }),
+          domainBuilder.buildCompetence({
+            id: 'recCompetence2',
+            index: '2.1',
+          }),
+        ],
       });
-      area.competences = [
-        domainBuilder.buildCompetence({
-          id: 'recCompetence1',
-          area,
-          index: '1.1',
-        }),
-        domainBuilder.buildCompetence({
-          id: 'recCompetence2',
-          area,
-          index: '2.1',
-        }),
-      ];
 
       const learningContent = domainBuilder.buildLearningContent([area]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
