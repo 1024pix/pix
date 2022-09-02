@@ -6,6 +6,7 @@ export const certificationIssueReportCategories = {
   OTHER: 'OTHER',
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
   LATE_OR_LEAVING: 'LATE_OR_LEAVING',
+  SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
   CONNECTION_OR_END_SCREEN: 'CONNECTION_OR_END_SCREEN',
   IN_CHALLENGE: 'IN_CHALLENGE',
   FRAUD: 'FRAUD',
@@ -37,6 +38,8 @@ export const categoryToLabel = {
   [certificationIssueReportCategories.OTHER]: 'Autre (si aucune des catégories ci-dessus ne correspond au signalement)',
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'Modification infos candidat',
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'Retard, absence ou départ',
+  [certificationIssueReportCategories.SIGNATURE_ISSUE]:
+    'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
   [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique non bloquant',
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'Incident technique non bloquant',
