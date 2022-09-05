@@ -1,20 +1,14 @@
 .certification-details {
   padding: 20px;
 
-  .card.certification-details__info .card-body > div {
-    display: flex;
-
-    & div {
-      flex: 1;
-    }
-
-    & div:last-child {
-      flex: 2;
-    }
-  }
-
   &__info {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+      flex: 50%;
+    }
   }
 
   .certificate {

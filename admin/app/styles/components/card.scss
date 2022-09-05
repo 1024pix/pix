@@ -1,7 +1,9 @@
 .card {
-  box-shadow: 0 4px 8px rgba(7, 20, 46, 0.08);
+  box-shadow: 5px 4px 10px 2px rgb(0 0 0 / 10%);
   border-radius: 8px;
   background: $pix-neutral-0;
+  padding: 8px;
+  border: 1.2px $pix-neutral-35 solid;
 
   &__title {
     color: $pix-neutral-0;
@@ -19,8 +21,94 @@
     font-family: $font-roboto;
   }
 
+  &__body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+  }
+
   &-footer {
     display: flex;
     justify-content: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+
+    &:last-child {
+      border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
+    }
+  }
+
+  .card-footer,
+  .card-header {
+    padding: 0.75rem 1.25rem;
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+}
+
+.card-body {
+
+  .container,
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  @media (min-width: 1200px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+      max-width: 1140px;
+    }
+  }
+
+  @media (min-width: 992px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm {
+      max-width: 960px;
+    }
+  }
+
+  @media (min-width: 768px) {
+
+    .container,
+    .container-md,
+    .container-sm {
+      max-width: 720px;
+    }
+  }
+
+  @media (min-width: 576px) {
+
+    .container,
+    .container-sm {
+      max-width: 540px;
+    }
+  }
+}
+
+.card-deck {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin-right: -15px;
+  margin-left: -15px;
+
+  .card {
+    flex: 0.25;
+    margin-right: 15px;
+    margin-bottom: 0;
+    margin-left: 15px;
   }
 }

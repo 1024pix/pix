@@ -3,6 +3,7 @@ body {
   height: 100%;
   width: 100%;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 html {
@@ -54,7 +55,7 @@ a {
 a.pix-button {
 
   &:hover {
-    color: #FFFFFF;
+    color: $pix-neutral-0;
     text-decoration: none;
   }
 }
