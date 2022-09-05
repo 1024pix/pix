@@ -32,21 +32,30 @@ async function handlePixPlusCertificationsScoring({
   // const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
 
   for (const complementaryCertificationScoringCriterion of complementaryCertificationScoringCriteria) {
-    const { minimumReproducibilityRate, complementaryCertificationCourseId, complementaryCertificationBadgeKey } =
-      complementaryCertificationScoringCriterion;
-
-    const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
-      certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
-    const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
-
-    const pixPlusCertificationScoring = _buildPixPlusCertificationScoring(
+    const {
       minimumReproducibilityRate,
       complementaryCertificationCourseId,
-      pixPlusChallenges,
-      pixPlusAnswers,
       complementaryCertificationBadgeKey,
-      assessmentResult
-    );
+      hasComplementaryReferential,
+    } = complementaryCertificationScoringCriterion;
+
+    const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
+
+    let pixPlusCertificationScoring;
+
+    if (hasComplementaryReferential) {
+      const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
+        certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
+      pixPlusCertificationScoring = _buildPixPlusCertificationScoring(
+        minimumReproducibilityRate,
+        complementaryCertificationCourseId,
+        pixPlusChallenges,
+        pixPlusAnswers,
+        complementaryCertificationBadgeKey,
+        assessmentResult
+      );
+    }
+
     await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring });
   }
 }
