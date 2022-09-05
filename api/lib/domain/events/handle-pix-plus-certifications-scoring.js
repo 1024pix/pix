@@ -4,6 +4,7 @@ const CertificationRescoringCompleted = require('./CertificationRescoringComplet
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
+const ComplementaryCertificationScoringWithoutComplementaryReferential = require('../models/ComplementaryCertificationScoringWithoutComplementaryReferential');
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
@@ -37,6 +38,7 @@ async function handlePixPlusCertificationsScoring({
       complementaryCertificationCourseId,
       complementaryCertificationBadgeKey,
       hasComplementaryReferential,
+      minimumEarnedPix,
     } = complementaryCertificationScoringCriterion;
 
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
@@ -54,6 +56,15 @@ async function handlePixPlusCertificationsScoring({
         complementaryCertificationBadgeKey,
         assessmentResult
       );
+    } else {
+      pixPlusCertificationScoring = new ComplementaryCertificationScoringWithoutComplementaryReferential({
+        complementaryCertificationCourseId,
+        complementaryCertificationBadgeKey,
+        reproducibilityRate: assessmentResult.reproducibilityRate,
+        pixScore: assessmentResult.pixScore,
+        minimumEarnedPix,
+        minimumReproducibilityRate,
+      });
     }
 
     await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring });
