@@ -38,6 +38,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             credit: organization.credit,
             email: organization.email,
             'created-by': organization.createdBy,
+            'created-at': organization.createdAt,
             'documentation-url': organization.documentationUrl,
             'show-nps': organization.showNPS,
             'form-nps-url': organization.formNPSUrl,
