@@ -65,22 +65,11 @@ module.exports = async function authenticateOidcUser({
 };
 
 async function _updateAuthenticationMethodWithComplement({
-  userInfo,
   userId,
   sessionContent,
   oidcAuthenticationService,
   authenticationMethodRepository,
 }) {
-  const oidcAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
-    userId,
-    identityProvider: oidcAuthenticationService.identityProvider,
-  });
-
-  const isSameExternalIdentifier = oidcAuthenticationMethod.externalIdentifier === userInfo.externalIdentityId;
-  if (!isSameExternalIdentifier) {
-    throw new DifferentExternalIdentifierError();
-  }
-
   const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
   if (!authenticationComplement) return;
 
