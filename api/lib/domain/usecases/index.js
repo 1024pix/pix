@@ -58,7 +58,6 @@ const dependencies = {
   certificationResultRepository: require('../../infrastructure/repositories/certification-result-repository'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
   challengeForPixAutoAnswerRepository: require('../../infrastructure/repositories/challenge-for-pix-auto-answer-repository'),
-  cleaCertificationResultRepository: require('../../infrastructure/repositories/clea-certification-result-repository'),
   competenceEvaluationRepository: require('../../infrastructure/repositories/competence-evaluation-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
