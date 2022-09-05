@@ -143,7 +143,6 @@ const dependencies = {
   targetProfileSummaryForAdminRepository: require('../../infrastructure/repositories/target-profile-summary-for-admin-repository'),
   targetProfileForUpdateRepository: require('../../infrastructure/repositories/target-profile-for-update-repository'),
   targetProfileShareRepository: require('../../infrastructure/repositories/target-profile-share-repository'),
-  targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   targetProfileForAdminRepository: require('../../infrastructure/repositories/target-profile-for-admin-repository'),
   thematicRepository: require('../../infrastructure/repositories/thematic-repository'),
   tokenService: require('../../domain/services/token-service'),
