@@ -2,10 +2,15 @@
   <burger.outlet>
     <header role="banner">
       <NavbarHeader @burger={{burger}} />
-      <Tutorials::Header />
+      <Tutorials::Header @onTriggerFilterButton={{this.showSidebar}} />
     </header>
 
     <main id="main" class="main" role="main">
+      <UserTutorials::Filters::Sidebar
+        @isVisible={{this.isSidebarVisible}}
+        @areas={{this.model.areas}}
+        @onClose={{this.closeSidebar}}
+      />
       <div class="user-tutorials-content-v2">
         {{#if @model.savedTutorials.meta.rowCount}}
           <div class="user-tutorials-content-v2__container">
