@@ -122,7 +122,6 @@ module.exports = {
   buildTargetProfileForAdmin: require('./build-target-profile-for-admin'),
   buildTargetProfileForCreation: require('./build-target-profile-for-creation'),
   buildOrganizationsToAttachToTargetProfile: require('./build-organizations-to-attach-to-target-profile'),
-  buildTargetProfileWithLearningContent: require('./build-target-profile-with-learning-content'),
   buildTargetProfileSummaryForAdmin: require('./build-target-profile-summary-for-admin'),
   buildThematic: require('./build-thematic'),
   buildTraining: require('./build-training'),
