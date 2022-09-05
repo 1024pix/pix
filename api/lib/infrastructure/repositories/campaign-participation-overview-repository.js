@@ -2,7 +2,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
 const { fetchPage } = require('../utils/knex-utils');
-const targetProfileWithLearningContentRepository = require('../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository.js');
+const targetProfileRepository = require('../../../lib/infrastructure/repositories/target-profile-repository.js');
 const bluebird = require('bluebird');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
@@ -41,6 +41,7 @@ function _findByUserId({ userId }) {
         organizationName: 'organizations.name',
         deletedAt: 'campaign-participations.deletedAt',
         participationState: _computeCampaignParticipationState(),
+        campaignId: 'campaigns.id',
       })
         .from('campaign-participations')
         .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
@@ -96,7 +97,7 @@ function _toReadModel(campaignParticipationOverviews) {
   return bluebird.mapSeries(campaignParticipationOverviews, async (data) => {
     let targetProfile;
     if (data.targetProfileId) {
-      targetProfile = await targetProfileWithLearningContentRepository.get({ id: data.targetProfileId });
+      targetProfile = await targetProfileRepository.getByCampaignId(data.campaignId);
     }
 
     return new CampaignParticipationOverview({
