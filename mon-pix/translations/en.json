@@ -551,8 +551,8 @@
       "statement": {
         "alternative-instruction": {
           "actions": {
-            "display": "Show alternative instruction",
-            "hide": "Hide alternative instruction"
+            "display": "Show alternative text",
+            "hide": "Hide alternative text"
           }
         },
         "external-link-title": "new window",
