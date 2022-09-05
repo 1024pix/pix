@@ -5,6 +5,7 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { knex } = require('../../../db/knex-database-connection');
 const Campaign = require('../../domain/models/Campaign');
 const targetProfileRepository = require('./target-profile-repository');
+const skillRepository = require('./skill-repository');
 
 module.exports = {
   isCodeAvailable(code) {
@@ -126,12 +127,18 @@ module.exports = {
     if (!campaign) return null;
     return campaign.id;
   },
+
   async findSkillIds(campaignId) {
+    const skills = await this.findSkills(campaignId);
+    return skills.map(({ id }) => id);
+  },
+
+  async findSkills(campaignId) {
     let skillIds = await knex('campaign_skills').where({ campaignId }).pluck('skillId');
     // TODO remove it after target profile skills migration
     if (skillIds.length === 0) {
       skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId);
     }
-    return skillIds;
+    return skillRepository.findOperativeByIds(skillIds);
   },
 };
