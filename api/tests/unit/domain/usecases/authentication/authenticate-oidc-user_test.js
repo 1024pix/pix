@@ -320,11 +320,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         it('should not update authentication method', async function () {
           // given
           _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-              externalIdentifier: externalIdentityId,
-            })
-          );
           oidcAuthenticationService.createAuthenticationComplement.returns(null);
 
           // when
@@ -345,19 +340,19 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         });
       });
 
-      context('When the external identifier does not match the oidc authentication method', function () {
-        it('should throw a DifferentExternalIdentifierError error', async function () {
+      context('When the provider has an authentication complement', function () {
+        it('should update authentication method', async function () {
           // given
-          _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          oidcAuthenticationService.createAuthenticationComplement.returns(null);
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-              externalIdentifier: 'other_external_identifier',
-            })
-          );
+          const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+            accessToken: sessionContent.accessToken,
+            refreshToken: sessionContent.refreshToken,
+            expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+          });
+          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
           // when
-          const error = await catchErr(authenticateOidcUser)({
+          await authenticateOidcUser({
             authenticatedUserId: 1,
             stateReceived: 'state',
             stateSent: 'state',
@@ -368,43 +363,13 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           });
 
           // then
-          expect(error).to.be.instanceOf(DifferentExternalIdentifierError);
-        });
-      });
-
-      it('should update authentication method', async function () {
-        // given
-        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: sessionContent.accessToken,
-          refreshToken: sessionContent.refreshToken,
-          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-        });
-        oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-          domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            externalIdentifier: externalIdentityId,
-          })
-        );
-
-        // when
-        await authenticateOidcUser({
-          authenticatedUserId: 1,
-          stateReceived: 'state',
-          stateSent: 'state',
-          oidcAuthenticationService,
-          authenticationSessionService,
-          authenticationMethodRepository,
-          userRepository,
-        });
-
-        // then
-        expect(
-          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-        ).to.have.been.calledWith({
-          authenticationComplement,
-          userId: 1,
-          identityProvider: oidcAuthenticationService.identityProvider,
+          expect(
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+          ).to.have.been.calledWith({
+            authenticationComplement,
+            userId: 1,
+            identityProvider: oidcAuthenticationService.identityProvider,
+          });
         });
       });
     });
@@ -415,11 +380,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       userRepository.findByExternalIdentifier
         .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
         .resolves({ id: 10 });
-      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          externalIdentifier: externalIdentityId,
-        })
-      );
       oidcAuthenticationService.createAuthenticationComplement.returns(null);
       oidcAuthenticationService.createAccessToken.withArgs(10).returns('accessTokenForExistingExternalUser');
       oidcAuthenticationService.saveIdToken
@@ -461,11 +421,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
       });
       oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          externalIdentifier: externalIdentityId,
-        })
-      );
 
       // when
       await authenticateOidcUser({
@@ -479,10 +434,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       });
 
       // then
-      expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.have.been.calledWith({
-        userId: 10,
-        identityProvider: oidcAuthenticationService.identityProvider,
-      });
       expect(
         authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
       ).to.have.been.calledWith({
