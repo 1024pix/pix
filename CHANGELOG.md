@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.249.0 (05/09/2022)
+
+
+### :rocket: Amélioration
+- [#4861](https://github.com/1024pix/pix/pull/4861) [FEATURE] Ajouter la traduction anglaise pour l'aide sur l'utilisation d'un code parcours (PIX-5581)
+- [#4864](https://github.com/1024pix/pix/pull/4864) [FEATURE] Changer la traduction pour "Afficher une alternative textuelle" (PIX-5596).
+- [#4860](https://github.com/1024pix/pix/pull/4860) [FEATURE][ADMIN] Afficher la date de création d'une organisation (PIX-5601)
+- [#4862](https://github.com/1024pix/pix/pull/4862) [FEATURE] Ramener les domaines et compétences dans les pages tutos sur Pix App (PIX-5605).
+- [#4844](https://github.com/1024pix/pix/pull/4844) [FEATURE] Réconcilier un utilisateur externe avec son compte Pix (PIX-5345).
+- [#4848](https://github.com/1024pix/pix/pull/4848) [FEATURE] Si l'organisation est rattachée au GAR, pousser l'élève à se connecter via son Mediacentre (PIX-5140)
+- [#4840](https://github.com/1024pix/pix/pull/4840) [FEATURE] Améliore l'accessiblité de la tooltip du score Pix sur Pix App (PIX-5428)
+
+### :building_construction: Tech
+- [#4784](https://github.com/1024pix/pix/pull/4784) [TECH] Script pour convertir les profil-cibles existants dans le nouveau format. Conversion acquis vers sujets cappés par niveau (PIX-5502)
+- [#4843](https://github.com/1024pix/pix/pull/4843) [TECH] Améliorer le message d'erreur lorsqu'on tente de créer un RT avec un acquis inconnu du profil cible (PIX-5579)
+- [#4817](https://github.com/1024pix/pix/pull/4817) [TECH] Utiliser la valeur de difficulté de l'acquis donnée par l'API LCMS (PIX-5531)
+
+### :bug: Correction
+- [#4857](https://github.com/1024pix/pix/pull/4857) [BUGFIX][ADMIN] Corriger l'affichage de l'identifiant du créateur de l'organisation (PIX-5586)
+- [#4850](https://github.com/1024pix/pix/pull/4850) [BUGFIX] Mettre à jour les packages font awesome (Pix-5558)
+- [#4855](https://github.com/1024pix/pix/pull/4855) [BUGFIX] Ne pas remonter l'erreur de Pole Emploi au renvoie des informations de l'utilisateur (PIX_5599).
+
 ## v3.248.0 (01/09/2022)
 
 
