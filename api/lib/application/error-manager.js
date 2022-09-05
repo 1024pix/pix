@@ -443,7 +443,7 @@ function _mapToHttpError(error) {
   }
 
   if (error instanceof DomainErrors.DifferentExternalIdentifierError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
+    return new HttpErrors.ConflictError(error.message);
   }
 
   return new HttpErrors.BaseHttpError(error.message);
