@@ -1,8 +1,8 @@
 const { ReproducibilityRate } = require('../../../../lib/domain/models/ReproducibilityRate');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const { handlePixPlusCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const { handleComplementaryCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', function () {
+describe('Unit | Domain | Events | handle-complementary-certification-certifications-scoring', function () {
   const certificationAssessmentRepository = {};
   const partnerCertificationScoringRepository = {};
   const assessmentResultRepository = {};
@@ -27,7 +27,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
     const event = 'not an event of the correct type';
 
     // when / then
-    const error = await catchErr(handlePixPlusCertificationsScoring)({ event, ...dependencies });
+    const error = await catchErr(handleComplementaryCertificationsScoring)({ event, ...dependencies });
 
     // then
     expect(error.message).to.equal(
@@ -48,7 +48,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
         .resolves([]);
 
       // when
-      await handlePixPlusCertificationsScoring({ event, ...dependencies });
+      await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
       // then
       expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
@@ -99,7 +99,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           .resolves(domainBuilder.buildAssessmentResult());
 
         // when
-        await handlePixPlusCertificationsScoring({ event, ...dependencies });
+        await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
         // then
         const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
@@ -153,7 +153,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
             .resolves(complementaryCertificationScoringCriteria);
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
@@ -216,7 +216,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
             .resolves(domainBuilder.buildAssessmentResult.validated());
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
@@ -276,7 +276,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
             .resolves(domainBuilder.buildAssessmentResult.validated());
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
@@ -338,7 +338,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           .resolves(domainBuilder.buildAssessmentResult({ pixScore: 128, reproducibilityRate: 100 }));
 
         // when
-        await handlePixPlusCertificationsScoring({ event, ...dependencies });
+        await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
         // then
         const expectedPartnerCertificationScoring =
@@ -401,7 +401,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
             .resolves(complementaryCertificationScoringCriteria);
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring =
@@ -471,7 +471,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           );
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring =
@@ -539,7 +539,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           );
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring =
@@ -607,7 +607,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
           );
 
           // when
-          await handlePixPlusCertificationsScoring({ event, ...dependencies });
+          await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
           const expectedPartnerCertificationScoring =
