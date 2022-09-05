@@ -8,7 +8,7 @@
       {{#if this.isNotCurrentUserMembership}}
         <td class="zone-edit-role hide-on-mobile">
           <Dropdown::IconTrigger
-            @icon="ellipsis-v"
+            @icon="ellipsis-vertical"
             @dropdownButtonClass="zone-edit-role__dropdown-button"
             @dropdownContentClass="zone-edit-role__dropdown-content"
             @ariaLabel={{t "pages.team-members.actions.manage"}}
@@ -51,7 +51,7 @@
           {{t "pages.team-members.actions.save"}}
         </PixButton>
         <PixIconButton
-          @icon="times"
+          @icon="xmark"
           id="cancel-update-organization-role"
           aria-label="{{t "common.actions.cancel"}}"
           @triggerAction={{this.cancelUpdateRoleOfMember}}
