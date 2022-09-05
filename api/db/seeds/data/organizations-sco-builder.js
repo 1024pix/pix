@@ -1,5 +1,6 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
@@ -52,6 +53,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: middleSchoolsCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SCO_MIDDLE_SCHOOL_ID,
@@ -305,6 +307,7 @@ function _buildHighSchools({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: highSchoolsCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SCO_HIGH_SCHOOL_ID,
@@ -408,6 +411,7 @@ function _buildFarmingSchools({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: farmingSchoolsCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SCO_AGRI_ID,
@@ -444,6 +448,7 @@ function _buildAEFE({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: aefeCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SCO_AEFE_ID,
