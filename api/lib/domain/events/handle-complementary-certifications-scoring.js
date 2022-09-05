@@ -8,7 +8,7 @@ const ComplementaryCertificationScoringWithoutComplementaryReferential = require
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
-async function handlePixPlusCertificationsScoring({
+async function handleComplementaryCertificationsScoring({
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
@@ -91,5 +91,5 @@ function _buildPixPlusCertificationScoring(
   });
 }
 
-handlePixPlusCertificationsScoring.eventTypes = eventTypes;
-module.exports = handlePixPlusCertificationsScoring;
+handleComplementaryCertificationsScoring.eventTypes = eventTypes;
+module.exports = handleComplementaryCertificationsScoring;

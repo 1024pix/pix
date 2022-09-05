@@ -53,7 +53,7 @@ const handlersToBeInjected = {
   handleAutoJury: require('./handle-auto-jury'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handleCertificationRescoring: require('./handle-certification-rescoring'),
-  handlePixPlusCertificationsScoring: require('./handle-pix-plus-certifications-scoring'),
+  handleComplementaryCertificationsScoring: require('./handle-complementary-certifications-scoring'),
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
