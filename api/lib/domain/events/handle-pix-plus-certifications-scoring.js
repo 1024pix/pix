@@ -29,9 +29,6 @@ async function handlePixPlusCertificationsScoring({
     certificationCourseId,
   });
 
-  // TODO REMOVE METHOD BELOW FROM CERTIFICATION ASSESSMENT
-  // const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
-
   for (const complementaryCertificationScoringCriterion of complementaryCertificationScoringCriteria) {
     const {
       minimumReproducibilityRate,
