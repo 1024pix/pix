@@ -71,6 +71,18 @@ exports.register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/frameworks/pix/areas-for-user',
+      config: {
+        handler: frameworkController.getPixFrameworkAreasWithoutThematics,
+        tags: ['api', 'framework'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle permet de récupérer tous les domaines du référentiel pix avec leurs compétences (sans les thématiques)',
+        ],
+      },
+    },
   ]);
 };
 

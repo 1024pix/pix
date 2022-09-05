@@ -11,8 +11,9 @@ export default class UserTutorialsSavedRoute extends Route {
     pageSize: { refreshModel: true },
   };
 
-  model(params) {
-    return this.store.query(
+  async model(params) {
+    const areas = this.modelFor('authenticated.user-tutorials');
+    const savedTutorials = await this.store.query(
       'tutorial',
       {
         type: 'saved',
@@ -23,6 +24,10 @@ export default class UserTutorialsSavedRoute extends Route {
       },
       { reload: true }
     );
+    return {
+      areas,
+      savedTutorials,
+    };
   }
 
   resetController(controller, isExiting) {

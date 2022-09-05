@@ -205,4 +205,84 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       });
     });
   });
+
+  describe('GET /api/frameworks/pix/areas-for-user', function () {
+    describe('User is authenticated', function () {
+      let userId;
+
+      beforeEach(async function () {
+        userId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        mockLearningContent(learningContent);
+      });
+
+      it('should return response code 200', async function () {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/frameworks/pix/areas-for-user`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+          },
+        };
+
+        const expectedResult = {
+          data: [
+            {
+              id: 'areaId',
+              type: 'areas',
+              attributes: {
+                code: 1,
+                title: 'Area fr',
+                color: 'some color',
+              },
+              relationships: {
+                competences: {
+                  data: [
+                    {
+                      id: 'competenceId',
+                      type: 'competences',
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+          included: [
+            {
+              id: 'competenceId',
+              type: 'competences',
+              attributes: {
+                name: 'Competence name',
+                index: 0,
+              },
+            },
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResult);
+      });
+    });
+
+    describe('User is not authenticated', function () {
+      it('should return response code 401', async function () {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/frameworks/pix/areas-for-user`,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+  });
 });
