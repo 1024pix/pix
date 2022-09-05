@@ -6,7 +6,6 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 const campaignRepository = require('./campaign-repository');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
-const skillRepository = require('./skill-repository');
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
@@ -76,9 +75,7 @@ async function _setSkillsCount(result) {
   let testedSkillsCount = 0;
 
   if (result.assessmentState !== Assessment.states.COMPLETED) {
-    const skillIds = await campaignRepository.findSkillIds(result.campaignId);
-
-    const operativeSkillIds = (await skillRepository.findOperativeByIds(skillIds)).map(({ id }) => id);
+    const operativeSkillIds = await campaignRepository.findSkillIds(result.campaignId);
 
     const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({
       [result.userId]: result.sharedAt,

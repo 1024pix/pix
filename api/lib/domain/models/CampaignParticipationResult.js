@@ -28,15 +28,10 @@ class CampaignParticipationResult {
     this.stageCount = stageCount;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements }) {
-    const targetProfileSkillsIds = targetProfile.getSkillIds();
-    const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
+  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, skillIds, knowledgeElements }) {
+    const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
 
-    const targetedCompetenceResults = _computeCompetenceResults(
-      competences,
-      targetProfileSkillsIds,
-      targetedKnowledgeElements
-    );
+    const targetedCompetenceResults = _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements);
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
@@ -89,12 +84,12 @@ function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
   }
 }
 
-function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {
-  return _.filter(knowledgeElements, (ke) => targetProfileSkillsIds.some((skillId) => skillId === ke.skillId));
+function _removeUntargetedKnowledgeElements(knowledgeElements, skillIds) {
+  return _.filter(knowledgeElements, (ke) => skillIds.some((skillId) => skillId === ke.skillId));
 }
 
-function _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements) {
-  let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds);
+function _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements) {
+  let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, skillIds);
   targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
   const targetedCompetenceResults = _.map(targetedCompetences, (competence) =>
     _getTestedCompetenceResults(competence, targetedKnowledgeElements)
@@ -102,9 +97,9 @@ function _computeCompetenceResults(competences, targetProfileSkillsIds, targeted
   return targetedCompetenceResults;
 }
 
-function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {
+function _removeUntargetedSkillIdsFromCompetences(competences, skillIds) {
   return _.map(competences, (competence) => {
-    competence.skillIds = _.intersection(competence.skillIds, targetProfileSkillsIds);
+    competence.skillIds = _.intersection(competence.skillIds, skillIds);
     return competence;
   });
 }
