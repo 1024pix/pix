@@ -32,7 +32,6 @@ const dependencies = {
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   supervisorAccessRepository: require('../../infrastructure/repositories/supervisor-access-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
-  targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   participantResultsSharedRepository: require('../../infrastructure/repositories/participant-results-shared-repository'),
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
