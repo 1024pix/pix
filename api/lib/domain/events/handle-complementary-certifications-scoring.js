@@ -3,7 +3,7 @@ const CertificationScoringCompleted = require('./CertificationScoringCompleted')
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
-const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
+const ComplementaryCertificationScoringWithComplementaryReferential = require('../models/ComplementaryCertificationScoringWithComplementaryReferential');
 const ComplementaryCertificationScoringWithoutComplementaryReferential = require('../models/ComplementaryCertificationScoringWithoutComplementaryReferential');
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
@@ -40,35 +40,39 @@ async function handleComplementaryCertificationsScoring({
 
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
-    let pixPlusCertificationScoring;
+    let complementaryCertificationScoringWithComplementaryReferential;
 
     if (hasComplementaryReferential) {
       const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
         certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
-      pixPlusCertificationScoring = _buildPixPlusCertificationScoring(
-        minimumReproducibilityRate,
-        complementaryCertificationCourseId,
-        pixPlusChallenges,
-        pixPlusAnswers,
-        complementaryCertificationBadgeKey,
-        assessmentResult
-      );
+      complementaryCertificationScoringWithComplementaryReferential =
+        _buildComplementaryCertificationScoringWithReferential(
+          minimumReproducibilityRate,
+          complementaryCertificationCourseId,
+          pixPlusChallenges,
+          pixPlusAnswers,
+          complementaryCertificationBadgeKey,
+          assessmentResult
+        );
     } else {
-      pixPlusCertificationScoring = new ComplementaryCertificationScoringWithoutComplementaryReferential({
-        complementaryCertificationCourseId,
-        complementaryCertificationBadgeKey,
-        reproducibilityRate: assessmentResult.reproducibilityRate,
-        pixScore: assessmentResult.pixScore,
-        minimumEarnedPix,
-        minimumReproducibilityRate,
-      });
+      complementaryCertificationScoringWithComplementaryReferential =
+        new ComplementaryCertificationScoringWithoutComplementaryReferential({
+          complementaryCertificationCourseId,
+          complementaryCertificationBadgeKey,
+          reproducibilityRate: assessmentResult.reproducibilityRate,
+          pixScore: assessmentResult.pixScore,
+          minimumEarnedPix,
+          minimumReproducibilityRate,
+        });
     }
 
-    await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring });
+    await partnerCertificationScoringRepository.save({
+      partnerCertificationScoring: complementaryCertificationScoringWithComplementaryReferential,
+    });
   }
 }
 
-function _buildPixPlusCertificationScoring(
+function _buildComplementaryCertificationScoringWithReferential(
   minimumReproducibilityRate,
   complementaryCertificationCourseId,
   challenges,
@@ -82,7 +86,7 @@ function _buildPixPlusCertificationScoring(
     numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
   });
 
-  return new PixPlusCertificationScoring({
+  return new ComplementaryCertificationScoringWithComplementaryReferential({
     minimumReproducibilityRate,
     complementaryCertificationCourseId,
     reproducibilityRate,

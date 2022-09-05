@@ -102,12 +102,13 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
         await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
         // then
-        const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
-          complementaryCertificationCourseId: 999,
-          complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-          reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-          hasAcquiredPixCertification: true,
-        });
+        const expectedPartnerCertificationScoring =
+          domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+            complementaryCertificationCourseId: 999,
+            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+            reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
+            hasAcquiredPixCertification: true,
+          });
         expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
           partnerCertificationScoring: expectedPartnerCertificationScoring,
         });
@@ -156,14 +157,15 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
-            complementaryCertificationCourseId,
-            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-            source: 'PIX',
-            reproducibilityRate: new ReproducibilityRate(100),
-            hasAcquiredPixCertification: false,
-            minimumReproducibilityRate: 100,
-          });
+          const expectedPartnerCertificationScoring =
+            domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+              complementaryCertificationCourseId,
+              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+              source: 'PIX',
+              reproducibilityRate: new ReproducibilityRate(100),
+              hasAcquiredPixCertification: false,
+              minimumReproducibilityRate: 100,
+            });
 
           expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
             partnerCertificationScoring: expectedPartnerCertificationScoring,
@@ -219,13 +221,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
-            complementaryCertificationCourseId: 999,
-            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-            reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
-            hasAcquiredPixCertification: true,
-            minimumReproducibilityRate: 75,
-          });
+          const expectedPartnerCertificationScoring =
+            domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+              complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+              reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
+              hasAcquiredPixCertification: true,
+              minimumReproducibilityRate: 75,
+            });
           expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
             partnerCertificationScoring: expectedPartnerCertificationScoring,
           });
@@ -279,13 +282,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
-            complementaryCertificationCourseId: 999,
-            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-            reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-            hasAcquiredPixCertification: true,
-            minimumReproducibilityRate: 75,
-          });
+          const expectedPartnerCertificationScoring =
+            domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+              complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+              reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
+              hasAcquiredPixCertification: true,
+              minimumReproducibilityRate: 75,
+            });
           expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
             partnerCertificationScoring: expectedPartnerCertificationScoring,
           });
