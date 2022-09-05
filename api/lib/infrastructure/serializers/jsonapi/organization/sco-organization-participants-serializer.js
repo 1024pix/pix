@@ -19,6 +19,7 @@ module.exports = {
         'campaignType',
         'participationStatus',
         'isCertifiable',
+        'certifiableAt',
       ],
       meta: pagination,
     }).serialize(scoOrganizationParticipants);
