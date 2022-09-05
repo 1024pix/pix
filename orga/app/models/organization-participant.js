@@ -8,4 +8,5 @@ export default class OrganizationParticipant extends Model {
   @attr('string') campaignName;
   @attr('string') campaignType;
   @attr('string') participationStatus;
+  @attr('boolean', { allowNull: true }) isCertifiable;
 }
