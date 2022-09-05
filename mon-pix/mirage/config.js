@@ -1,3 +1,4 @@
+import getAreas from './routes/get-areas';
 import getCampaigns from './routes/get-campaigns';
 import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
 import getCertifications from './routes/get-certifications';
@@ -66,6 +67,8 @@ export default function () {
   this.get('/challenges/:id', getChallenge);
 
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
+
+  this.get('/frameworks/pix/areas-for-user', getAreas);
 
   this.get('/progressions/:id', getProgression);
 

@@ -1,4 +1,4 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+const { expect, HttpTestServer, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
@@ -106,6 +106,43 @@ describe('Unit | Application | Frameworks | Routes', function () {
 
       // then
       expect(statusCode).to.equal(403);
+    });
+  });
+
+  describe('GET /api/frameworks/pix/areas-for-user', function () {
+    const method = 'GET';
+    const url = '/api/frameworks/pix/areas-for-user';
+
+    it('should return a response with an HTTP status code 200 when user is logged in', async function () {
+      // given
+      sinon
+        .stub(frameworksController, 'getPixFrameworkAreasWithoutThematics')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.setupAuthentication();
+      await httpTestServer.register(moduleUnderTest);
+      const headers = {
+        authorization: generateValidRequestAuthorizationHeader(),
+      };
+
+      // when
+      const { statusCode } = await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(statusCode).to.equal(200);
+    });
+
+    it('should return a response with an HTTP status code 401 when user is not logged', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.setupAuthentication();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const { statusCode } = await httpTestServer.request(method, url);
+
+      // then
+      expect(statusCode).to.equal(401);
     });
   });
 });

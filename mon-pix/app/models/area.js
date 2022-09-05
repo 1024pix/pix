@@ -9,4 +9,9 @@ export default class Area extends Model {
 
   // includes
   @hasMany('resultCompetence') resultCompetences;
+  @hasMany('competence') competences;
+
+  get sortedCompetences() {
+    return this.competences.sortBy('code');
+  }
 }

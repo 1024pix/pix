@@ -1,7 +1,11 @@
-{{#if @model.meta.rowCount}}
+{{#if @model.recommendedTutorials.meta.rowCount}}
   <div class="user-tutorials-content-v2__container">
-    <Tutorials::Cards @tutorials={{@model}} />
-    <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} @isCondensed="true" />
+    <Tutorials::Cards @tutorials={{@model.recommendedTutorials}} />
+    <PixPagination
+      @pagination={{@model.recommendedTutorials.meta}}
+      @pageOptions={{this.pageOptions}}
+      @isCondensed="true"
+    />
   </div>
 {{else}}
   <Tutorials::RecommendedEmpty />
