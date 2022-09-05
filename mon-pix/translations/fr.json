@@ -1547,6 +1547,10 @@
       },
       "filter": "Filtrer",
       "label": "tutoriels",
+      "sidebar": {
+        "reset": "Réinitialiser",
+        "see-results": "Voir les résultats"
+      },
       "list": {
         "title": "Ma liste",
         "tutorial": {
