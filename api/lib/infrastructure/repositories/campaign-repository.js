@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const Campaign = require('../../domain/models/Campaign');
+const targetProfileRepository = require('./target-profile-repository');
 
 module.exports = {
   isCodeAvailable(code) {
@@ -124,5 +125,13 @@ module.exports = {
 
     if (!campaign) return null;
     return campaign.id;
+  },
+  async findSkillIds(campaignId) {
+    let skillIds = await knex('campaign_skills').where({ campaignId }).pluck('skillId');
+    // TODO remove it after target profile skills migration
+    if (skillIds.length === 0) {
+      skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId);
+    }
+    return skillIds;
   },
 };

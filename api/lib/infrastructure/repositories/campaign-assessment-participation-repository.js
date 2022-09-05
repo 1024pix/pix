@@ -3,9 +3,10 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 const CampaignAssessmentParticipation = require('../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
-const targetProfileRepository = require('./target-profile-repository');
+const campaignRepository = require('./campaign-repository');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
+const skillRepository = require('./skill-repository');
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
@@ -75,28 +76,29 @@ async function _setSkillsCount(result) {
   let testedSkillsCount = 0;
 
   if (result.assessmentState !== Assessment.states.COMPLETED) {
-    const targetProfile = await targetProfileRepository.getByCampaignId(result.campaignId);
-    const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
+    const skillIds = await campaignRepository.findSkillIds(result.campaignId);
+
+    const operativeSkillIds = (await skillRepository.findOperativeByIds(skillIds)).map(({ id }) => id);
 
     const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({
       [result.userId]: result.sharedAt,
     });
     const knowledgeElements = knowledgeElementsByUser[result.userId];
 
-    targetedSkillsCount = targetedSkillIds.length;
-    testedSkillsCount = _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements);
+    targetedSkillsCount = operativeSkillIds.length;
+    testedSkillsCount = _getTestedSkillsCount(operativeSkillIds, knowledgeElements);
   }
 
   return { targetedSkillsCount, testedSkillsCount };
 }
 
-function _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements) {
+function _getTestedSkillsCount(skillIds, knowledgeElements) {
   const testedKnowledgeElements = _.filter(
     knowledgeElements,
     (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated
   );
   const testedSkillIds = _.map(testedKnowledgeElements, 'skillId');
-  const testedTargetedSkillIdsByUser = _.intersection(testedSkillIds, targetedSkillIds);
+  const testedTargetedSkillIdsByUser = _.intersection(testedSkillIds, skillIds);
 
   return testedTargetedSkillIdsByUser.length;
 }

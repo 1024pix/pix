@@ -1,19 +1,13 @@
-const { knex } = require('../../../db/knex-database-connection');
 const _ = require('lodash');
 const { NoSkillsInCampaignError } = require('../../domain/errors');
 const skillRepository = require('./skill-repository');
 const tubeRepository = require('./tube-repository');
-const targetProfileRepository = require('./target-profile-repository');
+const campaignRepository = require('./campaign-repository');
 const competenceRepository = require('./competence-repository');
 const LearningContent = require('../../domain/models/LearningContent');
 
 async function findByCampaignId(campaignId, locale) {
-  let skillIds = await knex('campaign_skills').where({ campaignId }).pluck('skillId');
-
-  // TODO remove it after target profile skills migration
-  if (skillIds.length === 0) {
-    skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId);
-  }
+  const skillIds = await campaignRepository.findSkillIds(campaignId);
 
   const areas = await _getLearningContentBySkillIds(skillIds, locale);
 
