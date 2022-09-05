@@ -1,6 +1,5 @@
 const campaignParticipationService = require('../services/campaign-participation-service');
 const CompetenceResult = require('./CompetenceResult');
-const CampaignParticipationBadge = require('./CampaignParticipationBadge');
 
 const _ = require('lodash');
 
@@ -13,7 +12,6 @@ class CampaignParticipationResult {
     validatedSkillsCount,
     knowledgeElementsCount,
     // relationships
-    campaignParticipationBadges,
     competenceResults = [],
     reachedStage,
     stageCount,
@@ -25,21 +23,12 @@ class CampaignParticipationResult {
     this.validatedSkillsCount = validatedSkillsCount;
     this.knowledgeElementsCount = knowledgeElementsCount;
     // relationships
-    this.campaignParticipationBadges = campaignParticipationBadges;
     this.competenceResults = competenceResults;
     this.reachedStage = reachedStage;
     this.stageCount = stageCount;
   }
 
-  static buildFrom({
-    campaignParticipationId,
-    assessment,
-    competences,
-    targetProfile,
-    knowledgeElements,
-    campaignBadges = [],
-    acquiredBadgeIds = [],
-  }) {
+  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements }) {
     const targetProfileSkillsIds = targetProfile.getSkillIds();
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
@@ -48,11 +37,6 @@ class CampaignParticipationResult {
       targetProfileSkillsIds,
       targetedKnowledgeElements
     );
-    const campaignParticipationBadges = _.flatMap(campaignBadges, (badge) => {
-      const skillSetResults = _computeSkillSetResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
-      const isBadgeAcquired = _.includes(acquiredBadgeIds, badge.id);
-      return CampaignParticipationBadge.buildFrom({ badge, skillSetResults, isAcquired: isBadgeAcquired });
-    });
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
@@ -68,7 +52,6 @@ class CampaignParticipationResult {
       knowledgeElementsCount: targetedKnowledgeElements.length,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
-      campaignParticipationBadges,
       reachedStage: _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }),
       stageCount: stages && stages.length,
     });
@@ -117,14 +100,6 @@ function _computeCompetenceResults(competences, targetProfileSkillsIds, targeted
     _getTestedCompetenceResults(competence, targetedKnowledgeElements)
   );
   return targetedCompetenceResults;
-}
-
-function _computeSkillSetResults(badge, targetProfileSkillsIds, targetedKnowledgeElements) {
-  if (!badge || _.isEmpty(badge.skillSets)) {
-    return [];
-  }
-
-  return _computeCompetenceResults(badge.skillSets, targetProfileSkillsIds, targetedKnowledgeElements);
 }
 
 function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {

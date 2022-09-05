@@ -7,7 +7,6 @@ module.exports = function buildCampaignParticipationResult({
   testedSkillsCount = 8,
   validatedSkillsCount = 5,
   competenceResults = [],
-  campaignParticipationBadges,
   reachedStage = {},
   stageCount = 5,
 } = {}) {
@@ -18,7 +17,6 @@ module.exports = function buildCampaignParticipationResult({
     testedSkillsCount,
     validatedSkillsCount,
     competenceResults,
-    campaignParticipationBadges,
     reachedStage,
     stageCount,
   });

@@ -54,16 +54,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     context('when no stage', function () {
       it('should add pix competences to the campaign participation results', function () {
         // when
-        const campaignBadges = [];
-        const acquiredBadgeIds = [];
         const result = CampaignParticipationResult.buildFrom({
           campaignParticipationId,
           assessment,
           competences,
           targetProfile,
           knowledgeElements,
-          campaignBadges,
-          acquiredBadgeIds,
         });
 
         // then
@@ -75,7 +71,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          campaignParticipationBadges: [],
           reachedStage: null,
           stageCount: null,
           competenceResults: [
@@ -114,17 +109,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
 
       it('when user has reached a stage', function () {
         // when
-        const campaignBadges = [];
-        const acquiredBadgeIds = [];
-
         const result = CampaignParticipationResult.buildFrom({
           campaignParticipationId,
           assessment,
           competences,
           targetProfile,
           knowledgeElements,
-          campaignBadges,
-          acquiredBadgeIds,
         });
 
         // then
@@ -135,7 +125,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          campaignParticipationBadges: [],
           reachedStage: {
             title: 'palier 2',
             message: 'Tu as le palier 2',
@@ -172,21 +161,16 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     context('when no badge', function () {
       it('should add pix competences to the campaign participation results', function () {
         // when
-        const campaignBadges = [];
-        const acquiredBadgeIds = [];
         const result = CampaignParticipationResult.buildFrom({
           campaignParticipationId,
           assessment,
           competences,
           targetProfile,
           knowledgeElements,
-          campaignBadges,
-          acquiredBadgeIds,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-        expect(result.campaignParticipationBadges.length).to.equal(0);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -194,7 +178,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          campaignParticipationBadges: [],
           reachedStage: null,
           stageCount: null,
           competenceResults: [
