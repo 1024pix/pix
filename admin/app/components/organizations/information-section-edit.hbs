@@ -25,6 +25,7 @@
         required={{true}}
       />
     </div>
+
     <div class="form-field">
       <label for="externalId" class="form-field__label">Identifiant externe</label>
       {{#if (v-get this.form "externalId" "isInvalid")}}
@@ -39,6 +40,7 @@
         @value={{this.form.externalId}}
       />
     </div>
+
     <div class="form-field">
       <label for="provinceCode" class="form-field__label">Département (en 3 chiffres)</label>
       {{#if (v-get this.form "provinceCode" "isInvalid")}}
@@ -53,6 +55,7 @@
         @value={{this.form.provinceCode}}
       />
     </div>
+
     <div class="form-field">
       <label for="email" class="form-field__label">Adresse e-mail d'activation SCO</label>
       {{#if (v-get this.form "email" "isInvalid")}}
@@ -67,6 +70,7 @@
         @value={{this.form.email}}
       />
     </div>
+
     <div class="form-field">
       <label for="credits" class="form-field__label">Crédits</label>
       {{#if (v-get this.form "credit" "isInvalid")}}
@@ -81,6 +85,7 @@
         @value={{this.form.credit}}
       />
     </div>
+
     <div class="form-field">
       <label for="documentationUrl" class="form-field__label">Lien vers la documentation</label>
       {{#if (v-get this.form "documentationUrl" "isInvalid")}}
@@ -95,6 +100,7 @@
         @value={{this.form.documentationUrl}}
       />
     </div>
+
     {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
       <div class="form-field organization-edit-form__checkbox">
         <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
@@ -111,6 +117,7 @@
         />
       </div>
     {{/if}}
+
     <div class="form-field organization-edit-form__checkbox">
       <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
       {{#if (v-get this.form "showSkills" "isInvalid")}}
@@ -123,6 +130,17 @@
         @type="checkbox"
         class={{if (v-get this.form "showSkills" "isInvalid") "form-control is-invalid" "form-control"}}
         @checked={{this.form.showSkills}}
+      />
+    </div>
+
+    <div class="form-field">
+      <PixSelect
+        @id="organization-edit-form__identity-provider-for-campaign-select"
+        @label="SSO"
+        @options={{this.identityProviderOptions}}
+        @selectedOption={{this.currentIdentityProvider}}
+        @onChange={{this.onChangeIdentityProvider}}
+        @emptyOptionNotSelectable={{true}}
       />
     </div>
     <div class="form-actions">
