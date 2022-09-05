@@ -1,5 +1,6 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
+
 const SUP_UNIVERSITY_ID = 2;
 const SUP_STUDENT_ASSOCIATED_ID = 888;
 const SUP_STUDENT_DISABLED_ID = 889;
@@ -15,12 +16,17 @@ function organizationsSupBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
     lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
-
   const supUser2 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 8,
     firstName: 'Jaime',
     lastName: 'Lannister',
     email: 'sup.member@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  const universityCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Talon',
+    lastName: 'Maheu',
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
@@ -34,6 +40,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
     showSkills: true,
+    createdBy: universityCreator.id,
   });
 
   databaseBuilder.factory.buildMembership({
