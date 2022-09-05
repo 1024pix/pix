@@ -16,6 +16,7 @@ export default class Organization extends Model {
   @attr('number') credit;
   @attr('nullable-string') email;
   @attr('date') createdBy;
+  @attr('date') createdAt;
   @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
   @attr('nullable-string') archivistFullName;
@@ -37,6 +38,10 @@ export default class Organization extends Model {
 
   get archivedFormattedDate() {
     return dayjs(this.archivedAt).format('DD/MM/YYYY');
+  }
+
+  get createdAtFormattedDate() {
+    return dayjs(this.createdAt).format('DD/MM/YYYY');
   }
 
   get isArchived() {

@@ -599,6 +599,7 @@ describe('Acceptance | Application | organization-controller', function () {
           lastName: 'Bonneau',
         });
         const archivedAt = new Date('2019-04-28T02:42:00Z');
+        const createdAt = new Date('2019-04-28T02:42:00Z');
         const organization = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
           name: 'Organization catalina',
@@ -612,6 +613,7 @@ describe('Acceptance | Application | organization-controller', function () {
           documentationUrl: 'https://pix.fr/',
           archivedBy: archivist.id,
           archivedAt,
+          createdAt,
         });
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
@@ -637,6 +639,7 @@ describe('Acceptance | Application | organization-controller', function () {
               credit: organization.credit,
               email: organization.email,
               'created-by': superAdminUserId,
+              'created-at': createdAt,
               'documentation-url': organization.documentationUrl,
               'show-nps': organization.showNPS,
               'form-nps-url': organization.formNPSUrl,
