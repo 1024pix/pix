@@ -1,7 +1,7 @@
 const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 
-class PixPlusCertificationScoring extends PartnerCertificationScoring {
+class ComplementaryCertificationScoringWithComplementaryReferential extends PartnerCertificationScoring {
   constructor({
     complementaryCertificationCourseId,
     complementaryCertificationBadgeKey,
@@ -25,4 +25,4 @@ class PixPlusCertificationScoring extends PartnerCertificationScoring {
   }
 }
 
-module.exports = PixPlusCertificationScoring;
+module.exports = ComplementaryCertificationScoringWithComplementaryReferential;
