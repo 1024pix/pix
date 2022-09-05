@@ -82,3 +82,33 @@
 .pix-select select {
   width: 100%;
 }
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $pix-neutral-60;
+  background-color: $pix-neutral-0;
+  background-clip: padding-box;
+  border: 1px solid $pix-neutral-22;
+  border-radius: 0.25rem;
+}
+
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+  margin-bottom: 0.5rem;
+}
+
+label,
+output {
+  display: inline-block;
+}
