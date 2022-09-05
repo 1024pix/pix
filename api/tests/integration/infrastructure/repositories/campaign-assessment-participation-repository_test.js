@@ -164,9 +164,10 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           const skill1 = { id: 'skill1', status: 'actif' };
           const skill2 = { id: 'skill2', status: 'actif' };
           const skill3 = { id: 'skill3', status: 'actif' };
+          const skill4 = { id: 'skill4', status: 'périmé' };
           mockLearningContent({ skills: [skill1, skill2, skill3] });
 
-          campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill3]).id;
+          campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill3, skill4]).id;
           userId = databaseBuilder.factory.buildUser().id;
           campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
@@ -190,38 +191,42 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           await databaseBuilder.commit();
         });
 
-        it('computes the progression when assessment is completed', async function () {
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId,
-            userId,
-            state: Assessment.states.COMPLETED,
-          });
-          await databaseBuilder.commit();
-
-          const campaignAssessmentParticipation =
-            await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({
-              campaignId,
+        context('when assessment is completed', function () {
+          it('returns a progression of 1', async function () {
+            databaseBuilder.factory.buildAssessment({
               campaignParticipationId,
+              userId,
+              state: Assessment.states.COMPLETED,
             });
+            await databaseBuilder.commit();
 
-          expect(campaignAssessmentParticipation.progression).to.equal(1);
+            const campaignAssessmentParticipation =
+              await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({
+                campaignId,
+                campaignParticipationId,
+              });
+
+            expect(campaignAssessmentParticipation.progression).to.equal(1);
+          });
         });
 
-        it('computes the progression when assessment is started', async function () {
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId,
-            userId,
-            state: Assessment.states.STARTED,
-          });
-          await databaseBuilder.commit();
-
-          const campaignAssessmentParticipation =
-            await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({
-              campaignId,
+        context('when assessment is started', function () {
+          it('computes the progression', async function () {
+            databaseBuilder.factory.buildAssessment({
               campaignParticipationId,
+              userId,
+              state: Assessment.states.STARTED,
             });
+            await databaseBuilder.commit();
 
-          expect(campaignAssessmentParticipation.progression).to.equal(0.5);
+            const campaignAssessmentParticipation =
+              await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({
+                campaignId,
+                campaignParticipationId,
+              });
+
+            expect(campaignAssessmentParticipation.progression).to.equal(0.5);
+          });
         });
       });
     });
