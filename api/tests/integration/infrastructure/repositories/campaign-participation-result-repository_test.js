@@ -82,10 +82,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       await databaseBuilder.commit();
 
       const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-        campaignParticipationId,
-        [],
-        [],
-        'FR'
+        campaignParticipationId
       );
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
@@ -139,10 +136,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       });
       await databaseBuilder.commit();
       const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-        campaignParticipationId,
-        [],
-        [],
-        'FR'
+        campaignParticipationId
       );
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
@@ -203,10 +197,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       });
       await databaseBuilder.commit();
       const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-        campaignParticipationId,
-        [],
-        [],
-        'FR'
+        campaignParticipationId
       );
       const competenceResults = campaignAssessmentParticipationResult.competenceResults.sort((a, b) => a.id <= b.id);
       expect(competenceResults).to.deep.equal([
@@ -277,10 +268,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
         await databaseBuilder.commit();
         const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-          campaignParticipationId,
-          [],
-          [],
-          'FR'
+          campaignParticipationId
         );
 
         expect(campaignAssessmentParticipationResult).to.deep.include({
@@ -371,10 +359,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         });
         await databaseBuilder.commit();
         const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-          campaignParticipationId,
-          [],
-          [],
-          'FR'
+          campaignParticipationId
         );
         expect(campaignAssessmentParticipationResult.reachedStage).to.deep.include({
           id: 2,
@@ -384,173 +369,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           title: 'Stage2',
         });
         expect(campaignAssessmentParticipationResult.stageCount).to.equal(4);
-      });
-    });
-
-    context('when the participation has badges', function () {
-      it('computes the results for each badge', async function () {
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
-        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          campaignId,
-          sharedAt: new Date('2020-01-02'),
-        });
-
-        const badge1 = databaseBuilder.factory.buildBadge({
-          id: 1,
-          message: 'Badge1 Message',
-          altMessage: 'Badge1 AltMessage',
-          title: 'Badge1 Title',
-          imageUrl: 'Badge1 ImgUrl',
-          key: 'Badge1 Key',
-          targetProfileId,
-        });
-
-        const badge2 = databaseBuilder.factory.buildBadge({
-          id: 2,
-          altMessage: 'Badge2 AltMessage',
-          message: 'Badge2 Message',
-          title: 'Badge2 Title',
-          imageUrl: 'Badge2 ImgUrl',
-          key: 'Badge2 Key',
-          targetProfileId,
-        });
-
-        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
-
-        databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
-          userId,
-          snappedAt: new Date('2020-01-02'),
-          knowledgeElementsAttributes: [],
-        });
-        await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-          campaignParticipationId,
-          [badge1, badge2],
-          [badge1.id],
-          'FR'
-        );
-        const campaignParticipationBadge1 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(
-          ({ id }) => id == 1
-        );
-        const campaignParticipationBadge2 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(
-          ({ id }) => id == 2
-        );
-        expect(campaignParticipationBadge1).to.deep.include({
-          id: 1,
-          altMessage: 'Badge1 AltMessage',
-          message: 'Badge1 Message',
-          title: 'Badge1 Title',
-          imageUrl: 'Badge1 ImgUrl',
-          key: 'Badge1 Key',
-          isAcquired: true,
-        });
-        expect(campaignParticipationBadge2).to.deep.include({
-          id: 2,
-          altMessage: 'Badge2 AltMessage',
-          message: 'Badge2 Message',
-          title: 'Badge2 Title',
-          imageUrl: 'Badge2 ImgUrl',
-          key: 'Badge2 Key',
-          isAcquired: false,
-        });
-      });
-
-      context('when the target profile has skillSets (CleaNumerique)', function () {
-        it('computes the buildSkillSet for each competence of badge', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
-          const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-            userId,
-            campaignId,
-            sharedAt: new Date('2020-01-02'),
-          });
-
-          const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId });
-          const skillSet1 = databaseBuilder.factory.buildSkillSet({
-            id: 1,
-            badgeId: 1,
-            name: 'BadgeCompt1',
-            index: '1',
-            color: 'BadgeCompt1Color',
-            skillIds: ['skill1', 'skill2'],
-          });
-          const skillSet2 = databaseBuilder.factory.buildSkillSet({
-            id: 2,
-            badgeId: 1,
-            name: 'BadgeCompt2',
-            index: '2',
-            color: 'BadgeCompt2Color',
-            skillIds: ['skill3', 'skill4'],
-          });
-
-          databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
-
-          const knowledgeElementsAttributes = [
-            {
-              userId,
-              skillId: 'skill1',
-              competenceId: 'rec1',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
-            },
-            {
-              userId,
-              skillId: 'skill2',
-              competenceId: 'rec1',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
-            },
-            {
-              userId,
-              skillId: 'skill3',
-              competenceId: 'rec2',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.INVALIDATED,
-            },
-          ];
-
-          databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
-            userId,
-            snappedAt: new Date('2020-01-02'),
-            knowledgeElementsAttributes,
-          });
-          await databaseBuilder.commit();
-          badge.skillSets = [skillSet1, skillSet2];
-          const campaignAssessmentParticipationResult =
-            await campaignParticipationResultRepository.getByParticipationId(
-              campaignParticipationId,
-              [badge],
-              [badge.id],
-              'FR'
-            );
-          const skillSetResults =
-            campaignAssessmentParticipationResult.campaignParticipationBadges[0].skillSetResults.sort(
-              (a, b) => a.id <= b.id
-            );
-          expect(skillSetResults[0]).to.deep.equal({
-            id: 1,
-            areaColor: null,
-            areaName: undefined,
-            index: undefined,
-            name: 'BadgeCompt1',
-            testedSkillsCount: 2,
-            totalSkillsCount: 2,
-            validatedSkillsCount: 2,
-          });
-
-          expect(skillSetResults[1]).to.deep.equal({
-            id: 2,
-            areaColor: null,
-            areaName: undefined,
-            index: undefined,
-            name: 'BadgeCompt2',
-            testedSkillsCount: 1,
-            totalSkillsCount: 2,
-            validatedSkillsCount: 0,
-          });
-        });
       });
     });
   });
