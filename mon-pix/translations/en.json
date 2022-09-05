@@ -1546,6 +1546,10 @@
         "image-link": "images/illustrations/user-tutorials/illustration-en.svg"
       },
       "filter": "Filter",
+      "sidebar": {
+        "reset": "Reset",
+        "see-results": "See the results"
+      },
       "label": "Tutorials",
       "list": {
         "title": "My list",
