@@ -8,6 +8,7 @@ export default class UserTutorialsRecommendedRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    competences: { refreshModel: true },
   };
 
   async model(params) {
@@ -16,6 +17,9 @@ export default class UserTutorialsRecommendedRoute extends Route {
       'tutorial',
       {
         type: 'recommended',
+        filter: {
+          competences: params.competences,
+        },
         page: {
           number: params.pageNumber,
           size: params.pageSize,

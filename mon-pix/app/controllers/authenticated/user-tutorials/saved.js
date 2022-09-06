@@ -1,8 +1,11 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 export default class SavedController extends Controller {
+  @service router;
+
   @tracked isSidebarVisible = false;
 
   pageOptions = [
@@ -25,5 +28,16 @@ export default class SavedController extends Controller {
   @action
   closeSidebar() {
     this.isSidebarVisible = false;
+  }
+
+  @action
+  handleSubmitFilters(filters) {
+    this.router.replaceWith({
+      queryParams: {
+        competences: filters.competences.length ? filters.competences : undefined,
+        pageNumber: 1,
+      },
+    });
+    this.closeSidebar();
   }
 }
