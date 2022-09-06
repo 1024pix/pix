@@ -112,6 +112,7 @@ module.exports = {
   buildSkillCollection: require('./build-skill-collection'),
   buildSolution: require('./build-solution'),
   buildStage: require('./build-stage'),
+  buildStageForCreation: require('./build-stage-for-creation'),
   buildTag: require('./build-tag'),
   buildTargetedArea: require('./build-targeted-area'),
   buildTargetedCompetence: require('./build-targeted-competence'),
