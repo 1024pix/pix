@@ -5,55 +5,86 @@ const moduleUnderTest = require('../../../../lib/application/stages');
 
 describe('Unit | Application | Stages | Routes', function () {
   describe('POST /api/admin/stages', function () {
-    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
-      it('should return a response with an HTTP status code 201', async function () {
-        // given
-        sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
-          .withArgs([
-            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkAdminMemberHasRoleSupport,
-            securityPreHandlers.checkAdminMemberHasRoleMetier,
-          ])
-          .callsFake(() => (request, h) => h.response(true));
-        sinon.stub(stagesController, 'create').callsFake((request, h) => h.response('ok').code(201));
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
+    it('should allow to controller if user has role SUPER_ADMIN', async function () {
+      // given
+      sinon.stub(stagesController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
-        // when
-        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
+      // when
+      await httpTestServer.request('POST', '/api/admin/stages');
 
-        // then
-        expect(statusCode).to.equal(201);
-      });
+      // then
+      sinon.assert.calledOnce(stagesController.create);
     });
 
-    context('when user has role "CERTIF"', function () {
-      it('should return a response with an HTTP status code 403', async function () {
-        // given
-        sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
-          .withArgs([
-            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkAdminMemberHasRoleSupport,
-            securityPreHandlers.checkAdminMemberHasRoleMetier,
-          ])
-          .callsFake(
-            () => (request, h) =>
-              h
-                .response({ errors: new Error('forbidden') })
-                .code(403)
-                .takeover()
-          );
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
+    it('should allow to controller if user has role SUPPORT', async function () {
+      // given
+      sinon.stub(stagesController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
-        // when
-        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
+      // when
+      await httpTestServer.request('POST', '/api/admin/stages');
 
-        // then
-        expect(statusCode).to.equal(403);
-      });
+      // then
+      sinon.assert.calledOnce(stagesController.create);
+    });
+
+    it('should allow to controller if user has role METIER', async function () {
+      // given
+      sinon.stub(stagesController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/stages');
+
+      // then
+      sinon.assert.calledOnce(stagesController.create);
+    });
+
+    it('should throw a 403 code if user has none of the authorized role', async function () {
+      // given
+      sinon.stub(stagesController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
+
+      // then
+      expect(statusCode).to.equal(403);
     });
   });
 
