@@ -22,6 +22,7 @@ export default class ScoOrganizationParticipant extends Model {
   @attr('string') campaignType;
   @attr('string') participationStatus;
   @attr('nullable-boolean') isCertifiable;
+  @attr('date') certifiableAt;
   @belongsTo('organization') organization;
 
   get hasUsername() {
