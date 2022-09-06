@@ -85,19 +85,18 @@ describe('Integration | Infrastructure | Repository | FlashAssessmentResultRepos
   });
 
   describe('#save', function () {
-    let answerId;
-
-    beforeEach(async function () {
-      answerId = databaseBuilder.factory.buildAnswer().id;
-      await databaseBuilder.commit();
-    });
-
     it('should create a result with estimated level and error rate', async function () {
+      // given
+      const answerId = databaseBuilder.factory.buildAnswer().id;
+      databaseBuilder.factory.buildAssessment({ id: 99 });
+      await databaseBuilder.commit();
+
       // when
       await flashAssessmentResultRepository.save({
         answerId,
         estimatedLevel: 1.9,
         errorRate: 1.3,
+        assessmentId: 99,
       });
 
       // then
@@ -106,6 +105,7 @@ describe('Integration | Infrastructure | Repository | FlashAssessmentResultRepos
         answerId,
         estimatedLevel: 1.9,
         errorRate: 1.3,
+        assessmentId: 99,
       });
     });
   });

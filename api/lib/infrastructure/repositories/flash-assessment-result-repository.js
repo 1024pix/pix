@@ -8,12 +8,14 @@ module.exports = {
     answerId,
     estimatedLevel,
     errorRate,
+    assessmentId,
     domainTransaction: { knexTransaction } = DomainTransaction.emptyTransaction(),
   }) {
     const query = knex(TABLE_NAME).insert({
       answerId,
       estimatedLevel,
       errorRate,
+      assessmentId,
     });
     if (knexTransaction) query.transacting(knexTransaction);
     return query;
