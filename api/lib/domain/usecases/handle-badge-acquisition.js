@@ -7,7 +7,7 @@ const handleBadgeAcquisition = async function ({
   badgeAcquisitionRepository,
   badgeRepository,
   knowledgeElementRepository,
-  targetProfileRepository,
+  campaignRepository,
 }) {
   if (assessment.isForCampaign()) {
     const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(
@@ -18,17 +18,17 @@ const handleBadgeAcquisition = async function ({
     if (_.isEmpty(associatedBadges)) {
       return;
     }
-    const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
-      campaignParticipationId: assessment.campaignParticipationId,
-      domainTransaction,
-    });
+    const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId(
+      assessment.campaignParticipationId,
+      domainTransaction
+    );
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
       userId: assessment.userId,
       domainTransaction,
     });
 
     const validatedBadgesByUser = associatedBadges.filter((badge) =>
-      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
+      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, skillIds, badge })
     );
 
     const badgeAcquisitionsToCreate = validatedBadgesByUser.map((badge) => {

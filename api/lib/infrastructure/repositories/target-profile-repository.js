@@ -80,8 +80,9 @@ module.exports = {
     });
   },
 
-  async getTargetProfileSkillIdsByCampaignId(campaignId) {
-    return knex('target-profiles_skills')
+  async getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction) {
+    const knexConn = domainTransaction?.knexTransaction ?? knex;
+    return knexConn('target-profiles_skills')
       .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
       .where('campaigns.id', campaignId)
       .pluck('skillId');

@@ -62,7 +62,10 @@ describe('Integration | Service | Certification-Badges Service', function () {
 
       const badge = databaseBuilder.factory.buildBadge.certifiable({ targetProfileId: targetProfileId });
 
-      databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id });
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+
+      databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id, campaignParticipationId });
       const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         userId,
