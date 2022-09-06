@@ -187,15 +187,8 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       return promise.then((foundTargetProfile) => {
-        expect(skillDatasource.findOperativeByRecordIds).to.have.been.calledWith([targetProfileFirstSkill.skillId]);
-
         expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
-
-        expect(foundTargetProfile.skills).to.be.an('array');
-        expect(foundTargetProfile.skills.length).to.equal(1);
-        expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
-        expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
-        expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
+        expect(foundTargetProfile.id).to.be.equal(targetProfile.id);
       });
     });
 

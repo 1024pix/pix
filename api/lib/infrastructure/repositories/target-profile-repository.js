@@ -46,17 +46,18 @@ module.exports = {
   },
 
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const targetProfileBookshelf = await BookshelfTargetProfile.where({ id }).fetch({
+    const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id }).fetch({
       require: false,
-      withRelated: ['skillIds'],
       transacting: domainTransaction.knexTransaction,
     });
 
-    if (!targetProfileBookshelf) {
+    if (!bookshelfTargetProfile) {
       throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
     }
 
-    return _getWithLearningContentSkills(targetProfileBookshelf);
+    return targetProfileAdapter.fromDatasourceObjects({
+      bookshelfTargetProfile,
+    });
   },
 
   async getByCampaignId(campaignId) {
@@ -76,7 +77,6 @@ module.exports = {
       });
     return targetProfileAdapter.fromDatasourceObjects({
       bookshelfTargetProfile,
-      associatedSkillDatasourceObjects: [],
     });
   },
 
