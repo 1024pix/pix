@@ -273,12 +273,15 @@ module.exports = {
       }
       filter.certificability = filter.certificability.map((value) => certificabilityByLabel[value]);
     }
-    const { data: scoOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredScoParticipants({
+    const { data: scoOrganizationParticipants, meta } = await usecases.findPaginatedFilteredScoParticipants({
       organizationId,
       filter,
       page,
     });
-    return scoOrganizationParticipantsSerializer.serialize({ scoOrganizationParticipants, pagination });
+    return scoOrganizationParticipantsSerializer.serialize({
+      scoOrganizationParticipants,
+      meta,
+    });
   },
 
   async findPaginatedFilteredSupParticipants(request) {

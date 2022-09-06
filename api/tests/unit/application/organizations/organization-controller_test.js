@@ -842,6 +842,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
             isAuthenticatedFromGAR: false,
           },
         ],
+        meta: { pagination: { page: 1 } },
       };
     });
 
@@ -902,16 +903,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return the serialized sco participants belonging to the organization', async function () {
       // given
-      const pagination = { page: 1 };
+      const meta = { pagination: { page: 1 } };
       const scoOrganizationParticipants = [scoOrganizationParticipant];
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: scoOrganizationParticipants, pagination });
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: scoOrganizationParticipants, meta });
       scoOrganizationParticipantsSerializer.serialize
-        .withArgs({ scoOrganizationParticipants, pagination })
+        .withArgs({ scoOrganizationParticipants, meta })
         .returns(serializedScoOrganizationParticipant);
 
       // when
       const response = await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
       // then
       expect(response).to.deep.equal(serializedScoOrganizationParticipant);
     });
