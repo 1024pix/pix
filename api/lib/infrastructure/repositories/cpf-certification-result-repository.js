@@ -28,6 +28,7 @@ function _selectCpfCertificationResults() {
       knex.raw(`
         json_agg(json_build_object(
           'competenceCode', "competence-marks"."competence_code",
+          'areaCode', "competence-marks"."area_code",
           'level', "competence-marks"."level"
         ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
     )
@@ -45,5 +46,6 @@ function _selectCpfCertificationResults() {
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false)
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .where('competence-marks.level', '>', -1)
     .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
 }
