@@ -1,4 +1,5 @@
 const uniqBy = require('lodash/uniqBy');
+const remove = require('lodash/remove');
 const EuropeanNumericLevel = require('./EuropeanNumericLevel');
 
 class EuropeanNumericLevelFactory {
@@ -62,6 +63,8 @@ class EuropeanNumericLevelFactory {
         new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: averageGlobalScore })
       );
     }
+
+    remove(europeanNumericLevels, ({ level }) => level === 0);
 
     return europeanNumericLevels;
   }
