@@ -867,7 +867,8 @@
       }
     },
     "sup-organization-participants": {
-      "title": "Étudiants",
+      "title": "{count, plural, =0 {Étudiants} =1 {Étudiant} other {Étudiants ({count})}}",
+      "page-title": "Étudiants",
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",

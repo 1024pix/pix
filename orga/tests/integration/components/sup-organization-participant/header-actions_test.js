@@ -15,6 +15,17 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
     assert.contains('Étudiants');
   });
 
+  test('it should show title with participant count', async function (assert) {
+    //given
+    this.set('participantCount', 10);
+
+    // when
+    await render(hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`);
+
+    // then
+    assert.contains('Étudiants (10)');
+  });
+
   module('when user is admin', function (hooks) {
     hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
