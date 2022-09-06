@@ -38,6 +38,7 @@
     <div>
       <Certifications::List
         @certifications={{this.sortedCertificationJurySummaries}}
+        @pagination={{this.model.juryCertificationSummaries.meta}}
         @displayHasSeenEndTestScreenColumn={{this.model.displayHasSeenEndTestScreenColumn}}
       />
     </div>
