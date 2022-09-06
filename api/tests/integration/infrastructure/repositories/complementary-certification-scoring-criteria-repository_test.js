@@ -7,6 +7,11 @@ describe('Integration | Repository | complementary certification scoring criteri
       // given
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
 
+      const badge1 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_MASTER' });
+      const badge2 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_EXPERT' });
+      const badge3 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_MASTER' });
+      const badge4 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_EXPERT' });
+
       const complementaryCertification1 = databaseBuilder.factory.buildComplementaryCertification({
         key: 'PIX+_TEST_1',
         label: 'label pour PIX+ TEST 1',
@@ -18,35 +23,36 @@ describe('Integration | Repository | complementary certification scoring criteri
         minimumReproducibilityRate: 30,
       });
 
-      const complementaryCertificationCourse1 = databaseBuilder.factory.buildComplementaryCertificationCourse({
-        complementaryCertificationId: complementaryCertification1.id,
-        certificationCourseId: certificationCourse.id,
-      });
-      const complementaryCertificationCourse2 = databaseBuilder.factory.buildComplementaryCertificationCourse({
-        complementaryCertificationId: complementaryCertification2.id,
-        certificationCourseId: certificationCourse.id,
-      });
-
-      const badge1 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_MASTER' });
-      const badge2 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_EXPERT' });
-      const badge3 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_MASTER' });
-      const badge4 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_EXPERT' });
-
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 123,
         badgeId: badge1.id,
         complementaryCertificationId: complementaryCertification1.id,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 345,
         badgeId: badge2.id,
         complementaryCertificationId: complementaryCertification1.id,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 567,
         badgeId: badge3.id,
         complementaryCertificationId: complementaryCertification2.id,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 768,
         badgeId: badge4.id,
         complementaryCertificationId: complementaryCertification2.id,
+      });
+
+      const complementaryCertificationCourse1 = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        complementaryCertificationId: complementaryCertification1.id,
+        certificationCourseId: certificationCourse.id,
+        complementaryCertificationBadgeId: 345,
+      });
+      const complementaryCertificationCourse2 = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        complementaryCertificationId: complementaryCertification2.id,
+        certificationCourseId: certificationCourse.id,
+        complementaryCertificationBadgeId: 768,
       });
 
       await databaseBuilder.commit();
