@@ -64,6 +64,12 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
 
 module.exports = {
   async findPaginatedFilteredScoParticipants({ organizationId, filter, page = {} }) {
+    const { totalScoParticipants } = await knex
+      .count('id', { as: 'totalScoParticipants' })
+      .from('organization-learners')
+      .where({ organizationId: organizationId, isDisabled: false })
+      .first();
+
     const query = knex
       .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
       .distinct('organization-learners.id')
@@ -136,7 +142,7 @@ module.exports = {
     });
     return {
       data: scoOrganizationParticipants,
-      pagination,
+      meta: { ...pagination, participantCount: totalScoParticipants },
     };
   },
 };
