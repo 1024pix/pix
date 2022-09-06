@@ -1,14 +1,9 @@
 class ComplementaryCertificationCourse {
-  constructor({ id, complementaryCertificationId, certificationCourseId }) {
+  constructor({ id, complementaryCertificationId, certificationCourseId, complementaryCertificationBadgeId }) {
     this.id = id;
     this.complementaryCertificationId = complementaryCertificationId;
     this.certificationCourseId = certificationCourseId;
-  }
-
-  static fromComplementaryCertificationId(id) {
-    return new ComplementaryCertificationCourse({
-      complementaryCertificationId: id,
-    });
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
   }
 }
 
