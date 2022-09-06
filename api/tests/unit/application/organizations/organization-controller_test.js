@@ -1033,6 +1033,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
             ...supOrganizationParticipant,
           },
         ],
+        meta: { pagination: { page: 1 } },
       };
     });
 
@@ -1092,8 +1093,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return the serialized sup participants belonging to the organization', async function () {
       // given
-      usecases.findPaginatedFilteredSupParticipants.resolves({ data: [supOrganizationParticipant] });
-      supOrganizationParticipantsSerializer.serialize.returns(serializedSupOrganizationParticipant);
+      const meta = { pagination: { page: 1 } };
+      const supOrganizationParticipants = [supOrganizationParticipant];
+      usecases.findPaginatedFilteredSupParticipants.resolves({ data: supOrganizationParticipants, meta });
+      supOrganizationParticipantsSerializer.serialize
+        .withArgs({ supOrganizationParticipants, meta })
+        .returns(serializedSupOrganizationParticipant);
 
       // when
       const response = await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
