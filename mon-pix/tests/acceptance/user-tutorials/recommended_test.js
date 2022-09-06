@@ -2,9 +2,10 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { findAll, find, click } from '@ember/test-helpers';
+import { findAll, find, click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
+import { waitForDialog } from '../../helpers/wait-for';
 
 describe('Acceptance | User-tutorials-v2 | Recommended', function () {
   setupApplicationTest();
@@ -12,6 +13,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
   let user;
 
   beforeEach(async function () {
+    server.create('feature-toggle', { id: 0, isPixAppTutoFiltersEnabled: true });
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
@@ -72,6 +74,28 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
 
         // then
         expect(screen.getByLabelText('Marquer ce tuto comme utile')).to.exist;
+      });
+    });
+
+    describe('when user is filtering by competences', function () {
+      it('should filter tutorial by competence and close sidebar', async function () {
+        // given
+        server.create('area', 'withCompetences');
+        server.createList('tutorial', 100);
+        const screen = await visit('/mes-tutos/recommandes');
+        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
+        await click(screen.getByRole('button', { name: 'Filtrer' }));
+        await waitForDialog();
+        await click(screen.getByRole('button', { name: 'Mon super domaine' }));
+        await click(screen.getByRole('checkbox', { name: 'Ma superbe compétence' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Voir les résultats' }));
+
+        // then
+        expect(currentURL()).to.equal('/mes-tutos/recommandes?competences=1&pageNumber=1');
+        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
+        expect(find('.pix-sidebar--hidden')).to.exist;
       });
     });
   });

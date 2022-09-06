@@ -9,6 +9,7 @@ export default class UserTutorialsSavedRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    competences: { refreshModel: true },
   };
 
   async model(params) {
@@ -17,6 +18,9 @@ export default class UserTutorialsSavedRoute extends Route {
       'tutorial',
       {
         type: 'saved',
+        filter: {
+          competences: params.competences,
+        },
         page: {
           number: params.pageNumber,
           size: params.pageSize,
