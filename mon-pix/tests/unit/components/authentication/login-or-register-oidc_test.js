@@ -232,6 +232,25 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       });
     });
 
+    context('when there is an account conflict', function () {
+      it('should display error', async function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
+        component.email = 'glace.alo@example.net';
+        component.password = 'pix123';
+        const eventStub = { preventDefault: sinon.stub() };
+
+        // when
+        await component.login(eventStub);
+
+        // then
+        expect(component.loginErrorMessage).to.equal(
+          this.intl.t('pages.login-or-register-oidc.error.account-conflict')
+        );
+      });
+    });
+
     it('it should display generic error', async function () {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
