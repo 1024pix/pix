@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex, catchErr } = require('../../../test-helper');
 const Stage = require('../../../../lib/domain/models/Stage');
 const stageRepository = require('../../../../lib/infrastructure/repositories/stage-repository');
 const _ = require('lodash');
@@ -203,6 +203,94 @@ describe('Integration | Repository | StageRepository', function () {
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(`Not found stage for ID ${unknownId}`);
+    });
+  });
+
+  describe('#create2', function () {
+    afterEach(function () {
+      return knex('stages').delete();
+    });
+
+    context('when target profile does not exist', function () {
+      it('should throw a NotFound error', async function () {
+        // given
+        databaseBuilder.factory.buildTargetProfile({ id: 1 });
+        await databaseBuilder.commit();
+        const stageForCreation = domainBuilder.buildStageForCreation({
+          targetProfileId: 2,
+        });
+
+        // when
+        const error = await catchErr(stageRepository.create2)(stageForCreation);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal("Le profil cible du palier n'existe pas");
+      });
+    });
+
+    it('should create stages with level and threshold', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      await databaseBuilder.commit();
+      const stageForCreationWithLevel = domainBuilder.buildStageForCreation.withLevel({
+        title: 'palier avec niveau',
+        message: 'je suis un palier avec niveau',
+        level: 4,
+        targetProfileId: 1,
+      });
+      const stageForCreationWithThreshold = domainBuilder.buildStageForCreation.withThreshold({
+        title: 'palier avec seuil',
+        message: 'je suis un palier avec seuil',
+        threshold: 25,
+        targetProfileId: 1,
+      });
+
+      // when
+      await stageRepository.create2(stageForCreationWithLevel);
+      await stageRepository.create2(stageForCreationWithThreshold);
+
+      // then
+      const actualStages = await knex('stages').orderBy('title', 'ASC');
+      expect(actualStages).to.have.lengthOf(2);
+      expect(actualStages[0]).to.deepEqualInstanceOmitting(
+        {
+          title: 'palier avec niveau',
+          message: 'je suis un palier avec niveau',
+          level: 4,
+          threshold: null,
+          targetProfileId: 1,
+          prescriberTitle: null,
+          prescriberDescription: null,
+        },
+        ['id', 'createdAt', 'updatedAt']
+      );
+      expect(actualStages[1]).to.deepEqualInstanceOmitting(
+        {
+          title: 'palier avec seuil',
+          message: 'je suis un palier avec seuil',
+          level: null,
+          threshold: 25,
+          targetProfileId: 1,
+          prescriberTitle: null,
+          prescriberDescription: null,
+        },
+        ['id', 'createdAt', 'updatedAt']
+      );
+    });
+
+    it('should return created stage id', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      await databaseBuilder.commit();
+      const stageForCreation = domainBuilder.buildStageForCreation({ title: 'titleA', targetProfileId: 1 });
+
+      // when
+      const id = await stageRepository.create2(stageForCreation);
+
+      // then
+      const idsInDB = await knex('stages').pluck('id');
+      expect(idsInDB[0]).to.equal(id);
     });
   });
 });
