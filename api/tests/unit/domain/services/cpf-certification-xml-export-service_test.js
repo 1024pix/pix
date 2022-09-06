@@ -155,17 +155,6 @@ function _getExpectedXmlExport() {
                         5
                       </cpf:competenceId>
                     </cpf:resultat>
-                    <cpf:resultat>
-                      <cpf:niveau>
-                        4
-                      </cpf:niveau>
-                      <cpf:domaineCompetenceId>
-                        5
-                      </cpf:domaineCompetenceId>
-                      <cpf:competenceId>
-                        3
-                      </cpf:competenceId>
-                    </cpf:resultat>
                   </cpf:resultats>
                 </cpf:niveauNumeriqueEuropeen>
                 <cpf:scoring>
@@ -262,17 +251,6 @@ function _getExpectedXmlExport() {
                       </cpf:domaineCompetenceId>
                       <cpf:competenceId>
                         2
-                      </cpf:competenceId>
-                    </cpf:resultat>
-                    <cpf:resultat>
-                      <cpf:niveau>
-                        1
-                      </cpf:niveau>
-                      <cpf:domaineCompetenceId>
-                        5
-                      </cpf:domaineCompetenceId>
-                      <cpf:competenceId>
-                        3
                       </cpf:competenceId>
                     </cpf:resultat>
                   </cpf:resultats>

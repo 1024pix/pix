@@ -1,3 +1,5 @@
+const uniqBy = require('lodash/uniqBy');
+const remove = require('lodash/remove');
 const EuropeanNumericLevel = require('./EuropeanNumericLevel');
 
 class EuropeanNumericLevelFactory {
@@ -53,12 +55,16 @@ class EuropeanNumericLevelFactory {
     });
     if (europeanNumericLevel3_1) europeanNumericLevels.push(europeanNumericLevel3_1);
 
-    const averageGlobalScore = Math.round(
-      europeanNumericLevels.reduce((total, { level }) => total + level, 0) / europeanNumericLevels.length
-    );
-    europeanNumericLevels.push(
-      new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: averageGlobalScore })
-    );
+    if (_areAtLeastOneCompetenceByDomain(competenceMarks)) {
+      const averageGlobalScore = Math.round(
+        europeanNumericLevels.reduce((total, { level }) => total + level, 0) / europeanNumericLevels.length
+      );
+      europeanNumericLevels.push(
+        new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: averageGlobalScore })
+      );
+    }
+
+    remove(europeanNumericLevels, ({ level }) => level === 0);
 
     return europeanNumericLevels;
   }
@@ -75,12 +81,17 @@ function _buildEuropeanNumericLevelFromMergedCompetenceMarks({
     if (foundCompetenceMark) foundCompetenceMarks.push(foundCompetenceMark);
   });
 
-  if (foundCompetenceMarks.length !== competenceCodesToMerge.length) return null;
+  const areAllCompetenceCodesToMergeFound = foundCompetenceMarks.length === competenceCodesToMerge.length;
+  if (!areAllCompetenceCodesToMergeFound) return null;
 
   const level = Math.round(
     foundCompetenceMarks.reduce((total, { level }) => total + level, 0) / foundCompetenceMarks.length
   );
   return EuropeanNumericLevel.from({ competenceCode: mergedCompetenceCode, level });
+}
+
+function _areAtLeastOneCompetenceByDomain(competenceMarks) {
+  return uniqBy(competenceMarks, 'areaCode').length === 5;
 }
 
 module.exports = EuropeanNumericLevelFactory;
