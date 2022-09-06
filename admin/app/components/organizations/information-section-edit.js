@@ -104,6 +104,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @tracked isEditMode = false;
   @tracked showArchivingConfirmationModal = false;
   noIdentityProviderOption = { label: 'Aucun', value: 'None' };
+  garIdentityProviderOption = { label: 'Médiacentre', value: 'GAR' };
 
   constructor() {
     super(...arguments);
@@ -116,7 +117,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
       value: identityProvider.code,
       label: identityProvider.organizationName,
     }));
-    return [this.noIdentityProviderOption, ...oidcIdentityProvidersOptions];
+    return [this.noIdentityProviderOption, this.garIdentityProviderOption, ...oidcIdentityProvidersOptions];
   }
 
   get currentIdentityProvider() {
