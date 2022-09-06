@@ -1,5 +1,6 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;
@@ -35,6 +36,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: privateCompanyCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: PRO_COMPANY_ID,
@@ -81,6 +83,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: poleEmploiCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: PRO_POLE_EMPLOI_ID,
@@ -107,6 +110,8 @@ function organizationsProBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: cnavCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: PRO_CNAV_ID,
     type: 'PRO',
@@ -131,6 +136,8 @@ function organizationsProBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: digitalMediationCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: PRO_MED_NUM_ID,
     type: 'PRO',
@@ -174,6 +181,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+  databaseBuilder.factory.buildPixAdminRole({ userId: archivedCreator.id, role: ROLES.SUPER_ADMIN });
 
   const archivedAt = new Date('2022-02-02');
 
