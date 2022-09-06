@@ -291,12 +291,12 @@ module.exports = {
       filter.groups = [filter.groups];
     }
 
-    const { data: supOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredSupParticipants({
+    const { data: supOrganizationParticipants, meta } = await usecases.findPaginatedFilteredSupParticipants({
       organizationId,
       filter,
       page,
     });
-    return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, pagination });
+    return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
   },
 
   async importOrganizationLearnersFromSIECLE(request, h) {
