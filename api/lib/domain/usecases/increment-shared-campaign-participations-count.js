@@ -1,4 +1,4 @@
-module.exports = async function updateSharedCampaignParticipationsCount({
+module.exports = async function incrementSharedCampaignParticipationsCount({
   campaignParticipationId,
   domainTransaction,
   campaignRepository,

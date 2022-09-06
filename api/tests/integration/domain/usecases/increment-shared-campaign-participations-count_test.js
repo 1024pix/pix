@@ -1,12 +1,12 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const updateSharedCampaignParticipationsCount = require('../../../../lib/domain/usecases/update-shared-campaign-participations-count');
+const incrementSharedCampaignParticipationsCount = require('../../../../lib/domain/usecases/increment-shared-campaign-participations-count');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
 const { SHARED } = CampaignParticipationStatuses;
 
-describe('Integration | UseCase | update-shared-campaign-participations-count', function () {
+describe('Integration | UseCase | increment-shared-campaign-participations-count', function () {
   it('should increment sharedParticipationsCount for the campaign associate to campaignParticipationId', async function () {
     // given
     const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -16,7 +16,7 @@ describe('Integration | UseCase | update-shared-campaign-participations-count', 
 
     // when
     await DomainTransaction.execute(async (domainTransaction) => {
-      await updateSharedCampaignParticipationsCount({
+      await incrementSharedCampaignParticipationsCount({
         campaignParticipationId: campaignParticipation.id,
         campaignRepository,
         domainTransaction,

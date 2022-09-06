@@ -34,7 +34,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
 
     beforeEach(function () {
       sinon.stub(usecases, 'shareCampaignResult');
-      sinon.stub(usecases, 'updateSharedCampaignParticipationsCount');
+      sinon.stub(usecases, 'incrementSharedCampaignParticipationsCount');
       sinon.stub(events.eventBus, 'publish');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
@@ -60,7 +60,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       expect(updateCampaignParticiaption).to.have.property('userId');
     });
 
-    it('should call the use case updateSharedCampaignParticipationsCount', async function () {
+    it('should call the use case incrementSharedCampaignParticipationsCount', async function () {
       // given
       usecases.shareCampaignResult.resolves();
 
@@ -68,8 +68,8 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       await campaignParticipationController.shareCampaignResult(request, hFake);
 
       // then
-      expect(usecases.updateSharedCampaignParticipationsCount).to.have.been.calledOnce;
-      const args = usecases.updateSharedCampaignParticipationsCount.firstCall.args[0];
+      expect(usecases.incrementSharedCampaignParticipationsCount).to.have.been.calledOnce;
+      const args = usecases.incrementSharedCampaignParticipationsCount.firstCall.args[0];
       expect(args.campaignParticipationId).to.equal(request.params.id);
       expect(args.domainTransaction).to.equal(domainTransaction);
     });
