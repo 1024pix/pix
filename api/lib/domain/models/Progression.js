@@ -7,14 +7,11 @@ const ONE_HUNDRED_PERCENT = 1;
  * Traduction : Profil d'avancement
  */
 class Progression {
-  constructor({ id, targetedSkills = [], knowledgeElements = [], isProfileCompleted = false }) {
+  constructor({ id, skillIds = [], knowledgeElements = [], isProfileCompleted = false }) {
     this.id = id;
     this.knowledgeElements = knowledgeElements;
-    this.targetedSkills = targetedSkills;
-    this.targetedSkillsIds = _.map(targetedSkills, 'id');
-    this.targetedKnowledgeElements = _.filter(knowledgeElements, (ke) =>
-      _.includes(this.targetedSkillsIds, ke.skillId)
-    );
+    this.skillIds = skillIds;
+    this.targetedKnowledgeElements = _.filter(knowledgeElements, (ke) => _.includes(this.skillIds, ke.skillId));
     this.isProfileCompleted = isProfileCompleted;
   }
 
@@ -23,7 +20,7 @@ class Progression {
   }
 
   _getTargetedSkillsCount() {
-    return this.targetedSkillsIds.length;
+    return this.skillIds.length;
   }
 
   get completionRate() {
