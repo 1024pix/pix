@@ -58,7 +58,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
   });
 
-  test('it should display the firstName, lastName, birthdate, division, participation count, last participation date of student and the last participation tooltip', async function (assert) {
+  test('it should display the firstName, lastName, birthdate, division, participation count, last participation date of student, the last participation tooltip and certifiableAt', async function (assert) {
     // given
     const students = [
       {
@@ -68,6 +68,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         birthdate: new Date('2010-02-01'),
         participationCount: 42,
         lastParticipationDate: new Date('2022-01-03'),
+        certifiableAt: new Date('2022-01-02'),
       },
     ];
     this.set('students', students);
@@ -82,6 +83,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.contains('3B');
     assert.contains('42');
     assert.contains('03/01/2022');
+    assert.contains('02/01/2022');
     assert
       .dom(
         screen.getByLabelText(
