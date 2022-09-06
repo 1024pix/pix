@@ -93,19 +93,18 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       });
     });
 
-    context('CATEGORY: LATE_OR_LEAVING', function () {
+    context('CATEGORY: SIGNATURE_ISSUE', function () {
       let certificationIssueReportDTO;
 
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
+          category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
           description: 'Une description obligatoire',
-          subcategory: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
         };
       });
 
-      it('should create a LATE_OR_LEAVING CertificationIssueReport of category', function () {
+      it('should create a SIGNATURE_ISSUE CertificationIssueReport of category', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
           CertificationIssueReport
         );
@@ -119,31 +118,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue })
           ).to.throw(InvalidCertificationIssueReportForSaving);
         });
-      });
-
-      // Test dynamically all subcategories
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
-        if (
-          [
-            CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
-            CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
-          ].includes(subcategory)
-        ) {
-          it(`should create a LATE_OR_LEAVING CertificationIssueReport when subcategory is of value ${subcategory}`, function () {
-            // when
-            expect(
-              CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory })
-            ).to.be.an.instanceOf(CertificationIssueReport);
-          });
-        } else {
-          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function () {
-            // when
-            expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory })).to.throw(
-              InvalidCertificationIssueReportForSaving
-            );
-          });
-        }
       });
     });
 
@@ -350,12 +324,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             subcategory: 'NAME_OR_BIRTHDATE',
             description: 'toto',
           },
-          {
-            certificationCourseId: 42,
-            category: 'LATE_OR_LEAVING',
-            subcategory: 'LEFT_EXAM_ROOM',
-            description: 'toto',
-          },
           { certificationCourseId: 42, category: 'FRAUD' },
           { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_BLOCKED', questionNumber: 42 },
           {
@@ -420,7 +388,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             subcategory: 'EXTRA_TIME_PERCENTAGE',
             description: 'toto',
           },
-          { certificationCourseId: 42, category: 'LATE_OR_LEAVING', subcategory: 'SIGNATURE_ISSUE' },
+          { certificationCourseId: 42, category: 'SIGNATURE_ISSUE' },
           { certificationCourseId: 42, category: 'CONNECTION_OR_END_SCREEN' },
         ].forEach((certificationIssueReportDTO) => {
           it(`for ${certificationIssueReportDTO.category} ${
