@@ -1,5 +1,18 @@
 .form {
 
+  textarea {
+    height: auto;
+  }
+
+  label {
+    margin-bottom: 0.5rem;
+  }
+
+  label,
+  output {
+    display: inline-block;
+  }
+
   &__instructions {
     margin-bottom: 10px;
     font-size: 0.8rem;
@@ -21,13 +34,6 @@
 
   .form-field {
     margin-bottom: 16px;
-
-    .form-field__select {
-
-      &.is-invalid > .ember-power-select-trigger {
-        border-color: $pix-error-70;
-      }
-    }
 
     .form-field__error {
       width: 100%;
@@ -95,20 +101,4 @@
   background-clip: padding-box;
   border: 1px solid $pix-neutral-22;
   border-radius: 0.25rem;
-}
-
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-label {
-  margin-bottom: 0.5rem;
-}
-
-label,
-output {
-  display: inline-block;
 }

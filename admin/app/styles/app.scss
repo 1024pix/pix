@@ -1,8 +1,6 @@
 /* vendors */
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
-@import 'ember-power-select';
-@import 'ember-power-select/themes/bootstrap';
 
 /* Pix UI */
 @import 'pix-design-tokens';
@@ -13,7 +11,6 @@
 @import 'globals/form';
 @import 'globals/nav';
 @import 'globals/page';
-@import 'globals/power-select';
 @import 'globals/tables';
 @import 'globals/table-admin';
 
@@ -51,7 +48,6 @@
 @import 'components/member-item';
 @import 'components/menu-bar';
 @import 'components/modal';
-@import 'components/organization-form';
 @import 'components/organizations/archiving-confirmation-modal';
 @import 'components/organizations/places';
 @import 'components/organizations/places-lot-creation-form';
