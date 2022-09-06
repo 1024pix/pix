@@ -756,7 +756,8 @@
       }
     },
     "sco-organization-participants": {
-      "title": "Students",
+      "page-title": "Students",
+      "title": "{count, plural, =0 {Students} =1 {Student} other {Students ({count})}}",
       "actions": {
         "import-file": {
           "file-type-separator": " or ",

@@ -15,6 +15,17 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
     assert.contains('Élèves');
   });
 
+  test('it should show title with participant count', async function (assert) {
+    //given
+    this.set('participantCount', 10);
+
+    // when
+    await render(hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`);
+
+    // then
+    assert.contains('Élèves (10)');
+  });
+
   module('user rights', () => {
     module('when user is admin in organization', () => {
       module('when organization is SCO', (hooks) => {
