@@ -4,7 +4,7 @@ const Badge = require('../../domain/models/Badge');
 const skillAdapter = require('./skill-adapter');
 
 module.exports = {
-  fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects }) {
+  fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects = [] }) {
     const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);
     const targetProfileStages = bookshelfTargetProfile.related('stages');
     const stages = targetProfileStages?.models?.map((stage) => new Stage(stage.attributes)) ?? [];
