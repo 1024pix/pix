@@ -7,6 +7,7 @@ const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
+const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
 const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
 const computeParticipationResults = require('../prod/compute-participation-results');
 const {
@@ -346,7 +347,7 @@ async function _createCampaignParticipations({ campaignId, userIds, trx }) {
   return trx.batchInsert('campaign-participations', participationData.flat(), chunkSize).returning(['id', 'userId']);
 }
 
-async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssessmentIds, trx }) {
+async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, userAndAssessmentIds, trx }) {
   console.log('\tCréation des answers de référence...');
   const answerData = [];
   for (const userAndAssessmentId of userAndAssessmentIds) {
@@ -365,7 +366,8 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
   console.log('\tCréation des knowledge-elements...');
   const knowledgeElementData = [];
   console.log('\t\tCréation des données par acquis...');
-  for (const skill of targetProfile.skills) {
+  const skills = await campaignRepository.findSkills(campaignId);
+  for (const skill of skills) {
     const knowledgeElementDataForOneSkill = [];
     for (const userAndAssessmentId of userAndAssessmentIds) {
       const status = Math.random() < 0.7 ? 'validated' : 'invalidated';
@@ -452,7 +454,7 @@ async function _createParticipants({ count, targetProfile, organizationId, campa
   const userAndAssessmentIds = await _createAssessments({ userAndCampaignParticipationIds, trx });
   console.log('OK');
   console.log('Création des answers/knowledge-elements...');
-  await _createAnswersAndKnowledgeElements({ targetProfile, userAndAssessmentIds, trx });
+  await _createAnswersAndKnowledgeElements({ campaignId, targetProfile, userAndAssessmentIds, trx });
   console.log('OK');
   console.log('Création des obtentions de badge...');
   await _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx });
