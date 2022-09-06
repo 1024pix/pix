@@ -11,11 +11,11 @@ describe('Unit | Domain | Models | Progression', function () {
       context('and there is no knowledge elements', function () {
         it('should return a completionRate of 0', function () {
           // Given
-          const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
+          const skillIds = [skillLevel1.id, skillLevel2.id, skillLevel3.id];
           const knowledgeElements = [];
 
           // When
-          const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(0);
@@ -25,14 +25,14 @@ describe('Unit | Domain | Models | Progression', function () {
       context('and knowledge elements are present', function () {
         it('should return 1 when all targeted skills are evaluated', function () {
           // Given
-          const targetedSkills = [skillLevel1, skillLevel2];
+          const skillIds = [skillLevel1.id, skillLevel2.id];
           const knowledgeElements = [
             domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id }),
             domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id }),
           ];
 
           // When
-          const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(1);
@@ -40,14 +40,14 @@ describe('Unit | Domain | Models | Progression', function () {
 
         it('should return a ratio different than 1 when some targeted skills are not evaluated', function () {
           // Given
-          const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
+          const skillIds = [skillLevel1.id, skillLevel2.id, skillLevel3.id];
           const knowledgeElements = [
             domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id }),
             domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id }),
           ];
 
           // When
-          const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(0.6666666666666666);
@@ -57,14 +57,14 @@ describe('Unit | Domain | Models | Progression', function () {
       context('and the profile contains knowledge elements on skills not in the targeted skills ', function () {
         it('should not take them into account and mark the completion at 1 (equal 100%)', function () {
           // Given
-          const targetedSkills = [skillLevel1];
+          const skillIds = [skillLevel1.id];
           const knowledgeElements = [
             domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id, status: 'invalidated' }),
             domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id, status: 'invalidated' }),
           ];
 
           // When
-          const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(1);
