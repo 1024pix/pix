@@ -1,4 +1,5 @@
 const Membership = require('../../../lib/domain/models/Membership');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 const { DEFAULT_PASSWORD } = require('./users-builder');
 
 const SUP_UNIVERSITY_ID = 2;
@@ -30,6 +31,8 @@ function organizationsSupBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+
+  databaseBuilder.factory.buildPixAdminRole({ userId: universityCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SUP_UNIVERSITY_ID,
