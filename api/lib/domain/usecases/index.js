@@ -220,7 +220,6 @@ module.exports = injectDependencies(
     createProOrganizations: require('./create-pro-organizations-with-tags'),
     createSession: require('./create-session'),
     createStage: require('./create-stage'),
-    createStages: require('./create-stages'),
     createTag: require('./create-tag'),
     createTargetProfile: require('./create-target-profile'),
     createUser: require('./create-user'),

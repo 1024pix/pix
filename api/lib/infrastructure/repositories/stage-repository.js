@@ -1,6 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
 const Stage = require('../../domain/models/Stage');
-const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
@@ -22,13 +21,7 @@ module.exports = {
     return stages.map(_toDomain);
   },
 
-  async create(stage) {
-    const stageAttributes = _.pick(stage, ['title', 'message', 'threshold', 'targetProfileId']);
-    const [createdStage] = await knex(TABLE_NAME).insert(stageAttributes).returning('*');
-    return _toDomain(createdStage);
-  },
-
-  async create2(stageForCreation) {
+  async create(stageForCreation) {
     try {
       const [{ id: stageInsertedId }] = await knex(TABLE_NAME).insert(stageForCreation).returning('id');
       return stageInsertedId;

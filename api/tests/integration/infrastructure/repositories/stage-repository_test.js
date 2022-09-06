@@ -1,7 +1,5 @@
 const { expect, databaseBuilder, domainBuilder, knex, catchErr } = require('../../../test-helper');
-const Stage = require('../../../../lib/domain/models/Stage');
 const stageRepository = require('../../../../lib/infrastructure/repositories/stage-repository');
-const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | StageRepository', function () {
@@ -62,40 +60,6 @@ describe('Integration | Repository | StageRepository', function () {
       // then
       expect(stages.length).to.equal(2);
       expect(stages[0].threshold).to.equal(0);
-    });
-  });
-
-  describe('#create', function () {
-    let targetProfileId;
-
-    beforeEach(async function () {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-
-      await databaseBuilder.commit();
-
-      targetProfileId = targetProfile.id;
-    });
-
-    afterEach(function () {
-      return knex('stages').delete();
-    });
-
-    it('create a stage on a target profile', async function () {
-      // given
-      const stageToSave = {
-        title: 'My title',
-        message: 'My message',
-        threshold: 42,
-        targetProfileId,
-      };
-
-      // when
-      const savedStage = await stageRepository.create(stageToSave);
-
-      // then
-      expect(savedStage).to.be.instanceof(Stage);
-      expect(savedStage.id).to.exist;
-      expect(savedStage).to.deep.include(_.pick(stageToSave, ['title', 'message', 'threshold']));
     });
   });
 
@@ -206,7 +170,7 @@ describe('Integration | Repository | StageRepository', function () {
     });
   });
 
-  describe('#create2', function () {
+  describe('#create', function () {
     afterEach(function () {
       return knex('stages').delete();
     });
@@ -221,7 +185,7 @@ describe('Integration | Repository | StageRepository', function () {
         });
 
         // when
-        const error = await catchErr(stageRepository.create2)(stageForCreation);
+        const error = await catchErr(stageRepository.create)(stageForCreation);
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -247,8 +211,8 @@ describe('Integration | Repository | StageRepository', function () {
       });
 
       // when
-      await stageRepository.create2(stageForCreationWithLevel);
-      await stageRepository.create2(stageForCreationWithThreshold);
+      await stageRepository.create(stageForCreationWithLevel);
+      await stageRepository.create(stageForCreationWithThreshold);
 
       // then
       const actualStages = await knex('stages').orderBy('title', 'ASC');
@@ -286,7 +250,7 @@ describe('Integration | Repository | StageRepository', function () {
       const stageForCreation = domainBuilder.buildStageForCreation({ title: 'titleA', targetProfileId: 1 });
 
       // when
-      const id = await stageRepository.create2(stageForCreation);
+      const id = await stageRepository.create(stageForCreation);
 
       // then
       const idsInDB = await knex('stages').pluck('id');

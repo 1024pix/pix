@@ -1,7 +1,6 @@
-const stageValidator = require('../validators/stage-validator');
+const StageForCreation = require('../models/StageForCreation');
 
-module.exports = function createStage({ stage, stageRepository }) {
-  stageValidator.validate({ stage });
-
-  return stageRepository.create(stage);
+module.exports = function createStage({ stageCommandCreation, stageRepository }) {
+  const stageToCreate = StageForCreation.fromCreationCommand(stageCommandCreation);
+  return stageRepository.create(stageToCreate);
 };

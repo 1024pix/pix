@@ -4,7 +4,7 @@ const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-
 module.exports = {
   async create(request) {
     const stageCommandCreation = stageSerializer.deserializeForCreation(request.payload);
-    const stageId = await usecases.createStages({ stageCommandCreation });
+    const stageId = await usecases.createStage({ stageCommandCreation });
     const stage = await usecases.getStageDetails({ stageId });
     return stageSerializer.serialize(stage);
   },

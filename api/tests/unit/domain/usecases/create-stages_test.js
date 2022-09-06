@@ -1,13 +1,13 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const createStage = require('../../../../lib/domain/usecases/create-stages');
+const createStage = require('../../../../lib/domain/usecases/create-stage');
 
 describe('Unit | UseCase | create-stage', function () {
   it('should call repository method with appropriate stage to create', async function () {
     // given
     const stubStageRepository = {
-      create2: sinon.stub(),
+      create: sinon.stub(),
     };
-    stubStageRepository.create2.resolves();
+    stubStageRepository.create.resolves();
 
     const stageToCreate = {
         title: 'titre2',
@@ -30,15 +30,15 @@ describe('Unit | UseCase | create-stage', function () {
       level: 1,
       targetProfileId: 1,
     });
-    expect(stubStageRepository.create2).have.been.calledWithExactly(stage);
+    expect(stubStageRepository.create).have.been.calledWithExactly(stage);
   });
 
   it("should return repository method's return value", async function () {
     // given
     const stubStageRepository = {
-      create2: sinon.stub(),
+      create: sinon.stub(),
     };
-    stubStageRepository.create2.resolves(1);
+    stubStageRepository.create.resolves(1);
 
     const stage = domainBuilder.buildStageForCreation.withLevel();
 
