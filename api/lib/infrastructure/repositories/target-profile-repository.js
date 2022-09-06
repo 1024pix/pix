@@ -60,14 +60,12 @@ module.exports = {
   },
 
   async getByCampaignId(campaignId) {
-    const targetProfileBookshelf = await BookshelfTargetProfile.query((qb) => {
+    const bookshelfTargetProfile = await BookshelfTargetProfile.query((qb) => {
       qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-      qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
     })
       .where({ 'campaigns.id': campaignId })
       .fetch({
         withRelated: [
-          'skillIds',
           {
             stages: function (query) {
               query.orderBy('threshold', 'ASC');
@@ -76,8 +74,10 @@ module.exports = {
           'badges',
         ],
       });
-
-    return _getWithLearningContentSkills(targetProfileBookshelf);
+    return targetProfileAdapter.fromDatasourceObjects({
+      bookshelfTargetProfile,
+      associatedSkillDatasourceObjects: [],
+    });
   },
 
   async getTargetProfileSkillIdsByCampaignId(campaignId) {

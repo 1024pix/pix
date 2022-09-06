@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -307,6 +306,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
+      expect(targetProfile.skills).to.deep.equal([]);
     });
 
     it('should return the target profile with the stages ordered by threshold ASC', async function () {
@@ -318,6 +318,7 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.stages).to.have.lengthOf(2);
       expect(targetProfile.stages[0].threshold).to.equal(20);
       expect(targetProfile.stages[1].threshold).to.equal(40);
+      expect(targetProfile.skills).to.deep.equal([]);
     });
   });
 
