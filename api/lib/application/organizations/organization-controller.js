@@ -66,12 +66,12 @@ module.exports = {
   },
 
   async updateOrganizationInformation(request) {
-    const organizationDeserialized = organizationSerializer.deserialize(request.payload);
+    const organizationDeserialized = organizationForAdminSerializer.deserialize(request.payload);
 
     const organizationUpdated = await usecases.updateOrganizationInformation({
       organization: organizationDeserialized,
     });
-    return organizationSerializer.serialize(organizationUpdated);
+    return organizationForAdminSerializer.serialize(organizationUpdated);
   },
 
   async findPaginatedFilteredOrganizations(request) {

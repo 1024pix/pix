@@ -347,14 +347,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const serializedOrganization = Symbol('the updated and serialized organization');
 
       sinon.stub(usecases, 'updateOrganizationInformation');
-      sinon.stub(organizationSerializer, 'serialize');
-      sinon.stub(organizationSerializer, 'deserialize');
+      sinon.stub(organizationForAdminSerializer, 'serialize');
+      sinon.stub(organizationForAdminSerializer, 'deserialize');
 
-      organizationSerializer.deserialize.withArgs(request.payload).returns(organizationDeserialized);
+      organizationForAdminSerializer.deserialize.withArgs(request.payload).returns(organizationDeserialized);
       usecases.updateOrganizationInformation
         .withArgs({ organization: organizationDeserialized })
         .resolves(updatedOrganization);
-      organizationSerializer.serialize.withArgs(updatedOrganization).returns(serializedOrganization);
+      organizationForAdminSerializer.serialize.withArgs(updatedOrganization).returns(serializedOrganization);
 
       // when
       const response = await organizationController.updateOrganizationInformation(request, hFake);
