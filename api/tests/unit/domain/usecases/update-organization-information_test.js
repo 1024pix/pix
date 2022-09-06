@@ -1,17 +1,17 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { updateOrganizationInformation } = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const Organization = require('../../../../lib/domain/models/Organization');
 const Tag = require('../../../../lib/domain/models/Tag');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
+const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
 
 describe('Unit | UseCase | update-organization-information', function () {
-  let organizationRepository;
+  let organizationForAdminRepository;
   let organizationTagRepository;
   let tagRepository;
 
   beforeEach(function () {
-    organizationRepository = {
+    organizationForAdminRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
     };
@@ -33,18 +33,20 @@ describe('Unit | UseCase | update-organization-information', function () {
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         name: newName,
+        identityProviderForCampaigns: 'super-idp',
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         name: newName,
+        identityProviderForCampaigns: 'super-idp',
       });
     });
 
@@ -58,13 +60,16 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, type: newType });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        type: newType,
+      });
     });
 
     it('should allow to update the organization logo URL (only) if modified', async function () {
@@ -77,13 +82,13 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         logoUrl: newLogoUrl,
       });
@@ -99,13 +104,16 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, externalId });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        externalId,
+      });
     });
 
     it('should allow to update the organization external id with null value', async function () {
@@ -118,13 +126,16 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, externalId });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        externalId,
+      });
     });
 
     it('should allow to update the organization province code (only) if modified', async function () {
@@ -137,13 +148,16 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, provinceCode });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        provinceCode,
+      });
     });
 
     it('should allow to update the organization province code with null value', async function () {
@@ -156,13 +170,16 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, provinceCode });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        provinceCode,
+      });
     });
 
     it('should allow to update the organization isManagingStudents (only) if modified', async function () {
@@ -174,11 +191,11 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         isManagingStudents: false,
       });
@@ -194,13 +211,16 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, email: newEmail });
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        email: newEmail,
+      });
     });
 
     it('should allow to update the organization credit', async function () {
@@ -213,13 +233,13 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         credit: newCredit,
       });
@@ -235,13 +255,13 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         documentationUrl: newDocumentationUrl,
       });
@@ -257,13 +277,13 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
-      organizationRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.get.resolves(originalOrganization);
 
       // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+      await updateOrganizationInformation({ organization: givenOrganization, organizationForAdminRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
+      expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         showSkills: newShowSkills,
       });
@@ -283,13 +303,13 @@ describe('Unit | UseCase | update-organization-information', function () {
         const originalOrganization = _buildOriginalOrganization(organizationId);
         const originalTag = domainBuilder.buildTag({ id: tagId, name: 'SCO' });
 
-        organizationRepository.get.withArgs(organizationId).resolves(originalOrganization);
+        organizationForAdminRepository.get.withArgs(organizationId).resolves(originalOrganization);
         tagRepository.get.withArgs(tagToAdd.id).resolves(originalTag);
 
         // when
         await updateOrganizationInformation({
           organization: givenOrganization,
-          organizationRepository,
+          organizationForAdminRepository,
           organizationTagRepository,
           tagRepository,
         });
@@ -318,7 +338,7 @@ describe('Unit | UseCase | update-organization-information', function () {
           tagId: originalTag.id,
         });
 
-        organizationRepository.get.withArgs(organizationId).resolves(originalOrganization);
+        organizationForAdminRepository.get.withArgs(organizationId).resolves(originalOrganization);
         tagRepository.get.withArgs(originalTag.id).resolves(originalTag);
         organizationTagRepository.findOneByOrganizationIdAndTagId
           .withArgs({ organizationId: originalOrganization.id, tagId: originalTag.id })
@@ -327,7 +347,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         // when
         await updateOrganizationInformation({
           organization: givenOrganization,
-          organizationRepository,
+          organizationForAdminRepository,
           organizationTagRepository,
           tagRepository,
         });
@@ -345,12 +365,12 @@ describe('Unit | UseCase | update-organization-information', function () {
     it('should reject a NotFoundError (DomainError) when the organization does not exist', async function () {
       // given
       const givenOrganization = _buildOrganizationWithNullAttributes({ id: 8 });
-      organizationRepository.get.rejects(new NotFoundError('Not found organization'));
+      organizationForAdminRepository.get.rejects(new NotFoundError('Not found organization'));
 
       // when
       const error = await catchErr(updateOrganizationInformation)({
         organization: givenOrganization,
-        organizationRepository,
+        organizationForAdminRepository,
       });
 
       // then
@@ -360,7 +380,7 @@ describe('Unit | UseCase | update-organization-information', function () {
 });
 
 function _buildOrganizationWithNullAttributes(attributes) {
-  return new Organization({
+  return new OrganizationForAdmin({
     id: attributes.id,
     name: attributes.name,
     type: attributes.type,
@@ -373,11 +393,12 @@ function _buildOrganizationWithNullAttributes(attributes) {
     tags: attributes.tags,
     documentationUrl: attributes.documentationUrl,
     showSkills: attributes.showSkills,
+    identityProviderForCampaigns: attributes.identityProviderForCampaigns,
   });
 }
 
 function _buildOriginalOrganization(organizationId) {
-  return domainBuilder.buildOrganization({
+  return domainBuilder.buildOrganizationForAdmin({
     id: organizationId,
     name: 'Organization du lycée St Cricq',
     type: 'SCO',
