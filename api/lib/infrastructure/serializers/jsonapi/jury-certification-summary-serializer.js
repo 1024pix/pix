@@ -4,7 +4,7 @@ const get = require('lodash/get');
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(juryCertificationSummary) {
+  serialize(juryCertificationSummary, meta) {
     return new Serializer('jury-certification-summary', {
       transform(juryCertificationSummary) {
         const result = omit(juryCertificationSummary, 'certificationIssueReports');
@@ -31,6 +31,7 @@ module.exports = {
         'isFlaggedAborted',
         'complementaryCertificationTakenLabels',
       ],
+      meta,
     }).serialize(juryCertificationSummary);
   },
 };
