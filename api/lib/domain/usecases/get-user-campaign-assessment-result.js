@@ -9,15 +9,17 @@ module.exports = async function getUserCampaignAssessmentResult({
   badgeCriteriaService,
   targetProfileRepository,
   badgeRepository,
+  campaignRepository,
 }) {
   try {
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+    const skillIds = await campaignRepository.findSkillIds(campaignId);
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
     const badges = await badgeRepository.findByTargetProfileId(targetProfile.id);
     const stillValidBadges = badges.filter((badge) =>
       badgeCriteriaService.areBadgeCriteriaFulfilled({
         knowledgeElements,
-        targetProfile,
+        skillIds,
         badge,
       })
     );

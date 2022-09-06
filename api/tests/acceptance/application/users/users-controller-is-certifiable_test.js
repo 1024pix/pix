@@ -136,9 +136,13 @@ describe('Acceptance | users-controller-is-certifiable', function () {
       skillSetIds: `{${skillSetId}}`,
     });
 
+    const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+
     databaseBuilder.factory.buildBadgeAcquisition({
       userId: user.id,
       badgeId: cleaBadgeId,
+      campaignParticipationId,
     });
 
     const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
