@@ -898,61 +898,65 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{id}/remove-authentication', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      ['GAR', 'EMAIL', 'USERNAME', OidcIdentityProviders.POLE_EMPLOI.code].forEach((type) => {
-        it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
-          // given
-          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake((request, h) => h.response(true));
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
+      ['GAR', 'EMAIL', 'USERNAME', OidcIdentityProviders.POLE_EMPLOI.code, OidcIdentityProviders.CNAV.code].forEach(
+        (type) => {
+          it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
+            // given
+            sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response(true));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
 
-          // when
-          const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
-            data: {
-              attributes: {
-                type,
+            // when
+            const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+              data: {
+                attributes: {
+                  type,
+                },
               },
-            },
+            });
+
+            // then
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+            sinon.assert.calledOnce(userController.removeAuthenticationMethod);
+            expect(result.statusCode).to.equal(200);
           });
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-          sinon.assert.calledOnce(userController.removeAuthenticationMethod);
-          expect(result.statusCode).to.equal(200);
-        });
+          it(`should return 200 when user is "SUPPORT" and type is ${type}`, async function () {
+            // given
+            sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response(true));
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
 
-        it(`should return 200 when user is "SUPPORT" and type is ${type}`, async function () {
-          // given
-          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-
-          // when
-          const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
-            data: {
-              attributes: {
-                type,
+            // when
+            const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+              data: {
+                attributes: {
+                  type,
+                },
               },
-            },
-          });
+            });
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-          sinon.assert.calledOnce(userController.removeAuthenticationMethod);
-          expect(result.statusCode).to.equal(200);
-        });
-      });
+            // then
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+            sinon.assert.calledOnce(userController.removeAuthenticationMethod);
+            expect(result.statusCode).to.equal(200);
+          });
+        }
+      );
 
       it('should return 400 when id is not a number', async function () {
         // given
@@ -972,7 +976,7 @@ describe('Unit | Router | user-router', function () {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI', async function () {
+      it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI or CNAV', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
