@@ -1,13 +1,11 @@
 const _ = require('lodash');
 const BookshelfTargetProfile = require('../orm-models/TargetProfile');
-const skillRepository = require('./skill-repository');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
-const Stage = require('../../domain/models/Stage');
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -92,32 +90,6 @@ module.exports = {
       .pluck('skillId');
   },
 
-  async getByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {
-    const knexConn = domainTransaction?.knexConnection || knex;
-
-    const targetProfileDTO = await knexConn(TARGET_PROFILE_TABLE)
-      .select('target-profiles.*')
-      .innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
-      .innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-      .innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
-      .where({ 'campaign-participations.id': campaignParticipationId })
-      .first();
-
-    const skillIds = await knexConn('target-profiles_skills').distinct('skillId').pluck('skillId').where({
-      targetProfileId: targetProfileDTO.id,
-    });
-
-    const targetProfileStages = await knexConn('stages')
-      .where({
-        targetProfileId: targetProfileDTO.id,
-      })
-      .orderBy('threshold', 'ASC');
-
-    const skills = await skillRepository.findOperativeByIds(skillIds);
-
-    return _toDomain({ targetProfileDTO, targetProfileStages, skills });
-  },
-
   async findByIds(targetProfileIds) {
     const targetProfilesBookshelf = await BookshelfTargetProfile.query((qb) => {
       qb.whereIn('id', targetProfileIds);
@@ -178,13 +150,3 @@ module.exports = {
     return true;
   },
 };
-
-function _toDomain({ targetProfileDTO, targetProfileStages, skills }) {
-  return new TargetProfile({
-    ...targetProfileDTO,
-    skills,
-    stages: targetProfileStages
-      .filter(({ targetProfileId }) => targetProfileId === targetProfileDTO.id)
-      .map((s) => new Stage(s)),
-  });
-}

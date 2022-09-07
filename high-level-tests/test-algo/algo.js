@@ -7,7 +7,7 @@ const smartRandom = require('../../api/lib/domain/services/algorithm-methods/sma
 const dataFetcher = require('../../api/lib/domain/services/algorithm-methods/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../api/lib/infrastructure/repositories/skill-repository');
-const targetProfileRepository = require('../../api/lib/infrastructure/repositories/target-profile-repository');
+const campaignRepository = require('../../api/lib/infrastructure/repositories/campaign-repository');
 const improvementService = require('../../api/lib/domain/services/improvement-service');
 const pickChallengeService = require('../../api/lib/domain/services/pick-challenge-service');
 const Answer = require('../../api/lib/domain/models/Answer');
@@ -85,13 +85,13 @@ async function _getReferentiel({
   knowledgeElementRepository,
   skillRepository,
   improvementService,
-  targetProfileRepository,
+  campaignRepository,
 }) {
   if (targetProfileId) {
-    const targetProfile = await targetProfileRepository.get(targetProfileId);
-    const targetProfileRepositoryStub = {
-      getByCampaignParticipationId: () => {
-        return targetProfile;
+    const skills = await campaignRepository.findSkillsByCampaignParticipationId(assessment.campaignParticipationId);
+    const campaignRepositoryStub = {
+      findSkillsByCampaignParticipationId: () => {
+        return skills;
       },
     };
     const campaignParticipationRepositoryStub = {
@@ -103,10 +103,11 @@ async function _getReferentiel({
     const { targetSkills, challenges } = await dataFetcher.fetchForCampaigns({
       assessment,
       answerRepository,
-      targetProfileRepository: targetProfileRepositoryStub,
+      campaignRepository: campaignRepositoryStub,
       challengeRepository,
       knowledgeElementRepository,
       improvementService,
+
       campaignParticipationRepository: campaignParticipationRepositoryStub,
     });
 
@@ -229,7 +230,7 @@ async function launchTest(argv) {
     knowledgeElementRepository,
     skillRepository,
     improvementService,
-    targetProfileRepository,
+    campaignRepository,
   });
 
   const proceedUsers = usersKE.map((userKE) => {
