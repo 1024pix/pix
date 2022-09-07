@@ -18,9 +18,9 @@ module.exports = {
 
   async findSaved(request, h) {
     const { userId } = request.auth.credentials;
-    const { page } = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
 
-    const userPaginatedSavedTutorials = await usecases.findPaginatedFilteredSavedTutorials({ userId, page });
+    const userPaginatedSavedTutorials = await usecases.findPaginatedFilteredSavedTutorials({ userId, filters, page });
 
     return h.response(
       tutorialSerializer.serialize(userPaginatedSavedTutorials.results, userPaginatedSavedTutorials.meta)
