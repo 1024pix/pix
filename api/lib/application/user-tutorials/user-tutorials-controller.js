@@ -20,7 +20,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { page } = queryParamsUtils.extractParameters(request.query);
 
-    const userPaginatedSavedTutorials = await usecases.findPaginatedSavedTutorials({ userId, page });
+    const userPaginatedSavedTutorials = await usecases.findPaginatedFilteredSavedTutorials({ userId, page });
 
     return h.response(
       tutorialSerializer.serialize(userPaginatedSavedTutorials.results, userPaginatedSavedTutorials.meta)

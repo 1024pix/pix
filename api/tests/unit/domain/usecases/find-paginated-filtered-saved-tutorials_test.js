@@ -1,5 +1,5 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const findPaginatedSavedTutorials = require('../../../../lib/domain/usecases/find-paginated-saved-tutorials');
+const findPaginatedFilteredSavedTutorials = require('../../../../lib/domain/usecases/find-paginated-filtered-saved-tutorials');
 
 describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
   let tutorialRepository;
@@ -31,7 +31,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       };
 
       // When
-      await findPaginatedSavedTutorials({ userId, filters, page, tutorialRepository });
+      await findPaginatedFilteredSavedTutorials({ userId, filters, page, tutorialRepository });
 
       // Then
       expect(tutorialRepository.findPaginatedFilteredForCurrentUser).to.have.been.calledWith({ userId, filters, page });
@@ -52,7 +52,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       };
 
       // When
-      const paginatedSavedTutorials = await findPaginatedSavedTutorials({
+      const paginatedSavedTutorials = await findPaginatedFilteredSavedTutorials({
         tutorialRepository,
         userId,
         page,
@@ -92,7 +92,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       };
 
       // When
-      const paginatedSavedTutorials = await findPaginatedSavedTutorials({
+      const paginatedSavedTutorials = await findPaginatedFilteredSavedTutorials({
         tutorialRepository,
         userId,
         page,

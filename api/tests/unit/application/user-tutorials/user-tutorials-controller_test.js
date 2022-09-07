@@ -103,7 +103,7 @@ describe('Unit | Controller | User-tutorials', function () {
           size: '200',
         },
       };
-      sinon.stub(usecases, 'findPaginatedSavedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedFilteredSavedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
 
       const request = {
@@ -116,9 +116,9 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findSaved(request, hFake);
 
       // then
-      const findPaginatedSavedTutorialsArgs = usecases.findPaginatedSavedTutorials.firstCall.args[0];
-      expect(findPaginatedSavedTutorialsArgs).to.have.property('userId', userId);
-      expect(findPaginatedSavedTutorialsArgs.page).to.deep.equal({
+      const findPaginatedFilteredSavedTutorialsArgs = usecases.findPaginatedFilteredSavedTutorials.firstCall.args[0];
+      expect(findPaginatedFilteredSavedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedFilteredSavedTutorialsArgs.page).to.deep.equal({
         number: '1',
         size: '200',
       });
