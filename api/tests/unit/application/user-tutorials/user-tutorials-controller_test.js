@@ -69,7 +69,7 @@ describe('Unit | Controller | User-tutorials', function () {
       const headers = {
         'accept-language': 'fr',
       };
-      sinon.stub(usecases, 'findPaginatedRecommendedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedFilteredRecommendedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
       const request = {
         auth: { credentials: { userId } },
@@ -82,7 +82,8 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findRecommended(request, hFake);
 
       // then
-      const findPaginatedRecommendedTutorialsArgs = usecases.findPaginatedRecommendedTutorials.firstCall.args[0];
+      const findPaginatedRecommendedTutorialsArgs =
+        usecases.findPaginatedFilteredRecommendedTutorials.firstCall.args[0];
       expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
       expect(findPaginatedRecommendedTutorialsArgs.page).to.deep.equal({
         number: '1',
