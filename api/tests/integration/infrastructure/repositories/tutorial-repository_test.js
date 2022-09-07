@@ -737,108 +737,110 @@ describe('Integration | Repository | tutorial-repository', function () {
       });
     });
 
-    describe('when there are associated tutorial evaluations and saved tutorials', function () {
-      it('should return both information', async function () {
-        // given
-        databaseBuilder.factory.buildKnowledgeElement({
-          skillId: 'recSkill3',
-          userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
-        });
-        const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
-          userId,
-          tutorialId: 'tuto4',
-          skillId: 'recSkill3',
-        }).id;
-        const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
-          tutorialId: 'tuto4',
-          userId,
-        }).id;
-        await databaseBuilder.commit();
+    describe('when there are invalidated and direct KE', function () {
+      describe('when there are associated tutorial evaluations and saved tutorials', function () {
+        it('should return both information', async function () {
+          // given
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill3',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
+            userId,
+            tutorialId: 'tuto4',
+            skillId: 'recSkill3',
+          }).id;
+          const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
+            tutorialId: 'tuto4',
+            userId,
+          }).id;
+          await databaseBuilder.commit();
 
-        mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto4',
-              locale: 'fr-fr',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill3',
-              tutorialIds: ['tuto4'],
-              status: 'actif',
-            },
-          ],
-        });
+          mockLearningContent({
+            tutorials: [
+              {
+                id: 'tuto4',
+                locale: 'fr-fr',
+              },
+            ],
+            skills: [
+              {
+                id: 'recSkill3',
+                tutorialIds: ['tuto4'],
+                status: 'actif',
+              },
+            ],
+          });
 
-        // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+          // when
+          const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
-        // then
-        expect(results[0].tutorialEvaluation).to.include({
-          id: tutorialEvaluationId,
-          userId,
-          tutorialId: 'tuto4',
-          status: TutorialEvaluation.statuses.LIKED,
-        });
-        expect(results[0].userTutorial).to.include({
-          id: userSavedTutorialId,
-          userId,
-          skillId: 'recSkill3',
-          tutorialId: 'tuto4',
+          // then
+          expect(results[0].tutorialEvaluation).to.include({
+            id: tutorialEvaluationId,
+            userId,
+            tutorialId: 'tuto4',
+            status: TutorialEvaluation.statuses.LIKED,
+          });
+          expect(results[0].userTutorial).to.include({
+            id: userSavedTutorialId,
+            userId,
+            skillId: 'recSkill3',
+            tutorialId: 'tuto4',
+          });
         });
       });
-    });
 
-    context('when tutorials amount exceed page size', function () {
-      it('should return page size number of tutorials', async function () {
-        // given
-        const page = { number: 2, size: 2 };
-        databaseBuilder.factory.buildKnowledgeElement({
-          skillId: 'recSkill3',
-          userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
+      describe('when tutorials amount exceed page size', function () {
+        it('should return page size number of tutorials', async function () {
+          // given
+          const page = { number: 2, size: 2 };
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill3',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          await databaseBuilder.commit();
+
+          mockLearningContent({
+            tutorials: [
+              {
+                id: 'tuto4',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto5',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto6',
+                locale: 'fr-fr',
+              },
+            ],
+            skills: [
+              {
+                id: 'recSkill3',
+                tutorialIds: ['tuto4', 'tuto5', 'tuto6'],
+                status: 'actif',
+              },
+            ],
+          });
+          const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 3 };
+          await databaseBuilder.commit();
+
+          // when
+          const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
+            userId,
+            page,
+          });
+
+          // then
+          expect(foundTutorials).to.have.lengthOf(1);
+          expect(pagination).to.include(expectedPagination);
         });
-        await databaseBuilder.commit();
-
-        mockLearningContent({
-          tutorials: [
-            {
-              id: 'tuto4',
-              locale: 'fr-fr',
-            },
-            {
-              id: 'tuto5',
-              locale: 'fr-fr',
-            },
-            {
-              id: 'tuto6',
-              locale: 'fr-fr',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill3',
-              tutorialIds: ['tuto4', 'tuto5', 'tuto6'],
-              status: 'actif',
-            },
-          ],
-        });
-        const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 3 };
-        await databaseBuilder.commit();
-
-        // when
-        const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
-          userId,
-          page,
-        });
-
-        // then
-        expect(foundTutorials).to.have.lengthOf(1);
-        expect(pagination).to.include(expectedPagination);
       });
     });
   });
