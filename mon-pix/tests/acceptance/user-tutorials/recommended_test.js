@@ -97,6 +97,20 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
         expect(find('.pix-sidebar--hidden')).to.exist;
       });
+
+      describe('when user access again to tutorials recommended page', function () {
+        it('should reset competences filters', async function () {
+          // given
+          const screen = await visit('/mes-tutos/recommandes?competences=1&pageNumber=1');
+
+          // when
+          await click(screen.getByRole('link', { name: 'Enregistrés' }));
+          await click(screen.getByRole('link', { name: 'Recommandés' }));
+
+          // then
+          expect(currentURL()).to.equal('/mes-tutos/recommandes');
+        });
+      });
     });
   });
 });
