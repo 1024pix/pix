@@ -1,4 +1,4 @@
-const { databaseBuilder, domainBuilder, expect } = require('../../../test-helper');
+const { databaseBuilder, domainBuilder, expect, knex } = require('../../../test-helper');
 const cpfCertificationResultRepository = require('../../../../lib/infrastructure/repositories/cpf-certification-result-repository');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
@@ -694,6 +694,28 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         // then
         expect(cpfCertificationResults).to.be.empty;
       });
+    });
+  });
+
+  describe('#markCertificationCoursesAsExported', function () {
+    it('should save filename in cpfFilename', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfFilename: null });
+      await databaseBuilder.commit();
+
+      // when
+      await cpfCertificationResultRepository.markCertificationCoursesAsExported({
+        certificationCourseIds: [456, 789],
+        filename: 'filename.xml',
+      });
+
+      // then
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename');
+      expect(certificationCourses.find(({ id }) => id === 123).cpfFilename).to.be.null;
+      expect(certificationCourses.find(({ id }) => id === 456).cpfFilename).to.equal('filename.xml');
+      expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('filename.xml');
     });
   });
 });
