@@ -19,6 +19,10 @@ module.exports = {
 
     return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
+
+  async markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
+    return knex('certification-courses').update({ cpfFilename: filename }).whereIn('id', certificationCourseIds);
+  },
 };
 
 function _selectCpfCertificationResults() {
