@@ -37,6 +37,7 @@ export default class UserTutorialsSavedRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.set('pageNumber', null);
+      controller.set('competences', null);
     }
   }
 
