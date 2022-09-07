@@ -65,6 +65,9 @@ describe('Unit | Controller | User-tutorials', function () {
           number: '1',
           size: '200',
         },
+        filter: {
+          competences: ['competence1', 'competence2'],
+        },
       };
       const headers = {
         'accept-language': 'fr',
@@ -73,6 +76,7 @@ describe('Unit | Controller | User-tutorials', function () {
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
       const request = {
         auth: { credentials: { userId } },
+        'filter[competences]': 'competence1,competence2',
         'page[number]': '1',
         'page[size]': '200',
         headers,
@@ -85,6 +89,9 @@ describe('Unit | Controller | User-tutorials', function () {
       const findPaginatedRecommendedTutorialsArgs =
         usecases.findPaginatedFilteredRecommendedTutorials.firstCall.args[0];
       expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedRecommendedTutorialsArgs.filters).to.deep.equal({
+        competences: ['competence1', 'competence2'],
+      });
       expect(findPaginatedRecommendedTutorialsArgs.page).to.deep.equal({
         number: '1',
         size: '200',

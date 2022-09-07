@@ -29,9 +29,14 @@ module.exports = {
 
   async findRecommended(request, h) {
     const { userId } = request.auth.credentials;
-    const { page } = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
     const locale = extractLocaleFromRequest(request);
-    const userRecommendedTutorials = await usecases.findPaginatedFilteredRecommendedTutorials({ userId, page, locale });
+    const userRecommendedTutorials = await usecases.findPaginatedFilteredRecommendedTutorials({
+      userId,
+      filters,
+      page,
+      locale,
+    });
 
     return h.response(
       tutorialSerializer.serialize(userRecommendedTutorials.results, userRecommendedTutorials.pagination)
