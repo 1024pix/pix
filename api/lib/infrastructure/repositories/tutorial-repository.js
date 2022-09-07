@@ -53,7 +53,7 @@ module.exports = {
     return _.map(tutorialData, _toDomain);
   },
 
-  async findPaginatedRecommendedByUserId({ userId, page, locale = FRENCH_FRANCE } = {}) {
+  async findPaginatedRecommendedByUserId({ userId, filters = {}, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
     const [userTutorials, tutorialEvaluations, skills] = await Promise.all([
@@ -61,9 +61,15 @@ module.exports = {
       tutorialEvaluationRepository.find({ userId }),
       skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
     ]);
+
+    let filteredSkills = [...skills];
+    if (filters.competences?.length) {
+      filteredSkills = skills.filter(({ competenceId }) => filters.competences.includes(competenceId));
+    }
+
     const tutorialsForUser = [];
 
-    for (const skill of skills) {
+    for (const skill of filteredSkills) {
       const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
 
       tutorialsForUser.push(
