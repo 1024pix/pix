@@ -187,7 +187,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         expect(tutorialsForUser[1].skillId).to.be.null;
       });
 
-      context('when user has evaluated tutorial ', function () {
+      context('when user has evaluated tutorial', function () {
         it('should return tutorial with evaluated tutorial belonging to given user', async function () {
           // given
           const tutorialId = 'recTutorial';
@@ -208,6 +208,70 @@ describe('Integration | Repository | tutorial-repository', function () {
 
           //then
           expect(tutorialsForUser[0].tutorialEvaluation.userId).to.equal(userId);
+        });
+      });
+
+      context('when there are filters on competences', function () {
+        it('should return only tutorials for skills associated to competences', async function () {
+          // given
+          const tutorialId1 = 'tutorial1';
+          const tutorialId2 = 'tutorial2';
+          const tutorialId3 = 'tutorial3';
+
+          const learningContent = {
+            tutorials: [{ id: tutorialId1 }, { id: tutorialId2 }, { id: tutorialId3 }],
+            skills: [
+              {
+                id: 'skill1',
+                tutorialIds: [tutorialId1],
+                competenceId: 'competence1',
+                status: 'actif',
+              },
+              {
+                id: 'skill2',
+                tutorialIds: [tutorialId2],
+                competenceId: 'competence2',
+                status: 'archivé',
+              },
+              {
+                id: 'skill3',
+                tutorialIds: [tutorialId3],
+                competenceId: 'competence3',
+                status: 'actif',
+              },
+            ],
+          };
+          mockLearningContent(learningContent);
+
+          databaseBuilder.factory.buildUserSavedTutorial({
+            tutorialId: tutorialId1,
+            userId,
+            createdAt: new Date('2022-05-01'),
+          });
+          databaseBuilder.factory.buildUserSavedTutorial({
+            tutorialId: tutorialId2,
+            userId,
+            createdAt: new Date('2022-05-01'),
+          });
+          databaseBuilder.factory.buildUserSavedTutorial({
+            tutorialId: tutorialId3,
+            userId,
+            skillId: 'skill123',
+            createdAt: new Date('2022-05-02'),
+          });
+          await databaseBuilder.commit();
+
+          const filters = { competences: ['competence2', 'competence3'] };
+
+          // when
+          const { models: tutorialsForUser } = await tutorialRepository.findPaginatedForCurrentUser({
+            userId,
+            filters,
+          });
+
+          // then
+          expect(tutorialsForUser).to.have.length(2);
+          expect(tutorialsForUser.map(({ id }) => id)).to.deep.equal([tutorialId3, tutorialId2]);
         });
       });
     });

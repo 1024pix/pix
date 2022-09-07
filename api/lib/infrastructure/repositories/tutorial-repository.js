@@ -22,14 +22,23 @@ module.exports = {
     return _findByRecordIds({ ids });
   },
 
-  async findPaginatedForCurrentUser({ userId, page }) {
+  async findPaginatedForCurrentUser({ userId, filters = {}, page }) {
     const userTutorials = await userTutorialRepository.find({ userId });
     const [tutorials, tutorialEvaluations] = await Promise.all([
       tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
-    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    let filteredTutorials = [...tutorials];
+    if (filters.competences?.length) {
+      const filteredSkills = await skillRepository.findOperativeByCompetenceIds(filters.competences);
+
+      const filteredTutorialIds = filteredSkills.flatMap(({ tutorialIds }) => tutorialIds);
+
+      filteredTutorials = tutorials.filter(({ id }) => filteredTutorialIds.includes(id));
+    }
+
+    const tutorialsForUser = _toTutorialsForUser({ tutorials: filteredTutorials, tutorialEvaluations, userTutorials });
 
     const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userTutorial.createdAt'], ['desc']);
     const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
