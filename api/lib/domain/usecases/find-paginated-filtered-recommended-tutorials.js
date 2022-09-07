@@ -1,4 +1,4 @@
-module.exports = async function findPaginatedRecommendedTutorials({
+module.exports = async function findPaginatedFilteredRecommendedTutorials({
   userId,
   filters,
   page,

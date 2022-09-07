@@ -1,7 +1,7 @@
 const { sinon, expect } = require('../../../test-helper');
-const findRecommendedTutorials = require('../../../../lib/domain/usecases/find-paginated-recommended-tutorials');
+const findPaginatedFilteredRecommendedTutorials = require('../../../../lib/domain/usecases/find-paginated-filtered-recommended-tutorials');
 
-describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
+describe('Unit | UseCase | find-paginated-filtered-recommended-tutorials', function () {
   it('should call tutorial repository with userId, page and locale', async function () {
     // given
     const userId = 1;
@@ -18,7 +18,7 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
     const locale = 'fr-fr';
 
     // when
-    await findRecommendedTutorials({
+    await findPaginatedFilteredRecommendedTutorials({
       userId,
       filters,
       page,
