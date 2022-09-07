@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.250.0 (07/09/2022)
+
+
+### :rocket: Amélioration
+- [#4878](https://github.com/1024pix/pix/pull/4878) [FEATURE] Ne pas prendre en compte les certifications pour lesquels le sexe du candidat n'est pas renseigné (PIX-5621)
+- [#4870](https://github.com/1024pix/pix/pull/4870) [FEATURE] Remplacer la transition de tickets Jira des GitHub Action à une App côté Jira
+- [#4851](https://github.com/1024pix/pix/pull/4851) [FEATURE] Enregistrer le badge éligible de la certification complémentaire lors du début de parcours (PIX-5577)
+- [#4852](https://github.com/1024pix/pix/pull/4852) [FEATURE] Suppression de la sous-catégorie C3 de l'ajout de signalement. (PIX-5578).
+- [#4874](https://github.com/1024pix/pix/pull/4874) [FEATURE] Afficher un message d'erreur plus approprié quand il y a un conflit de compte (PIX-4991).
+- [#4876](https://github.com/1024pix/pix/pull/4876) [FEATURE] Implémenter la version définitive de la traduction des compétences Pix en compétences DigComp (PIX-5600)
+
+### :building_construction: Tech
+- [#4868](https://github.com/1024pix/pix/pull/4868) [TECH] Ajouter des rôles d'administration aux créateurs des organisations dans les seeds
+- [#4737](https://github.com/1024pix/pix/pull/4737) [TECH] Retirer le composant ModelsTable de la page sessions/<id>/certifications (PIX-5461)
+- [#4877](https://github.com/1024pix/pix/pull/4877) [TECH] Nettoyage du test de la version d'Hapi
+- [#4867](https://github.com/1024pix/pix/pull/4867) [TECH] Supprimer du code qui gère un cas qui n'arrivera jamais.
+
+### :bug: Correction
+- [#4871](https://github.com/1024pix/pix/pull/4871) [BUGFIX] Ajout de scopes manquants pour pole emploi(PIX-5616)
+
+### :coffee: Autre
+- [#4884](https://github.com/1024pix/pix/pull/4884) [DOC] Mise à jour de la doc
+- [#4872](https://github.com/1024pix/pix/pull/4872) [CLEANUP] Met à jour l'action commune d'automerge
+
 ## v3.249.0 (05/09/2022)
 
 
