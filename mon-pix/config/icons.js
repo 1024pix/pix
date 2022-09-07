@@ -22,6 +22,8 @@ module.exports = function () {
       'image',
       'link',
       'lock',
+      'minus',
+      'plus',
       'power-off',
       'right-from-bracket',
       'right-long',

@@ -1,0 +1,39 @@
+<PixSidebar
+  @title={{t "pages.user-tutorials.filter"}}
+  @showSidebar={{@isVisible}}
+  @onClose={{@onClose}}
+  class="tutorials-filters"
+>
+  <:content>
+    {{#each this.sortedAreas as |area|}}
+      <div class="area-border-container">
+        <div class="area-border {{area.color}}"></div>
+        <PixCollapsible @title="{{area.title}}" class="tutorials-filters__areas {{area.color}}">
+          <ul class="tutorials-filters-areas__competences">
+            {{#each area.sortedCompetences as |competence|}}
+              <UserTutorials::Filters::ItemCheckbox
+                @type="competences"
+                @item={{competence}}
+                @handleFilterChange={{this.handleFilterChange}}
+                @currentFilters={{this.filters}}
+              />
+            {{/each}}
+          </ul>
+        </PixCollapsible>
+      </div>
+    {{/each}}
+  </:content>
+  <:footer>
+    <div class="tutorials-filters__footer">
+      <PixButton
+        @triggerAction={{this.handleResetFilters}}
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+      >
+        {{t "pages.user-tutorials.sidebar.reset"}}
+      </PixButton>
+      <PixButton @size="small">{{t "pages.user-tutorials.sidebar.see-results"}}</PixButton>
+    </div>
+  </:footer>
+</PixSidebar>
