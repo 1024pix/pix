@@ -653,6 +653,11 @@
       }
     },
     "organization-participants": {
+      "empty-state": {
+        "message": "No participants yet!",
+        "call-to-action": "Share with them a link to join an existing campaign or create a new campaign.",
+        "action": "See my campaigns"
+      },
       "filters": {
         "actions": {
           "clear": "Clear filters"
@@ -667,11 +672,6 @@
           }
         }
       },
-      "empty-state": {
-        "message": "No participants yet!",
-        "call-to-action": "Share with them a link to join an existing campaign or create a new campaign.",
-        "action": "See my campaigns"
-      },
       "table": {
         "column": {
           "first-name": "First name",
@@ -682,7 +682,8 @@
         "empty": "No participants",
         "row-title": "Participant"
       },
-      "title": "Participants"
+      "page-title": "Participants",
+      "title": "{count, plural, =0 {Participants} =1 {Participant} other {Participants ({count})}}"
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
