@@ -4,6 +4,7 @@ export default class Stage extends Model {
   @belongsTo('target-profile') targetProfile;
 
   @attr('number') threshold;
+  @attr('number') level;
   @attr('string') title;
   @attr('string') message;
   @attr('string') prescriberTitle;
