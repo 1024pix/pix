@@ -22,16 +22,19 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
 
     it('should call the tutorialRepository', async function () {
       // given
+      const filters = {
+        competences: ['competence1'],
+      };
       const page = {
         number: 1,
         size: 2,
       };
 
       // When
-      await findPaginatedSavedTutorials({ tutorialRepository, userId, page });
+      await findPaginatedSavedTutorials({ userId, filters, page, tutorialRepository });
 
       // Then
-      expect(tutorialRepository.findPaginatedFilteredForCurrentUser).to.have.been.calledWith({ userId, page });
+      expect(tutorialRepository.findPaginatedFilteredForCurrentUser).to.have.been.calledWith({ userId, filters, page });
     });
 
     it('should return an empty array', async function () {
