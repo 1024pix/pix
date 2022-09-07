@@ -13,6 +13,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
 
     cpfCertificationResultRepository = {
       findByCertificationCourseIds: sinon.stub(),
+      markCertificationCoursesAsExported: sinon.stub(),
     };
     cpfCertificationXmlExportService = {
       buildXmlExport: sinon.stub(),
@@ -59,6 +60,10 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
     expect(cpfExternalStorage.upload).to.have.been.calledWith({
       filename: 'pix-cpf-export-20220101-114327000.xml',
       writableStream: sinon.match(PassThrough),
+    });
+    expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
+      certificationCourseIds,
+      filename: 'pix-cpf-export-20220101-114327000.xml',
     });
   });
 });

@@ -18,4 +18,6 @@ module.exports = async function createAndUpload({
   const now = moment().tz('Europe/Paris').format('YYYYMMDD-HHmmssSSS');
   const filename = `pix-cpf-export-${now}.xml`;
   await cpfExternalStorage.upload({ filename, writableStream });
+
+  await cpfCertificationResultRepository.markCertificationCoursesAsExported({ certificationCourseIds, filename });
 };
