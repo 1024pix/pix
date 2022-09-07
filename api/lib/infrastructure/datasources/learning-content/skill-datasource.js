@@ -51,4 +51,12 @@ module.exports = datasource.extend({
       (skill) => skill.competenceId === competenceId && _.includes(OPERATIVE_STATUSES, skill.status)
     );
   },
+
+  async findOperativeByCompetenceIds(competenceIds) {
+    const skills = await this.list();
+    return _.filter(
+      skills,
+      (skill) => competenceIds.includes(skill.competenceId) && _.includes(OPERATIVE_STATUSES, skill.status)
+    );
+  },
 });
