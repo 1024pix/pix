@@ -842,6 +842,210 @@ describe('Integration | Repository | tutorial-repository', function () {
           expect(pagination).to.include(expectedPagination);
         });
       });
+
+      describe('when there are competences filters', function () {
+        it('should return only tutorials for skills associated to competences', async function () {
+          // given
+          const page = { number: 1, size: 10 };
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill1InCompetence1',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill2InCompetence2',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill3InCompetence2',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill4InCompetence3',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          await databaseBuilder.commit();
+
+          mockLearningContent({
+            tutorials: [
+              {
+                id: 'tuto1',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto2',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto3',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto4',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto5',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto6',
+                locale: 'fr-fr',
+              },
+            ],
+            skills: [
+              {
+                id: 'recSkill1InCompetence1',
+                tutorialIds: ['tuto1', 'tuto2'],
+                status: 'actif',
+                competenceId: 'competence1',
+              },
+              {
+                id: 'recSkill2InCompetence2',
+                tutorialIds: ['tuto3', 'tuto4'],
+                status: 'actif',
+                competenceId: 'competence2',
+              },
+              {
+                id: 'recSkill3InCompetence2',
+                tutorialIds: ['tuto5'],
+                status: 'actif',
+                competenceId: 'competence2',
+              },
+              {
+                id: 'recSkill4InCompetence3',
+                tutorialIds: ['tuto6'],
+                status: 'actif',
+                competenceId: 'competence3',
+              },
+            ],
+          });
+          const expectedPagination = { page: 1, pageSize: 10, pageCount: 1, rowCount: 4 };
+          await databaseBuilder.commit();
+
+          const filters = { competences: ['competence2', 'competence3'] };
+
+          // when
+          const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
+            userId,
+            filters,
+            page,
+          });
+
+          // then
+          expect(foundTutorials).to.have.lengthOf(4);
+          expect(foundTutorials.map(({id}) => id)).to.deep.equal(['tuto3','tuto4','tuto5','tuto6']);
+          expect(pagination).to.include(expectedPagination);
+        });
+
+        it('should return only tutorials for skills associated to competences for another page', async function () {
+          // given
+          const page = { number: 2, size: 2 };
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill1InCompetence1',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill2InCompetence2',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill3InCompetence2',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'recSkill4InCompetence3',
+            userId,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KnowledgeElement.SourceType.DIRECT,
+          });
+          await databaseBuilder.commit();
+
+          mockLearningContent({
+            tutorials: [
+              {
+                id: 'tuto1',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto2',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto3',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto4',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto5',
+                locale: 'fr-fr',
+              },
+              {
+                id: 'tuto6',
+                locale: 'fr-fr',
+              },
+            ],
+            skills: [
+              {
+                id: 'recSkill1InCompetence1',
+                tutorialIds: ['tuto1', 'tuto2'],
+                status: 'actif',
+                competenceId: 'competence1',
+              },
+              {
+                id: 'recSkill2InCompetence2',
+                tutorialIds: ['tuto3', 'tuto4'],
+                status: 'actif',
+                competenceId: 'competence2',
+              },
+              {
+                id: 'recSkill3InCompetence2',
+                tutorialIds: ['tuto5'],
+                status: 'actif',
+                competenceId: 'competence2',
+              },
+              {
+                id: 'recSkill4InCompetence3',
+                tutorialIds: ['tuto6'],
+                status: 'actif',
+                competenceId: 'competence3',
+              },
+            ],
+          });
+          const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
+          await databaseBuilder.commit();
+
+          const filters = { competences: ['competence2', 'competence3'] };
+
+          // when
+          const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
+            userId,
+            filters,
+            page,
+          });
+
+          // then
+          expect(foundTutorials).to.have.lengthOf(2);
+          expect(foundTutorials.map(({id}) => id)).to.deep.equal(['tuto5','tuto6']);
+          expect(pagination).to.include(expectedPagination);
+        });
+      });
     });
   });
 });
