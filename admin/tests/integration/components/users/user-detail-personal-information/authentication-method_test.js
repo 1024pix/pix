@@ -259,6 +259,30 @@ module('Integration | Component | users | user-detail-personal-information/authe
 
       module('cnav authentication method', function () {
         module('when user has cnav authentication method', function () {
+          module('and another authentication method', function () {
+            test('it should display a delete button', async function (assert) {
+              // given
+              this.set('user', {
+                hasCnavAuthenticationMethod: true,
+                hasEmailAuthenticationMethod: true,
+                isAllowedToRemoveCnavAuthenticationMethod: true,
+              });
+              this.set('toggleDisplayRemoveAuthenticationMethodModal', function () {});
+              this.owner.register('service:access-control', AccessControlStub);
+
+              // when
+              const screen = await render(hbs`
+              <Users::UserDetailPersonalInformation::AuthenticationMethod
+                @user={{this.user}}
+                @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+              />
+              `);
+
+              // then
+              assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
+            });
+          });
+
           test('should display information', async function (assert) {
             // given
             this.set('user', { hasCnavAuthenticationMethod: true });

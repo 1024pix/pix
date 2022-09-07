@@ -3,6 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 
 module('Acceptance | authenticated/users | authentication-method', function (hooks) {
   setupApplicationTest(hooks);
@@ -118,6 +119,31 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Pôle Emploi")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
       assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
+    });
+  });
+
+  module('when a user has multiple authentication methods', function () {
+    test('it should be able to delete one of the authentication methods', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      const firstName = 'Ayotunde';
+      const lastName = 'Efemena';
+      const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+      const cnavAuthenticationMethod = server.create('authentication-method', { identityProvider: 'CNAV' });
+      const user = server.create('user', {
+        firstName,
+        lastName,
+        authenticationMethods: [garAuthenticationMethod, cnavAuthenticationMethod],
+      });
+
+      // when
+      const screen = await visit(`/users/${user.id}`);
+      await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
+      await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
+
+      // then
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion CNAV")).exists();
     });
   });
 });

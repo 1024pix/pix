@@ -270,6 +270,11 @@ export default function () {
       user.update({ email: null });
     }
 
+    if (type === 'CNAV') {
+      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'CNAV' });
+      authenticationMethod.destroy();
+    }
+
     return new Response(204);
   });
 
