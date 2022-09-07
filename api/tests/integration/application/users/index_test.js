@@ -74,42 +74,6 @@ describe('Integration | Application | Users | Routes', function () {
     });
   });
 
-  describe('GET /api/admin/users/{id}', function () {
-    it('should exist', async function () {
-      // given
-      securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
-      const url = '/api/admin/users/123';
-
-      // when
-      const response = await httpTestServer.request(methodGET, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return BAD_REQUEST (400) when id in param is not a number"', async function () {
-      // given
-      const url = '/api/admin/users/NOT_A_NUMBER';
-
-      // when
-      const response = await httpTestServer.request(methodGET, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return BAD_REQUEST (400) when id in param is out of range"', async function () {
-      // given
-      const url = '/api/admin/users/0';
-
-      // when
-      const response = await httpTestServer.request(methodGET, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('POST /api/users/{userId}/competences/{competenceId}/reset', function () {
     it('should return OK (200) when params are valid', async function () {
       // given
@@ -137,89 +101,6 @@ describe('Integration | Application | Users | Routes', function () {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}', function () {
-    it('should update user when payload is valid', async function () {
-      // given
-      securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
-      const url = '/api/admin/users/123';
-
-      const payload = {
-        data: {
-          id: '123',
-          attributes: {
-            'first-name': 'firstNameUpdated',
-            'last-name': 'lastNameUpdated',
-            email: 'emailUpdated@example.net',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return bad request when firstName is missing', async function () {
-      // given
-      securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
-      const url = '/api/admin/users/123';
-
-      const payload = {
-        data: {
-          id: '123',
-          attributes: {
-            'last-name': 'lastNameUpdated',
-            email: 'emailUpdated@example.net',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-      const firstError = response.result.errors[0];
-      expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
-    });
-
-    it('should return bad request when lastName is missing', async function () {
-      // given
-      securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
-      const url = '/api/admin/users/123';
-      const payload = {
-        data: {
-          id: '123',
-          attributes: {
-            'first-name': 'firstNameUpdated',
-            email: 'emailUpdated',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-      const firstError = response.result.errors[0];
-      expect(firstError.detail).to.equal('"data.attributes.last-name" is required');
-    });
-
-    it('should return a 400 when id in param is not a number"', async function () {
-      // given
-      const url = '/api/admin/users/NOT_A_NUMBER';
-
-      // when
-      const response = await httpTestServer.request(methodGET, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('PATCH /api/users/{id}/has-seen-challenge-tooltip/{challengeType}', function () {
     it('should return 400 - Bad request when challengeType is not valid', async function () {
       // given
@@ -241,6 +122,127 @@ describe('Integration | Application | Users | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  context('Routes /admin', function () {
+    describe('GET /api/admin/users/{id}', function () {
+      it('should exist', async function () {
+        // given
+        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        const url = '/api/admin/users/123';
+
+        // when
+        const response = await httpTestServer.request(methodGET, url);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return BAD_REQUEST (400) when id in param is not a number"', async function () {
+        // given
+        const url = '/api/admin/users/NOT_A_NUMBER';
+
+        // when
+        const response = await httpTestServer.request(methodGET, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return BAD_REQUEST (400) when id in param is out of range"', async function () {
+        // given
+        const url = '/api/admin/users/0';
+
+        // when
+        const response = await httpTestServer.request(methodGET, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('PATCH /api/admin/users/{id}', function () {
+      it('should update user when payload is valid', async function () {
+        // given
+        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        const url = '/api/admin/users/123';
+
+        const payload = {
+          data: {
+            id: '123',
+            attributes: {
+              'first-name': 'firstNameUpdated',
+              'last-name': 'lastNameUpdated',
+              email: 'emailUpdated@example.net',
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request(methodPATCH, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return bad request when firstName is missing', async function () {
+        // given
+        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        const url = '/api/admin/users/123';
+
+        const payload = {
+          data: {
+            id: '123',
+            attributes: {
+              'last-name': 'lastNameUpdated',
+              email: 'emailUpdated@example.net',
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request(methodPATCH, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        const firstError = response.result.errors[0];
+        expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
+      });
+
+      it('should return bad request when lastName is missing', async function () {
+        // given
+        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
+        const url = '/api/admin/users/123';
+        const payload = {
+          data: {
+            id: '123',
+            attributes: {
+              'first-name': 'firstNameUpdated',
+              email: 'emailUpdated',
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request(methodPATCH, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        const firstError = response.result.errors[0];
+        expect(firstError.detail).to.equal('"data.attributes.last-name" is required');
+      });
+
+      it('should return a 400 when id in param is not a number"', async function () {
+        // given
+        const url = '/api/admin/users/NOT_A_NUMBER';
+
+        // when
+        const response = await httpTestServer.request(methodGET, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
     });
   });
 });
