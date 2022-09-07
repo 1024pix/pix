@@ -1,4 +1,4 @@
-# Pix mono-repo
+# Pix
 
 Plateforme d'évaluation et de certification des compétences numériques pour tous.
 ![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
@@ -27,6 +27,10 @@ Les changements apportés dans chaque version sont documentés dans le [CHANGELO
 - [Twitter](https://twitter.com/pix_officiel)
 - [Blog](https://engineering.pix.fr)
 - [Job Board](https://www.welcometothejungle.com/fr/companies/pix)
+
+## Installation
+
+Pour installer Pix en local, lire le [guide d'installation](./INSTALLATION.md).
 
 ## Contribution
 
