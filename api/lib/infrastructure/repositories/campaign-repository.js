@@ -143,11 +143,17 @@ module.exports = {
     return skillRepository.findOperativeByIds(skillIds);
   },
 
-  async findSkillIdsByCampaignParticipationId(campaignParticipationId, domainTransaction) {
+  async findSkillsByCampaignParticipationId(campaignParticipationId, domainTransaction) {
     const knexConn = domainTransaction?.knexTransaction ?? knex;
     const [campaignId] = await knexConn('campaign-participations')
       .where({ id: campaignParticipationId })
       .pluck('campaignId');
-    return this.findSkillIds(campaignId);
+    return this.findSkills(campaignId);
+  },
+
+  async findSkillIdsByCampaignParticipationId(campaignParticipationId, domainTransaction) {
+    return (await this.findSkillsByCampaignParticipationId(campaignParticipationId, domainTransaction)).map(
+      ({ id }) => id
+    );
   },
 };

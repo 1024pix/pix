@@ -4,18 +4,19 @@ const DataFetcher = require('../../../api/lib/domain/services/algorithm-methods/
 const KnowledgeElement = require('../../../api/lib/domain/models/KnowledgeElement');
 
 describe('#answerTheChallenge', () => {
-
   let previousAnswers;
   let previousKE;
   let newKe;
   let challenge;
 
   beforeEach(() => {
-    previousAnswers = [ { id: 1, result: 'ko' } ];
+    previousAnswers = [{ id: 1, result: 'ko' }];
     previousKE = [{ id: 1 }];
     challenge = { id: 'recId' };
     newKe = { id: 'KE-id' };
-    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer').returns([newKe]);
+    sinon
+      .stub(KnowledgeElement, 'createKnowledgeElementsForAnswer')
+      .returns([newKe]);
     sinon.stub(console, 'log');
   });
 
@@ -40,7 +41,6 @@ describe('#answerTheChallenge', () => {
   });
 
   it('should return the list of previous KE with the new one', () => {
-
     // when
     const result = answerTheChallenge({
       challenge,
@@ -56,7 +56,7 @@ describe('#answerTheChallenge', () => {
     expect(result.updatedKnowledgeElements[1]).to.deep.equal(newKe);
   });
 
-  describe('when userResult is "ok"', ()=> {
+  describe('when userResult is "ok"', () => {
     const userResult = 'ok';
 
     it('should return the list of answers with the new one validated', () => {
@@ -74,12 +74,13 @@ describe('#answerTheChallenge', () => {
       expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
       expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
       expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
-      expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: 'ok' });
+      expect(result.updatedAnswers[1].result).to.be.deep.equal({
+        status: 'ok',
+      });
     });
-
   });
 
-  describe('when userResult is "ko"', ()=> {
+  describe('when userResult is "ko"', () => {
     const userResult = 'ko';
 
     it('should return the list of answers with the new one invalidated', () => {
@@ -97,13 +98,13 @@ describe('#answerTheChallenge', () => {
       expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
       expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
       expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
-      expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: 'ko' });
+      expect(result.updatedAnswers[1].result).to.be.deep.equal({
+        status: 'ko',
+      });
     });
-
   });
 
-  describe('when userResult is "random"', ()=> {
-
+  describe('when userResult is "random"', () => {
     const userResult = 'random';
 
     it('should return the list of answers with some validated and some invalidated', () => {
@@ -126,7 +127,6 @@ describe('#answerTheChallenge', () => {
       expect(allResults).to.contains('ok');
       expect(allResults).to.contains('ko');
     });
-
   });
 
   describe('when userResult is first OK then all KO', () => {
@@ -154,10 +154,9 @@ describe('#answerTheChallenge', () => {
       expect(allResults.slice(1)).to.contains('ko');
       expect(allResults.slice(1)).to.not.contains('ok');
     });
-
   });
 
-  describe('when userResult is first K0 then all OK', ()=> {
+  describe('when userResult is first K0 then all OK', () => {
     const userResult = 'firstKOthenOK';
 
     it('should return the list of answers with the first one invalidated and the rest validated', () => {
@@ -182,16 +181,33 @@ describe('#answerTheChallenge', () => {
       expect(allResults.slice(1)).to.contains('ok');
       expect(allResults.slice(1)).to.not.contains('ko');
     });
-
   });
 
   describe('when userKE is not empty', () => {
     [
-      { userKE: { 'status': 'validated', 'skillId': 'recPgkHUdzk0HPGt1', 'competenceId': 'recsvLz0W2ShyfD63' }, answerStatus: 'ok' },
-      { userKE: { 'status': 'invalidated', 'skillId': 'recPgkHUdzk0HPGt1', 'competenceId': 'recsvLz0W2ShyfD63' }, answerStatus: 'ko' },
+      {
+        userKE: {
+          status: 'validated',
+          skillId: 'recPgkHUdzk0HPGt1',
+          competenceId: 'recsvLz0W2ShyfD63',
+        },
+        answerStatus: 'ok',
+      },
+      {
+        userKE: {
+          status: 'invalidated',
+          skillId: 'recPgkHUdzk0HPGt1',
+          competenceId: 'recsvLz0W2ShyfD63',
+        },
+        answerStatus: 'ko',
+      },
       { userKE: null, answerStatus: 'ko' },
     ].forEach((testCase) => {
-      it(`should return the list of answers with ${testCase.answerStatus} answers for ${testCase.userKE ? testCase.userKE.status : 'empty' } KE`, () => {
+      it(`should return the list of answers with ${
+        testCase.answerStatus
+      } answers for ${
+        testCase.userKE ? testCase.userKE.status : 'empty'
+      } KE`, () => {
         // given
         challenge.skill = { id: 'recPgkHUdzk0HPGt1' };
 
@@ -210,11 +226,12 @@ describe('#answerTheChallenge', () => {
         expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
         expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
         expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
-        expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: testCase.answerStatus });
+        expect(result.updatedAnswers[1].result).to.be.deep.equal({
+          status: testCase.answerStatus,
+        });
       });
     });
   });
-
 });
 
 describe('#_getReferentiel', () => {
@@ -227,14 +244,25 @@ describe('#_getReferentiel', () => {
     const knowledgeElementRepository = {};
     const skillRepository = {};
     const improvementService = {};
-    const targetProfileRepository = {
-      get: () => {},
+    const campaignRepository = {
+      findSkillsByCampaignParticipationId: () => {},
     };
 
-    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
-    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
+    const expectedSkills = [
+      { id: 'recSkill1' },
+      { id: 'recSkill2' },
+      { id: 'recSkill3' },
+    ];
+    const expectedChallenges = [
+      { id: 'recChallenge1' },
+      { id: 'recChallenge2' },
+      { id: 'recChallenge3' },
+    ];
 
-    sinon.stub(DataFetcher, 'fetchForCampaigns').returns({ targetSkills: expectedSkills, challenges: expectedChallenges });
+    sinon.stub(DataFetcher, 'fetchForCampaigns').returns({
+      targetSkills: expectedSkills,
+      challenges: expectedChallenges,
+    });
 
     // when
     const result = await _getReferentiel({
@@ -245,7 +273,7 @@ describe('#_getReferentiel', () => {
       knowledgeElementRepository,
       skillRepository,
       improvementService,
-      targetProfileRepository,
+      campaignRepository,
     });
 
     // then
@@ -264,10 +292,21 @@ describe('#_getReferentiel', () => {
     const improvementService = {};
     const targetProfileRepository = {};
 
-    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
-    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
+    const expectedSkills = [
+      { id: 'recSkill1' },
+      { id: 'recSkill2' },
+      { id: 'recSkill3' },
+    ];
+    const expectedChallenges = [
+      { id: 'recChallenge1' },
+      { id: 'recChallenge2' },
+      { id: 'recChallenge3' },
+    ];
 
-    sinon.stub(DataFetcher, 'fetchForCompetenceEvaluations').returns({ targetSkills: expectedSkills, challenges: expectedChallenges });
+    sinon.stub(DataFetcher, 'fetchForCompetenceEvaluations').returns({
+      targetSkills: expectedSkills,
+      challenges: expectedChallenges,
+    });
 
     // when
     const result = await _getReferentiel({
