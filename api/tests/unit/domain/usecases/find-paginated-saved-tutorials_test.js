@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
   context('when there is no tutorial saved by current user', function () {
     beforeEach(function () {
       tutorialRepository = {
-        findPaginatedForCurrentUser: sinon.spy(async () => ({
+        findPaginatedFilteredForCurrentUser: sinon.spy(async () => ({
           models: [],
           meta: {
             page: 1,
@@ -31,7 +31,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       await findPaginatedSavedTutorials({ tutorialRepository, userId, page });
 
       // Then
-      expect(tutorialRepository.findPaginatedForCurrentUser).to.have.been.calledWith({ userId, page });
+      expect(tutorialRepository.findPaginatedFilteredForCurrentUser).to.have.been.calledWith({ userId, page });
     });
 
     it('should return an empty array', async function () {
@@ -65,7 +65,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       // Given
       const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
       tutorialRepository = {
-        findPaginatedForCurrentUser: sinon.spy(async () => ({
+        findPaginatedFilteredForCurrentUser: sinon.spy(async () => ({
           models: [tutorialWithUserSavedTutorial],
           meta: {
             page: 1,

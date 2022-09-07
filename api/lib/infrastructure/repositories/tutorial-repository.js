@@ -22,7 +22,7 @@ module.exports = {
     return _findByRecordIds({ ids });
   },
 
-  async findPaginatedForCurrentUser({ userId, filters = {}, page }) {
+  async findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
     const userTutorials = await userTutorialRepository.find({ userId });
     const [tutorials, tutorialEvaluations] = await Promise.all([
       tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
