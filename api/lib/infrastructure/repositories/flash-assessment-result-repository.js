@@ -22,12 +22,6 @@ module.exports = {
   },
 
   async getLatestByAssessmentId(assessmentId) {
-    return knex(TABLE_NAME)
-      .join('answers', 'answers.id', '=', `${TABLE_NAME}.answerId`)
-      .select(`${TABLE_NAME}.*`)
-      .where({ assessmentId })
-      .orderBy('createdAt', 'desc')
-      .limit(1)
-      .first();
+    return knex(TABLE_NAME).where({ assessmentId }).orderBy('id', 'desc').limit(1).first();
   },
 };
