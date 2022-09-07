@@ -5,6 +5,9 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
   it('should call tutorial repository with userId, page and locale', async function () {
     // given
     const userId = 1;
+    const filters = {
+      competences: ['competence1'],
+    };
     const page = {
       number: 1,
       size: 2,
@@ -17,14 +20,16 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
     // when
     await findRecommendedTutorials({
       userId,
-      tutorialRepository,
+      filters,
       page,
       locale,
+      tutorialRepository,
     });
 
     // then
     expect(tutorialRepository.findPaginatedFilteredRecommendedByUserId).to.have.been.calledWith({
       userId,
+      filters,
       page,
       locale,
     });
