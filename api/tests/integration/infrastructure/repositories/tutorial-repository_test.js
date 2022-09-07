@@ -456,7 +456,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
   });
 
-  describe('#findPaginatedRecommendedByUserId', function () {
+  describe('#findPaginatedFilteredRecommendedByUserId', function () {
     let userId;
 
     beforeEach(async function () {
@@ -488,7 +488,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -526,7 +526,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -583,7 +583,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
         // then
         expect(_.omit(results[0], ['userTutorial', 'tutorialEvaluation'])).to.deep.equal({
@@ -643,7 +643,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId, locale });
+        const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId, locale });
 
         // then
         expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1']);
@@ -677,7 +677,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -721,7 +721,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
         // then
         expect(results.map(({ id, skillId }) => ({ id, skillId }))).to.exactlyContain([
@@ -775,7 +775,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           });
 
           // when
-          const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+          const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
           // then
           expect(results[0].tutorialEvaluation).to.include({
@@ -832,10 +832,11 @@ describe('Integration | Repository | tutorial-repository', function () {
           await databaseBuilder.commit();
 
           // when
-          const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
-            userId,
-            page,
-          });
+          const { results: foundTutorials, pagination } =
+            await tutorialRepository.findPaginatedFilteredRecommendedByUserId({
+              userId,
+              page,
+            });
 
           // then
           expect(foundTutorials).to.have.lengthOf(1);
@@ -933,15 +934,16 @@ describe('Integration | Repository | tutorial-repository', function () {
           const filters = { competences: ['competence2', 'competence3'] };
 
           // when
-          const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
-            userId,
-            filters,
-            page,
-          });
+          const { results: foundTutorials, pagination } =
+            await tutorialRepository.findPaginatedFilteredRecommendedByUserId({
+              userId,
+              filters,
+              page,
+            });
 
           // then
           expect(foundTutorials).to.have.lengthOf(4);
-          expect(foundTutorials.map(({id}) => id)).to.deep.equal(['tuto3','tuto4','tuto5','tuto6']);
+          expect(foundTutorials.map(({ id }) => id)).to.deep.equal(['tuto3', 'tuto4', 'tuto5', 'tuto6']);
           expect(pagination).to.include(expectedPagination);
         });
 
@@ -1034,15 +1036,16 @@ describe('Integration | Repository | tutorial-repository', function () {
           const filters = { competences: ['competence2', 'competence3'] };
 
           // when
-          const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
-            userId,
-            filters,
-            page,
-          });
+          const { results: foundTutorials, pagination } =
+            await tutorialRepository.findPaginatedFilteredRecommendedByUserId({
+              userId,
+              filters,
+              page,
+            });
 
           // then
           expect(foundTutorials).to.have.lengthOf(2);
-          expect(foundTutorials.map(({id}) => id)).to.deep.equal(['tuto5','tuto6']);
+          expect(foundTutorials.map(({ id }) => id)).to.deep.equal(['tuto5', 'tuto6']);
           expect(pagination).to.include(expectedPagination);
         });
       });

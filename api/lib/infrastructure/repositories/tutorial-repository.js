@@ -53,7 +53,7 @@ module.exports = {
     return _.map(tutorialData, _toDomain);
   },
 
-  async findPaginatedRecommendedByUserId({ userId, filters = {}, page, locale = FRENCH_FRANCE } = {}) {
+  async findPaginatedFilteredRecommendedByUserId({ userId, filters = {}, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
     const [userTutorials, tutorialEvaluations, skills] = await Promise.all([
