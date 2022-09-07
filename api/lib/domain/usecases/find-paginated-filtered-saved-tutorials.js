@@ -1,4 +1,9 @@
-module.exports = async function findPaginatedSavedTutorials({ userId, filters, page, tutorialRepository } = {}) {
+module.exports = async function findPaginatedFilteredSavedTutorials({
+  userId,
+  filters,
+  page,
+  tutorialRepository,
+} = {}) {
   const { models: results, meta } = await tutorialRepository.findPaginatedFilteredForCurrentUser({
     userId,
     filters,
