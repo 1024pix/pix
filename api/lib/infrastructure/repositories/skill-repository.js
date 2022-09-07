@@ -50,6 +50,11 @@ module.exports = {
     return skillDatas.map(_toDomain);
   },
 
+  async findOperativeByCompetenceIds(competenceIds) {
+    const skillDatas = await skillDatasource.findOperativeByCompetenceIds(competenceIds);
+    return skillDatas.map(_toDomain);
+  },
+
   async findOperativeByIds(skillIds) {
     const skillDatas = await skillDatasource.findOperativeByRecordIds(skillIds);
     return skillDatas.map(_toDomain);

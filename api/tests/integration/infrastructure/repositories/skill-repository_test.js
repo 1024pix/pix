@@ -80,6 +80,37 @@ describe('Integration | Repository | skill-repository', function () {
     });
   });
 
+  describe('#findOperativeByCompetenceIds', function () {
+    it('should resolve all skills for all competences', async function () {
+      // given
+      const competenceId1 = 'recCompetenceId';
+      const competenceId2 = 'recCompetenceId';
+      const activeSkill1 = domainBuilder.buildSkill({ competenceId: competenceId1 });
+      const activeSkill2 = domainBuilder.buildSkill({ competenceId: competenceId2 });
+      const archivedSkill = domainBuilder.buildSkill({ competenceId: competenceId1 });
+      const nonOperativeSkill = domainBuilder.buildSkill({ competenceId: competenceId1 });
+      const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
+      const learningContent = {
+        skills: [
+          { ...activeSkill1, status: 'actif', level: activeSkill1.difficulty },
+          { ...activeSkill2, status: 'actif', level: activeSkill2.difficulty },
+          { ...archivedSkill, status: 'archivé', level: archivedSkill.difficulty },
+          { ...nonOperativeSkill, status: 'BLABLA', level: nonOperativeSkill.difficulty },
+          { ...activeSkill_otherCompetence, status: 'actif', level: activeSkill_otherCompetence.difficulty },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const skills = await skillRepository.findOperativeByCompetenceIds([competenceId1, competenceId2]);
+
+      // then
+      expect(skills).to.have.lengthOf(3);
+      expect(skills[0]).to.be.instanceof(Skill);
+      expect(skills).to.deep.include.members([activeSkill1, activeSkill2, archivedSkill]);
+    });
+  });
+
   describe('#findActiveByTubeId', function () {
     it('should return all active skills in the given tube', async function () {
       // given
