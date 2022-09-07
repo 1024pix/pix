@@ -10,7 +10,7 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
       size: 2,
     };
     const tutorialRepository = {
-      findPaginatedRecommendedByUserId: sinon.stub().resolves([]),
+      findPaginatedFilteredRecommendedByUserId: sinon.stub().resolves([]),
     };
     const locale = 'fr-fr';
 
@@ -23,6 +23,10 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
     });
 
     // then
-    expect(tutorialRepository.findPaginatedRecommendedByUserId).to.have.been.calledWith({ userId, page, locale });
+    expect(tutorialRepository.findPaginatedFilteredRecommendedByUserId).to.have.been.calledWith({
+      userId,
+      page,
+      locale,
+    });
   });
 });
