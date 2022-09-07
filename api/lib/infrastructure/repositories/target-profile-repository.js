@@ -78,6 +78,12 @@ module.exports = {
     });
   },
 
+  /**
+   * @deprecated Use findSkillIds from campaignRepository
+   * @param campaignId
+   * @param domainTransaction
+   * @returns skillIds
+   */
   async getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction) {
     const knexConn = domainTransaction?.knexTransaction ?? knex;
     return knexConn('target-profiles_skills')
