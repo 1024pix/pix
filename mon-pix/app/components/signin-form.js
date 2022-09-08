@@ -20,8 +20,8 @@ export default class SigninForm extends Component {
   login = '';
   password = '';
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   get displayPoleEmploiButton() {
