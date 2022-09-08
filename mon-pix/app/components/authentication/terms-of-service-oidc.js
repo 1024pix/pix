@@ -20,8 +20,8 @@ export default class TermsOfServiceOidcComponent extends Component {
   @tracked isAuthenticationKeyExpired = false;
   @tracked errorMessage = null;
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   get identityProviderOrganizationName() {

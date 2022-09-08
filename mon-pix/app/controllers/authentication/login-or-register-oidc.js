@@ -18,8 +18,8 @@ export default class LoginOrRegisterOidcController extends Controller {
   @tracked username = '';
   @tracked authenticationMethods = [];
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   @action toggleOidcReconciliation() {
