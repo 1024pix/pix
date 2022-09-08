@@ -1,5 +1,5 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const findPaginatedSavedTutorials = require('../../../../lib/domain/usecases/find-paginated-saved-tutorials');
+const findPaginatedFilteredSavedTutorials = require('../../../../lib/domain/usecases/find-paginated-filtered-saved-tutorials');
 
 describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
   let tutorialRepository;
@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
   context('when there is no tutorial saved by current user', function () {
     beforeEach(function () {
       tutorialRepository = {
-        findPaginatedForCurrentUser: sinon.spy(async () => ({
+        findPaginatedFilteredForCurrentUser: sinon.spy(async () => ({
           models: [],
           meta: {
             page: 1,
@@ -22,16 +22,19 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
 
     it('should call the tutorialRepository', async function () {
       // given
+      const filters = {
+        competences: ['competence1'],
+      };
       const page = {
         number: 1,
         size: 2,
       };
 
       // When
-      await findPaginatedSavedTutorials({ tutorialRepository, userId, page });
+      await findPaginatedFilteredSavedTutorials({ userId, filters, page, tutorialRepository });
 
       // Then
-      expect(tutorialRepository.findPaginatedForCurrentUser).to.have.been.calledWith({ userId, page });
+      expect(tutorialRepository.findPaginatedFilteredForCurrentUser).to.have.been.calledWith({ userId, filters, page });
     });
 
     it('should return an empty array', async function () {
@@ -49,7 +52,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       };
 
       // When
-      const paginatedSavedTutorials = await findPaginatedSavedTutorials({
+      const paginatedSavedTutorials = await findPaginatedFilteredSavedTutorials({
         tutorialRepository,
         userId,
         page,
@@ -65,7 +68,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       // Given
       const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
       tutorialRepository = {
-        findPaginatedForCurrentUser: sinon.spy(async () => ({
+        findPaginatedFilteredForCurrentUser: sinon.spy(async () => ({
           models: [tutorialWithUserSavedTutorial],
           meta: {
             page: 1,
@@ -89,7 +92,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       };
 
       // When
-      const paginatedSavedTutorials = await findPaginatedSavedTutorials({
+      const paginatedSavedTutorials = await findPaginatedFilteredSavedTutorials({
         tutorialRepository,
         userId,
         page,

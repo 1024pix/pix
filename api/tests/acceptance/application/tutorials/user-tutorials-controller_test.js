@@ -154,7 +154,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
       cache.flushAll();
       options = {
         method: 'GET',
-        url: '/api/users/tutorials/recommended',
+        url: '/api/users/tutorials/recommended?filter[competences]=recCompetence1',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
           'accept-language': 'fr',
@@ -247,6 +247,44 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 },
               ],
             },
+            {
+              id: 'recCompetence2',
+              name: 'Fabriquer une table',
+              index: '1.2',
+              tubes: [
+                {
+                  id: 'recTube3',
+                  skills: [
+                    {
+                      id: 'recSkill4',
+                      nom: '@table2',
+                      challenges: [],
+                      tutorialIds: ['tuto6', 'tuto7'],
+                      tutorials: [
+                        {
+                          id: 'tuto6',
+                          locale: 'fr-fr',
+                          duration: '00:00:54',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example6.html',
+                          source: 'tuto.com',
+                          title: 'tuto6',
+                        },
+                        {
+                          id: 'tuto7',
+                          locale: 'fr-fr',
+                          duration: '00:01:51',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example7.html',
+                          source: 'tuto.com',
+                          title: 'tuto7',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ]);
@@ -276,6 +314,13 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           status: KnowledgeElement.StatusType.INVALIDATED,
           source: KnowledgeElement.SourceType.DIRECT,
           skillId: 'recSkill3',
+        });
+
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          source: KnowledgeElement.SourceType.DIRECT,
+          skillId: 'recSkill4',
         });
 
         const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
@@ -472,7 +517,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
       cache.flushAll();
       options = {
         method: 'GET',
-        url: '/api/users/tutorials/saved',
+        url: '/api/users/tutorials/saved?filter[competences]=recCompetence1',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
@@ -556,6 +601,44 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 },
               ],
             },
+            {
+              id: 'recCompetence2',
+              name: 'Fabriquer une table',
+              index: '1.2',
+              tubes: [
+                {
+                  id: 'recTube3',
+                  skills: [
+                    {
+                      id: 'recSkill4',
+                      nom: '@table2',
+                      challenges: [],
+                      tutorialIds: ['tuto6', 'tuto7'],
+                      tutorials: [
+                        {
+                          id: 'tuto6',
+                          locale: 'fr-fr',
+                          duration: '00:00:54',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example6.html',
+                          source: 'tuto.com',
+                          title: 'tuto6',
+                        },
+                        {
+                          id: 'tuto7',
+                          locale: 'fr-fr',
+                          duration: '00:01:51',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example7.html',
+                          source: 'tuto.com',
+                          title: 'tuto7',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ]);
@@ -571,6 +654,13 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           userId: 4444,
           tutorialId: 'tuto1',
           skillId: 'skill123',
+        });
+
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 102,
+          userId: 4444,
+          tutorialId: 'tuto6',
+          skillId: 'recSkill4',
         });
 
         await databaseBuilder.commit();

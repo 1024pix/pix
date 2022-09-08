@@ -1,5 +1,5 @@
-const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
+const _ = require('lodash');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
@@ -180,6 +180,29 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
 
       // then
       expect(_.map(skills, 'id')).to.have.members(['recSkill1', 'recSkill2']);
+    });
+  });
+
+  describe('#findOperativeByCompetenceIds', function () {
+    beforeEach(function () {
+      const acquix1 = { id: 'recSkill1', status: 'actif', competenceId: 'recCompetence1' };
+      const acquix2 = { id: 'recSkill2', status: 'archivé', competenceId: 'recCompetence1' };
+      const acquix3 = { id: 'recSkill3', status: 'périmé', competenceId: 'recCompetence1' };
+      const acquix4 = { id: 'recSkill4', status: 'actif', competenceId: 'recOtherCompetence1' };
+      const acquix5 = { id: 'recSkill5', status: 'actif', competenceId: 'recCompetence2' };
+      const acquix6 = { id: 'recSkill6', status: 'archivé', competenceId: 'recCompetence2' };
+      const acquix7 = { id: 'recSkill7', status: 'périmé', competenceId: 'recCompetence2' };
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ skills: [acquix1, acquix2, acquix3, acquix4, acquix5, acquix6, acquix7] });
+    });
+
+    it('should retrieve all skills from learning content for competences', async function () {
+      // when
+      const skills = await skillDatasource.findOperativeByCompetenceIds(['recCompetence1', 'recCompetence2']);
+
+      // then
+      expect(_.map(skills, 'id')).to.have.members(['recSkill1', 'recSkill2', 'recSkill5', 'recSkill6']);
     });
   });
 

@@ -22,14 +22,23 @@ module.exports = {
     return _findByRecordIds({ ids });
   },
 
-  async findPaginatedForCurrentUser({ userId, page }) {
+  async findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
     const userTutorials = await userTutorialRepository.find({ userId });
     const [tutorials, tutorialEvaluations] = await Promise.all([
       tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
-    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    let filteredTutorials = [...tutorials];
+    if (filters.competences?.length) {
+      const filteredSkills = await skillRepository.findOperativeByCompetenceIds(filters.competences);
+
+      const filteredTutorialIds = filteredSkills.flatMap(({ tutorialIds }) => tutorialIds);
+
+      filteredTutorials = tutorials.filter(({ id }) => filteredTutorialIds.includes(id));
+    }
+
+    const tutorialsForUser = _toTutorialsForUser({ tutorials: filteredTutorials, tutorialEvaluations, userTutorials });
 
     const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userTutorial.createdAt'], ['desc']);
     const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
@@ -53,7 +62,7 @@ module.exports = {
     return _.map(tutorialData, _toDomain);
   },
 
-  async findPaginatedRecommendedByUserId({ userId, page, locale = FRENCH_FRANCE } = {}) {
+  async findPaginatedFilteredRecommendedByUserId({ userId, filters = {}, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
     const [userTutorials, tutorialEvaluations, skills] = await Promise.all([
@@ -61,9 +70,15 @@ module.exports = {
       tutorialEvaluationRepository.find({ userId }),
       skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
     ]);
+
+    let filteredSkills = [...skills];
+    if (filters.competences?.length) {
+      filteredSkills = skills.filter(({ competenceId }) => filters.competences.includes(competenceId));
+    }
+
     const tutorialsForUser = [];
 
-    for (const skill of skills) {
+    for (const skill of filteredSkills) {
       const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
 
       tutorialsForUser.push(
