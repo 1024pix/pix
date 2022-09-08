@@ -19,7 +19,12 @@ async function main() {
 
   const userSavedTutorialsWithoutSkillIdGroupedByUserId = groupBy(userSavedTutorialsWithoutSkillId, 'userId');
 
-  for (const userId in userSavedTutorialsWithoutSkillIdGroupedByUserId) {
+  const userIds = Object.keys(userSavedTutorialsWithoutSkillIdGroupedByUserId);
+  const numberOfUsers = userIds.length;
+
+  for (const userId of userIds) {
+    console.log(`User ${userIds.findIndex((id) => id === userId) + 1} of ${numberOfUsers}`);
+
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
     await fillSkillIdForGivenUserSavedTutorials(
       userSavedTutorialsWithoutSkillIdGroupedByUserId[userId],
@@ -88,12 +93,14 @@ async function fillSkillIdForGivenUserSavedTutorials(
       tutorialsWithSkills
     );
     if (!userSavedTutorial.tutorial) {
+      console.log(`Outdated tutorial ${userSavedTutorial.tutorialId}`);
       continue;
     }
 
     const skillId = await getMostRelevantSkillId(userSavedTutorial, knowledgeElements);
 
     if (!skillId) {
+      console.log(`Not found skillId for this user-saved-tutorials id : ${userSavedTutorial.id}`);
       continue;
     }
 
