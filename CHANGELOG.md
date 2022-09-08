@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.251.0 (08/09/2022)
+
+
+### :rocket: Amélioration
+- [#4890](https://github.com/1024pix/pix/pull/4890) [FEATURE] Remonter les compétences Pix+ en plus des compétences Pix. (PIX-5647).
+- [#4882](https://github.com/1024pix/pix/pull/4882) [FEATURE] Ajouter l'ID d'assessment dans les résultats d'assessment flash (PIX-5628)
+- [#4883](https://github.com/1024pix/pix/pull/4883) [FEATURE] Filtrer les tutoriels par compétences dans Pix App (PIX-5607).
+- [#4856](https://github.com/1024pix/pix/pull/4856) [FEATURE] Ajouter le filtre par certificabilité sur la liste des participants (Pix-5482)
+- [#4858](https://github.com/1024pix/pix/pull/4858) [FEATURE] Modifier une organisation pour la lier à un SSO (PIX-5575)
+- [#4853](https://github.com/1024pix/pix/pull/4853) [FEATURE] Afficher la date de certificabilité dans la liste des élèves (PIX-5484).
+- [#4863](https://github.com/1024pix/pix/pull/4863) [FEATURE] Afficher une sidebar pour filtrer les tutoriels par compétences (PIX-5606).
+
+### :building_construction: Tech
+- [#4888](https://github.com/1024pix/pix/pull/4888) [TECH] Refactorer le script permettant de remplir la colonne `skillId` de la table `user-saved-tutorials` (PIX-5642).
+- [#4781](https://github.com/1024pix/pix/pull/4781) [TECH] Disposer d'un environnement local sans dépendances logicielles
+- [#4880](https://github.com/1024pix/pix/pull/4880) [TECH] Ajout d'un script de changement de méthode d'assessment pour les campagnes FLASH (PIX-5627).
+
+### :bug: Correction
+- [#4879](https://github.com/1024pix/pix/pull/4879) [BUGFIX] Remettre les icônes supprimées par erreur (PIX-5623)
+
 ## v3.250.0 (07/09/2022)
 
 
