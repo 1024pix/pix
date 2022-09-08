@@ -1,0 +1,59 @@
+<tr aria-label="Informations sur le palier {{@title}}">
+  <td class="table__column table__column--id"></td>
+  <td class="stages-table__image">
+    <img src={{@imageUrl}} alt="" role="presentation" />
+  </td>
+  <td>
+    <div class="form-field">
+      <Input
+        class={{if @errors.threshold "form-control is-invalid" "form-control"}}
+        @type="number"
+        required="true"
+        @value={{@threshold}}
+        aria-label="Seuil du palier"
+      />
+      {{#if @errors.threshold}}
+        <div class="form-field__error">
+          {{@errors.threshold.0.message}}
+        </div>
+      {{/if}}
+    </div>
+  </td>
+  <td>
+    <div class="form-field">
+      <Input
+        class={{if @errors.title "form-field__text form-control is-invalid" "form-field__text form-control"}}
+        required="true"
+        @value={{@title}}
+        aria-label="Titre du palier"
+      />
+      {{#if @errors.title}}
+        <div class="form-field__error">
+          {{@errors.title.0.message}}
+        </div>
+      {{/if}}
+    </div>
+  </td>
+  <td>
+    <div class="form-field">
+      <Input class="form-control" required="true" @value={{@message}} aria-label="Message du palier" />
+    </div>
+  </td>
+  <td>
+    FIXME
+  </td>
+  <td>
+    FIXME
+  </td>
+  <td>
+    <PixButton
+      @backgroundColor="transparent-light"
+      @size="small"
+      @isBorderVisible={{true}}
+      aria-label="Supprimer palier"
+      @triggerAction={{@remove}}
+    >
+      <FaIcon @icon="minus" />
+    </PixButton>
+  </td>
+</tr>
