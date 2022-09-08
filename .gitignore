@@ -87,3 +87,7 @@ high-level-tests/e2e/cypress/snapshots/actual/**
 
 # Pipe viewer
 **/pv*.out
+
+
+# Docker-compose config
+docker/data/

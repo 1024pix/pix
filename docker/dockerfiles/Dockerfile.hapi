@@ -1,0 +1,10 @@
+FROM node:16.14.0 as dev 
+
+WORKDIR /code
+EXPOSE 3000
+
+COPY . . 
+
+RUN npm ci
+
+CMD [ "npm", "run", "start:watch" ]

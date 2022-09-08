@@ -1,0 +1,17 @@
+FROM node:16.14.0 as dev 
+
+WORKDIR /code
+COPY . . 
+
+RUN npm ci
+
+CMD [ "npm", "run", "start:watch" ]
+
+FROM dev as builder
+ENV BUILD_ENV=dev
+
+RUN npx ember build --env $BUILD_ENV
+
+FROM nginx:1.21.6 as production
+
+COPY --from=builder /code/dist/ /usr/share/nginx/html/
