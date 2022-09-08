@@ -902,14 +902,110 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return the serialized sco participants belonging to the organization', async function () {
       // given
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [scoOrganizationParticipant] });
-      scoOrganizationParticipantsSerializer.serialize.returns(serializedScoOrganizationParticipant);
+      const pagination = { page: 1 };
+      const scoOrganizationParticipants = [scoOrganizationParticipant];
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: scoOrganizationParticipants, pagination });
+      scoOrganizationParticipantsSerializer.serialize
+        .withArgs({ scoOrganizationParticipants, pagination })
+        .returns(serializedScoOrganizationParticipant);
 
       // when
       const response = await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
 
       // then
       expect(response).to.deep.equal(serializedScoOrganizationParticipant);
+    });
+
+    it('map the certificability eligible value', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': 'eligible',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [true] },
+        page: {},
+      });
+    });
+
+    it('map the certificability non-eligible value', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': 'non-eligible',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [false] },
+        page: {},
+      });
+    });
+
+    it('map the certificability not-available value', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': 'not-available',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [null] },
+        page: {},
+      });
+    });
+
+    it('map the all certificability values', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': ['eligible', 'not-available'],
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [true, null] },
+        page: {},
+      });
     });
   });
 

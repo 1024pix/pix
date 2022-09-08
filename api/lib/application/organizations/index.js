@@ -750,6 +750,7 @@ exports.register = async (server) => {
             'page[size]': Joi.number().integer().empty(''),
             'page[number]': Joi.number().integer().empty(''),
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'page[certificability]': [Joi.string()],
           }).options({ allowUnknown: true }),
         },
         handler: organizationController.findPaginatedFilteredScoParticipants,

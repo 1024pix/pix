@@ -359,6 +359,89 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         // then
         expect(firstName).to.deep.equal('Bar');
       });
+
+      context('when participants are filterd by certificability', function () {
+        context('when one value is given for certificability', function () {
+          it('should return sco participants filtered by the given value', async function () {
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const campaignId = databaseBuilder.factory.buildCampaign({
+              organizationId,
+              type: CampaignTypes.PROFILES_COLLECTION,
+            }).id;
+            const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+            const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId1,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: true,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId2,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: false,
+            });
+            await databaseBuilder.commit();
+            const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              filter: { certificability: [true] },
+            });
+
+            // then
+            expect(data.length).to.deep.equal(1);
+            expect(data[0].id).to.deep.equal(organizationLearnerId1);
+          });
+        });
+
+        context('when one value are given', function () {
+          it('should return sco participants which match with given values', async function () {
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const campaignId = databaseBuilder.factory.buildCampaign({
+              organizationId,
+              type: CampaignTypes.PROFILES_COLLECTION,
+            }).id;
+            const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+            const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+            const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId1,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: true,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId2,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: false,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId3,
+              status: CampaignParticipationStatuses.STARTED,
+              sharedAt: null,
+              isCertifiable: null,
+            });
+            await databaseBuilder.commit();
+            const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              filter: { certificability: [false, null] },
+            });
+
+            // then
+            const ids = data.map((participants) => participants.id);
+            expect(ids.length).to.deep.equal(2);
+            expect(ids).to.exactlyContain([organizationLearnerId2, organizationLearnerId3]);
+          });
+        });
+      });
     });
 
     describe('When sco participant is reconciled and authenticated by email (and/or) username', function () {
