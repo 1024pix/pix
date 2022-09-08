@@ -21,23 +21,21 @@ module.exports = async function getCertificationCandidateSubscription({
 
   const eligibleSubscriptions = [];
   const nonEligibleSubscriptions = [];
-  if (certificationCandidate.complementaryCertifications.length) {
-    const certifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-      userId: certificationCandidate.userId,
-    });
+  const certifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    userId: certificationCandidate.userId,
+  });
 
-    certificationCandidate.complementaryCertifications.map((registeredComplementaryCertification) => {
-      const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
-        ({ complementaryCertification }) => complementaryCertification.key === registeredComplementaryCertification.key
-      );
+  certificationCandidate.complementaryCertifications.map((registeredComplementaryCertification) => {
+    const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
+      ({ complementaryCertification }) => complementaryCertification.key === registeredComplementaryCertification.key
+    );
 
-      if (isSubscriptionEligible) {
-        eligibleSubscriptions.push(registeredComplementaryCertification);
-      } else {
-        nonEligibleSubscriptions.push(registeredComplementaryCertification);
-      }
-    });
-  }
+    if (isSubscriptionEligible) {
+      eligibleSubscriptions.push(registeredComplementaryCertification);
+    } else {
+      nonEligibleSubscriptions.push(registeredComplementaryCertification);
+    }
+  });
 
   return new CertificationCandidateSubscription({
     id: certificationCandidateId,
