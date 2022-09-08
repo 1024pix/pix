@@ -352,6 +352,26 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         expect(cpfCertificationResults).to.be.empty;
       });
     });
+
+    context('when the certification course has already been exported', function () {
+      it('should return an empty array', async function () {
+        // given
+        const startDate = new Date('2022-01-01');
+        const endDate = new Date('2022-01-10');
+
+        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', cpfFilename: 'file.xml' });
+        await databaseBuilder.commit();
+
+        // when
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({
+          startDate,
+          endDate,
+        });
+
+        // then
+        expect(cpfCertificationResults).to.be.empty;
+      });
+    });
   });
 
   describe('#findByCertificationCourseIds', function () {
@@ -695,6 +715,24 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         expect(cpfCertificationResults).to.be.empty;
       });
     });
+
+    context('when the certification course has already been exported', function () {
+      it('should return an empty array', async function () {
+        // given
+        const certificationCourseIds = [101];
+
+        createCertificationCourseWithCompetenceMarks({ certificationCourseId: 101, cpfFilename: 'file.xml' });
+        await databaseBuilder.commit();
+
+        // when
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
+        });
+
+        // then
+        expect(cpfCertificationResults).to.be.empty;
+      });
+    });
   });
 
   describe('#markCertificationCoursesAsExported', function () {
@@ -726,6 +764,7 @@ function createCertificationCourseWithCompetenceMarks({
   certificationCourseCancelled = false,
   isPublished = true,
   sessionDate = '2022-01-08',
+  cpfFilename = null,
 }) {
   const publishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date(sessionDate) }).id;
   databaseBuilder.factory.buildCertificationCourse({
@@ -739,6 +778,7 @@ function createCertificationCourseWithCompetenceMarks({
     isPublished: isPublished,
     sessionId: publishedSessionId,
     isCancelled: certificationCourseCancelled,
+    cpfFilename,
   }).id;
   databaseBuilder.factory.buildAssessmentResult({
     id: 2244,

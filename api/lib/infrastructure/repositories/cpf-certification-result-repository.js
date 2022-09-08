@@ -49,6 +49,7 @@ function _selectCpfCertificationResults() {
     )
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false)
+    .whereNull('certification-courses.cpfFilename')
     .whereNotNull('certification-courses.sex')
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('competence-marks.level', '>', -1)
