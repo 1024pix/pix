@@ -42,7 +42,7 @@ export default class Stages extends Component {
   }
 
   @action
-  removeNewStage(stage) {
+  removeStage(stage) {
     stage.deleteRecord();
   }
 
