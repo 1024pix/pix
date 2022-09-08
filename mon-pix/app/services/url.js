@@ -14,12 +14,11 @@ export default class Url extends Service {
     return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;
   }
 
-  get homeUrl() {
-    const isProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
+  get showcaseUrl() {
+    return this._showcaseWebsiteUrl;
+  }
 
-    if (isProdEnv) {
-      return this._showcaseWebsiteUrl;
-    }
+  get homeUrl() {
     const currentLanguage = this.intl.t('current-lang');
     return `${this.definedHomeUrl}?lang=${currentLanguage}`;
   }
