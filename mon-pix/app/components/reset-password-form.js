@@ -15,8 +15,8 @@ export default class ResetPasswordForm extends Component {
     @tracked message: null,
   };
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   @action
