@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.252.0 (08/09/2022)
+
+
+### :bug: Correction
+- [#4892](https://github.com/1024pix/pix/pull/4892) [BUGFIX] Réparer la connexion GAR (PIX-5646)
+
 ## v3.251.0 (08/09/2022)
 
 
