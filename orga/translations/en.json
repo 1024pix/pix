@@ -815,6 +815,11 @@
         }
       },
       "filter": {
+        "certificability": {
+          "aria-label": "Enter a status for certificability",
+          "empty": "No status",
+          "label": "Search by certificability"
+        },
         "division": {
           "aria-label": "Enter a class",
           "empty": "No class",

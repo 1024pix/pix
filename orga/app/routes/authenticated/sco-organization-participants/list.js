@@ -9,6 +9,7 @@ export default class ListRoute extends Route {
     firstName: { refreshModel: true },
     divisions: { refreshModel: true },
     connexionType: { refreshModel: true },
+    certificability: { refreshModel: true },
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
   };
@@ -23,6 +24,7 @@ export default class ListRoute extends Route {
         firstName: params.firstName,
         divisions: params.divisions,
         connexionType: params.connexionType,
+        certificability: params.certificability,
       },
       page: {
         number: params.pageNumber,
@@ -37,6 +39,7 @@ export default class ListRoute extends Route {
       controller.firstName = null;
       controller.divisions = [];
       controller.connexionType = null;
+      controller.certificability = null;
       controller.pageNumber = null;
       controller.pageSize = null;
     }
