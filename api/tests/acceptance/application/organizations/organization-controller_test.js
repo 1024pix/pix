@@ -18,6 +18,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -1057,7 +1058,10 @@ describe('Acceptance | Application | organization-controller', function () {
       let organizationLearner, campaign, participation;
 
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+        campaign = databaseBuilder.factory.buildCampaign({
+          organizationId: organization.id,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        });
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           userId: user.id,
@@ -1065,6 +1069,7 @@ describe('Acceptance | Application | organization-controller', function () {
         participation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
+          isCertifiable: true,
         });
 
         await databaseBuilder.commit();
@@ -1090,6 +1095,7 @@ describe('Acceptance | Application | organization-controller', function () {
                 'campaign-type': campaign.type,
                 'participation-status': participation.status,
                 'is-certifiable': participation.isCertifiable,
+                'certifiable-at': participation.sharedAt,
               },
               id: organizationLearner.id.toString(),
               type: 'sco-organization-participants',
