@@ -1,0 +1,82 @@
+<tr aria-label="Informations sur le palier {{@stage.title}}">
+  <td class="table__column table__column--id">{{@stage.id}}</td>
+  <td class="stages-table__image">
+    <img src={{@targetProfile.imageUrl}} alt="" role="presentation" />
+  </td>
+  <td>
+    {{#if @stage.isNew}}
+      <div class="form-field">
+        <Input
+          class={{if @stage.errors.threshold "form-control is-invalid" "form-control"}}
+          @type="number"
+          required="true"
+          @value={{@stage.threshold}}
+          aria-label="Seuil du palier"
+        />
+        {{#if @stage.errors.threshold}}
+          <div class="form-field__error">
+            {{@stage.errors.threshold.0.message}}
+          </div>
+        {{/if}}
+      </div>
+    {{else}}
+      {{@stage.threshold}}
+    {{/if}}
+  </td>
+  <td>
+    {{#if @stage.isNew}}
+      <div class="form-field">
+        <Input
+          class={{if @stage.errors.title "form-field__text form-control is-invalid" "form-field__text form-control"}}
+          required="true"
+          @value={{@stage.title}}
+          aria-label="Titre du palier"
+        />
+        {{#if @stage.errors.title}}
+          <div class="form-field__error">
+            {{@stage.errors.title.0.message}}
+          </div>
+        {{/if}}
+      </div>
+    {{else}}
+      {{@stage.title}}
+    {{/if}}
+  </td>
+  <td>
+    {{#if @stage.isNew}}
+      <div class="form-field">
+        <Input class="form-control" required="true" @value={{@stage.message}} aria-label="Message du palier" />
+      </div>
+    {{else}}
+      {{@stage.message}}
+    {{/if}}
+  </td>
+  <td>
+    <Common::TickOrCross @isTrue={{@stage.hasPrescriberTitle}} />
+  </td>
+  <td>
+    <Common::TickOrCross @isTrue={{@stage.hasPrescriberDescription}} />
+  </td>
+  <td>
+    {{#if @stage.isNew}}
+      <PixButton
+        @backgroundColor="transparent-light"
+        @size="small"
+        @isBorderVisible={{true}}
+        aria-label="Supprimer palier"
+        @triggerAction={{@removeStage}}
+      >
+        <FaIcon @icon="minus" />
+      </PixButton>
+    {{else}}
+      <PixButtonLink
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @route="authenticated.stages.stage"
+        @size="small"
+        @model={{@stage}}
+        class="pix-button__secondary"
+      >Voir détail</PixButtonLink>
+    {{/if}}
+  </td>
+</tr>
