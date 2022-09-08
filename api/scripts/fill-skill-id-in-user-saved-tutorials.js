@@ -25,7 +25,9 @@ async function main() {
       continue;
     }
 
-    const skillId = await getMostRelevantSkillId(userSavedTutorial);
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: userSavedTutorial.userId });
+
+    const skillId = await getMostRelevantSkillId(userSavedTutorial, knowledgeElements);
 
     if (!skillId) {
       continue;
@@ -86,13 +88,10 @@ function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
   return new UserSavedTutorialWithTutorial({ ...userSavedTutorial, tutorial });
 }
 
-async function getMostRelevantSkillId(userSavedTutorialWithTutorial) {
-  const userId = userSavedTutorialWithTutorial.userId;
+function getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements) {
   const tutorialSkillIds = userSavedTutorialWithTutorial.tutorial.skillIds;
   const tutorialReferenceBySkillsIdsForLearningMore =
     userSavedTutorialWithTutorial.tutorial.referenceBySkillsIdsForLearningMore;
-
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
   const invalidatedDirectKnowledgeElements = knowledgeElements.filter(_isInvalidatedAndDirect);
 

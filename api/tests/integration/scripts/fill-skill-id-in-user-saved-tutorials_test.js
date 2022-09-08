@@ -503,22 +503,25 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
         // given
         const directInvalidatedSkillIdYoungest = 'directInvalidatedSkillYoungest';
         const directInvalidatedSkillIdOldest = 'directInvalidatedSkillOldest';
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildKnowledgeElement({
-          userId,
-          source: KnowledgeElement.SourceType.DIRECT,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          skillId: directInvalidatedSkillIdYoungest,
-          createdAt: new Date('2022-03-18'),
-        });
-        databaseBuilder.factory.buildKnowledgeElement({
-          userId,
-          source: KnowledgeElement.SourceType.DIRECT,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          skillId: directInvalidatedSkillIdOldest,
-          createdAt: new Date('2022-03-16'),
-        });
-        await databaseBuilder.commit();
+        const userId = domainBuilder.buildUser().id;
+
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({
+            userId,
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            skillId: directInvalidatedSkillIdYoungest,
+            createdAt: new Date('2022-03-18'),
+          }),
+          domainBuilder.buildKnowledgeElement({
+            userId,
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            skillId: directInvalidatedSkillIdOldest,
+            createdAt: new Date('2022-03-16'),
+          }),
+        ];
+
         const tutorial = domainBuilder.buildTutorial();
         tutorial.skillIds = ['skill1', 'skill2', directInvalidatedSkillIdOldest, directInvalidatedSkillIdYoungest];
         const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
@@ -527,7 +530,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
         });
 
         // when
-        const skillId = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+        const skillId = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
 
         // then
         expect(skillId).to.equal(directInvalidatedSkillIdYoungest);
@@ -535,26 +538,28 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
 
       describe('when user does not have invalidated direct knowledge element', function () {
         describe('when there are referenceBySkillsIdsForLearningMore', function () {
-          it('should return the skillId related to the last passed knowledge element ', async function () {
+          it('should return the skillId related to the last passed knowledge element ', function () {
             // given
             const directSkillIdYoungest = 'directSkillYoungest';
             const directSkillIdOldest = 'directSkillOldest';
-            const userId = databaseBuilder.factory.buildUser().id;
-            databaseBuilder.factory.buildKnowledgeElement({
-              userId,
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: directSkillIdYoungest,
-              createdAt: new Date('2022-03-18'),
-            });
-            databaseBuilder.factory.buildKnowledgeElement({
-              userId,
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: directSkillIdOldest,
-              createdAt: new Date('2022-03-16'),
-            });
-            await databaseBuilder.commit();
+            const userId = domainBuilder.buildUser().id;
+            const knowledgeElements = [
+              domainBuilder.buildKnowledgeElement({
+                userId,
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.VALIDATED,
+                skillId: directSkillIdYoungest,
+                createdAt: new Date('2022-03-18'),
+              }),
+              domainBuilder.buildKnowledgeElement({
+                userId,
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.VALIDATED,
+                skillId: directSkillIdOldest,
+                createdAt: new Date('2022-03-16'),
+              }),
+            ];
+
             const tutorial = domainBuilder.buildTutorial();
             tutorial.skillIds = ['skill1', 'skill2'];
             tutorial.referenceBySkillsIdsForLearningMore = ['directSkillOldest', 'directSkillYoungest'];
@@ -564,7 +569,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
             });
 
             // when
-            const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+            const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
 
             // then
             expect(result).to.equal(directSkillIdYoungest);
@@ -572,9 +577,8 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
         });
 
         describe('when there are no referenceBySkillsIdsForLearningMore', function () {
-          it('should return undefined', async function () {
+          it('should return undefined', function () {
             // given
-            await databaseBuilder.commit();
             const tutorial = domainBuilder.buildTutorial();
             tutorial.skillIds = ['skill1', 'skill2'];
             tutorial.referenceBySkillsIdsForLearningMore = [];
@@ -584,7 +588,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
             });
 
             // when
-            const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+            const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, []);
 
             // then
             expect(result).to.equal(undefined);
@@ -595,26 +599,27 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
 
     describe('when there are no skillIds in tutorial', function () {
       describe('when there are referenceBySkillsIdsForLearningMore', function () {
-        it('should return the skillId related to the last passed knowledge element ', async function () {
+        it('should return the skillId related to the last passed knowledge element ', function () {
           // given
           const directSkillIdYoungest = 'directSkillYoungest';
           const directSkillIdOldest = 'directSkillOldest';
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.VALIDATED,
-            skillId: directSkillIdYoungest,
-            createdAt: new Date('2022-03-18'),
-          });
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.VALIDATED,
-            skillId: directSkillIdOldest,
-            createdAt: new Date('2022-03-16'),
-          });
-          await databaseBuilder.commit();
+          const userId = domainBuilder.buildUser().id;
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
+              skillId: directSkillIdYoungest,
+              createdAt: new Date('2022-03-18'),
+            }),
+            domainBuilder.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
+              skillId: directSkillIdOldest,
+              createdAt: new Date('2022-03-16'),
+            }),
+          ];
           const tutorial = domainBuilder.buildTutorial();
           tutorial.skillIds = [];
           tutorial.referenceBySkillsIdsForLearningMore = ['directSkillOldest', 'directSkillYoungest'];
@@ -624,7 +629,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
           });
 
           // when
-          const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+          const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
 
           // then
           expect(result).to.equal(directSkillIdYoungest);
@@ -632,9 +637,8 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
       });
 
       describe('when there are no referenceBySkillsIdsForLearningMore', function () {
-        it('should return undefined', async function () {
+        it('should return undefined', function () {
           // given
-          await databaseBuilder.commit();
           const tutorial = domainBuilder.buildTutorial();
           tutorial.skillIds = [];
           tutorial.referenceBySkillsIdsForLearningMore = [];
@@ -644,7 +648,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
           });
 
           // when
-          const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+          const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, []);
 
           // then
           expect(result).to.equal(undefined);
