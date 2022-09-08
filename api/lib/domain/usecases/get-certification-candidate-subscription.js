@@ -5,6 +5,7 @@ module.exports = async function getCertificationCandidateSubscription({
   certificationCandidateId,
   certificationBadgesService,
   certificationCandidateRepository,
+  certificationCenterRepository,
 }) {
   const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertifications(
     certificationCandidateId
@@ -19,13 +20,18 @@ module.exports = async function getCertificationCandidateSubscription({
     });
   }
 
+  const certificationCenter = await certificationCenterRepository.getBySessionId(certificationCandidate.sessionId);
+
   const eligibleSubscriptions = [];
   const nonEligibleSubscriptions = [];
   const certifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId: certificationCandidate.userId,
   });
 
-  certificationCandidate.complementaryCertifications.map((registeredComplementaryCertification) => {
+  certificationCandidate.complementaryCertifications.forEach((registeredComplementaryCertification) => {
+    if (!certificationCenter.isHabilitated(registeredComplementaryCertification.key)) {
+      return;
+    }
     const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
       ({ complementaryCertification }) => complementaryCertification.key === registeredComplementaryCertification.key
     );
