@@ -33,8 +33,9 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
         this.set('areas', [
           { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
         ]);
+        this.set('onSubmit', () => {});
         const screen = await renderScreen(
-          hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} />`
+          hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} @onSubmit={{onSubmit}} />`
         );
         await click(screen.getByRole('button', { name: 'Area 1' }));
         const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -55,8 +56,9 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
           this.set('areas', [
             { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
           ]);
+          this.set('onSubmit', () => {});
           const screen = await renderScreen(
-            hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} />`
+            hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} @onSubmit={{onSubmit}} />`
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
           const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });

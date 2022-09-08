@@ -65,14 +65,18 @@ describe('Unit | Controller | User-tutorials', function () {
           number: '1',
           size: '200',
         },
+        filter: {
+          competences: ['competence1', 'competence2'],
+        },
       };
       const headers = {
         'accept-language': 'fr',
       };
-      sinon.stub(usecases, 'findPaginatedRecommendedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedFilteredRecommendedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
       const request = {
         auth: { credentials: { userId } },
+        'filter[competences]': 'competence1,competence2',
         'page[number]': '1',
         'page[size]': '200',
         headers,
@@ -82,8 +86,12 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findRecommended(request, hFake);
 
       // then
-      const findPaginatedRecommendedTutorialsArgs = usecases.findPaginatedRecommendedTutorials.firstCall.args[0];
+      const findPaginatedRecommendedTutorialsArgs =
+        usecases.findPaginatedFilteredRecommendedTutorials.firstCall.args[0];
       expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedRecommendedTutorialsArgs.filters).to.deep.equal({
+        competences: ['competence1', 'competence2'],
+      });
       expect(findPaginatedRecommendedTutorialsArgs.page).to.deep.equal({
         number: '1',
         size: '200',
@@ -101,12 +109,16 @@ describe('Unit | Controller | User-tutorials', function () {
           number: '1',
           size: '200',
         },
+        filter: {
+          competences: ['competence1', 'competence2'],
+        },
       };
-      sinon.stub(usecases, 'findPaginatedSavedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedFilteredSavedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
 
       const request = {
         auth: { credentials: { userId } },
+        'filter[competences]': 'competence1,competence2',
         'page[number]': '1',
         'page[size]': '200',
       };
@@ -115,9 +127,12 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findSaved(request, hFake);
 
       // then
-      const findPaginatedSavedTutorialsArgs = usecases.findPaginatedSavedTutorials.firstCall.args[0];
-      expect(findPaginatedSavedTutorialsArgs).to.have.property('userId', userId);
-      expect(findPaginatedSavedTutorialsArgs.page).to.deep.equal({
+      const findPaginatedFilteredSavedTutorialsArgs = usecases.findPaginatedFilteredSavedTutorials.firstCall.args[0];
+      expect(findPaginatedFilteredSavedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedFilteredSavedTutorialsArgs.filters).to.deep.equal({
+        competences: ['competence1', 'competence2'],
+      });
+      expect(findPaginatedFilteredSavedTutorialsArgs.page).to.deep.equal({
         number: '1',
         size: '200',
       });

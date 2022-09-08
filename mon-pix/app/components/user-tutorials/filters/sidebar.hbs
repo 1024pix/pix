@@ -33,7 +33,9 @@
       >
         {{t "pages.user-tutorials.sidebar.reset"}}
       </PixButton>
-      <PixButton @size="small">{{t "pages.user-tutorials.sidebar.see-results"}}</PixButton>
+      <PixButton @size="small" @triggerAction={{fn @onSubmit this.filters}}>
+        {{t "pages.user-tutorials.sidebar.see-results"}}
+      </PixButton>
     </div>
   </:footer>
 </PixSidebar>

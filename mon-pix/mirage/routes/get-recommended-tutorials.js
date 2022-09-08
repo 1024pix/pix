@@ -1,5 +1,5 @@
-import { findPaginatedRecommendedTutorials } from '../handlers/find-paginated-recommended-tutorials';
+import { findPaginatedAndFilteredRecommendedTutorials } from '../handlers/find-paginated-and-filtered-recommended-tutorials';
 
 export default function (config) {
-  config.get('/users/tutorials/recommended', findPaginatedRecommendedTutorials);
+  config.get('/users/tutorials/recommended', findPaginatedAndFilteredRecommendedTutorials);
 }
