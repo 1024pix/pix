@@ -17,6 +17,7 @@ export default class ListController extends Controller {
   @tracked firstName = null;
   @tracked divisions = [];
   @tracked connexionType = null;
+  @tracked certificability = [];
   @tracked pageNumber = null;
   @tracked pageSize = null;
 
@@ -33,6 +34,7 @@ export default class ListController extends Controller {
     this.connexionType = null;
     this.firstName = null;
     this.lastName = null;
+    this.certificability = [];
   }
 
   get connectionTypesOptions() {
@@ -41,6 +43,23 @@ export default class ListController extends Controller {
       { value: 'email', label: this.intl.t(CONNECTION_TYPES.email) },
       { value: 'identifiant', label: this.intl.t(CONNECTION_TYPES.identifiant) },
       { value: 'mediacentre', label: this.intl.t(CONNECTION_TYPES.mediacentre) },
+    ];
+  }
+
+  get certificabilityOptions() {
+    return [
+      {
+        value: 'not-available',
+        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.not-available'),
+      },
+      {
+        value: 'eligible',
+        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
+      },
+      {
+        value: 'non-eligible',
+        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.non-eligible'),
+      },
     ];
   }
 
