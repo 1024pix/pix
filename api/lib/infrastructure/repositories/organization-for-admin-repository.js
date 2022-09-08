@@ -3,6 +3,7 @@ const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin')
 const Tag = require('../../domain/models/Tag');
 const { knex } = require('../../../db/knex-database-connection');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
+const _ = require('lodash');
 
 function _toDomain(rawOrganization) {
   const organization = new OrganizationForAdmin({
@@ -79,6 +80,36 @@ module.exports = {
     });
 
     return _toDomain(organization);
+  },
+
+  async update(organization) {
+    const organizationRawData = _.pick(organization, [
+      'name',
+      'type',
+      'logoUrl',
+      'externalId',
+      'provinceCode',
+      'isManagingStudents',
+      'email',
+      'credit',
+      'documentationUrl',
+      'showSkills',
+      'identityProviderForCampaigns',
+    ]);
+
+    const [organizationDB] = await knex('organizations')
+      .update(organizationRawData)
+      .where({ id: organization.id })
+      .returning('*');
+
+    const tagsDB = await knex('tags')
+      .select(['tags.id', 'tags.name'])
+      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+      .where('organization-tags.organizationId', organizationDB.id);
+
+    const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+
+    return _toDomain({ ...organizationDB, tags });
   },
 
   async archive({ id, archivedBy }) {

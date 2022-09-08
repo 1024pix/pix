@@ -94,17 +94,47 @@ class Form extends Object.extend(Validations) {
   @tracked isManagingStudents;
   @tracked documentationUrl;
   @tracked showSkills;
+  @tracked identityProviderForCampaigns;
 }
 
 export default class OrganizationInformationSectionEditionMode extends Component {
   @service accessControl;
+  @service oidcIdentityProviders;
+
   @tracked isEditMode = false;
   @tracked showArchivingConfirmationModal = false;
+  noIdentityProviderOption = { label: 'Aucun', value: 'None' };
+  garIdentityProviderOption = { label: 'Médiacentre', value: 'GAR' };
 
   constructor() {
     super(...arguments);
     this.form = Form.create(getOwner(this).ownerInjection());
     this._initForm();
+  }
+
+  get identityProviderOptions() {
+    const oidcIdentityProvidersOptions = this.oidcIdentityProviders.list.map((identityProvider) => ({
+      value: identityProvider.code,
+      label: identityProvider.organizationName,
+    }));
+    return [this.noIdentityProviderOption, this.garIdentityProviderOption, ...oidcIdentityProvidersOptions];
+  }
+
+  get currentIdentityProvider() {
+    const currentIdentityProvider = this.args.organization.identityProviderForCampaigns;
+    return currentIdentityProvider ?? this.noIdentityProviderOption.value;
+  }
+
+  @action
+  onChangeIdentityProvider(eventOnChange) {
+    const selectedIndex = eventOnChange.target.selectedIndex;
+    if (selectedIndex >= 0) {
+      const identityProviderForCampaignsValue = eventOnChange.target.options[selectedIndex].value;
+      this.form.identityProviderForCampaigns =
+        identityProviderForCampaignsValue === this.noIdentityProviderOption.value
+          ? null
+          : identityProviderForCampaignsValue;
+    }
   }
 
   @action
@@ -130,6 +160,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
     this.args.organization.set('showSkills', this.form.showSkills);
+    this.args.organization.set('identityProviderForCampaigns', this.form.identityProviderForCampaigns);
 
     this.closeAndResetForm();
     return this.args.onSubmit();
