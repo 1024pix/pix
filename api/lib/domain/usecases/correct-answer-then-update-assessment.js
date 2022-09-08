@@ -106,6 +106,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
       answerId: answerSaved.id,
       estimatedLevel,
       errorRate,
+      assessmentId: assessment.id,
     });
   }
   return answerSaved;
