@@ -815,6 +815,11 @@
         }
       },
       "filter": {
+        "certificability": {
+          "aria-label": "Enter un statut de certification",
+          "empty": "Pas de status",
+          "label": "Rechercher par certificabilité"
+        },
         "division": {
           "aria-label": "Entrer une classe",
           "empty": "Aucune classe",

@@ -181,6 +181,28 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert.ok(true);
     });
 
+    test('it should trigger filtering with certificability', async function (assert) {
+      // given
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+
+      const { getByPlaceholderText } = await render(
+        hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @certificabilityOptions={{certificabilityOptions}} @certificability={{certificability}} />`
+      );
+
+      // when
+      const select = await getByPlaceholderText('Rechercher par certificabilité');
+      await click(select);
+      await clickByName('Certifiable');
+
+      // then
+      sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
+      assert.ok(true);
+    });
+
     test('it should call resetFiltered', async function (assert) {
       // given
       const resetFiltered = sinon.spy();
