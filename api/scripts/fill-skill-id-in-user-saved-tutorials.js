@@ -1,4 +1,5 @@
 require('dotenv').config();
+const groupBy = require('lodash/groupBy');
 const { knex } = require('../db/knex-database-connection');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
@@ -16,24 +17,16 @@ async function main() {
 
   const tutorialsWithSkills = associateSkillsToTutorial(skills, tutorials);
 
-  for (const userSavedTutorialWithoutSkillId of userSavedTutorialsWithoutSkillId) {
-    const userSavedTutorial = associateTutorialToUserSavedTutorial(
-      userSavedTutorialWithoutSkillId,
-      tutorialsWithSkills
+  const userSavedTutorialsWithoutSkillIdGroupedByUserId = groupBy(userSavedTutorialsWithoutSkillId, 'userId');
+
+  for (const userId in userSavedTutorialsWithoutSkillIdGroupedByUserId) {
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+    await fillSkillIdForGivenUserSavedTutorials(
+      userSavedTutorialsWithoutSkillIdGroupedByUserId[userId],
+      userId,
+      tutorialsWithSkills,
+      knowledgeElements
     );
-    if (!userSavedTutorial.tutorial) {
-      continue;
-    }
-
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: userSavedTutorial.userId });
-
-    const skillId = await getMostRelevantSkillId(userSavedTutorial, knowledgeElements);
-
-    if (!skillId) {
-      continue;
-    }
-
-    await knex('user-saved-tutorials').update({ skillId }).where({ id: userSavedTutorial.id });
   }
 
   console.log('End filling skillId to user saved tutorials');
@@ -81,6 +74,31 @@ function associateSkillsToTutorial(skills, tutorials) {
       referenceBySkillsIdsForLearningMore,
     };
   });
+}
+
+async function fillSkillIdForGivenUserSavedTutorials(
+  userSavedTutorialsWithoutSkillId,
+  userId,
+  tutorialsWithSkills,
+  knowledgeElements
+) {
+  for (const userSavedTutorialWithoutSkillId of userSavedTutorialsWithoutSkillId) {
+    const userSavedTutorial = associateTutorialToUserSavedTutorial(
+      userSavedTutorialWithoutSkillId,
+      tutorialsWithSkills
+    );
+    if (!userSavedTutorial.tutorial) {
+      continue;
+    }
+
+    const skillId = await getMostRelevantSkillId(userSavedTutorial, knowledgeElements);
+
+    if (!skillId) {
+      continue;
+    }
+
+    await knex('user-saved-tutorials').update({ skillId }).where({ id: userSavedTutorial.id });
+  }
 }
 
 function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
