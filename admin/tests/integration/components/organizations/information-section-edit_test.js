@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-module('Integration | Component | organizations/information-section-edition-mode', function (hooks) {
+module('Integration | Component | organizations/information-section-edit', function (hooks) {
   setupRenderingTest(hooks);
 
   module('organization validation', function (hooks) {
@@ -34,9 +34,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's name is empty", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel('* Nom', '');
@@ -47,9 +45,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's name is longer than 255 characters", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel('* Nom', 'a'.repeat(256));
@@ -60,9 +56,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's external id is longer than 255 characters", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel('Identifiant externe', 'a'.repeat(256));
@@ -73,9 +67,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's province code is longer than 255 characters", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel('Département (en 3 chiffres)', 'a'.repeat(256));
@@ -86,9 +78,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's email is longer than 255 characters", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel("Adresse e-mail d'activation SCO", 'a'.repeat(256));
@@ -99,9 +89,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's email is not valid", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel("Adresse e-mail d'activation SCO", 'not-valid-email-format');
@@ -112,9 +100,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's credit is not valid", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel('Crédits', 'credit');
@@ -125,9 +111,7 @@ module('Integration | Component | organizations/information-section-edition-mode
 
     test("it should show error message if organization's documentationUrl is not valid", async function (assert) {
       // given
-      const screen = await render(
-        hbs`<Organizations::InformationSectionEditionMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
 
       // when
       await fillByLabel('Lien vers la documentation', 'not-valid-url-format');

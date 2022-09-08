@@ -178,6 +178,79 @@ describe('Integration | Repository | Organization-for-admin', function () {
     });
   });
 
+  describe('#update', function () {
+    it('should return an OrganizationForAdmin domain object with related tags', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        createdBy: userId,
+      });
+      const tagId = databaseBuilder.factory.buildTag({ name: 'orga tag' }).id;
+      databaseBuilder.factory.buildTag({ name: 'other tag' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId });
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        type: 'SCO',
+        logoUrl: 'http://new.logo.url',
+        externalId: '999Z527F',
+        provinceCode: '999',
+        isManagingStudents: true,
+        credit: 50,
+        email: 'email@example.net',
+        documentationUrl: 'https://pix.fr/',
+        archivedAt: null,
+        identityProviderForCampaigns: 'GAR',
+      });
+      const organizationSaved = await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      expect(organizationSaved).to.be.an.instanceof(OrganizationForAdmin);
+      expect(organizationSaved).to.deep.equal({
+        id: organization.id,
+        name: 'super orga',
+        type: 'SCO',
+        logoUrl: 'http://new.logo.url',
+        externalId: '999Z527F',
+        provinceCode: '999',
+        isManagingStudents: true,
+        credit: 50,
+        email: 'email@example.net',
+        documentationUrl: 'https://pix.fr/',
+        formNPSUrl: null,
+        showNPS: false,
+        showSkills: false,
+        archivedAt: null,
+        createdBy: userId,
+        createdAt: organization.createdAt,
+        archivistFirstName: undefined,
+        archivistLastName: undefined,
+        creatorFirstName: undefined,
+        creatorLastName: undefined,
+        identityProviderForCampaigns: 'GAR',
+        tags: [{ id: tagId, name: 'orga tag' }],
+      });
+      expect(organizationSaved.tags[0].id).to.be.equal(tagId);
+    });
+
+    it('should not add row in table "organizations"', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization({ id: 1 });
+      await databaseBuilder.commit();
+      const { count: nbOrganizationsBeforeUpdate } = await knex('organizations').count('*').first();
+
+      // when
+      await organizationForAdminRepository.update(organization);
+
+      // then
+      const { count: nbOrganizationsAfterUpdate } = await knex('organizations').count('*').first();
+      expect(nbOrganizationsAfterUpdate).to.equal(nbOrganizationsBeforeUpdate);
+    });
+  });
+
   describe('#archive', function () {
     it('should cancel all pending invitations of a given organization', async function () {
       // given

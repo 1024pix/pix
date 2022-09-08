@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-module('Integration | Component | organizations/information-section-read-mode', function (hooks) {
+module('Integration | Component | organizations/information-section-view', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when user has access', function (hooks) {
@@ -37,9 +37,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       });
 
       // when
-      const screen = await render(
-        hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
@@ -57,9 +55,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false, name: 'SUPer Orga' });
 
       // when
-      const screen = await render(
-        hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
@@ -72,9 +68,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       this.set('organization', organization);
 
       // when
-      const screen = await render(
-        hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // then
       assert.dom(screen.getByText('Lien vers la documentation : Non spécifié')).exists();
@@ -92,9 +86,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       this.set('organization', organization);
 
       // when
-      const screen = await render(
-        hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // expect
       assert.dom(screen.getByText('CFA')).exists();
@@ -111,9 +103,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
         this.set('organization', organization);
 
         // when
-        const screen = await render(
-          hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-        );
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         // expect
         assert.dom(screen.getByText('Archivée le 22/02/2022 par Rob Lochon.')).exists();
@@ -130,9 +120,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
         this.organization.isManagingStudents = true;
 
         // when
-        const screen = await render(
-          hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-        );
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
       });
@@ -142,9 +130,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
         this.organization.isManagingStudents = false;
 
         // when
-        const screen = await render(
-          hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-        );
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         // then
         assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Non`)).exists();
@@ -161,9 +147,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
         this.organization.isManagingStudents = false;
 
         // when
-        const screen = await render(
-          hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-        );
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         // then
         assert.dom(screen.queryByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).doesNotExist();
@@ -182,9 +166,7 @@ module('Integration | Component | organizations/information-section-read-mode', 
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(
-        hbs`<Organizations::InformationSectionReadMode @organization={{this.organization}} />`
-      );
+      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // expect
       assert.dom(screen.queryByRole('button', { name: 'Éditer' })).doesNotExist();

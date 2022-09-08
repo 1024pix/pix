@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
+import { render, clickByName, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -88,6 +88,24 @@ module('Integration | Component | organizations/information-section', function (
     test('it should submit the form if there is no error', async function (assert) {
       // given
       this.set('onSubmit', () => {});
+      const store = this.owner.lookup('service:store');
+      const oidcIdentityProvider1 = store.createRecord('oidc-identity-provider', {
+        code: 'OIDC-1',
+        organizationName: 'organization 1',
+        hasLogoutUrl: false,
+        source: 'source1',
+      });
+      const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
+        code: 'OIDC-2',
+        organizationName: 'organization 2',
+        hasLogoutUrl: false,
+        source: 'source2',
+      });
+      class OidcIdentittyProvidersStub extends Service {
+        list = [oidcIdentityProvider1, oidcIdentityProvider2];
+      }
+      this.owner.register('service:oidcIdentityProviders', OidcIdentittyProvidersStub);
+
       const screen = await render(
         hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
       );
@@ -99,6 +117,7 @@ module('Integration | Component | organizations/information-section', function (
       await fillByLabel('Crédits', 50);
       await clickByName('Gestion d’élèves/étudiants');
       await fillByLabel('Lien vers la documentation', 'https://pix.fr/');
+      await selectByLabelAndOption('SSO', 'OIDC-2');
 
       // when
       await clickByName('Enregistrer');
@@ -108,8 +127,9 @@ module('Integration | Component | organizations/information-section', function (
       assert.dom(screen.getByText('Identifiant externe : new externalId')).exists();
       assert.dom(screen.queryByText('Département : ')).doesNotExist();
       assert.dom(screen.getByText('Crédits : 50')).exists();
-      assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
+      assert.dom(screen.getByText('Gestion d’élèves/étudiants : Oui')).exists();
       assert.dom(screen.getByRole('link', { name: 'https://pix.fr/' })).exists();
+      assert.dom(screen.getByText('SSO : organization 2')).exists();
     });
   });
 });
