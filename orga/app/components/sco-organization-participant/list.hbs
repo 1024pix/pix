@@ -41,6 +41,16 @@
     @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
     @emptyOptionLabel={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
   />
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{@certificabilityOptions}}
+    @placeholder={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.certificability.aria-label"}}
+    @emptyMessage={{t "pages.sco-organization-participants.filter.certificability.empty"}}
+  />
 </PixFilterBanner>
 
 <div class="panel">
