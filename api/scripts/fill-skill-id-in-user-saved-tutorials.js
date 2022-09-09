@@ -93,7 +93,7 @@ async function fillSkillIdForGivenUserSavedTutorials(
       tutorialsWithSkills
     );
     if (!userSavedTutorial.tutorial) {
-      console.log(`Outdated tutorial ${userSavedTutorial.tutorialId}`);
+      console.log(`Outdated tutorial ${userSavedTutorialWithoutSkillId.tutorialId}`);
       continue;
     }
 
