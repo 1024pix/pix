@@ -137,7 +137,7 @@ function main() {
     });
   } catch (err) {
     console.error(err.message);
-    process.exit(1);
+    throw new Error(err);
   }
 }
 
