@@ -1,10 +1,11 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const _ = require('lodash');
 const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
 const bluebird = require('bluebird');
 const scoringCertificationService = require('../../lib/domain/services/scoring/scoring-certification-service');
 const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
+
 async function _retrieveLastScoredAssessmentIds() {
   const result = await knex.raw(
     `
@@ -53,6 +54,7 @@ async function _computeScore(assessmentIds) {
   );
   return scores;
 }
+
 async function main() {
   try {
     let assessmentIds = [];
@@ -66,15 +68,15 @@ async function main() {
     scores.forEach((score) => console.log(score));
   } catch (error) {
     console.error(error);
-    process.exit(1);
+    throw new Error(error);
   }
 }
+
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       console.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
