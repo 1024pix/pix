@@ -1,6 +1,6 @@
 'use strict';
 require('dotenv').config();
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
 const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
 const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
@@ -49,11 +49,10 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       logger.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
