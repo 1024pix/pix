@@ -10,6 +10,11 @@
         placeholder="Rechercher un candidat"
         {{on "input" this.setFilter}}
       />
+      <p class="session-supervising-candidate-list__description">{{t
+          "pages.session-supervising.candidate-list.authorized-to-start-candidates"
+          authorizedToStartCandidates=this.authorizedToStartCandidates
+          totalCandidates=@candidates.length
+        }}</p>
       <ul class="session-supervising-candidate-list__candidates">
         {{#each this.filteredCandidates as |candidate|}}
           <SessionSupervising::CandidateInList

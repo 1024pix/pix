@@ -42,4 +42,21 @@ module('Unit | Component | session-supervising/candidate-list', function (hooks)
       assert.deepEqual(filteredCandidateList, [{ firstName: 'Paul', lastName: 'Ochon' }]);
     });
   });
+
+  module('authorizedToStartCandidates', function () {
+    test('it should return the number of authorized to start candidates', function (assert) {
+      // given
+      const component = createGlimmerComponent('component:session-supervising/candidate-list');
+      component.args.candidates = [
+        { firstName: 'Pierre', lastName: 'Quiroule', authorizedToStart: true },
+        { firstName: 'Paul', lastName: 'Ochon', authorizedToStart: false },
+      ];
+
+      // when
+      const authorizedToStartCandidates = component.authorizedToStartCandidates;
+
+      // then
+      assert.strictEqual(authorizedToStartCandidates, 1);
+    });
+  });
 });

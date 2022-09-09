@@ -25,6 +25,13 @@ export default class CandidateList extends Component {
     this.filter = event.target.value;
   }
 
+  get authorizedToStartCandidates() {
+    return this.args.candidates.reduce((authorizedToStartCandidates, candidate) => {
+      if (candidate.authorizedToStart == true) return authorizedToStartCandidates + 1;
+      return authorizedToStartCandidates;
+    }, 0);
+  }
+
   get filteredCandidates() {
     return this.args.candidates.filter(
       (candidate) =>
