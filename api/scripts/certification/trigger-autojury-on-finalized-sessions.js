@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
 const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
@@ -140,7 +140,7 @@ async function main() {
     await _printAudit();
   } catch (error) {
     console.error(error);
-    process.exit(1);
+    throw new Error(error);
   }
 }
 
@@ -163,11 +163,10 @@ async function _toRetry(sessionId, error) {
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       console.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
