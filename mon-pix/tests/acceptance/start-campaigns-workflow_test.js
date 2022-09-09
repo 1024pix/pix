@@ -17,7 +17,7 @@ import ENV from 'mon-pix/config/environment';
 import setupIntl from '../helpers/setup-intl';
 import { t } from 'ember-intl/test-support';
 
-const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
 describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
   setupApplicationTest();
@@ -831,7 +831,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           let garUser;
 
           beforeEach(async function () {
-            garUser = server.create('user', AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
+            garUser = server.create('user', AUTHENTICATED_SOURCE_FROM_GAR);
             await authenticateByGAR(garUser);
             server.create('sco-organization-learner', {
               campaignCode: campaign.code,
@@ -922,7 +922,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             const session = currentSession();
-            expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
+            expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_GAR);
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
