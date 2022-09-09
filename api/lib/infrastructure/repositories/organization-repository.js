@@ -76,7 +76,6 @@ module.exports = {
         'logoUrl',
         'externalId',
         'provinceCode',
-        'email',
         'isManagingStudents',
         'credit',
         'createdBy',
@@ -86,7 +85,7 @@ module.exports = {
     return knex
       .batchInsert('organizations', organizationsRawData)
       .transacting(domainTransaction.knexTransaction)
-      .returning(['id', 'externalId', 'email', 'name']);
+      .returning(['id', 'externalId', 'name']);
   },
 
   async update(organization) {
