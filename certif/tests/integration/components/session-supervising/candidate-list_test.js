@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillIn } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | SessionSupervising::CandidateList', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
 
@@ -114,6 +114,58 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
         assert.dom(screen.getByText('Rocket Gammvert')).exists();
         assert.dom(screen.queryByText('Lord Star')).doesNotExist();
+      });
+    });
+
+    module('when some candidates are authorized to start', function () {
+      test('it renders the number of authorized to start candidates', async function (assert) {
+        // given
+        this.certificationCandidates = [
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'Gamora',
+            lastName: 'Zen Whoberi Ben Titan',
+            birthdate: '1984-05-28',
+            extraTimePercentage: '8',
+            authorizedToStart: true,
+            assessmentStatus: null,
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 456,
+            firstName: 'Star',
+            lastName: 'Lord',
+            birthdate: '1983-06-28',
+            extraTimePercentage: '12',
+            authorizedToStart: true,
+            assessmentStatus: null,
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 789,
+            firstName: 'Gammvert',
+            lastName: 'Rocket',
+            birthdate: '1982-06-06',
+            extraTimePercentage: '12',
+            authorizedToStart: false,
+            assessmentStatus: null,
+          }),
+        ];
+
+        // when
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        );
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
+                authorizedToStartCandidates: 2,
+                totalCandidates: this.certificationCandidates.length,
+              })
+            )
+          )
+          .exists();
       });
     });
   });
