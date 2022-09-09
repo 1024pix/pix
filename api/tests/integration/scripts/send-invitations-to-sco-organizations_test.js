@@ -41,6 +41,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
           'targetProfileShares',
           'tags',
           'createdBy',
+          'identityProviderForCampaigns',
         ])
       ).to.deep.equal(expectedOrganization);
     });

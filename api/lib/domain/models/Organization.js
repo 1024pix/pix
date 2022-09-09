@@ -19,6 +19,7 @@ class Organization {
     externalId,
     provinceCode,
     isManagingStudents,
+    identityProviderForCampaigns,
     credit = defaultValues.credit,
     email,
     targetProfileShares = [],
@@ -37,6 +38,7 @@ class Organization {
     this.logoUrl = logoUrl;
     this.externalId = externalId;
     this.provinceCode = provinceCode;
+    this.identityProviderForCampaigns = identityProviderForCampaigns;
     this.isManagingStudents = isManagingStudents;
     this.credit = credit;
     this.email = email;
