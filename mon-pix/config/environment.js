@@ -105,7 +105,7 @@ module.exports = function (environment) {
           MESSAGE: 'api-error-messages.internal-server-error',
         },
       },
-      AUTHENTICATED_SOURCE_FROM_MEDIACENTRE: 'external',
+      AUTHENTICATED_SOURCE_FROM_GAR: 'external',
       NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD: _getEnvironmentVariableAsNumber({
         environmentVariableName: 'NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD',
         defaultValue: 48,
