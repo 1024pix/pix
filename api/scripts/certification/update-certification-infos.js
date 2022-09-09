@@ -12,7 +12,7 @@ const logger = require('../../lib/infrastructure/logger');
 
 ('use strict');
 const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const values = require('lodash/values');
 
 const headers = {
@@ -101,7 +101,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
       await trx.rollback();
     }
     logger.error(error);
-    process.exit(1);
+    throw new Error(error);
   }
 
   logger.info('Done.');
@@ -110,13 +110,12 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
 if (require.main === module) {
   const dataFilePath = process.argv[2];
   const sessionIdsFilePath = process.argv[3];
-  updateCertificationInfos(dataFilePath, sessionIdsFilePath).then(
-    () => process.exit(0),
-    (err) => {
+  updateCertificationInfos(dataFilePath, sessionIdsFilePath)
+    .catch((err) => {
       logger.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
 
 module.exports = {
