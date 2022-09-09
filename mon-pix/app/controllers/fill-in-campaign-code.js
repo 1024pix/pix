@@ -13,7 +13,7 @@ export default class FillInCampaignCodeController extends Controller {
   campaignCode = null;
 
   @tracked errorMessage = null;
-  @tracked showMediacentreStartCampaignModal = false;
+  @tracked showGARModal = false;
   @tracked campaign = null;
 
   get isUserAuthenticated() {
@@ -55,7 +55,7 @@ export default class FillInCampaignCodeController extends Controller {
       const externalUser = this.session.get('data.externalUser');
 
       if (!externalUser && this.campaign.identityProvider === 'GAR') {
-        this.showMediacentreStartCampaignModal = true;
+        this.showGARModal = true;
         return;
       }
 
@@ -88,7 +88,7 @@ export default class FillInCampaignCodeController extends Controller {
 
   @action
   closeModal() {
-    this.showMediacentreStartCampaignModal = false;
+    this.showGARModal = false;
   }
 
   @action
