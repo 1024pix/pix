@@ -70,7 +70,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
 
           // then
           sinon.assert.notCalled(controller.router.transitionTo);
-          expect(controller.showMediacentreStartCampaignModal).to.equal(true);
+          expect(controller.showGARModal).to.equal(true);
         });
       });
     });
