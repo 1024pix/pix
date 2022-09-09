@@ -36,8 +36,11 @@
   }
 
   &__content {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-    > .tutorial-card-v2 {
+    & .tutorial-card-v2 {
       margin-bottom: 16px;
     }
   }
