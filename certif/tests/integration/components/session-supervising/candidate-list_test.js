@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { fillIn } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import hbs from 'htmlbars-inline-precompile';
@@ -68,6 +69,52 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Rechercher un candidat' })).exists();
+    });
+
+    module('when the candidate search filter is filled', function () {
+      test('it renders the filtered candidates information', async function (assert) {
+        // given
+        this.certificationCandidates = [
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'Gamora',
+            lastName: 'Zen Whoberi Ben Titan',
+            birthdate: '1984-05-28',
+            extraTimePercentage: '8',
+            authorizedToStart: true,
+            assessmentStatus: null,
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 456,
+            firstName: 'Star',
+            lastName: 'Lord',
+            birthdate: '1983-06-28',
+            extraTimePercentage: '12',
+            authorizedToStart: false,
+            assessmentStatus: null,
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 789,
+            firstName: 'Gammvert',
+            lastName: 'Rocket',
+            birthdate: '1982-06-06',
+            extraTimePercentage: '12',
+            authorizedToStart: false,
+            assessmentStatus: null,
+          }),
+        ];
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        );
+
+        // when
+        await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Gam');
+
+        // then
+        assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
+        assert.dom(screen.getByText('Rocket Gammvert')).exists();
+        assert.dom(screen.queryByText('Lord Star')).doesNotExist();
+      });
     });
   });
 
