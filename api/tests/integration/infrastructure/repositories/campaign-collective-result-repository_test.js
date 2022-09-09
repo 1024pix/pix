@@ -148,7 +148,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           ],
         });
 
-        learningContent = domainBuilder.buildLearningContent([area1, area2]);
+        learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area1, area2]);
       });
 
       context('when there is no participant', function () {

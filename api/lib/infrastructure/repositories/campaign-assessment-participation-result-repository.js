@@ -3,17 +3,18 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const learningContentRepository = require('./learning-content-repository');
+const CampaignLearningContent = require('../../domain/models/CampaignLearningContent');
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale }) {
     const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-
+    const campaignLearningContent = new CampaignLearningContent(learningContent);
     const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
       campaignId,
       campaignParticipationId
     );
 
-    return _buildCampaignAssessmentParticipationResults(result, learningContent);
+    return _buildCampaignAssessmentParticipationResults(result, campaignLearningContent);
   },
 };
 
@@ -51,7 +52,7 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 
 async function _buildCampaignAssessmentParticipationResults(result, learningContent) {
   const validatedTargetedKnowledgeElementsCountByCompetenceId =
-    await knowledgeElementRepository.countValidatedTargetedByCompetencesForOneUser(
+    await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
       result.userId,
       result.sharedAt,
       learningContent

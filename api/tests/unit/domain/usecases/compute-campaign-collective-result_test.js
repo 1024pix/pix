@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignCollectiveResult } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
@@ -9,10 +9,12 @@ describe('Unit | UseCase | compute-campaign-collective-result', function () {
   let campaignCollectiveResultRepository;
   let learningContentRepository;
   let learningContent;
+  let campaignLearningContent;
   const locale = 'fr';
 
   beforeEach(function () {
-    learningContent = Symbol('learningContent');
+    learningContent = domainBuilder.buildLearningContent();
+    campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
     campaignCollectiveResultRepository = { getCampaignCollectiveResult: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     learningContentRepository = { findByCampaignId: sinon.stub() };
@@ -28,7 +30,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', function () {
       // given
       const expectedCampaignCollectiveResult = Symbol('campaignCollectiveResult');
       campaignCollectiveResultRepository.getCampaignCollectiveResult
-        .withArgs(campaignId, learningContent)
+        .withArgs(campaignId, campaignLearningContent)
         .resolves(expectedCampaignCollectiveResult);
 
       // when

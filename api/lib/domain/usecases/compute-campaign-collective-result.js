@@ -1,4 +1,5 @@
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+const CampaignLearningContent = require('../models/CampaignLearningContent');
 
 module.exports = async function computeCampaignCollectiveResult({
   userId,
@@ -15,5 +16,6 @@ module.exports = async function computeCampaignCollectiveResult({
   }
 
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-  return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, learningContent);
+  const campaignLearningContent = new CampaignLearningContent(learningContent);
+  return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, campaignLearningContent);
 };

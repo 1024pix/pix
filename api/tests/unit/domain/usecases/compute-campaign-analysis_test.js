@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
@@ -23,14 +23,15 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
   context('User has access to this result', function () {
     it('should return the campaign analysis', async function () {
       // given
-      const targetProfile = Symbol('targetProfile');
+      const learningContent = domainBuilder.buildLearningContent();
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       const tutorials = Symbol('tutorials');
       const campaignAnalysis = Symbol('analysis');
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(targetProfile);
+      learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(learningContent);
       tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
       campaignAnalysisRepository.getCampaignAnalysis
-        .withArgs(campaignId, targetProfile, tutorials)
+        .withArgs(campaignId, campaignLearningContent, tutorials)
         .resolves(campaignAnalysis);
 
       // when

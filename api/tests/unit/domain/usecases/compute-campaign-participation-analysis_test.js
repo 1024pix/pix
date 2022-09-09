@@ -37,7 +37,8 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
     context('Participant has shared its results', function () {
       it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async function () {
         // given
-        const learningContent = Symbol('learningContent');
+        const learningContent = domainBuilder.buildLearningContent();
+        const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
         const tutorials = Symbol('tutorials');
         const campaignParticipationAnalysis = Symbol('analysis');
         campaignParticipation.userId = userId;
@@ -46,7 +47,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
         learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(learningContent);
         tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
         campaignAnalysisRepository.getCampaignParticipationAnalysis
-          .withArgs(campaignId, campaignParticipation, learningContent, tutorials)
+          .withArgs(campaignId, campaignParticipation, campaignLearningContent, tutorials)
           .resolves(campaignParticipationAnalysis);
 
         // when

@@ -84,9 +84,11 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
   return knowledgeElementsGroupedByUser;
 }
 
-async function _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, learningContent) {
+async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-  return learningContent.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
+  return campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
+    _.flatMap(knowledgeElementsGroupedByUser)
+  );
 }
 
 module.exports = {
@@ -169,31 +171,32 @@ module.exports = {
     return knowledgeElementsGroupedByUser;
   },
 
-  async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, learningContent) {
-    return _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, learningContent);
+  async countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
+    return _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent);
   },
 
-  // FIXME ATTENTION
-  async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, learningContent) {
-    return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, learningContent);
+  async countValidatedByCompetencesForOneUserWithinCampaign(userId, limitDate, campaignLearningContent) {
+    return _countValidatedByCompetencesForUsersWithinCampaign({ [userId]: limitDate }, campaignLearningContent);
   },
 
-  async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, learningContent) {
+  async findGroupedByCompetencesForUsersWithinLearningContent(userIdsAndDates, campaignLearningContent) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       knowledgeElementsGroupedByUserAndCompetence[userId] =
-        learningContent.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
+        campaignLearningContent.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
   },
 
-  async findValidatedTargetedGroupedByTubes(userIdsAndDates, learningContent) {
+  async findValidatedGroupedByTubesWithinCampaign(userIdsAndDates, campaignLearningContent) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
 
-    return learningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
+    return campaignLearningContent.getValidatedKnowledgeElementsGroupedByTube(
+      _.flatMap(knowledgeElementsGroupedByUser)
+    );
   },
 
   async findSnapshotForUsers(userIdsAndDates) {
