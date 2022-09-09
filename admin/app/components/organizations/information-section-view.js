@@ -7,7 +7,7 @@ export default class OrganizationInformationSection extends Component {
   @service accessControl;
 
   get identityProviderName() {
-    const GARIdentityProvider = { code: 'GAR', organizationName: 'Médiacentre' };
+    const GARIdentityProvider = { code: 'GAR', organizationName: 'GAR' };
     const allIdentityProviderList = [...this.oidcIdentityProviders.list, GARIdentityProvider];
     const identityProvider = allIdentityProviderList.findBy(
       'code',
