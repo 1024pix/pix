@@ -23,11 +23,15 @@ describe('a11y', () => {
 
   describe('Not authenticated pages', () => {
     const notAuthenticatedPages = [
+      { url: '/campagnes' },
+      { url: '/campagnes/WALL/presentation' },
+      { url: '/changer-de-mot-passe' },
       { url: '/connexion' },
       { url: '/inscription' },
       { url: '/mot-de-passe-oublie' },
       { url: '/nonconnecte' },
-      { url: '/campagnes/WALL/presentation' },
+      { url: '/recuperer-mon-compte', skipFailures: true },
+      { url: '/verification-certificat' },
     ];
 
     notAuthenticatedPages.forEach(({ url, skipFailures = false }) => {
@@ -46,12 +50,19 @@ describe('a11y', () => {
   describe('Authenticated pages', () => {
     const authenticatedPages = [
       { url: '/accueil', skipFailures: true },
-      { url: '/competences' },
-      { url: '/certifications', skipFailures: true },
-      { url: '/mon-profil', skipFailures: true },
-      { url: '/mes-tutos/recommandes' },
-      { url: '/mes-certifications' },
+      { url: '/campagnes' },
       { url: '/campagnes/NERA/evaluation/resultats' },
+      { url: '/certifications', skipFailures: true },
+      { url: '/competences' },
+      { url: '/competences/recH9MjIzN54zXlwr/details', skipFailures: true },
+      { url: '/mes-certifications' },
+      { url: '/mes-parcours', skipFailures: true },
+      { url: '/mes-tutos/enregistres' },
+      { url: '/mes-tutos/recommandes' },
+      { url: '/mon-compte/informations-personnelles' },
+      { url: '/mon-compte/langue', skipFailures: true },
+      { url: '/mon-compte/methodes-de-connexion' },
+      { url: '/plan-du-site', skipFailures: true },
     ];
 
     authenticatedPages.forEach(({ url, skipFailures = false }) => {
