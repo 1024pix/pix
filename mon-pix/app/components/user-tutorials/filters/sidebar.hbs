@@ -24,18 +24,22 @@
     {{/each}}
   </:content>
   <:footer>
-    <div class="tutorials-filters__footer">
-      <PixButton
-        @triggerAction={{this.handleResetFilters}}
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-      >
-        {{t "pages.user-tutorials.sidebar.reset"}}
-      </PixButton>
-      <PixButton @size="small" @triggerAction={{fn @onSubmit this.filters}}>
-        {{t "pages.user-tutorials.sidebar.see-results"}}
-      </PixButton>
-    </div>
+    <ul class="tutorials-filters__footer">
+      <li>
+        <PixButton
+          @triggerAction={{this.handleResetFilters}}
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+        >
+          {{t "pages.user-tutorials.sidebar.reset"}}
+        </PixButton>
+      </li>
+      <li>
+        <PixButton @size="small" @triggerAction={{fn @onSubmit this.filters}}>
+          {{t "pages.user-tutorials.sidebar.see-results"}}
+        </PixButton>
+      </li>
+    </ul>
   </:footer>
 </PixSidebar>
