@@ -7,7 +7,7 @@ module('Unit | Component | organizations/information-section-view', function (ho
   setupTest(hooks);
 
   module('#identityProviderName', function () {
-    test('it should return "Médiacentre" when organization has GAR identityProvider', async function (assert) {
+    test('it should return "GAR" when organization has GAR identityProvider', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const oidcPartner = store.createRecord('oidc-identity-provider', {
@@ -25,7 +25,7 @@ module('Unit | Component | organizations/information-section-view', function (ho
       });
 
       // when / then
-      assert.strictEqual(component.identityProviderName, 'Médiacentre');
+      assert.strictEqual(component.identityProviderName, 'GAR');
     });
 
     test('it should return the organization SSO name when organization has an oidc identityProvider', async function (assert) {

@@ -104,7 +104,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @tracked isEditMode = false;
   @tracked showArchivingConfirmationModal = false;
   noIdentityProviderOption = { label: 'Aucun', value: 'None' };
-  garIdentityProviderOption = { label: 'Médiacentre', value: 'GAR' };
+  garIdentityProviderOption = { label: 'GAR', value: 'GAR' };
 
   constructor() {
     super(...arguments);
