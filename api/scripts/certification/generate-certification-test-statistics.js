@@ -3,7 +3,7 @@ require('dotenv').config();
 const _ = require('lodash');
 const fp = require('lodash/fp').convert({ cap: false });
 const bluebird = require('bluebird');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
 const placementProfileService = require('../../lib/domain/services/placement-profile-service');
@@ -128,16 +128,15 @@ async function main() {
     console.log(_.fromPairs(challengeCountByCompetenceTotal));
   } catch (error) {
     console.error(error);
-    process.exit(1);
+    throw new Error(error);
   }
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       console.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
