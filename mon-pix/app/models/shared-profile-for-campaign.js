@@ -10,7 +10,7 @@ export default class SharedProfileForCampaign extends Model {
   @hasMany('scorecard') scorecards;
 
   @computed('scorecards.@each.area')
-  get areasCode() {
-    return this.scorecards.mapBy('area.code').uniq();
+  get areas() {
+    return this.scorecards.mapBy('area').uniqBy('code');
   }
 }

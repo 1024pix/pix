@@ -30,7 +30,7 @@ describe('Integration | Component | Profile-content', function () {
       model = {
         profile: {
           pixScore: '34',
-          areasCode: [0, 1],
+          areas: [{ code: 0 }, { code: 1 }],
           scorecards: [
             {
               id: 1,
