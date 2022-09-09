@@ -57,21 +57,6 @@
     </div>
 
     <div class="form-field">
-      <label for="email" class="form-field__label">Adresse e-mail d'activation SCO</label>
-      {{#if (v-get this.form "email" "isInvalid")}}
-        <div class="form-field__error">
-          {{v-get this.form "email" "message"}}
-        </div>
-      {{/if}}
-      <Input
-        id="email"
-        @type="text"
-        class={{if (v-get this.form "email" "isInvalid") "form-control is-invalid" "form-control"}}
-        @value={{this.form.email}}
-      />
-    </div>
-
-    <div class="form-field">
       <label for="credits" class="form-field__label">Crédits</label>
       {{#if (v-get this.form "credit" "isInvalid")}}
         <div class="form-field__error">
@@ -101,23 +86,6 @@
       />
     </div>
 
-    {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
-      <div class="form-field organization-edit-form__checkbox">
-        <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
-        {{#if (v-get this.form "isManagingStudents" "isInvalid")}}
-          <div class="form-field__error">
-            {{v-get this.form "isManagingStudents" "message"}}
-          </div>
-        {{/if}}
-        <Input
-          id="isManagingStudents"
-          @type="checkbox"
-          class={{if (v-get this.form "isManagingStudents" "isInvalid") "form-control is-invalid" "form-control"}}
-          @checked={{this.form.isManagingStudents}}
-        />
-      </div>
-    {{/if}}
-
     <div class="form-field organization-edit-form__checkbox">
       <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
       {{#if (v-get this.form "showSkills" "isInvalid")}}
@@ -143,6 +111,39 @@
         @emptyOptionNotSelectable={{true}}
       />
     </div>
+
+    <div class="form-field">
+      <label for="email" class="form-field__label">Adresse e-mail d'activation SCO</label>
+      {{#if (v-get this.form "email" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "email" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="email"
+        @type="text"
+        class={{if (v-get this.form "email" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.email}}
+      />
+    </div>
+
+    {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+      <div class="form-field organization-edit-form__checkbox">
+        <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
+        {{#if (v-get this.form "isManagingStudents" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "isManagingStudents" "message"}}
+          </div>
+        {{/if}}
+        <Input
+          id="isManagingStudents"
+          @type="checkbox"
+          class={{if (v-get this.form "isManagingStudents" "isInvalid") "form-control is-invalid" "form-control"}}
+          @checked={{this.form.isManagingStudents}}
+        />
+      </div>
+    {{/if}}
+
     <div class="form-actions">
       <PixButton
         @size="small"
