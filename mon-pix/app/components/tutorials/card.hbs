@@ -17,20 +17,24 @@
       {{moment-duration @tutorial.duration}}
     </p>
     {{#if this.shouldShowActions}}
-      <div class="tutorial-card-v2-content__actions">
-        <ActionChip
-          @title={{this.evaluateInformation}}
-          @isCompleted={{this.isTutorialEvaluated}}
-          @triggerAction={{this.evaluateTutorial}}
-          @icon="thumbs-up"
-        />
-        <ActionChip
-          @title={{this.saveInformation}}
-          @isCompleted={{this.isTutorialSaved}}
-          @triggerAction={{this.toggleSaveTutorial}}
-          @icon="bookmark"
-        />
-      </div>
+      <ul class="tutorial-card-v2-content__actions">
+        <li>
+          <ActionChip
+            @title={{this.evaluateInformation}}
+            @isCompleted={{this.isTutorialEvaluated}}
+            @triggerAction={{this.evaluateTutorial}}
+            @icon="thumbs-up"
+          />
+        </li>
+        <li>
+          <ActionChip
+            @title={{this.saveInformation}}
+            @isCompleted={{this.isTutorialSaved}}
+            @triggerAction={{this.toggleSaveTutorial}}
+            @icon="bookmark"
+          />
+        </li>
+      </ul>
     {{/if}}
   </div>
 </article>
