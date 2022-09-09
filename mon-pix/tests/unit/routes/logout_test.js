@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 import ENV from 'mon-pix/config/environment';
 import { expect } from 'chai';
 
-const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
 describe('Unit | Route | logout', () => {
   setupTest();
@@ -50,7 +50,7 @@ describe('Unit | Route | logout', () => {
         invalidate: invalidateStub,
         data: {
           authenticated: {
-            source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE,
+            source: AUTHENTICATED_SOURCE_FROM_GAR,
           },
         },
       });
@@ -101,7 +101,7 @@ describe('Unit | Route | logout', () => {
         invalidate: invalidateStub,
         data: {
           authenticated: {
-            source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE,
+            source: AUTHENTICATED_SOURCE_FROM_GAR,
           },
         },
       });
