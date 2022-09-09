@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.253.0 (09/09/2022)
+
+
+### :rocket: Amélioration
+- [#4897](https://github.com/1024pix/pix/pull/4897) [FEATURE] Ré-ordonner les champs d'édition d'une organisation (PIX-5648)
+
+### :building_construction: Tech
+- [#4894](https://github.com/1024pix/pix/pull/4894) [TECH] Améliorer le message d'information dans le script de remplissage de la colonne `skillId` de la table `user-saved-tutorials` (PIX-5651)
+
+### :bug: Correction
+- [#4899](https://github.com/1024pix/pix/pull/4899) [BUGFIX] Ne pas afficher la "pop-up connecte toi au GAR" si l'utilisateur est déjà connecté (PIX-5649)
+
 ## v3.252.0 (08/09/2022)
 
 
