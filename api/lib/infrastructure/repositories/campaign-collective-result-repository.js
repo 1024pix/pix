@@ -21,7 +21,7 @@ module.exports = {
     await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
       participantCount += userIdsAndSharedDates.length;
       const validatedTargetedKnowledgeElementsCountByCompetenceId =
-        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers(
+        await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           Object.fromEntries(userIdsAndSharedDates),
           learningContent
         );

@@ -5,6 +5,7 @@ const bluebird = require('bluebird');
 const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const CampaignLearningContent = require('../models/CampaignLearningContent');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream({
   userId,
@@ -28,12 +29,19 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaign.id);
   const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
+  const campaignLearningContent = new CampaignLearningContent(learningContent);
 
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
   // Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfile, campaign.idPixLabel, organization, translate, learningContent);
+  const headers = _createHeaderOfCSV(
+    targetProfile,
+    campaign.idPixLabel,
+    organization,
+    translate,
+    campaignLearningContent
+  );
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -60,7 +68,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
           })
         );
         const knowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, learningContent);
+          await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
+            userIdsAndDates,
+            campaignLearningContent
+          );
 
         let acquiredBadgesByCampaignParticipations;
         if (targetProfile.hasBadges) {
@@ -91,7 +102,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
             campaign,
             campaignParticipationInfo,
             targetProfile,
-            learningContent,
+            learningContent: campaignLearningContent,
             participantKnowledgeElementsByCompetenceId,
             acquiredBadges,
             translate,

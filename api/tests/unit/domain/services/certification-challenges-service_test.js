@@ -989,7 +989,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: `@${tubeName}${i}`,
             difficulty: i,
             tubeId,
-            difficulty: i,
           })
         );
       }
@@ -1644,7 +1643,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
     it('should exclude skill which origin is Pix', async function () {
       // given
-      learningContent.getCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
+      learningContent.findCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 1,

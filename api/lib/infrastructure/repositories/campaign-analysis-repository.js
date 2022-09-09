@@ -22,7 +22,7 @@ module.exports = {
     });
 
     await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
-      const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(
+      const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         Object.fromEntries(userIdsAndSharedDates),
         learningContent
       );
@@ -40,7 +40,7 @@ module.exports = {
       participantCount: 1,
     });
 
-    const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(
+    const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
       { [campaignParticipation.userId]: campaignParticipation.sharedAt },
       learningContent
     );
