@@ -3,7 +3,7 @@
 'use strict';
 require('dotenv').config();
 const yargs = require('yargs');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
 const verifyCertificateCodeService = require('../../lib/domain/services/verify-certificate-code-service');
@@ -12,6 +12,7 @@ const DEFAULT_COUNT = 20000;
 const DEFAULT_CONCURRENCY = 1;
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -44,7 +45,7 @@ async function main() {
   } catch (error) {
     console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
     yargs.showHelp();
-    process.exit(1);
+    throw new Error(error);
   }
 }
 
@@ -116,11 +117,10 @@ async function _generateVerificationCode(certificationId) {
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       console.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
