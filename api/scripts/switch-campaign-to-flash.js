@@ -1,7 +1,7 @@
 'use strict';
 const _ = require('lodash');
 require('dotenv').config();
-const { knex } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../db/knex-database-connection');
 const Assessment = require('../lib/domain/models/Assessment');
 
 async function switchCampaignToFlash(id) {
@@ -19,10 +19,12 @@ async function main(id) {
 if (require.main === module) {
   const id = parseInt(process.argv[2]);
 
-  main(id).catch((err) => {
-    console.error(err);
-    process.exitCode = 1; // ou throw err
-  });
+  main(id)
+    .catch((err) => {
+      console.error(err);
+      process.exitCode = 1;
+    })
+    .finally(disconnect);
 }
 
 module.exports = { switchCampaignToFlash };
