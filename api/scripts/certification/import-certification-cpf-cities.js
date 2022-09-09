@@ -15,7 +15,7 @@ const logger = require('../../lib/infrastructure/logger');
 
 ('use strict');
 const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex } = require('../../lib/infrastructure/bookshelf');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const uniqBy = require('lodash/uniqBy');
 const values = require('lodash/values');
 
@@ -398,19 +398,18 @@ async function main(filePath) {
       trx.rollback();
     }
     logger.error(error);
-    process.exit(1);
+    throw new Error(error);
   }
 }
 
 if (require.main === module) {
   const filePath = process.argv[2];
-  main(filePath).then(
-    () => process.exit(0),
-    (err) => {
+  main(filePath)
+    .catch((err) => {
       logger.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
 
 function _getInsertedLineNumber(batchInfo) {
