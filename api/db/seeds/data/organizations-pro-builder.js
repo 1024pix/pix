@@ -2,6 +2,8 @@ const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 const { DEFAULT_PASSWORD } = require('./users-builder');
+const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;
 const PRO_CNAV_ID = 17;
@@ -113,7 +115,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
     createdBy: poleEmploiCreator.id,
-    identityProviderForCampaigns: 'POLE_EMPLOI',
+    identityProviderForCampaigns: OidcIdentityProviders.POLE_EMPLOI.code,
   });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: PRO_POLE_EMPLOI_ID, tagId: 4 });
 
@@ -140,7 +142,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
     createdBy: cnavCreator.id,
-    identityProviderForCampaigns: 'CNAV',
+    identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
   });
 
   databaseBuilder.factory.buildMembership({
