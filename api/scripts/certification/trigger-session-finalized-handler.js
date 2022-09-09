@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const AutoJuryDone = require('../../lib/domain/events/AutoJuryDone');
 const { eventDispatcher } = require('../../lib/domain/events');
@@ -13,7 +13,7 @@ async function main() {
     logger.info('Fin');
   } catch (error) {
     logger.error(error);
-    process.exit(1);
+    throw new Error(error);
   }
 }
 
@@ -69,13 +69,12 @@ async function _dispatch(events) {
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       logger.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
 
 module.exports = main;
