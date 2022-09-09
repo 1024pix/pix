@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const Tag = require('../../../../lib/domain/models/Tag');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
 const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | UseCase | update-organization-information', function () {
   let organizationForAdminRepository;
@@ -33,7 +34,7 @@ describe('Unit | UseCase | update-organization-information', function () {
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         name: newName,
-        identityProviderForCampaigns: 'super-idp',
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
@@ -46,7 +47,7 @@ describe('Unit | UseCase | update-organization-information', function () {
       expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         name: newName,
-        identityProviderForCampaigns: 'super-idp',
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
     });
 

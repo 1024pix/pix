@@ -3,6 +3,8 @@ const { NotFoundError, MissingAttributesError } = require('../../../../lib/domai
 const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
+const { SamlIdentityProviders } = require('../../../../lib/domain/constants/saml-identity-providers');
+const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;
@@ -36,7 +38,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
-        identityProviderForCampaigns: 'CNAV',
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
 
       await databaseBuilder.commit();
@@ -70,7 +72,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         archivistLastName: null,
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
-        identityProviderForCampaigns: 'CNAV',
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
       expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
     });
@@ -203,7 +205,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
         archivedAt: null,
-        identityProviderForCampaigns: 'GAR',
+        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
       });
       const organizationSaved = await organizationForAdminRepository.update(organizationToUpdate);
 
@@ -230,7 +232,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         archivistLastName: undefined,
         creatorFirstName: undefined,
         creatorLastName: undefined,
-        identityProviderForCampaigns: 'GAR',
+        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
         tags: [{ id: tagId, name: 'orga tag' }],
       });
       expect(organizationSaved.tags[0].id).to.be.equal(tagId);

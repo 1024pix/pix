@@ -1,5 +1,6 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
+const { SamlIdentityProviders } = require('../../../lib/domain/constants/saml-identity-providers');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 const SCO_MIDDLE_SCHOOL_ID = 3;
@@ -64,7 +65,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     externalId: SCO_COLLEGE_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
-    identityProviderForCampaigns: 'GAR',
+    identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
     createdBy: middleSchoolsCreator.id,
   });
 
