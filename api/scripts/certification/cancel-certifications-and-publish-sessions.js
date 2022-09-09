@@ -7,9 +7,10 @@ const sessionRepository = require('../../lib/infrastructure/repositories/session
 const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
 const sessionPublicationService = require('../../lib/domain/services/session-publication-service');
 const { parseCsvWithHeader } = require('../helpers/csvHelpers');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -33,7 +34,7 @@ async function main() {
   } catch (error) {
     console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
     yargs.showHelp();
-    process.exit(1);
+    throw new Error(error);
   }
 }
 
@@ -186,11 +187,10 @@ async function _findAlreadyPublishedSessions(sessionIdsToPublish) {
 }
 
 if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
+  main()
+    .catch((err) => {
       console.error(err);
-      process.exit(1);
-    }
-  );
+      process.codeExit = 1;
+    })
+    .finally(disconnect);
 }
