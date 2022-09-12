@@ -498,149 +498,125 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   });
 
   describe('#getMostRelevantSkillId', function () {
-    describe('when there are skillIds in tutorial', function () {
-      it('should return invalidate direct skill', async function () {
-        // given
-        const directInvalidatedSkillIdYoungest = 'directInvalidatedSkillYoungest';
-        const directInvalidatedSkillIdOldest = 'directInvalidatedSkillOldest';
-        const userId = domainBuilder.buildUser().id;
-
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            userId,
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            skillId: directInvalidatedSkillIdYoungest,
-            createdAt: new Date('2022-03-18'),
-          }),
-          domainBuilder.buildKnowledgeElement({
-            userId,
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            skillId: directInvalidatedSkillIdOldest,
-            createdAt: new Date('2022-03-16'),
-          }),
-        ];
-
-        const tutorial = domainBuilder.buildTutorial();
-        tutorial.skillIds = ['skill1', 'skill2', directInvalidatedSkillIdOldest, directInvalidatedSkillIdYoungest];
-        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
-          userId,
-          tutorial,
-        });
-
-        // when
-        const skillId = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
-
-        // then
-        expect(skillId).to.equal(directInvalidatedSkillIdYoungest);
-      });
-
-      describe('when user does not have invalidated direct knowledge element', function () {
-        describe('when there are referenceBySkillsIdsForLearningMore', function () {
-          it('should return the skillId related to the last passed knowledge element ', function () {
-            // given
-            const directSkillIdYoungest = 'directSkillYoungest';
-            const directSkillIdOldest = 'directSkillOldest';
-            const userId = domainBuilder.buildUser().id;
-            const knowledgeElements = [
-              domainBuilder.buildKnowledgeElement({
-                userId,
-                source: KnowledgeElement.SourceType.DIRECT,
-                status: KnowledgeElement.StatusType.VALIDATED,
-                skillId: directSkillIdYoungest,
-                createdAt: new Date('2022-03-18'),
-              }),
-              domainBuilder.buildKnowledgeElement({
-                userId,
-                source: KnowledgeElement.SourceType.DIRECT,
-                status: KnowledgeElement.StatusType.VALIDATED,
-                skillId: directSkillIdOldest,
-                createdAt: new Date('2022-03-16'),
-              }),
-            ];
-
-            const tutorial = domainBuilder.buildTutorial();
-            tutorial.skillIds = ['skill1', 'skill2'];
-            tutorial.referenceBySkillsIdsForLearningMore = ['directSkillOldest', 'directSkillYoungest'];
-            const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
-              userId,
-              tutorial,
-            });
-
-            // when
-            const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
-
-            // then
-            expect(result).to.equal(directSkillIdYoungest);
-          });
-        });
-
-        describe('when there are no referenceBySkillsIdsForLearningMore', function () {
-          it('should return undefined', function () {
-            // given
-            const tutorial = domainBuilder.buildTutorial();
-            tutorial.skillIds = ['skill1', 'skill2'];
-            tutorial.referenceBySkillsIdsForLearningMore = [];
-            const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
-              userId: 123,
-              tutorial,
-            });
-
-            // when
-            const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, []);
-
-            // then
-            expect(result).to.equal(undefined);
-          });
-        });
-      });
-    });
-
-    describe('when there are no skillIds in tutorial', function () {
-      describe('when there are referenceBySkillsIdsForLearningMore', function () {
-        it('should return the skillId related to the last passed knowledge element ', function () {
-          // given
-          const directSkillIdYoungest = 'directSkillYoungest';
-          const directSkillIdOldest = 'directSkillOldest';
+    describe('when there is a possible association between user KE and tutorial', function () {
+      describe('when a skillId of user KEs is associated to one of tutorial skillIds', function () {
+        it('should return the latest skillId', function () {
+          //given
+          const skillId1 = 'skill1';
+          const skillId2 = 'skill2';
           const userId = domainBuilder.buildUser().id;
+
           const knowledgeElements = [
             domainBuilder.buildKnowledgeElement({
               userId,
               source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: directSkillIdYoungest,
-              createdAt: new Date('2022-03-18'),
+              skillId: skillId2,
+              createdAt: new Date('2022-03-22'),
             }),
             domainBuilder.buildKnowledgeElement({
               userId,
               source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: directSkillIdOldest,
-              createdAt: new Date('2022-03-16'),
+              skillId: skillId1,
+              createdAt: new Date('2022-03-18'),
             }),
           ];
+
+          const tutorial = domainBuilder.buildTutorial();
+          tutorial.skillIds = [skillId1, skillId2];
+          tutorial.referenceBySkillsIdsForLearningMore = [];
+
+          const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+            userId,
+            tutorial,
+          });
+          //when
+          const skillId = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
+          //then
+          expect(skillId).to.equal(skillId2);
+        });
+      });
+
+      describe('when a skillId of user KEs is associated to one of tutorial referenceBySkillIdsForLearningMore', function () {
+        it('should return the latest skillId', function () {
+          //given
+          const skillId1 = 'skill1';
+          const skillId2 = 'skill2';
+          const userId = domainBuilder.buildUser().id;
+
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              skillId: skillId1,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              skillId: skillId2,
+            }),
+          ];
+
           const tutorial = domainBuilder.buildTutorial();
           tutorial.skillIds = [];
-          tutorial.referenceBySkillsIdsForLearningMore = ['directSkillOldest', 'directSkillYoungest'];
+          tutorial.referenceBySkillsIdsForLearningMore = [skillId2, skillId1];
           const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
             userId,
             tutorial,
           });
 
-          // when
-          const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
+          //when
+          const skillId = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
 
-          // then
-          expect(result).to.equal(directSkillIdYoungest);
+          //then
+          expect(skillId).to.equal(skillId1);
         });
       });
 
-      describe('when there are no referenceBySkillsIdsForLearningMore', function () {
-        it('should return undefined', function () {
-          // given
+      describe('when a skillId of user KEs is associated to one of tutorial skillIds and to one of tutorial referenceBySkillIdsForLearningMore', function () {
+        it('should return skillId from latest KE', function () {
+          //given
+          const skillId1 = 'skill1';
+          const skillId2 = 'skill2';
+          const userId = domainBuilder.buildUser().id;
+
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              skillId: skillId2,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              skillId: skillId1,
+            }),
+          ];
+
           const tutorial = domainBuilder.buildTutorial();
-          tutorial.skillIds = [];
+          tutorial.skillIds = [skillId1];
+          tutorial.referenceBySkillsIdsForLearningMore = [skillId1, skillId2];
+          const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+            userId,
+            tutorial,
+          });
+
+          //when
+          const skillId = getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements);
+
+          //then
+          expect(skillId).to.equal(skillId2);
+        });
+      });
+    });
+
+    describe('when there is no possible association between user KE and tutorial', function () {
+      describe('when the tutorial has at least one skillId', function () {
+        it('should return tutorial first skillId', function () {
+          // given
+          const skillId1 = 'skill1';
+          const skillId2 = 'skill2';
+          const tutorial = domainBuilder.buildTutorial();
+          tutorial.skillIds = [skillId1, skillId2];
           tutorial.referenceBySkillsIdsForLearningMore = [];
           const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
             userId: 123,
@@ -651,8 +627,48 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
           const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, []);
 
           // then
-          expect(result).to.equal(undefined);
+          expect(result).to.equal(skillId1);
         });
+      });
+
+      describe('when the tutorial has no skillId but has at least one referenceBySkillsIdsForLearningMore', function () {
+        it('should return tutorial first referenceBySkillsIdsForLearningMore', function () {
+          // given
+          const skillId1 = 'skill1';
+          const skillId2 = 'skill2';
+          const tutorial = domainBuilder.buildTutorial();
+          tutorial.skillIds = [];
+          tutorial.referenceBySkillsIdsForLearningMore = [skillId1, skillId2];
+          const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+            userId: 123,
+            tutorial,
+          });
+
+          // when
+          const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, []);
+
+          // then
+          expect(result).to.equal(skillId1);
+        });
+      });
+    });
+
+    describe('when there are no referenceBySkillsIdsForLearningMore and no skillIds in tutorial', function () {
+      it('should return undefined', function () {
+        // given
+        const tutorial = domainBuilder.buildTutorial();
+        tutorial.skillIds = [];
+        tutorial.referenceBySkillsIdsForLearningMore = [];
+        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+          userId: 123,
+          tutorial,
+        });
+
+        // when
+        const result = getMostRelevantSkillId(userSavedTutorialWithTutorial, []);
+
+        // then
+        expect(result).to.equal(undefined);
       });
     });
   });
