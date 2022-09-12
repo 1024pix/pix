@@ -1024,6 +1024,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           sharedAt: new Date('2021-01-01'),
           isCertifiable: false,
         });
+
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
@@ -1031,6 +1032,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           sharedAt: new Date('2022-01-01'),
           isCertifiable: true,
         });
+
         await databaseBuilder.commit();
 
         // when
