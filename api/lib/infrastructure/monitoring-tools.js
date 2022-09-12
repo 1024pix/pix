@@ -1,5 +1,5 @@
 const settings = require('../config');
-const { get, set, update } = require('lodash');
+const { get, set, update, omit } = require('lodash');
 const logger = require('../infrastructure/logger');
 const requestUtils = require('../infrastructure/utils/request-response-utils');
 
@@ -14,7 +14,7 @@ function logInfoWithCorrelationIds(data) {
       {
         user_id: extractUserIdFromRequest(request),
         request_id: `${get(request, 'info.id', '-')}`,
-        ...get(data, 'metrics', {}),
+        ...omit(data, 'message'),
       },
       get(data, 'message', '-')
     );
@@ -36,7 +36,7 @@ function logErrorWithCorrelationIds(data) {
       {
         user_id: extractUserIdFromRequest(request),
         request_id: `${get(request, 'info.id', '-')}`,
-        ...get(data, 'metrics', {}),
+        ...omit(data, 'message'),
       },
       get(data, 'message', '-')
     );
