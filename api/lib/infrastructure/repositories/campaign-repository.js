@@ -128,18 +128,16 @@ module.exports = {
     return campaign.id;
   },
 
-  async findSkillIds({ campaignId, domainTransaction }) {
-    const skills = await this.findSkills({ campaignId, domainTransaction });
+  async findSkillIds({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
+    if (filterByStatus === 'all') {
+      return this._findSkillIds({ campaignId, domainTransaction });
+    }
+    const skills = await this.findSkills({ campaignId, domainTransaction, filterByStatus });
     return skills.map(({ id }) => id);
   },
 
   async findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
-    const knexConn = domainTransaction?.knexTransaction ?? knex;
-    let skillIds = await knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
-    // TODO remove it after target profile skills migration
-    if (skillIds.length === 0) {
-      skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction);
-    }
+    const skillIds = await this._findSkillIds({ campaignId, domainTransaction });
     switch (filterByStatus) {
       case 'operative':
         return skillRepository.findOperativeByIds(skillIds);
@@ -162,5 +160,15 @@ module.exports = {
     return (await this.findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction })).map(
       ({ id }) => id
     );
+  },
+
+  async _findSkillIds({ campaignId, domainTransaction }) {
+    const knexConn = domainTransaction?.knexTransaction ?? knex;
+    let skillIds = await knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
+    // TODO remove it after target profile skills migration
+    if (skillIds.length === 0) {
+      skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction);
+    }
+    return skillIds;
   },
 };
