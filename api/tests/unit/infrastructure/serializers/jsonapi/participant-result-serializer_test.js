@@ -52,7 +52,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         { id: 3, title: 'Stage2', message: 'Message2', threshold: 50 },
         { id: 4, title: 'Stage1', message: 'Message1', threshold: 100 },
       ];
-      const badges = [
+      const badgeResultsDTO = [
         {
           id: 3,
           altMessage: 'Badge2 AltMessage',
@@ -65,14 +65,15 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         },
       ];
 
-      const targetProfile = { competences, stages, badges };
-      assessmentResult = new AssessmentResult(
+      assessmentResult = new AssessmentResult({
         participationResults,
-        targetProfile,
+        competences,
+        stages,
+        badgeResultsDTO,
         isCampaignMultipleSendings,
         isOrganizationLearnerActive,
-        isCampaignArchived
-      );
+        isCampaignArchived,
+      });
     });
 
     it('should convert a CampaignParticipationResult model object into JSON API data', function () {
