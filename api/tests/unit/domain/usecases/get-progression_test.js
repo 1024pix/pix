@@ -52,7 +52,7 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
         campaignParticipationRepository.get
           .withArgs(assessment.campaignParticipationId)
           .resolves(campaignParticipation);
-        campaignRepository.findSkillIds.withArgs(campaignParticipation.campaignId).resolves(skillIds);
+        campaignRepository.findSkillIds.withArgs({ campaignId: campaignParticipation.campaignId }).resolves(skillIds);
       });
 
       it('should return the progression associated to the assessment', async function () {

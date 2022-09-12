@@ -125,7 +125,7 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
   if (!campaignAttributes) {
     throw new NotFoundError(`La campagne d'id ${campaignId} n'existe pas ou son accès est restreint`);
   }
-  const skillIds = await campaignRepository.findSkillIds(campaignId, domainTransaction);
+  const skillIds = await campaignRepository.findSkillIds({ campaignId, domainTransaction });
 
   return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skillIds.length });
 }
