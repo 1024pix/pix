@@ -97,7 +97,7 @@ async function fillSkillIdForGivenUserSavedTutorials(
       continue;
     }
 
-    const skillId = await getMostRelevantSkillId(userSavedTutorial, knowledgeElements);
+    const skillId = getMostRelevantSkillId(userSavedTutorial, knowledgeElements);
 
     if (!skillId) {
       console.log(`Not found skillId for this user-saved-tutorials id : ${userSavedTutorial.id}`);
@@ -114,29 +114,41 @@ function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
 }
 
 function getMostRelevantSkillId(userSavedTutorialWithTutorial, knowledgeElements) {
-  const tutorialSkillIds = userSavedTutorialWithTutorial.tutorial.skillIds;
-  const tutorialReferenceBySkillsIdsForLearningMore =
-    userSavedTutorialWithTutorial.tutorial.referenceBySkillsIdsForLearningMore;
+  const tutorial = userSavedTutorialWithTutorial.tutorial;
+  const tutorialSkillIds = tutorial.skillIds;
+  const tutorialReferenceBySkillsIdsForLearningMore = tutorial.referenceBySkillsIdsForLearningMore;
 
-  const invalidatedDirectKnowledgeElements = knowledgeElements.filter(_isInvalidatedAndDirect);
-
-  const mostRelevantKnowledgeElement = invalidatedDirectKnowledgeElements.find((knowledgeElement) =>
-    tutorialSkillIds.includes(knowledgeElement.skillId)
-  );
-  if (mostRelevantKnowledgeElement) {
-    return mostRelevantKnowledgeElement.skillId;
-  }
-
-  if (!tutorialReferenceBySkillsIdsForLearningMore?.length) {
+  if (tutorialSkillIds.length === 0 && tutorialReferenceBySkillsIdsForLearningMore.length === 0) {
     return undefined;
   }
 
-  return knowledgeElements.find(({ skillId }) => tutorialReferenceBySkillsIdsForLearningMore.includes(skillId))
-    ?.skillId;
+  const directKnowledgeElements = knowledgeElements.filter(_isDirect);
+
+  for (const { skillId } of directKnowledgeElements) {
+    if (_hasSkillId(tutorial, skillId)) {
+      return skillId;
+    }
+  }
+
+  if (tutorialSkillIds.length > 0) {
+    return tutorialSkillIds[0];
+  }
+
+  if (tutorialReferenceBySkillsIdsForLearningMore.length > 0) {
+    return tutorialReferenceBySkillsIdsForLearningMore[0];
+  }
+
+  return undefined;
 }
 
-function _isInvalidatedAndDirect({ status, source }) {
-  return status === KnowledgeElement.StatusType.INVALIDATED && source === KnowledgeElement.SourceType.DIRECT;
+function _isDirect({ source }) {
+  return source === KnowledgeElement.SourceType.DIRECT;
+}
+
+function _hasSkillId(tutorial, skillId) {
+  const tutorialSkillIds = tutorial.skillIds;
+  const tutorialReferenceBySkillsIdsForLearningMore = tutorial.referenceBySkillsIdsForLearningMore;
+  return tutorialSkillIds.includes(skillId) || tutorialReferenceBySkillsIdsForLearningMore.includes(skillId);
 }
 
 if (require.main === module) {
