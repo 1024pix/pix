@@ -2,7 +2,7 @@ const pick = require('lodash/pick');
 const CampaignParticipant = require('../../domain/models/CampaignParticipant');
 const CampaignToStartParticipation = require('../../domain/models/CampaignToStartParticipation');
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
+const campaignRepository = require('../repositories/campaign-repository');
 const { knex } = require('../../../db/knex-database-connection');
 
 async function save(campaignParticipant, domainTransaction) {
@@ -125,15 +125,9 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
   if (!campaignAttributes) {
     throw new NotFoundError(`La campagne d'id ${campaignId} n'existe pas ou son accès est restreint`);
   }
-  const skillIds = await domainTransaction
-    .knexTransaction('target-profiles_skills')
-    .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
-    .where({ 'campaigns.id': campaignId })
-    .pluck('skillId');
+  const skillIds = await campaignRepository.findSkillIds(campaignId, domainTransaction);
 
-  const skills = await skillDatasource.findOperativeByRecordIds(skillIds);
-
-  return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skills.length });
+  return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skillIds.length });
 }
 
 async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
