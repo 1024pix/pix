@@ -48,7 +48,9 @@ describe('Unit | Service | Certification Badges Service', function () {
           .withArgs({ userId, domainTransaction })
           .resolves([badgeAcquisition]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
-        campaignRepository.findSkillIds.withArgs(badgeAcquisition.campaignId, domainTransaction).resolves(skillIds);
+        campaignRepository.findSkillIds
+          .withArgs({ campaignId: badgeAcquisition.campaignId, domainTransaction })
+          .resolves(skillIds);
       });
 
       context('and badges are still valid', function () {
@@ -115,7 +117,7 @@ describe('Unit | Service | Certification Badges Service', function () {
             .withArgs({ userId, domainTransaction })
             .resolves(knowledgeElements);
           campaignRepository.findSkillIds
-            .withArgs(badgeAcquisitionLevel1.campaignId, domainTransaction)
+            .withArgs({ campaignId: badgeAcquisitionLevel1.campaignId, domainTransaction })
             .resolves(skillIds);
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ skillIds, badge: badgeLevel1, knowledgeElements })
@@ -160,7 +162,7 @@ describe('Unit | Service | Certification Badges Service', function () {
             .withArgs({ userId, domainTransaction })
             .resolves(knowledgeElements);
           campaignRepository.findSkillIds
-            .withArgs(badgeAcquisitionLevel2.campaignId, domainTransaction)
+            .withArgs({ campaignId: badgeAcquisitionLevel2.campaignId, domainTransaction })
             .resolves(skillIds);
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ skillIds, badge: badgeLevel2, knowledgeElements })
@@ -214,7 +216,7 @@ describe('Unit | Service | Certification Badges Service', function () {
           pixDroitMaitreBadgeAcquisition,
           pixDroitExpertBadgeAcquisition,
         ].forEach(({ badge, campaignId }) => {
-          campaignRepository.findSkillIds.withArgs(campaignId, domainTransaction).resolves(skillIds);
+          campaignRepository.findSkillIds.withArgs({ campaignId, domainTransaction }).resolves(skillIds);
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ skillIds, badge, knowledgeElements }).returns(true);
         });
 

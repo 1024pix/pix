@@ -12,7 +12,7 @@ const campaignParticipationResultRepository = {
 
     const [targetProfile, skillIds, competences, assessment, snapshots] = await Promise.all([
       targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
-      campaignRepository.findSkillIds(campaignParticipation.campaignId),
+      campaignRepository.findSkillIds({ campaignId: campaignParticipation.campaignId }),
       competenceRepository.list(),
       assessmentRepository.get(campaignParticipation.lastAssessment.id),
       knowledgeElementRepository.findSnapshotForUsers({

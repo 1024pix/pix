@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
         .withArgs({ userId, campaignId, locale, targetProfile, badges: [targetProfileBadge] })
         .resolves(results);
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
-      campaignRepository.findSkillIds.withArgs(campaignId).resolves(skillIds);
+      campaignRepository.findSkillIds.withArgs({ campaignId }).resolves(skillIds);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
       badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves(badges);
       badgeCriteriaService.areBadgeCriteriaFulfilled.returns(false);
@@ -70,7 +70,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       .withArgs({ userId, campaignId, locale, targetProfile, badges: [] })
       .resolves(results);
     targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
-    campaignRepository.findSkillIds.withArgs(campaignId).resolves([]);
+    campaignRepository.findSkillIds.withArgs({ campaignId }).resolves([]);
     knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
     badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
 
@@ -97,7 +97,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     const locale = 'FR';
 
     targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
-    campaignRepository.findSkillIds.withArgs(campaignId).resolves([]);
+    campaignRepository.findSkillIds.withArgs({ campaignId }).resolves([]);
     knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
     badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
 

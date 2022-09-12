@@ -75,7 +75,7 @@ async function _setSkillsCount(result) {
   let testedSkillsCount = 0;
 
   if (result.assessmentState !== Assessment.states.COMPLETED) {
-    const operativeSkillIds = await campaignRepository.findSkillIds(result.campaignId);
+    const operativeSkillIds = await campaignRepository.findSkillIds({ campaignId: result.campaignId });
 
     const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({
       [result.userId]: result.sharedAt,

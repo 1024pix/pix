@@ -9,9 +9,9 @@ async function fetchForCampaigns({
   campaignParticipationRepository,
   improvementService,
 }) {
-  const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId(
-    assessment.campaignParticipationId
-  );
+  const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
+    campaignParticipationId: assessment.campaignParticipationId,
+  });
   const isRetrying = await campaignParticipationRepository.isRetrying({
     campaignParticipationId: assessment.campaignParticipationId,
   });

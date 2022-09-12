@@ -68,7 +68,7 @@ describe('Unit | Usecase | handle-badge-acquisition', function () {
             .resolves([badge]);
 
           campaignRepository.findSkillIdsByCampaignParticipationId
-            .withArgs(assessment.campaignParticipationId, domainTransaction)
+            .withArgs({ campaignParticipationId: assessment.campaignParticipationId, domainTransaction })
             .resolves(skillIds);
 
           knowledgeElementRepository.findUniqByUserId
@@ -135,7 +135,7 @@ describe('Unit | Usecase | handle-badge-acquisition', function () {
             .resolves([badge1, badge2]);
 
           campaignRepository.findSkillIdsByCampaignParticipationId
-            .withArgs(assessment.campaignParticipationId, domainTransaction)
+            .withArgs({ campaignParticipationId: assessment.campaignParticipationId, domainTransaction })
             .resolves(skillIds);
 
           knowledgeElementRepository.findUniqByUserId
