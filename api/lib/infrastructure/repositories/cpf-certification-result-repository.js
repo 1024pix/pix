@@ -12,12 +12,16 @@ module.exports = {
     return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
-  async findByIdRange({ startId, endId }) {
+  async findByCertificationCourseIds({ certificationCourseIds }) {
     const certificationCourses = await _selectCpfCertificationResults()
-      .whereBetween('certification-courses.id', [startId, endId])
+      .whereIn('certification-courses.id', certificationCourseIds)
       .orderBy(['sessions.publishedAt', 'certification-courses.lastName', 'certification-courses.firstName']);
 
     return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
+  },
+
+  async markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
+    return knex('certification-courses').update({ cpfFilename: filename }).whereIn('id', certificationCourseIds);
   },
 };
 
@@ -45,6 +49,7 @@ function _selectCpfCertificationResults() {
     )
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false)
+    .whereNull('certification-courses.cpfFilename')
     .whereNotNull('certification-courses.sex')
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('competence-marks.level', '>', -1)

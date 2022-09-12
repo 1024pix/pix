@@ -12,9 +12,7 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
   const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({ startDate, endDate });
 
   chunk(cpfCertificationResults, plannerJob.chunkSize).forEach((chunk) => {
-    const firstId = chunk[0].id;
-    const lastId = chunk[chunk.length - 1].id;
-
-    pgBoss.send('CpfExportBuilderJob', { startId: firstId, endId: lastId });
+    const certificationCourseIds = chunk.map(({ id }) => id);
+    pgBoss.send('CpfExportBuilderJob', { certificationCourseIds });
   });
 };
