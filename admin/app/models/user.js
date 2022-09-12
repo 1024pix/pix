@@ -75,6 +75,7 @@ export default class User extends Model {
         this.hasUsernameAuthenticationMethod,
         this.hasGarAuthenticationMethod,
         this.hasPoleEmploiAuthenticationMethod,
+        this.hasCnavAuthenticationMethod,
       ].filter((hasAuthenticationMethod) => hasAuthenticationMethod).length === 1
     );
   }
@@ -93,6 +94,10 @@ export default class User extends Model {
 
   get isAllowedToRemoveGarAuthenticationMethod() {
     return this.hasGarAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemoveCnavAuthenticationMethod() {
+    return this.hasCnavAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
   }
 
   get isAllowedToAddEmailAuthenticationMethod() {
