@@ -5,42 +5,30 @@ describe('Integration | Repository | complementary certification scoring criteri
   describe('#findByCertificationCourseId', function () {
     it('should return complementary certification scoring criteria', async function () {
       // given
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      databaseBuilder.factory.buildCertificationCourse({ id: 12 });
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({ id: 13 });
 
-      const badge1 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_MASTER' });
-      const badge2 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_EXPERT' });
-      const badge3 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_MASTER' });
-      const badge4 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_EXPERT' });
+      const badge1 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST1_EXPERT' });
+      const badge2 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_EXPERT' });
 
       const complementaryCertification1 = databaseBuilder.factory.buildComplementaryCertification({
-        key: 'PIX+_TEST_1',
-        label: 'label pour PIX+ TEST 1',
         minimumReproducibilityRate: 50,
+        hasComplementaryReferential: true,
       });
       const complementaryCertification2 = databaseBuilder.factory.buildComplementaryCertification({
-        key: 'PIX+_TEST_2',
-        label: 'label pour PIX+ TEST 2',
         minimumReproducibilityRate: 30,
+        hasComplementaryReferential: false,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 123,
+        id: 345,
         badgeId: badge1.id,
         complementaryCertificationId: complementaryCertification1.id,
       });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 345,
-        badgeId: badge2.id,
-        complementaryCertificationId: complementaryCertification1.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 567,
-        badgeId: badge3.id,
-        complementaryCertificationId: complementaryCertification2.id,
-      });
+
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 768,
-        badgeId: badge4.id,
+        badgeId: badge2.id,
         complementaryCertificationId: complementaryCertification2.id,
       });
 
@@ -55,6 +43,8 @@ describe('Integration | Repository | complementary certification scoring criteri
         complementaryCertificationBadgeId: 768,
       });
 
+      databaseBuilder.factory.buildComplementaryCertificationCourse({ certificationCourseId: 12 });
+
       await databaseBuilder.commit();
 
       // when
@@ -67,12 +57,15 @@ describe('Integration | Repository | complementary certification scoring criteri
         domainBuilder.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: complementaryCertificationCourse1.id,
           minimumReproducibilityRate: complementaryCertification1.minimumReproducibilityRate,
-          complementaryCertificationBadgeKeys: [badge1.key, badge2.key],
+          complementaryCertificationBadgeKey: badge1.key,
+          hasComplementaryReferential: complementaryCertification1.hasComplementaryReferential,
         }),
         domainBuilder.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: complementaryCertificationCourse2.id,
           minimumReproducibilityRate: complementaryCertification2.minimumReproducibilityRate,
-          complementaryCertificationBadgeKeys: [badge3.key, badge4.key],
+          complementaryCertificationBadgeKey: badge2.key,
+          hasComplementaryReferential: complementaryCertification2.hasComplementaryReferential,
+          minimumEarnedPix: complementaryCertification2.minimumEarnedPix,
         }),
       ]);
     });
