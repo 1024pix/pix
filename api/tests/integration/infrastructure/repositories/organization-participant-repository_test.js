@@ -104,12 +104,12 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants : [{ participationCount }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
 
         // then
-        expect(organizationParticipants[0].participationCount).to.equal(2);
+        expect(participationCount).to.equal(2);
       });
 
       it('should return only 1 participation even when the participant has improved its participation', async function () {
@@ -119,11 +119,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: false });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants : [{ participationCount }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
         // then
-        expect(organizationParticipants[0].participationCount).to.equal(1);
+        expect(participationCount).to.equal(1);
       });
 
       it('should return only 1 result even when the participant has participated to several campaigns of the organization', async function () {
@@ -146,11 +146,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants : [{ participationCount }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
         // then
-        expect(organizationParticipants[0].participationCount).to.equal(1);
+        expect(participationCount).to.equal(1);
       });
     });
 
@@ -165,12 +165,12 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants: [{ campaignName }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
 
         //then
-        expect(organizationParticipants[0].campaignName).to.equal('King Arthur Campaign');
+        expect(campaignName).to.equal('King Arthur Campaign');
       });
 
       it('should return the type of the campaign for the most recent participation', async function () {
@@ -183,12 +183,12 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants: [{ campaignType }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
 
         //then
-        expect(organizationParticipants[0].campaignType).to.equal('PROFILES_COLLECTION');
+        expect(campaignType).to.equal('PROFILES_COLLECTION');
       });
 
       it('should return the status of the most recent participation', async function () {
@@ -202,12 +202,12 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants: [{ participationStatus }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
 
         //then
-        expect(organizationParticipants[0].participationStatus).to.equal(campaignParticipationStatuses.TO_SHARE);
+        expect(participationStatus).to.equal(CampaignParticipationStatuses.TO_SHARE);
       });
 
       it('should return the date of the last participation', async function () {
@@ -224,12 +224,12 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants : [{ lastParticipationDate }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
 
         // // then
-        expect(organizationParticipants[0].lastParticipationDate).to.deep.equal(lastParticipation.createdAt);
+        expect(lastParticipationDate).to.deep.equal(lastParticipation.createdAt);
       });
     });
 
@@ -351,15 +351,13 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants: [{ id }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
           filters: { fullName: 'nt' },
         });
 
-        const ids = organizationParticipants.map(({ id }) => id);
-
         // then
-        expect(ids).to.exactlyContain([id1]);
+        expect(id).to.equal(id1);
       });
 
       it('returns the participants which match by last name', async function () {
@@ -391,15 +389,13 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants: [{ id }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
           filters: { fullName: 'gu' },
         });
 
-        const ids = organizationParticipants.map(({ id }) => id);
-
         // then
-        expect(ids).to.exactlyContain([id1]);
+        expect(id).to.equal(id1);
       });
 
       it('returns the participants which match by full name', async function () {
@@ -407,14 +403,13 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         await databaseBuilder.commit();
 
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants: [{ id }] } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
           filters: { fullName: 'anton chur' },
         });
 
-        const ids = organizationParticipants.map(({ id }) => id);
 
-        expect(ids).to.exactlyContain([id1]);
+        expect(id).to.equal(id1);
       });
     });
   });
