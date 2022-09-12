@@ -1389,6 +1389,12 @@
       "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",
       "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     },
+    "training" : {
+      "type": {
+        "autoformation": "Parcours d'autoformation",
+        "webinaire": "Webinaire"
+      }
+    },
     "tutorial": {
       "title": "Didacticiel de la campagne",
       "next": "Suivant",
