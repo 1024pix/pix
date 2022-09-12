@@ -62,7 +62,7 @@ class CertifiableProfileForLearningContent {
     }
   }
 
-  getOrderedCertifiableSkillsByAreaId(excludedOrigins = []) {
+  getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId(excludedOrigins = []) {
     const skillIdsByAreaId = {};
     for (const resultByArea of this.resultsByArea) {
       const certifiableSkillsForArea = this._getCertifiableSkillsForArea(resultByArea, excludedOrigins);
