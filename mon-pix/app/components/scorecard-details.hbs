@@ -138,11 +138,11 @@
           {{#each this.tutorialsGroupedByTubeName as |tube|}}
             <div class="tube">
               <h4 class="tube__title">{{tube.practicalTitle}}</h4>
-              <div class="tube__content">
+              <ul class="tube__content">
                 {{#each tube.tutorials as |tutorial|}}
                   <Tutorials::Card @tutorial={{tutorial}} />
                 {{/each}}
-              </div>
+              </ul>
             </div>
           {{/each}}
         </div>
