@@ -1,4 +1,4 @@
-const { databaseBuilder, domainBuilder, expect } = require('../../../test-helper');
+const { databaseBuilder, domainBuilder, expect, knex } = require('../../../test-helper');
 const cpfCertificationResultRepository = require('../../../../lib/infrastructure/repositories/cpf-certification-result-repository');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
@@ -352,13 +352,32 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         expect(cpfCertificationResults).to.be.empty;
       });
     });
+
+    context('when the certification course has already been exported', function () {
+      it('should return an empty array', async function () {
+        // given
+        const startDate = new Date('2022-01-01');
+        const endDate = new Date('2022-01-10');
+
+        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', cpfFilename: 'file.xml' });
+        await databaseBuilder.commit();
+
+        // when
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({
+          startDate,
+          endDate,
+        });
+
+        // then
+        expect(cpfCertificationResults).to.be.empty;
+      });
+    });
   });
 
-  describe('#findByIdRange', function () {
+  describe('#findByCertificationCourseIds', function () {
     it('should return an array of CpfCertificationResult ordered by session publication date, last name and first name', async function () {
       // given
-      const startId = 245;
-      const endId = 545;
+      const certificationCourseIds = [245, 345, 545];
 
       const firstPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
       databaseBuilder.factory.buildCertificationCourse({
@@ -457,9 +476,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       await databaseBuilder.commit();
 
       // when
-      const cpfCertificationResults = await cpfCertificationResultRepository.findByIdRange({
-        startId,
-        endId,
+      const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+        certificationCourseIds,
       });
 
       // then
@@ -538,8 +556,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
 
     it('should only return competence marks with level greater than -1', async function () {
       // given
-      const startId = 245;
-      const endId = 545;
+      const certificationCourseIds = [545];
 
       const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
       databaseBuilder.factory.buildCertificationCourse({
@@ -581,9 +598,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       await databaseBuilder.commit();
 
       // when
-      const [cpfCertificationResult] = await cpfCertificationResultRepository.findByIdRange({
-        startId,
-        endId,
+      const [cpfCertificationResult] = await cpfCertificationResultRepository.findByCertificationCourseIds({
+        certificationCourseIds,
       });
 
       // then
@@ -604,8 +620,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
     context('when the certification course is not published', function () {
       it('should return an empty array', async function () {
         // given
-        const startId = 100;
-        const endId = 200;
+        const certificationCourseIds = [101];
 
         createCertificationCourseWithCompetenceMarks({
           certificationCourseId: 101,
@@ -614,9 +629,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const cpfCertificationResults = await cpfCertificationResultRepository.findByIdRange({
-          startId,
-          endId,
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
         });
 
         // then
@@ -627,8 +641,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
     context('when the certification course is cancelled', function () {
       it('should return an empty array', async function () {
         // given
-        const startId = 100;
-        const endId = 200;
+        const certificationCourseIds = [101];
 
         createCertificationCourseWithCompetenceMarks({
           certificationCourseId: 101,
@@ -637,9 +650,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const cpfCertificationResults = await cpfCertificationResultRepository.findByIdRange({
-          startId,
-          endId,
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
         });
 
         // then
@@ -650,8 +662,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
     context('when the latest assessment result is not validated', function () {
       it('should return an empty array', async function () {
         // given
-        const startId = 100;
-        const endId = 200;
+        const certificationCourseIds = [101];
 
         createCertificationCourseWithCompetenceMarks({
           certificationCourseId: 101,
@@ -660,9 +671,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const cpfCertificationResults = await cpfCertificationResultRepository.findByIdRange({
-          startId,
-          endId,
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
         });
 
         // then
@@ -670,19 +680,17 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       });
     });
 
-    context('when the session publication index is ouf of bounds', function () {
+    context('when the certification course id is not in the array', function () {
       it('should return an empty array', async function () {
         // given
-        const startId = 100;
-        const endId = 200;
+        const certificationCourseIds = [101];
 
         createCertificationCourseWithCompetenceMarks({ certificationCourseId: 201 });
         await databaseBuilder.commit();
 
         // when
-        const cpfCertificationResults = await cpfCertificationResultRepository.findByIdRange({
-          startId,
-          endId,
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
         });
 
         // then
@@ -693,21 +701,59 @@ describe('Integration | Repository | CpfCertificationResult', function () {
     context('when the certification course sex is not defined', function () {
       it('should return an empty array', async function () {
         // given
-        const startId = 100;
-        const endId = 200;
+        const certificationCourseIds = [101];
 
-        createCertificationCourseWithCompetenceMarks({ sex: null });
+        createCertificationCourseWithCompetenceMarks({ certificationCourseId: 101, sex: null });
         await databaseBuilder.commit();
 
         // when
-        const cpfCertificationResults = await cpfCertificationResultRepository.findByIdRange({
-          startId,
-          endId,
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
         });
 
         // then
         expect(cpfCertificationResults).to.be.empty;
       });
+    });
+
+    context('when the certification course has already been exported', function () {
+      it('should return an empty array', async function () {
+        // given
+        const certificationCourseIds = [101];
+
+        createCertificationCourseWithCompetenceMarks({ certificationCourseId: 101, cpfFilename: 'file.xml' });
+        await databaseBuilder.commit();
+
+        // when
+        const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
+          certificationCourseIds,
+        });
+
+        // then
+        expect(cpfCertificationResults).to.be.empty;
+      });
+    });
+  });
+
+  describe('#markCertificationCoursesAsExported', function () {
+    it('should save filename in cpfFilename', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfFilename: null });
+      await databaseBuilder.commit();
+
+      // when
+      await cpfCertificationResultRepository.markCertificationCoursesAsExported({
+        certificationCourseIds: [456, 789],
+        filename: 'filename.xml',
+      });
+
+      // then
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename');
+      expect(certificationCourses.find(({ id }) => id === 123).cpfFilename).to.be.null;
+      expect(certificationCourses.find(({ id }) => id === 456).cpfFilename).to.equal('filename.xml');
+      expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('filename.xml');
     });
   });
 });
@@ -718,6 +764,7 @@ function createCertificationCourseWithCompetenceMarks({
   certificationCourseCancelled = false,
   isPublished = true,
   sessionDate = '2022-01-08',
+  cpfFilename = null,
 }) {
   const publishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date(sessionDate) }).id;
   databaseBuilder.factory.buildCertificationCourse({
@@ -731,6 +778,7 @@ function createCertificationCourseWithCompetenceMarks({
     isPublished: isPublished,
     sessionId: publishedSessionId,
     isCancelled: certificationCourseCancelled,
+    cpfFilename,
   }).id;
   databaseBuilder.factory.buildAssessmentResult({
     id: 2244,
