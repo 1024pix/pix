@@ -106,13 +106,11 @@ async function _startNewCertification({
 }) {
   const challengesForCertification = [];
 
-  const challengesForPixCertification = await _createPixCertification(
-    placementProfileService,
-    certificationChallengesService,
-    userId,
-    locale
-  );
-  challengesForCertification.push(...challengesForPixCertification);
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+
+  if (!placementProfile.isCertifiable()) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -154,6 +152,12 @@ async function _startNewCertification({
     }
   });
 
+  const challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
+    placementProfile,
+    locale
+  );
+  challengesForCertification.push(...challengesForPixCertification);
+
   return _createCertificationCourse({
     certificationCandidate,
     certificationCourseRepository,
@@ -177,16 +181,6 @@ async function _getCertificationCourseIfCreatedMeanwhile(
     sessionId,
     domainTransaction,
   });
-}
-
-async function _createPixCertification(placementProfileService, certificationChallengesService, userId, locale) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
-
-  if (!placementProfile.isCertifiable()) {
-    throw new UserNotAuthorizedToCertifyError();
-  }
-
-  return certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 }
 
 async function _createCertificationCourse({
