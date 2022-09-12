@@ -44,10 +44,11 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         complementaryCertificationId,
         complementaryCertificationBadgeId,
       }).id;
-      const partnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
-        complementaryCertificationCourseId,
-        certifiableBadgeKey: 'PIX+_TEST',
-      });
+      const partnerCertificationScoring =
+        domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+          complementaryCertificationCourseId,
+          complementaryCertificationBadgeKey: 'PIX+_TEST',
+        });
       await databaseBuilder.commit();
       sinon.stub(partnerCertificationScoring, 'isAcquired').returns(true);
 
@@ -142,11 +143,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         });
         await databaseBuilder.commit();
 
-        const partnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
-          complementaryCertificationCourseId,
-          certifiableBadgeKey: badge.key,
-          hasAcquiredPixCertification: false,
-        });
+        const partnerCertificationScoring =
+          domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+            complementaryCertificationCourseId,
+            complementaryCertificationBadgeKey: badge.key,
+            hasAcquiredPixCertification: false,
+          });
 
         // when
         await partnerCertificationScoringRepository.save({ partnerCertificationScoring });

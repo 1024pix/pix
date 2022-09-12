@@ -7,29 +7,37 @@ module.exports = {
       .select({
         complementaryCertificationCourseId: 'complementary-certification-courses.id',
         minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
-        complementaryCertificationBadgeKeys: knex.raw('json_agg("badges"."key")'),
+        complementaryCertificationBadgeKey: 'badges.key',
+        hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
+        minimumEarnedPix: 'complementary-certifications.minimumEarnedPix',
       })
+      .join(
+        'complementary-certification-badges',
+        'complementary-certification-badges.id',
+        'complementary-certification-courses.complementaryCertificationBadgeId'
+      )
       .join(
         'complementary-certifications',
         'complementary-certifications.id',
-        'complementary-certification-courses.complementaryCertificationId'
-      )
-      .join(
-        'complementary-certification-badges',
-        'complementary-certification-badges.complementaryCertificationId',
-        'complementary-certifications.id'
+        'complementary-certification-badges.complementaryCertificationId'
       )
       .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
-      .groupBy('complementary-certification-courses.id')
-      .groupBy('complementary-certifications.id')
       .where({ certificationCourseId });
 
     return results.map(
-      ({ complementaryCertificationCourseId, minimumReproducibilityRate, complementaryCertificationBadgeKeys }) =>
+      ({
+        complementaryCertificationCourseId,
+        minimumReproducibilityRate,
+        complementaryCertificationBadgeKey,
+        hasComplementaryReferential,
+        minimumEarnedPix,
+      }) =>
         new ComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId,
           minimumReproducibilityRate: Number(minimumReproducibilityRate),
-          complementaryCertificationBadgeKeys,
+          complementaryCertificationBadgeKey,
+          hasComplementaryReferential,
+          minimumEarnedPix,
         })
     );
   },
