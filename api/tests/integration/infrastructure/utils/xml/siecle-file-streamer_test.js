@@ -37,11 +37,9 @@ describe('SiecleFileStreamer', function () {
 
         it('log only the first sax error', async function () {
           const path = `${__dirname}/files/xml/garbage.xml`;
-          const logger = {
-            error: sinon.stub(),
-          };
+          const logError = sinon.stub();
 
-          const streamer = await SiecleFileStreamer.create(path, logger);
+          const streamer = await SiecleFileStreamer.create(path, logError);
 
           await catchErr(
             streamer.perform,
@@ -53,7 +51,7 @@ describe('SiecleFileStreamer', function () {
             saxStream.on('end', resolve);
           });
 
-          expect(logger.error).to.have.been.calledOnce;
+          expect(logError).to.have.been.calledOnce;
         });
       });
 
