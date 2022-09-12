@@ -68,10 +68,11 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         id: 998,
         certificationCourseId,
       }).id;
-      const partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
-        complementaryCertificationCourseId,
-        certificationCourseId,
-      });
+      const partnerCertificationScoring =
+        domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
+          complementaryCertificationCourseId,
+          certificationCourseId,
+        });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.partnerKey });
 
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
