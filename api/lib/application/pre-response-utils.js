@@ -11,11 +11,7 @@ function handleDomainAndHttpErrors(request, h) {
 
   // Ne devrait pas etre necessaire
   if (response.isBoom && response.output.statusCode === 401) {
-    return errorManager.handle(
-      request,
-      h,
-      new UnauthorizedError(undefined, response.output.payload?.attributes?.code || 401)
-    );
+    return errorManager.handle(request, h, new UnauthorizedError(undefined, 401));
   }
 
   return h.continue;

@@ -28,9 +28,7 @@ async function _checkIsAuthenticated(request, h, { key, validate }) {
     }
   }
 
-  const error = boom.unauthorized();
-  error.output.payload.attributes = { code: 'SESSION_EXPIRED' };
-  return error;
+  return boom.unauthorized();
 }
 
 function validateUser(decoded) {
