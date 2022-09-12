@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
     });
   });
 
-  describe('#getOrderedCertifiableSkillsByAreaId', function () {
+  describe('#getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId', function () {
     let targetProfileWithLearningContent;
 
     beforeEach(function () {
@@ -163,7 +163,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
 
       // when
       const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId =
-        certifiableProfile.getOrderedCertifiableSkillsByAreaId();
+        certifiableProfile.getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId();
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
@@ -217,7 +217,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
 
       // when
       const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId =
-        certifiableProfile.getOrderedCertifiableSkillsByAreaId();
+        certifiableProfile.getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId();
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
@@ -272,7 +272,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       // when
       const excludedOrigins = ['Origin2'];
       const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId =
-        certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
+        certifiableProfile.getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId(excludedOrigins);
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({

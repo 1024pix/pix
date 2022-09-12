@@ -988,6 +988,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
             id: `${tubeName}${i}_id`,
             name: `@${tubeName}${i}`,
             tubeId,
+            difficulty: i,
           })
         );
       }
@@ -1510,15 +1511,15 @@ describe('Unit | Service | Certification Challenge Service', function () {
         profileDate: now,
         targetProfileWithLearningContent,
         knowledgeElements: [
-          keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
+          keFaireDesCoursesLvl3,
           keDireBonjourLvl2,
           keConduireUneVoitureLvl2,
-          keLaverLesDentsLvl2,
           keLaverLesDentsLvl3,
+          keLaverLesDentsLvl2,
           keFaireSonLitLvl4,
-          keFaireSonLitLvl6,
           keFaireSonLitLvl5,
+          keFaireSonLitLvl6,
         ],
         answerAndChallengeIdsByAnswerId,
       });
@@ -1553,17 +1554,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
       let expectedCertificationChallenges = [];
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_faireDesCourses3_dec1',
-          {
-            id: 'faireDesCourses3_id',
-            name: '@faireDesCourses3',
-            competenceId: 'comp_reussirDehors_id',
-          },
-          'BADGE_KEY'
-        )
-      );
-      expectedCertificationChallenges = expectedCertificationChallenges.concat(
-        _createCertificationChallenge(
           'ch_faireDesCourses4_dec1',
           {
             id: 'faireDesCourses4_id',
@@ -1575,10 +1565,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_direBonjour2_dec1',
+          'ch_faireDesCourses3_dec1',
           {
-            id: 'direBonjour2_id',
-            name: '@direBonjour2',
+            id: 'faireDesCourses3_id',
+            name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
           'BADGE_KEY'
@@ -1597,21 +1587,21 @@ describe('Unit | Service | Certification Challenge Service', function () {
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_laverLesDents3_dec1',
+          'ch_direBonjour2_dec1',
           {
-            id: 'laverLesDents3_id',
-            name: '@laverLesDents3',
-            competenceId: 'comp_faireBienDedans_id',
+            id: 'direBonjour2_id',
+            name: '@direBonjour2',
+            competenceId: 'comp_reussirDehors_id',
           },
           'BADGE_KEY'
         )
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_faireSonLit4_dec1',
+          'ch_faireSonLit6_dec1',
           {
-            id: 'faireSonLit4_id',
-            name: '@faireSonLit4',
+            id: 'faireSonLit6_id',
+            name: '@faireSonLit6',
             competenceId: 'comp_faireBienDedans_id',
           },
           'BADGE_KEY'
@@ -1630,17 +1620,28 @@ describe('Unit | Service | Certification Challenge Service', function () {
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_faireSonLit6_dec1',
+          'ch_faireSonLit4_dec1',
           {
-            id: 'faireSonLit6_id',
-            name: '@faireSonLit6',
+            id: 'faireSonLit4_id',
+            name: '@faireSonLit4',
             competenceId: 'comp_faireBienDedans_id',
           },
           'BADGE_KEY'
         )
       );
-      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(8);
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(
+        _createCertificationChallenge(
+          'ch_laverLesDents3_dec1',
+          {
+            id: 'laverLesDents3_id',
+            name: '@laverLesDents3',
+            competenceId: 'comp_faireBienDedans_id',
+          },
+          'BADGE_KEY'
+        )
+      );
+
+      expect(certificationChallengesForPlus).to.deepEqualArray(expectedCertificationChallenges);
     });
 
     it('should exclude skill which origin is Pix', async function () {

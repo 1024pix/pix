@@ -47,13 +47,14 @@ module.exports = {
     });
 
     const excludedOrigins = [PIX_ORIGIN];
-    const skillIdsByArea = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
+    const skillIdsByDecreasingDifficultyGroupedByArea =
+      certifiableProfile.getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId(excludedOrigins);
 
     const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
 
     const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
     return _pickCertificationChallengesForAllAreas(
-      skillIdsByArea,
+      skillIdsByDecreasingDifficultyGroupedByArea,
       alreadyAnsweredChallengeIds,
       allOperativeChallengesForLocale,
       targetProfileWithLearningContent,
