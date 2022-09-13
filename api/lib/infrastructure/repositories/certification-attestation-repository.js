@@ -6,7 +6,6 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 const CertifiedBadges = require('../../domain/read-models/CertifiedBadges');
 
 module.exports = {
@@ -127,7 +126,16 @@ function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
 
 async function _getPartnerCertification(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
-    .select('complementary-certification-course-results.*', 'complementary-certification-badges.label')
+    .select(
+      'complementary-certification-course-results.partnerKey',
+      'complementary-certification-course-results.source',
+      'complementary-certification-course-results.acquired',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.level',
+      'complementary-certifications.hasExternalJury'
+    )
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -136,9 +144,15 @@ async function _getPartnerCertification(certificationCourseId) {
     )
     .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-    .where({ certificationCourseId });
+    .innerJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
+    )
+    .where({ certificationCourseId })
+    .orderBy('partnerKey');
 
-  return complementaryCertificationCourseResults.map(ComplementaryCertificationCourseResult.from);
+  return complementaryCertificationCourseResults;
 }
 
 function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications) {
