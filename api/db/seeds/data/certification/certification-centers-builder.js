@@ -90,6 +90,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     minimumReproducibilityRate: 70,
     minimumEarnedPix: null,
+    hasExternalJury: true,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
@@ -98,6 +99,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     minimumReproducibilityRate: 70,
     minimumEarnedPix: null,
+    hasExternalJury: true,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
