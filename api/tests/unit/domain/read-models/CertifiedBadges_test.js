@@ -35,6 +35,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               acquired: true,
               label: 'Pix+ Test',
               hasExternalJury: false,
+              imageUrl: 'https:wwww.pix-badge-image-url.com',
             },
           ];
 
@@ -49,6 +50,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               partnerKey: 'PIX_TEST',
               isTemporaryBadge: false,
               label: 'Pix+ Test',
+              imageUrl: 'https:wwww.pix-badge-image-url.com',
             },
           ]);
         });
@@ -67,6 +69,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               acquired: true,
               source: ComplementaryCertificationCourseResult.sources.PIX,
               hasExternalJury: true,
+              imageUrl: 'https:wwww.pix-badge-image-url.com',
             },
           ];
 
@@ -81,6 +84,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               partnerKey: 'PIX_TEST',
               isTemporaryBadge: true,
               label: 'Pix+ Test',
+              imageUrl: 'https:wwww.pix-badge-image-url.com',
             },
           ]);
         });
@@ -120,6 +124,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 source: ComplementaryCertificationCourseResult.sources.PIX,
                 acquired: true,
                 hasExternalJury: true,
+                imageUrl: 'https:wwww.pix-badge-image-url.com',
               },
               {
                 complementaryCertificationCourseId: 456,
@@ -129,6 +134,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
                 acquired: true,
                 hasExternalJury: true,
+                imageUrl: 'https:wwww.pix-badge-image-url.com',
               },
             ];
 
@@ -143,6 +149,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 partnerKey: 'PIX_TEST',
                 isTemporaryBadge: false,
                 label: 'Pix+ Test',
+                imageUrl: 'https:wwww.pix-badge-image-url.com',
               },
             ]);
           });
@@ -193,6 +200,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: true,
               hasExternalJury: true,
+              imageUrl: 'https:wwww.pix-badge-image-url2.com',
             },
             {
               partnerKey: 'PIX_TEST_1',
@@ -202,6 +210,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
               acquired: true,
               hasExternalJury: true,
+              imageUrl: 'https:wwww.pix-badge-image-url1.com',
             },
           ];
 
@@ -216,6 +225,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               partnerKey: 'PIX_TEST_1',
               label: 'Pix+ Test 1',
               isTemporaryBadge: false,
+              imageUrl: 'https:wwww.pix-badge-image-url1.com',
             },
           ]);
         });
