@@ -4,23 +4,7 @@ const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const CertifiedBadges = require('../../../lib/domain/read-models/CertifiedBadges');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../../domain/models/Badge').keys;
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
@@ -136,20 +120,6 @@ async function _getCleaCertificationResult(certificationCourseId) {
 }
 
 async function _getCertifiedBadgeImages(certificationCourseId) {
-  const handledBadgeKeys = [
-    PIX_DROIT_EXPERT_CERTIF,
-    PIX_DROIT_MAITRE_CERTIF,
-    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-  ];
   const results = await knex
     .select('complementary-certification-course-results.*', 'complementary-certification-badges.imageUrl')
     .from('complementary-certification-course-results')
@@ -166,9 +136,6 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       );
     })
     .where({ certificationCourseId })
-    .where(function () {
-      this.whereIn('partnerKey', handledBadgeKeys);
-    })
     .orderBy('partnerKey');
 
   const complementaryCertificationCourseResults = results.map(
