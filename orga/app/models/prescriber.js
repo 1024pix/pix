@@ -14,6 +14,10 @@ export default class Prescriber extends Model {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  get hasCurrentOrganizationWithGARAsIdentityProvider() {
+    return this.userOrgaSettings.get('organization').get('identityProviderForCampaigns') === 'GAR';
+  }
+
   get isAdminOfTheCurrentOrganization() {
     const memberships = this.memberships.toArray();
     return memberships.some(

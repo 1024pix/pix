@@ -8,6 +8,7 @@ export default class Organization extends Model {
   @attr('boolean') isManagingStudents;
   @attr('boolean') isAgriculture;
   @attr('string') documentationUrl;
+  @attr('string') identityProviderForCampaigns;
 
   @hasMany('campaign') campaigns;
   @hasMany('target-profile') targetProfiles;
