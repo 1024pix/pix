@@ -157,9 +157,8 @@ module.exports = {
   },
 
   async findSkillIdsByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {
-    return (await this.findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction })).map(
-      ({ id }) => id
-    );
+    const skills = await this.findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction });
+    return skills.map(({ id }) => id);
   },
 
   async _findSkillIds({ campaignId, domainTransaction }) {
