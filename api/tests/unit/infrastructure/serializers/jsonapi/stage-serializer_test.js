@@ -75,4 +75,52 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
       expect(stage.prescriberDescription).to.equal('Le participant a un niveau moyen');
     });
   });
+
+  describe('#deserializeForCreation', function () {
+    it('should create JSON API date into a Stage model', function () {
+      // given
+      const jsonApiStageWithThreshold = {
+        data: {
+          type: 'stages',
+          attributes: {
+            title: 'stage1_titre',
+            message: 'stage1_message',
+            threshold: 42,
+            'target-profile-id': 3,
+          },
+        },
+      };
+      const jsonApiStageWithLevel = {
+        data: {
+          type: 'stages',
+          attributes: {
+            title: 'stage2_titre',
+            message: 'stage2_message',
+            level: 3,
+            'target-profile-id': 3,
+          },
+        },
+      };
+
+      // when
+      const stageWithThresholdCommandCreation = serializer.deserializeForCreation(jsonApiStageWithThreshold);
+      const stageWithLevelCommandCreation = serializer.deserializeForCreation(jsonApiStageWithLevel);
+
+      // then
+      expect(stageWithThresholdCommandCreation).to.deep.equal({
+        title: 'stage1_titre',
+        message: 'stage1_message',
+        threshold: 42,
+        level: null,
+        targetProfileId: 3,
+      });
+      expect(stageWithLevelCommandCreation).to.deep.equal({
+        title: 'stage2_titre',
+        message: 'stage2_message',
+        threshold: null,
+        level: 3,
+        targetProfileId: 3,
+      });
+    });
+  });
 });

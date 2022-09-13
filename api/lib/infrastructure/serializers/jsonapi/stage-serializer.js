@@ -18,4 +18,14 @@ module.exports = {
       prescriberDescription: json.data.attributes['prescriber-description'],
     });
   },
+
+  deserializeForCreation(jsonApiPayload) {
+    return {
+      title: jsonApiPayload.data.attributes.title || null,
+      message: jsonApiPayload.data.attributes.message || null,
+      level: jsonApiPayload.data.attributes.level || null,
+      threshold: jsonApiPayload.data.attributes.threshold || null,
+      targetProfileId: jsonApiPayload.data.attributes['target-profile-id'] || null,
+    };
+  },
 };
