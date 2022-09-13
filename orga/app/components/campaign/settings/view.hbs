@@ -54,17 +54,19 @@
           <dd class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</dd>
         </div>
       {{/if}}
-      <div class="campaign-settings-content">
-        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.direct-link"}}</dt>
-        <dd class="campaign-settings-content__clipboard">
-          <span class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</span>
-          <Campaign::CopyPasteButton
-            @clipBoardtext={{this.campaignsRootUrl}}
-            @successMessage={{t "pages.campaign.copy.link.success"}}
-            @defaultMessage={{t "pages.campaign.copy.link.default"}}
-          />
-        </dd>
-      </div>
+      {{#if this.displayCampaignsRootUrl}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.direct-link"}}</dt>
+          <dd class="campaign-settings-content__clipboard">
+            <span class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</span>
+            <Campaign::CopyPasteButton
+              @clipBoardtext={{this.campaignsRootUrl}}
+              @successMessage={{t "pages.campaign.copy.link.success"}}
+              @defaultMessage={{t "pages.campaign.copy.link.default"}}
+            />
+          </dd>
+        </div>
+      {{/if}}
     </div>
     {{#if @campaign.isTypeAssessment}}
       <div class="campaign-settings-row">
