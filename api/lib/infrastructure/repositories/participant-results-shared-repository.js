@@ -1,19 +1,8 @@
 const { knex } = require('../../../db/knex-database-connection');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const ParticipantResultsShared = require('../../../lib/domain/models/ParticipantResultsShared');
 const placementProfileService = require('../../domain/services/placement-profile-service');
 const competenceRepository = require('./competence-repository');
-
-async function _fetchTargetedSkillIds(campaignParticipationId) {
-  const skillIds = await knex('campaign-participations')
-    .pluck('skillId')
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .join('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'campaigns.targetProfileId')
-    .where('campaign-participations.id', campaignParticipationId);
-
-  const targetedSkills = await skillDatasource.findOperativeByRecordIds(skillIds);
-  return targetedSkills.map(({ id }) => id);
-}
+const campaignRepository = require('./campaign-repository');
 
 async function _fetchKnowledgeElements(campaignParticipationId) {
   const { snapshot: knowledgeElements } = await knex('campaign-participations')
@@ -43,7 +32,9 @@ const participantResultsSharedRepository = {
   },
 
   async get(campaignParticipationId) {
-    const targetedSkillIds = await _fetchTargetedSkillIds(campaignParticipationId);
+    const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
+      campaignParticipationId,
+    });
     const knowledgeElements = await _fetchKnowledgeElements(campaignParticipationId);
     const { userId, sharedAt } = await _fetchUserIdAndSharedAt(campaignParticipationId);
     const competences = await competenceRepository.listPixCompetencesOnly();
@@ -58,7 +49,7 @@ const participantResultsSharedRepository = {
     return new ParticipantResultsShared({
       campaignParticipationId,
       knowledgeElements,
-      targetedSkillIds,
+      skillIds,
       placementProfile,
     });
   },
