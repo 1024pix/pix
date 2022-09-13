@@ -17,7 +17,7 @@ module.exports = {
     },
     redisClient: config.rateLimit.redisUrl ? createRedisRateLimit : null,
     overLimitError: (rate, request, h) => {
-      logger.error({ request_id: request.headers['x-request-id'], overLimit: rate.overLimit }, 'Rate limit exceeded');
+      logger.info({ request_id: request.headers['x-request-id'], overLimit: rate.overLimit }, 'Rate limit exceeded');
       if (config.rateLimit.logOnly) {
         return h.continue;
       } else {
