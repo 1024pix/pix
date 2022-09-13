@@ -4,6 +4,7 @@ const { NotFoundError, TargetProfileInvalidError } = require('../../domain/error
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const areaRepository = require('./area-repository');
 const competenceRepository = require('./competence-repository');
+const targetProfileRepository = require('./target-profile-repository');
 const thematicRepository = require('./thematic-repository');
 const tubeRepository = require('./tube-repository');
 const skillRepository = require('./skill-repository');
@@ -42,9 +43,7 @@ module.exports = {
       throw new NotFoundError("Le profil cible n'existe pas");
     }
 
-    const skillIds = await knex('target-profiles_skills')
-      .pluck('skillId')
-      .where('targetProfileId', targetProfileDTO.id);
+    const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
     if (_.isEmpty(skillIds)) {
       throw new TargetProfileInvalidError();
     }
