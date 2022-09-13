@@ -33,7 +33,9 @@ export default class Stages extends Component {
     event.preventDefault();
 
     try {
-      await Promise.all(this.newStages.map((stage) => stage.save()));
+      await Promise.all(
+        this.newStages.map((stage) => stage.save({ adapterOptions: { targetProfileId: this.args.targetProfile.id } }))
+      );
     } catch (_error) {
       this.notifications.error('Une erreur est survenue.');
     }
