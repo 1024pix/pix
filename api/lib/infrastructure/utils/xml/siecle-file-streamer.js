@@ -60,7 +60,7 @@ class SiecleFileStreamer {
 
   async close() {
     if (this.directory) {
-      await fsPromises.rmdir(this.directory, { recursive: true });
+      await fsPromises.rm(this.directory, { recursive: true });
     }
   }
 }
