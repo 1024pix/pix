@@ -40,9 +40,11 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
   beforeEach(async function () {
     pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
       name: 'PIX+ Droit',
+      hasExternalJury: false,
     }).id;
     pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
       name: 'PIX+ Edu',
+      hasExternalJury: true,
     }).id;
 
     await databaseBuilder.commit();
