@@ -2,74 +2,84 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
 const Correction = require('../../../../../lib/domain/models/Correction');
 const Hint = require('../../../../../lib/domain/models/Hint');
-const Tutorial = require('../../../../../lib/domain/models/Tutorial');
+const TutorialForUser = require('../../../../../lib/domain/read-models/TutorialForUser');
+const UserSavedTutorial = require('../../../../../lib/domain/models/UserSavedTutorial');
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
   describe('#serialize()', function () {
     it('should convert a Correction model object into JSON API data', function () {
+      const userSavedTutorial1 = new UserSavedTutorial({
+        id: 'userSavedTutorial1',
+        userId: 'userId',
+        tutorialId: 'recTuto1',
+      });
+      const userSavedTutorial2 = new UserSavedTutorial({
+        id: 'userSavedTutorial2',
+        userId: 'userId',
+        tutorialId: 'recTuto2',
+      });
+      const userSavedTutorial5 = new UserSavedTutorial({
+        id: 'userSavedTutorial5',
+        userId: 'userId',
+        tutorialId: 'recTuto5',
+      });
       const correction = new Correction({
         id: 'correction_id',
         solution: 'Correction value',
         solutionToDisplay: 'Correction to be displayed',
         hint: new Hint({ skillName: '@test1', value: 'Indice Facile' }),
         tutorials: [
-          {
-            ...new Tutorial({
-              id: 'recTuto1',
-              duration: '00:01:30',
-              format: 'video',
-              link: 'https://youtube.fr',
-              source: 'Youtube',
-              title: 'Comment dresser un panda',
-            }),
-            userSavedTutorial: { id: 'userSavedTutorial1', userId: 'userId', tutorialId: 'recTuto1' },
+          new TutorialForUser({
+            id: 'recTuto1',
+            duration: '00:01:30',
+            format: 'video',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Comment dresser un panda',
+            userSavedTutorial: userSavedTutorial1,
             skillId: 'skill1',
-          },
-          {
-            ...new Tutorial({
-              id: 'recTuto2',
-              duration: '00:01:30',
-              format: 'document',
-              link: 'https://youtube.fr',
-              source: 'Youtube',
-              title: 'Comment dresser un chat',
-            }),
-            userSavedTutorial: { id: 'userSavedTutorial2', userId: 'userId', tutorialId: 'recTuto2' },
-          },
-          {
-            ...new Tutorial({
-              id: 'recTuto3',
-              duration: '00:01:30',
-              format: 'video',
-              link: 'https://youtube.fr',
-              source: 'Youtube',
-              title: 'Comment dresser un chien',
-              isSaved: false,
-            }),
-          },
+          }),
+          new TutorialForUser({
+            id: 'recTuto2',
+            duration: '00:01:30',
+            format: 'document',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Comment dresser un chat',
+            userSavedTutorial: userSavedTutorial2,
+            skillId: 'skill1',
+          }),
+          new TutorialForUser({
+            id: 'recTuto3',
+            duration: '00:01:30',
+            format: 'video',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Comment dresser un chien',
+            isSaved: false,
+            skillId: 'skill1',
+          }),
         ],
         learningMoreTutorials: [
-          {
-            ...new Tutorial({
-              id: 'recTuto4',
-              duration: '00:30:19',
-              format: 'page',
-              link: 'http://www.cafe-craft.fr',
-              source: 'Café Craft',
-              title: 'Explorons les problèmes humains de la Technique',
-            }),
-          },
-          {
-            ...new Tutorial({
-              id: 'recTuto5',
-              duration: '00:12:40',
-              format: 'video',
-              link: 'https://www.youtube.com/watch?v=-4PayaEgEZc',
-              source: 'Youtube',
-              title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
-            }),
-            userSavedTutorial: { id: 'userSavedTutorial5', userId: 'userId', tutorialId: 'recTuto5' },
-          },
+          new TutorialForUser({
+            id: 'recTuto4',
+            duration: '00:30:19',
+            format: 'page',
+            link: 'http://www.cafe-craft.fr',
+            source: 'Café Craft',
+            title: 'Explorons les problèmes humains de la Technique',
+            skillId: 'skill1',
+          }),
+          new TutorialForUser({
+            id: 'recTuto5',
+            duration: '00:12:40',
+            format: 'video',
+            link: 'https://www.youtube.com/watch?v=-4PayaEgEZc',
+            source: 'Youtube',
+            title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
+            userSavedTutorial: userSavedTutorial5,
+            skillId: 'skill1',
+          }),
         ],
       });
 
@@ -163,6 +173,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               format: 'document',
               id: 'recTuto2',
               link: 'https://youtube.fr',
+              'skill-id': 'skill1',
               source: 'Youtube',
               title: 'Comment dresser un chat',
             },
@@ -183,11 +194,17 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               format: 'video',
               id: 'recTuto3',
               link: 'https://youtube.fr',
+              'skill-id': 'skill1',
               source: 'Youtube',
               title: 'Comment dresser un chien',
             },
             id: 'recTuto3',
             type: 'tutorials',
+            relationships: {
+              'user-saved-tutorial': {
+                data: null,
+              },
+            },
           },
           {
             attributes: {
@@ -195,11 +212,17 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               format: 'page',
               id: 'recTuto4',
               link: 'http://www.cafe-craft.fr',
+              'skill-id': 'skill1',
               source: 'Café Craft',
               title: 'Explorons les problèmes humains de la Technique',
             },
             id: 'recTuto4',
             type: 'tutorials',
+            relationships: {
+              'user-saved-tutorial': {
+                data: null,
+              },
+            },
           },
           {
             attributes: {
@@ -216,6 +239,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               format: 'video',
               id: 'recTuto5',
               link: 'https://www.youtube.com/watch?v=-4PayaEgEZc',
+              'skill-id': 'skill1',
               source: 'Youtube',
               title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
             },
