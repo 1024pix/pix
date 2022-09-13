@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillIn } from '@ember/test-helpers';
+import { fillIn, click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import hbs from 'htmlbars-inline-precompile';
@@ -114,6 +114,34 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
         assert.dom(screen.getByText('Rocket Gammvert')).exists();
         assert.dom(screen.queryByText('Lord Star')).doesNotExist();
+      });
+
+      module('when the empty input button is clicked', function () {
+        test('it empties the input field', async function (assert) {
+          // given
+          this.certificationCandidates = [
+            store.createRecord('certification-candidate-for-supervising', {
+              id: 123,
+              firstName: 'Gamora',
+              lastName: 'Zen Whoberi Ben Titan',
+              birthdate: '1984-05-28',
+              extraTimePercentage: '8',
+              authorizedToStart: true,
+              assessmentStatus: null,
+            }),
+          ];
+          const screen = await renderScreen(
+            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+          );
+          await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Champs rempli');
+
+          // when
+          await click(screen.getByRole('button', { name: 'Vider le champ' }));
+
+          // then
+          assert.dom(screen.queryByRole('Champ rempli')).doesNotExist();
+          assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
+        });
       });
     });
 

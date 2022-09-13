@@ -11,8 +11,19 @@
           @id="search-candidate"
           @ariaLabel="Rechercher un candidat"
           placeholder="Rechercher un candidat"
+          @value={{this.filter}}
           {{on "input" this.setFilter}}
         />
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{false}}
+          @triggerAction={{this.emptySearchInput}}
+          aria-label="Vider le champ"
+          class="empty-button"
+        >
+          <FaIcon @icon="times" />
+        </PixButton>
       </div>
       <p class="session-supervising-candidate-list__description">{{t
           "pages.session-supervising.candidate-list.authorized-to-start-candidates"
