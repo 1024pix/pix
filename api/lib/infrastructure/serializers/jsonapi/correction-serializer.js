@@ -9,8 +9,8 @@ module.exports = {
       learningMoreTutorials: tutorialAttributes,
       typeForAttribute(attribute) {
         switch (attribute) {
-          case 'userTutorial':
-            return 'user-tutorial';
+          case 'userSavedTutorial':
+            return 'user-saved-tutorial';
           case 'learningMoreTutorials':
             return 'tutorials';
           default:

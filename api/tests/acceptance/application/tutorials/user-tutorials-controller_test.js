@@ -68,9 +68,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
     describe('nominal case', function () {
       it('should respond with a 201 and return user-tutorial created', async function () {
         // given
-        const expectedUserTutorial = {
+        const expectedUserSavedTutorial = {
           data: {
-            type: 'user-tutorials',
+            type: 'user-saved-tutorials',
             id: '1',
             attributes: {
               'tutorial-id': 'tutorialId',
@@ -84,23 +84,23 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
+        expect(response.result.data.type).to.deep.equal(expectedUserSavedTutorial.data.type);
         expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes['user-id']).to.deep.equal(
-          expectedUserTutorial.data.attributes['user-id']
+          expectedUserSavedTutorial.data.attributes['user-id']
         );
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-          expectedUserTutorial.data.attributes['tutorial-id']
+          expectedUserSavedTutorial.data.attributes['tutorial-id']
         );
       });
 
       describe('when skill id is given', function () {
-        it('should respond with a 201 and return user-tutorial created', async function () {
+        it('should respond with a 201 and return user-saved-tutorial created', async function () {
           // given
           options.payload = { data: { attributes: { 'skill-id': 'skillId' } } };
-          const expectedUserTutorial = {
+          const expectedUserSavedTutorial = {
             data: {
-              type: 'user-tutorials',
+              type: 'user-saved-tutorials',
               id: '1',
               attributes: {
                 'skill-id': 'skillId',
@@ -115,16 +115,16 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
           // then
           expect(response.statusCode).to.equal(201);
-          expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
+          expect(response.result.data.type).to.deep.equal(expectedUserSavedTutorial.data.type);
           expect(response.result.data.id).to.exist;
           expect(response.result.data.attributes['user-id']).to.deep.equal(
-            expectedUserTutorial.data.attributes['user-id']
+            expectedUserSavedTutorial.data.attributes['user-id']
           );
           expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-            expectedUserTutorial.data.attributes['tutorial-id']
+            expectedUserSavedTutorial.data.attributes['tutorial-id']
           );
           expect(response.result.data.attributes['skill-id']).to.deep.equal(
-            expectedUserTutorial.data.attributes['skill-id']
+            expectedUserSavedTutorial.data.attributes['skill-id']
           );
         });
       });
@@ -335,7 +335,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         await databaseBuilder.commit();
 
-        const expectedUserTutorials = [
+        const expectedUserSavedTutorials = [
           {
             attributes: {
               duration: '00:00:54',
@@ -353,10 +353,10 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   type: 'tutorialEvaluation',
                 },
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: {
                   id: `${userSavedTutorialId}`,
-                  type: 'user-tutorial',
+                  type: 'user-saved-tutorial',
                 },
               },
             },
@@ -376,7 +376,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: null,
               },
             },
@@ -396,7 +396,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: null,
               },
             },
@@ -409,7 +409,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedUserTutorials);
+        expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
         expect(response.result.meta).to.deep.equal({
           page: 1,
           pageSize: 10,
@@ -448,7 +448,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         await databaseBuilder.commit();
 
-        const expectedUserTutorials = [
+        const expectedUserSavedTutorials = [
           {
             attributes: {
               duration: '00:00:54',
@@ -463,7 +463,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: null,
               },
             },
@@ -483,7 +483,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: null,
               },
             },
@@ -496,7 +496,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedUserTutorials);
+        expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
         expect(response.result.meta).to.deep.equal({
           page: 1,
           pageSize: 2,
@@ -676,7 +676,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'skill-id': 'skill123',
             },
             relationships: {
-              'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
+              'user-saved-tutorial': { data: { id: '101', type: 'user-saved-tutorial' } },
               'tutorial-evaluation': {
                 data: null,
               },
@@ -745,10 +745,10 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: {
                   id: '103',
-                  type: 'user-tutorial',
+                  type: 'user-saved-tutorial',
                 },
               },
             },
@@ -768,10 +768,10 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: {
                   id: '102',
-                  type: 'user-tutorial',
+                  type: 'user-saved-tutorial',
                 },
               },
             },

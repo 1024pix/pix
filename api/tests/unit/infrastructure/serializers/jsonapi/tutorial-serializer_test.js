@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
 
       const tutorial = domainBuilder.buildTutorialForUser({
         tutorial: domainBuilder.buildTutorial({ id: tutorialId }),
-        userTutorial: null,
+        userSavedTutorial: null,
         skillId,
       });
 
@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             'tutorial-evaluation': {
               data: null,
             },
-            'user-tutorial': {
+            'user-saved-tutorial': {
               data: null,
             },
           },
@@ -87,13 +87,13 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       const userId = 456;
       const tutorialId = 123;
       const tutorialEvaluationId = `${userId}_${tutorialId}`;
-      const userTutorialId = `${userId}_${tutorialId}`;
+      const userSavedTutorialId = `${userId}_${tutorialId}`;
       const skillId = 'rec123';
 
       const tutorial = domainBuilder.buildTutorialForUser({
         tutorial: domainBuilder.buildTutorial({ id: tutorialId }),
         tutorialEvaluation: { userId, id: tutorialEvaluationId, tutorialId },
-        userTutorial: { userId, id: userTutorialId, tutorialId },
+        userSavedTutorial: { userId, id: userSavedTutorialId, tutorialId },
         skillId,
       });
 
@@ -116,10 +116,10 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
                 type: 'tutorialEvaluation',
               },
             },
-            'user-tutorial': {
+            'user-saved-tutorial': {
               data: {
-                id: userTutorialId,
-                type: 'user-tutorial',
+                id: userSavedTutorialId,
+                type: 'user-saved-tutorial',
               },
             },
           },
@@ -136,12 +136,12 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
           },
           {
             attributes: {
-              id: userTutorialId,
+              id: userSavedTutorialId,
               'user-id': userId,
               'tutorial-id': tutorialId,
             },
-            id: userTutorialId,
-            type: 'user-tutorial',
+            id: userSavedTutorialId,
+            type: 'user-saved-tutorial',
           },
         ],
       };
