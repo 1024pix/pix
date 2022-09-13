@@ -22,7 +22,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               source: 'Youtube',
               title: 'Comment dresser un panda',
             }),
-            userTutorial: { id: 'userTutorial1', userId: 'userId', tutorialId: 'recTuto1' },
+            userSavedTutorial: { id: 'userSavedTutorial1', userId: 'userId', tutorialId: 'recTuto1' },
             skillId: 'skill1',
           },
           {
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               source: 'Youtube',
               title: 'Comment dresser un chat',
             }),
-            userTutorial: { id: 'userTutorial2', userId: 'userId', tutorialId: 'recTuto2' },
+            userSavedTutorial: { id: 'userSavedTutorial2', userId: 'userId', tutorialId: 'recTuto2' },
           },
           {
             ...new Tutorial({
@@ -68,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               source: 'Youtube',
               title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
             }),
-            userTutorial: { id: 'userTutorial5', userId: 'userId', tutorialId: 'recTuto5' },
+            userSavedTutorial: { id: 'userSavedTutorial5', userId: 'userId', tutorialId: 'recTuto5' },
           },
         ],
       });
@@ -119,10 +119,10 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
         },
         included: [
           {
-            id: 'userTutorial1',
-            type: 'user-tutorial',
+            id: 'userSavedTutorial1',
+            type: 'user-saved-tutorial',
             attributes: {
-              id: 'userTutorial1',
+              id: 'userSavedTutorial1',
               'tutorial-id': 'recTuto1',
               'user-id': 'userId',
             },
@@ -140,22 +140,22 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto1',
             type: 'tutorials',
             relationships: {
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: {
-                  id: 'userTutorial1',
-                  type: 'user-tutorial',
+                  id: 'userSavedTutorial1',
+                  type: 'user-saved-tutorial',
                 },
               },
             },
           },
           {
             attributes: {
-              id: 'userTutorial2',
+              id: 'userSavedTutorial2',
               'tutorial-id': 'recTuto2',
               'user-id': 'userId',
             },
-            id: 'userTutorial2',
-            type: 'user-tutorial',
+            id: 'userSavedTutorial2',
+            type: 'user-saved-tutorial',
           },
           {
             attributes: {
@@ -169,10 +169,10 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto2',
             type: 'tutorials',
             relationships: {
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: {
-                  id: 'userTutorial2',
-                  type: 'user-tutorial',
+                  id: 'userSavedTutorial2',
+                  type: 'user-saved-tutorial',
                 },
               },
             },
@@ -203,12 +203,12 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
           },
           {
             attributes: {
-              id: 'userTutorial5',
+              id: 'userSavedTutorial5',
               'tutorial-id': 'recTuto5',
               'user-id': 'userId',
             },
-            id: 'userTutorial5',
-            type: 'user-tutorial',
+            id: 'userSavedTutorial5',
+            type: 'user-saved-tutorial',
           },
           {
             attributes: {
@@ -222,10 +222,10 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto5',
             type: 'tutorials',
             relationships: {
-              'user-tutorial': {
+              'user-saved-tutorial': {
                 data: {
-                  id: 'userTutorial5',
-                  type: 'user-tutorial',
+                  id: 'userSavedTutorial5',
+                  type: 'user-saved-tutorial',
                 },
               },
             },

@@ -7,16 +7,16 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
     context('when there is only user tutorial', function () {
       it('should serialize', function () {
         // given
-        const userTutorial = {
-          id: 'userTutorialId',
+        const userSavedTutorial = {
+          id: 'userSavedTutorialId',
           userId: 'userId',
           tutorialId: 'tutorialId',
           skillId: 'skillId',
         };
-        const expectedJsonUserTutorial = {
+        const expectedJsonUserSavedTutorial = {
           data: {
-            type: 'user-tutorials',
-            id: 'userTutorialId',
+            type: 'user-saved-tutorials',
+            id: 'userSavedTutorialId',
             attributes: {
               'user-id': 'userId',
               'tutorial-id': 'tutorialId',
@@ -25,10 +25,10 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
           },
         };
         // when
-        const json = serializer.serialize(userTutorial);
+        const json = serializer.serialize(userSavedTutorial);
 
         // then
-        expect(json).to.be.deep.equal(expectedJsonUserTutorial);
+        expect(json).to.be.deep.equal(expectedJsonUserSavedTutorial);
       });
     });
 
@@ -36,15 +36,15 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
       it('should serialize', function () {
         // given
         const tutorial = domainBuilder.buildTutorial({ id: 'tutorialId' });
-        const userTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
           id: 123,
           userId: 456,
           tutorial,
           skillId: 'skillId',
         });
-        const expectedJsonUserTutorial = {
+        const expectedJsonUserSavedTutorial = {
           data: {
-            type: 'user-tutorials',
+            type: 'user-saved-tutorials',
             id: '123',
             attributes: {
               'user-id': 456,
@@ -75,10 +75,10 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
           ],
         };
         // when
-        const json = serializer.serialize(userTutorialWithTutorial);
+        const json = serializer.serialize(userSavedTutorialWithTutorial);
 
         // then
-        expect(json).to.be.deep.equal(expectedJsonUserTutorial);
+        expect(json).to.be.deep.equal(expectedJsonUserSavedTutorial);
       });
     });
   });
@@ -89,7 +89,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
       const jsonUserTutorial = {
         data: {
           id: 123,
-          type: 'user-tutorials',
+          type: 'user-saved-tutorials',
           attributes: {
             'skill-id': 'skillId',
           },
@@ -98,12 +98,12 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
       };
 
       // when
-      const userTutorial = serializer.deserialize(jsonUserTutorial);
+      const userSavedTutorial = serializer.deserialize(jsonUserTutorial);
 
       // then
-      expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
-      expect(userTutorial.id).to.be.equal(123);
-      expect(userTutorial.skillId).to.be.equal('skillId');
+      expect(userSavedTutorial).to.be.instanceOf(UserSavedTutorial);
+      expect(userSavedTutorial.id).to.be.equal(123);
+      expect(userSavedTutorial.skillId).to.be.equal('skillId');
     });
   });
 });
