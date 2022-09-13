@@ -38,12 +38,15 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
   beforeEach(async function () {
     pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
       name: 'PIX+ Droit',
+      hasExternalJury: false,
     }).id;
     pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
       name: 'PIX+ Edu',
+      hasExternalJury: true,
     }).id;
     pixCleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
       name: 'CLEA',
+      hasExternalJury: false,
     }).id;
 
     await databaseBuilder.commit();
