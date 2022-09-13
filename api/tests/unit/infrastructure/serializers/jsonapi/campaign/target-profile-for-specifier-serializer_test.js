@@ -5,13 +5,12 @@ const TargetProfileForSpecifier = require('../../../../../../lib/domain/read-mod
 describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer', function () {
   describe('#serialize', function () {
     it('should serialize target profile to JSONAPI', function () {
-      const skills = [domainBuilder.buildSkill({ tubeId: 'tube1' }), domainBuilder.buildSkill({ tubeId: 'tube2' })];
       const thematicResults = [domainBuilder.buildBadge()];
 
       const targetProfile = new TargetProfileForSpecifier({
         id: 132,
         name: 'name',
-        skills,
+        tubeCount: 2,
         thematicResults,
         hasStage: true,
         description: 'description',

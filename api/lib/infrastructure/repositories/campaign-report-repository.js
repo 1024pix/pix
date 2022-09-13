@@ -75,7 +75,7 @@ module.exports = {
     const targetProfile = new TargetProfileForSpecifier({
       id: result.targetProfileId,
       name: result.targetProfileName,
-      skills,
+      tubeCount: _.uniqBy(skills, 'tubeId').length,
       thematicResults: _.uniq(result.badgeIds).filter((id) => id),
       hasStage: result.stageIds.some((stage) => stage),
       description: result.targetProfileDescription,

@@ -2,34 +2,13 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const TargetProfileForSpecifier = require('../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
 
 describe('TargetProfileForSpecifier', function () {
-  describe('#tubeCount', function () {
-    it('returns the number of tubes', function () {
-      const skills = [
-        domainBuilder.buildSkill({ tubeId: 'tube1' }),
-        domainBuilder.buildSkill({ tubeId: 'tube1' }),
-        domainBuilder.buildSkill({ tubeId: 'tube2' }),
-      ];
-
-      const targetProfile = new TargetProfileForSpecifier({
-        id: 1,
-        name: 'name',
-        skills: skills,
-        thematicResults: [],
-        hasStage: true,
-        description: null,
-      });
-
-      expect(targetProfile.tubeCount).to.equal(2);
-    });
-  });
-
   describe('#thematicResultCount', function () {
     it('returns the number of thematic result', function () {
       const thematicResults = [domainBuilder.buildBadge(), domainBuilder.buildBadge()];
       const targetProfile = new TargetProfileForSpecifier({
         id: 1,
         name: 'name',
-        skills: [],
+        tubeCount: 0,
         thematicResults,
         hasStage: true,
         description: null,
@@ -45,7 +24,7 @@ describe('TargetProfileForSpecifier', function () {
         const targetProfile = new TargetProfileForSpecifier({
           id: 1,
           name: 'name',
-          skills: [],
+          tubeCount: 0,
           thematicResults: [],
           hasStage: true,
           description: null,
@@ -60,7 +39,7 @@ describe('TargetProfileForSpecifier', function () {
         const targetProfile = new TargetProfileForSpecifier({
           id: 1,
           name: 'name',
-          skills: [],
+          tubeCount: 0,
           thematicResults: [],
           hasStage: false,
           description: null,
@@ -76,7 +55,7 @@ describe('TargetProfileForSpecifier', function () {
       const targetProfile = new TargetProfileForSpecifier({
         id: 1,
         name: 'name',
-        skills: [],
+        tubeCount: 0,
         thematicResults: [],
         hasStage: false,
         description: 'description',
@@ -91,7 +70,7 @@ describe('TargetProfileForSpecifier', function () {
       const targetProfile = new TargetProfileForSpecifier({
         id: 1,
         name: 'name',
-        skills: [],
+        tubeCount: 0,
         thematicResults: [],
         hasStage: false,
         description: 'description',
@@ -106,7 +85,7 @@ describe('TargetProfileForSpecifier', function () {
       const targetProfile = new TargetProfileForSpecifier({
         id: 1,
         name: 'name',
-        skills: [],
+        tubeCount: 0,
         thematicResults: [],
         hasStage: false,
         description: 'description',
