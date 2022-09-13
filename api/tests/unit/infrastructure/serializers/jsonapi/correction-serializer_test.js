@@ -4,6 +4,7 @@ const Correction = require('../../../../../lib/domain/models/Correction');
 const Hint = require('../../../../../lib/domain/models/Hint');
 const TutorialForUser = require('../../../../../lib/domain/read-models/TutorialForUser');
 const UserSavedTutorial = require('../../../../../lib/domain/models/UserSavedTutorial');
+const TutorialEvaluation = require('../../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
   describe('#serialize()', function () {
@@ -23,6 +24,13 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
         userId: 'userId',
         tutorialId: 'recTuto5',
       });
+
+      const tutorialEvaluation1 = new TutorialEvaluation({
+        id: 10000,
+        userId: 'userId',
+        tutorialId: 'recTuto1',
+        status: TutorialEvaluation.statuses.LIKED,
+      });
       const correction = new Correction({
         id: 'correction_id',
         solution: 'Correction value',
@@ -37,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             source: 'Youtube',
             title: 'Comment dresser un panda',
             userSavedTutorial: userSavedTutorial1,
+            tutorialEvaluation: tutorialEvaluation1,
             skillId: 'skill1',
           }),
           new TutorialForUser({
@@ -129,6 +138,16 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
         },
         included: [
           {
+            attributes: {
+              id: 10000,
+              status: 'LIKED',
+              'tutorial-id': 'recTuto1',
+              'user-id': 'userId',
+            },
+            id: '10000',
+            type: 'tutorial-evaluation',
+          },
+          {
             id: 'userSavedTutorial1',
             type: 'user-saved-tutorial',
             attributes: {
@@ -150,6 +169,12 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto1',
             type: 'tutorials',
             relationships: {
+              'tutorial-evaluation': {
+                data: {
+                  id: '10000',
+                  type: 'tutorial-evaluation',
+                },
+              },
               'user-saved-tutorial': {
                 data: {
                   id: 'userSavedTutorial1',
@@ -180,6 +205,9 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto2',
             type: 'tutorials',
             relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
               'user-saved-tutorial': {
                 data: {
                   id: 'userSavedTutorial2',
@@ -201,6 +229,9 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto3',
             type: 'tutorials',
             relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
               'user-saved-tutorial': {
                 data: null,
               },
@@ -219,6 +250,9 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto4',
             type: 'tutorials',
             relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
               'user-saved-tutorial': {
                 data: null,
               },
@@ -246,6 +280,9 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             id: 'recTuto5',
             type: 'tutorials',
             relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
               'user-saved-tutorial': {
                 data: {
                   id: 'userSavedTutorial5',
