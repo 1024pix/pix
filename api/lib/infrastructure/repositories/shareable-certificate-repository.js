@@ -96,8 +96,17 @@ async function _getCleaCertificationResult(certificationCourseId) {
 }
 
 async function _getCertifiedBadgeImages(certificationCourseId) {
-  const results = await knex
-    .select('complementary-certification-course-results.*', 'complementary-certification-badges.imageUrl')
+  const complementaryCertificationCourseResults = await knex
+    .select(
+      'complementary-certification-course-results.partnerKey',
+      'complementary-certification-course-results.source',
+      'complementary-certification-course-results.acquired',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.level',
+      'complementary-certifications.hasExternalJury'
+    )
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -105,24 +114,14 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       'complementary-certification-course-results.complementaryCertificationCourseId'
     )
     .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
-    .innerJoin('complementary-certification-badges', function () {
-      this.on('complementary-certification-badges.badgeId', 'badges.id').on(
-        'complementary-certification-badges.complementaryCertificationId',
-        'complementary-certification-courses.complementaryCertificationId'
-      );
-    })
+    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .innerJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
+    )
     .where({ certificationCourseId })
     .orderBy('partnerKey');
-
-  const complementaryCertificationCourseResults = results.map(
-    ({ partnerKey, complementaryCertificationCourseId, acquired, source }) =>
-      ComplementaryCertificationCourseResult.from({
-        complementaryCertificationCourseId,
-        partnerKey,
-        acquired,
-        source,
-      })
-  );
 
   const certifiedBadgesDTO = new CertifiedBadges({
     complementaryCertificationCourseResults,
@@ -130,7 +129,9 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
 
   return _.compact(
     _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) => {
-      const imageUrl = results.find((result) => result.partnerKey === partnerKey).imageUrl;
+      const imageUrl = complementaryCertificationCourseResults.find(
+        (result) => result.partnerKey === partnerKey
+      ).imageUrl;
 
       return CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl);
     })

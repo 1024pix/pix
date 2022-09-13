@@ -1,16 +1,5 @@
 const _ = require('lodash');
-const {
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../models/Badge').keys;
+const ComplementaryCertificationCourseResult = require('../models/ComplementaryCertificationCourseResult');
 
 class CertifiedBadges {
   constructor({ complementaryCertificationCourseResults }) {
@@ -18,18 +7,17 @@ class CertifiedBadges {
   }
 
   getAcquiredCertifiedBadgesDTO() {
-    const complementaryCertificationCourseResultsByPartnerKey = _.groupBy(
+    const complementaryCertificationCourseResultsByComplementaryCertificationCourseId = _.groupBy(
       this.complementaryCertificationCourseResults,
       'complementaryCertificationCourseId'
     );
 
-    return Object.values(complementaryCertificationCourseResultsByPartnerKey)
+    return Object.values(complementaryCertificationCourseResultsByComplementaryCertificationCourseId)
       .map((complementaryCertificationCourseResults) => {
-        const partnerKey = complementaryCertificationCourseResults[0].partnerKey;
-        const label = complementaryCertificationCourseResults[0].label;
-        if (complementaryCertificationCourseResults[0].isPixEdu()) {
+        const {partnerKey, label, acquired, hasExternalJury} = complementaryCertificationCourseResults[0];
+        if (hasExternalJury) {
           if (complementaryCertificationCourseResults.length === 1) {
-            if (!complementaryCertificationCourseResults[0].isAcquired()) {
+            if (!acquired) {
               return;
             }
             return { partnerKey, isTemporaryBadge: true, label };
@@ -40,83 +28,28 @@ class CertifiedBadges {
               return;
             }
 
-            const { partnerKey, label } = this._getLowestPartnerKey(complementaryCertificationCourseResults);
+            const { partnerKey, label } = this._getLowestByLevel(complementaryCertificationCourseResults);
 
             return { partnerKey, isTemporaryBadge: false, label };
           }
         }
 
-        if (complementaryCertificationCourseResults[0].isAcquired()) {
+        if (acquired) {
           return { partnerKey, isTemporaryBadge: false, label };
         }
       })
       .filter(Boolean);
   }
 
-  _getLowestPartnerKey(complementaryCertificationCourseResults) {
-    if (complementaryCertificationCourseResults[0].isPixEdu2ndDegre()) {
-      return this._getLowestPartnerKeyForPixEdu2ndDegreBadge(complementaryCertificationCourseResults);
-    }
-    if (complementaryCertificationCourseResults[0].isPixEdu1erDegre()) {
-      return this._getLowestPartnerKeyForPixEdu1erDegreBadge(complementaryCertificationCourseResults);
-    }
-  }
-
-  _getLowestPartnerKeyForPixEdu2ndDegreBadge(complementaryCertificationCourseResults) {
-    const firstIndexOf = [
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-    ].indexOf(complementaryCertificationCourseResults[0].partnerKey);
-
-    const secondIndexOf = [
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-    ].indexOf(complementaryCertificationCourseResults[1].partnerKey);
-
-    const lowestResult =
-      firstIndexOf <= secondIndexOf
-        ? complementaryCertificationCourseResults[0]
-        : complementaryCertificationCourseResults[1];
-
-    return { partnerKey: lowestResult.partnerKey, label: lowestResult.label };
-  }
-
-  _getLowestPartnerKeyForPixEdu1erDegreBadge(complementaryCertificationCourseResults) {
-    const firstIndexOf = [
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-    ].indexOf(complementaryCertificationCourseResults[0].partnerKey);
-
-    const secondIndexOf = [
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-    ].indexOf(complementaryCertificationCourseResults[1].partnerKey);
-
-    const lowestResult =
-      firstIndexOf <= secondIndexOf
-        ? complementaryCertificationCourseResults[0]
-        : complementaryCertificationCourseResults[1];
-
-    return { partnerKey: lowestResult.partnerKey, label: lowestResult.label };
+  _getLowestByLevel(complementaryCertificationCourseResults) {
+    return _(complementaryCertificationCourseResults).sortBy('level').head();
   }
 
   _hasRejectedJuryCertifiedBadge(complementaryCertificationCourseResults) {
     return complementaryCertificationCourseResults.some(
       (complementaryCertificationCourseResult) =>
-        !complementaryCertificationCourseResult.isAcquired() &&
-        complementaryCertificationCourseResult.isFromExternalSource()
+        !complementaryCertificationCourseResult.acquired &&
+        complementaryCertificationCourseResult.source === ComplementaryCertificationCourseResult.sources.EXTERNAL
     );
   }
 }
