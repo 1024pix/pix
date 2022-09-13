@@ -653,6 +653,11 @@
       }
     },
     "organization-participants": {
+      "empty-state": {
+        "message": "Aucun participant pour l’instant !",
+        "call-to-action": "Invitez-les à rejoindre une campagne ou créez-en une nouvelle.",
+        "action": "Voir mes campagnes"
+      },
       "filters": {
         "actions": {
           "clear": "Effacer les filtres"
@@ -667,11 +672,6 @@
           }
         }
       },
-      "empty-state": {
-        "message": "Aucun participant pour l’instant !",
-        "call-to-action": "Invitez-les à rejoindre une campagne ou créez-en une nouvelle.",
-        "action": "Voir mes campagnes"
-      },
       "table": {
         "column": {
           "first-name": "Prénom",
@@ -682,7 +682,8 @@
         "empty": "Aucun participant",
         "row-title": "Participant"
       },
-      "title": "Participants"
+      "page-title": "Participants",
+      "title": "{count, plural, =0 {Participants} =1 {Participant} other {Participants ({count})}}"
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
@@ -756,7 +757,8 @@
       }
     },
     "sco-organization-participants": {
-      "title": "Élèves",
+      "page-title": "Élèves",
+      "title": "{count, plural, =0 {Élèves} =1 {Élève} other {Élèves ({count})}}",
       "actions": {
         "import-file": {
           "file-type-separator": " ou ",
@@ -866,7 +868,8 @@
       }
     },
     "sup-organization-participants": {
-      "title": "Étudiants",
+      "title": "{count, plural, =0 {Étudiants} =1 {Étudiant} other {Étudiants ({count})}}",
+      "page-title": "Étudiants",
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",

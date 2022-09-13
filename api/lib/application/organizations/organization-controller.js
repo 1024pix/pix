@@ -273,12 +273,15 @@ module.exports = {
       }
       filter.certificability = filter.certificability.map((value) => certificabilityByLabel[value]);
     }
-    const { data: scoOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredScoParticipants({
+    const { data: scoOrganizationParticipants, meta } = await usecases.findPaginatedFilteredScoParticipants({
       organizationId,
       filter,
       page,
     });
-    return scoOrganizationParticipantsSerializer.serialize({ scoOrganizationParticipants, pagination });
+    return scoOrganizationParticipantsSerializer.serialize({
+      scoOrganizationParticipants,
+      meta,
+    });
   },
 
   async findPaginatedFilteredSupParticipants(request) {
@@ -288,12 +291,12 @@ module.exports = {
       filter.groups = [filter.groups];
     }
 
-    const { data: supOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredSupParticipants({
+    const { data: supOrganizationParticipants, meta } = await usecases.findPaginatedFilteredSupParticipants({
       organizationId,
       filter,
       page,
     });
-    return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, pagination });
+    return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
   },
 
   async importOrganizationLearnersFromSIECLE(request, h) {

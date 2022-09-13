@@ -1,7 +1,7 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize({ scoOrganizationParticipants, pagination }) {
+  serialize({ scoOrganizationParticipants, meta }) {
     return new Serializer('sco-organization-participants', {
       id: 'id',
       attributes: [
@@ -21,7 +21,7 @@ module.exports = {
         'isCertifiable',
         'certifiableAt',
       ],
-      meta: pagination,
+      meta,
     }).serialize(scoOrganizationParticipants);
   },
 };

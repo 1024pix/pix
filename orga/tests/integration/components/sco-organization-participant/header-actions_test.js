@@ -7,12 +7,15 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | ScoOrganizationParticipant::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should show title', async function (assert) {
+  test('it should show title with participant count', async function (assert) {
+    //given
+    this.set('participantCount', 10);
+
     // when
-    await render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
+    await render(hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`);
 
     // then
-    assert.contains('Élèves');
+    assert.contains(this.intl.t('pages.sco-organization-participants.title', { count: 10 }));
   });
 
   module('user rights', () => {

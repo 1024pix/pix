@@ -21,6 +21,12 @@ function _setFilters(qb, { lastName, firstName, studentNumber, groups } = {}) {
 }
 module.exports = {
   async findPaginatedFilteredSupParticipants({ organizationId, filter, page = {} }) {
+    const { totalScoParticipants } = await knex
+      .count('id', { as: 'totalScoParticipants' })
+      .from('organization-learners')
+      .where({ organizationId: organizationId, isDisabled: false })
+      .first();
+
     const query = knex
       .distinct('organization-learners.id')
       .select([
@@ -76,7 +82,7 @@ module.exports = {
     });
     return {
       data: supOrganizationParticipants,
-      pagination,
+      meta: { ...pagination, participantCount: totalScoParticipants },
     };
   },
 };
