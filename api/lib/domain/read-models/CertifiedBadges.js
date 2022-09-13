@@ -14,13 +14,13 @@ class CertifiedBadges {
 
     return Object.values(complementaryCertificationCourseResultsByComplementaryCertificationCourseId)
       .map((complementaryCertificationCourseResults) => {
-        const {partnerKey, label, acquired, hasExternalJury} = complementaryCertificationCourseResults[0];
+        const { partnerKey, label, acquired, hasExternalJury, imageUrl } = complementaryCertificationCourseResults[0];
         if (hasExternalJury) {
           if (complementaryCertificationCourseResults.length === 1) {
             if (!acquired) {
               return;
             }
-            return { partnerKey, isTemporaryBadge: true, label };
+            return { partnerKey, isTemporaryBadge: true, label, imageUrl };
           }
 
           if (complementaryCertificationCourseResults.length > 1) {
@@ -28,14 +28,14 @@ class CertifiedBadges {
               return;
             }
 
-            const { partnerKey, label } = this._getLowestByLevel(complementaryCertificationCourseResults);
+            const { partnerKey, label, imageUrl } = this._getLowestByLevel(complementaryCertificationCourseResults);
 
-            return { partnerKey, isTemporaryBadge: false, label };
+            return { partnerKey, isTemporaryBadge: false, label, imageUrl };
           }
         }
 
         if (acquired) {
-          return { partnerKey, isTemporaryBadge: false, label };
+          return { partnerKey, isTemporaryBadge: false, label, imageUrl };
         }
       })
       .filter(Boolean);

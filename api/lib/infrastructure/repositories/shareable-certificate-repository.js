@@ -8,7 +8,6 @@ const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 const CertifiedBadges = require('../../domain/read-models/CertifiedBadges');
 
 module.exports = {
@@ -128,11 +127,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   }).getAcquiredCertifiedBadgesDTO();
 
   return _.compact(
-    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) => {
-      const imageUrl = complementaryCertificationCourseResults.find(
-        (result) => result.partnerKey === partnerKey
-      ).imageUrl;
-
+    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge, imageUrl }) => {
       return CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl);
     })
   );

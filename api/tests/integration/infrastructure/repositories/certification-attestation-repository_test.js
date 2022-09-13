@@ -327,11 +327,13 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
               isTemporaryBadge: false,
               label: 'Pix+ Test 1',
               partnerKey: 'PIX_TEST_1',
+              imageUrl: 'https://images.pix.fr/badge1.svg',
             },
             {
               isTemporaryBadge: false,
               label: 'Pix+ Test 2',
               partnerKey: 'PIX_TEST_2',
+              imageUrl: 'https://images.pix.fr/badge2.svg',
             },
           ],
           sessionId: 789,
@@ -351,11 +353,13 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           label: 'Pix+ Test 1',
           badgeId: badge1Id,
           complementaryCertificationId: complementaryCertification1Id,
+          imageUrl: 'https://images.pix.fr/badge1.svg',
         }).id;
         const complementaryCertificationBadge2Id = databaseBuilder.factory.buildComplementaryCertificationBadge({
           label: 'Pix+ Test 2',
           badgeId: badge2Id,
           complementaryCertificationId: complementaryCertification2Id,
+          imageUrl: 'https://images.pix.fr/badge2.svg',
         }).id;
 
         databaseBuilder.factory.buildComplementaryCertificationCourse({

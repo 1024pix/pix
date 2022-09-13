@@ -151,11 +151,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   }).getAcquiredCertifiedBadgesDTO();
 
   return _.compact(
-    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) => {
-      const imageUrl = complementaryCertificationCourseResults.find(
-        (result) => result.partnerKey === partnerKey
-      ).imageUrl;
-
+    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge, imageUrl }) => {
       return CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl);
     })
   );
