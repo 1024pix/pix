@@ -6,6 +6,11 @@ export default class Stages extends Component {
   @service store;
   @service notifications;
 
+  get isTypeLevel() {
+    const stage = this.args.stages[0];
+    return stage.isTypeLevel;
+  }
+
   get hasStages() {
     const stages = this.args.stages;
     return stages && stages.length > 0;
