@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.254.0 (13/09/2022)
+
+
+### :rocket: Amélioration
+- [#4891](https://github.com/1024pix/pix/pull/4891) [FEATURE] Enregistrer les certifications qui ont été générées dans un fichier d'export CPF (PIX-5624).
+- [#4906](https://github.com/1024pix/pix/pull/4906) [FEATURE] Afficher le label plutôt que la valeur pour les formations (PIX-5597)
+- [#4893](https://github.com/1024pix/pix/pull/4893) [FEATURE] Retourner les souscriptions aux certifications complémentaires si le centre de certification est habilité (PIX-5602)
+- [#4895](https://github.com/1024pix/pix/pull/4895) [FEATURE] Améliorer l'accessibilité de l'affichage des tutoriels (PIX-5610).
+- [#4886](https://github.com/1024pix/pix/pull/4886) [FEATURE] Ajouter la possibilité de supprimer la méthode d'authentification CNAV (PIX-5633)
+
+### :building_construction: Tech
+- [#4903](https://github.com/1024pix/pix/pull/4903) [TECH] Rendre les tests de sélection des épreuves de certification complémentaire plus robustes (PIX-5652).
+- [#4866](https://github.com/1024pix/pix/pull/4866) [TECH] Refactorer le scoring des certifications complémentaires  Cléa (PIX-5574)
+
 ## v3.253.0 (09/09/2022)
 
 
