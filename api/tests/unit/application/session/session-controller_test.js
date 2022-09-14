@@ -500,56 +500,7 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#enrollStudentsToSession with student-ids', function () {
-    let request, studentIds, studentList, serializedCertificationCandidate;
-    const sessionId = 1;
-    const userId = 2;
-    const student1 = { id: 1 };
-    const student2 = { id: 2 };
-
-    beforeEach(function () {
-      studentIds = [student1.id, student2.id];
-      studentList = [student1, student2];
-      serializedCertificationCandidate = Symbol('CertificationCandidates');
-
-      // given
-      request = {
-        params: { id: sessionId },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        deserializedPayload: {
-          'student-ids': [student1.id, student2.id],
-        },
-      };
-      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
-      sinon.stub(usecases, 'enrollStudentsToSession');
-      sinon.stub(usecases, 'getSessionCertificationCandidates');
-      sinon.stub(certificationCandidateSerializer, 'serialize');
-    });
-
-    context('when the user has access to session and there studentIds are corrects', function () {
-      beforeEach(function () {
-        requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
-        usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
-        certificationCandidateSerializer.serialize.withArgs(studentList).returns(serializedCertificationCandidate);
-      });
-
-      it('should return certificationCandidates', async function () {
-        // when
-        const response = await sessionController.enrollStudentsToSession(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.source).to.deep.equal(serializedCertificationCandidate);
-      });
-    });
-  });
-
-  describe('#enrollStudentsToSession with organization-learner-ids', function () {
+  describe('#enrollStudentsToSession', function () {
     let request, studentIds, studentList, serializedCertificationCandidate;
     const sessionId = 1;
     const userId = 2;

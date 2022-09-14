@@ -770,7 +770,6 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Dans le cadre du SCO, inscrit un élève à une session de certification',
-          "- L'attribut **studentIds** en payload est **déprécié** en faveur de **organizationLearnerIds**",
         ],
         tags: ['api', 'sessions', 'certification-candidates'],
       },
