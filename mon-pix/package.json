@@ -62,7 +62,6 @@
     "dotenv": "^16.0.1",
     "ember-api-actions": "^0.2.9",
     "ember-auto-import": "^1.12.2",
-    "ember-burger-menu": "^3.3.4",
     "ember-cli": "^3.28.5",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-autoprefixer": "^2.0.0",
