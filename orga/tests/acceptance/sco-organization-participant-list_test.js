@@ -49,7 +49,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         await visit('/eleves');
 
         // then
-
         assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       });
     });
@@ -67,7 +66,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         await visit('/eleves');
 
         // then
-
         assert.strictEqual(currentURL(), '/eleves');
       });
 
