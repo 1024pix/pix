@@ -7,6 +7,7 @@ const {
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const _ = require('lodash');
+const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';
@@ -68,6 +69,11 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       title: 'Banana',
       key: 'PIX_BANANA',
       targetProfileId: targetProfile.id,
+    });
+    databaseBuilder.factory.buildBadgeCriterion({
+      badgeId: 1,
+      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+      threshold: 0,
     });
 
     skillSet = databaseBuilder.factory.buildSkillSet({
