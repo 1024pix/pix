@@ -1,6 +1,6 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-export default class UserTutorial extends Model {
+export default class UserSavedTutorial extends Model {
   // attributes
   @attr('date') updatedAt;
   // includes

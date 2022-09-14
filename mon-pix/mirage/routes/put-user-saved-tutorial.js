@@ -14,5 +14,5 @@ export default function (schema, request) {
     return new Response(404);
   }
 
-  return schema.userTutorials.create({ id: 1 });
+  return schema.userSavedTutorials.create({ id: 1 });
 }
