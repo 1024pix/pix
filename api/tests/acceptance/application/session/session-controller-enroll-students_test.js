@@ -284,7 +284,6 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
                 'external-id': null,
                 'extra-time-percentage': null,
                 'result-recipient-email': null,
-                'schooling-registration-id': organizationLearner.id,
                 'organization-learner-id': organizationLearner.id,
                 sex: 'M',
                 'complementary-certifications': [],
