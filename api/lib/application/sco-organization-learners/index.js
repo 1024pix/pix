@@ -258,44 +258,6 @@ exports.register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/schooling-registration-dependent-users/password-update',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-            assign: 'belongsToScoOrganizationAndManageStudents',
-          },
-        ],
-        handler: scoOrganizationLearnerController.updatePassword,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'organization-id': identifiersType.campaignId,
-                'schooling-registration-id': identifiersType.schoolingRegistrationId,
-              },
-            },
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(
-              new BadRequestError('The server could not understand the request due to invalid syntax.'),
-              h
-            );
-          },
-        },
-        notes: [
-          "- Met à jour le mot de passe d'un utilisateur identifié par son identifiant élève\n" +
-            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
-          "- L'usage de cette route est **dépréciée** en faveur de /api/sco-organization-learners/password-update",
-        ],
-        tags: ['api', 'organizationLearnerDependentUser'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/sco-organization-learners/password-update',
       config: {
         pre: [
