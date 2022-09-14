@@ -14,7 +14,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
   });
 
   context('when the tutorial exists', function () {
-    it('should call the userTutorialRepository', async function () {
+    it('should call the userSavedTutorialRepository', async function () {
       // Given
       tutorialRepository = {
         get: domainBuilder.buildTutorial,

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Tutorial = require('../../domain/models/Tutorial');
-const userTutorialRepository = require('./user-tutorial-repository');
+const userSavedTutorialRepository = require('./user-saved-tutorial-repository');
 const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
@@ -13,7 +13,7 @@ const paginateModule = require('../utils/paginate');
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
     const tutorials = await _findByRecordIds({ ids, locale });
-    const userSavedTutorials = await userTutorialRepository.find({ userId });
+    const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
     const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
     return _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
   },
@@ -23,7 +23,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
-    const userSavedTutorials = await userTutorialRepository.find({ userId });
+    const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
     const [tutorials, tutorialEvaluations] = await Promise.all([
       tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId)),
       tutorialEvaluationRepository.find({ userId }),
@@ -70,7 +70,7 @@ module.exports = {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
     const [userSavedTutorials, tutorialEvaluations, skills] = await Promise.all([
-      userTutorialRepository.find({ userId }),
+      userSavedTutorialRepository.find({ userId }),
       tutorialEvaluationRepository.find({ userId }),
       skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
     ]);
