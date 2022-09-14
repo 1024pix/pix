@@ -43,7 +43,6 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'external-id': certificationCandidate.externalId,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
             'is-linked': !_.isNil(certificationCandidate.userId),
-            'schooling-registration-id': 1,
             'organization-learner-id': 1,
             sex: certificationCandidate.sex,
             'complementary-certifications': [

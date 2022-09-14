@@ -292,7 +292,6 @@ exports.register = async (server) => {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle retourne les candidats de certification inscrits à la session.',
-          "- L'attribut **schoolingRegistrationId** retourné est **déprécié** en faveur de **organizationLearnerId**",
         ],
       },
     },
@@ -317,7 +316,6 @@ exports.register = async (server) => {
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle ajoute un candidat de certification à la session.',
           "- L'attribut **schoolingRegistrationId** en payload est **déprécié** en faveur de **organizationLearnerId**",
-          "- L'attribut **schoolingRegistrationId** retourné est **déprécié** en faveur de **organizationLearnerId**",
         ],
       },
     },
@@ -526,7 +524,6 @@ exports.register = async (server) => {
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle associe un candidat de certification à une session\n' +
             "à un utilisateur à l'aide des informations d'identité de celui-ci (nom, prénom et date de naissance).",
-          "- L'attribut **schoolingRegistrationId** retourné est **déprécié** en faveur de **organizationLearnerId**",
         ],
       },
     },
@@ -774,7 +771,6 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Dans le cadre du SCO, inscrit un élève à une session de certification',
-          "- L'attribut **schoolingRegistrationId** retourné est **déprécié** en faveur de **organizationLearnerId**",
           "- L'attribut **studentIds** en payload est **déprécié** en faveur de **organizationLearnerIds**",
         ],
         tags: ['api', 'sessions', 'certification-candidates'],

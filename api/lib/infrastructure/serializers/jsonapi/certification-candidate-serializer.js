@@ -12,7 +12,6 @@ module.exports = {
           ...certificationCandidate,
           billingMode: certificationCandidate.translatedBillingMode,
           isLinked: !_.isNil(certificationCandidate.userId),
-          schoolingRegistrationId: certificationCandidate.organizationLearnerId,
         };
       },
       attributes: [
@@ -27,7 +26,6 @@ module.exports = {
         'externalId',
         'extraTimePercentage',
         'isLinked',
-        'schoolingRegistrationId',
         'organizationLearnerId',
         'sex',
         'birthINSEECode',
