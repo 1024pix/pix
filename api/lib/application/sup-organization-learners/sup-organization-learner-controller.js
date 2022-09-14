@@ -17,13 +17,7 @@ module.exports = {
 
     await usecases.reconcileSupOrganizationLearner({ campaignCode, reconciliationInfo });
 
-    const response = h.response(null).code(204);
-    if (h.request.path === '/api/schooling-registration-user-associations/student') {
-      response
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sup-organization-learners/association; rel="successor-version"');
-    }
-    return response;
+    return h.response(null).code(204);
   },
 
   async updateStudentNumber(request, h) {
