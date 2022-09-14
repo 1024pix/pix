@@ -51,11 +51,6 @@ module.exports = {
     deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
     delete deserializedCandidate.birthInseeCode;
 
-    if (!deserializedCandidate.organizationLearnerId) {
-      deserializedCandidate.organizationLearnerId = deserializedCandidate.schoolingRegistrationId;
-    }
-    delete deserializedCandidate.schoolingRegistrationId;
-
     return new CertificationCandidate(deserializedCandidate);
   },
 };

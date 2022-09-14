@@ -111,26 +111,5 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
         certificationCandidate.organizationLearnerId
       );
     });
-
-    it('should convert JSON deprecated schoolingRegistrationId to organizationLearnerId', async function () {
-      // given
-      const jsonApiData = {
-        data: {
-          type: 'certification-candidates',
-          id: certificationCandidate.id.toString(),
-          attributes: {
-            'schooling-registration-id': certificationCandidate.organizationLearnerId,
-          },
-        },
-      };
-
-      // when
-      const deserializedCertificationCandidate = await serializer.deserialize(jsonApiData);
-
-      // then
-      expect(deserializedCertificationCandidate.organizationLearnerId).to.equal(
-        certificationCandidate.organizationLearnerId
-      );
-    });
   });
 });
