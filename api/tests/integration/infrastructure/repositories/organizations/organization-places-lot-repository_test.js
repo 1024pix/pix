@@ -156,16 +156,17 @@ describe('Integration | Repository | Organization Place', function () {
 
         const organizationPlace1 = databaseBuilder.factory.buildOrganizationPlace({
           organizationId,
+          createdAt: new Date('1996-12-31'),
           activationDate: new Date('1997-07-27'),
           expirationDate: new Date('2011-05-09'),
         });
 
         const organizationPlace2 = databaseBuilder.factory.buildOrganizationPlace({
           organizationId,
+          createdAt: new Date('1997-01-01'),
           activationDate: new Date('1997-07-27'),
           expirationDate: new Date('2007-03-13'),
         });
-
         await databaseBuilder.commit();
 
         // when
