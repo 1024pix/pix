@@ -1,4 +1,9 @@
-<PixSidebar @showSidebar={{@showSidebar}} @onClose={{@onClose}} @title={{this.currentUser.user.fullName}}>
+<PixSidebar
+  @showSidebar={{@showSidebar}}
+  @onClose={{@onClose}}
+  @title={{this.currentUser.user.fullName}}
+  id="principal-menu"
+>
   <:content>
     <div class="navbar-burger-menu" role="navigation">
       <div class="navbar-burger-menu__navigation">
