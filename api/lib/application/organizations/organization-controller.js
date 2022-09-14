@@ -8,7 +8,6 @@ const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const userWithOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
@@ -235,30 +234,6 @@ module.exports = {
     const organizationId = request.params.id;
     const groups = await usecases.findGroupsByOrganization({ organizationId });
     return groupSerializer.serialize(groups);
-  },
-
-  async findPaginatedFilteredOrganizationLearners(request, h) {
-    const organizationId = request.params.id;
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    if (filter.divisions && !Array.isArray(filter.divisions)) {
-      filter.divisions = [filter.divisions];
-    }
-
-    if (filter.groups && !Array.isArray(filter.groups)) {
-      filter.groups = [filter.groups];
-    }
-    const { data, pagination } = await usecases.findPaginatedFilteredOrganizationLearners({
-      organizationId,
-      filter,
-      page,
-    });
-    return h
-      .response(userWithOrganizationLearnerSerializer.serialize(data, pagination))
-      .header('Deprecation', 'true')
-      .header(
-        'Link',
-        `/api/organizations/${request.params.id}/sco-participants or /api/organizations/${request.params.id}/sup-participants; rel="successor-version"`
-      );
   },
 
   async findPaginatedFilteredScoParticipants(request) {

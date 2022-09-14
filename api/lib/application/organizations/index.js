@@ -705,35 +705,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/students',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToOrganizationManagingStudents,
-            assign: 'belongsToOrganizationManagingStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-          }).options({ allowUnknown: true }),
-        },
-        handler: organizationController.findPaginatedFilteredOrganizationLearners,
-        tags: ['api', 'students'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des élèves liés à une organisation\n',
-          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sco-participants and /api/organizations/{id}/sup-participants",
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/organizations/{id}/sco-participants',
       config: {
         pre: [

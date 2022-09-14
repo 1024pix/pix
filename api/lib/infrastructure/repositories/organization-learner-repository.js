@@ -8,8 +8,6 @@ const {
   UserNotFoundError,
 } = require('../../domain/errors');
 
-const UserWithOrganizationLearner = require('../../domain/models/UserWithOrganizationLearner');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const OrganizationLearner = require('../../domain/models/OrganizationLearner');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const studentRepository = require('./student-repository');
@@ -20,44 +18,6 @@ const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner'
 
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
-const { fetchPage } = require('../utils/knex-utils');
-
-function _setOrganizationLearnerFilters(
-  qb,
-  { lastName, firstName, studentNumber, divisions, groups, connexionType } = {}
-) {
-  if (lastName) {
-    qb.whereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
-  }
-  if (firstName) {
-    qb.whereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
-  }
-  if (studentNumber) {
-    qb.whereRaw('LOWER("organization-learners"."studentNumber") LIKE ?', `%${studentNumber.toLowerCase()}%`);
-  }
-  if (!_.isEmpty(divisions)) {
-    qb.whereIn('division', divisions);
-  }
-  if (groups) {
-    qb.whereIn(
-      knex.raw('LOWER("organization-learners"."group")'),
-      groups.map((group) => group.toLowerCase())
-    );
-  }
-  if (connexionType === 'none') {
-    qb.whereRaw('"users"."username" IS NULL');
-    qb.whereRaw('"users"."email" IS NULL');
-    // we only retrieve GAR authentication method in join clause
-    qb.whereRaw('"authentication-methods"."externalIdentifier" IS NULL');
-  } else if (connexionType === 'identifiant') {
-    qb.whereRaw('"users"."username" IS NOT NULL');
-  } else if (connexionType === 'email') {
-    qb.whereRaw('"users"."email" IS NOT NULL');
-  } else if (connexionType === 'mediacentre') {
-    // we only retrieve GAR authentication method in join clause
-    qb.whereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
-  }
-}
 
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,
@@ -330,81 +290,6 @@ module.exports = {
     }
 
     return organizationLearner;
-  },
-
-  async findPaginatedFilteredOrganizationLearners({ organizationId, filter, page = {} }) {
-    const query = knex
-      .distinct('organization-learners.id')
-      .select([
-        'organization-learners.id',
-        'organization-learners.firstName',
-        'organization-learners.lastName',
-        knex.raw('LOWER("organization-learners"."firstName") AS "lowerFirstName"'),
-        knex.raw('LOWER("organization-learners"."lastName") AS "lowerLastName"'),
-        'organization-learners.birthdate',
-        'organization-learners.division',
-        'organization-learners.group',
-        'organization-learners.studentNumber',
-        'organization-learners.userId',
-        'organization-learners.organizationId',
-        'users.username',
-        'users.email',
-        'authentication-methods.externalIdentifier as samlId',
-        knex.raw(
-          'FIRST_VALUE("name") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
-        ),
-        knex.raw(
-          'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"'
-        ),
-        knex.raw(
-          'FIRST_VALUE("type") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"'
-        ),
-        knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "organizationLearnerId") AS "participationCount"'
-        ),
-        knex.raw(
-          'max("campaign-participations"."createdAt") OVER(PARTITION BY "organizationLearnerId") AS "lastParticipationDate"'
-        ),
-      ])
-      .from('organization-learners')
-      .leftJoin('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
-      .leftJoin('users', 'users.id', 'organization-learners.userId')
-      .leftJoin('authentication-methods', function () {
-        this.on('users.id', 'authentication-methods.userId').andOnVal(
-          'authentication-methods.identityProvider',
-          AuthenticationMethod.identityProviders.GAR
-        );
-      })
-      .leftJoin('campaigns', function () {
-        this.on('campaigns.id', 'campaign-participations.campaignId').andOn(
-          'campaigns.organizationId',
-          'organization-learners.organizationId'
-        );
-      })
-      .where(function (qb) {
-        qb.where({ 'campaign-participations.id': null });
-        qb.orWhere({
-          'campaign-participations.isImproved': false,
-          'campaign-participations.deletedAt': null,
-        });
-      })
-      .where('organization-learners.isDisabled', false)
-      .where('organization-learners.organizationId', organizationId)
-      .modify(_setOrganizationLearnerFilters, filter)
-      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
-
-    const { results, pagination } = await fetchPage(query, page);
-
-    const organizationLearners = results.map((result) => {
-      return new UserWithOrganizationLearner({
-        ...result,
-        isAuthenticatedFromGAR: !!result.samlId,
-      });
-    });
-    return {
-      data: organizationLearners,
-      pagination,
-    };
   },
 
   updateUserIdWhereNull({ organizationLearnerId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
