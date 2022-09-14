@@ -310,16 +310,7 @@ module.exports = {
       i18n: request.i18n,
     });
 
-    const response = h.response(null).code(204);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-siecle`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sco-organization-learners/import-siecle; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response(null).code(204);
   },
 
   async importSupOrganizationLearners(request, h) {

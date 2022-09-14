@@ -1062,47 +1062,6 @@ describe('Unit | Router | organization-router', function () {
     });
   });
 
-  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', function () {
-    it('should call the organization controller to import organizationLearners', async function () {
-      // given
-      const method = 'POST';
-      const url = '/api/organizations/1/schooling-registrations/import-siecle';
-      const payload = {};
-
-      sinon
-        .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
-        .callsFake((request, h) => h.response(true));
-      sinon
-        .stub(organizationController, 'importOrganizationLearnersFromSIECLE')
-        .callsFake((request, h) => h.response('ok').code(201));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-      expect(organizationController.importOrganizationLearnersFromSIECLE).to.have.been.calledOnce;
-    });
-
-    it('should throw an error when id is invalid', async function () {
-      // given
-      const method = 'POST';
-      const url = '/api/organizations/wrongId/schooling-registrations/import-siecle';
-      const payload = {};
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('POST /api/organizations/{id}/sco-organization-learners/import-siecle', function () {
     it('should call the organization controller to import organizationLearners', async function () {
       // given
