@@ -105,13 +105,7 @@ module.exports = {
       locale,
     });
 
-    const response = h.response().code(204);
-    if (h.request.path === '/api/schooling-registration-dependent-users') {
-      return response
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/dependent; rel="successor-version"');
-    }
-    return response;
+    return h.response().code(204);
   },
 
   async createUserAndReconcileToOrganizationLearnerFromExternalUser(request, h) {

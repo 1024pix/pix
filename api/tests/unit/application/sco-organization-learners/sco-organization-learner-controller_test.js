@@ -97,48 +97,6 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
     });
   });
 
-  describe('#createAndReconcileUserToOrganizationLearner', function () {
-    const userId = 2;
-    const request = {
-      auth: { credentials: { userId } },
-      payload: { data: { attributes: {} } },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'createAndReconcileUserToOrganizationLearner');
-      usecases.createAndReconcileUserToOrganizationLearner.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-dependent-users',
-      };
-      const response = await scoOrganizationLearnerController.createAndReconcileUserToOrganizationLearner(
-        request,
-        hFake
-      );
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal('/api/sco-organization-learners/dependent; rel="successor-version"');
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/dependent',
-      };
-      const response = await scoOrganizationLearnerController.createAndReconcileUserToOrganizationLearner(
-        request,
-        hFake
-      );
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
   describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {
     const userId = 2;
     let request = {
