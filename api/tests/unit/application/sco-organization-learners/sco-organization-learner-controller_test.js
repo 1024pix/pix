@@ -221,37 +221,6 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
       expect(response.source.data.attributes['access-token']).to.deep.equal(token);
       expect(response.statusCode).to.equal(200);
     });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-dependent-users/external-user-token',
-      };
-      const response =
-        await scoOrganizationLearnerController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
-          request,
-          hFake
-        );
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal('/api/sco-organization-learners/external; rel="successor-version"');
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/external',
-      };
-      const response =
-        await scoOrganizationLearnerController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
-          request,
-          hFake
-        );
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
   });
 
   describe('#updatePassword', function () {

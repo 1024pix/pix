@@ -148,13 +148,7 @@ module.exports = {
       accessToken,
     };
 
-    const response = h.response(scoOrganizationLearnerSerializer.serializeExternal(scoOrganizationLearner)).code(200);
-    if (h.request.path === '/api/schooling-registration-dependent-users/external-user-token') {
-      return response
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/external; rel="successor-version"');
-    }
-    return response;
+    return h.response(scoOrganizationLearnerSerializer.serializeExternal(scoOrganizationLearner)).code(200);
   },
 
   async updatePassword(request, h) {
