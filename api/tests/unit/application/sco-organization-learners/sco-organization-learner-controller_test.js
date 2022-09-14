@@ -102,30 +102,5 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
       // then
       expect(response.source).to.deep.equal(studentInformationForAccountRecoveryJSONAPI);
     });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-dependent-users/recover-account',
-      };
-      const response = await scoOrganizationLearnerController.checkScoAccountRecovery(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/sco-organization-learners/account-recovery; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/account-recovery',
-      };
-      const response = await scoOrganizationLearnerController.checkScoAccountRecovery(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
   });
 });

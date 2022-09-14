@@ -147,15 +147,6 @@ module.exports = {
       studentInformation,
     });
 
-    const response = h.response(
-      studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery)
-    );
-    if (h.request.path === '/api/schooling-registration-dependent-users/recover-account') {
-      return response
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/account-recovery; rel="successor-version"');
-    }
-
-    return response;
+    return h.response(studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery));
   },
 };
