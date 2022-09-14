@@ -43,9 +43,7 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       // when
       const computedOrganizationName = component.organizationNameAndExternalId;
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(computedOrganizationName, expectedOrganizationName);
+      assert.strictEqual(computedOrganizationName, expectedOrganizationName);
     });
 
     test('should return the organization name and externalId if the externalId is defined', function (assert) {
@@ -58,9 +56,7 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       // when
       const computedOrganizationName = component.organizationNameAndExternalId;
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(computedOrganizationName, `${expectedOrganizationName} (${expectedExternalId})`);
+      assert.strictEqual(computedOrganizationName, `${expectedOrganizationName} (${expectedExternalId})`);
     });
   });
 });
