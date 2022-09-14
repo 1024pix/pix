@@ -1,5 +1,5 @@
 const EventBus = require('./EventBus');
-const dependenciesBuilder = require('./DependenciesBuilder');
+const dependenciesBuilder = require('./EventHandlerDependenciesBuilder');
 const LogEvent = require('./subscribers/LogEvent');
 const ScheduleParticipationResultCalculationJob = require('./subscribers/ScheduleParticipationResultCalculationJob');
 
