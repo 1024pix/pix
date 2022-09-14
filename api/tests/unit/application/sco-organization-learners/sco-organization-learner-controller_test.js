@@ -183,44 +183,6 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
     });
   });
 
-  describe('#updatePassword', function () {
-    const userId = 2;
-    const request = {
-      auth: { credentials: { userId } },
-      payload: { data: { attributes: {} } },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'updateOrganizationLearnerDependentUserPassword');
-      usecases.updateOrganizationLearnerDependentUserPassword.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-dependent-users/password-update',
-      };
-      const response = await scoOrganizationLearnerController.updatePassword(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/sco-organization-learners/password-update; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/password-update',
-      };
-      const response = await scoOrganizationLearnerController.updatePassword(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
   describe('#generateUsernameWithTemporaryPassword', function () {
     const userId = 2;
     const request = {

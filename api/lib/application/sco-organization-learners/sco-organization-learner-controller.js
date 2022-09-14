@@ -135,29 +135,13 @@ module.exports = {
     const payload = request.payload.data.attributes;
     const userId = request.auth.credentials.userId;
     const organizationId = payload['organization-id'];
-    const organizationLearnerId = payload['schooling-registration-id'] || payload['organization-learner-id'];
+    const organizationLearnerId = payload['organization-learner-id'];
 
     const generatedPassword = await usecases.updateOrganizationLearnerDependentUserPassword({
       userId,
       organizationId,
       organizationLearnerId,
     });
-
-    if (h.request.path === '/api/schooling-registration-dependent-users/password-update') {
-      const organizationLearnerWithGeneratedPasswordResponse = {
-        data: {
-          attributes: {
-            'generated-password': generatedPassword,
-          },
-          type: 'schooling-registration-dependent-user',
-        },
-      };
-      return h
-        .response(organizationLearnerWithGeneratedPasswordResponse)
-        .code(200)
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/password-update; rel="successor-version"');
-    }
 
     const scoOrganizationLearner = {
       generatedPassword,
