@@ -5,18 +5,29 @@ module.exports = async function getUserCampaignAssessmentResult({
   campaignId,
   locale,
   participantResultRepository,
+  knowledgeElementRepository,
+  badgeCriteriaService,
   targetProfileRepository,
   badgeRepository,
 }) {
   try {
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
     const badges = await badgeRepository.findByTargetProfileId(targetProfile.id);
+    const stillValidBadges = badges.filter((badge) =>
+      badgeCriteriaService.areBadgeCriteriaFulfilled({
+        knowledgeElements,
+        targetProfile,
+        badge,
+      })
+    );
+
     const assessmentResult = await participantResultRepository.getByUserIdAndCampaignId({
       userId,
       campaignId,
       locale,
       targetProfile,
-      badges,
+      badges: stillValidBadges,
     });
 
     return assessmentResult;
