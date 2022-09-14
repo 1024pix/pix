@@ -1757,68 +1757,6 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function () {
-    let userId, organization, accessToken;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      const authHeader = generateValidRequestAuthorizationHeader(userId);
-      accessToken = authHeader.replace('Bearer ', '');
-    });
-
-    context('when it‘s a SUP organization', function () {
-      beforeEach(async function () {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return csv file with statusCode 200', async function () {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200, response.payload);
-      });
-    });
-
-    context('when it‘s not a valid organization', function () {
-      beforeEach(async function () {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return an error with statusCode 403', async function () {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403, response.payload);
-      });
-    });
-  });
-
   describe('GET /api/organizations/{id}/sup-organization-learners/csv-template', function () {
     let userId, organization, accessToken;
 

@@ -1434,40 +1434,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // when
       request.i18n = getI18n();
       hFake.request = {
-        path: '/api/organizations/2/schooling-registrations/csv-template',
+        path: '/api/organizations/2/sup-organization-learners/csv-template',
       };
       const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
 
       // then
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/2/schooling-registrations/csv-template',
-      };
-      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/2/sup-organization-learners/csv-template; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/2/sup-organization-learners/csv-template',
-      };
-      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
     });
   });
 
