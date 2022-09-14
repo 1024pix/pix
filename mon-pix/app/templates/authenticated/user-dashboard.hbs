@@ -1,13 +1,9 @@
 {{page-title (t "pages.dashboard.title")}}
-<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
-  <burger.outlet>
 
-    <header role="banner">
-      <NavbarHeader @burger={{burger}} />
-    </header>
+<header role="banner">
+  <NavbarHeader />
+</header>
 
-    <Dashboard::Content @model={{this.model}} />
+<Dashboard::Content @model={{this.model}} />
 
-    <Footer />
-  </burger.outlet>
-</BurgerMenu>
+<Footer />
