@@ -315,7 +315,6 @@ exports.register = async (server) => {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle ajoute un candidat de certification à la session.',
-          "- L'attribut **schoolingRegistrationId** en payload est **déprécié** en faveur de **organizationLearnerId**",
         ],
       },
     },
