@@ -7,6 +7,8 @@
           {{on "click" this.openMenu}}
           type="button"
           aria-labelledby="nav-mobile-button"
+          aria-expanded="{{this.isMenuOpen}}"
+          aria-controls="principale-menu"
         >
           <span id="nav-mobile-button" class="sr-only">{{t "navigation.mobile-button-title"}}</span>
           <FaIcon @icon="bars" />
