@@ -76,7 +76,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
 
-      options.url = `/api/organizations/${organizationId}/students`;
+      options.url = `/api/organizations/${organizationId}/sco-participants`;
 
       await databaseBuilder.commit();
 
@@ -93,7 +93,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
 
-      options.url = `/api/organizations/${organizationId}/students`;
+      options.url = `/api/organizations/${organizationId}/sco-participants`;
 
       await databaseBuilder.commit();
 
@@ -110,7 +110,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
 
-      options.url = `/api/organizations/${organizationId}/students`;
+      options.url = `/api/organizations/${organizationId}/sco-participants`;
 
       await databaseBuilder.commit();
 

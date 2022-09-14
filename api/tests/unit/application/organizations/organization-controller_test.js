@@ -26,7 +26,6 @@ const organizationPlacesLotManagementSerializer = require('../../../../lib/infra
 const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const userWithOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
@@ -702,118 +701,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         ],
       });
-    });
-  });
-
-  describe('#findPaginatedFilteredOrganizationLearners', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-
-    let studentWithUserInfo;
-    let serializedStudentsWithUsersInfos;
-    let request;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-      };
-
-      sinon.stub(usecases, 'findPaginatedFilteredOrganizationLearners');
-      sinon.stub(userWithOrganizationLearnerSerializer, 'serialize');
-
-      studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
-      serializedStudentsWithUsersInfos = {
-        data: [
-          {
-            ...studentWithUserInfo,
-            isAuthenticatedFromGAR: false,
-          },
-        ],
-      };
-    });
-
-    it('should call the usecase to find students with users infos related to the organization id', async function () {
-      // given
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
-
-      // when
-      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
-        organizationId,
-        filter: {},
-        page: {},
-      });
-    });
-
-    it('should call the usecase to find students with users infos related to filters', async function () {
-      // given
-      request = {
-        ...request,
-        query: {
-          'filter[lastName]': 'Bob',
-          'filter[firstName]': 'Tom',
-          'filter[connexionType]': 'email',
-          'filter[divisions][]': 'D1',
-          'filter[group]': 'L1',
-        },
-      };
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
-
-      // when
-      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
-        organizationId,
-        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', divisions: ['D1'], group: 'L1' },
-        page: {},
-      });
-    });
-
-    it('should call the usecase to find students with users infos related to pagination', async function () {
-      // given
-      request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
-
-      // when
-      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
-        organizationId,
-        filter: {},
-        page: { size: 10, number: 1 },
-      });
-    });
-
-    it('should return the serialized students belonging to the organization', async function () {
-      // given
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
-      userWithOrganizationLearnerSerializer.serialize.returns(serializedStudentsWithUsersInfos);
-
-      // when
-      const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.source).to.deep.equal(serializedStudentsWithUsersInfos);
-    });
-
-    it('should return information about deprecation', async function () {
-      //given
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [] });
-      userWithOrganizationLearnerSerializer.serialize.returns();
-
-      // when
-      const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sco-participants or /api/organizations/145/sup-participants; rel="successor-version"'
-      );
     });
   });
 
