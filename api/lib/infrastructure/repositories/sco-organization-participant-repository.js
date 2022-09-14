@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { filterByFullName } = require('../utils/filter-utils');
 
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const { knex } = require('../../../db/knex-database-connection');
@@ -7,12 +8,15 @@ const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganiza
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-function _setFilters(qb, { lastName, firstName, divisions, connexionType, certificability } = {}) {
+function _setFilters(qb, { lastName, firstName, search, divisions, connexionType, certificability } = {}) {
   if (lastName) {
     qb.whereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (firstName) {
     qb.whereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+  }
+  if (search) {
+    filterByFullName(qb, search, 'organization-learners.firstName', 'organization-learners.lastName');
   }
   if (!_.isEmpty(divisions)) {
     qb.whereIn('division', divisions);

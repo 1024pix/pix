@@ -152,6 +152,37 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         expect(_.map(data, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
       });
 
+      it('should return sco participants filtered by search', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Foo',
+          lastName: '1',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Bar',
+          lastName: 'Dupont',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Baz',
+          lastName: 'Dupond',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId: organization.id,
+          filter: { search: 'b dupon' },
+        });
+
+        // then
+        expect(_.map(data, 'firstName')).to.include.members(['Bar', 'Baz']);
+      });
+
       it('should return sco participants filtered by firstname', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
