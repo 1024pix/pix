@@ -32,14 +32,14 @@ describe('Unit | UseCase | findPaginatedFilteredScoParticipants', function () {
   it('should fetch sco participants matching organization', async function () {
     foundScoParticipants = await findPaginatedFilteredScoParticipants({
       organizationId,
-      filter: { lastName: 'A', division: '4A' },
+      filter: { lastName: 'A', division: '4A', search: 'A' },
       page: { size: 10, number: 1 },
       scoOrganizationParticipantRepository,
     });
 
     expect(scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants).to.have.been.calledWithExactly({
       organizationId,
-      filter: { lastName: 'A', division: '4A' },
+      filter: { lastName: 'A', division: '4A', search: 'A' },
       page: { size: 10, number: 1 },
     });
     expect(foundScoParticipants).to.deep.equal(expectedScoParticipants);
