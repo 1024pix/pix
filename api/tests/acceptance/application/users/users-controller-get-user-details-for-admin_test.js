@@ -95,9 +95,6 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
               'organization-learners': {
                 data: [],
               },
-              'schooling-registrations': {
-                data: [],
-              },
               profile: {
                 links: {
                   related: `/api/admin/users/${user.id}/profile`,
