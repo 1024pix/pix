@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const scoOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
-const organizationLearnerUserAssociationSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
@@ -43,12 +42,6 @@ module.exports = {
       campaignCode,
     });
 
-    if (h.request.path === '/api/schooling-registration-user-associations/auto') {
-      return h
-        .response(organizationLearnerUserAssociationSerializer.serialize(organizationLearner))
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/association/auto; rel="successor-version"');
-    }
     return h.response(scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner));
   },
 

@@ -3,59 +3,9 @@ const { expect, hFake, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 
 const scoOrganizationLearnerController = require('../../../../lib/application/sco-organization-learners/sco-organization-learner-controller');
-const scoOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
-const organizationLearnerUserAssociationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 describe('Unit | Application | Controller | sco-organization-learner', function () {
-  describe('#reconcileScoOrganizationLearnerAutomatically', function () {
-    const userId = 2;
-    const request = {
-      auth: { credentials: { userId } },
-      payload: { data: { attributes: {} } },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'reconcileScoOrganizationLearnerAutomatically');
-      usecases.reconcileScoOrganizationLearnerAutomatically.resolves();
-      sinon.stub(scoOrganizationLearnerSerializer, 'serializeIdentity');
-      scoOrganizationLearnerSerializer.serializeIdentity.resolves();
-      sinon.stub(organizationLearnerUserAssociationSerializer, 'serialize');
-      organizationLearnerUserAssociationSerializer.serialize.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-user-associations/auto',
-      };
-      const response = await scoOrganizationLearnerController.reconcileScoOrganizationLearnerAutomatically(
-        request,
-        hFake
-      );
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/sco-organization-learners/association/auto; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/association/auto',
-      };
-      const response = await scoOrganizationLearnerController.reconcileScoOrganizationLearnerAutomatically(
-        request,
-        hFake
-      );
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
   describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {
     const userId = 2;
     let request = {
