@@ -69,11 +69,6 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
                   related: '/api/organizations/10293/memberships',
                 },
               },
-              students: {
-                links: {
-                  related: '/api/organizations/10293/students',
-                },
-              },
               'organization-invitations': {
                 links: {
                   related: '/api/organizations/10293/invitations',
