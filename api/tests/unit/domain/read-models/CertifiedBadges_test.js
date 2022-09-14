@@ -51,6 +51,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               isTemporaryBadge: false,
               label: 'Pix+ Test',
               imageUrl: 'https:wwww.pix-badge-image-url.com',
+              message: null,
             },
           ]);
         });
@@ -85,6 +86,8 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               isTemporaryBadge: true,
               label: 'Pix+ Test',
               imageUrl: 'https:wwww.pix-badge-image-url.com',
+              message:
+                'Vous avez obtenu le niveau “Pix+ Test” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
             },
           ]);
         });
@@ -150,6 +153,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 isTemporaryBadge: false,
                 label: 'Pix+ Test',
                 imageUrl: 'https:wwww.pix-badge-image-url.com',
+                message: 'Vous avez obtenu la certification Pix+Edu niveau "Pix+ Test"',
               },
             ]);
           });
@@ -226,6 +230,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               label: 'Pix+ Test 1',
               isTemporaryBadge: false,
               imageUrl: 'https:wwww.pix-badge-image-url1.com',
+              message: 'Vous avez obtenu la certification Pix+Edu niveau "Pix+ Test 1"',
             },
           ]);
         });
