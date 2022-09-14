@@ -1,10 +1,7 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
-const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
-const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const CertifiedBadges = require('../../../lib/domain/read-models/CertifiedBadges');
-const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../../domain/models/Badge').keys;
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
@@ -21,7 +18,6 @@ module.exports = {
       throw new NotFoundError(`Certificate not found for ID ${id}`);
     }
 
-    const cleaCertificationResult = await _getCleaCertificationResult(id);
     const certifiedBadgeImages = await _getCertifiedBadgeImages(id);
 
     const competenceTree = await competenceTreeRepository.get({ locale });
@@ -29,7 +25,6 @@ module.exports = {
     return _toDomain({
       certificationCourseDTO,
       competenceTree,
-      cleaCertificationResult,
       certifiedBadgeImages,
     });
   },
@@ -42,11 +37,9 @@ module.exports = {
 
     const privateCertificates = [];
     for (const certificationCourseDTO of certificationCourseDTOs) {
-      const cleaCertificationResult = await _getCleaCertificationResult(certificationCourseDTO.id);
       const certifiedBadgeImages = await _getCertifiedBadgeImages(certificationCourseDTO.id);
       const privateCertificate = _toDomain({
         certificationCourseDTO,
-        cleaCertificationResult,
         certifiedBadgeImages,
       });
       privateCertificates.push(privateCertificate);
@@ -99,25 +92,6 @@ function _filterMostRecentAssessmentResult(qb) {
   );
 }
 
-async function _getCleaCertificationResult(certificationCourseId) {
-  const result = await knex
-    .select('acquired')
-    .from('complementary-certification-course-results')
-    .innerJoin(
-      'complementary-certification-courses',
-      'complementary-certification-courses.id',
-      'complementary-certification-course-results.complementaryCertificationCourseId'
-    )
-    .where({ certificationCourseId })
-    .whereIn('partnerKey', [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3])
-    .first();
-
-  if (!result) {
-    return CleaCertificationResult.buildNotTaken();
-  }
-  return CleaCertificationResult.buildFrom(result);
-}
-
 async function _getCertifiedBadgeImages(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
@@ -146,18 +120,12 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .where({ certificationCourseId })
     .orderBy('partnerKey');
 
-  const certifiedBadgesDTO = new CertifiedBadges({
+  return new CertifiedBadges({
     complementaryCertificationCourseResults,
   }).getAcquiredCertifiedBadgesDTO();
-
-  return _.compact(
-    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge, imageUrl }) => {
-      return CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl);
-    })
-  );
 }
 
-function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages }) {
+function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadgeImages }) {
   if (competenceTree) {
     const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
       (competenceMark) => new CompetenceMark({ ...competenceMark })
@@ -173,14 +141,12 @@ function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationRe
     return PrivateCertificate.buildFrom({
       ...certificationCourseDTO,
       resultCompetenceTree,
-      cleaCertificationResult,
       certifiedBadgeImages,
     });
   }
 
   return PrivateCertificate.buildFrom({
     ...certificationCourseDTO,
-    cleaCertificationResult,
     certifiedBadgeImages,
   });
 }

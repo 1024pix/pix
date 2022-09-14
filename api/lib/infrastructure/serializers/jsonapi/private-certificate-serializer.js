@@ -43,7 +43,6 @@ const attributes = [
   'status',
   'commentForCandidate',
   'resultCompetenceTree',
-  'cleaCertificationStatus',
   'certifiedBadgeImages',
   'verificationCode',
   'maxReachableLevelOnCertificationDate',
@@ -53,10 +52,6 @@ module.exports = {
   serialize(certificate) {
     return new Serializer('certifications', {
       typeForAttribute,
-      transform(privateCertificate) {
-        privateCertificate.cleaCertificationStatus = privateCertificate.cleaCertificationResult.status;
-        return privateCertificate;
-      },
       attributes,
       resultCompetenceTree,
     }).serialize(certificate);
