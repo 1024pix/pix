@@ -13,8 +13,6 @@ module('Unit | Controller | authenticated/campaigns/participant-profile', functi
       },
     };
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(controller.pageTitle, 'Profil de Jaune attends');
+    assert.strictEqual(controller.pageTitle, 'Profil de Jaune attends');
   });
 });

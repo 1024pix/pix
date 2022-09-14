@@ -75,18 +75,10 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.email, 'pix@example.net');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.scope, 'pix-orga');
+      assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+      assert.strictEqual(sessionServiceObserver.email, 'pix@example.net');
+      assert.strictEqual(sessionServiceObserver.password, 'JeMeLoggue1024');
+      assert.strictEqual(sessionServiceObserver.scope, 'pix-orga');
     });
   });
 
@@ -121,18 +113,10 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.email, 'pix@example.net');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.scope, 'pix-orga');
+      assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+      assert.strictEqual(sessionServiceObserver.email, 'pix@example.net');
+      assert.strictEqual(sessionServiceObserver.password, 'JeMeLoggue1024');
+      assert.strictEqual(sessionServiceObserver.scope, 'pix-orga');
     });
   });
 

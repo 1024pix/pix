@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import textWithMultipleLang from 'mon-pix/helpers/text-with-multiple-lang';
 import { htmlSafe } from '@ember/string';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Helper | text with multiple lang', function () {
-  let textWithMultipleLangHelper;
-
-  beforeEach(function () {
-    textWithMultipleLangHelper = new textWithMultipleLang();
-    textWithMultipleLangHelper.intl = { locales: ['fr', 'en'] };
+module('Unit | Helper | TextWithMultipleLang', function (hooks) {
+  setupTest(hooks);
+  let helper;
+  hooks.beforeEach(function () {
+    helper = this.owner.factoryFor('helper:text-with-multiple-lang').create();
   });
+
   [
     { text: 'des mots', lang: 'fr', outputText: 'des mots' },
     { text: 'des mots', lang: null, outputText: 'des mots' },
@@ -25,12 +24,15 @@ describe('Unit | Helper | text with multiple lang', function () {
       outputText: '<div>one string</div>',
     },
   ].forEach((expected) => {
-    it(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function () {
-      textWithMultipleLangHelper.intl.t = () => expected.lang;
+    test(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function (assert) {
+      // given
+      this.owner.lookup('service:intl').setLocale(expected.lang);
 
-      expect(textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString()).to.equal(
-        expected.outputText
-      );
+      // when
+      const computedText = helper.compute([expected.text]).toString();
+
+      // then
+      assert.strictEqual(computedText, expected.outputText);
     });
   });
 });

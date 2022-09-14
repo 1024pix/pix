@@ -23,9 +23,7 @@ module('Acceptance | Team List', function (hooks) {
       await visit('/equipe');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -71,9 +69,7 @@ module('Acceptance | Team List', function (hooks) {
         const screen = await visitScreen('/equipe');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/membres');
+        assert.strictEqual(currentURL(), '/equipe/membres');
         assert.dom(screen.queryByLabelText('Membres')).isNotVisible();
         assert.dom(screen.queryByLabelText('Invitations')).isNotVisible();
         assert.dom(screen.queryByLabelText('Inviter un membre')).isNotVisible();
@@ -93,9 +89,7 @@ module('Acceptance | Team List', function (hooks) {
         await visit('/equipe/membres');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/membres');
+        assert.strictEqual(currentURL(), '/equipe/membres');
       });
 
       test('it should show title of team page', async function (assert) {
@@ -151,9 +145,7 @@ module('Acceptance | Team List', function (hooks) {
       await clickByName('Équipe');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/equipe/membres');
+      assert.strictEqual(currentURL(), '/equipe/membres');
     });
   });
 });
