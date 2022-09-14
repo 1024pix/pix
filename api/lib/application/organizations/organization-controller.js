@@ -319,18 +319,7 @@ module.exports = {
     const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
     const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
 
-    const response = h
-      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-      .code(200);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-csv`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sup-organization-learners/import-csv; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings })).code(200);
   },
 
   async replaceSupOrganizationLearners(request, h) {
