@@ -38,36 +38,6 @@ exports.register = async function (server) {
   server.route([
     ...adminRoutes,
     {
-      method: 'DELETE',
-      path: '/api/schooling-registration-user-associations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationLearnerController.dissociate,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.schoolingRegistrationId,
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle dissocie un utilisateur d’une inscription d’élève',
-          "- L'usage de cette route est **dépréciée** en faveur de /api/admin/organization-learners/{id}/association",
-        ],
-        tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/schooling-registration-user-associations',
       config: {

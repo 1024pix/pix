@@ -85,57 +85,6 @@ describe('Unit | Application | Router | organization-learner-router', function (
     });
   });
 
-  describe('DELETE /api/schooling-registration-user-associations/{id}', function () {
-    const method = 'DELETE';
-
-    it('should return a HTTP status code 204', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(organizationLearnerController, 'dissociate').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/schooling-registration-user-associations/1';
-
-      // when
-      const response = await httpTestServer.request(method, url, null);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should return a HTTP status code 403 when user does not have rights to Pix Admin', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/schooling-registration-user-associations/1';
-
-      // when
-      const response = await httpTestServer.request(method, url, null);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
-    it('should return a HTTP status code 400 if id parameter is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/schooling-registration-user-associations/ABC';
-
-      // when
-      const response = await httpTestServer.request(method, url, null);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('GET /api/organization-learners', function () {
     const method = 'GET';
 
