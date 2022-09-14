@@ -1,15 +1,19 @@
 <div class="navbar-mobile-header">
   <div class="navbar-mobile-header__container">
     {{#if this.isUserLogged}}
-      <button
-        class="navbar-mobile-header__burger-icon"
-        {{on "click" this.openMenu}}
-        type="button"
-        aria-labelledby="nav-mobile-button"
-      >
-        <span id="nav-mobile-button" class="sr-only">{{t "navigation.mobile-button-title"}}</span>
-        <FaIcon @icon="bars" />
-      </button>
+      <nav role="navigation" aria-label={{t "navigation.main.label"}}>
+        <button
+          class="navbar-mobile-header__burger-icon"
+          {{on "click" this.openMenu}}
+          type="button"
+          aria-labelledby="nav-mobile-button"
+        >
+          <span id="nav-mobile-button" class="sr-only">{{t "navigation.mobile-button-title"}}</span>
+          <FaIcon @icon="bars" />
+        </button>
+
+        <NavbarBurgerMenu @showSidebar={{this.isMenuOpen}} @onClose={{this.closeMenu}} />
+      </nav>
     {{/if}}
 
     <div class="navbar-mobile-header__logo">
@@ -24,7 +28,3 @@
     </div>
   </div>
 </div>
-
-{{#if this.isUserLogged}}
-  <NavbarBurgerMenu @showSidebar={{this.isMenuOpen}} @onClose={{this.closeMenu}} />
-{{/if}}
