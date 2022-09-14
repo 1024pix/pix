@@ -76,11 +76,6 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
                 related: `/api/organizations/${organization.id}/invitations`,
               },
             },
-            students: {
-              links: {
-                related: `/api/organizations/${organization.id}/students`,
-              },
-            },
             'target-profiles': {
               links: {
                 related: `/api/organizations/${organization.id}/target-profiles`,
