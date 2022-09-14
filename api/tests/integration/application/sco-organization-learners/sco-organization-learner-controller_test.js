@@ -240,67 +240,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
     });
   });
 
-  describe('#generateUsernameWithTemporaryPassword for api/schooling-registration-dependent-users/generate-username-password', function () {
-    const payload = { data: { attributes: {} } };
-    const auth = { credentials: {}, strategy: {} };
-    const generatedPassword = 'Passw0rd';
-    const username = 'john.harry0207';
-
-    beforeEach(function () {
-      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
-        h.response(true)
-      );
-      payload.data.attributes = {
-        'schooling-registration-id': 1,
-        'organization-id': 3,
-      };
-      auth.credentials.userId = domainBuilder.buildUser().id;
-    });
-
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        usecases.generateUsernameWithTemporaryPassword.resolves({ username, generatedPassword });
-
-        // when
-        const response = await httpTestServer.request(
-          'POST',
-          '/api/schooling-registration-dependent-users/generate-username-password',
-          payload,
-          auth
-        );
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.attributes['username']).to.equal(username);
-        expect(response.result.data.attributes['generated-password']).to.equal(generatedPassword);
-      });
-    });
-
-    context('Error cases', function () {
-      context('when the student has not access to the organization an error is thrown', function () {
-        it('should resolve a 403 HTTP response', async function () {
-          // given
-          usecases.generateUsernameWithTemporaryPassword.rejects(
-            new UserNotAuthorizedToGenerateUsernamePasswordError()
-          );
-
-          // when
-          const response = await httpTestServer.request(
-            'POST',
-            '/api/schooling-registration-dependent-users/generate-username-password',
-            payload,
-            auth
-          );
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-    });
-  });
-
-  describe('#generateUsernameWithTemporaryPassword for api/sco-organization-learners/username-password-generation', function () {
+  describe('#generateUsernameWithTemporaryPassword', function () {
     const payload = { data: { attributes: {} } };
     const auth = { credentials: {}, strategy: {} };
     const generatedPassword = 'Passw0rd';

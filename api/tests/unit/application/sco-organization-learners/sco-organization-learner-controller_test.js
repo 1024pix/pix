@@ -5,7 +5,6 @@ const usecases = require('../../../../lib/domain/usecases');
 const scoOrganizationLearnerController = require('../../../../lib/application/sco-organization-learners/sco-organization-learner-controller');
 const scoOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
 const organizationLearnerUserAssociationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
-const organizationLearnerDependentUserSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 describe('Unit | Application | Controller | sco-organization-learner', function () {
@@ -180,49 +179,6 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
       // then
       expect(response.source.data.attributes['access-token']).to.deep.equal(token);
       expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('#generateUsernameWithTemporaryPassword', function () {
-    const userId = 2;
-    const request = {
-      auth: { credentials: { userId } },
-      payload: { data: { attributes: {} } },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'generateUsernameWithTemporaryPassword');
-      usecases.generateUsernameWithTemporaryPassword.resolves();
-      sinon.stub(organizationLearnerDependentUserSerializer, 'serialize');
-      organizationLearnerDependentUserSerializer.serialize.resolves();
-      usecases.generateUsernameWithTemporaryPassword.resolves();
-      sinon.stub(scoOrganizationLearnerSerializer, 'serializeCredentialsForDependent');
-      scoOrganizationLearnerSerializer.serializeCredentialsForDependent.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-dependent-users/generate-username-password',
-      };
-      const response = await scoOrganizationLearnerController.generateUsernameWithTemporaryPassword(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/sco-organization-learners/username-password-generation; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/username-password-generation',
-      };
-      const response = await scoOrganizationLearnerController.generateUsernameWithTemporaryPassword(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
     });
   });
 
