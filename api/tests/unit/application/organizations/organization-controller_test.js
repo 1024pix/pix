@@ -1144,33 +1144,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
         i18n: request.i18n,
       });
     });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/schooling-registrations/import-siecle',
-      };
-      const response = await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sco-organization-learners/import-siecle; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/sco-organization-learners/import-siecle',
-      };
-      const response = await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
   });
 
   describe('#importSupOrganizationLearners', function () {
