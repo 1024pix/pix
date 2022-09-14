@@ -235,8 +235,7 @@ exports.register = async function (server) {
         },
         handler: userController.updateUserDetailsForAdministration,
         notes: [
-          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant\n" +
-            "- L'attribut **schoolingRegistrations** retourné est **déprécié** en faveur de **organizationLearners**",
+          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
         ],
         tags: ['api', 'admin', 'user'],
       },

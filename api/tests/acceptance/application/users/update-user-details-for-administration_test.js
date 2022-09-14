@@ -135,9 +135,6 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
           },
           relationships: {
-            'schooling-registrations': {
-              data: [],
-            },
             'organization-learners': {
               data: [],
             },
