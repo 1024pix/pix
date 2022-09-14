@@ -58,11 +58,6 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
                 related: `/api/organizations/${organization.id}/memberships`,
               },
             },
-            students: {
-              links: {
-                related: `/api/organizations/${organization.id}/students`,
-              },
-            },
             'target-profile-summaries': {
               links: {
                 related: `/api/admin/organizations/${organization.id}/target-profile-summaries`,

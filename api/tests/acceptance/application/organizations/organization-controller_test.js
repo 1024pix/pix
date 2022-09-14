@@ -657,11 +657,6 @@ describe('Acceptance | Application | organization-controller', function () {
                   related: `/api/organizations/${organization.id}/memberships`,
                 },
               },
-              students: {
-                links: {
-                  related: `/api/organizations/${organization.id}/students`,
-                },
-              },
               tags: {
                 data: [
                   {
