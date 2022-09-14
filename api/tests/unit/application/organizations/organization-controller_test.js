@@ -1146,49 +1146,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#replaceSupOrganizationLearners', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-
-    const request = {
-      auth: { credentials: { userId: connectedUserId } },
-      params: { id: organizationId },
-      payload: { path: 'path-to-file' },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'replaceSupOrganizationLearners');
-      usecases.replaceSupOrganizationLearners.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/schooling-registrations/replace-csv',
-      };
-      const response = await organizationController.replaceSupOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sup-organization-learners/replace-csv; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/sup-organization-learners/replace-csv',
-      };
-      const response = await organizationController.replaceSupOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
   describe('#sendInvitations', function () {
     const userId = 1;
     let invitation;

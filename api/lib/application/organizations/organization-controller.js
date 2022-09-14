@@ -331,18 +331,7 @@ module.exports = {
       supOrganizationLearnerParser,
     });
 
-    const response = h
-      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-      .code(200);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/replace-csv`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sup-organization-learners/replace-csv; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings })).code(200);
   },
 
   async sendInvitations(request, h) {
