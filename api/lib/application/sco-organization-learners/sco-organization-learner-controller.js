@@ -2,7 +2,6 @@ const usecases = require('../../domain/usecases');
 const scoOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
 const organizationLearnerUserAssociationSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const organizationLearnerDependentUserSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
@@ -155,22 +154,12 @@ module.exports = {
   async generateUsernameWithTemporaryPassword(request, h) {
     const payload = request.payload.data.attributes;
     const organizationId = payload['organization-id'];
-    const organizationLearnerId = payload['schooling-registration-id'] || payload['organization-learner-id'];
+    const organizationLearnerId = payload['organization-learner-id'];
 
     const result = await usecases.generateUsernameWithTemporaryPassword({
       organizationLearnerId,
       organizationId,
     });
-
-    if (h.request.path === '/api/schooling-registration-dependent-users/generate-username-password') {
-      const organizationLearnerWithGeneratedUsernamePasswordResponse =
-        organizationLearnerDependentUserSerializer.serialize(result);
-      return h
-        .response(organizationLearnerWithGeneratedUsernamePasswordResponse)
-        .code(200)
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/username-password-generation; rel="successor-version"');
-    }
 
     return h.response(scoOrganizationLearnerSerializer.serializeCredentialsForDependent(result)).code(200);
   },

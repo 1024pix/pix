@@ -295,38 +295,6 @@ exports.register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/schooling-registration-dependent-users/generate-username-password',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-            assign: 'belongsToScoOrganizationAndManageStudents',
-          },
-        ],
-        handler: scoOrganizationLearnerController.generateUsernameWithTemporaryPassword,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'organization-id': identifiersType.organizationId,
-                'schooling-registration-id': identifiersType.schoolingRegistrationId,
-              },
-            },
-          }),
-        },
-        notes: [
-          "- Génère un identifiant pour l'élève avec un mot de passe temporaire \n" +
-            "- La demande de génération d'identifiant doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
-          "- L'usage de cette route est **dépréciée** en faveur de /api/sco-organization-learners/username-password-generation",
-        ],
-        tags: ['api', 'organizationLearnerDependentUser', 'username'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/sco-organization-learners/username-password-generation',
       config: {
         pre: [
