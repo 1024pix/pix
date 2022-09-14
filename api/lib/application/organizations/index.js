@@ -824,43 +824,6 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/organizations/{id}/schooling-registrations/import-csv',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-            assign: 'isAdminInOrganizationManagingStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        payload: {
-          maxBytes: 1048576 * 10, // 10MB
-          parse: 'gunzip',
-          failAction: (request, h) => {
-            return sendJsonApiError(
-              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
-                maxSize: '10',
-              }),
-              h
-            );
-          },
-        },
-        handler: organizationController.importSupOrganizationLearners,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
-            "- Elle permet d'importer des inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
-            '- Elle ne retourne aucune valeur de retour',
-          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sup-organization-learners/import-csv",
-        ],
-        tags: ['api', 'schooling-registrations'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/organizations/{id}/sup-organization-learners/import-csv',
       config: {
         pre: [
