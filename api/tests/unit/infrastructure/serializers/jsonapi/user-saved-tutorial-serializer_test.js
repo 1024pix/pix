@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-tutorial-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
 const UserSavedTutorial = require('../../../../../lib/domain/models/UserSavedTutorial');
 
-describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
+describe('Unit | Serializer | JSONAPI | user-saved-tutorial-serializer', function () {
   describe('#serialize', function () {
-    context('when there is only user tutorial', function () {
+    context('when there is only user saved tutorial', function () {
       it('should serialize', function () {
         // given
         const userSavedTutorial = {
@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
       });
     });
 
-    context('when there is user tutorial and tutorial', function () {
+    context('when there is user saved tutorial and tutorial', function () {
       it('should serialize', function () {
         // given
         const tutorial = domainBuilder.buildTutorial({ id: 'tutorialId' });
@@ -86,7 +86,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
   describe('#deserialize', function () {
     it('should convert JSON API data into an User model object', function () {
       // given
-      const jsonUserTutorial = {
+      const jsonUserSavedTutorial = {
         data: {
           id: 123,
           type: 'user-saved-tutorials',
@@ -98,7 +98,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
       };
 
       // when
-      const userSavedTutorial = serializer.deserialize(jsonUserTutorial);
+      const userSavedTutorial = serializer.deserialize(jsonUserSavedTutorial);
 
       // then
       expect(userSavedTutorial).to.be.instanceOf(UserSavedTutorial);

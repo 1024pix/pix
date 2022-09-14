@@ -1,5 +1,5 @@
 const usecases = require('../../domain/usecases');
-const userTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-tutorial-serializer');
+const userSavedTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
 const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
 const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -9,11 +9,11 @@ module.exports = {
   async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
-    const userTutorial = userTutorialSerializer.deserialize(request.payload);
+    const userSavedTutorial = userSavedTutorialSerializer.deserialize(request.payload);
 
-    const userSavedTutorial = await usecases.addTutorialToUser({ ...userTutorial, userId, tutorialId });
+    const createdUserSavedTutorial = await usecases.addTutorialToUser({ ...userSavedTutorial, userId, tutorialId });
 
-    return h.response(userTutorialSerializer.serialize(userSavedTutorial)).created();
+    return h.response(userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
   },
 
   async findSaved(request, h) {
