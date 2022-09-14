@@ -85,10 +85,6 @@ module.exports = {
 
   serializeForUpdate(usersDetailsForAdmin) {
     return new Serializer('user', {
-      transform(record) {
-        record.schoolingRegistrations = record.organizationLearners;
-        return record;
-      },
       attributes: [
         'firstName',
         'lastName',
@@ -97,27 +93,9 @@ module.exports = {
         'cgu',
         'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted',
-        'schoolingRegistrations',
         'organizationLearners',
         'authenticationMethods',
       ],
-      schoolingRegistrations: {
-        ref: 'id',
-        includes: true,
-        attributes: [
-          'firstName',
-          'lastName',
-          'birthdate',
-          'division',
-          'group',
-          'organizationId',
-          'organizationName',
-          'createdAt',
-          'updatedAt',
-          'isDisabled',
-          'canBeDissociated',
-        ],
-      },
       organizationLearners: {
         ref: 'id',
         includes: true,

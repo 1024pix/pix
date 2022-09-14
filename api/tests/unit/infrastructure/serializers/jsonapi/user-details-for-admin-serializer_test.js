@@ -130,14 +130,6 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
           },
           relationships: {
-            'schooling-registrations': {
-              data: [
-                {
-                  id: `${modelObject.organizationLearners[0].id}`,
-                  type: 'schoolingRegistrations',
-                },
-              ],
-            },
             'organization-learners': {
               data: [
                 {
@@ -159,23 +151,6 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
           type: 'users',
         },
         included: [
-          {
-            attributes: {
-              'first-name': modelObject.organizationLearners[0].firstName,
-              'last-name': modelObject.organizationLearners[0].lastName,
-              birthdate: modelObject.organizationLearners[0].birthdate,
-              division: modelObject.organizationLearners[0].division,
-              group: modelObject.organizationLearners[0].group,
-              'organization-id': modelObject.organizationLearners[0].organizationId,
-              'organization-name': modelObject.organizationLearners[0].organizationName,
-              'created-at': modelObject.organizationLearners[0].createdAt,
-              'updated-at': modelObject.organizationLearners[0].updatedAt,
-              'is-disabled': modelObject.organizationLearners[0].isDisabled,
-              'can-be-dissociated': modelObject.organizationLearners[0].canBeDissociated,
-            },
-            id: `${modelObject.organizationLearners[0].id}`,
-            type: 'schoolingRegistrations',
-          },
           {
             attributes: {
               'first-name': modelObject.organizationLearners[0].firstName,
