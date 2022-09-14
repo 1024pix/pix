@@ -57,8 +57,8 @@ export default class Card extends Component {
 
   async _saveTutorial() {
     try {
-      const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
-      await userTutorial.save();
+      const userSavedTutorial = this.store.createRecord('userSavedTutorial', { tutorial: this.args.tutorial });
+      await userSavedTutorial.save();
       this.savingStatus = buttonStatusTypes.recorded;
     } catch (e) {
       this.savingStatus = buttonStatusTypes.unrecorded;
@@ -67,7 +67,7 @@ export default class Card extends Component {
 
   async _removeTutorial() {
     try {
-      await this.args.tutorial.userTutorial.destroyRecord();
+      await this.args.tutorial.userSavedTutorial.destroyRecord();
       this.savingStatus = buttonStatusTypes.unrecorded;
     } catch (e) {
       this.savingStatus = buttonStatusTypes.recorded;

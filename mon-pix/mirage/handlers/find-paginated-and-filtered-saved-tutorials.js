@@ -8,13 +8,15 @@ export function findPaginatedAndFilteredSavedTutorials(schema, request) {
 
   if (competenceFilters) {
     tutorials = [schema.tutorials.create({ name: `Le tuto de la compétence ${competenceFilters[0]}` })];
-    schema.userTutorials.create({ tutorial: tutorials[0] });
+    schema.userSavedTutorials.create({ tutorial: tutorials[0] });
   } else {
     tutorials = schema.tutorials.all().models;
   }
 
-  const userTutorialIds = schema.userTutorials.all().models.map((userTutorial) => userTutorial.tutorialId);
-  const savedTutorials = tutorials.filter((tutorial) => userTutorialIds.includes(tutorial.id));
+  const userSavedTutorialIds = schema.userSavedTutorials
+    .all()
+    .models.map((userSavedTutorial) => userSavedTutorial.tutorialId);
+  const savedTutorials = tutorials.filter((tutorial) => userSavedTutorialIds.includes(tutorial.id));
 
   const rowCount = savedTutorials.length;
 

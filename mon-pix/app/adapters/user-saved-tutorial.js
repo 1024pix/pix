@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class UserTutorial extends ApplicationAdapter {
+export default class UserSavedTutorial extends ApplicationAdapter {
   createRecord(store, type, snapshot) {
     const tutorial = snapshot.belongsTo('tutorial');
     const url = `${this.host}/${this.namespace}/users/tutorials/${tutorial.id}`;

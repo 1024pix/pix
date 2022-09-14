@@ -114,11 +114,11 @@ describe('Unit | Component | Tutorial | card item', function () {
   describe('#toggleSaveTutorial', function () {
     describe('when user has not saved a tutorial', function () {
       let store;
-      let userTutorial;
+      let userSavedTutorial;
 
       beforeEach(() => {
-        userTutorial = { save: sinon.stub().resolves(null) };
-        store = { createRecord: sinon.stub().returns(userTutorial) };
+        userSavedTutorial = { save: sinon.stub().resolves(null) };
+        store = { createRecord: sinon.stub().returns(userSavedTutorial) };
         component.store = store;
       });
 
@@ -127,7 +127,7 @@ describe('Unit | Component | Tutorial | card item', function () {
         await component.toggleSaveTutorial();
 
         // then
-        sinon.assert.calledWith(store.createRecord, 'userTutorial', { tutorial });
+        sinon.assert.calledWith(store.createRecord, 'userSavedTutorial', { tutorial });
       });
 
       it('should save user tutorial', async function () {
@@ -135,7 +135,7 @@ describe('Unit | Component | Tutorial | card item', function () {
         await component.toggleSaveTutorial();
 
         // then
-        sinon.assert.called(userTutorial.save);
+        sinon.assert.called(userSavedTutorial.save);
       });
 
       it('should set status to recorded', async function () {
@@ -149,11 +149,11 @@ describe('Unit | Component | Tutorial | card item', function () {
 
     describe('when user has already saved a tutorial', function () {
       let store;
-      let userTutorial;
+      let userSavedTutorial;
 
       beforeEach(() => {
-        userTutorial = { id: 'userTutorialId', destroyRecord: sinon.stub().resolves(null) };
-        tutorial.userTutorial = userTutorial;
+        userSavedTutorial = { id: 'userSavedTutorialId', destroyRecord: sinon.stub().resolves(null) };
+        tutorial.userSavedTutorial = userSavedTutorial;
         tutorial.unloadRecord = sinon.stub().resolves();
         component.store = store;
         component.savingStatus = 'recorded';
@@ -165,7 +165,7 @@ describe('Unit | Component | Tutorial | card item', function () {
         await component.toggleSaveTutorial();
 
         // then
-        sinon.assert.called(userTutorial.destroyRecord);
+        sinon.assert.called(userSavedTutorial.destroyRecord);
       });
 
       it('should set status to unrecorded', async function () {
