@@ -58,59 +58,6 @@ describe('Integration | Component | user certifications detail result', function
     });
   });
 
-  context('when certification has Cléa', function () {
-    it('should show the CLEA badge', async function () {
-      // given
-      const certification = EmberObject.create({
-        id: 1,
-        birthdate: new Date('2000-01-22T15:15:52Z'),
-        firstName: 'Jean',
-        lastName: 'Bon',
-        date: new Date('2018-02-15T15:15:52Z'),
-        certificationCenter: 'Université de Lyon',
-        isPublished: true,
-        pixScore: 654,
-        status: 'validated',
-        commentForCandidate: null,
-        hasCleaCertif: true,
-        hasAcquiredComplementaryCertifications: true,
-      });
-      this.set('certification', certification);
-
-      // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-
-      // then
-      expect(screen.getByRole('img', { name: 'Certification cléA numérique' })).to.exist;
-    });
-  });
-
-  context('when certification does not have Cléa', function () {
-    it('should not show the CLEA badge', async function () {
-      // given
-      certification = EmberObject.create({
-        id: 1,
-        birthdate: new Date('2000-01-22T15:15:52Z'),
-        firstName: 'Jean',
-        lastName: 'Bon',
-        date: new Date('2018-02-15T15:15:52Z'),
-        certificationCenter: 'Université de Lyon',
-        isPublished: true,
-        pixScore: 654,
-        status: 'validated',
-        commentForCandidate: null,
-        hasCleaCertif: false,
-      });
-      this.set('certification', certification);
-
-      // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-
-      // then
-      expect(screen.queryByRole('img', { name: 'Certification cléA numérique' })).to.not.exist;
-    });
-  });
-
   context('when certification has a certified badge image', function () {
     it('should show the complementary certification badge', async function () {
       // given
@@ -188,7 +135,6 @@ describe('Integration | Component | user certifications detail result', function
         pixScore: 654,
         status: 'validated',
         commentForCandidate: null,
-        hasCleaCertif: false,
         certifiedBadgeImages: [],
       });
       this.set('certification', certification);
@@ -214,7 +160,6 @@ describe('Integration | Component | user certifications detail result', function
         pixScore: 654,
         status: 'validated',
         commentForCandidate: 'Commentaire du jury',
-        hasCleaCertif: false,
         certifiedBadgeImages: [],
       });
       this.set('certification', certification);

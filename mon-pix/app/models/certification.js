@@ -25,7 +25,6 @@ export default class Certification extends Model {
   @attr('number') pixScore;
   @attr('string') status;
   @attr('string') verificationCode;
-  @attr() cleaCertificationStatus;
   @attr() certifiedBadgeImages;
   @attr('number') maxReachableLevelOnCertificationDate;
 
@@ -33,14 +32,9 @@ export default class Certification extends Model {
   @belongsTo('resultCompetenceTree') resultCompetenceTree;
   @belongsTo('user') user;
 
-  @computed('cleaCertificationStatus')
-  get hasCleaCertif() {
-    return this.cleaCertificationStatus === ACQUIRED;
-  }
-
-  @computed('certifiedBadgeImages.length', 'hasCleaCertif')
+  @computed('certifiedBadgeImages.length')
   get hasAcquiredComplementaryCertifications() {
-    return this.hasCleaCertif || this.certifiedBadgeImages.length > 0;
+    return this.certifiedBadgeImages.length > 0;
   }
 
   @computed('firstName', 'lastName')
