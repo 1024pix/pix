@@ -1,7 +1,7 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const userTutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-tutorial-serializer');
+const userSavedTutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
 const userSavedTutorialRepository = require('../../../../lib/infrastructure/repositories/user-saved-tutorial-repository');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
@@ -12,7 +12,7 @@ describe('Unit | Controller | User-tutorials', function () {
       const tutorialId = 'tutorialId';
       const userId = 'userId';
       sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-      sinon.stub(userTutorialSerializer, 'deserialize').returns({});
+      sinon.stub(userSavedTutorialSerializer, 'deserialize').returns({});
 
       const request = {
         auth: { credentials: { userId } },
@@ -35,7 +35,7 @@ describe('Unit | Controller | User-tutorials', function () {
         const tutorialId = 'tutorialId';
         const userId = 'userId';
         sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-        sinon.stub(userTutorialSerializer, 'deserialize').returns({ skillId });
+        sinon.stub(userSavedTutorialSerializer, 'deserialize').returns({ skillId });
 
         const request = {
           auth: { credentials: { userId } },
@@ -51,7 +51,7 @@ describe('Unit | Controller | User-tutorials', function () {
         expect(addTutorialToUserArgs).to.have.property('userId', userId);
         expect(addTutorialToUserArgs).to.have.property('tutorialId', tutorialId);
         expect(addTutorialToUserArgs).to.have.property('skillId', skillId);
-        expect(userTutorialSerializer.deserialize).to.have.been.calledWith(request.payload);
+        expect(userSavedTutorialSerializer.deserialize).to.have.been.calledWith(request.payload);
       });
     });
   });
