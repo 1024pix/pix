@@ -391,7 +391,6 @@ describe('Acceptance | API | Certifications', function () {
               'is-published': certificationCourse.isPublished,
               'last-name': certificationCourse.lastName,
               'pix-score': assessmentResult.pixScore,
-              'clea-certification-status': 'not_taken',
               'certified-badge-images': [],
               'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
             },

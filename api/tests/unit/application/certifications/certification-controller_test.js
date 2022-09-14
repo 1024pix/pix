@@ -184,7 +184,6 @@ describe('Unit | Controller | certifications-controller', function () {
             'delivered-at': new Date('2021-01-01T00:00:00Z'),
             'is-published': true,
             'pix-score': 456,
-            'clea-certification-status': 'acquired',
             'certified-badge-images': ['/img/1'],
             'max-reachable-level-on-certification-date': 6,
           },
