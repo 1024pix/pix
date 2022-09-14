@@ -26,21 +26,10 @@ module.exports = {
 
     let response;
     if (withReconciliation) {
-      let serializedData;
-      if (h.request.path === '/api/schooling-registration-user-associations') {
-        serializedData = organizationLearnerUserAssociationSerializer.serialize(organizationLearner);
-      } else {
-        serializedData = scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner);
-      }
+      const serializedData = scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner);
       response = h.response(serializedData).code(200);
     } else {
       response = h.response().code(204);
-    }
-
-    if (h.request.path === '/api/schooling-registration-user-associations') {
-      response = response
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/association; rel="successor-version"');
     }
     return response;
   },
