@@ -215,6 +215,19 @@ describe('Integration | Repository | Campaign', function () {
       expect(campaignSaved).to.be.an.instanceof(Campaign);
     });
 
+    it('should update the correct campaign', async function () {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ title: 'MASH' }).id;
+      await databaseBuilder.commit();
+
+      // when
+      await campaignRepository.update({ id: campaign.id, title: 'Title' });
+      const row = await knex.from('campaigns').where({ id: campaignId }).first();
+
+      // then
+      expect(row.title).to.equal('MASH');
+    });
+
     it('should not add row in table "campaigns"', async function () {
       // given
       const rowsCountBeforeUpdate = await knex.select('id').from('campaigns');
