@@ -9,32 +9,38 @@ const flashAssessmentResultRepository = require('./flash-assessment-result-repos
 const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
-  async getByUserIdAndCampaignId({ userId, campaignId, locale }) {
+  async getByUserIdAndCampaignId({ userId, campaignId, targetProfile, badges, locale }) {
     const [
       participationResults,
-      targetProfile,
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
       isCampaignArchived,
+      competences,
+      badgeResultsDTO,
+      stages,
     ] = await Promise.all([
-      _getParticipationResults(userId, campaignId),
-      _getTargetProfile(campaignId, locale),
+      _getParticipationResults(userId, campaignId, targetProfile.id),
       _isCampaignMultipleSendings(campaignId),
       _isOrganizationLearnerActive(userId, campaignId),
       _isCampaignArchived(campaignId),
+      _findTargetedCompetences(targetProfile.id, locale),
+      _getBadgeResults(badges),
+      _getStages(targetProfile.id),
     ]);
 
-    return new AssessmentResult(
+    return new AssessmentResult({
       participationResults,
-      targetProfile,
+      competences,
+      badgeResultsDTO,
+      stages,
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
-      isCampaignArchived
-    );
+      isCampaignArchived,
+    });
   },
 };
 
-async function _getParticipationResults(userId, campaignId) {
+async function _getParticipationResults(userId, campaignId, targetProfileId) {
   const {
     isCompleted,
     campaignParticipationId,
@@ -47,7 +53,7 @@ async function _getParticipationResults(userId, campaignId) {
     isDeleted,
   } = await _getParticipationAttributes(userId, campaignId);
 
-  const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
+  const knowledgeElements = await _findTargetedKnowledgeElements(userId, sharedAt, targetProfileId);
 
   const acquiredBadgeIds = await _getAcquiredBadgeIds(userId, campaignParticipationId);
 
@@ -117,8 +123,7 @@ async function _getParticipationAttributes(userId, campaignId) {
   };
 }
 
-async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
-  const { targetProfileId } = await _getTargetProfileId(campaignId);
+async function _findTargetedKnowledgeElements(userId, sharedAt, targetProfileId) {
   const targetedSkillIds = await _findTargetedSkillIds(targetProfileId);
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
   return knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
@@ -128,26 +133,11 @@ async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
   return knex('badge-acquisitions').select('badgeId').where({ userId, campaignParticipationId });
 }
 
-async function _getTargetProfile(campaignId, locale) {
-  const { targetProfileId } = await _getTargetProfileId(campaignId);
-
-  const competences = await _findTargetedCompetences(targetProfileId, locale);
-  const stages = await _getStages(targetProfileId);
-  const badges = await _getBadges(targetProfileId);
-
-  return { competences, stages, badges };
-}
-
-async function _getTargetProfileId(campaignId) {
-  return knex('campaigns').select('targetProfileId').where({ 'campaigns.id': campaignId }).first();
-}
-
 function _getStages(targetProfileId) {
   return knex('stages').where({ targetProfileId });
 }
 
-async function _getBadges(targetProfileId) {
-  const badges = await knex('badges').where({ targetProfileId });
+async function _getBadgeResults(badges) {
   const competences = await _findSkillSet(badges);
   return badges.map((badge) => {
     const badgeCompetences = competences.filter(({ badgeId }) => badgeId === badge.id);
