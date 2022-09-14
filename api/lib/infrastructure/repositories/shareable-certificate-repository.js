@@ -2,9 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
-const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
-const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../../domain/models/Badge').keys;
+
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
@@ -23,10 +21,9 @@ module.exports = {
 
     const competenceTree = await competenceTreeRepository.get({ locale });
 
-    const cleaCertificationResult = await _getCleaCertificationResult(shareableCertificateDTO.id);
     const certifiedBadgeImages = await _getCertifiedBadgeImages(shareableCertificateDTO.id);
 
-    return _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages);
+    return _toDomain(shareableCertificateDTO, competenceTree, certifiedBadgeImages);
   },
 };
 
@@ -75,25 +72,6 @@ function _filterMostRecentValidatedAssessmentResult(qb) {
     .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
 
-async function _getCleaCertificationResult(certificationCourseId) {
-  const result = await knex
-    .select('acquired')
-    .from('complementary-certification-course-results')
-    .where({ certificationCourseId })
-    .innerJoin(
-      'complementary-certification-courses',
-      'complementary-certification-courses.id',
-      'complementary-certification-course-results.complementaryCertificationCourseId'
-    )
-    .whereIn('partnerKey', [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3])
-    .first();
-
-  if (!result) {
-    return CleaCertificationResult.buildNotTaken();
-  }
-  return CleaCertificationResult.buildFrom(result);
-}
-
 async function _getCertifiedBadgeImages(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
@@ -122,18 +100,12 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .where({ certificationCourseId })
     .orderBy('partnerKey');
 
-  const certifiedBadgesDTO = new CertifiedBadges({
+  return new CertifiedBadges({
     complementaryCertificationCourseResults,
   }).getAcquiredCertifiedBadgesDTO();
-
-  return _.compact(
-    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge, imageUrl }) => {
-      return CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl);
-    })
-  );
 }
 
-function _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {
+function _toDomain(shareableCertificateDTO, competenceTree, certifiedBadgeImages) {
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
     competenceTree,
     competenceMarks: _.compact(shareableCertificateDTO.competenceMarks),
@@ -144,7 +116,6 @@ function _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationRes
   return new ShareableCertificate({
     ...shareableCertificateDTO,
     resultCompetenceTree,
-    cleaCertificationResult,
     certifiedBadgeImages,
   });
 }

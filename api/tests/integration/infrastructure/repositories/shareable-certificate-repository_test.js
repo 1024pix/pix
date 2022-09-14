@@ -8,15 +8,6 @@ const {
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -32,25 +23,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       ],
     },
   ];
-
-  let pixCleaComplementaryCertificationId, pixDroitComplementaryCertificationId, pixEduComplementaryCertificationId;
-
-  beforeEach(async function () {
-    pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-      name: 'PIX+ Droit',
-      hasExternalJury: false,
-    }).id;
-    pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-      name: 'PIX+ Edu',
-      hasExternalJury: true,
-    }).id;
-    pixCleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-      name: 'CLEA',
-      hasExternalJury: false,
-    }).id;
-
-    await databaseBuilder.commit();
-  });
 
   describe('#getByVerificationCode', function () {
     it('should throw a NotFoundError when shareable certificate does not exist', async function () {
@@ -283,7 +255,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         };
 
         const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
@@ -397,7 +368,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         };
 
         const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
@@ -504,147 +474,14 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       });
     });
 
-    it('should get the clea certification result if taken with badge V1', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      const shareableCertificateData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
-      };
-
-      const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
-        shareableCertificateData,
-        acquiredBadges: [
-          {
-            key: PIX_EMPLOI_CLEA_V1,
-            complementaryCertificationId: pixCleaComplementaryCertificationId,
-            imageUrl: 'https://images.pix.fr/badges-certifies/clea.svg',
-          },
-        ],
-        notAcquiredBadges: [],
-      });
-
-      // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
-
-      // then
-      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-        id: certificateId,
-        ...shareableCertificateData,
-      });
-      expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
-    });
-
-    it('should get the clea certification result if taken with badge V2', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      const shareableCertificateData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
-      };
-
-      const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
-        shareableCertificateData,
-        acquiredBadges: [
-          {
-            key: PIX_EMPLOI_CLEA_V2,
-            complementaryCertificationId: pixCleaComplementaryCertificationId,
-            imageUrl: 'https://images.pix.fr/badges-certifies/clea.svg',
-          },
-        ],
-        notAcquiredBadges: [],
-      });
-
-      // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
-
-      // then
-      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-        id: certificateId,
-        ...shareableCertificateData,
-      });
-      expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
-    });
-
-    it('should get the clea certification result if taken with badge V3', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      const shareableCertificateData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
-      };
-
-      const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
-        shareableCertificateData,
-        acquiredBadges: [
-          {
-            key: PIX_EMPLOI_CLEA_V3,
-            complementaryCertificationId: pixCleaComplementaryCertificationId,
-            imageUrl: 'https://images.pix.fr/badges-certifies/clea.svg',
-          },
-        ],
-        notAcquiredBadges: [],
-      });
-
-      // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
-
-      // then
-      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-        id: certificateId,
-        ...shareableCertificateData,
-      });
-      expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
-    });
-
     context('acquired certifiable badges', function () {
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async function () {
+      it('should get the certified badge images when the certifications were acquired', async function () {
         // given
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          label: 'Pix+ Test',
+          hasExternalJury: false,
+        }).id;
+
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
         const userId = databaseBuilder.factory.buildUser().id;
@@ -662,154 +499,42 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            domainBuilder.buildCertifiedBadgeImage.notTemporary({
-              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-            }),
-            domainBuilder.buildCertifiedBadgeImage.notTemporary({
-              path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
-            }),
+            {
+              imageUrl: 'https://images.pix.fr/badge1.svg',
+              isTemporaryBadge: false,
+              label: 'Pix+ test',
+              message: null,
+              partnerKey: 'PIX_TEST_1',
+            },
+            {
+              imageUrl: 'https://images.pix.fr/badge2.svg',
+              isTemporaryBadge: false,
+              label: 'Pix+ test',
+              message: null,
+              partnerKey: 'PIX_TEST_2',
+            },
           ],
         };
 
-        const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+        const { certificateId } = await _buildValidShareableCertificateWithAcquiredBadges({
           shareableCertificateData,
           acquiredBadges: [
             {
-              key: PIX_DROIT_EXPERT_CERTIF,
-              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-              complementaryCertificationId: pixDroitComplementaryCertificationId,
+              key: 'PIX_TEST_1',
+              imageUrl: 'https://images.pix.fr/badge1.svg',
+              label: 'Pix+ test',
+              complementaryCertificationId,
             },
             {
-              key: PIX_DROIT_MAITRE_CERTIF,
-              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
-              complementaryCertificationId: pixDroitComplementaryCertificationId,
+              key: 'PIX_TEST_2',
+              imageUrl: 'https://images.pix.fr/badge2.svg',
+              label: 'Pix+ test',
+              complementaryCertificationId,
             },
           ],
-          notAcquiredBadges: [],
         });
 
-        // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
-
-        // then
-        const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-          id: certificateId,
-          ...shareableCertificateData,
-        });
-        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, [
-          'resultCompetenceTree',
-        ]);
-      });
-
-      it('should get the certified badge image when there is temporary partner key and no partner key', async function () {
-        // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-        mockLearningContent(learningContentObjects);
-
-        const userId = databaseBuilder.factory.buildUser().id;
-        const shareableCertificateData = {
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId,
-          date: new Date('2020-01-01'),
-          verificationCode: 'ABCDF-G',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: null,
-          commentForCandidate: null,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: [
-            domainBuilder.buildCertifiedBadgeImage.temporary({
-              path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
-              levelName: 'Initié (entrée dans le métier)',
-              message:
-                'Vous avez obtenu le niveau “Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
-            }),
-          ],
-        };
-
-        const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
-          shareableCertificateData,
-          temporaryAcquiredBadges: [
-            {
-              key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-              imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
-              complementaryCertificationId: pixEduComplementaryCertificationId,
-            },
-          ],
-          acquiredBadges: [],
-          notAcquiredBadges: [],
-        });
-
-        // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode(
-          shareableCertificateData.verificationCode
-        );
-
-        // then
-        const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-          id: certificateId,
-          ...shareableCertificateData,
-        });
-
-        expect(shareableCertificate.certifiedBadgeImages).to.deep.equal(
-          expectedShareableCertificate.certifiedBadgeImages
-        );
-      });
-
-      it('should only take into account acquired ones', async function () {
-        // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-        mockLearningContent(learningContentObjects);
-        const userId = databaseBuilder.factory.buildUser().id;
-        const shareableCertificateData = {
-          id: 123,
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId,
-          date: new Date('2020-01-01'),
-          verificationCode: 'P-SOMECODE',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: 51,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: [
-            domainBuilder.buildCertifiedBadgeImage.notTemporary({
-              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-            }),
-          ],
-        };
-
-        const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
-          shareableCertificateData,
-          acquiredBadges: [
-            {
-              key: PIX_DROIT_EXPERT_CERTIF,
-              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-              complementaryCertificationId: pixDroitComplementaryCertificationId,
-            },
-          ],
-          notAcquiredBadges: [],
-        });
-
-        const otherCertificateId = databaseBuilder.factory.buildCertificationCourse().id;
-        databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          certificationCourseId: otherCertificateId,
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          acquired: true,
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-        });
         await databaseBuilder.commit();
 
         // when
@@ -871,12 +596,7 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
   return { certificateId, assessmentResultId };
 }
 
-async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
-  shareableCertificateData,
-  acquiredBadges,
-  notAcquiredBadges,
-  temporaryAcquiredBadges,
-}) {
+async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCertificateData, acquiredBadges }) {
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   const sessionId = databaseBuilder.factory.buildSession({
     publishedAt: shareableCertificateData.deliveredAt,
@@ -904,13 +624,14 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
     status: 'validated',
   }).id;
 
-  acquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+  acquiredBadges?.forEach(({ key, imageUrl, label, complementaryCertificationId }) => {
     const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
 
     const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
       badgeId,
       complementaryCertificationId,
       imageUrl,
+      label,
     }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
@@ -921,44 +642,6 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
       complementaryCertificationCourseId,
       partnerKey: key,
       acquired: true,
-    });
-  });
-  temporaryAcquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
-    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
-    const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-      badgeId,
-      complementaryCertificationId,
-      imageUrl,
-    }).id;
-    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-      certificationCourseId: certificateId,
-      complementaryCertificationId,
-      complementaryCertificationBadgeId,
-    });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-      complementaryCertificationCourseId,
-      partnerKey: key,
-      acquired: true,
-      source: ComplementaryCertificationCourseResult.sources.PIX,
-    });
-  });
-
-  notAcquiredBadges.forEach(({ key, imageUrl, complementaryCertificationId }) => {
-    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
-    const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-      badgeId,
-      complementaryCertificationId,
-      imageUrl,
-    }).id;
-    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-      certificationCourseId: certificateId,
-      complementaryCertificationId,
-      complementaryCertificationBadgeId,
-    });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-      complementaryCertificationCourseId,
-      partnerKey: key,
-      acquired: false,
     });
   });
 
