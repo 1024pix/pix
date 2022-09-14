@@ -48,7 +48,6 @@ const partnerCertificationScoringRepository = injectDependencies(
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
 const handlersToBeInjected = {
-  computeCampaignParticipationResults: require('./compute-campaign-participation-results'),
   handleAutoJury: require('./handle-auto-jury'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handleCertificationRescoring: require('./handle-certification-rescoring'),
