@@ -1,24 +1,15 @@
-{{! template-lint-disable no-implicit-this no-curly-component-invocation no-invalid-interactive no-unused-block-params }}
 <div class="navbar-mobile-header">
   <div class="navbar-mobile-header__container">
-    {{#if @burger}}
-      {{#if this.isUserLogged}}
-        {{#unless @burger.state.open}}
-          <button
-            class="navbar-mobile-header__burger-icon"
-            {{on "click" @burger.state.actions.toggle}}
-            type="button"
-            aria-labelledby="nav-mobile-button"
-          >
-            <span id="nav-mobile-button" class="sr-only">{{t "navigation.mobile-button-title"}}</span>
-            <FaIcon @icon="bars" />
-          </button>
-        {{/unless}}
-
-        {{#@burger.menu as |menu|}}
-          <NavbarBurgerMenu class="navbar-burger-menu-content" @burger={{@burger}} />
-        {{/@burger.menu}}
-      {{/if}}
+    {{#if this.isUserLogged}}
+      <button
+        class="navbar-mobile-header__burger-icon"
+        {{on "click" this.openMenu}}
+        type="button"
+        aria-labelledby="nav-mobile-button"
+      >
+        <span id="nav-mobile-button" class="sr-only">{{t "navigation.mobile-button-title"}}</span>
+        <FaIcon @icon="bars" />
+      </button>
     {{/if}}
 
     <div class="navbar-mobile-header__logo">
@@ -33,3 +24,7 @@
     </div>
   </div>
 </div>
+
+{{#if this.isUserLogged}}
+  <NavbarBurgerMenu @showSidebar={{this.isMenuOpen}} @onClose={{this.closeMenu}} />
+{{/if}}

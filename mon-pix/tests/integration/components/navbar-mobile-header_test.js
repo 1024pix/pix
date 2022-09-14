@@ -5,7 +5,8 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
+import { find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
@@ -14,6 +15,7 @@ describe('Integration | Component | navbar-mobile-header', function () {
 
   context('when user is not logged', function () {
     beforeEach(async function () {
+      // given & when
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
       setBreakpoint('tablet');
       await render(hbs`<NavbarMobileHeader />`);
@@ -24,9 +26,12 @@ describe('Integration | Component | navbar-mobile-header', function () {
       expect(find('.navbar-mobile-header__container')).to.exist;
     });
 
-    it('should display the Pix logo', function () {
+    it('should display the Pix logo', async function () {
+      // when
+      const screen = await render(hbs`<NavbarMobileHeader />`);
+
       // then
-      expect(find('.navbar-mobile-header-logo__pix')).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).to.exist;
     });
 
     it('should not display the burger menu', function () {
@@ -38,6 +43,7 @@ describe('Integration | Component | navbar-mobile-header', function () {
   context('When user is logged', function () {
     beforeEach(function () {
       this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
+      this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
       setBreakpoint('tablet');
     });
 
@@ -58,17 +64,8 @@ describe('Integration | Component | navbar-mobile-header', function () {
     });
 
     it('should display the burger icon', async function () {
-      // given
-      this.set('burger', {
-        state: {
-          actions: {
-            toggle: () => true,
-          },
-        },
-      });
-
       // when
-      await render(hbs`<NavbarMobileHeader @burger={{this.burger}} />`);
+      await render(hbs`<NavbarMobileHeader />`);
 
       // then
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
@@ -91,9 +88,9 @@ describe('Integration | Component | navbar-mobile-header', function () {
     this.set('isFrenchDomainUrl', true);
 
     // when
-    await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
+    const screen = await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
+    expect(screen.getByRole('img', { name: this.intl.t('common.french-republic') })).to.exist;
   });
 });
