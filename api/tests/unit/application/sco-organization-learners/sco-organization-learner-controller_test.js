@@ -98,46 +98,6 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
     });
   });
 
-  describe('#generateUsername', function () {
-    const userId = 2;
-    const request = {
-      auth: { credentials: { userId } },
-      payload: { data: { attributes: {} } },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'generateUsername');
-      usecases.generateUsername.resolves();
-      sinon.stub(scoOrganizationLearnerSerializer, 'serializeWithUsernameGeneration');
-      scoOrganizationLearnerSerializer.serializeWithUsernameGeneration.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/schooling-registration-user-associations/possibilities',
-      };
-      const response = await scoOrganizationLearnerController.generateUsername(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/sco-organization-learners/possibilities; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      hFake.request = {
-        path: '/api/sco-organization-learners/possibilities',
-      };
-      const response = await scoOrganizationLearnerController.generateUsername(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
   describe('#createAndReconcileUserToOrganizationLearner', function () {
     const userId = 2;
     const request = {
