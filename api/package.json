@@ -132,6 +132,7 @@
     "ts-migrate": "^0.1.30",
     "ts-migrate-plugins": "^0.1.30",
     "ts-migrate-server": "^0.1.29",
+    "ts-morph": "^16.0.0",
     "ts-node-dev": "^2.0.0"
   },
   "overrides": {
