@@ -82,26 +82,6 @@ module.exports = {
       campaignCode,
     };
 
-    if (h.request.path === '/api/schooling-registration-user-associations/possibilities') {
-      // we don't persist this ressource, we simulate response by adding the generated username
-      const organizationLearnerWithUsernameResponse = {
-        data: {
-          attributes: {
-            'last-name': payload['last-name'],
-            'first-name': payload['first-name'],
-            birthdate: payload['birthdate'],
-            'campaign-code': campaignCode,
-            username,
-          },
-          type: 'schooling-registration-user-associations',
-        },
-      };
-      return h
-        .response(organizationLearnerWithUsernameResponse)
-        .code(200)
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sco-organization-learners/possibilities; rel="successor-version"');
-    }
     return h
       .response(scoOrganizationLearnerSerializer.serializeWithUsernameGeneration(scoOrganizationLearner))
       .code(200);
