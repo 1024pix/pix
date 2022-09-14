@@ -27,7 +27,6 @@ module.exports = {
           'campaigns',
           'targetProfiles',
           'memberships',
-          'students',
           'organizationInvitations',
         ],
         campaigns: {
@@ -57,16 +56,6 @@ module.exports = {
           relationshipLinks: {
             related: function (record, current, parent) {
               return `/api/organizations/${parent.id}/memberships`;
-            },
-          },
-        },
-        students: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related: function (record, current, parent) {
-              return `/api/organizations/${parent.id}/students`;
             },
           },
         },
