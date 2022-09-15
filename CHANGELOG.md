@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v3.255.0 (15/09/2022)
+
+
+### :rocket: Amélioration
+- [#4908](https://github.com/1024pix/pix/pull/4908) [FEATURE] Proposer les épreuves du référentiel Pix+ en début de test de certification (PIX-5448)
+- [#4914](https://github.com/1024pix/pix/pull/4914) [FEATURE] Simplifier l'import de candidats avec un code postal / code Insee commençant par un 0 (PIX-5305)
+- [#4873](https://github.com/1024pix/pix/pull/4873) [FEATURE] Affichage de la certificabilité dans l'onglet participant de Pix Orga (PIX-5557)
+- [#4700](https://github.com/1024pix/pix/pull/4700) [FEATURE] Pouvoir mettre plusieurs langues dans le bandeau de communication (PIX-5395).
+- [#4902](https://github.com/1024pix/pix/pull/4902) [FEATURE] Ajouter un titre invisible pour les domaines dans l'affichage des compétences (PIX-5608).
+- [#4875](https://github.com/1024pix/pix/pull/4875) [FEATURE] Ajouter le nombre de participants/étudiants/élèves dans le titre de la page (PIX-5568).
+
+### :building_construction: Tech
+- [#4865](https://github.com/1024pix/pix/pull/4865) [TECH] Suppression de TargetProfileWithLearningContent (PIX-5615)
+- [#4869](https://github.com/1024pix/pix/pull/4869) [TECH] Supprimer bootstrap de admin (PIX-5614 )
+- [#4922](https://github.com/1024pix/pix/pull/4922) [TECH] Corriger les tests du organization places lot repository (Pix 5681).
+- [#4920](https://github.com/1024pix/pix/pull/4920) [TECH] Il manque un test pour la méthode update du campaign repository (Pix 5679).
+- [#4921](https://github.com/1024pix/pix/pull/4921) [TECH] Corriger les tests sur la distance d'édition (Pix 5680)
+- [#4911](https://github.com/1024pix/pix/pull/4911) [TECH] Ajouter des cas d'utilisation pour le script d'ajout de skillId aux userSavedTutorials (PIX-5665) 
+
+### :bug: Correction
+- [#4910](https://github.com/1024pix/pix/pull/4910) [BUGFIX] Corrige la redirection lorsqu'une certification a été terminé par le superviseur (PIX-5666)
+- [#4913](https://github.com/1024pix/pix/pull/4913) [BUGFIX] Prévenir l'épuisement de mémoire à l'import d'un fichier SIECLE xml mal formé
+
+### :coffee: Autre
+- [#4915](https://github.com/1024pix/pix/pull/4915) [CLEANUP] Abaisse le niveau du log lorsque le rate limit est atteint
+
 ## v3.254.0 (13/09/2022)
 
 
