@@ -120,6 +120,37 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     });
   });
 
+  context('when the the campaign has stage', function () {
+    it('displays the stage message', async function () {
+      const reachedStage = {
+        get: sinon.stub(),
+        message: 'Bravo !',
+      };
+      reachedStage.get.withArgs('threshold').returns([75]);
+      campaign = {
+        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
+        customResultPageButtonText: 'Next step',
+        organizationName: 'Dragon & Co',
+        organizationShowNPS: false,
+      };
+      const campaignParticipationResult = {
+        isShared: true,
+        masteryRate: '0.5',
+        participantExternalId: '1234G56',
+        reachedStage,
+        campaignParticipationBadges: [],
+        stageCount: 1,
+      };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+      // Then
+      expect(contains('Bravo !')).to.exist;
+    });
+  });
+
   describe('The trainings block', function () {
     context('When they does not have trainings', function () {
       it('should not display the block', async function () {
