@@ -2,8 +2,8 @@
   {{#if @candidates}}
     <div class="session-supervising-candidate-list">
       <h1 class="session-supervising-candidate-list__title">Candidats</h1>
-      <span class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test
-        pour l'autoriser à commencer son test de certification.</span>
+      <p class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test
+        pour l'autoriser à commencer son test de certification.</p>
       <div class="session-supervising-candidate-list__search">
         <FaIcon @icon="search" class="search-icon" />
         <PixInput
@@ -25,7 +25,7 @@
           <FaIcon @icon="times" />
         </PixButton>
       </div>
-      <p class="session-supervising-candidate-list__description">{{t
+      <p class="session-supervising-candidate-list__candidates-count">{{t
           "pages.session-supervising.candidate-list.authorized-to-start-candidates"
           authorizedToStartCandidates=this.authorizedToStartCandidates
           totalCandidates=@candidates.length
