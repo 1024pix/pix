@@ -2,7 +2,7 @@
   background: $pix-neutral-100;
   border-radius: 18px 18px 0 0;
   flex-grow: 1;
-  padding: 24px 8px;
+  padding: 32px 16px;
 
   .session-supervising-candidate-list {
     @include device-is("tablet") {
@@ -19,21 +19,19 @@
       display: flex;
       justify-content: flex-start;
       color: $pix-neutral-15;
-      font-size: 12px;
+      font-size: 0.875rem;
       font-weight: normal;
-      height: 14px;
+      min-height: 14px;
       letter-spacing: 0;
-      padding: 0 8px;
-      margin-bottom: 2rem;
+      margin: 0 0 24px;
     }
 
     &__title {
       font-weight: 600;
-      margin-top: 0;
+      margin: 0 0 8px;
       font-family: $font-open-sans;
       color: $pix-neutral-15;
-      font-size: 1.125rem;
-      padding: 0 8px;
+      font-size: 1.25rem;
     }
 
     &__candidates {
@@ -62,6 +60,53 @@
       margin: auto;
       max-width: 225px;
       text-align: center;
+    }
+
+    &__search {
+      align-items: center;
+      background-color: white;
+      border: 1px solid #7A869A;
+      border-radius: 4px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      height: 44px;
+      padding-left: 15px;
+      width: 100%;
+    }
+
+    &__candidates-count {
+      display: flex;
+      justify-content: flex-start;
+      color: $pix-neutral-15;
+      font-size: 0.875rem;
+      font-weight: normal;
+      height: 14px;
+      letter-spacing: 0;
+      margin: 16px 0 24px;
+    }
+
+    .search-icon {
+      color: $pix-neutral-30;
+    }
+
+    .search-input {
+      border: none;
+      box-shadow: none;
+      color: $pix-neutral-90;
+      font-family: $font-roboto;
+      font-size: 1rem;
+      padding: 0 10px;
+      width: 100%;
+    }
+
+    .empty-button {
+      margin-left: auto;
+      margin-right: 4px;
+    }
+
+    .pix-input {
+      flex: 1;
     }
   }
 }
