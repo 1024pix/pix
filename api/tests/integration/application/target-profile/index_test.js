@@ -57,6 +57,7 @@ describe('Integration | Application | Route | target-profile-router', function (
               id: 'recTube1',
               name: '@nomTube',
               practicalTitle: 'Super tube',
+              practicalDescription: 'Super description',
             }),
             thematicId: 'recThem1',
             level: 8,
@@ -121,6 +122,7 @@ describe('Integration | Application | Route | target-profile-router', function (
             attributes: {
               name: '@nomTube',
               'practical-title': 'Super tube',
+              'practical-description': 'Super description',
               level: 8,
               mobile: true,
               tablet: false,

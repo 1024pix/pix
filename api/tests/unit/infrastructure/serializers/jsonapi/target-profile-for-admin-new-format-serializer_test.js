@@ -47,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               id: 'recTube1',
               name: '@nomTube',
               practicalTitle: 'Super tube',
+              practicalDescription: 'Super description',
             }),
             thematicId: 'recThem1',
             level: 8,
@@ -101,6 +102,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             attributes: {
               name: '@nomTube',
               'practical-title': 'Super tube',
+              'practical-description': 'Super description',
               level: 8,
               mobile: true,
               tablet: false,

@@ -122,6 +122,7 @@ class TP_Thematic {
             id: tube.id,
             name: tube.name,
             practicalTitle: tube.practicalTitle,
+            practicalDescription: tube.practicalDescription,
             level: tube.level,
             mobile: tube.mobile,
             tablet: tube.tablet,
@@ -139,10 +140,11 @@ class TP_Thematic {
 }
 
 class TP_Tube {
-  constructor({ id, name, practicalTitle, level, mobile, tablet }) {
+  constructor({ id, name, practicalTitle, practicalDescription, level, mobile, tablet }) {
     this.id = id;
     this.name = name;
     this.practicalTitle = practicalTitle;
+    this.practicalDescription = practicalDescription;
     this.level = level;
     this.mobile = mobile;
     this.tablet = tablet;
