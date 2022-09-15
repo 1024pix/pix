@@ -2,17 +2,8 @@ import { getPaginationFromQueryParams, applyPagination } from './pagination-util
 
 export function findPaginatedAndFilteredSavedTutorials(schema, request) {
   const queryParams = request.queryParams;
-  const competenceFilters = queryParams['filter[competences]'];
 
-  let tutorials;
-
-  if (competenceFilters) {
-    tutorials = [schema.tutorials.create({ name: `Le tuto de la compétence ${competenceFilters[0]}` })];
-    schema.userSavedTutorials.create({ tutorial: tutorials[0] });
-  } else {
-    tutorials = schema.tutorials.all().models;
-  }
-
+  const tutorials = schema.tutorials.all().models;
   const userSavedTutorialIds = schema.userSavedTutorials
     .all()
     .models.map((userSavedTutorial) => userSavedTutorial.tutorialId);
