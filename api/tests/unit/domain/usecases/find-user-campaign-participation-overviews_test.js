@@ -1,8 +1,7 @@
-const { sinon, domainBuilder } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 const findUserCampaignParticipationOverviews = require('../../../../lib/domain/usecases/find-user-campaign-participation-overviews');
 describe('Unit | UseCase | find-user-campaign-participation-overviews', function () {
   let campaignParticipationOverviewRepository;
-  let targetProfileWithLearningContentRepository;
 
   beforeEach(function () {
     campaignParticipationOverviewRepository = {
@@ -10,9 +9,6 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
         campaignParticipationOverviews: [],
         pagination: {},
       }),
-    };
-    targetProfileWithLearningContentRepository = {
-      get: sinon.stub().resolves(domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent()),
     };
   });
 
@@ -27,7 +23,6 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
         userId,
         states,
         campaignParticipationOverviewRepository,
-        targetProfileWithLearningContentRepository,
       });
 
       // then
@@ -51,7 +46,6 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
         userId,
         states,
         campaignParticipationOverviewRepository,
-        targetProfileWithLearningContentRepository,
         page,
       });
 
@@ -76,7 +70,6 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
         userId,
         states,
         campaignParticipationOverviewRepository,
-        targetProfileWithLearningContentRepository,
         page,
       });
 

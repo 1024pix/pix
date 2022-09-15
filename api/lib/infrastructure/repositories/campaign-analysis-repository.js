@@ -9,22 +9,22 @@ const constants = require('../constants');
 const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = {
-  async getCampaignAnalysis(campaignId, targetProfileWithLearningContent, tutorials) {
+  async getCampaignAnalysis(campaignId, learningContent, tutorials) {
     const userIdsAndSharedDates = await _getSharedParticipationsWithUserIdsAndDates(campaignId);
     const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
     const participantCount = userIdsAndSharedDates.length;
 
     const campaignAnalysis = new CampaignAnalysis({
       campaignId,
-      targetProfileWithLearningContent,
+      learningContent,
       tutorials,
       participantCount,
     });
 
     await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
-      const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(
+      const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         Object.fromEntries(userIdsAndSharedDates),
-        targetProfileWithLearningContent
+        learningContent
       );
       campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
     });
@@ -32,22 +32,17 @@ module.exports = {
     return campaignAnalysis;
   },
 
-  async getCampaignParticipationAnalysis(
-    campaignId,
-    campaignParticipation,
-    targetProfileWithLearningContent,
-    tutorials
-  ) {
+  async getCampaignParticipationAnalysis(campaignId, campaignParticipation, learningContent, tutorials) {
     const campaignAnalysis = new CampaignAnalysis({
       campaignId,
-      targetProfileWithLearningContent,
+      learningContent,
       tutorials,
       participantCount: 1,
     });
 
-    const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(
+    const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
       { [campaignParticipation.userId]: campaignParticipation.sharedAt },
-      targetProfileWithLearningContent
+      learningContent
     );
     campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
 

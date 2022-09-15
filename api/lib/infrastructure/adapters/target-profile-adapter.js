@@ -6,8 +6,9 @@ module.exports = {
   fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects }) {
     const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);
     const targetProfileStages = bookshelfTargetProfile.related('stages');
-    const hasStages = targetProfileStages && targetProfileStages.models;
-    const stages = hasStages ? targetProfileStages.models.map((stage) => new Stage(stage.attributes)) : [];
+    const stages = targetProfileStages?.models?.map((stage) => new Stage(stage.attributes)) ?? [];
+    const targetProfileBadges = bookshelfTargetProfile.related('badges');
+    const badges = targetProfileBadges?.models?.map((stage) => new Stage(stage.attributes)) ?? [];
 
     return new TargetProfile({
       id: bookshelfTargetProfile.get('id'),
@@ -19,6 +20,7 @@ module.exports = {
       outdated: bookshelfTargetProfile.get('outdated'),
       skills,
       stages,
+      badges,
     });
   },
 };

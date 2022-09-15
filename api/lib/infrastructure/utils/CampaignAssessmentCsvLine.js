@@ -8,7 +8,8 @@ class CampaignAssessmentCsvLine {
     organization,
     campaign,
     campaignParticipationInfo,
-    targetProfileWithLearningContent,
+    targetProfile,
+    learningContent,
     participantKnowledgeElementsByCompetenceId,
     acquiredBadges,
     campaignParticipationService,
@@ -17,7 +18,8 @@ class CampaignAssessmentCsvLine {
     this.organization = organization;
     this.campaign = campaign;
     this.campaignParticipationInfo = campaignParticipationInfo;
-    this.targetProfileWithLearningContent = targetProfileWithLearningContent;
+    this.targetProfile = targetProfile;
+    this.learningContent = learningContent;
     this.targetedKnowledgeElementsCount = _.sum(
       _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length)
     );
@@ -55,7 +57,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeCompetenceColumns() {
-    return _.flatMap(this.targetProfileWithLearningContent.competences, (competence) =>
+    return _.flatMap(this.learningContent.competences, (competence) =>
       this._makeSharedStatsColumns({
         id: competence.id,
         ...this._getStatsForCompetence(competence),
@@ -64,7 +66,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeAreaColumns() {
-    return _.flatMap(this.targetProfileWithLearningContent.areas, ({ id, competences }) => {
+    return _.flatMap(this.learningContent.areas, ({ id, competences }) => {
       const areaCompetenceStats = competences.map(this._getStatsForCompetence);
 
       const targetedSkillCount = _.sumBy(areaCompetenceStats, 'targetedSkillCount');
@@ -79,7 +81,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeBadgesColumns() {
-    return _.flatMap(this.targetProfileWithLearningContent.badges, ({ title }) =>
+    return _.flatMap(this.targetProfile.badges, ({ title }) =>
       this._makeYesNoColumns(_.includes(this.acquiredBadges, title))
     );
   }
@@ -89,7 +91,7 @@ class CampaignAssessmentCsvLine {
       this.organization.name,
       this.campaign.id,
       this.campaign.name,
-      this.targetProfileWithLearningContent.name,
+      this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
       ...this._division,
@@ -99,17 +101,17 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationService.progress(
         this.campaignParticipationInfo.isCompleted,
         this.targetedKnowledgeElementsCount,
-        this.targetProfileWithLearningContent.skills.length
+        this.learningContent.skills.length
       ),
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this._makeYesNoColumns(this.campaignParticipationInfo.isShared),
       this.campaignParticipationInfo.isShared
         ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
         : this.emptyContent,
-      ...(this.targetProfileWithLearningContent.hasReachableStages() ? [this._getReachedStage()] : []),
+      ...(this.targetProfile.hasReachableStages ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared
         ? this._makeBadgesColumns()
-        : this._makeEmptyColumns(this.targetProfileWithLearningContent.badges.length)),
+        : this._makeEmptyColumns(this.targetProfile.badges.length)),
       this.campaignParticipationInfo.isShared ? this.campaignParticipationInfo.masteryRate : this.emptyContent,
     ];
   }
@@ -119,7 +121,7 @@ class CampaignAssessmentCsvLine {
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
       ...(this.organization.showSkills
-        ? _.map(this.targetProfileWithLearningContent.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill))
+        ? _.map(this.learningContent.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill))
         : []),
     ];
   }
@@ -130,17 +132,15 @@ class CampaignAssessmentCsvLine {
 
   _makeNotSharedColumns() {
     return [
-      ...this._makeEmptyColumns(this.targetProfileWithLearningContent.competences.length * STATS_COLUMNS_COUNT),
-      ...this._makeEmptyColumns(this.targetProfileWithLearningContent.areas.length * STATS_COLUMNS_COUNT),
-      ...(this.organization.showSkills
-        ? this._makeEmptyColumns(this.targetProfileWithLearningContent.skills.length)
-        : []),
+      ...this._makeEmptyColumns(this.learningContent.competences.length * STATS_COLUMNS_COUNT),
+      ...this._makeEmptyColumns(this.learningContent.areas.length * STATS_COLUMNS_COUNT),
+      ...(this.organization.showSkills ? this._makeEmptyColumns(this.learningContent.skills.length) : []),
     ];
   }
 
   _makeSkillColumn(targetedSkill) {
     let knowledgeElementForSkill = null;
-    const competenceId = this.targetProfileWithLearningContent.getCompetenceIdOfSkill(targetedSkill.id);
+    const competenceId = this.learningContent.findCompetenceIdOfSkill(targetedSkill.id);
     if (competenceId in this.targetedKnowledgeElementsByCompetence) {
       knowledgeElementForSkill = _.find(
         this.targetedKnowledgeElementsByCompetence[competenceId],
@@ -168,8 +168,7 @@ class CampaignAssessmentCsvLine {
 
     const masteryPercentage = this.campaignParticipationInfo.masteryRate * 100;
 
-    return this.targetProfileWithLearningContent.reachableStages.filter((stage) => masteryPercentage >= stage.threshold)
-      .length;
+    return this.targetProfile.reachableStages.filter((stage) => masteryPercentage >= stage.threshold).length;
   }
 
   get _studentNumber() {

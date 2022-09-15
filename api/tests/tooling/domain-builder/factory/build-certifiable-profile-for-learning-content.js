@@ -1,12 +1,12 @@
 const CertifiableProfileForLearningContent = require('../../../../lib/domain/models/CertifiableProfileForLearningContent');
 
 const buildCertifiableProfileForLearningContent = function ({
-  targetProfileWithLearningContent,
+  learningContent,
   knowledgeElements,
   answerAndChallengeIdsByAnswerId,
 } = {}) {
   return new CertifiableProfileForLearningContent({
-    targetProfileWithLearningContent,
+    learningContent,
     knowledgeElements,
     answerAndChallengeIdsByAnswerId,
   });
