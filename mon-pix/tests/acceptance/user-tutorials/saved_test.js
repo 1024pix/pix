@@ -2,10 +2,9 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { find, findAll, click, currentURL } from '@ember/test-helpers';
+import { find, findAll, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
-import { waitForDialog } from '../../helpers/wait-for';
 
 describe('Acceptance | User-tutorials-v2 | Saved', function () {
   setupApplicationTest();
@@ -43,46 +42,6 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
 
         // then
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(9);
-      });
-    });
-
-    describe('when user is filtering by competences', function () {
-      it('should filter tutorial by competence and close sidebar', async function () {
-        // given
-        await server.db.tutorials.remove();
-        await server.db.userSavedTutorials.remove();
-
-        server.create('area', 'withCompetences');
-        server.createList('tutorial', 10, 'withUserSavedTutorial');
-        const screen = await visit('/mes-tutos/enregistres');
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
-
-        await click(screen.getByRole('button', { name: 'Filtrer' }));
-        await waitForDialog();
-        await click(screen.getByRole('button', { name: 'Mon super domaine' }));
-        await click(screen.getByRole('checkbox', { name: 'Ma superbe compétence' }));
-
-        // when
-        await click(screen.getByRole('button', { name: 'Voir les résultats' }));
-
-        // then
-        expect(currentURL()).to.equal('/mes-tutos/enregistres?competences=1&pageNumber=1');
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
-        expect(find('.pix-sidebar--hidden')).to.exist;
-      });
-
-      describe('when user access again to tutorials saved page', function () {
-        it('should reset competences filters', async function () {
-          // given
-          const screen = await visit('/mes-tutos/enregistres?competences=1&pageNumber=1');
-
-          // when
-          await click(screen.getByRole('link', { name: 'Recommandés' }));
-          await click(screen.getByRole('link', { name: 'Enregistrés' }));
-
-          // then
-          expect(currentURL()).to.equal('/mes-tutos/enregistres');
-        });
       });
     });
   });
