@@ -40,7 +40,7 @@
                 {{text-with-multiple-lang this.reachedStage.title}}
               </div>
               <div class="stage-congrats__message">
-                <MarkdownToHtml @markdown={{text-with-multiple-lang this.reachedStage.message}} />
+                <MarkdownToHtml @markdown={{this.reachedStage.message}} />
               </div>
             </div>
           {{else}}
