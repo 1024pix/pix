@@ -2,7 +2,7 @@
   background: $pix-neutral-100;
   border-radius: 18px 18px 0 0;
   flex-grow: 1;
-  padding: 24px 8px;
+  padding: 32px 16px;
 
   .session-supervising-candidate-list {
     @include device-is("tablet") {
@@ -19,21 +19,19 @@
       display: flex;
       justify-content: flex-start;
       color: $pix-neutral-15;
-      font-size: 12px;
+      font-size: 0.875rem;
       font-weight: normal;
-      height: 14px;
+      min-height: 14px;
       letter-spacing: 0;
-      padding: 0 8px;
-      margin-bottom: 2rem;
+      margin: 0 0 24px;
     }
 
     &__title {
       font-weight: 600;
-      margin-top: 0;
+      margin: 0 0 8px;
       font-family: $font-open-sans;
       color: $pix-neutral-15;
-      font-size: 1.125rem;
-      padding: 0 8px;
+      font-size: 1.25rem;
     }
 
     &__candidates {
@@ -77,6 +75,17 @@
       width: 100%;
     }
 
+    &__candidates-count {
+      display: flex;
+      justify-content: flex-start;
+      color: $pix-neutral-15;
+      font-size: 0.875rem;
+      font-weight: normal;
+      height: 14px;
+      letter-spacing: 0;
+      margin: 16px 0 24px;
+    }
+
     .search-icon {
       color: $pix-neutral-30;
     }
@@ -98,11 +107,6 @@
 
     .pix-input {
       flex: 1;
-    }
-
-    .empty-button {
-      margin-left: auto;
-      margin-right: 4px;
     }
   }
 }
