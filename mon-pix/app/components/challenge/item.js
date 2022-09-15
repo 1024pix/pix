@@ -117,6 +117,7 @@ export default class Item extends Component {
 
       if (this._isAssessmentEndedBySupervisorOrByFinalization(error)) {
         this.router.transitionTo('authenticated.certifications.results', assessment.certificationCourse.get('id'));
+        return;
       }
 
       this.router.transitionTo('error', error);
