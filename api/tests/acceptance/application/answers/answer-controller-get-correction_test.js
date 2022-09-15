@@ -20,7 +20,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
     let userId;
 
     beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
+      userId = databaseBuilder.factory.buildUser({ id: 111 }).id;
       assessment = databaseBuilder.factory.buildAssessment({
         courseId: 'adaptive_course_id',
         state: 'completed',
@@ -32,6 +32,18 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
         result: 'ok',
         challengeId: 'q_first_challenge',
         assessmentId: assessment.id,
+      });
+
+      databaseBuilder.factory.buildUserSavedTutorial({
+        id: 10001,
+        userId,
+        tutorialId: 'french-tutorial-id',
+      });
+
+      databaseBuilder.factory.buildTutorialEvaluation({
+        id: 10002,
+        userId,
+        tutorialId: 'french-tutorial-id',
       });
 
       await databaseBuilder.commit();
@@ -121,6 +133,25 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
           included: [
             {
               attributes: {
+                id: 10002,
+                status: 'LIKED',
+                'tutorial-id': 'french-tutorial-id',
+                'user-id': 111,
+              },
+              id: '10002',
+              type: 'tutorial-evaluation',
+            },
+            {
+              attributes: {
+                id: 10001,
+                'tutorial-id': 'french-tutorial-id',
+                'user-id': 111,
+              },
+              id: '10001',
+              type: 'user-saved-tutorial',
+            },
+            {
+              attributes: {
                 duration: '00:03:31',
                 format: 'vidéo',
                 id: 'french-tutorial-id',
@@ -131,6 +162,20 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
               },
               id: 'french-tutorial-id',
               type: 'tutorials',
+              relationships: {
+                'user-saved-tutorial': {
+                  data: {
+                    id: '10001',
+                    type: 'user-saved-tutorial',
+                  },
+                },
+                'tutorial-evaluation': {
+                  data: {
+                    id: '10002',
+                    type: 'tutorial-evaluation',
+                  },
+                },
+              },
             },
           ],
         };

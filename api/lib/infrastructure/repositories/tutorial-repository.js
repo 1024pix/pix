@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Tutorial = require('../../domain/models/Tutorial');
-const userTutorialRepository = require('./user-tutorial-repository');
+const userSavedTutorialRepository = require('./user-saved-tutorial-repository');
 const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
@@ -13,9 +13,9 @@ const paginateModule = require('../utils/paginate');
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
     const tutorials = await _findByRecordIds({ ids, locale });
-    const userTutorials = await userTutorialRepository.find({ userId });
+    const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
     const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-    return _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    return _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
   },
 
   async findByRecordIds(ids) {
@@ -23,9 +23,9 @@ module.exports = {
   },
 
   async findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
-    const userTutorials = await userTutorialRepository.find({ userId });
+    const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
     const [tutorials, tutorialEvaluations] = await Promise.all([
-      tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
+      tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId)),
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
@@ -38,9 +38,13 @@ module.exports = {
       filteredTutorials = tutorials.filter(({ id }) => filteredTutorialIds.includes(id));
     }
 
-    const tutorialsForUser = _toTutorialsForUser({ tutorials: filteredTutorials, tutorialEvaluations, userTutorials });
+    const tutorialsForUser = _toTutorialsForUser({
+      tutorials: filteredTutorials,
+      tutorialEvaluations,
+      userSavedTutorials,
+    });
 
-    const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userTutorial.createdAt'], ['desc']);
+    const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userSavedTutorial.createdAt'], ['desc']);
     const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
 
     return { models, meta };
@@ -65,8 +69,8 @@ module.exports = {
   async findPaginatedFilteredRecommendedByUserId({ userId, filters = {}, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
-    const [userTutorials, tutorialEvaluations, skills] = await Promise.all([
-      userTutorialRepository.find({ userId }),
+    const [userSavedTutorials, tutorialEvaluations, skills] = await Promise.all([
+      userSavedTutorialRepository.find({ userId }),
       tutorialEvaluationRepository.find({ userId }),
       skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
     ]);
@@ -82,7 +86,12 @@ module.exports = {
       const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
 
       tutorialsForUser.push(
-        ..._toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userTutorials, skillId: skill.id })
+        ..._toTutorialsForUserForRecommandation({
+          tutorials,
+          tutorialEvaluations,
+          userSavedTutorials,
+          skillId: skill.id,
+        })
       );
     }
 
@@ -101,19 +110,24 @@ function _toDomain(tutorialData) {
   });
 }
 
-function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials }) {
+function _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials }) {
   return tutorials.map((tutorial) => {
-    const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+    const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation, skillId: userTutorial?.skillId });
+    return new TutorialForUser({
+      ...tutorial,
+      userSavedTutorial,
+      tutorialEvaluation,
+      skillId: userSavedTutorial?.skillId,
+    });
   });
 }
 
-function _toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userTutorials, skillId }) {
+function _toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userSavedTutorials, skillId }) {
   return tutorials.map((tutorial) => {
-    const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+    const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation, skillId });
+    return new TutorialForUser({ ...tutorial, userSavedTutorial, tutorialEvaluation, skillId });
   });
 }
 

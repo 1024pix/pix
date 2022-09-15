@@ -4,7 +4,7 @@ const UserSavedTutorial = require('../../../domain/models/UserSavedTutorial');
 
 module.exports = {
   serialize(userTutorial) {
-    return new Serializer('user-tutorial', {
+    return new Serializer('user-saved-tutorial', {
       attributes: ['tutorial', 'userId', 'tutorialId', 'skillId', 'updatedAt'],
       tutorial,
     }).serialize(userTutorial);

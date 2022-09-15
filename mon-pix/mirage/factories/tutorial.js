@@ -18,9 +18,9 @@ export default Factory.extend({
     return faker.random.word();
   },
 
-  withUserTutorial: trait({
+  withUserSavedTutorial: trait({
     afterCreate(tutorial, server) {
-      server.schema.create('user-tutorial', { tutorial });
+      server.schema.create('user-saved-tutorial', { tutorial });
     },
   }),
 

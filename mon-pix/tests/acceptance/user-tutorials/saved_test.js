@@ -18,7 +18,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
-    server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
+    server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
   });
 
   describe('When there are tutorials saved', function () {
@@ -34,8 +34,8 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         // given
         const numberOfTutorials = 10;
         await server.db.tutorials.remove();
-        await server.db.userTutorials.remove();
-        server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
+        await server.db.userSavedTutorials.remove();
+        server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
         await visit('/mes-tutos/enregistres');
 
         // when
@@ -50,10 +50,10 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
       it('should filter tutorial by competence and close sidebar', async function () {
         // given
         await server.db.tutorials.remove();
-        await server.db.userTutorials.remove();
+        await server.db.userSavedTutorials.remove();
 
         server.create('area', 'withCompetences');
-        server.createList('tutorial', 10, 'withUserTutorial');
+        server.createList('tutorial', 10, 'withUserSavedTutorial');
         const screen = await visit('/mes-tutos/enregistres');
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
 

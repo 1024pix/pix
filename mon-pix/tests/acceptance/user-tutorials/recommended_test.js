@@ -51,7 +51,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
     describe('when a tutorial is saved', function () {
       it('should not remove it from the list when clicking on the remove button', async function () {
         // given
-        server.createList('tutorial', 1, 'withUserTutorial');
+        server.createList('tutorial', 1, 'withUserSavedTutorial');
         const screen = await visit('/mes-tutos/recommandes');
 
         // when
@@ -65,7 +65,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
     describe('when a tutorial is liked', function () {
       it('should retrieve the appropriate status when changing page', async function () {
         // given
-        server.createList('tutorial', 1, 'withUserTutorial', 'withTutorialEvaluation');
+        server.createList('tutorial', 1, 'withUserSavedTutorial', 'withTutorialEvaluation');
         const screen = await visit('/mes-tutos/recommandes');
 
         // when
