@@ -516,7 +516,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const certificationCourseToSave = CertificationCourse.from({
                           certificationCandidate: foundCertificationCandidate,
-                          challenges: [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3],
+                          challenges: [challengePlus1, challengePlus2, challengePlus3, challenge1, challenge2],
                           verificationCode,
                           maxReachableLevelOnCertificationDate: 5,
                           complementaryCertificationCourses: [complementaryCertificationCourse],
@@ -644,7 +644,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const certificationCourseToSave = CertificationCourse.from({
                           certificationCandidate: foundCertificationCandidate,
-                          challenges: [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3],
+                          challenges: [challengePlus1, challengePlus2, challengePlus3, challenge1, challenge2],
                           verificationCode,
                           maxReachableLevelOnCertificationDate: 5,
                           complementaryCertificationCourses: [complementaryCertificationCourse],
@@ -689,11 +689,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         // then
                         expect(result.certificationCourse._challenges).to.deep.equal([
-                          challenge1,
-                          challenge2,
                           challengePlus1,
                           challengePlus2,
                           challengePlus3,
+                          challenge1,
+                          challenge2,
                         ]);
                       });
 
@@ -1203,12 +1203,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const certificationCourseToSave = CertificationCourse.from({
                       certificationCandidate: foundCertificationCandidate,
                       challenges: [
-                        challenge1,
-                        challenge2,
                         challenge1ForPixPlus1,
                         challenge2ForPixPlus1,
                         challenge1ForPixPlus2,
                         challenge2ForPixPlus2,
+                        challenge1,
+                        challenge2,
                       ],
                       verificationCode,
                       maxReachableLevelOnCertificationDate: 5,
@@ -1262,12 +1262,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     // then
                     expect(result.certificationCourse._challenges).to.deep.equal([
-                      challenge1,
-                      challenge2,
                       challenge1ForPixPlus1,
                       challenge2ForPixPlus1,
                       challenge1ForPixPlus2,
                       challenge2ForPixPlus2,
+                      challenge1,
+                      challenge2,
                     ]);
                   });
                 });
