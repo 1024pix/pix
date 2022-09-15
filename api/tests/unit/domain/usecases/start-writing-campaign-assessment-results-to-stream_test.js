@@ -5,13 +5,14 @@ const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
+describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
-  const targetProfileWithLearningContentRepository = { get: () => undefined };
+  const targetProfileRepository = { getByCampaignId: () => undefined };
+  const learningContentRepository = { findByCampaignId: () => undefined };
   const organizationRepository = { get: () => undefined };
   const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
-  const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
+  const knowledgeElementRepository = { findGroupedByCompetencesForUsersWithinLearningContent: () => undefined };
   const badgeAcquisitionRepository = { getAcquiredBadgesByCampaignParticipations: () => undefined };
   let writableStream;
   let csvPromise;
@@ -31,10 +32,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const campaign = domainBuilder.buildCampaign();
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').rejects();
+    sinon.stub(targetProfileRepository, 'getByCampaignId').rejects();
+    sinon.stub(learningContentRepository, 'findByCampaignId').rejects();
     sinon.stub(organizationRepository, 'get').rejects();
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').rejects();
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     // when
     const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
@@ -44,7 +46,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -59,27 +62,22 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   it('should return common parts of header with appropriate info', async function () {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
-    const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', competenceId: 'comp1_1' });
-    const tube2 = domainBuilder.buildTargetedTube({ id: 'tube3', competenceId: 'comp2_1' });
-    const competence1_1 = domainBuilder.buildTargetedCompetence({ id: 'comp1_1', tubes: [tube1], areaId: 'area1' });
-    const competence2_1 = domainBuilder.buildTargetedCompetence({ id: 'comp2_1', tubes: [tube2], areaId: 'area2' });
-    const area1 = domainBuilder.buildTargetedArea({ id: 'area1', competences: [competence1_1] });
-    const area2 = domainBuilder.buildTargetedArea({ id: 'area2', competences: [competence2_1] });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-      tubes: [tube1, tube2],
-      competences: [competence1_1, competence2_1],
-      areas: [area2, area1],
-    });
+    const tube1 = domainBuilder.buildTube({ id: 'tube1', competenceId: 'comp1_1' });
+    const tube2 = domainBuilder.buildTube({ id: 'tube3', competenceId: 'comp2_1' });
+    const competence1_1 = domainBuilder.buildCompetence({ id: 'comp1_1', tubes: [tube1] });
+    const area1 = domainBuilder.buildArea({ id: 'area1', competences: [competence1_1] });
+    const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2] });
+    const area2 = domainBuilder.buildArea({ id: 'area2', competences: [competence2_1] });
+    const targetProfile = domainBuilder.buildTargetProfile();
+    const learningContent = domainBuilder.buildLearningContent([area1, area2]);
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
@@ -107,14 +105,15 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       `"Acquis maitrisés du domaine ${area2.title}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -132,17 +131,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({
       idPixLabel,
     });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+    const targetProfile = domainBuilder.buildTargetProfile();
+    const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
@@ -157,22 +155,23 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Partage (O/N)";' +
       '"Date du partage";' +
       '"% maitrise de l\'ensemble des acquis du profil";' +
-      `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-      `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-      `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-      `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-      `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-      `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"\n`;
+      `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+      `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+      `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+      `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -189,19 +188,18 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
     const badge1 = domainBuilder.buildBadge({ title: 'badge1' });
     const badge2 = domainBuilder.buildBadge({ title: 'badge2' });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
+    const targetProfile = domainBuilder.buildTargetProfile({
       badges: [badge1, badge2],
     });
+    const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
@@ -217,22 +215,23 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       `"${badge1.title} obtenu (O/N)";` +
       `"${badge2.title} obtenu (O/N)";` +
       '"% maitrise de l\'ensemble des acquis du profil";' +
-      `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-      `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-      `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-      `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-      `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-      `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"\n`;
+      `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+      `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+      `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+      `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -249,17 +248,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({
       showSkills: false,
     });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+    const targetProfile = domainBuilder.buildTargetProfile();
+    const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
@@ -273,22 +271,23 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Partage (O/N)";' +
       '"Date du partage";' +
       '"% maitrise de l\'ensemble des acquis du profil";' +
-      `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-      `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-      `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-      `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-      `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-      `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"\n`;
+      `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+      `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+      `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+      `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -305,31 +304,26 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({
       showSkills: true,
     });
-    const skill1_1_1 = domainBuilder.buildTargetedSkill({ id: 'skill1_1_1', tubeId: 'tube1', name: '@acquis1' });
-    const skill2_1_1 = domainBuilder.buildTargetedSkill({ id: 'skill2_1_1', tubeId: 'tube3', name: '@acquis2' });
-    const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skill1_1_1], competenceId: 'comp1_1' });
-    const tube2 = domainBuilder.buildTargetedTube({ id: 'tube3', skills: [skill2_1_1], competenceId: 'comp2_1' });
-    const competence1_1 = domainBuilder.buildTargetedCompetence({ id: 'comp1_1', tubes: [tube1], areaId: 'area1' });
-    const competence2_1 = domainBuilder.buildTargetedCompetence({ id: 'comp2_1', tubes: [tube2], areaId: 'area2' });
-    const area1 = domainBuilder.buildTargetedArea({ id: 'area1', competences: [competence1_1] });
-    const area2 = domainBuilder.buildTargetedArea({ id: 'area2', competences: [competence2_1] });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-      skills: [skill1_1_1, skill2_1_1],
-      tubes: [tube1, tube2],
-      competences: [competence1_1, competence2_1],
-      areas: [area2, area1],
-    });
+    const skill1_1_1 = domainBuilder.buildSkill({ id: 'skill1_1_1', tubeId: 'tube1', name: '@acquis1' });
+    const skill2_1_1 = domainBuilder.buildSkill({ id: 'skill2_1_1', tubeId: 'tube3', name: '@acquis2' });
+    const tube1 = domainBuilder.buildTube({ id: 'tube1', skills: [skill1_1_1], competenceId: 'comp1_1' });
+    const tube2 = domainBuilder.buildTube({ id: 'tube3', skills: [skill2_1_1], competenceId: 'comp2_1' });
+    const competence1_1 = domainBuilder.buildCompetence({ id: 'comp1_1', tubes: [tube1] });
+    const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2] });
+    const area1 = domainBuilder.buildArea({ id: 'area1', competences: [competence1_1] });
+    const area2 = domainBuilder.buildArea({ id: 'area2', competences: [competence2_1] });
+    const targetProfile = domainBuilder.buildTargetProfile();
+
+    const learningContent = domainBuilder.buildLearningContent([area1, area2]);
 
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
@@ -359,14 +353,15 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       `"'${skill2_1_1.name}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -381,22 +376,22 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   it('should display stages header when link to target profile', async function () {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-    targetProfile.stages = [
-      domainBuilder.buildStage({ threshold: 0 }),
-      domainBuilder.buildStage({ threshold: 10 }),
-      domainBuilder.buildStage({ threshold: 50 }),
-    ];
+    const targetProfile = domainBuilder.buildTargetProfile({
+      stages: [
+        domainBuilder.buildStage({ threshold: 0 }),
+        domainBuilder.buildStage({ threshold: 10 }),
+        domainBuilder.buildStage({ threshold: 50 }),
+      ],
+    });
+    const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
@@ -411,22 +406,23 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Date du partage";' +
       '"Palier obtenu (/2)";' +
       '"% maitrise de l\'ensemble des acquis du profil";' +
-      `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-      `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-      `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-      `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-      `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-      `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"\n`;
+      `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+      `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+      `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+      `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
@@ -445,17 +441,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         isManagingStudents: true,
         type: 'SUP',
       });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfile = domainBuilder.buildTargetProfile();
+      const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
       campaign.targetProfile = targetProfile;
       sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
       sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
       sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-      sinon
-        .stub(targetProfileWithLearningContentRepository, 'get')
-        .withArgs({ id: targetProfile.id, locale: 'fr' })
-        .resolves(targetProfile);
+      sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+      sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
       sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-      sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+      sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
       const csvExpected =
         '\uFEFF"Nom de l\'organisation";' +
@@ -471,22 +466,23 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         '"Partage (O/N)";' +
         '"Date du partage";' +
         '"% maitrise de l\'ensemble des acquis du profil";' +
-        `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-        `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-        `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-        `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-        `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-        `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"\n`;
+        `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+        `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+        `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+        `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+        `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+        `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"\n`;
 
       // when
-      startWritingCampaignAssessmentResultsToStream({
+      await startWritingCampaignAssessmentResultsToStream({
         userId: user.id,
         campaignId: campaign.id,
         writableStream,
         campaignRepository,
         userRepository,
         i18n,
-        targetProfileWithLearningContentRepository,
+        targetProfileRepository,
+        learningContentRepository,
         organizationRepository,
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
@@ -504,17 +500,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         type: 'SCO',
         isManagingStudents: true,
       });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfile = domainBuilder.buildTargetProfile();
+      const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
       campaign.targetProfile = targetProfile;
       sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
       sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
       sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-      sinon
-        .stub(targetProfileWithLearningContentRepository, 'get')
-        .withArgs({ id: targetProfile.id, locale: 'fr' })
-        .resolves(targetProfile);
+      sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+      sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
       sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
-      sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+      sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
       const csvExpected =
         '\uFEFF"Nom de l\'organisation";' +
@@ -529,22 +524,23 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         '"Partage (O/N)";' +
         '"Date du partage";' +
         '"% maitrise de l\'ensemble des acquis du profil";' +
-        `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-        `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-        `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-        `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-        `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-        `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"\n`;
+        `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+        `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+        `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+        `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+        `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+        `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"\n`;
 
       // when
-      startWritingCampaignAssessmentResultsToStream({
+      await startWritingCampaignAssessmentResultsToStream({
         userId: user.id,
         campaignId: campaign.id,
         writableStream,
         i18n,
         campaignRepository,
         userRepository,
-        targetProfileWithLearningContentRepository,
+        targetProfileRepository,
+        learningContentRepository,
         organizationRepository,
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
@@ -561,34 +557,33 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     // given
     const { user: admin, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
     const badge = domainBuilder.buildBadge({ title: 'badge sup' });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
+    const targetProfile = domainBuilder.buildTargetProfile({
       badges: [badge],
     });
+    const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
     const participantInfo = domainBuilder.buildCampaignParticipationInfo({
       createdAt: new Date('2020-01-01'),
       sharedAt: new Date('2020-02-01'),
     });
     const knowledgeElement = domainBuilder.buildKnowledgeElement({
       status: 'validated',
-      skillId: targetProfile.skills[0].id,
-      competenceId: targetProfile.competences[0].id,
+      skillId: learningContent.skills[0].id,
+      competenceId: learningContent.competences[0].id,
     });
     campaign.targetProfile = targetProfile;
     badge.targetProfileId = targetProfile.id;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(admin.id).resolves(admin);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon
-      .stub(targetProfileWithLearningContentRepository, 'get')
-      .withArgs({ id: targetProfile.id, locale: 'fr' })
-      .resolves(targetProfile);
+    sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
+    sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
     sinon
       .stub(campaignParticipationInfoRepository, 'findByCampaignId')
       .withArgs(campaign.id)
       .resolves([participantInfo]);
-    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').resolves({
+    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').resolves({
       [participantInfo.userId]: {
-        [targetProfile.competences[0].id]: [knowledgeElement],
+        [learningContent.competences[0].id]: [knowledgeElement],
       },
     });
     sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgesByCampaignParticipations').resolves({
@@ -608,12 +603,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Date du partage";' +
       `"${badge.title} obtenu (O/N)";` +
       '"% maitrise de l\'ensemble des acquis du profil";' +
-      `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
-      `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
-      `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
-      `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
-      `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
-      `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}"`;
+      `"% de maitrise des acquis de la compétence ${learningContent.competences[0].name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${learningContent.competences[0].name}";` +
+      `"Acquis maitrisés dans la compétence ${learningContent.competences[0].name}";` +
+      `"% de maitrise des acquis du domaine ${learningContent.areas[0].title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${learningContent.areas[0].title}";` +
+      `"Acquis maitrisés du domaine ${learningContent.areas[0].title}"`;
 
     const csvParticipantResultExpected =
       `"${organization.name}";` +
@@ -636,14 +631,15 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '1';
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    await startWritingCampaignAssessmentResultsToStream({
       userId: admin.id,
       campaignId: campaign.id,
       writableStream,
       i18n,
       campaignRepository,
       userRepository,
-      targetProfileWithLearningContentRepository,
+      targetProfileRepository,
+      learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,

@@ -9,6 +9,7 @@ module.exports = function buildCompetence({
   area = buildArea(),
   skillIds = [],
   thematicIds = [],
+  tubes = [],
   origin = 'Pix',
 } = {}) {
   return new Competence({
@@ -20,5 +21,6 @@ module.exports = function buildCompetence({
     area,
     skillIds,
     thematicIds,
+    tubes,
   });
 };

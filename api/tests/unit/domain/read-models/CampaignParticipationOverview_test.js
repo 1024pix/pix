@@ -1,6 +1,5 @@
 const Stage = require('../../../../lib/domain/models/Stage');
-const Skill = require('../../../../lib/domain/models/Skill');
-const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { expect } = require('../../../test-helper');
@@ -10,7 +9,7 @@ const { SHARED, STARTED } = CampaignParticipationStatuses;
 describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function () {
   describe('constructor', function () {
     //when
-    const targetProfile = new TargetProfileWithLearningContent({ id: 2, skills: [new Skill()] });
+    const targetProfile = new TargetProfile({ id: 2 });
 
     it('should create CampaignParticipationOverview', function () {
       // when
@@ -19,7 +18,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         createdAt: new Date('2020-02-15T15:00:34Z'),
         status: SHARED,
         sharedAt: new Date('2020-03-15T15:00:34Z'),
-        targetProfile: targetProfile,
+        targetProfile,
         organizationName: 'Pix',
         campaignCode: 'campaignCode',
         campaignTitle: 'campaignTitle',
@@ -109,9 +108,8 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
           const stage4 = new Stage({
             threshold: 70,
           });
-          const targetProfile = new TargetProfileWithLearningContent({
+          const targetProfile = new TargetProfile({
             stages: [stage3, stage1, stage2, stage4],
-            skills: [new Skill(), new Skill()],
           });
           const campaignParticipationOverview = new CampaignParticipationOverview({
             status: SHARED,
@@ -126,7 +124,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
 
       context("when the targetProfile doesn't have stages", function () {
         it('should return null', function () {
-          const targetProfile = new TargetProfileWithLearningContent();
+          const targetProfile = new TargetProfile();
           const campaignParticipationOverview = new CampaignParticipationOverview({
             status: SHARED,
             validatedSkillsCount: 2,
@@ -150,7 +148,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         const stage3 = new Stage({
           threshold: 70,
         });
-        const targetProfile = new TargetProfileWithLearningContent({ stages: [stage3, stage1, stage2] });
+        const targetProfile = new TargetProfile({ stages: [stage3, stage1, stage2] });
         const campaignParticipationOverview = new CampaignParticipationOverview({
           status: STARTED,
           validatedSkillsCount: 2,
@@ -184,12 +182,12 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         const stage6 = new Stage({
           threshold: 14,
         });
-        const targetProfileWithLearningContent = new TargetProfileWithLearningContent({
+        const targetProfile = new TargetProfile({
           stages: [stage1, stage2, stage3, stage4, stage5, stage6],
         });
         const campaignParticipationOverview = new CampaignParticipationOverview({
           status: SHARED,
-          targetProfile: targetProfileWithLearningContent,
+          targetProfile,
         });
 
         expect(campaignParticipationOverview.totalStagesCount).to.equal(5);
@@ -198,10 +196,10 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
 
     context("target profile doesn't have stages", function () {
       it('should return 0', function () {
-        const targetProfileWithLearningContent = new TargetProfileWithLearningContent();
+        const targetProfile = new TargetProfile();
         const campaignParticipationOverview = new CampaignParticipationOverview({
           status: SHARED,
-          targetProfile: targetProfileWithLearningContent,
+          targetProfile,
         });
 
         expect(campaignParticipationOverview.totalStagesCount).to.equal(0);

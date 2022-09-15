@@ -7,36 +7,31 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
   describe('#get', function () {
     it('should return user profile', async function () {
       // given
-      const skill1 = domainBuilder.buildTargetedSkill({
+      const skill1 = domainBuilder.buildSkill({
         id: 'skill1_id',
         name: 'skill1_name',
         tubeId: 'tube1_id',
       });
-      const skill2 = domainBuilder.buildTargetedSkill({
+      const skill2 = domainBuilder.buildSkill({
         id: 'skill2_id',
         name: 'skill2_name',
         tubeId: 'tube1_id',
       });
-      const tube = domainBuilder.buildTargetedTube({
+      const tube = domainBuilder.buildTube({
         id: 'tube1_id',
         competenceId: 'competence1_id',
         skills: [skill1, skill2],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'competence1_id',
-        areaId: 'area1_id',
         tubes: [tube],
       });
-      const area = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'area1_id',
         competences: [competence],
       });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+
+      const learningContent = domainBuilder.buildLearningContent([area]);
 
       const userId = databaseBuilder.factory.buildUser().id;
       const profileDate = new Date('2021-01-01');
@@ -67,7 +62,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       const expectedCertifiableProfileForLearningContent = domainBuilder.buildCertifiableProfileForLearningContent({
         userId,
         profileDate,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [knowledgeElement1, knowledgeElement2],
         answerAndChallengeIdsByAnswerId: {
           [answer1.id]: { id: answer1.id, challengeId: 'challenge1' },
@@ -80,7 +75,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       const userProfile = await certifiableProfileForLearningContentRepository.get({
         id: userId,
         profileDate,
-        targetProfileWithLearningContent,
+        learningContent,
       });
 
       // then
@@ -90,31 +85,26 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
 
     it('should include user skill that are in the target profile only', async function () {
       // given
-      const skill = domainBuilder.buildTargetedSkill({
+      const skill = domainBuilder.buildSkill({
         id: 'skill1_id',
         name: 'skill1_name',
         tubeId: 'tube1_id',
       });
-      const tube = domainBuilder.buildTargetedTube({
+      const tube = domainBuilder.buildTube({
         id: 'tube1_id',
         competenceId: 'competence1_id',
         skills: [skill],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'competence1_id',
-        areaId: 'area1_id',
         tubes: [tube],
       });
-      const area = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'area1_id',
         competences: [competence],
       });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+
+      const learningContent = domainBuilder.buildLearningContent([area]);
 
       const userId = databaseBuilder.factory.buildUser().id;
       const profileDate = new Date('2021-01-01');
@@ -145,7 +135,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       const expectedCertifiableProfileForLearningContent = domainBuilder.buildCertifiableProfileForLearningContent({
         userId,
         profileDate,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [knowledgeElement1],
         answerAndChallengeIdsByAnswerId: { [answer1.id]: { id: answer1.id, challengeId: 'challenge1' } },
       });
@@ -155,7 +145,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       const userProfile = await certifiableProfileForLearningContentRepository.get({
         id: userId,
         profileDate,
-        targetProfileWithLearningContent,
+        learningContent,
       });
 
       // then
@@ -165,36 +155,31 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
 
     it('should include user skill that are within the profile date only', async function () {
       // given
-      const skill1 = domainBuilder.buildTargetedSkill({
+      const skill1 = domainBuilder.buildSkill({
         id: 'skill1_id',
         name: 'skill1_name',
         tubeId: 'tube1_id',
       });
-      const skill2 = domainBuilder.buildTargetedSkill({
+      const skill2 = domainBuilder.buildSkill({
         id: 'skill2_id',
         name: 'skill2_name',
         tubeId: 'tube1_id',
       });
-      const tube = domainBuilder.buildTargetedTube({
+      const tube = domainBuilder.buildTube({
         id: 'tube1_id',
         competenceId: 'competence1_id',
         skills: [skill1, skill2],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'competence1_id',
-        areaId: 'area1_id',
         tubes: [tube],
       });
-      const area = domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: 'area1_id',
         competences: [competence],
       });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+
+      const learningContent = domainBuilder.buildLearningContent([area]);
 
       const userId = databaseBuilder.factory.buildUser().id;
       const profileDate = new Date('2021-01-01');
@@ -225,7 +210,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       const expectedCertifiableProfileForLearningContent = domainBuilder.buildCertifiableProfileForLearningContent({
         userId,
         profileDate,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [knowledgeElement1],
         answerAndChallengeIdsByAnswerId: { [answer1.id]: { id: answer1.id, challengeId: 'challenge1' } },
       });
@@ -235,7 +220,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       const userProfile = await certifiableProfileForLearningContentRepository.get({
         id: userId,
         profileDate,
-        targetProfileWithLearningContent,
+        learningContent,
       });
 
       // then

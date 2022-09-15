@@ -73,10 +73,18 @@ module.exports = {
               query.orderBy('threshold', 'ASC');
             },
           },
+          'badges',
         ],
       });
 
     return _getWithLearningContentSkills(targetProfileBookshelf);
+  },
+
+  async getTargetProfileSkillIdsByCampaignId(campaignId) {
+    return knex('target-profiles_skills')
+      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
+      .where('campaigns.id', campaignId)
+      .pluck('skillId');
   },
 
   async getByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {

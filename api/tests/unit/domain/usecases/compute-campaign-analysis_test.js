@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
@@ -6,7 +6,7 @@ const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 describe('Unit | UseCase | compute-campaign-analysis', function () {
   let campaignRepository;
   let campaignAnalysisRepository;
-  let targetProfileWithLearningContentRepository;
+  let learningContentRepository;
   let tutorialRepository;
 
   const userId = 1;
@@ -16,23 +16,22 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
   beforeEach(function () {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignAnalysisRepository = { getCampaignAnalysis: sinon.stub() };
-    targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
+    learningContentRepository = { findByCampaignId: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
 
   context('User has access to this result', function () {
     it('should return the campaign analysis', async function () {
       // given
-      const targetProfile = Symbol('targetProfile');
+      const learningContent = domainBuilder.buildLearningContent();
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
       const tutorials = Symbol('tutorials');
       const campaignAnalysis = Symbol('analysis');
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      targetProfileWithLearningContentRepository.getByCampaignId
-        .withArgs({ campaignId, locale })
-        .resolves(targetProfile);
+      learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(learningContent);
       tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
       campaignAnalysisRepository.getCampaignAnalysis
-        .withArgs(campaignId, targetProfile, tutorials)
+        .withArgs(campaignId, campaignLearningContent, tutorials)
         .resolves(campaignAnalysis);
 
       // when
@@ -41,7 +40,7 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
         campaignId,
         campaignRepository,
         campaignAnalysisRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         tutorialRepository,
         locale,
       });
@@ -63,7 +62,7 @@ describe('Unit | UseCase | compute-campaign-analysis', function () {
         campaignId,
         campaignRepository,
         campaignAnalysisRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         locale,
       });
 
