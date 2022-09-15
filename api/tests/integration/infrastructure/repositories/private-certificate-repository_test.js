@@ -431,6 +431,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           certifiedBadgeImages: [
             {
               imageUrl: 'https://images.pix.fr/badge1.svg',
+              stickerUrl: 'https://images.pix.fr/skicker1.pdf',
               isTemporaryBadge: false,
               label: 'Pix+ test',
               message: 'message badge 1',
@@ -438,6 +439,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
             },
             {
               imageUrl: 'https://images.pix.fr/badge2.svg',
+              stickerUrl: 'https://images.pix.fr/skicker2.pdf',
               isTemporaryBadge: true,
               label: 'Pix+ test',
               message: 'temporary message badge 2',
@@ -453,6 +455,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
               key: 'PIX_TEST_1',
               label: 'Pix+ test',
               imageUrl: 'https://images.pix.fr/badge1.svg',
+              stickerUrl: 'https://images.pix.fr/skicker1.pdf',
               complementaryCertificationId,
               certificateMessage: 'message badge 1',
             },
@@ -460,6 +463,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
               key: 'PIX_TEST_2',
               label: 'Pix+ test',
               imageUrl: 'https://images.pix.fr/badge2.svg',
+              stickerUrl: 'https://images.pix.fr/skicker2.pdf',
               complementaryCertificationId: complementaryCertificationWithJuryId,
               temporaryCertificateMessage: 'temporary message badge 2',
             },
@@ -714,12 +718,21 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
   });
 
   acquiredBadges?.forEach(
-    ({ key, imageUrl, complementaryCertificationId, label, certificateMessage, temporaryCertificateMessage }) => {
+    ({
+      key,
+      imageUrl,
+      complementaryCertificationId,
+      label,
+      certificateMessage,
+      temporaryCertificateMessage,
+      stickerUrl,
+    }) => {
       const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
       const acquiredComplementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId,
         complementaryCertificationId,
         imageUrl,
+        stickerUrl,
         label,
         certificateMessage,
         temporaryCertificateMessage,
