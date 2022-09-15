@@ -6,6 +6,16 @@
     </p>
 
     <ul class="user-tutorials-banner-v2__filters">
+      <li class="user-tutorials-banner-v2-filters__filter">
+        <ChoiceChip @route="authenticated.user-tutorials.recommended">
+          {{t "pages.user-tutorials.recommended"}}
+        </ChoiceChip>
+      </li>
+      <li class="user-tutorials-banner-v2-filters__filter">
+        <ChoiceChip @route="authenticated.user-tutorials.saved">
+          {{t "pages.user-tutorials.saved"}}
+        </ChoiceChip>
+      </li>
       {{#if (and this.featureToggles.featureToggles.isPixAppTutoFiltersEnabled @shouldShowFilterButton)}}
         <li class="user-tutorials-banner-v2-filters__filter">
           <PixButton
@@ -17,16 +27,6 @@
           </PixButton>
         </li>
       {{/if}}
-      <li class="user-tutorials-banner-v2-filters__filter">
-        <ChoiceChip @route="authenticated.user-tutorials.recommended">
-          {{t "pages.user-tutorials.recommended"}}
-        </ChoiceChip>
-      </li>
-      <li class="user-tutorials-banner-v2-filters__filter">
-        <ChoiceChip @route="authenticated.user-tutorials.saved">
-          {{t "pages.user-tutorials.saved"}}
-        </ChoiceChip>
-      </li>
     </ul>
   </div>
 </div>
