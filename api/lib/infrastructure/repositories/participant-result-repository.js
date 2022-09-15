@@ -10,23 +10,13 @@ const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, targetProfile, badges, locale }) {
-    const [
-      participationResults,
-      isCampaignMultipleSendings,
-      isOrganizationLearnerActive,
-      isCampaignArchived,
-      competences,
-      badgeResultsDTO,
-      stages,
-    ] = await Promise.all([
-      _getParticipationResults(userId, campaignId, targetProfile.id),
-      _isCampaignMultipleSendings(campaignId),
-      _isOrganizationLearnerActive(userId, campaignId),
-      _isCampaignArchived(campaignId),
-      _findTargetedCompetences(targetProfile.id, locale),
-      _getBadgeResults(badges),
-      _getStages(targetProfile.id),
-    ]);
+    const participationResults = await _getParticipationResults(userId, campaignId, targetProfile.id);
+    const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
+    const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
+    const isCampaignArchived = await _isCampaignArchived(campaignId);
+    const competences = await _findTargetedCompetences(targetProfile.id, locale);
+    const badgeResultsDTO = await _getBadgeResults(badges);
+    const stages = await _getStages(targetProfile.id);
 
     return new AssessmentResult({
       participationResults,
