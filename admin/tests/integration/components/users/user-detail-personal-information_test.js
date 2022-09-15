@@ -126,7 +126,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
       await clickByName('Supprimer');
 
       // then
-      assert.dom(screen.getByText('Confirmer la suppression')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Confirmer la suppression' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Oui, je supprime' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+      assert.dom(screen.getByText('Suppression de la méthode de connexion suivante : Adresse e-mail')).exists();
     });
 
     test('should close the modal on click on cancel button', async function (assert) {
