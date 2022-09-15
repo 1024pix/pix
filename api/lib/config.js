@@ -194,6 +194,9 @@ module.exports = (function () {
     featureToggles: {
       isPixAppTutoFiltersEnabled: isFeatureEnabled(process.env.FT_TUTOS_V2_1_FILTERS),
       isSsoAccountReconciliationEnabled: isFeatureEnabled(process.env.FT_SSO_ACCOUNT_RECONCILIATION),
+      isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
+        process.env.FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS
+      ),
     },
 
     infra: {
@@ -317,6 +320,7 @@ module.exports = (function () {
 
     config.featureToggles.isPixAppTutoFiltersEnabled = false;
     config.featureToggles.isSsoAccountReconciliationEnabled = false;
+    config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
