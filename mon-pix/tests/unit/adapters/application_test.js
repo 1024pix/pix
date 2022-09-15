@@ -98,18 +98,21 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
   });
 
   describe('handleResponse()', function () {
-    context('when an HTTP status code 401 with code SESSION_EXPIRED is received', function () {
+    context('when an HTTP status code 401 is received', function () {
       it('should invalidate the current session', function () {
         // given
         const applicationAdapter = this.owner.lookup('adapter:application');
         const session = this.owner.lookup('service:session');
+        const status = 401;
+        const headers = {};
+        const payload = {};
+        const requestData = {};
 
         sinon.stub(session, 'invalidate');
+        session.isAuthenticated = true;
 
         // when
-        const headers = null;
-        const payload = { errors: [{ code: 'SESSION_EXPIRED' }] };
-        applicationAdapter.handleResponse(401, headers, payload);
+        applicationAdapter.handleResponse(status, headers, payload, requestData);
 
         // then
         sinon.assert.calledOnce(session.invalidate);

@@ -57,7 +57,7 @@ describe('Acceptance | Authentication', function () {
       expect(currentURL()).to.equal('/connexion');
     });
 
-    describe('when user should change password', function () {
+    context('when user should change password', function () {
       it('should redirect to /update-expired-password', async function () {
         // given
         user = server.create('user', 'withUsername', 'shouldChangePassword');
@@ -70,30 +70,15 @@ describe('Acceptance | Authentication', function () {
       });
     });
 
-    context('REST API call returns 401', function () {
-      it('should disconnect user if 401 is a SESSION_EXPIRED error', async function () {
+    context('when user session is invalid', function () {
+      it('should disconnect user', async function () {
         // given
         const campaign = server.create('campaign', { isSimplifiedAccess: true });
 
         // when
         const screen = await startCampaignByCode(campaign.code);
         const userId = currentSession().get('data.authenticated.user_id');
-        server.patch(
-          `/users/${userId}/remember-user-has-seen-assessment-instructions`,
-          () =>
-            new Response(
-              401,
-              {},
-              {
-                errors: [
-                  {
-                    status: '401',
-                    code: 'SESSION_EXPIRED',
-                  },
-                ],
-              }
-            )
-        );
+        server.patch(`/users/${userId}/remember-user-has-seen-assessment-instructions`, () => new Response(401));
         await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
 
         // then
