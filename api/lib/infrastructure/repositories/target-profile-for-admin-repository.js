@@ -145,9 +145,12 @@ async function _getLearningContent_new(targetProfileId, tubesData, locale) {
   const competenceIds = _.keys(_.groupBy(tubes, 'competenceId'));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
 
-  const thematicIds = competences.map((competence) => competence.thematicIds).flat();
+  const thematicIds = competences.flatMap((competence) => competence.thematicIds);
   const uniqThematicIds = _.uniq(thematicIds);
-  const thematics = await thematicRepository.findByRecordIds(uniqThematicIds, locale);
+  const allCompetenceThematics = await thematicRepository.findByRecordIds(uniqThematicIds, locale);
+  const thematics = allCompetenceThematics.filter((thematic) =>
+    thematic.tubeIds.some((tubeId) => tubeIds.includes(tubeId))
+  );
 
   const areaIds = _.map(competences, (competence) => competence.areaId);
   const uniqAreaIds = _.uniq(areaIds);
