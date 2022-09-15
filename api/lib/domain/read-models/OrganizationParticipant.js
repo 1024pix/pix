@@ -8,6 +8,7 @@ class OrganizationParticipant {
     campaignName,
     campaignType,
     participationStatus,
+    isCertifiable,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -17,6 +18,7 @@ class OrganizationParticipant {
     this.campaignName = campaignName;
     this.campaignType = campaignType;
     this.participationStatus = participationStatus;
+    this.isCertifiable = isCertifiable;
   }
 }
 

@@ -1265,6 +1265,45 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
+  describe('GET /api/organizations/{organizationId}/participants', function () {
+    it('should return the matching participants as JSON API', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: false }).id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        organizationLearnerId: organizationLearner.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const expectedResult = {
+        data: [{ id: organizationLearner.id.toString() }],
+      };
+
+      const request = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/participants`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(request);
+      expect(response.result.data.id).to.deep.equal(expectedResult.data.id);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('POST /api/organizations/{id}/invitations', function () {
     let organization;
     let user1;
@@ -2000,34 +2039,6 @@ describe('Acceptance | Application | organization-controller', function () {
       const request = {
         method: 'GET',
         url: '/api/organizations/' + organization.id + '/divisions',
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      // when
-      const response = await server.inject(request);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('GET /api/organizations/{organizationId}/participants', function () {
-    it('should return the participants', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const organizationLearnersId = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnersId });
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId,
-        organizationRole: Membership.roles.ADMIN,
-      });
-      await databaseBuilder.commit();
-
-      const request = {
-        method: 'GET',
-        url: `/api/organizations/${organizationId}/participants`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
