@@ -79,6 +79,14 @@
           >
             Télécharger le profil cible (JSON)
           </PixButtonLink>
+          <PixButton
+            @size="small"
+            @backgroundColor="green"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.exportAsPDF}}
+          >
+            Exporter en PDF
+          </PixButton>
         {{/if}}
         {{#unless @model.outdated}}
           <div class="target-profile__actions-spacer"></div>

@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 export default class TargetProfileController extends Controller {
   @service notifications;
+  @service targetProfileToPdf;
 
   @tracked isEditMode = false;
   @tracked displayConfirm = false;
@@ -81,5 +82,11 @@ export default class TargetProfileController extends Controller {
 
   reset() {
     this.isEditMode = false;
+  }
+
+  @action
+  async exportAsPDF() {
+    console.log('coucou');
+    await this.targetProfileToPdf.export(this.model.newAreas.toArray(), 'coucou', 'fr');
   }
 }
