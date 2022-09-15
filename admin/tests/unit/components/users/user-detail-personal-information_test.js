@@ -49,4 +49,56 @@ module('Unit | Component | users | user-detail-personal-information', function (
       assert.ok(component.notifications.error.called);
     });
   });
+
+  module('#translatedType', function () {
+    module('when authentication method is GAR', function () {
+      test('it should display "Médiacentre"', function (assert) {
+        // given
+        component.authenticationMethodType = 'GAR';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'Médiacentre');
+      });
+    });
+
+    module('when authentication method is PIX with email', function () {
+      test('it should display "Adresse e-mail"', function (assert) {
+        // given
+        component.authenticationMethodType = 'EMAIL';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'Adresse e-mail');
+      });
+    });
+
+    module('when authentication method is PIX with username', function () {
+      test('it should display "Identifiant"', function (assert) {
+        // given
+        component.authenticationMethodType = 'USERNAME';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'Identifiant');
+      });
+    });
+
+    module('when authentication method is POLE EMPLOI', function () {
+      test('it should display "Pôle Emploi"', function (assert) {
+        // given
+        component.authenticationMethodType = 'POLE_EMPLOI';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'Pôle Emploi');
+      });
+    });
+
+    module('when authentication method is CNAV', function () {
+      test('it should display "CNAV"', function (assert) {
+        // given
+        component.authenticationMethodType = 'CNAV';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'CNAV');
+      });
+    });
+  });
 });
