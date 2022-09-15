@@ -1,6 +1,6 @@
 const databaseBuffer = require('../database-buffer');
 
-module.exports = function buildStage({
+function buildStage({
   id = databaseBuffer.getNextId(),
   message = 'Courage !',
   title = 'Encouragement, il en a bien besoin',
@@ -24,4 +24,27 @@ module.exports = function buildStage({
     tableName: 'stages',
     values,
   });
+}
+
+buildStage.withLevel = function ({
+  id,
+  message,
+  title,
+  level = 3,
+  targetProfileId,
+  prescriberTitle,
+  prescriberDescription,
+} = {}) {
+  return buildStage({
+    id,
+    message,
+    title,
+    level,
+    threshold: null,
+    targetProfileId,
+    prescriberTitle,
+    prescriberDescription,
+  });
 };
+
+module.exports = buildStage;
