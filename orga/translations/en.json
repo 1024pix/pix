@@ -677,7 +677,10 @@
           "first-name": "First name",
           "last-name": "Last name",
           "lastest-participation": "Lastest participation",
-          "participation-count": "Number of participations"
+          "participation-count": "Number of participations",
+          "is-certifiable":{
+            "label": "Eligibility for certification"
+          }
         },
         "empty": "No participants",
         "row-title": "Participant"

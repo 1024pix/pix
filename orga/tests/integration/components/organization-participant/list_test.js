@@ -36,8 +36,16 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   test('it should display a list of participants', async function (assert) {
     // given
     const participants = [
-      { lastName: 'La Terreur', firstName: 'Gigi', id: 34 },
-      { lastName: "L'asticot", firstName: 'Gogo', id: 56 },
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        id: 34,
+      },
+      {
+        lastName: "L'asticot",
+        firstName: 'Gogo',
+        id: 56,
+      },
     ];
     this.set('participants', participants);
 
@@ -71,8 +79,18 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   test('it should display the number of participations for each participant', async function (assert) {
     // given
     const participants = [
-      { lastName: 'La Terreur', firstName: 'Gigi', id: 34, participationCount: 4 },
-      { lastName: "L'asticot", firstName: 'Gogo', id: 56, participationCount: 1 },
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        id: 34,
+        participationCount: 4,
+      },
+      {
+        lastName: "L'asticot",
+        firstName: 'Gogo',
+        id: 56,
+        participationCount: 1,
+      },
     ];
 
     this.set('participants', participants);
@@ -91,8 +109,18 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   test('it should display the date of the last participation and the tooltip informations for each participant', async function (assert) {
     // given
     const participants = [
-      { lastName: 'La Terreur', firstName: 'Gigi', id: 34, lastParticipationDate: new Date('2022-05-15') },
-      { lastName: "L'asticot", firstName: 'Gogo', id: 56, lastParticipationDate: new Date('2022-01-07') },
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        id: 34,
+        lastParticipationDate: new Date('2022-05-15'),
+      },
+      {
+        lastName: "L'asticot",
+        firstName: 'Gogo',
+        id: 56,
+        lastParticipationDate: new Date('2022-01-07'),
+      },
     ];
 
     this.set('participants', participants);
@@ -112,6 +140,27 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       ).length,
       2
     );
+  });
+
+  test('it should display participant as eligible for certification when the participant is certifiable', async function (assert) {
+    // given
+    const participants = [
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        id: 34,
+        lastParticipationDate: new Date('2022-05-15'),
+        isCertifiable: true,
+      },
+    ];
+
+    this.set('participants', participants);
+
+    // when
+    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`);
+
+    // then
+    assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
   });
 
   test('it filters participant when the input is filled', async function (assert) {
