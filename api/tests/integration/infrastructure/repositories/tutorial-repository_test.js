@@ -22,7 +22,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           title: 'tuto0',
           id: 'recTutorial0',
           skillId: undefined,
-          userTutorial: undefined,
+          userSavedTutorial: undefined,
           tutorialEvaluation: undefined,
         },
         {
@@ -33,7 +33,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           title: 'tuto1',
           id: 'recTutorial1',
           skillId: undefined,
-          userTutorial: undefined,
+          userSavedTutorial: undefined,
           tutorialEvaluation: undefined,
         },
       ];
@@ -52,10 +52,10 @@ describe('Integration | Repository | tutorial-repository', function () {
       expect(tutorials).to.deep.include.members(tutorialsList);
     });
 
-    it('should associate userTutorial when it exists for provided user', async function () {
+    it('should associate userSavedTutorial when it exists for provided user', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const userTutorial = databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: 'recTutorial0' });
+      const userSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: 'recTutorial0' });
       await databaseBuilder.commit();
 
       const tutorial = {
@@ -73,7 +73,7 @@ describe('Integration | Repository | tutorial-repository', function () {
 
       // then
       expect(tutorials).to.have.lengthOf(1);
-      expect(tutorials[0].userTutorial).to.deep.equal(userTutorial);
+      expect(tutorials[0].userSavedTutorial).to.deep.equal(userSavedTutorial);
     });
 
     it('should associate tutorialEvaluation when it exists for provided user', async function () {
@@ -177,9 +177,9 @@ describe('Integration | Repository | tutorial-repository', function () {
         // then
         expect(tutorialsForUser).to.have.length(2);
         expect(tutorialsForUser[0]).to.be.instanceOf(TutorialForUser);
-        expect(tutorialsForUser[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
-        expect(tutorialsForUser[0].userTutorial.userId).to.equal(userId);
-        expect(tutorialsForUser.map((tutorialForUser) => tutorialForUser.userTutorial.createdAt)).to.deep.equal([
+        expect(tutorialsForUser[0].userSavedTutorial).to.be.instanceOf(UserSavedTutorial);
+        expect(tutorialsForUser[0].userSavedTutorial.userId).to.equal(userId);
+        expect(tutorialsForUser.map((tutorialForUser) => tutorialForUser.userSavedTutorial.createdAt)).to.deep.equal([
           lastUserSavedTutorial.createdAt,
           firstUserSavedTutorial.createdAt,
         ]);
@@ -651,7 +651,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         const { results } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({ userId });
 
         // then
-        expect(_.omit(results[0], ['userTutorial', 'tutorialEvaluation'])).to.deep.equal({
+        expect(_.omit(results[0], ['userSavedTutorial', 'tutorialEvaluation'])).to.deep.equal({
           id: 'tuto1',
           link: 'https//example.net/tuto1',
           source: 'wikipedia',
@@ -849,7 +849,7 @@ describe('Integration | Repository | tutorial-repository', function () {
             tutorialId: 'tuto4',
             status: TutorialEvaluation.statuses.LIKED,
           });
-          expect(results[0].userTutorial).to.include({
+          expect(results[0].userSavedTutorial).to.include({
             id: userSavedTutorialId,
             userId,
             skillId: 'recSkill3',

@@ -157,7 +157,7 @@ const dependencies = {
   userToCreateRepository: require('../../infrastructure/repositories/user-to-create-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
-  userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
+  userSavedTutorialRepository: require('../../infrastructure/repositories/user-saved-tutorial-repository'),
   verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service'),
 };
 
