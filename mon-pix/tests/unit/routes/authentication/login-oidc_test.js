@@ -33,6 +33,13 @@ describe('Unit | Route | login-oidc', function () {
       const nonce = '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c';
 
       beforeEach(function () {
+        sinon.stub(fetch, 'default').resolves({
+          json: sinon.stub().resolves({
+            redirectTarget: `https://oidc/connexion`,
+            state,
+            nonce,
+          }),
+        });
         const oidcPartner = {
           id: 'oidc-partner',
           code: 'OIDC_PARTNER',
@@ -42,6 +49,10 @@ describe('Unit | Route | login-oidc', function () {
           list = [oidcPartner];
         }
         this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      });
+
+      afterEach(function () {
+        sinon.restore();
       });
 
       context('when identity provider is not supported', function () {
@@ -97,19 +108,16 @@ describe('Unit | Route | login-oidc', function () {
         });
       });
 
-      it('should direct user to identity provider login page and set state and nonce', async function () {
+      it('should clear previous session data, redirect user to identity provider login page and set state and nonce', async function () {
         // given
-        sinon.stub(fetch, 'default').resolves({
-          json: sinon.stub().resolves({
-            redirectTarget: `https://oidc/connexion`,
-            state,
-            nonce,
-          }),
-        });
         const sessionStub = Service.create({
           attemptedTransition: { intent: { url: '/campagnes/PIXOIDC01/acces' } },
           authenticate: sinon.stub().resolves(),
-          data: {},
+          data: {
+            nextURL: '/previous-url',
+            state: 'previous-state',
+            nonce: 'previous-nonce',
+          },
         });
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.set('session', sessionStub);
@@ -121,7 +129,6 @@ describe('Unit | Route | login-oidc', function () {
         // then
         sinon.assert.calledWithMatch(route.location.replace, 'https://oidc/connexion');
         expect(sessionStub.data).to.deep.equal({ nextURL: '/campagnes/PIXOIDC01/acces', state, nonce });
-        sinon.restore();
       });
     });
   });
