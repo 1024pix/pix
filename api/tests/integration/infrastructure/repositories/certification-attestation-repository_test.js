@@ -328,6 +328,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
               label: 'Pix+ Test 1',
               partnerKey: 'PIX_TEST_1',
               imageUrl: 'https://images.pix.fr/badge1.svg',
+              stickerUrl: 'https://images.pix.fr/skicker1.pdf',
               message: 'Pix+ Test 1 certificate message',
             },
             {
@@ -335,6 +336,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
               label: 'Pix+ Test 2',
               partnerKey: 'PIX_TEST_2',
               imageUrl: 'https://images.pix.fr/badge2.svg',
+              stickerUrl: 'https://images.pix.fr/skicker2.pdf',
               message: 'Pix+ Test 2 temporary certificate message',
             },
           ],
@@ -356,6 +358,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           badgeId: badge1Id,
           complementaryCertificationId: complementaryCertification1Id,
           imageUrl: 'https://images.pix.fr/badge1.svg',
+          stickerUrl: 'https://images.pix.fr/skicker1.pdf',
           certificateMessage: 'Pix+ Test 1 certificate message',
           temporaryCertificateMessage: '',
         }).id;
@@ -364,6 +367,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           badgeId: badge2Id,
           complementaryCertificationId: complementaryCertification2Id,
           imageUrl: 'https://images.pix.fr/badge2.svg',
+          stickerUrl: 'https://images.pix.fr/skicker2.pdf',
           certificateMessage: 'Pix+ Test 2 certificate message',
           temporaryCertificateMessage: 'Pix+ Test 2 temporary certificate message',
         }).id;
