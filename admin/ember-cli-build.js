@@ -11,14 +11,6 @@ module.exports = function (defaults) {
     babel: {
       sourceMaps: 'inline',
     },
-    'ember-bootstrap': {
-      importBootstrapFont: false,
-      importBootstrapCSS: true,
-      importBootstrapTheme: true,
-      bootstrapVersion: 4,
-      whitelist: ['bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple'],
-    },
-
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
     },

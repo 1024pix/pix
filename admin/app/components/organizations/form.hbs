@@ -22,10 +22,7 @@
 
     <div class="form-field form-group">
       <label class="form-field__label" for="organizationType">Type : </label>
-      <div
-        id="organizationTypeSelector"
-        class="form-field__select {{if @organization.errors.type " is-invalid" ""}} organization-form__select-type"
-      >
+      <div id="organizationTypeSelector" class="form-field__select {{if @organization.errors.type " is-invalid" ""}}">
         <PixSelect
           @onChange={{this.selectOrganizationType}}
           @options={{this.organizationTypes}}
