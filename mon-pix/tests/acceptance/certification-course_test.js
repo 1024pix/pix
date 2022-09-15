@@ -8,6 +8,7 @@ import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/ce
 import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';
 import { assessmentStates } from 'mon-pix/models/assessment';
+import { Response } from 'miragejs';
 
 describe('Acceptance | Certification | Certification Course', function () {
   setupApplicationTest();
@@ -354,6 +355,7 @@ describe('Acceptance | Certification | Certification Course', function () {
             isEndTestScreenRemovalEnabled: true,
           });
           this.server.create('assessment', {
+            type: 'CERTIFICATION',
             certificationCourseId: certificationCourse.id,
             state: assessmentStates.ENDED_BY_SUPERVISOR,
           });
@@ -368,6 +370,62 @@ describe('Acceptance | Certification | Certification Course', function () {
               'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.'
             )
           ).to.exist;
+        });
+      });
+
+      context('when user has already started the certification', function () {
+        context('when test was ended by supervisor', function () {
+          it('should redirect to "Votre surveillant a mis fin…"', async function () {
+            // given
+            user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+            server.create('challenge', 'forCertification');
+            server.create('challenge', 'forCertification');
+            server.create('certification-course', {
+              id: 99,
+              accessCode: 'ABCD12',
+              sessionId: 1,
+              nbChallenges: 2,
+              firstName: 'Laura',
+              lastName: 'Bravo',
+              isEndTestScreenRemovalEnabled: true,
+            });
+            const assessment = server.create('assessment', {
+              certificationCourseId: 99,
+              type: 'CERTIFICATION',
+              state: assessmentStates.STARTED,
+            });
+            server.create('certification-candidate-subscription', {
+              id: 2,
+              sessionId: 1,
+              eligibleSubscriptions: [],
+              nonEligibleSubscriptions: [],
+            });
+
+            await authenticateByEmail(user);
+            await visit('/certifications');
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'Bravo',
+              dayOfBirth: '01',
+              monthOfBirth: '01',
+              yearOfBirth: '2000',
+              intl: this.intl,
+            });
+            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
+            // when
+            assessment.update({ state: assessmentStates.ENDED_BY_SUPERVISOR });
+            this.server.post('/answers', generate400Error('Le surveillant a mis fin à votre test de certification.'));
+            await click('.challenge-actions__action-skip');
+
+            // then
+            expect(
+              contains(
+                'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.'
+              )
+            ).to.exist;
+          });
         });
       });
 
@@ -398,3 +456,15 @@ describe('Acceptance | Certification | Certification Course', function () {
     });
   });
 });
+
+function generate400Error(detail) {
+  return () => {
+    return new Response(
+      400,
+      {},
+      {
+        errors: [{ status: '400', detail }],
+      }
+    );
+  };
+}
