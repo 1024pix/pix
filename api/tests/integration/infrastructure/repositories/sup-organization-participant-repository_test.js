@@ -17,12 +17,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
       await databaseBuilder.commit();
 
       // when
-      const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+      const {
+        data: [participant],
+      } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
         organizationId: organization.id,
       });
 
       // then
-      expect(data[0]).to.be.an.instanceOf(SupOrganizationParticipant);
+      expect(participant).to.be.an.instanceOf(SupOrganizationParticipant);
     });
 
     it('should return all the SupOrganizationParticipant for a given organization ID', async function () {
@@ -327,13 +329,15 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         };
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ campaignName, campaignType }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        expect(data[0].campaignName).to.deep.equal(expectedAttributes.campaignName);
-        expect(data[0].campaignType).to.deep.equal(expectedAttributes.campaignType);
+        expect(campaignName).to.deep.equal(expectedAttributes.campaignName);
+        expect(campaignType).to.deep.equal(expectedAttributes.campaignType);
       });
 
       it('should return null when there is no participation', async function () {
@@ -344,13 +348,15 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ campaignName, campaignType }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        expect(data[0].campaignName).to.deep.equal(null);
-        expect(data[0].campaignType).to.deep.equal(null);
+        expect(campaignName).to.deep.equal(null);
+        expect(campaignType).to.deep.equal(null);
       });
 
       it('should return campaign name and type only for a campaign in the given organization', async function () {
@@ -365,12 +371,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ campaignName }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        expect(data[0].campaignName).to.equal(null);
+        expect(campaignName).to.equal(null);
       });
     });
 
@@ -393,12 +401,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ participationStatus }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        expect(data[0].participationStatus).to.deep.equal(CampaignParticipationStatuses.TO_SHARE);
+        expect(participationStatus).to.equal(CampaignParticipationStatuses.TO_SHARE);
       });
 
       it('should return null when there is no participation', async function () {
@@ -409,12 +419,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ participationStatus }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        expect(data[0].participationStatus).to.deep.equal(null);
+        expect(participationStatus).to.deep.equal(null);
       });
     });
 
@@ -431,13 +443,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ participationCount }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const participationCountAsArray = data.map((result) => result.participationCount);
-        expect(participationCountAsArray).to.deep.equal([2]);
+        expect(participationCount).to.equal(2);
       });
 
       it('should count only participations not deleted', async function () {
@@ -463,13 +476,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ participationCount }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const participationCountAsArray = data.map((result) => result.participationCount);
-        expect(participationCountAsArray).to.deep.equal([1]);
+        expect(participationCount).to.deep.equal(1);
       });
 
       it('should count only participations not improved', async function () {
@@ -483,13 +497,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ participationCount }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const participationCountAsArray = data.map((result) => result.participationCount);
-        expect(participationCountAsArray).to.deep.equal([1]);
+        expect(participationCount).to.deep.equal(1);
       });
 
       it('should count 0 participation when sup participant has no participation', async function () {
@@ -499,13 +514,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ participationCount }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const participationCountAsArray = data.map((result) => result.participationCount);
-        expect(participationCountAsArray).to.deep.equal([0]);
+        expect(participationCount).to.deep.equal(0);
       });
     });
 
@@ -521,12 +537,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          meta: { participantCount },
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId: organization.id,
         });
 
         // then
-        expect(meta.participantCount).to.equal(1);
+        expect(participantCount).to.equal(1);
       });
 
       it('should not count disabled SUP participants', async function () {
@@ -540,12 +558,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          meta: { participantCount },
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId: organization.id,
         });
 
         // then
-        expect(meta.participantCount).to.equal(1);
+        expect(participantCount).to.equal(1);
       });
 
       it('should count all participants when several exist', async function () {
@@ -558,12 +578,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          meta: { participantCount },
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId: organization.id,
         });
 
         // then
-        expect(meta.participantCount).to.equal(2);
+        expect(participantCount).to.equal(2);
       });
     });
 
@@ -588,13 +610,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ lastParticipationDate }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
-        expect(lastParticipationDatesAsArray).to.deep.equal([campaignParticipation.createdAt]);
+        expect(lastParticipationDate).to.deep.equal(campaignParticipation.createdAt);
       });
 
       it('should take the last participation date not deleted', async function () {
@@ -622,13 +645,15 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ lastParticipationDate }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
-        expect(lastParticipationDatesAsArray).to.deep.equal([campaignParticipation.createdAt]);
+
+        expect(lastParticipationDate).to.deep.equal(campaignParticipation.createdAt);
       });
 
       it('should take the last participation date not improved', async function () {
@@ -652,13 +677,15 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ lastParticipationDate }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
-        expect(lastParticipationDatesAsArray).to.deep.equal([campaignParticipation.createdAt]);
+
+        expect(lastParticipationDate).to.deep.equal(campaignParticipation.createdAt);
       });
 
       it('should be null when sup participant has no participation', async function () {
@@ -668,13 +695,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         await databaseBuilder.commit();
 
         // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        const {
+          data: [{ lastParticipationDate }],
+        } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
           organizationId,
         });
 
         // then
-        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
-        expect(lastParticipationDatesAsArray).to.deep.equal([null]);
+        expect(lastParticipationDate).to.deep.equal(null);
       });
     });
   });
