@@ -22,7 +22,9 @@ const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
 /**
- * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "name": "Pix+ Édu 2nd degré"}]'
+ * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
+ * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
+ * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'PRO' 1'
  */
 
 const PIXCLEA = 'CLEA';
@@ -395,7 +397,7 @@ async function _createUser({ firstName, lastName, birthdate, email }, databaseBu
 }
 
 if (process.argv.length > 2 && process.env.NODE_ENV !== 'test') {
-  const [centerType, candidateNumber, complementaryCertifications] = process.argv.slice(2);
+  const [centerType, candidateNumber, complementaryCertifications = '[]'] = process.argv.slice(2);
 
   main({
     centerType,
