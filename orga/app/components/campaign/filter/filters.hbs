@@ -28,7 +28,7 @@
       />
       <label
         for="ongoing-campaigns"
-        class="campaign-filters__tab {{unless @isArchived "campaign-filters__tab--active"}}"
+        class="campaign-filters__tab {{unless @isArchived 'campaign-filters__tab--active'}}"
       >
         {{t "pages.campaigns-list.action.ongoing.label"}}
       </label>
@@ -39,7 +39,7 @@
         checked={{@isArchived}}
         {{on "click" (fn @onFilter "status" "archived")}}
       />
-      <label for="archived-campaigns" class="campaign-filters__tab {{if @isArchived "campaign-filters__tab--active"}}">
+      <label for="archived-campaigns" class="campaign-filters__tab {{if @isArchived 'campaign-filters__tab--active'}}">
         {{t "pages.campaigns-list.action.archived.label"}}
       </label>
     </div>
