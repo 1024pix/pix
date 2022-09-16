@@ -7,6 +7,7 @@ const bluebird = require('bluebird');
 const maxBy = require('lodash/maxBy');
 const logger = require('../../lib/infrastructure/logger');
 const { getNewSessionCode } = require('../../lib/domain/services/session-code-service');
+const temporaryStorage = require('../../lib/infrastructure/temporary-storage/index');
 const {
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
@@ -431,5 +432,6 @@ async function _disconnect() {
   await disconnect();
   logger.info('Closing connexions to cache...');
   cache.quit();
+  temporaryStorage.quit();
   logger.info('Exiting process gracefully...');
 }
