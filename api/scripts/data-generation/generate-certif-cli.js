@@ -122,7 +122,7 @@ async function main({ centerType, candidateNumber, complementaryCertifications }
   const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
 
   if (centerType === 'SCO') {
-    await _createScoCertificationCandidates(certificationCenterId, candidateNumber, sessionId, databaseBuilder);
+    await _createScoCertificationCandidates({ certificationCenterId, candidateNumber, sessionId }, databaseBuilder);
   } else {
     let complementaryCertificationGroupedByCandidateIndex;
     if (complementaryCertifications?.length) {
@@ -131,18 +131,14 @@ async function main({ centerType, candidateNumber, complementaryCertifications }
       });
 
       await _createComplementaryCertificationHabilitations(
-        new Set(complementaryCertificationIds),
-        certificationCenterId,
+        { complementaryCertificationIds: new Set(complementaryCertificationIds), certificationCenterId },
         databaseBuilder
       );
       complementaryCertificationGroupedByCandidateIndex = _groupByCandidateIndex(complementaryCertifications);
     }
 
     await _createNonScoCertificationCandidates(
-      centerType,
-      candidateNumber,
-      sessionId,
-      complementaryCertificationGroupedByCandidateIndex,
+      { centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex },
       databaseBuilder
     );
   }
@@ -171,15 +167,14 @@ async function _updateCertificationCenterSupervisorPortalAccess(id) {
 }
 
 async function _createComplementaryCertificationHabilitations(
-  complementaryCertificationIds,
-  certificationCenterId,
+  { complementaryCertificationIds, certificationCenterId },
   databaseBuilder
 ) {
+  console.log({ complementaryCertificationIds, certificationCenterId });
   return bluebird.mapSeries(complementaryCertificationIds, async (complementaryCertificationId) => {
     databaseBuilder.factory.buildComplementaryCertificationHabilitation({
       certificationCenterId,
       complementaryCertificationId,
-      databaseBuilder,
     });
   });
 }
@@ -196,12 +191,10 @@ async function _createSessionAndReturnId(certificationCenterId, databaseBuilder)
 }
 
 async function _createNonScoCertificationCandidates(
-  centerType,
-  candidateNumber,
-  sessionId,
-  complementaryCertificationGroupedByCandidateIndex,
+  { centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex },
   databaseBuilder
 ) {
+  console.log({ centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex });
   let maxUserId = await _getMaxUserId();
 
   for (let i = 0; i < candidateNumber; i++) {
@@ -211,7 +204,7 @@ async function _createNonScoCertificationCandidates(
     const birthdate = new Date('2000-01-01');
     const email = `${firstName}@example.net`;
     const { id: userId } = await _createUser({ firstName, lastName, birthdate, email }, databaseBuilder);
-    const { id: candidateId } = databaseBuilder.factory.buildCertificationCandidate({
+    const { id: certificationCandidateId } = databaseBuilder.factory.buildCertificationCandidate({
       firstName,
       lastName,
       birthdate,
@@ -226,9 +219,7 @@ async function _createNonScoCertificationCandidates(
       const complementaryCertifications = complementaryCertificationGroupedByCandidateIndex[i + 1];
 
       await _createComplementaryCertificationHability(
-        complementaryCertifications,
-        candidateId,
-        userId,
+        { complementaryCertifications, certificationCandidateId, userId },
         databaseBuilder
       );
     }
@@ -240,7 +231,10 @@ async function _getMaxUserId() {
   return max;
 }
 
-async function _createScoCertificationCandidates(certificationCenterId, candidateNumber, sessionId, databaseBuilder) {
+async function _createScoCertificationCandidates(
+  { certificationCenterId, candidateNumber, sessionId },
+  databaseBuilder
+) {
   const organizationLearner = await knex('organization-learners')
     .select('organization-learners.*')
     .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
@@ -287,9 +281,7 @@ async function _createScoCertificationCandidates(certificationCenterId, candidat
 }
 
 async function _createComplementaryCertificationHability(
-  complementaryCertifications,
-  certificationCandidateId,
-  userId,
+  { complementaryCertifications, certificationCandidateId, userId },
   databaseBuilder
 ) {
   return bluebird.mapSeries(complementaryCertifications, async (key) => {
