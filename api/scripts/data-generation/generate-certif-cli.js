@@ -16,10 +16,9 @@ const {
 } = require('../../db/seeds/data/certification/tooling');
 const DatabaseBuilder = require('../../db/database-builder/database-builder');
 const databaseBuffer = require('../../db/database-builder/database-buffer');
-const { CLEA } = require('../../lib/domain/models/ComplementaryCertification');
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
-
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { SHARED } = require('../../lib/domain/models/CampaignParticipationStatuses');
 
 /**
  * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
@@ -32,24 +31,14 @@ const PIXDROIT = 'DROIT';
 const PIXEDU2NDDEGRE = 'EDU_2ND_DEGRE';
 const PIXEDU1ERDEGRE = 'EDU_1ER_DEGRE';
 
-const CERTIFICATION_CENTER_IDS_BY_TYPE = {
-  SCO: 1,
-  SUP: 3,
-  PRO: 2,
-};
-
-const COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY = {
-  [PIXCLEA]: 52,
-  [PIXDROIT]: 53,
-  [PIXEDU1ERDEGRE]: 54,
-  [PIXEDU2NDDEGRE]: 55,
-};
 const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
   [PIXCLEA]: 'PIX_EMPLOI_CLEA_V3',
   [PIXDROIT]: 'PIX_DROIT_EXPERT_CERTIF',
   [PIXEDU1ERDEGRE]: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
   [PIXEDU2NDDEGRE]: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
 };
+
+const isInTest = process.env.NODE_ENV === 'test';
 
 const questions = [
   {
@@ -115,30 +104,40 @@ const questions = [
 
 async function main({ centerType, candidateNumber, complementaryCertifications }) {
   await _updateDatabaseBuilderSequenceNumber();
+  const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+    type: centerType,
+    isManagingStudents: centerType === 'SCO',
+    name: 'CERTIF_ORGA_' + new Date().getTime(),
+  });
+  const certificationCenterId = await _getCertificationCenterIdByCenterType(centerType);
 
-  const certificationCenterId = CERTIFICATION_CENTER_IDS_BY_TYPE[centerType];
   await _updateCertificationCenterSupervisorPortalAccess(certificationCenterId);
-
   const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
-
   if (centerType === 'SCO') {
-    await _createScoCertificationCandidates({ certificationCenterId, candidateNumber, sessionId }, databaseBuilder);
+    await _createScoCertificationCandidates({ candidateNumber, sessionId, organizationId }, databaseBuilder);
   } else {
     let complementaryCertificationGroupedByCandidateIndex;
     if (complementaryCertifications?.length) {
-      const complementaryCertificationIds = complementaryCertifications.map(({ key }) => {
-        return COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[key];
-      });
+      const complementaryCertificationKeys = complementaryCertifications.map(({ key }) => key);
+      const complementaryCertificationIds = await knex('complementary-certifications')
+        .whereIn('key', complementaryCertificationKeys)
+        .pluck('id');
 
       await _createComplementaryCertificationHabilitations(
-        { complementaryCertificationIds: new Set(complementaryCertificationIds), certificationCenterId },
+        { complementaryCertificationIds, certificationCenterId },
         databaseBuilder
       );
       complementaryCertificationGroupedByCandidateIndex = _groupByCandidateIndex(complementaryCertifications);
     }
 
     await _createNonScoCertificationCandidates(
-      { centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex },
+      {
+        centerType,
+        candidateNumber,
+        sessionId,
+        complementaryCertificationGroupedByCandidateIndex,
+        organizationId,
+      },
       databaseBuilder
     );
   }
@@ -146,7 +145,14 @@ async function main({ centerType, candidateNumber, complementaryCertifications }
   await databaseBuilder.commit();
   await databaseBuilder.fixSequences();
   const results = await _getResults(sessionId);
-  logger.info({ results });
+  if (!isInTest) {
+    logger.info({ results });
+  }
+}
+
+async function _getCertificationCenterIdByCenterType(centerType) {
+  const { id } = await knex('certification-centers').select('id').where({ type: centerType }).first();
+  return id;
 }
 
 async function _updateDatabaseBuilderSequenceNumber() {
@@ -170,7 +176,6 @@ async function _createComplementaryCertificationHabilitations(
   { complementaryCertificationIds, certificationCenterId },
   databaseBuilder
 ) {
-  console.log({ complementaryCertificationIds, certificationCenterId });
   return bluebird.mapSeries(complementaryCertificationIds, async (complementaryCertificationId) => {
     databaseBuilder.factory.buildComplementaryCertificationHabilitation({
       certificationCenterId,
@@ -191,10 +196,9 @@ async function _createSessionAndReturnId(certificationCenterId, databaseBuilder)
 }
 
 async function _createNonScoCertificationCandidates(
-  { centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex },
+  { centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex, organizationId },
   databaseBuilder
 ) {
-  console.log({ centerType, candidateNumber, sessionId, complementaryCertificationGroupedByCandidateIndex });
   let maxUserId = await _getMaxUserId();
 
   for (let i = 0; i < candidateNumber; i++) {
@@ -203,7 +207,10 @@ async function _createNonScoCertificationCandidates(
     const lastName = firstName;
     const birthdate = new Date('2000-01-01');
     const email = `${firstName}@example.net`;
-    const { id: userId } = await _createUser({ firstName, lastName, birthdate, email }, databaseBuilder);
+    const { userId, organizationLearnerId } = await _createUser(
+      { firstName, lastName, birthdate, email, organizationId, maxUserId },
+      databaseBuilder
+    );
     const { id: certificationCandidateId } = databaseBuilder.factory.buildCertificationCandidate({
       firstName,
       lastName,
@@ -219,7 +226,7 @@ async function _createNonScoCertificationCandidates(
       const complementaryCertifications = complementaryCertificationGroupedByCandidateIndex[i + 1];
 
       await _createComplementaryCertificationHability(
-        { complementaryCertifications, certificationCandidateId, userId },
+        { complementaryCertifications, certificationCandidateId, userId, organizationLearnerId },
         databaseBuilder
       );
     }
@@ -231,17 +238,7 @@ async function _getMaxUserId() {
   return max;
 }
 
-async function _createScoCertificationCandidates(
-  { certificationCenterId, candidateNumber, sessionId },
-  databaseBuilder
-) {
-  const organizationLearner = await knex('organization-learners')
-    .select('organization-learners.*')
-    .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
-    .innerJoin('certification-centers', 'certification-centers.externalId', 'organizations.externalId')
-    .where('certification-centers.id', certificationCenterId)
-    .first();
-
+async function _createScoCertificationCandidates({ candidateNumber, sessionId, organizationId }, databaseBuilder) {
   const centerType = 'SCO';
   let maxUserId = await _getMaxUserId();
 
@@ -252,19 +249,10 @@ async function _createScoCertificationCandidates(
     const birthdate = new Date('2000-01-01');
     const email = `${firstName}@example.net`;
 
-    const { id: userId } = await _createUser({ firstName, lastName, birthdate, email }, databaseBuilder);
-
-    const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-      ...organizationLearner,
-      firstName,
-      lastName,
-      birthdate,
-      email,
-      nationalStudentId: firstName,
-      studentNumber: maxUserId,
-      userId,
-      id: undefined,
-    });
+    const { organizationLearnerId } = await _createUser(
+      { firstName, lastName, birthdate, email, organizationId, maxUserId },
+      databaseBuilder
+    );
 
     databaseBuilder.factory.buildCertificationCandidate({
       firstName,
@@ -281,7 +269,7 @@ async function _createScoCertificationCandidates(
 }
 
 async function _createComplementaryCertificationHability(
-  { complementaryCertifications, certificationCandidateId, userId },
+  { complementaryCertifications, certificationCandidateId, userId, organizationLearnerId },
   databaseBuilder
 ) {
   return bluebird.mapSeries(complementaryCertifications, async (key) => {
@@ -291,49 +279,52 @@ async function _createComplementaryCertificationHability(
       complementaryCertificationId,
       certificationCandidateId,
     });
+    const badgeId = await _getBadgeIdByComplementaryCertificationKey(key);
+    const targetProfileId = await _getTargetProfileIdFromBadgeKey(key);
+    const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+      targetProfileId,
+      name: 'GENERATED_CAMPAIGN',
+      creatorId: userId,
+      ownerId: userId,
+    });
+    const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+      campaignId,
+      userId,
+      organizationLearnerId,
+      status: SHARED,
+      isCertifiable: true,
+    });
+    databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId, campaignParticipationId });
 
-    if (_isDroit(complementaryCertificationId)) {
-      const { id: badgeId } = await knex('badges')
-        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXDROIT] })
-        .first();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+    if (PIXDROIT === key) {
       await makeUserPixDroitCertifiable({
         userId,
         databaseBuilder,
       });
-    } else if (_isClea(complementaryCertificationId)) {
-      const { id: badgeId } = await knex('badges')
-        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[CLEA] })
-        .first();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+    } else if (PIXCLEA === key) {
       await makeUserCleaCertifiable({ userId, databaseBuilder });
-    } else if (_isEdu1erDegre(complementaryCertificationId)) {
-      const { id: badgeId } = await knex('badges')
-        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXEDU1ERDEGRE] })
-        .first();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+    } else if (PIXEDU1ERDEGRE === key) {
       await makeUserPixEduCertifiable({ userId, databaseBuilder });
-    } else if (_isEdu2ndDegre(complementaryCertificationId)) {
-      const { id: badgeId } = await knex('badges')
-        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXEDU2NDDEGRE] })
-        .first();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+    } else if (PIXEDU2NDDEGRE === key) {
       await makeUserPixEduCertifiable({ userId, databaseBuilder });
     }
   });
 }
 
-function _isDroit(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXDROIT];
+async function _getBadgeIdByComplementaryCertificationKey(complementaryCertificationKey) {
+  const badgeKey = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[complementaryCertificationKey];
+  const { id } = await knex('badges').where({ key: badgeKey }).first();
+  return id;
 }
-function _isClea(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXCLEA];
-}
-function _isEdu1erDegre(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXEDU1ERDEGRE];
-}
-function _isEdu2ndDegre(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXEDU2NDDEGRE];
+
+async function _getTargetProfileIdFromBadgeKey(badgeKey) {
+  const key = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[badgeKey];
+  const { id } = await knex('target-profiles')
+    .select('target-profiles.id')
+    .innerJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
+    .where({ key })
+    .first();
+  return id;
 }
 
 async function _getResults(sessionId) {
@@ -369,8 +360,8 @@ function _groupByCandidateIndex(complementaryCertifications) {
   }, {});
 }
 
-async function _createUser({ firstName, lastName, birthdate, email }, databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser.withRawPassword({
+async function _createUser({ firstName, lastName, birthdate, email, organizationId, maxUserId }, databaseBuilder) {
+  const { id: userId } = databaseBuilder.factory.buildUser.withRawPassword({
     firstName,
     lastName,
     birthdate,
@@ -379,16 +370,28 @@ async function _createUser({ firstName, lastName, birthdate, email }, databaseBu
   });
 
   await makeUserPixCertifiable({
-    userId: user.id,
+    userId,
     databaseBuilder,
     countCertifiableCompetences: 16,
     levelOnEachCompetence: 6,
   });
 
-  return user;
+  const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+    firstName,
+    lastName,
+    birthdate,
+    email,
+    nationalStudentId: firstName,
+    studentNumber: maxUserId,
+    userId,
+    id: undefined,
+    organizationId,
+  });
+
+  return { userId, organizationLearnerId };
 }
 
-if (process.argv.length > 2 && process.env.NODE_ENV !== 'test') {
+if (process.argv.length > 2 && !isInTest) {
   const [centerType, candidateNumber, complementaryCertifications = '[]'] = process.argv.slice(2);
 
   main({
