@@ -9,6 +9,7 @@ module.exports = function buildCertificationCenterMembership({
   certificationCenterId,
   createdAt = new Date('2020-01-01'),
   disabledAt,
+  isReferer = false,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   certificationCenterId = _.isUndefined(certificationCenterId) ? buildCertificationCenter().id : certificationCenterId;
@@ -19,6 +20,7 @@ module.exports = function buildCertificationCenterMembership({
     certificationCenterId,
     createdAt,
     disabledAt,
+    isReferer,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-center-memberships',
