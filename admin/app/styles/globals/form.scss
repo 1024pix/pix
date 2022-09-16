@@ -4,15 +4,6 @@
     height: auto;
   }
 
-  label {
-    margin-bottom: 0.5rem;
-  }
-
-  label,
-  output {
-    display: inline-block;
-  }
-
   &__instructions {
     margin-bottom: 10px;
     font-size: 0.8rem;
@@ -101,4 +92,10 @@
   background-clip: padding-box;
   border: 1px solid $pix-neutral-22;
   border-radius: 0.25rem;
+}
+
+// FIXME: remove after upgrading to pix-ui v19.0.0
+label {
+  margin-bottom: 0.5rem;
+  display: inline-block;
 }
