@@ -15,7 +15,7 @@ const logger = require('../../lib/infrastructure/logger');
 
 ('use strict');
 const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex } = require('../../lib/infrastructure/bookshelf');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const uniqBy = require('lodash/uniqBy');
 const values = require('lodash/values');
 
@@ -367,6 +367,21 @@ function buildCities({ csvData }) {
   return uniqBy(citiesWithAlternates, (city) => `${city.INSEECode}${city.postalCode}${city.name}`);
 }
 
+function _getInsertedLineNumber(batchInfo) {
+  return batchInfo.map(({ rowCount }) => rowCount).reduce((acc, count) => acc + count, 0);
+}
+
+function _doesCityNameContainWordToReplace(cityName) {
+  return wordsToReplace.some(({ regex }) => regex.test(cityName));
+}
+
+function _buildCityNameWithWordReplaced(cityName) {
+  const entry = wordsToReplace.find(({ regex }) => regex.test(cityName));
+  return cityName.replace(entry.regex, ` ${entry.value} `).trim();
+}
+
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main(filePath) {
   logger.info('Starting script import-certification-cpf-cities');
 
@@ -397,34 +412,22 @@ async function main(filePath) {
     if (trx) {
       trx.rollback();
     }
-    logger.error(error);
-    process.exit(1);
+    throw error;
   }
 }
 
-if (require.main === module) {
-  const filePath = process.argv[2];
-  main(filePath).then(
-    () => process.exit(0),
-    (err) => {
-      logger.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      logger.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
-
-function _getInsertedLineNumber(batchInfo) {
-  return batchInfo.map(({ rowCount }) => rowCount).reduce((acc, count) => acc + count, 0);
-}
-
-function _doesCityNameContainWordToReplace(cityName) {
-  return wordsToReplace.some(({ regex }) => regex.test(cityName));
-}
-
-function _buildCityNameWithWordReplaced(cityName) {
-  const entry = wordsToReplace.find(({ regex }) => regex.test(cityName));
-  return cityName.replace(entry.regex, ` ${entry.value} `).trim();
-}
+  }
+})();
 
 module.exports = {
   buildCities,

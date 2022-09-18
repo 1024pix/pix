@@ -7,7 +7,7 @@ const { parseCsvWithHeader } = require('./helpers/csvHelpers');
 
 const Membership = require('../lib/domain/models/Membership');
 
-const { knex } = require('../lib/infrastructure/bookshelf');
+const { knex, disconnect } = require('../db/knex-database-connection');
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
@@ -73,38 +73,38 @@ async function createCertificationCenterMemberships(certificationCenterMembershi
   return knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting creating Certification Center memberships with a list of ExternalIds.');
 
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Reading and parsing csv data file... ');
-    const csvData = await parseCsvWithHeader(filePath);
-    console.log('ok');
+  console.log('Reading and parsing csv data file... ');
+  const csvData = await parseCsvWithHeader(filePath);
+  console.log('ok');
 
-    console.log('Data preparation before insertion into the database...');
-    const certificationCenterMemberships = await prepareDataForInsert(csvData);
-    console.log('ok');
+  console.log('Data preparation before insertion into the database...');
+  const certificationCenterMemberships = await prepareDataForInsert(csvData);
+  console.log('ok');
 
-    console.log('Creating Certification Center Memberships into database...');
-    await createCertificationCenterMemberships(certificationCenterMemberships);
-    console.log('\nDone.');
-  } catch (error) {
-    console.error('\n', error);
-    process.exit(1);
-  }
+  console.log('Creating Certification Center Memberships into database...');
+  await createCertificationCenterMemberships(certificationCenterMemberships);
+  console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,

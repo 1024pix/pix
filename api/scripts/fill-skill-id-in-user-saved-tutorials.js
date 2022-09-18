@@ -1,41 +1,12 @@
 require('dotenv').config();
 const groupBy = require('lodash/groupBy');
-const { knex } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../db/knex-database-connection');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
 const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
 const skillDatasource = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
-
-async function main() {
-  console.log('Starting filling skillId to user saved tutorials');
-
-  const userSavedTutorialsWithoutSkillId = await getAllUserSavedTutorialsWithoutSkillId();
-  const tutorials = await getAllTutorials();
-  const skills = await getAllSkills();
-
-  const tutorialsWithSkills = associateSkillsToTutorial(skills, tutorials);
-
-  const userSavedTutorialsWithoutSkillIdGroupedByUserId = groupBy(userSavedTutorialsWithoutSkillId, 'userId');
-
-  const userIds = Object.keys(userSavedTutorialsWithoutSkillIdGroupedByUserId);
-  const numberOfUsers = userIds.length;
-
-  for (const userId of userIds) {
-    console.log(`User ${userIds.findIndex((id) => id === userId) + 1} of ${numberOfUsers}`);
-
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
-    await fillSkillIdForGivenUserSavedTutorials(
-      userSavedTutorialsWithoutSkillIdGroupedByUserId[userId],
-      userId,
-      tutorialsWithSkills,
-      knowledgeElements
-    );
-  }
-
-  console.log('End filling skillId to user saved tutorials');
-}
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
   const userSavedTutorials = await knex('user-saved-tutorials').whereNull('skillId');
@@ -150,6 +121,50 @@ function _hasSkillId(tutorial, skillId) {
   const tutorialReferenceBySkillsIdsForLearningMore = tutorial.referenceBySkillsIdsForLearningMore;
   return tutorialSkillIds.includes(skillId) || tutorialReferenceBySkillsIdsForLearningMore.includes(skillId);
 }
+
+async function main() {
+  console.log('Starting filling skillId to user saved tutorials');
+
+  const userSavedTutorialsWithoutSkillId = await getAllUserSavedTutorialsWithoutSkillId();
+  const tutorials = await getAllTutorials();
+  const skills = await getAllSkills();
+
+  const tutorialsWithSkills = associateSkillsToTutorial(skills, tutorials);
+
+  const userSavedTutorialsWithoutSkillIdGroupedByUserId = groupBy(userSavedTutorialsWithoutSkillId, 'userId');
+
+  const userIds = Object.keys(userSavedTutorialsWithoutSkillIdGroupedByUserId);
+  const numberOfUsers = userIds.length;
+
+  for (const userId of userIds) {
+    console.log(`User ${userIds.findIndex((id) => id === userId) + 1} of ${numberOfUsers}`);
+
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+    await fillSkillIdForGivenUserSavedTutorials(
+      userSavedTutorialsWithoutSkillIdGroupedByUserId[userId],
+      userId,
+      tutorialsWithSkills,
+      knowledgeElements
+    );
+  }
+
+  console.log('End filling skillId to user saved tutorials');
+}
+
+const isLaunchedFromCommandLine = require.main === module;
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
 
 if (require.main === module) {
   main().then(

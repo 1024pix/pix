@@ -3,7 +3,7 @@ require('dotenv').config();
 const _ = require('lodash');
 const fp = require('lodash/fp').convert({ cap: false });
 const bluebird = require('bluebird');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
 const placementProfileService = require('../../lib/domain/services/placement-profile-service');
@@ -79,65 +79,65 @@ function updateProgress() {
   process.stderr.write('.');
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    let userIds;
-    if (USER_ID) {
-      console.error(`userId: ${USER_ID}`);
-      userIds = [USER_ID];
-    } else {
-      console.error(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
-      userIds = await _retrieveUserIds();
-    }
-    console.error('Récupération OK');
-    const competences = await competenceRepository.listPixCompetencesOnly();
-    let nonCertifiableUserCount = 0;
-
-    console.error('Génération des tests de certification : ');
-    const certificationTestsByUser = _.compact(
-      await bluebird.mapSeries(
-        userIds,
-        async (userId) => {
-          try {
-            const challengeCountByCompetence = await _generateCertificationTest(userId, competences);
-            return {
-              userId,
-              challengeCountByCompetence,
-            };
-          } catch (err) {
-            console.error(`Erreur de génération pour le user : ${userId}`, err);
-            ++nonCertifiableUserCount;
-            return null;
-          } finally {
-            updateProgress();
-          }
-        },
-        { concurrency: ~~process.env.CONCURRENCY || 10 }
-      )
-    );
-
-    console.error('\nGénération des tests de certification OK');
-
-    console.error('Génération des statistiques...');
-    const competenceIds = _.map(competences, 'id');
-    const allChallengeCountByCompetence = _.map(certificationTestsByUser, 'challengeCountByCompetence');
-    const challengeCountByCompetenceTotal = _.map(competenceIds, (competenceId) => {
-      return [competenceId, _.countBy(allChallengeCountByCompetence, competenceId)];
-    });
-    console.log('Utilisateurs non certifiables : ', nonCertifiableUserCount);
-    console.log(_.fromPairs(challengeCountByCompetenceTotal));
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+  let userIds;
+  if (USER_ID) {
+    console.error(`userId: ${USER_ID}`);
+    userIds = [USER_ID];
+  } else {
+    console.error(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
+    userIds = await _retrieveUserIds();
   }
+  console.error('Récupération OK');
+  const competences = await competenceRepository.listPixCompetencesOnly();
+  let nonCertifiableUserCount = 0;
+
+  console.error('Génération des tests de certification : ');
+  const certificationTestsByUser = _.compact(
+    await bluebird.mapSeries(
+      userIds,
+      async (userId) => {
+        try {
+          const challengeCountByCompetence = await _generateCertificationTest(userId, competences);
+          return {
+            userId,
+            challengeCountByCompetence,
+          };
+        } catch (err) {
+          console.error(`Erreur de génération pour le user : ${userId}`, err);
+          ++nonCertifiableUserCount;
+          return null;
+        } finally {
+          updateProgress();
+        }
+      },
+      { concurrency: ~~process.env.CONCURRENCY || 10 }
+    )
+  );
+
+  console.error('\nGénération des tests de certification OK');
+
+  console.error('Génération des statistiques...');
+  const competenceIds = _.map(competences, 'id');
+  const allChallengeCountByCompetence = _.map(certificationTestsByUser, 'challengeCountByCompetence');
+  const challengeCountByCompetenceTotal = _.map(competenceIds, (competenceId) => {
+    return [competenceId, _.countBy(allChallengeCountByCompetence, competenceId)];
+  });
+  console.log('Utilisateurs non certifiables : ', nonCertifiableUserCount);
+  console.log(_.fromPairs(challengeCountByCompetenceTotal));
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();

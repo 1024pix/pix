@@ -5,6 +5,7 @@ const fs = require('fs');
 const { access } = require('fs').promises;
 const request = require('request-promise-native');
 const papa = require('papaparse');
+const { disconnect } = require('../db/knex-database-connection');
 
 const CSV_HEADERS = {
   ID: 'Orga_ID',
@@ -108,44 +109,50 @@ function _logErrorObjects(errorObjects) {
 /**
  * Usage: BASE_URL='url' (...) node update-sco-organizations-with-province-code-and-external-id.js my_file.csv
  */
+
+const isLaunchedFromCommandLine = require.main === module;
 async function main() {
   console.log("Début du script de mise à jour des Organisations avec l'ID externe et le département");
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    const response = await request(_buildTokenRequestObject());
-    const accessToken = response.access_token;
+  const response = await request(_buildTokenRequestObject());
+  const accessToken = response.access_token;
 
-    console.log('\nTest de validité du fichier...');
-    assertFileValidity(filePath);
-    console.log('Test de validité du fichier : OK');
+  console.log('\nTest de validité du fichier...');
+  assertFileValidity(filePath);
+  console.log('Test de validité du fichier : OK');
 
-    fs.readFile(filePath, 'utf8', async function (err, data) {
-      console.log('\nMise à jour des organizations...');
+  fs.readFile(filePath, 'utf8', async function (err, data) {
+    console.log('\nMise à jour des organizations...');
 
-      // We delete the BOM UTF8 at the beginning of the CSV,
-      // otherwise the first element is wrongly parsed.
-      const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
+    // We delete the BOM UTF8 at the beginning of the CSV,
+    // otherwise the first element is wrongly parsed.
+    const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
 
-      const parsedCSVData = papa.parse(csvRawData, { header: true });
+    const parsedCSVData = papa.parse(csvRawData, { header: true });
 
-      const organizations = convertCSVDataIntoOrganizations(parsedCSVData);
-      const options = { accessToken, organizations };
+    const organizations = convertCSVDataIntoOrganizations(parsedCSVData);
+    const options = { accessToken, organizations };
 
-      const errorObjects = await saveOrganizations(options);
-      _logErrorObjects(errorObjects);
+    const errorObjects = await saveOrganizations(options);
+    _logErrorObjects(errorObjects);
 
-      console.log('\nFin du script');
-    });
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
+    console.log('\nFin du script');
+  });
+}
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error.message);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
   }
-}
-
-if (require.main === module) {
-  main();
-}
+})();
 
 module.exports = {
   assertFileValidity,

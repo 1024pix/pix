@@ -1,24 +1,28 @@
 // Usage: node compute-participation-results.js
-
 require('dotenv').config({ path: `${__dirname}/../../.env` });
-
 const knowlegeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const skillDatasource = require('../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const ParticipantResultsShared = require('../../lib/domain/models/ParticipantResultsShared');
 const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
-
 const { SHARED } = CampaignParticipationStatuses;
-
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const constants = require('../../lib/infrastructure/constants');
 const placementProfileService = require('../../lib/domain/services/placement-profile-service');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 
+const concurrency = parseInt(process.argv[2]);
 let count;
 let total;
 let logEnable;
+
+function _log(message) {
+  if (logEnable) {
+    console.log(message);
+  }
+}
+
 async function computeParticipantResultsShared(concurrency = 1, log = true) {
   logEnable = log;
   const campaigns = await knex('campaigns')
@@ -149,33 +153,23 @@ function _toSQLValuesWithIsCertifiable(participantsResults) {
     .join(', ');
 }
 
-module.exports = computeParticipantResultsShared;
+const isLaunchedFromCommandLine = require.main === module;
 
-let exitCode;
-const SUCCESS = 0;
-const FAILURE = 1;
-const concurrency = parseInt(process.argv[2]);
-
-if (require.main === module) {
-  computeParticipantResultsShared(concurrency).then(handleSuccess).catch(handleError).finally(exit);
+async function main() {
+  await computeParticipantResultsShared(concurrency);
 }
 
-function handleSuccess() {
-  exitCode = SUCCESS;
-}
-
-function handleError(err) {
-  console.error(err);
-  exitCode = FAILURE;
-}
-
-function exit() {
-  console.log('code', exitCode);
-  process.exit(exitCode);
-}
-
-function _log(message) {
-  if (logEnable) {
-    console.log(message);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
   }
-}
+})();
+
+module.exports = computeParticipantResultsShared;

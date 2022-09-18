@@ -6,7 +6,7 @@ const poleEmploiSendingRepository = require('../../lib/infrastructure/repositori
 const userRepository = require('../../lib/infrastructure/repositories/user-repository');
 const PoleEmploiPayload = require('../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const PoleEmploiSending = require('../../lib/domain/models/PoleEmploiSending');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 let count;
 let total;
@@ -170,28 +170,26 @@ async function _computeSharedPoleEmploiSendings(participation) {
   console.log(`${count} / ${total}`);
 }
 
-let exitCode;
-const SUCCESS = 0;
-const FAILURE = 1;
 const campaignCode = process.argv[2];
 const concurrency = parseInt(process.argv[3]);
 
-if (require.main === module) {
-  computePoleEmploiSendings(campaignCode, concurrency).then(handleSuccess).catch(handleError).finally(exit);
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  await computePoleEmploiSendings(campaignCode, concurrency);
 }
 
-function handleSuccess() {
-  exitCode = SUCCESS;
-}
-
-function handleError(err) {
-  console.error(err);
-  exitCode = FAILURE;
-}
-
-function exit() {
-  console.log('code', exitCode);
-  process.exit(exitCode);
-}
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
 
 module.exports = computePoleEmploiSendings;

@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const request = require('request-promise-native');
 const papa = require('papaparse');
+const { disconnect } = require('../../db/knex-database-connection');
 
 const CSV_HEADERS = {
   ID: 'ID de certification',
@@ -116,34 +117,40 @@ function _logErrorObjects(errorObjects) {
   });
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 /**
  * Usage: node import-certifications-from-csv.js http://localhost:3000 jwt.access.token my_file.csv
  */
 function main() {
   console.log("Début du script d'import");
-  try {
-    const baseUrl = process.argv[2];
-    const accessToken = process.argv[3];
+  const baseUrl = process.argv[2];
+  const accessToken = process.argv[3];
 
-    const filePath = process.argv[4];
+  const filePath = process.argv[4];
 
-    fs.open(filePath, 'r', (err, data) => {
-      console.log('\nTest de validité du fichier...');
-      assertFileValidity(err, filePath);
-      console.log('Test de validité du fichier : OK');
+  fs.open(filePath, 'r', (err, data) => {
+    console.log('\nTest de validité du fichier...');
+    assertFileValidity(err, filePath);
+    console.log('Test de validité du fichier : OK');
 
-      console.log('\nTéléversement des certifications sur le serveur...');
-      readMyData(data, baseUrl, accessToken);
-    });
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
+    console.log('\nTéléversement des certifications sur le serveur...');
+    readMyData(data, baseUrl, accessToken);
+  });
+}
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
   }
-}
-
-if (require.main === module) {
-  main();
-}
+})();
 
 module.exports = {
   assertFileValidity,

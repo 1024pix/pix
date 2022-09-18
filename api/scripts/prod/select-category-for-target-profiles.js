@@ -9,29 +9,10 @@ const negate = require('lodash/negate');
 
 const { readCsvFile, parseCsvData } = require('../helpers/csvHelpers');
 const { categories } = require('../../lib/domain/models/TargetProfile');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 const TARGET_PROFILE_ID_COLUMN = 'targetProfileId';
 const CATEGORY_COLUMN = 'category';
-
-async function main() {
-  console.log('Starting script select-category-for-target-profiles');
-
-  console.log('Reading csv file... ');
-  const filePath = process.argv[2];
-  const csvData = await readCsvFile(filePath);
-  console.log('✅ ok');
-
-  console.log('Setting categories on target profiles...');
-  const { totalUpdatedRows, invalidCategories, invalidTargetProfiles } = await setCategoriesToTargetProfiles(csvData);
-  if (invalidCategories.length > 0) {
-    console.log(`⚠️ Les catégories "${invalidCategories.join('", "')}" ne sont pas supportées`);
-  }
-  if (invalidTargetProfiles.length > 0) {
-    console.log(`⚠️ Les ids de profils cibles "${invalidTargetProfiles.join('", "')}" ne sont pas valides`);
-  }
-  console.log(`✅ ${totalUpdatedRows} target profiles were updated.`);
-}
 
 async function setCategoriesToTargetProfiles(csvData) {
   const parsedCsvData = await parseCsvData(csvData, {
@@ -65,19 +46,6 @@ async function setCategoriesToTargetProfiles(csvData) {
   return { totalUpdatedRows: sum(result), invalidCategories, invalidTargetProfiles };
 }
 
-if (require.main === module) {
-  main()
-    .then(function () {
-      console.log('🎉 Everything went fine !');
-      process.exit(0);
-    })
-    .catch(function (error) {
-      console.error('❌ Something went wrong...');
-      console.error(error);
-      process.exit(1);
-    });
-}
-
 async function setCategoryToTargetProfiles(category, targetProfileIds) {
   return knex('target-profiles').whereIn('id', targetProfileIds).update({
     category,
@@ -88,6 +56,43 @@ function _isSupportedCategory(category) {
   const supportedCategories = Object.values(categories);
   return supportedCategories.includes(category);
 }
+
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  console.log('Starting script select-category-for-target-profiles');
+
+  console.log('Reading csv file... ');
+  const filePath = process.argv[2];
+  const csvData = await readCsvFile(filePath);
+  console.log('✅ ok');
+
+  console.log('Setting categories on target profiles...');
+  const { totalUpdatedRows, invalidCategories, invalidTargetProfiles } = await setCategoriesToTargetProfiles(csvData);
+  if (invalidCategories.length > 0) {
+    console.log(`⚠️ Les catégories "${invalidCategories.join('", "')}" ne sont pas supportées`);
+  }
+  if (invalidTargetProfiles.length > 0) {
+    console.log(`⚠️ Les ids de profils cibles "${invalidTargetProfiles.join('", "')}" ne sont pas valides`);
+  }
+  console.log(`✅ ${totalUpdatedRows} target profiles were updated.`);
+}
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+      console.log('🎉 Everything went fine !');
+      process.exitCode = 0;
+    } catch (error) {
+      console.error('❌ Something went wrong...');
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
 
 module.exports = {
   setCategoriesToTargetProfiles,
