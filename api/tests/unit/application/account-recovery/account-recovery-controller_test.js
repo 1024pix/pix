@@ -1,110 +1,125 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-
+const { expect, sinon, hFake } = require('../../../test-helper');
 const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Unit | Controller | account-recovery-controller', function () {
+describe('Unit | Controller | account-recovery', function () {
   describe('#sendEmailForAccountRecovery', function () {
-    it('should call sendEmailForAccountRecovery usecase and return 204', async function () {
+    const request = {
+      payload: {
+        data: {
+          attributes: {
+            'first-name': 'george',
+            'last-name': 'de cambridge',
+            'ine-ina': '123456789BB',
+            birthdate: '2013-07-22',
+            email: 'new_email@example.net',
+          },
+        },
+      },
+    };
+
+    it('should call the usecase with the right command', async function () {
       // given
-      const newEmail = 'new_email@example.net';
-      const studentInformation = {
-        ineIna: '123456789BB',
+      const expectedCommand = {
         firstName: 'george',
         lastName: 'de cambridge',
+        ineIna: '123456789BB',
         birthdate: '2013-07-22',
         email: 'new_email@example.net',
       };
+      sinon.stub(usecases, 'sendEmailForAccountRecovery').resolves();
 
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              'ine-ina': '123456789BB',
-              'first-name': 'george',
-              'last-name': 'de cambridge',
-              birthdate: '2013-07-22',
-              email: newEmail,
-            },
-          },
-        },
-      };
+      // when
+      await accountRecoveryController.sendEmailForAccountRecovery(request, hFake);
 
-      sinon
-        .stub(studentInformationForAccountRecoverySerializer, 'deserialize')
-        .withArgs(request.payload)
-        .resolves(studentInformation);
+      // then
+      expect(usecases.sendEmailForAccountRecovery).calledWithExactly({ studentInformation: expectedCommand });
+    });
+
+    it('should return a response with 204 code', async function () {
+      // given
       sinon.stub(usecases, 'sendEmailForAccountRecovery').resolves();
 
       // when
       const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake);
 
       // then
-      expect(usecases.sendEmailForAccountRecovery).calledWith({ studentInformation });
       expect(response.statusCode).to.equal(204);
     });
   });
 
   describe('#checkAccountRecoveryDemand', function () {
-    it('should return serialized account recovery details', async function () {
+    const request = {
+      params: { temporaryKey: 'TEMPORARY_KEY' },
+    };
+
+    it('should return the serialized student information for recovery', async function () {
       // given
-      const temporaryKey = 'ABCDEFZEFDD';
       const studentInformation = { id: 1234, email: 'philipe@example.net', firstName: 'philipe' };
-      const request = {
-        params: { temporaryKey },
-      };
-      sinon.stub(usecases, 'getAccountRecoveryDetails');
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'serializeAccountRecovery');
-      usecases.getAccountRecoveryDetails.resolves(studentInformation);
+      sinon
+        .stub(usecases, 'getAccountRecoveryDetails')
+        .withArgs({ temporaryKey: 'TEMPORARY_KEY' })
+        .resolves(studentInformation);
 
       // when
-      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake);
+      const response = await accountRecoveryController.checkAccountRecoveryDemand(request);
 
       // then
-      expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
-      expect(studentInformationForAccountRecoverySerializer.serializeAccountRecovery).to.have.been.calledWith(
-        studentInformation
-      );
+      expect(response.data).to.deep.equal({
+        type: 'account-recovery-demands',
+        id: '1234',
+        attributes: {
+          'first-name': 'philipe',
+          email: 'philipe@example.net',
+        },
+      });
     });
   });
 
   describe('#updateUserForAccountRecovery', function () {
-    it('should call updateUserForAccountRecovery usecase and return 204', async function () {
-      // given
-      const user = domainBuilder.buildUser({ id: 1 });
-      const temporaryKey = 'validTemporaryKey';
-      const domainTransaction = Symbol();
-
-      const request = {
-        params: {
-          id: user.id,
-        },
-        payload: {
-          data: {
-            attributes: {
-              password: user.password,
-              'temporary-key': temporaryKey,
-            },
+    const request = {
+      payload: {
+        data: {
+          attributes: {
+            'temporary-key': 'TEMPORARY_KEY',
+            password: 'Azerty123',
           },
         },
-      };
+      },
+    };
 
-      sinon.stub(usecases, 'updateUserForAccountRecovery').resolves();
+    it('should call the usecase with the right command', async function () {
+      // given
+      const domainTransaction = Symbol('a domain transaction');
+      const expectedCommand = {
+        temporaryKey: 'TEMPORARY_KEY',
+        password: 'Azerty123',
+        domainTransaction,
+      };
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
+      };
+      sinon.stub(usecases, 'updateUserForAccountRecovery').resolves();
+
+      // when
+      await accountRecoveryController.updateUserAccountFromRecoveryDemand(request, hFake);
+
+      // then
+      expect(usecases.updateUserForAccountRecovery).calledWithExactly(expectedCommand);
+    });
+
+    it('should return a response with 204 code', async function () {
+      // given
+      sinon.stub(usecases, 'updateUserForAccountRecovery').resolves();
+      DomainTransaction.execute = (lambda) => {
+        return lambda();
       };
 
       // when
       const response = await accountRecoveryController.updateUserAccountFromRecoveryDemand(request, hFake);
 
       // then
-      expect(usecases.updateUserForAccountRecovery).calledWithMatch({
-        password: user.password,
-        temporaryKey,
-        domainTransaction,
-      });
       expect(response.statusCode).to.equal(204);
     });
   });
