@@ -3,6 +3,7 @@ const archiveCampaignFromCampaignCode = require('../../lib/domain/usecases/archi
 const campaignForArchivingRepository = require('../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository');
 const bluebird = require('bluebird');
 const ProgressionLogger = require('../../lib/infrastructure/utils/progression-logger');
+const { disconnect } = require('../../db/knex-database-connection');
 
 async function archiveCampaign(campaignData, logger) {
   try {
@@ -28,16 +29,24 @@ async function archiveCampaigns(file, logger, concurrency = 1) {
   logger.log('DONE');
 }
 
-module.exports = archiveCampaigns;
+const isLaunchedFromCommandLine = require.main === module;
 
-if (require.main === module) {
+async function main() {
   const logger = new ProgressionLogger(process.stdout);
-
-  archiveCampaigns(process.argv[2], logger, process.argv[3]).then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
-    }
-  );
+  await archiveCampaigns(process.argv[2], logger, process.argv[3]);
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
+
+module.exports = archiveCampaigns;

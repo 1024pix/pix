@@ -8,6 +8,7 @@ const tagRepository = require('../lib/infrastructure/repositories/tag-repository
 const OrganizationTag = require('../lib/domain/models/OrganizationTag');
 const { parseCsv } = require('./helpers/csvHelpers');
 const uniq = require('lodash/uniq');
+const { disconnect } = require('../db/knex-database-connection');
 
 function checkData({ csvData }) {
   return csvData
@@ -69,43 +70,42 @@ async function addTagsToOrganizations({ tagsByName, checkedData }) {
   }
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting script add-tags-to-organizations');
 
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Reading and parsing csv data file... ');
-    const csvData = await parseCsv(filePath);
-    console.log('ok');
+  console.log('Reading and parsing csv data file... ');
+  const csvData = await parseCsv(filePath);
+  console.log('ok');
 
-    console.log('Checking data... ');
-    const checkedData = checkData({ csvData });
-    console.log('ok');
+  console.log('Checking data... ');
+  const checkedData = checkData({ csvData });
+  console.log('ok');
 
-    console.log('Retrieving tags by name... ');
-    const tagsByName = await retrieveTagsByName({ checkedData });
-    console.log('ok');
+  console.log('Retrieving tags by name... ');
+  const tagsByName = await retrieveTagsByName({ checkedData });
+  console.log('ok');
 
-    console.log('Adding tags to organizations…');
-    await addTagsToOrganizations({ tagsByName, checkedData });
-    console.log('\nDone.');
-  } catch (error) {
-    console.error(error);
-
-    process.exit(1);
-  }
+  console.log('Adding tags to organizations…');
+  await addTagsToOrganizations({ tagsByName, checkedData });
+  console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   addTagsToOrganizations,

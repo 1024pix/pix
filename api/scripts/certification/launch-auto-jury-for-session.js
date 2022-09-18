@@ -1,6 +1,6 @@
 'use strict';
 require('dotenv').config();
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
 const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
 const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
@@ -9,6 +9,8 @@ const certificationCourseRepository = require('../../lib/infrastructure/reposito
 const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
 const events = require('../../lib/domain/events');
 const logger = require('../../lib/infrastructure/logger');
+
+const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
   const id = process.argv[2];
@@ -48,12 +50,15 @@ async function main() {
   logger.info('Done !');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      logger.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      logger.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();

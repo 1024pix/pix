@@ -3,6 +3,7 @@
 
 'use strict';
 require('dotenv').config();
+const { disconnect } = require('../../db/knex-database-connection');
 const targetProfileShareRepository = require('../../lib/infrastructure/repositories/target-profile-share-repository');
 const {
   findOrganizationsByExternalIds,
@@ -55,45 +56,44 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
   }
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting script add-target-profile-shares-to-organizations');
 
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Reading and parsing csv data file... ');
-    const csvData = await parseCsv(filePath);
-    console.log('ok');
+  console.log('Reading and parsing csv data file... ');
+  const csvData = await parseCsv(filePath);
+  console.log('ok');
 
-    console.log('Checking data... ');
-    const checkedData = checkData({ csvData });
-    console.log('ok');
+  console.log('Checking data... ');
+  const checkedData = checkData({ csvData });
+  console.log('ok');
 
-    console.log('Fetching existing organizations... ');
-    const organizations = await findOrganizationsByExternalIds({ checkedData });
+  console.log('Fetching existing organizations... ');
+  const organizations = await findOrganizationsByExternalIds({ checkedData });
 
-    const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
-    console.log('ok');
+  const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
+  console.log('ok');
 
-    console.log('Adding target profiles shares to organizations…');
-    await addTargetProfileSharesToOrganizations({ organizationsByExternalId, checkedData });
-    console.log('\nDone.');
-  } catch (error) {
-    console.error(error);
-
-    process.exit(1);
-  }
+  console.log('Adding target profiles shares to organizations…');
+  await addTargetProfileSharesToOrganizations({ organizationsByExternalId, checkedData });
+  console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   addTargetProfileSharesToOrganizations,

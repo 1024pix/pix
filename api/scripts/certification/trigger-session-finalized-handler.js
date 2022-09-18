@@ -1,21 +1,8 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const AutoJuryDone = require('../../lib/domain/events/AutoJuryDone');
 const { eventDispatcher } = require('../../lib/domain/events');
 const logger = require('../../lib/infrastructure/logger');
-
-async function main() {
-  try {
-    logger.info('Début');
-    const sessionsData = await _retrieveFinalizedUnpublishedUnassignedSessionsData();
-    const autoJuryDoneEvents = _buildAutoJuryDoneEventsFromSessionsData(sessionsData);
-    await _dispatch(autoJuryDoneEvents);
-    logger.info('Fin');
-  } catch (error) {
-    logger.error(error);
-    process.exit(1);
-  }
-}
 
 async function _retrieveFinalizedUnpublishedUnassignedSessionsData() {
   logger.info('\tRécupération des sessions finalisées non publiées non assignées...');
@@ -68,14 +55,27 @@ async function _dispatch(events) {
   logger.info('\tOK.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      logger.error(err);
-      process.exit(1);
-    }
-  );
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  logger.info('Début');
+  const sessionsData = await _retrieveFinalizedUnpublishedUnassignedSessionsData();
+  const autoJuryDoneEvents = _buildAutoJuryDoneEventsFromSessionsData(sessionsData);
+  await _dispatch(autoJuryDoneEvents);
+  logger.info('Fin');
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      logger.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
 
 module.exports = main;

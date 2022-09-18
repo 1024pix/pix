@@ -12,6 +12,7 @@ const organizationInvitationRepository = require('../lib/infrastructure/reposito
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
+const { disconnect } = require('../db/knex-database-connection');
 
 const REQUIRED_FIELD_NAMES = [
   'externalId',
@@ -63,27 +64,26 @@ async function createOrganizationWithTags(filePath) {
   return 'Organizations created with success !';
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting creating PRO organizations.');
   const filePath = process.argv[2];
-
-  try {
-    await createOrganizationWithTags(filePath);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
+  await createOrganizationWithTags(filePath);
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   createOrganizationWithTags,
