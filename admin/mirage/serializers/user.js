@@ -1,6 +1,6 @@
 import ApplicationSerializer from './application';
 
-const _includes = ['organizationLearners', 'authenticationMethods'];
+const _includes = ['organizationLearners', 'authenticationMethods', 'organizationMemberships'];
 
 export default ApplicationSerializer.extend({
   include: _includes,
