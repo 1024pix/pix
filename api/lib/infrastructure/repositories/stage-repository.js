@@ -19,7 +19,7 @@ module.exports = {
   },
 
   async findByTargetProfileId(targetProfileId) {
-    const stages = await knex(TABLE_NAME).where({ targetProfileId }).orderBy('stages.threshold');
+    const stages = await knex(TABLE_NAME).where({ targetProfileId }).orderBy(['stages.threshold', 'stages.level']);
     return stages.map(_toDomain);
   },
 
