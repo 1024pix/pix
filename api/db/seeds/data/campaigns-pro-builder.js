@@ -3,7 +3,7 @@ const {
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
-  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
   TARGET_PROFILE_PIX_DROIT_ID,
   TARGET_PROFILE_CNAV_ID,
 } = require('./target-profiles-builder');
@@ -86,13 +86,13 @@ __Plus d'infos :)__
 
   databaseBuilder.factory.buildCampaign({
     id: POLE_EMPLOI_CAMPAIGN_ID,
-    name: 'Pro - Campagne Pix Emploi',
+    name: 'Pro - Campagne Pix Emploi v3',
     code: 'PIXEMPLOI',
     type: 'ASSESSMENT',
     organizationId: PRO_POLE_EMPLOI_ID,
     creatorId: 2,
     ownerId: 2,
-    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
     assessmentMethod: 'SMART_RANDOM',
     title: null,
     customLandingPageText: null,
