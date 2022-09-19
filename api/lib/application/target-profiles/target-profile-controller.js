@@ -5,6 +5,7 @@ const targetProfileSummaryForAdminSerializer = require('../../infrastructure/ser
 const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
 const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
 const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
@@ -58,10 +59,12 @@ module.exports = {
 
     const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
 
+    const escapedFilename = requestResponseUtils.escapeFileName(fileName);
+
     return h
       .response(jsonContent)
       .header('Content-Type', 'text/json;charset=utf-8')
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
+      .header('Content-Disposition', `attachment; filename=${escapedFilename}`);
   },
 
   async attachOrganizations(request, h) {
