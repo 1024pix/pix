@@ -327,5 +327,22 @@ describe('Integration | Repository | StageRepository', function () {
         });
       });
     });
+
+    describe('#findByTargetProfileId', function () {
+      it('should return stages sorted by levels', async function () {
+        // given
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const stage1 = databaseBuilder.factory.buildStage.withLevel({ targetProfileId: targetProfile.id, level: 3 });
+        const stage2 = databaseBuilder.factory.buildStage.withLevel({ targetProfileId: targetProfile.id, level: 2 });
+        await databaseBuilder.commit();
+
+        // when
+        const stages = await stageRepository.findByTargetProfileId(targetProfile.id);
+
+        // then
+        expect(stages.length).to.be.equal(2);
+        expect(stages).to.deep.equal([stage2, stage1]);
+      });
+    });
   });
 });
