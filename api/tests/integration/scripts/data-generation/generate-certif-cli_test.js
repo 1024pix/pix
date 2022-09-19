@@ -1,4 +1,5 @@
 const { expect, knex, sinon } = require('../../../test-helper');
+const _ = require('lodash');
 const {
   main,
   databaseBuilder: databaseBuilderCli,
@@ -50,6 +51,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             // then
             const session = await knex('sessions').select('id', 'certificationCenterId', 'accessCode').first();
             const user = await knex('users').select('id').orderBy('id', 'asc').first();
+            const organizationLearner = await knex('organization-learners').select('*').orderBy('id', 'asc').first();
             const hasAuthenticationMethod = !!(await knex('authentication-methods')
               .select(1)
               .where({ userId: user.id })
@@ -58,14 +60,18 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               'birthdate',
               'firstName',
               'lastName',
-              'sessionId',
-              'email'
+              'email',
+              'sessionId'
             );
             expect(session.accessCode).to.exist;
             expect(session.certificationCenterId).to.equal(certificationCenterId);
             expect(hasAuthenticationMethod).to.exist;
             expect(certificationCandidates).to.have.length(2);
             const name = `${type}1`.toLowerCase();
+            expect(
+              _.pick(organizationLearner, ['birthdate', 'firstName', 'lastName', 'email', 'sessionId'])
+            ).to.deep.equal(_.omit(certificationCandidates[0], ['sessionId']));
+
             expect(certificationCandidates[0]).to.deep.equals({
               birthdate: '2000-01-01',
               firstName: name,
@@ -81,13 +87,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               databaseBuffer.nextId = 0;
               buildTypedCertificationCenters();
               buildComplementaryCertifications();
-              await databaseBuilderCli.commit();
-              databaseBuilderCli.factory.buildOrganization({ id: 1, externalId: certificationCenterSco.externalId });
-              databaseBuilderCli.factory.buildOrganizationLearner({
-                organizationId: 1,
-                userId: null,
-              });
-              databaseBuilderCli.factory.buildOrganizationLearner({ organizationId: 1, userId: null });
+
               await databaseBuilderCli.commit();
               await databaseBuilderCli.fixSequences();
 
@@ -107,6 +107,22 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               const { count: habilitations } = await knex('complementary-certification-habilitations')
                 .count('*')
                 .first();
+              const badgeAcquisitions = await knex('badge-acquisitions')
+                .innerJoin('badges', 'badges.id', 'badge-acquisitions.badgeId')
+                .whereIn('key', [
+                  'PIX_EMPLOI_CLEA_V3',
+                  'PIX_DROIT_EXPERT_CERTIF',
+                  'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+                  'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+                ])
+                .pluck('key');
+
+              expect(badgeAcquisitions).to.deep.equal([
+                'PIX_EMPLOI_CLEA_V3',
+                'PIX_DROIT_EXPERT_CERTIF',
+                'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+                'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+              ]);
               expect(habilitations).to.equal(4);
             });
           });
@@ -119,13 +135,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
           databaseBuffer.nextId = 0;
           buildTypedCertificationCenters();
           buildComplementaryCertifications();
-          await databaseBuilderCli.commit();
-          databaseBuilderCli.factory.buildOrganization({ id: 1, externalId: certificationCenterSco.externalId });
-          databaseBuilderCli.factory.buildOrganizationLearner({
-            organizationId: 1,
-            userId: null,
-          });
-          databaseBuilderCli.factory.buildOrganizationLearner({ organizationId: 1, userId: null });
           await databaseBuilderCli.commit();
           await databaseBuilderCli.fixSequences();
 
@@ -171,13 +180,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             buildTypedCertificationCenters();
             buildComplementaryCertifications();
             await databaseBuilderCli.commit();
-            databaseBuilderCli.factory.buildOrganization({ id: 1, externalId: certificationCenterSco.externalId });
-            databaseBuilderCli.factory.buildOrganizationLearner({
-              organizationId: 1,
-              userId: null,
-            });
-            databaseBuilderCli.factory.buildOrganizationLearner({ organizationId: 1, userId: null });
-            await databaseBuilderCli.commit();
             await databaseBuilderCli.fixSequences();
 
             // when
@@ -190,7 +192,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                 { candidateNumber: 1, key: 'EDU_1ER_DEGRE' },
                 { candidateNumber: 1, key: 'EDU_2ND_DEGRE' },
               ],
-              isSupervisorAccessEnabled: false,
             });
 
             // then
@@ -209,15 +210,23 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   }
 
   function buildComplementaryCertifications() {
-    databaseBuilderCli.factory.buildBadge({ key: 'PIX_EMPLOI_CLEA_V3', targetProfileId: null });
-    databaseBuilderCli.factory.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: null });
+    const { id: cleaTargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
+    const { id: droitTargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
+    const { id: edu1TargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
+    const { id: edu2TargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
+    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: cleaTargetProfileId });
+    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: droitTargetProfileId });
+    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: edu1TargetProfileId });
+    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: edu2TargetProfileId });
+    databaseBuilderCli.factory.buildBadge({ key: 'PIX_EMPLOI_CLEA_V3', targetProfileId: cleaTargetProfileId });
+    databaseBuilderCli.factory.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: droitTargetProfileId });
     databaseBuilderCli.factory.buildBadge({
       key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
-      targetProfileId: null,
+      targetProfileId: edu1TargetProfileId,
     });
     databaseBuilderCli.factory.buildBadge({
       key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
-      targetProfileId: null,
+      targetProfileId: edu2TargetProfileId,
     });
 
     databaseBuilderCli.factory.buildComplementaryCertification({ id: 52, key: 'CLEA' });
