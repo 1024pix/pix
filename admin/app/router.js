@@ -50,6 +50,7 @@ Router.map(function () {
         this.route('information', { path: '/' });
         this.route('profile');
         this.route('campaign-participations', { path: '/participations' });
+        this.route('organizations');
       });
     });
 
