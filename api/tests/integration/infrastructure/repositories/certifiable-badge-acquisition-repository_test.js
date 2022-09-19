@@ -180,6 +180,103 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
       });
     });
 
+    describe('when the user has the same certifiable acquired badge twice', function () {
+      it('should return the highest level certifiable acquired badge only once', async function () {
+        //given
+        const user = databaseBuilder.factory.buildUser();
+        const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
+          key: 'PIX_DROIT_MAITRE_CERTIF',
+        });
+
+        const { id: campaignParticipationId, campaignId } = databaseBuilder.factory.buildCampaignParticipation();
+
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId: acquiredBadge.id,
+          userId: user.id,
+          campaignParticipationId,
+        });
+
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId: acquiredBadge.id,
+          userId: user.id,
+          campaignParticipationId,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 123,
+          label: 'Label Certif Complémentaire',
+          key: 'KEY',
+        });
+        const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: acquiredBadge.id,
+          complementaryCertificationId: 123,
+          level: 2,
+          label: 'Label badge',
+        });
+
+        const skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: acquiredBadge.id });
+
+        const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
+          badgeId: acquiredBadge.id,
+          skillSetIds: [skillSet.id],
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+          return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+            userId: user.id,
+            domainTransaction,
+          });
+        });
+
+        // then
+        const expectedSkillSetsForCertifiableBadge = [
+          {
+            id: skillSet.id,
+            badgeId: acquiredBadge.id,
+            name: skillSet.name,
+            skillIds: skillSet.skillIds,
+          },
+        ];
+
+        const expectedBadgeCriteria = [
+          {
+            id: badgeCriterion.id,
+            scope: badgeCriterion.scope,
+            threshold: badgeCriterion.threshold,
+            skillSetIds: badgeCriterion.skillSetIds,
+            badgeId: acquiredBadge.id,
+          },
+        ];
+
+        const expectedBadge = new Badge({
+          ...acquiredBadge,
+          complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
+            ...complementaryCertificationBadge,
+          }),
+        });
+        const expectedCertifiableBadge = domainBuilder.buildCertifiableBadgeAcquisition({
+          badge: domainBuilder.buildBadge({
+            ...expectedBadge,
+            skillSets: expectedSkillSetsForCertifiableBadge,
+            badgeCriteria: expectedBadgeCriteria,
+          }),
+          userId: user.id,
+          campaignId,
+          complementaryCertification: domainBuilder.buildComplementaryCertification({
+            id: 123,
+            label: 'Label Certif Complémentaire',
+            key: 'KEY',
+          }),
+        });
+
+        expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+        expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(expectedCertifiableBadge, ['id']);
+      });
+    });
+
     describe('when the user has several acquired badges', function () {
       it('should return the highest level certifiable badge acquired for each complementary certification', async function () {
         //given
