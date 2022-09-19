@@ -25,6 +25,7 @@ module.exports = {
         'complementary-certifications.key as complementaryCertificationKey',
         'campaign-participations.campaignId'
       )
+      .distinctOn('complementary-certifications.id')
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
       .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
       .join(
