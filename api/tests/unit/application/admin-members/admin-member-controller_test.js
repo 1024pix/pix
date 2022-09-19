@@ -1,114 +1,248 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
-
 const adminMemberController = require('../../../../lib/application/admin-members/admin-member-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const adminMemberSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/admin-member-serializer');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
-describe('Unit | Controller | admin-member-controller', function () {
+describe('Unit | Controller | admin-members', function () {
   describe('#findAll', function () {
-    it('should return the serialized admin members', async function () {
+    it('should return serialized admin members', async function () {
       // given
-      const member = domainBuilder.buildAdminMember();
-      const otherMember = domainBuilder.buildAdminMember();
-      sinon.stub(usecases, 'getAdminMembers').resolves([member, otherMember]);
-      const serializedMembers = Symbol('serializedMembers');
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs([member, otherMember]).returns(serializedMembers);
+      const member1 = domainBuilder.buildAdminMember.withRoleSuperAdmin({
+        id: 10,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'the-slayer@sunnydale.com',
+        userId: 123,
+      });
+      const member2 = domainBuilder.buildAdminMember.withRoleMetier({
+        id: 20,
+        firstName: 'Rupert',
+        lastName: 'Giles',
+        email: 'the-watcher@london.com',
+        userId: 456,
+      });
+      sinon.stub(usecases, 'getAdminMembers').resolves([member1, member2]);
 
       // when
-      const result = await adminMemberController.findAll();
+      const response = await adminMemberController.findAll();
 
       // then
-      expect(usecases.getAdminMembers).to.have.been.calledOnce;
-      expect(result).to.equal(serializedMembers);
+      expect(response.data).to.deep.equal([
+        {
+          type: 'admin-members',
+          id: '10',
+          attributes: {
+            'first-name': 'Buffy',
+            'last-name': 'Summers',
+            email: 'the-slayer@sunnydale.com',
+            role: 'SUPER_ADMIN',
+            'user-id': 123,
+            'is-super-admin': true,
+            'is-certif': false,
+            'is-metier': false,
+            'is-support': false,
+          },
+        },
+        {
+          type: 'admin-members',
+          id: '20',
+          attributes: {
+            'first-name': 'Rupert',
+            'last-name': 'Giles',
+            email: 'the-watcher@london.com',
+            role: 'METIER',
+            'user-id': 456,
+            'is-super-admin': false,
+            'is-certif': false,
+            'is-metier': true,
+            'is-support': false,
+          },
+        },
+      ]);
     });
   });
 
   describe('#getCurrentAdminMember', function () {
-    it('should get the current admin member', async function () {
+    const request = {
+      auth: { credentials: { userId: 123 } },
+    };
+
+    it('should return the serialized user admin member', async function () {
       // given
-      const request = { auth: { credentials: { userId: 1 } } };
-      const adminMemberDetails = Symbol('adminMemberDetails');
-      sinon.stub(usecases, 'getAdminMemberDetails').withArgs({ userId: 1 }).resolves(adminMemberDetails);
-      const serializedUpdatedMember = Symbol('serializedUpdatedMember');
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(adminMemberDetails).returns(serializedUpdatedMember);
+      const member = domainBuilder.buildAdminMember.withRoleSuperAdmin({
+        id: 10,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'the-slayer@sunnydale.com',
+        userId: 123,
+      });
+      sinon.stub(usecases, 'getAdminMemberDetails').withArgs({ userId: 123 }).resolves(member);
 
       // when
       const response = await adminMemberController.getCurrentAdminMember(request);
 
       // then
-      expect(response).to.be.equal(serializedUpdatedMember);
+      expect(response.data).to.deep.equal({
+        type: 'admin-members',
+        id: '10',
+        attributes: {
+          'first-name': 'Buffy',
+          'last-name': 'Summers',
+          email: 'the-slayer@sunnydale.com',
+          role: 'SUPER_ADMIN',
+          'user-id': 123,
+          'is-super-admin': true,
+          'is-certif': false,
+          'is-metier': false,
+          'is-support': false,
+        },
+      });
     });
   });
 
   describe('#updateAdminMember', function () {
-    it('should return the serialized admin member with updated values', async function () {
+    const request = {
+      params: { id: 123 },
+      payload: {
+        data: {
+          attributes: {
+            role: 'SUPER_ADMIN',
+          },
+        },
+      },
+    };
+
+    it('should call the usecase with the right command', async function () {
       // given
-      const id = 7;
-      const role = ROLES.SUPPORT;
-
-      const updatedMember = Symbol('updatedMember');
-      sinon.stub(usecases, 'updateAdminMember').withArgs({ id, role }).resolves(updatedMember);
-
-      const serializedUpdatedMember = Symbol('serializedUpdatedMember');
-      sinon.stub(adminMemberSerializer, 'deserialize').returns({ role });
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(updatedMember).returns(serializedUpdatedMember);
+      const expectedCommand = {
+        id: 123,
+        role: 'SUPER_ADMIN',
+      };
+      sinon.stub(usecases, 'updateAdminMember').resolves(domainBuilder.buildAdminMember());
 
       // when
-      const result = await adminMemberController.updateAdminMember({
-        params: { id },
-        payload: { data: { attributes: { role: ROLES.SUPPORT } } },
-      });
+      await adminMemberController.updateAdminMember(request);
 
       // then
-      expect(result).to.equal(serializedUpdatedMember);
+      expect(usecases.updateAdminMember).calledWithExactly(expectedCommand);
+    });
+
+    it('should return the updated serialized admin member', async function () {
+      // given
+      const member = domainBuilder.buildAdminMember.withRoleSuperAdmin({
+        id: 10,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'the-slayer@sunnydale.com',
+        userId: 123,
+      });
+      sinon.stub(usecases, 'updateAdminMember').resolves(member);
+
+      // when
+      const response = await adminMemberController.updateAdminMember(request);
+
+      // then
+      expect(response.data).to.deep.equal({
+        type: 'admin-members',
+        id: '10',
+        attributes: {
+          'first-name': 'Buffy',
+          'last-name': 'Summers',
+          email: 'the-slayer@sunnydale.com',
+          role: 'SUPER_ADMIN',
+          'user-id': 123,
+          'is-super-admin': true,
+          'is-certif': false,
+          'is-metier': false,
+          'is-support': false,
+        },
+      });
     });
   });
 
   describe('#deactivateAdminMember', function () {
-    it('should return an empty reponse', async function () {
+    const request = {
+      params: { id: 123 },
+    };
+
+    it('should call the usecase with the right command', async function () {
       // given
-      const id = 7;
-
-      const deactivatedMember = Symbol('deactivatedMember');
-      sinon.stub(usecases, 'deactivateAdminMember').withArgs({ id }).resolves(deactivatedMember);
-
-      const serializedDeactivatedMember = Symbol('serializedDeactivatedMember');
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(deactivatedMember).returns(serializedDeactivatedMember);
+      const expectedCommand = { id: 123 };
+      sinon.stub(usecases, 'deactivateAdminMember').resolves();
 
       // when
-      const { statusCode } = await adminMemberController.deactivateAdminMember(
-        {
-          params: { id },
-        },
-        hFake
-      );
+      await adminMemberController.deactivateAdminMember(request, hFake);
 
       // then
-      expect(statusCode).to.equal(204);
+      expect(usecases.deactivateAdminMember).calledWithExactly(expectedCommand);
+    });
+
+    it('should return a response with 204 code', async function () {
+      // given
+      sinon.stub(usecases, 'deactivateAdminMember').resolves();
+
+      // when
+      const response = await adminMemberController.deactivateAdminMember(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 
   describe('#saveAdminMember', function () {
-    it('should return the serialized admin member saved', async function () {
-      // given
-      const attributes = { email: 'green.bot@example.net', role: ROLES.SUPER_ADMIN };
-      const savedAdminMember = Symbol('saved admin member');
-      sinon.stub(usecases, 'saveAdminMember').withArgs(attributes).resolves(savedAdminMember);
+    const request = {
+      payload: {
+        data: {
+          attributes: {
+            email: 'some_email@example.net',
+            role: 'SUPER_ADMIN',
+          },
+        },
+      },
+    };
 
-      const serializedAdminMember = Symbol('serialized admin member');
-      sinon.stub(adminMemberSerializer, 'deserialize').returns(attributes);
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(savedAdminMember).returns(serializedAdminMember);
+    it('should call the usecase with the right command', async function () {
+      // given
+      const expectedCommand = { email: 'some_email@example.net', role: 'SUPER_ADMIN' };
+      sinon.stub(usecases, 'saveAdminMember').resolves(domainBuilder.buildAdminMember());
 
       // when
-      const { statusCode, source } = await adminMemberController.saveAdminMember(
-        { payload: { data: { attributes } } },
-        hFake
-      );
+      await adminMemberController.saveAdminMember(request, hFake);
 
       // then
-      expect(source).to.deep.equal(serializedAdminMember);
-      expect(statusCode).to.equal(201);
+      expect(usecases.saveAdminMember).calledWithExactly(expectedCommand);
+    });
+
+    it('should return the created serialized admin member', async function () {
+      // given
+      const member = domainBuilder.buildAdminMember.withRoleSuperAdmin({
+        id: 10,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'some_email@example.net',
+        userId: 123,
+      });
+      sinon.stub(usecases, 'saveAdminMember').resolves(member);
+
+      // when
+      const response = await adminMemberController.saveAdminMember(request, hFake);
+
+      // then
+      expect(response.source.data).to.deep.equal({
+        type: 'admin-members',
+        id: '10',
+        attributes: {
+          'first-name': 'Buffy',
+          'last-name': 'Summers',
+          email: 'some_email@example.net',
+          role: 'SUPER_ADMIN',
+          'user-id': 123,
+          'is-super-admin': true,
+          'is-certif': false,
+          'is-metier': false,
+          'is-support': false,
+        },
+      });
+      expect(response.statusCode).to.equal(201);
     });
   });
 });

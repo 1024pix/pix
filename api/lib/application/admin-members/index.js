@@ -35,7 +35,6 @@ exports.register = async function (server) {
         tags: ['api', 'admin-members', 'current-member'],
       },
     },
-
     {
       method: 'POST',
       path: '/api/admin/admin-members',
@@ -63,7 +62,6 @@ exports.register = async function (server) {
         tags: ['api', 'admin', 'admin-members'],
       },
     },
-
     {
       method: 'PATCH',
       path: '/api/admin/admin-members/{id}',
