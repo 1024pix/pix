@@ -31,13 +31,6 @@ workflows:
     jobs:
       - checkout:
           context: Pix
-          filters:
-            branches:
-              ignore:
-                - gh-pages
-                - master
-                - prod
-                - /release-.*/
 
       - api_build_and_test:
           context: Pix
