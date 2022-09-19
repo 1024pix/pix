@@ -24,6 +24,15 @@
     <LinkTo @route="authenticated.users.get.campaign-participations" @model={{@model}} class="navbar-item">
       Participations
     </LinkTo>
+
+    <LinkTo
+      @route="authenticated.users.get.organizations"
+      @model={{@model}}
+      aria-label="Organisations de l’utilisateur"
+      class="navbar-item"
+    >
+      Organisations
+    </LinkTo>
   </nav>
 
   {{outlet}}
