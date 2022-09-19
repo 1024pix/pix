@@ -70,6 +70,11 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
                 related: `/api/admin/users/${userDetailsForAdmin.id}/profile`,
               },
             },
+            'organization-memberships': {
+              links: {
+                related: `/api/admin/users/${userDetailsForAdmin.id}/organizations`,
+              },
+            },
             participations: {
               links: {
                 related: `/api/admin/users/${userDetailsForAdmin.id}/participations`,
