@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.256.0 (19/09/2022)
+
+
+### :rocket: Amélioration
+- [#4927](https://github.com/1024pix/pix/pull/4927) [FEATURE] Supprimer les filtres sur la pages des tutoriels enregistrés (PIX-5684).
+- [#4926](https://github.com/1024pix/pix/pull/4926) [FEATURE] Ajout du FT pour la récupération des résultats CleA par les CDC habilités (PIX-5373).
+- [#4904](https://github.com/1024pix/pix/pull/4904) [FEATURE] Ajouter un champ de recherche par nom ou prénom à la liste des candidats dans l'espace surveillant (PIX-5452)
+
+### :building_construction: Tech
+- [#4849](https://github.com/1024pix/pix/pull/4849) [TECH] Retrait des warnings liés à l'usage déprécié de process.exit() dans les scripts (PIX-5585)
+- [#4937](https://github.com/1024pix/pix/pull/4937) [TECH] Monté de versions mineurs de PixOrga (PIX-5522)
+- [#4909](https://github.com/1024pix/pix/pull/4909) [TECH] Modifier la gestion du code HTTP 401 sur Pix App (PIX-5661)
+- [#4919](https://github.com/1024pix/pix/pull/4919) [TECH] Renommer UserTutorial en UserSavedTutorial (PIX-5363)
+- [#4898](https://github.com/1024pix/pix/pull/4898) [TECH] Ajouter de nouvelles pages dans les tests axes automatisés.
+
+### :bug: Correction
+- [#4932](https://github.com/1024pix/pix/pull/4932) [BUGFIX] Des thématiques en dehors du profil-cible sont comprises dans le payload de lecture du profil-cible sur PixAdmin (PIX-5708)
+- [#4929](https://github.com/1024pix/pix/pull/4929) [BUGFIX] Supprimer l'appel au helper text-with-multiple-lang dans la page d'affichage des résultats (PIX-5703).
+- [#4924](https://github.com/1024pix/pix/pull/4924) [BUGFIX] Afficher la méthode de connexion CNAV dans la modale de suppression sur Pix Admin (PIX-5670).
+
 ## v3.255.0 (15/09/2022)
 
 
