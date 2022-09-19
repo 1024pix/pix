@@ -30,7 +30,7 @@
     <tr>
       <td class="authentication-method-table__name-column">Adresse e-mail</td>
       <td>
-        {{#if @user.hasEmailAuthenticationMethod}}
+        {{#if this.hasEmailAuthenticationMethod}}
           <FaIcon
             @icon="check-circle"
             aria-label="L'utilisateur a une méthode de connexion avec adresse e-mail"
@@ -46,7 +46,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.isAllowedToRemoveEmailAuthenticationMethod}}
+          {{#if this.isAllowedToRemoveEmailAuthenticationMethod}}
             <PixButton
               class="user-authentication-method__remove-button"
               @size="small"
@@ -54,7 +54,7 @@
               @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
             >Supprimer</PixButton>
           {{/if}}
-          {{#if @user.isAllowedToAddEmailAuthenticationMethod}}
+          {{#if this.isAllowedToAddEmailAuthenticationMethod}}
             <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">
               Ajouter une adresse e-mail
             </PixButton>
@@ -66,7 +66,7 @@
     <tr>
       <td class="authentication-method-table__name-column">Identifiant</td>
       <td>
-        {{#if @user.hasUsernameAuthenticationMethod}}
+        {{#if this.hasUsernameAuthenticationMethod}}
           <FaIcon
             @icon="check-circle"
             aria-label="L'utilisateur a une méthode de connexion avec identifiant"
@@ -82,7 +82,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.isAllowedToRemoveUsernameAuthenticationMethod}}
+          {{#if this.isAllowedToRemoveUsernameAuthenticationMethod}}
             <PixButton
               class="user-authentication-method__remove-button"
               @size="small"
@@ -97,7 +97,7 @@
     <tr>
       <td class="authentication-method-table__name-column">Médiacentre</td>
       <td>
-        {{#if @user.hasGarAuthenticationMethod}}
+        {{#if this.hasGarAuthenticationMethod}}
           <FaIcon
             @icon="check-circle"
             aria-label="L'utilisateur a une méthode de connexion Médiacentre"
@@ -113,7 +113,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.isAllowedToRemoveGarAuthenticationMethod}}
+          {{#if this.isAllowedToRemoveGarAuthenticationMethod}}
             <PixButton
               @size="small"
               @backgroundColor="red"
@@ -123,7 +123,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.hasGarAuthenticationMethod}}
+          {{#if this.hasGarAuthenticationMethod}}
             <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
               Déplacer cette méthode de connexion
             </PixButton>
@@ -135,7 +135,7 @@
     <tr>
       <td class="authentication-method-table__name-column">Pôle emploi</td>
       <td>
-        {{#if @user.hasPoleEmploiAuthenticationMethod}}
+        {{#if this.hasPoleEmploiAuthenticationMethod}}
           <FaIcon
             @icon="check-circle"
             aria-label="L'utilisateur a une méthode de connexion Pôle Emploi"
@@ -151,7 +151,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.isAllowedToRemovePoleEmploiAuthenticationMethod}}
+          {{#if this.isAllowedToRemovePoleEmploiAuthenticationMethod}}
             <PixButton
               class="user-authentication-method__remove-button"
               @size="small"
@@ -163,7 +163,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.hasPoleEmploiAuthenticationMethod}}
+          {{#if this.hasPoleEmploiAuthenticationMethod}}
             <PixButton @triggerAction={{this.toggleReassignPoleEmploiAuthenticationMethodModal}} @size="small">
               Déplacer cette méthode de connexion
             </PixButton>
@@ -175,7 +175,7 @@
     <tr>
       <td class="authentication-method-table__name-column">CNAV</td>
       <td>
-        {{#if @user.hasCnavAuthenticationMethod}}
+        {{#if this.hasCnavAuthenticationMethod}}
           <FaIcon
             @icon="check-circle"
             aria-label="L'utilisateur a une méthode de connexion CNAV"
@@ -191,7 +191,7 @@
       </td>
       <td>
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.isAllowedToRemoveCnavAuthenticationMethod}}
+          {{#if this.isAllowedToRemoveCnavAuthenticationMethod}}
             <PixButton
               class="user-authentication-method__remove-button"
               @size="small"

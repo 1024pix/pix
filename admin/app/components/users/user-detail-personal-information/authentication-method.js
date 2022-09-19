@@ -14,6 +14,84 @@ export default class AuthenticationMethod extends Component {
   @tracked targetUserId = '';
   @tracked showAlreadyExistingEmailError = false;
 
+  get hasPixAuthenticationMethod() {
+    return this.args.user.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+    );
+  }
+
+  get hasEmailAuthenticationMethod() {
+    return (
+      this.args.user.email &&
+      this.args.user.authenticationMethods.any(
+        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      )
+    );
+  }
+
+  get hasUsernameAuthenticationMethod() {
+    return (
+      this.args.user.username &&
+      this.args.user.authenticationMethods.any(
+        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      )
+    );
+  }
+
+  get hasPoleEmploiAuthenticationMethod() {
+    return this.args.user.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'POLE_EMPLOI'
+    );
+  }
+
+  get hasCnavAuthenticationMethod() {
+    return this.args.user.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'CNAV'
+    );
+  }
+
+  get hasGarAuthenticationMethod() {
+    return this.args.user.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+    );
+  }
+
+  get hasOnlyOneAuthenticationMethod() {
+    return (
+      [
+        this.hasEmailAuthenticationMethod,
+        this.hasUsernameAuthenticationMethod,
+        this.hasGarAuthenticationMethod,
+        this.hasPoleEmploiAuthenticationMethod,
+        this.hasCnavAuthenticationMethod,
+      ].filter((hasAuthenticationMethod) => hasAuthenticationMethod).length === 1
+    );
+  }
+
+  get isAllowedToRemoveEmailAuthenticationMethod() {
+    return this.hasEmailAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemoveUsernameAuthenticationMethod() {
+    return this.hasUsernameAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemovePoleEmploiAuthenticationMethod() {
+    return this.hasPoleEmploiAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemoveGarAuthenticationMethod() {
+    return this.hasGarAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemoveCnavAuthenticationMethod() {
+    return this.hasCnavAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToAddEmailAuthenticationMethod() {
+    return !this.hasPixAuthenticationMethod;
+  }
+
   @action
   toggleAddAuthenticationMethodModal() {
     this.showAddAuthenticationMethodModal = !this.showAddAuthenticationMethodModal;

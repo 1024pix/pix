@@ -4,7 +4,8 @@ import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | users | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
@@ -30,6 +31,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         username: 'user.name0112',
         isAuthenticatedFromGAR: false,
         organizationLearners: [organizationLearner],
+        authenticationMethods: [{ identityProvider: 'PIX' }],
       });
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
@@ -37,7 +39,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
-      await clickByName('Dissocier');
+      await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       // then
       assert.dom(screen.getByText('Confirmer la dissociation')).exists();
@@ -59,15 +61,16 @@ module('Integration | Component | users | user-detail-personal-information', fun
         username: 'user.name0112',
         isAuthenticatedFromGAR: false,
         organizationLearners: [organizationLearner],
+        authenticationMethods: [{ identityProvider: 'PIX' }],
       });
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
 
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByName('Dissocier');
+      await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       // when
-      await clickByName('Annuler');
+      await click(screen.getByRole('button', { name: 'Annuler' }));
 
       // then
       assert.dom(screen.queryByRole('heading', { name: 'Confirmer la dissociation' })).doesNotExist();
@@ -90,15 +93,16 @@ module('Integration | Component | users | user-detail-personal-information', fun
         username: 'user.name0112',
         isAuthenticatedFromGAR: false,
         organizationLearners: [organizationLearner],
+        authenticationMethods: [{ identityProvider: 'PIX' }],
       });
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
 
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
-      await clickByName('Dissocier');
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       // when
-      await clickByName('Oui, je dissocie');
+      await click(screen.getByRole('button', { name: 'Oui, je dissocie' }));
 
       // then
       assert.ok(destroyRecordStub.called);
@@ -113,9 +117,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: 'john.harry.1010',
-        hasEmailAuthenticationMethod: true,
-        hasPoleEmploiAuthenticationMethod: true,
-        isAllowedToRemoveEmailAuthenticationMethod: true,
+        authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
       });
 
       this.set('user', user);
@@ -123,7 +125,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
-      await clickByName('Supprimer');
+      await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Confirmer la suppression' })).exists();
@@ -139,18 +141,16 @@ module('Integration | Component | users | user-detail-personal-information', fun
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: 'john.harry.1010',
-        hasEmailAuthenticationMethod: true,
-        hasPoleEmploiAuthenticationMethod: true,
-        isAllowedToRemoveEmailAuthenticationMethod: true,
+        authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
       });
 
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByName('Supprimer');
+      await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
       // when
-      await clickByName('Annuler');
+      await click(screen.getByRole('button', { name: 'Annuler' }));
 
       // then
       assert.dom(screen.queryByRole('heading', { name: 'Confirmer la suppression' })).doesNotExist();
@@ -166,9 +166,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
           firstName: 'John',
           email: 'john.harry@gmail.com',
           username: 'john.harry.1010',
-          hasEmailAuthenticationMethod: true,
-          hasPoleEmploiAuthenticationMethod: true,
-          isAllowedToRemoveEmailAuthenticationMethod: true,
+          authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
         });
         this.set('user', user);
         this.owner.register('service:access-control', AccessControlStub);
@@ -178,10 +176,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         const screen = await render(
           hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
-        await clickByName('Supprimer');
+        await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
         // when
-        await clickByName('Oui, je supprime');
+        await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
 
         // then
         assert.ok(removeAuthenticationMethodStub.called);
@@ -196,9 +194,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
           lastName: 'Harry',
           firstName: 'John',
           email: 'john.harry@gmail.com',
-          hasEmailAuthenticationMethod: true,
-          hasPoleEmploiAuthenticationMethod: true,
-          isAllowedToRemoveEmailAuthenticationMethod: true,
+          authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
         });
         this.set('user', user);
         this.owner.register('service:access-control', AccessControlStub);
@@ -216,10 +212,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         const screen = await render(
           hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
-        await clickByName('Supprimer');
+        await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
 
         // when
-        await clickByName('Oui, je supprime');
+        await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
 
         // then
         sinon.assert.calledWith(
