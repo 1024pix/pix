@@ -14,19 +14,18 @@ class CampaignParticipationOverview {
     campaignTitle,
     campaignArchivedAt,
     deletedAt,
-    targetProfile,
+    campaignStages,
     masteryRate,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
     this.isShared = status === SHARED;
     this.sharedAt = sharedAt;
-    this.targetProfileId = targetProfile?.id;
     this.organizationName = organizationName;
     this.status = status;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
-    this.targetProfile = targetProfile;
+    this.campaignStages = campaignStages;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
 
     const dates = [deletedAt, campaignArchivedAt].filter((a) => a != null);
@@ -35,18 +34,16 @@ class CampaignParticipationOverview {
   }
 
   get validatedStagesCount() {
-    if (_.isEmpty(this.targetProfile?.stages) || !this.isShared) return null;
+    if (_.isEmpty(this.campaignStages?.stages) || !this.isShared) return null;
 
-    const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= this.masteryRate * 100);
+    const validatedStages = this.campaignStages.reachableStages.filter(
+      (stage) => stage.threshold <= this.masteryRate * 100
+    );
     return validatedStages.length;
   }
 
   get totalStagesCount() {
-    return this._getReachableStages()?.length ?? 0;
-  }
-
-  _getReachableStages() {
-    return this.targetProfile?.stages?.filter((stage) => stage.threshold > 0);
+    return this.campaignStages?.reachableStages?.length ?? 0;
   }
 }
 

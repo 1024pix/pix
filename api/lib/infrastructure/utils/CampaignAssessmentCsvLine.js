@@ -10,6 +10,7 @@ class CampaignAssessmentCsvLine {
     campaignParticipationInfo,
     targetProfile,
     learningContent,
+    campaignStages,
     participantKnowledgeElementsByCompetenceId,
     acquiredBadges,
     campaignParticipationService,
@@ -20,6 +21,7 @@ class CampaignAssessmentCsvLine {
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
     this.learningContent = learningContent;
+    this.campaignStages = campaignStages;
     this.targetedKnowledgeElementsCount = _.sum(
       _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length)
     );
@@ -108,7 +110,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.isShared
         ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
         : this.emptyContent,
-      ...(this.targetProfile.hasReachableStages ? [this._getReachedStage()] : []),
+      ...(this.campaignStages.hasReachableStages ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared
         ? this._makeBadgesColumns()
         : this._makeEmptyColumns(this.targetProfile.badges.length)),
@@ -168,7 +170,7 @@ class CampaignAssessmentCsvLine {
 
     const masteryPercentage = this.campaignParticipationInfo.masteryRate * 100;
 
-    return this.targetProfile.reachableStages.filter((stage) => masteryPercentage >= stage.threshold).length;
+    return this.campaignStages.reachableStages.filter((stage) => masteryPercentage >= stage.threshold).length;
   }
 
   get _studentNumber() {

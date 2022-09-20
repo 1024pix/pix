@@ -1,6 +1,5 @@
 const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
 const campaignParticipationRepository = require('./campaign-participation-repository');
-const targetProfileRepository = require('./target-profile-repository');
 const campaignRepository = require('./campaign-repository');
 const competenceRepository = require('./competence-repository');
 const assessmentRepository = require('./assessment-repository');
@@ -10,8 +9,8 @@ const campaignParticipationResultRepository = {
   async getByParticipationId(campaignParticipationId) {
     const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
-    const [targetProfile, skillIds, competences, assessment, snapshots] = await Promise.all([
-      targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
+    const [stages, skillIds, competences, assessment, snapshots] = await Promise.all([
+      campaignRepository.findStages({ campaignId: campaignParticipation.campaignId }),
       campaignRepository.findSkillIds({ campaignId: campaignParticipation.campaignId }),
       competenceRepository.list(),
       assessmentRepository.get(campaignParticipation.lastAssessment.id),
@@ -24,7 +23,7 @@ const campaignParticipationResultRepository = {
       campaignParticipationId,
       assessment,
       competences,
-      targetProfile,
+      stages,
       skillIds,
       knowledgeElements: snapshots[campaignParticipation.userId],
     });

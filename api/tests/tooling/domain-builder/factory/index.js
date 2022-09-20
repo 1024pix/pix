@@ -19,6 +19,7 @@ module.exports = {
   buildCampaignParticipationForUserManagement: require('./build-campaign-participation-for-user-management'),
   buildCampaignParticipationResult: require('./build-campaign-participation-result'),
   buildCampaignParticipationInfo: require('./build-campaign-participation-info'),
+  buildCampaignStages: require('./build-campaign-stages'),
   buildCampaignLearningContent: require('./build-campaign-learning-content'),
   buildCampaignManagement: require('./build-campaign-management'),
   buildCampaignReport: require('./build-campaign-report'),

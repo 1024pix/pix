@@ -227,18 +227,6 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.id).to.equal(targetProfileId);
       expect(targetProfile.skills).to.deep.equal([]);
     });
-
-    it('should return the target profile with the stages ordered by threshold ASC', async function () {
-      // when
-      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
-
-      // then
-      expect(targetProfile.stages).to.exist;
-      expect(targetProfile.stages).to.have.lengthOf(2);
-      expect(targetProfile.stages[0].threshold).to.equal(20);
-      expect(targetProfile.stages[1].threshold).to.equal(40);
-      expect(targetProfile.skills).to.deep.equal([]);
-    });
   });
 
   describe('#findByIds', function () {

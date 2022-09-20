@@ -1,15 +1,15 @@
 const Stage = require('../../../../lib/domain/models/Stage');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { expect } = require('../../../test-helper');
+const CampaignStages = require('../../../../lib/domain/read-models/campaign/CampaignStages');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function () {
   describe('constructor', function () {
     //when
-    const targetProfile = new TargetProfile({ id: 2 });
+    const campaignStages = new CampaignStages({ stages: [] });
 
     it('should create CampaignParticipationOverview', function () {
       // when
@@ -18,7 +18,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         createdAt: new Date('2020-02-15T15:00:34Z'),
         status: SHARED,
         sharedAt: new Date('2020-03-15T15:00:34Z'),
-        targetProfile,
+        campaignStages,
         organizationName: 'Pix',
         campaignCode: 'campaignCode',
         campaignTitle: 'campaignTitle',
@@ -30,7 +30,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(campaignParticipationOverview.createdAt).to.deep.equal(new Date('2020-02-15T15:00:34Z'));
       expect(campaignParticipationOverview.sharedAt).to.deep.equal(new Date('2020-03-15T15:00:34Z'));
       expect(campaignParticipationOverview.isShared).to.be.true;
-      expect(campaignParticipationOverview.targetProfileId).to.equal(2);
+      expect(campaignParticipationOverview.campaignStages).to.deep.equal(campaignStages);
       expect(campaignParticipationOverview.organizationName).to.equal('Pix');
       expect(campaignParticipationOverview.status).to.equal(SHARED);
       expect(campaignParticipationOverview.campaignCode).to.equal('campaignCode');
@@ -43,7 +43,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         it('should return null for the masteryRate', function () {
           // when
           const campaignParticipationOverview = new CampaignParticipationOverview({
-            targetProfile: targetProfile,
+            campaignStages,
             masteryRate: undefined,
           });
 
@@ -55,7 +55,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         it('should return null for the masteryRate', function () {
           // when
           const campaignParticipationOverview = new CampaignParticipationOverview({
-            targetProfile: targetProfile,
+            campaignStages,
             masteryRate: null,
           });
 
@@ -68,7 +68,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         it('should return 0 for the masteryRate', function () {
           // when
           const campaignParticipationOverview = new CampaignParticipationOverview({
-            targetProfile: targetProfile,
+            campaignStages,
             masteryRate: 0,
           });
 
@@ -81,7 +81,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         it('should return the number for the masteryRate', function () {
           // when
           const campaignParticipationOverview = new CampaignParticipationOverview({
-            targetProfile: targetProfile,
+            campaignStages,
             masteryRate: '0.75',
           });
 
@@ -94,7 +94,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
 
   describe('#validatedStagesCount', function () {
     context('when the participation is shared', function () {
-      context('when the targetProfile has stages', function () {
+      context('when the campaign has stages', function () {
         it('should return validated stages count', function () {
           const stage1 = new Stage({
             threshold: 0,
@@ -108,13 +108,13 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
           const stage4 = new Stage({
             threshold: 70,
           });
-          const targetProfile = new TargetProfile({
+          const campaignStages = new CampaignStages({
             stages: [stage3, stage1, stage2, stage4],
           });
           const campaignParticipationOverview = new CampaignParticipationOverview({
             status: SHARED,
             validatedSkillsCount: 1,
-            targetProfile,
+            campaignStages,
             masteryRate: '0.5',
           });
 
@@ -122,14 +122,14 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         });
       });
 
-      context("when the targetProfile doesn't have stages", function () {
+      context("when the campaign doesn't have stages", function () {
         it('should return null', function () {
-          const targetProfile = new TargetProfile();
+          const campaignStages = new CampaignStages({ stages: [] });
           const campaignParticipationOverview = new CampaignParticipationOverview({
             status: SHARED,
             validatedSkillsCount: 2,
             totalSkillsCount: 3,
-            targetProfile,
+            campaignStages,
           });
 
           expect(campaignParticipationOverview.validatedStagesCount).to.equal(null);
@@ -148,12 +148,12 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         const stage3 = new Stage({
           threshold: 70,
         });
-        const targetProfile = new TargetProfile({ stages: [stage3, stage1, stage2] });
+        const campaignStages = new CampaignStages({ stages: [stage3, stage1, stage2] });
         const campaignParticipationOverview = new CampaignParticipationOverview({
           status: STARTED,
           validatedSkillsCount: 2,
           totalSkillsCount: 3,
-          targetProfile,
+          campaignStages,
         });
 
         expect(campaignParticipationOverview.validatedStagesCount).to.equal(null);
@@ -162,7 +162,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
   });
 
   describe('#totalStagesCount', function () {
-    context('the target profile has stages', function () {
+    context('the campaign has stages', function () {
       it('should return the count of stages with a threshold over 0', function () {
         const stage1 = new Stage({
           threshold: 0,
@@ -182,24 +182,24 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         const stage6 = new Stage({
           threshold: 14,
         });
-        const targetProfile = new TargetProfile({
+        const campaignStages = new CampaignStages({
           stages: [stage1, stage2, stage3, stage4, stage5, stage6],
         });
         const campaignParticipationOverview = new CampaignParticipationOverview({
           status: SHARED,
-          targetProfile,
+          campaignStages,
         });
 
         expect(campaignParticipationOverview.totalStagesCount).to.equal(5);
       });
     });
 
-    context("target profile doesn't have stages", function () {
+    context("campaign doesn't have stages", function () {
       it('should return 0', function () {
-        const targetProfile = new TargetProfile();
+        const campaignStages = new CampaignStages({ stages: [] });
         const campaignParticipationOverview = new CampaignParticipationOverview({
           status: SHARED,
-          targetProfile,
+          campaignStages,
         });
 
         expect(campaignParticipationOverview.totalStagesCount).to.equal(0);
