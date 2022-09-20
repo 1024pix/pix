@@ -428,7 +428,7 @@ async function _disconnect() {
   logger.info('Closing connexions to PG...');
   await disconnect();
   logger.info('Closing connexions to cache...');
-  cache.quit();
-  temporaryStorage.quit();
+  await cache.quit();
+  await temporaryStorage.quit();
   logger.info('Exiting process gracefully...');
 }
