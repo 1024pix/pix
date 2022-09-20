@@ -96,6 +96,7 @@ async function _createCertifiedCompetences(certifiedTubes) {
       id: learningContentCompetence.id,
       name,
       areaId: learningContentCompetence.areaId,
+      origin: learningContentCompetence.origin,
     });
   });
 }

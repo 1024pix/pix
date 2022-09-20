@@ -17,10 +17,11 @@ class CertifiedTube {
 }
 
 class CertifiedCompetence {
-  constructor({ id, name, areaId }) {
+  constructor({ id, name, areaId, origin }) {
     this.id = id;
     this.name = name;
     this.areaId = areaId;
+    this.origin = origin;
   }
 }
 
