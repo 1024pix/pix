@@ -3,18 +3,70 @@ const getUserCampaignAssessmentResult = require('../../../../lib/domain/usecases
 const { NotFoundError, NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
-  let participantResultRepository, campaignParticipationRepository;
+  let participantResultRepository,
+    campaignParticipationRepository,
+    targetProfileRepository,
+    knowledgeElementRepository,
+    badgeRepository,
+    badgeCriteriaService;
+
   beforeEach(function () {
     participantResultRepository = { getByUserIdAndCampaignId: sinon.stub() };
+    targetProfileRepository = { getByCampaignId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    badgeRepository = { findByTargetProfileId: sinon.stub() };
+    badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
+  });
+
+  context('when the target profile has badges', function () {
+    it('should get the participant result', async function () {
+      const userId = domainBuilder.buildUser().id;
+      const campaignId = domainBuilder.buildCampaign().id;
+      const targetProfile = domainBuilder.buildTargetProfile();
+      const targetProfileBadge = domainBuilder.buildBadge({ id: 98 });
+      const badges = [domainBuilder.buildBadge({ id: 99 }), targetProfileBadge];
+      const locale = 'FR';
+      const results = Symbol();
+      participantResultRepository.getByUserIdAndCampaignId
+        .withArgs({ userId, campaignId, locale, targetProfile, badges: [targetProfileBadge] })
+        .resolves(results);
+      targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+      knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
+      badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves(badges);
+      badgeCriteriaService.areBadgeCriteriaFulfilled.returns(false);
+      badgeCriteriaService.areBadgeCriteriaFulfilled
+        .withArgs({ knowledgeElements: [], targetProfile, badge: targetProfileBadge })
+        .returns(true);
+
+      const actualCampaignParticipationResult = await getUserCampaignAssessmentResult({
+        userId,
+        campaignId,
+        locale,
+        campaignParticipationRepository,
+        participantResultRepository,
+        targetProfileRepository,
+        knowledgeElementRepository,
+        badgeRepository,
+        badgeCriteriaService,
+      });
+
+      expect(actualCampaignParticipationResult).to.deep.equal(results);
+    });
   });
 
   it('should get the participant result', async function () {
     const userId = domainBuilder.buildUser().id;
     const campaignId = domainBuilder.buildCampaign().id;
+    const targetProfile = domainBuilder.buildTargetProfile();
     const locale = 'FR';
     const results = Symbol();
 
-    participantResultRepository.getByUserIdAndCampaignId.withArgs({ userId, campaignId, locale }).resolves(results);
+    participantResultRepository.getByUserIdAndCampaignId
+      .withArgs({ userId, campaignId, locale, targetProfile, badges: [] })
+      .resolves(results);
+    targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+    knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
+    badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
 
     const actualCampaignParticipationResult = await getUserCampaignAssessmentResult({
       userId,
@@ -22,6 +74,10 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       locale,
       campaignParticipationRepository,
       participantResultRepository,
+      targetProfileRepository,
+      knowledgeElementRepository,
+      badgeRepository,
+      badgeCriteriaService,
     });
 
     expect(actualCampaignParticipationResult).to.deep.equal(results);
@@ -30,10 +86,15 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   it('should throw an error when there is no participation for given campaign and user', async function () {
     const userId = domainBuilder.buildUser().id;
     const campaignId = domainBuilder.buildCampaign().id;
+    const targetProfile = domainBuilder.buildTargetProfile();
     const locale = 'FR';
 
+    targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+    knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
+    badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
+
     participantResultRepository.getByUserIdAndCampaignId
-      .withArgs({ userId, campaignId, locale })
+      .withArgs({ userId, campaignId, locale, targetProfile, badges: [] })
       .rejects(new NotFoundError());
 
     const error = await catchErr(getUserCampaignAssessmentResult)({
@@ -42,6 +103,10 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       locale,
       campaignParticipationRepository,
       participantResultRepository,
+      targetProfileRepository,
+      knowledgeElementRepository,
+      badgeRepository,
+      badgeCriteriaService,
     });
 
     expect(error).to.be.instanceOf(NoCampaignParticipationForUserAndCampaign);

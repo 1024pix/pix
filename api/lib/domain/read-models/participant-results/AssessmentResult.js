@@ -5,15 +5,16 @@ const constants = require('../../constants');
 const moment = require('moment');
 
 class AssessmentResult {
-  constructor(
+  constructor({
     participationResults,
-    targetProfile,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
-    isCampaignArchived
-  ) {
+    isCampaignArchived,
+    competences,
+    badgeResultsDTO,
+    stages,
+  }) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
-    const { competences } = targetProfile;
 
     this.id = participationResults.campaignParticipationId;
     this.isCompleted = participationResults.isCompleted;
@@ -32,11 +33,11 @@ class AssessmentResult {
     );
 
     this.competenceResults = competences.map((competence) => _buildCompetenceResults(competence, knowledgeElements));
-    this.badgeResults = targetProfile.badges.map((badge) => new BadgeResult(badge, participationResults));
+    this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults));
 
-    this.stageCount = targetProfile.stages.length;
-    if (targetProfile.stages.length > 0) {
-      this.reachedStage = new ReachedStage(this.masteryRate, targetProfile.stages);
+    this.stageCount = stages.length;
+    if (stages.length > 0) {
+      this.reachedStage = new ReachedStage(this.masteryRate, stages);
     }
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt, this.isShared);
     this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);

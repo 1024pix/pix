@@ -109,11 +109,13 @@ describe('Integration | Application | Users | user-controller', function () {
     const auth = { credentials: {}, strategy: {} };
 
     context('Success cases', function () {
-      const campaignAssessmentResult = new AssessmentResult(
-        { knowledgeElements: [] },
-        { competences: [], badges: [], stages: [] },
-        false
-      );
+      const campaignAssessmentResult = new AssessmentResult({
+        participationResults: { knowledgeElements: [] },
+        competences: [],
+        badgeResultsDTO: [],
+        stages: [],
+        isCampaignMultipleSendings: false,
+      });
 
       beforeEach(function () {
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
