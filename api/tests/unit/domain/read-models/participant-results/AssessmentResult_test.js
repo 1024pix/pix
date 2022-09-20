@@ -38,9 +38,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       participantExternalId: 'greg@lafleche.fr',
     };
 
-    const targetProfile = { competences, stages: [], badges: [] };
-
-    const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+    const assessmentResult = new AssessmentResult({
+      participationResults,
+      competences,
+      stages: [],
+      badgeResultsDTO: [],
+      isCampaignMultipleSendings: false,
+      isOrganizationLearnerActive: false,
+      isCampaignArchived: false,
+    });
 
     expect(assessmentResult).to.deep.include({
       id: 12,
@@ -91,9 +97,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             sharedAt: null,
           };
 
-          const targetProfile = { competences, stages: [], badges: [] };
-
-          const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+          const assessmentResult = new AssessmentResult({
+            participationResults,
+            competences,
+            stages: [],
+            badgeResultsDTO: [],
+            isCampaignMultipleSendings: false,
+            isOrganizationLearnerActive: false,
+            isCampaignArchived: false,
+          });
 
           expect(assessmentResult.masteryRate).to.equal(0.67);
         });
@@ -118,9 +130,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             sharedAt: null,
           };
 
-          const targetProfile = { competences, stages: [], badges: [] };
-
-          const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+          const assessmentResult = new AssessmentResult({
+            participationResults,
+            competences,
+            stages: [],
+            badgeResultsDTO: [],
+            isCampaignMultipleSendings: false,
+            isOrganizationLearnerActive: false,
+            isCampaignArchived: false,
+          });
 
           expect(assessmentResult.masteryRate).to.equal(0);
         });
@@ -149,10 +167,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           masteryRate: 0.5,
         };
 
-        const targetProfile = { competences, stages: [], badges: [] };
-
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
-
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences,
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+          isCampaignArchived: false,
+        });
         expect(assessmentResult.masteryRate).to.equal(0.5);
       });
     });
@@ -179,9 +202,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
     const participationResults = { knowledgeElements, acquiredBadgeIds: [] };
 
-    const targetProfile = { competences, stages: [], badges: [] };
-
-    const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+    const assessmentResult = new AssessmentResult({
+      participationResults,
+      competences,
+      stages: [],
+      badgeResultsDTO: [],
+      isCampaignMultipleSendings: false,
+      isOrganizationLearnerActive: false,
+      isCampaignArchived: false,
+    });
 
     const competenceResults1 = assessmentResult.competenceResults.find(({ id }) => competences[0].id === id);
     const competenceResults2 = assessmentResult.competenceResults.find(({ id }) => competences[1].id === id);
@@ -190,7 +219,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     expect(competenceResults2).to.deep.include({ name: 'C2', masteryPercentage: 100 });
   });
 
-  describe('when the targetProfile has stages', function () {
+  describe('when the target profile has stages', function () {
     it('gives the reached stage', function () {
       const competences = [
         {
@@ -216,16 +245,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         { id: 3, title: 'Stage3', message: 'message3', threshold: 90 },
       ];
 
-      const targetProfile = { competences, stages, badges: [] };
-
-      const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+      const assessmentResult = new AssessmentResult({
+        participationResults,
+        stages,
+        badgeResultsDTO: [],
+        competences,
+        isCampaignMultipleSendings: false,
+        isOrganizationLearnerActive: false,
+      });
 
       expect(assessmentResult.reachedStage).to.deep.include({ id: 2, title: 'Stage2', starCount: 2 });
       expect(assessmentResult.stageCount).to.equal(3);
     });
   });
 
-  describe('when the targetProfile has badges', function () {
+  describe('when the target profile has badges', function () {
     it('computes results for each badge', function () {
       const competences = [
         {
@@ -239,7 +273,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       ];
       const participationResults = { knowledgeElements: [], acquiredBadgeIds: [1] };
 
-      const badges = [
+      const badgeResultsDTO = [
         {
           id: 2,
           title: 'Badge Blue',
@@ -260,9 +294,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         },
       ];
 
-      const targetProfile = { competences, stages: [], badges };
-
-      const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+      const assessmentResult = new AssessmentResult({
+        participationResults,
+        stages: [],
+        badgeResultsDTO,
+        competences,
+        isCampaignMultipleSendings: false,
+        isOrganizationLearnerActive: false,
+      });
       const badgeResult1 = assessmentResult.badgeResults.find(({ id }) => id === 1);
       const badgeResult2 = assessmentResult.badgeResults.find(({ id }) => id === 2);
       expect(badgeResult1).to.deep.include({ title: 'Badge Yellow', isAcquired: true });
@@ -297,14 +336,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(
+        const assessmentResult = new AssessmentResult({
           participationResults,
-          targetProfile,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
-          isCampaignArchived
-        );
+          isCampaignArchived,
+        });
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -322,14 +362,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(
+        const assessmentResult = new AssessmentResult({
           participationResults,
-          targetProfile,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
-          isCampaignArchived
-        );
+          isCampaignArchived,
+        });
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -347,14 +388,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: null,
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(
+        const assessmentResult = new AssessmentResult({
           participationResults,
-          targetProfile,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
-          isCampaignArchived
-        );
+          isCampaignArchived,
+        });
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -372,14 +414,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           isDeleted: true,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(
+        const assessmentResult = new AssessmentResult({
           participationResults,
-          targetProfile,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
-          isCampaignArchived
-        );
+          isCampaignArchived,
+        });
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -397,14 +440,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(
+        const assessmentResult = new AssessmentResult({
           participationResults,
-          targetProfile,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
-          isCampaignArchived
-        );
+          isCampaignArchived,
+        });
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -424,14 +468,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             sharedAt: new Date('2020-01-03T05:06:07Z'),
             isDeleted: false,
           };
-          const targetProfile = { competences: [], stages: [], badges: [] };
-          const assessmentResult = new AssessmentResult(
+          const assessmentResult = new AssessmentResult({
             participationResults,
-            targetProfile,
+            competences: [],
+            stages: [],
+            badgeResultsDTO: [],
             isCampaignMultipleSendings,
             isOrganizationLearnerActive,
-            isCampaignArchived
-          );
+            isCampaignArchived,
+          });
 
           expect(assessmentResult.canRetry).to.be.false;
         });
@@ -450,15 +495,17 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
 
-        const assessmentResult = new AssessmentResult(
+        const assessmentResult = new AssessmentResult({
           participationResults,
-          targetProfile,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
-          isCampaignArchived
-        );
+          isCampaignArchived,
+        });
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -478,14 +525,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             sharedAt: new Date('2019-12-12'),
             isDeleted: false,
           };
-          const targetProfile = { competences: [], stages: [], badges: [] };
-          const assessmentResult = new AssessmentResult(
+          const assessmentResult = new AssessmentResult({
             participationResults,
-            targetProfile,
+            competences: [],
+            stages: [],
+            badgeResultsDTO: [],
             isCampaignMultipleSendings,
             isOrganizationLearnerActive,
-            isCampaignArchived
-          );
+            isCampaignArchived,
+          });
 
           expect(assessmentResult.canRetry).to.be.true;
         });
@@ -506,14 +554,16 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             sharedAt: new Date('2020-01-01T05:06:07Z'),
             isDeleted: false,
           };
-          const targetProfile = { competences: [], stages: [], badges: [] };
-          const assessmentResult = new AssessmentResult(
+
+          const assessmentResult = new AssessmentResult({
             participationResults,
-            targetProfile,
+            competences: [],
+            stages: [],
+            badgeResultsDTO: [],
             isCampaignMultipleSendings,
             isOrganizationLearnerActive,
-            isCampaignArchived
-          );
+            isCampaignArchived,
+          });
 
           expect(assessmentResult.canRetry).to.be.true;
         });
@@ -557,9 +607,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             acquiredBadgeIds: [],
             assessmentCreatedAt,
           };
-          const targetProfile = { competences: [], stages: [], badges: [] };
 
-          const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+          const assessmentResult = new AssessmentResult({
+            participationResults,
+            competences: [],
+            stages: [],
+            badgeResultsDTO: [],
+            isCampaignMultipleSendings: false,
+            isOrganizationLearnerActive: false,
+          });
 
           expect(assessmentResult.canImprove).to.be.false;
         });
@@ -577,9 +633,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           acquiredBadgeIds: [],
           assessmentCreatedAt,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+        });
 
         expect(assessmentResult.canImprove).to.be.false;
       });
@@ -597,8 +658,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           assessmentCreatedAt,
           sharedAt: new Date(),
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+        });
 
         expect(assessmentResult.canImprove).to.be.false;
       });
@@ -618,8 +685,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             assessmentCreatedAt,
             sharedAt: null,
           };
-          const targetProfile = { competences: [], stages: [], badges: [] };
-          const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+          const assessmentResult = new AssessmentResult({
+            participationResults,
+            competences: [],
+            stages: [],
+            badgeResultsDTO: [],
+            isCampaignMultipleSendings: false,
+            isOrganizationLearnerActive: false,
+          });
 
           expect(assessmentResult.canImprove).to.be.true;
         });
@@ -635,8 +708,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           acquiredBadgeIds: [],
           isDeleted: true,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false, false);
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+          isCampaignArchived: false,
+        });
 
         expect(assessmentResult.isDisabled).to.be.true;
       });
@@ -649,8 +729,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           acquiredBadgeIds: [],
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false, true);
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+          isCampaignArchived: true,
+        });
 
         expect(assessmentResult.isDisabled).to.be.true;
       });
@@ -663,8 +750,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           acquiredBadgeIds: [],
           isDeleted: false,
         };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false, false);
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+          isCampaignArchived: false,
+        });
 
         expect(assessmentResult.isDisabled).to.be.false;
       });
