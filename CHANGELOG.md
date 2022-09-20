@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.257.0 (20/09/2022)
+
+
+### :rocket: Amélioration
+- [#4854](https://github.com/1024pix/pix/pull/4854) [FEATURE] Dans pix-admin ajouter un onglet Orgas dans la fiche des utilisateurs (PIX-3963)
+- [#4900](https://github.com/1024pix/pix/pull/4900) [FEATURE] Cacher l'URL des campagnes pour les orgas qui sont rattachés au SSO GAR(PIX-5235)
+
+### :building_construction: Tech
+- [#4905](https://github.com/1024pix/pix/pull/4905) [TECH] db(api): Make databaseBuilder.factory.buildUser create email without spaces
+- [#4941](https://github.com/1024pix/pix/pull/4941) [TECH] Supprimer la configuration de branche obsolète des tests automatisés
+- [#4928](https://github.com/1024pix/pix/pull/4928) [TECH] Alimenter la colonne "isReferer" dans certification-center-memberships (PIX-5374)
+- [#4934](https://github.com/1024pix/pix/pull/4934) [TECH] Nettoyer les données d'une précédente session (PIX-5658)
+- [#4939](https://github.com/1024pix/pix/pull/4939) [TECH] Mettre à jour le script de certification pour gérer les campagnes
+
+### :bug: Correction
+- [#4943](https://github.com/1024pix/pix/pull/4943) [BUGFIX] Charger toutes les données quand on accède à la page de détail d'un utilisateur depuis la liste des membres d'une organisation (PIX-5726)
+- [#4917](https://github.com/1024pix/pix/pull/4917) [BUGFIX] Correction du téléchargement du contenu d'un profil cible
+- [#4944](https://github.com/1024pix/pix/pull/4944) [BUGFIX] Instancier Badge au lieu de Stage dans TargetProfileAdapter
+- [#4936](https://github.com/1024pix/pix/pull/4936) [BUGFIX] Correction d'un bug d'affichage de PixMultiSelect
+
 ## v3.256.0 (19/09/2022)
 
 
