@@ -135,5 +135,48 @@ module('Integration | Component | certifications/certified-profile', function (h
       assert.strictEqual(iconSkill1, 'check-double');
       assert.strictEqual(iconSkill2, 'check');
     });
+    test('it should display non Pix competences first', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certifiedArea1 = store.createRecord('certified-area', {
+        id: 'idArea1',
+        name: 'area1',
+      });
+
+      const certifiedArea2 = store.createRecord('certified-area', {
+        id: 'idArea2',
+        name: 'area2',
+      });
+
+      const certifiedPixCompetenceCompetence = store.createRecord('certified-competence', {
+        name: 'competencePix',
+        areaId: 'idArea1',
+        origin: 'Pix',
+      });
+
+      const certifiedNonPixCompetence = store.createRecord('certified-competence', {
+        name: 'competenceNonPix',
+        areaId: 'idArea2',
+        origin: 'Autre',
+      });
+
+      const certifiedProfile = store.createRecord('certified-profile', {
+        certifiedAreas: [certifiedArea1, certifiedArea2],
+        certifiedCompetences: [certifiedPixCompetenceCompetence, certifiedNonPixCompetence],
+      });
+
+      this.set('certifiedProfile', certifiedProfile);
+
+      // when
+      const screen = await render(
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+      );
+
+      // then
+      const [firstCompetenceTitle, secondCompetenceTitle] = screen.getAllByRole('heading');
+
+      assert.strictEqual(firstCompetenceTitle.innerText, 'competenceNonPix');
+      assert.strictEqual(secondCompetenceTitle.innerText, 'competencePix');
+    });
   });
 });
