@@ -71,7 +71,7 @@ const buildUser = function buildUser({
   lastLoggedAt = new Date(),
   emailConfirmedAt = null,
 } = {}) {
-  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
+  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -126,7 +126,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   lastLoggedAt = new Date('2022-04-28T02:42:00Z'),
   emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
 } = {}) {
-  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
+  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -186,7 +186,7 @@ buildUser.withRole = function buildUserWithRole({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
-  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
+  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -243,7 +243,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
-  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
+  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -304,7 +304,7 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   updatedAt = new Date(),
   certificationCenterId = null,
 } = {}) {
-  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
+  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const user = buildUser({
     id,
@@ -334,5 +334,15 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
 
   return user;
 };
+
+function generateAnEmailIfNecessary(email, id, lastName, firstName) {
+  if (isUndefined(email)) {
+    return `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
+  }
+  if (email) {
+    return email;
+  }
+  return null;
+}
 
 module.exports = buildUser;
