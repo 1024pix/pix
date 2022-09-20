@@ -24,6 +24,10 @@ export default class FillInCampaignCodeController extends Controller {
     return this.session.isAuthenticated;
   }
 
+  get isUserAuthenticatedByGAR() {
+    return !!this.session.get('data.externalUser');
+  }
+
   get firstTitle() {
     return this.isUserAuthenticatedByPix && !this.currentUser.user.isAnonymous
       ? this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: this.currentUser.user.firstName })
