@@ -212,15 +212,11 @@
 .scorecard-details-reset-modal {
 
   &__important-message {
-    padding: 20px 0;
+    margin-bottom: $spacing-s;
     color: $pix-neutral-110;
     font-family: $font-roboto;
     font-weight: $font-medium;
     font-size: 1.375rem;
-
-    @include device-is('desktop') {
-      padding: 50px 0 20px 0;
-    }
   }
 
   &__warning {
@@ -234,8 +230,18 @@
       font-weight: bold;
     }
 
-    li:first-child {
-      margin-bottom: 12px;
+    .scorecard-details-reset-modal__list {
+      padding-left: $spacing-l;
+    }
+
+    .scorecard-details-reset-modal-list__item {
+      list-style: initial;
+    }
+  }
+
+  &__footer {
+    @include device-is('tablet') {
+      display: flex;
     }
   }
 }
