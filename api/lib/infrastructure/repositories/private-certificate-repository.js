@@ -18,14 +18,14 @@ module.exports = {
       throw new NotFoundError(`Certificate not found for ID ${id}`);
     }
 
-    const certifiedBadgeImages = await _getCertifiedBadgeImages(id);
+    const certifiedBadges = await _getcertifiedBadges(id);
 
     const competenceTree = await competenceTreeRepository.get({ locale });
 
     return _toDomain({
       certificationCourseDTO,
       competenceTree,
-      certifiedBadgeImages,
+      certifiedBadges,
     });
   },
 
@@ -37,10 +37,10 @@ module.exports = {
 
     const privateCertificates = [];
     for (const certificationCourseDTO of certificationCourseDTOs) {
-      const certifiedBadgeImages = await _getCertifiedBadgeImages(certificationCourseDTO.id);
+      const certifiedBadges = await _getcertifiedBadges(certificationCourseDTO.id);
       const privateCertificate = _toDomain({
         certificationCourseDTO,
-        certifiedBadgeImages,
+        certifiedBadges,
       });
       privateCertificates.push(privateCertificate);
     }
@@ -92,7 +92,7 @@ function _filterMostRecentAssessmentResult(qb) {
   );
 }
 
-async function _getCertifiedBadgeImages(certificationCourseId) {
+async function _getcertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
       'complementary-certification-course-results.partnerKey',
@@ -125,7 +125,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   }).getAcquiredCertifiedBadgesDTO();
 }
 
-function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadgeImages }) {
+function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges }) {
   if (competenceTree) {
     const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
       (competenceMark) => new CompetenceMark({ ...competenceMark })
@@ -141,12 +141,12 @@ function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadgeImage
     return PrivateCertificate.buildFrom({
       ...certificationCourseDTO,
       resultCompetenceTree,
-      certifiedBadgeImages,
+      certifiedBadgeImages: certifiedBadges,
     });
   }
 
   return PrivateCertificate.buildFrom({
     ...certificationCourseDTO,
-    certifiedBadgeImages,
+    certifiedBadgeImages: certifiedBadges,
   });
 }

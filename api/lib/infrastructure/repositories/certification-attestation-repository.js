@@ -20,9 +20,9 @@ module.exports = {
     }
 
     const competenceTree = await competenceTreeRepository.get();
-    const acquiredComplementaryCertifications = await _getPartnerCertification(certificationCourseDTO.id);
+    const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
 
-    return _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications);
+    return _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges });
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
@@ -59,7 +59,7 @@ module.exports = {
     return _(mostRecentCertificationsPerOrganizationLearner)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
       .map((certificationCourseDTO) => {
-        return _toDomain(certificationCourseDTO, competenceTree, []);
+        return _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges: [] });
       })
       .value();
   },
@@ -124,7 +124,7 @@ function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
   return mostRecent;
 }
 
-async function _getPartnerCertification(certificationCourseId) {
+async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
       'complementary-certification-course-results.partnerKey',
@@ -152,10 +152,12 @@ async function _getPartnerCertification(certificationCourseId) {
     .where({ certificationCourseId })
     .orderBy('partnerKey');
 
-  return complementaryCertificationCourseResults;
+  return new CertifiedBadges({
+    complementaryCertificationCourseResults,
+  }).getAcquiredCertifiedBadgesDTO();
 }
 
-function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications) {
+function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges }) {
   const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
     (competenceMark) => new CompetenceMark({ ...competenceMark })
   );
@@ -167,13 +169,9 @@ function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementary
     assessmentResultId: certificationCourseDTO.assessmentResultId,
   });
 
-  const certifiedBadgesDTO = new CertifiedBadges({
-    complementaryCertificationCourseResults: acquiredComplementaryCertifications,
-  }).getAcquiredCertifiedBadgesDTO();
-
   return new CertificationAttestation({
     ...certificationCourseDTO,
     resultCompetenceTree,
-    certifiedBadges: certifiedBadgesDTO,
+    certifiedBadges,
   });
 }
