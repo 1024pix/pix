@@ -187,45 +187,41 @@ module('Integration | Component | users | user-detail-personal-information', fun
         assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
         assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
       });
+    });
+  });
 
-      test('should display an error message when the admin member try to remove the last authentication method', async function (assert) {
-        // given
-        const user = EmberObject.create({
-          lastName: 'Harry',
-          firstName: 'John',
-          email: 'john.harry@gmail.com',
-          authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
-        });
-        this.set('user', user);
-        this.owner.register('service:access-control', AccessControlStub);
-        const removeAuthenticationMethodStub = sinon.stub();
-        this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
-
-        const notificationErrorStub = sinon.stub();
-        class NotificationsStub extends Service {
-          error = notificationErrorStub;
+  module('when there is only one authentication method', function () {
+    test('it should not be possible de remove the last authentication method', async function (assert) {
+      // given
+      class OidcIdentityProvidersStub extends Service {
+        get list() {
+          return [
+            {
+              code: 'SUNLIGHT_NAVIGATIONS',
+              organizationName: 'Sunlight Navigations',
+            },
+          ];
         }
-        this.owner.register('service:notifications', NotificationsStub);
+      }
 
-        removeAuthenticationMethodStub.rejects({ errors: [{ status: '403' }] });
-
-        const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
-        );
-        await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
-
-        // when
-        await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
-
-        // then
-        sinon.assert.calledWith(
-          notificationErrorStub,
-          'Vous ne pouvez pas supprimer la dernière méthode de connexion de cet utilisateur'
-        );
-        assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
+      const user = EmberObject.create({
+        lastName: 'Pix',
+        firstName: 'Aile',
+        email: 'pix.aile@gmail.com',
+        authenticationMethods: [{ identityProvider: 'PIX' }],
       });
+
+      this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
+      this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      // when & then
+      assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations")).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
     });
   });
 });
