@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function 
         id: 'recCompetence1',
         name: 'competence_1',
         areaId: 'recArea1',
+        origin: 'Pix',
       });
       const area1 = domainBuilder.buildCertifiedArea({
         id: 'recArea1',
@@ -124,6 +125,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function 
             attributes: {
               name: 'competence_1',
               'area-id': 'recArea1',
+              origin: 'Pix',
             },
           },
           {
