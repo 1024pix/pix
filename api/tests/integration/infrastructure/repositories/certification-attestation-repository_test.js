@@ -328,14 +328,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
               label: 'Pix+ Test 1',
               partnerKey: 'PIX_TEST_1',
               imageUrl: 'https://images.pix.fr/badge1.svg',
-              message: null,
+              message: 'Pix+ Test 1 certificate message',
             },
             {
-              isTemporaryBadge: false,
+              isTemporaryBadge: true,
               label: 'Pix+ Test 2',
               partnerKey: 'PIX_TEST_2',
               imageUrl: 'https://images.pix.fr/badge2.svg',
-              message: null,
+              message: 'Pix+ Test 2 temporary certificate message',
             },
           ],
           sessionId: 789,
@@ -349,19 +349,23 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         }).id;
         const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Test 2',
-          hasExternalJury: false,
+          hasExternalJury: true,
         }).id;
         const complementaryCertificationBadge1Id = databaseBuilder.factory.buildComplementaryCertificationBadge({
           label: 'Pix+ Test 1',
           badgeId: badge1Id,
           complementaryCertificationId: complementaryCertification1Id,
           imageUrl: 'https://images.pix.fr/badge1.svg',
+          certificateMessage: 'Pix+ Test 1 certificate message',
+          temporaryCertificateMessage: '',
         }).id;
         const complementaryCertificationBadge2Id = databaseBuilder.factory.buildComplementaryCertificationBadge({
           label: 'Pix+ Test 2',
           badgeId: badge2Id,
           complementaryCertificationId: complementaryCertification2Id,
           imageUrl: 'https://images.pix.fr/badge2.svg',
+          certificateMessage: 'Pix+ Test 2 certificate message',
+          temporaryCertificateMessage: 'Pix+ Test 2 temporary certificate message',
         }).id;
 
         databaseBuilder.factory.buildComplementaryCertificationCourse({

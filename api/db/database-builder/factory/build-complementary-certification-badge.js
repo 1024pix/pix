@@ -11,6 +11,8 @@ module.exports = function buildComplementaryCertificationBadge({
   createdAt = new Date('2020-01-01'),
   imageUrl = 'http://badge-image-url.fr',
   label = 'Label par defaut',
+  certificateMessage,
+  temporaryCertificateMessage,
 } = {}) {
   complementaryCertificationId = _.isNull(complementaryCertificationId)
     ? buildComplementaryCertification().id
@@ -25,6 +27,8 @@ module.exports = function buildComplementaryCertificationBadge({
     createdAt,
     imageUrl,
     label,
+    certificateMessage,
+    temporaryCertificateMessage,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-badges',

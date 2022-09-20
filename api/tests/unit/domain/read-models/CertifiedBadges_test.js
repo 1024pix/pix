@@ -51,7 +51,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               isTemporaryBadge: false,
               label: 'Pix+ Test',
               imageUrl: 'https:wwww.pix-badge-image-url.com',
-              message: null,
+              message: undefined,
             },
           ]);
         });
@@ -71,6 +71,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               source: ComplementaryCertificationCourseResult.sources.PIX,
               hasExternalJury: true,
               imageUrl: 'https:wwww.pix-badge-image-url.com',
+              temporaryCertificateMessage: 'You temporarily acquired this magnificent badge',
             },
           ];
 
@@ -86,8 +87,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               isTemporaryBadge: true,
               label: 'Pix+ Test',
               imageUrl: 'https:wwww.pix-badge-image-url.com',
-              message:
-                'Vous avez obtenu le niveau “Pix+ Test” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
+              message: 'You temporarily acquired this magnificent badge',
             },
           ]);
         });
@@ -118,26 +118,27 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
         describe('when there is an "EXTERNAL" and acquired badge', function () {
           it(`returns a non temporary badge`, function () {
             // given
+            const complementaryCertificationCourseResult = {
+              complementaryCertificationCourseId: 456,
+              partnerKey: 'PIX_TEST',
+              label: 'Pix+ Test',
+              level: 3,
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: true,
+              hasExternalJury: true,
+              imageUrl: 'https:wwww.pix-badge-image-url.com',
+              certificateMessage: 'Vous avez obtenu la certification, wunderbar',
+              temporaryCertificateMessage: 'NOT ME',
+            };
+
             const complementaryCertificationCourseResults = [
               {
-                complementaryCertificationCourseId: 456,
-                partnerKey: 'PIX_TEST',
-                label: 'Pix+ Test',
-                level: 3,
+                ...complementaryCertificationCourseResult,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
-                acquired: true,
-                hasExternalJury: true,
-                imageUrl: 'https:wwww.pix-badge-image-url.com',
               },
               {
-                complementaryCertificationCourseId: 456,
-                partnerKey: 'PIX_TEST',
-                label: 'Pix+ Test',
-                level: 3,
+                ...complementaryCertificationCourseResult,
                 source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
-                acquired: true,
-                hasExternalJury: true,
-                imageUrl: 'https:wwww.pix-badge-image-url.com',
               },
             ];
 
@@ -153,7 +154,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 isTemporaryBadge: false,
                 label: 'Pix+ Test',
                 imageUrl: 'https:wwww.pix-badge-image-url.com',
-                message: 'Vous avez obtenu la certification Pix+Edu niveau "Pix+ Test"',
+                message: 'Vous avez obtenu la certification, wunderbar',
               },
             ]);
           });
@@ -205,6 +206,8 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               acquired: true,
               hasExternalJury: true,
               imageUrl: 'https:wwww.pix-badge-image-url2.com',
+              certificateMessage: 'XXX Vous avez obtenu la certification, wunderbar',
+              temporaryCertificateMessage: 'XXX NOT ME',
             },
             {
               partnerKey: 'PIX_TEST_1',
@@ -215,6 +218,8 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               acquired: true,
               hasExternalJury: true,
               imageUrl: 'https:wwww.pix-badge-image-url1.com',
+              certificateMessage: 'Vous avez obtenu la certification, wunderbar',
+              temporaryCertificateMessage: 'NOT ME',
             },
           ];
 
@@ -230,7 +235,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               label: 'Pix+ Test 1',
               isTemporaryBadge: false,
               imageUrl: 'https:wwww.pix-badge-image-url1.com',
-              message: 'Vous avez obtenu la certification Pix+Edu niveau "Pix+ Test 1"',
+              message: 'Vous avez obtenu la certification, wunderbar',
             },
           ]);
         });
