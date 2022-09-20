@@ -113,8 +113,8 @@ async function compareUserScoreWithLatestRelease(userId) {
 
 async function main(userId) {
   const result = await compareUserScoreWithLatestRelease(userId);
-  cache.quit();
-  disconnect();
+  await cache.quit();
+  await disconnect();
   console.log(result);
 }
 
