@@ -7,7 +7,7 @@ on:
   check_suite:
     types:
       - completed
-      
+
 permissions:
   contents: read
 
