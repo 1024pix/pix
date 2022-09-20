@@ -256,6 +256,35 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
+
+        it('should return once if target profile is owned and shared', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'A_tp',
+            ownerOrganizationId: 1,
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildOrganization({ id: 2 });
+          databaseBuilder.factory.buildOrganization({ id: 3 });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 2 });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 3 });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileSummaryForAdminRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+
         it('should return summaries for attached target profiles', async function () {
           // given
           databaseBuilder.factory.buildOrganization({ id: 1 });
