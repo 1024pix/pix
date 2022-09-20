@@ -682,8 +682,8 @@
           "label": "Reset",
           "modal": {
             "title": "Competence reset",
-            "important-message": "Your Pix { earnedPix } will be deleted.",
-            "important-message-above-level-one": "Your level { level } and your Pix { earnedPix } will be deleted.",
+            "important-message": "Your Pix { earnedPix } will be deleted from { scoreCardName }.",
+            "important-message-above-level-one": "Your level { level } and your Pix { earnedPix } will be deleted from { scoreCardName }.",
             "warning": {
               "certification": "If you are planning to certify your profile and results, this could affect your certification.",
               "header": "NB: ",

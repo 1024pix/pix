@@ -150,64 +150,52 @@
     </div>
   {{/if}}
 </div>
-{{#if this.showResetModal}}
-  <PixModalDeprecated
-    @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide"
-    @onClickOverlay={{this.closeModal}}
-    @originId="#reset-button"
-    role="dialog"
-  >
-    <button
-      id="pix-modal__close-button"
-      class="pix-modal__close-link"
-      type="button"
-      aria-label="{{t 'common.actions.close'}}"
-      {{on "click" this.closeModal}}
-    >
-      <span>{{t "common.actions.close"}}</span>
-      <FaIcon @icon="circle-xmark" class="logged-user-menu__icon" />
-    </button>
-
-    <div
-      class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding"
-      {{on-key "Escape" this.closeModal}}
-    >
-      <div class="pix-modal-header">
-        <h1 class="pix-modal-header__title pix-modal-header__title--thin">{{t
-            "pages.competence-details.actions.reset.modal.title"
-          }}</h1>
-        <h2 class="pix-modal-header__subtitle">{{@scorecard.name}}</h2>
-      </div>
-
-      <div class="pix-modal-body pix-modal-body--with-padding">
-        <div class="scorecard-details-reset-modal__important-message">
-          {{#if @scorecard.hasNotReachLevelOne}}
-            {{t "pages.competence-details.actions.reset.modal.important-message" earnedPix=@scorecard.earnedPix}}
-          {{else if @scorecard.hasReachAtLeastLevelOne}}
-            {{t
-              "pages.competence-details.actions.reset.modal.important-message-above-level-one"
-              level=@scorecard.level
-              earnedPix=@scorecard.earnedPix
-            }}
-          {{/if}}
-        </div>
-        <div class="scorecard-details-reset-modal__warning">
-          <p>{{t "pages.competence-details.actions.reset.modal.warning.header"}}</p>
-          <ul>
-            <li>{{t "pages.competence-details.actions.reset.modal.warning.ongoing-assessment"}}</li>
-            <li>{{t "pages.competence-details.actions.reset.modal.warning.certification"}}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <PixButton id="pix-mdoal-footer__button-reset" @backgroundColor="red" @triggerAction={{this.reset}}>
-          {{t "pages.competence-details.actions.reset.label"}}
-        </PixButton>
+<PixModal
+  @title={{t "pages.competence-details.actions.reset.modal.title" scoreCardName=@scorecard.name}}
+  @onCloseButtonClick={{this.closeModal}}
+  @showModal={{this.showResetModal}}
+>
+  <:content>
+    <h2 class="scorecard-details-reset-modal__important-message">
+      {{#if @scorecard.hasNotReachLevelOne}}
+        {{t
+          "pages.competence-details.actions.reset.modal.important-message"
+          earnedPix=@scorecard.earnedPix
+          scoreCardName=@scorecard.name
+        }}
+      {{else if @scorecard.hasReachAtLeastLevelOne}}
+        {{t
+          "pages.competence-details.actions.reset.modal.important-message-above-level-one"
+          level=@scorecard.level
+          earnedPix=@scorecard.earnedPix
+          scoreCardName=@scorecard.name
+        }}
+      {{/if}}
+    </h2>
+    <div class="scorecard-details-reset-modal__warning">
+      <p>{{t "pages.competence-details.actions.reset.modal.warning.header"}}</p>
+      <ul class="scorecard-details-reset-modal__list">
+        <li class="scorecard-details-reset-modal-list__item">{{t
+            "pages.competence-details.actions.reset.modal.warning.ongoing-assessment"
+          }}</li>
+        <li class="scorecard-details-reset-modal-list__item">{{t
+            "pages.competence-details.actions.reset.modal.warning.certification"
+          }}</li>
+      </ul>
+    </div>
+  </:content>
+  <:footer>
+    <ul class="scorecard-details-reset-modal__footer">
+      <li>
         <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.closeModal}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-      </div>
-    </div>
-  </PixModalDeprecated>
-{{/if}}
+      </li>
+      <li>
+        <PixButton id="pix-modal-footer__button-reset" @backgroundColor="red" @triggerAction={{this.reset}}>
+          {{t "pages.competence-details.actions.reset.label"}}
+        </PixButton>
+      </li>
+    </ul>
+  </:footer>
+</PixModal>

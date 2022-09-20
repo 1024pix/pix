@@ -160,17 +160,17 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
 
           // then
           expect(find('.scorecard-details-reset-modal__important-message').textContent).to.contain(
-            `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés.`
+            `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés de la compétence : ${scorecardWithPoints.name}.`
           );
         });
 
         it('should reset competence when user clicks on reset', async function () {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
-          await click('.scorecard-details__reset-button');
 
+          await click('.scorecard-details__reset-button');
           // when
-          await click('#pix-mdoal-footer__button-reset');
+          await click('#pix-modal-footer__button-reset');
 
           // then
           expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
@@ -186,7 +186,7 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('.scorecard-details__reset-button');
 
           // when
-          await click('#pix-mdoal-footer__button-reset');
+          await click('#pix-modal-footer__button-reset');
 
           // then
           expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
