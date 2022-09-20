@@ -6,12 +6,10 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   notify-team:
-    permissions:
-      contents: read
-      pull-requests: read
     name: Notify team on config file changed
     runs-on: ubuntu-latest
     steps:
