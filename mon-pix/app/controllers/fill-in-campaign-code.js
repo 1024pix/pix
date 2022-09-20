@@ -20,12 +20,12 @@ export default class FillInCampaignCodeController extends Controller {
   @tracked showGARModal = false;
   @tracked campaign = null;
 
-  get isUserAuthenticated() {
+  get isUserAuthenticatedByPix() {
     return this.session.isAuthenticated;
   }
 
   get firstTitle() {
-    return this.isUserAuthenticated && !this.currentUser.user.isAnonymous
+    return this.isUserAuthenticatedByPix && !this.currentUser.user.isAnonymous
       ? this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: this.currentUser.user.firstName })
       : this.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
   }
@@ -38,7 +38,7 @@ export default class FillInCampaignCodeController extends Controller {
   }
 
   get showWarningMessage() {
-    return this.isUserAuthenticated && !this.currentUser.user.isAnonymous;
+    return this.isUserAuthenticatedByPix && !this.currentUser.user.isAnonymous;
   }
 
   @action

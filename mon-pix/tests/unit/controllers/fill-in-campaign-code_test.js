@@ -203,16 +203,16 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
-  describe('get isUserAuthenticated', () => {
+  describe('get isUserAuthenticatedByPix', () => {
     it('should return session.isAuthenticated', () => {
       // given
       sessionStub.isAuthenticated = true;
 
       // when
-      const isUserAuthenticated = controller.isUserAuthenticated;
+      const isUserAuthenticatedByPix = controller.isUserAuthenticatedByPix;
 
       // then
-      expect(isUserAuthenticated).to.equal(sessionStub.isAuthenticated);
+      expect(isUserAuthenticatedByPix).to.equal(sessionStub.isAuthenticated);
     });
   });
 
