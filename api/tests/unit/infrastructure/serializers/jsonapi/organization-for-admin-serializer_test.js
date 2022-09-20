@@ -3,6 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Organization = require('../../../../../lib/domain/models/Organization');
 const OrganizationForAdmin = require('../../../../../lib/domain/models/OrganizationForAdmin');
 const Tag = require('../../../../../lib/domain/models/Tag');
+const { SamlIdentityProviders } = require('../../../../../lib/domain/constants/saml-identity-providers');
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -19,7 +20,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         documentationUrl: 'https://pix.fr/',
         archivistFirstName: 'John',
         archivistLastName: 'Doe',
-        identityProviderForCampaigns: 'super-idp',
+        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
       });
       const meta = { some: 'meta' };
 
@@ -49,7 +50,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'archived-at': organization.archivedAt,
             'archivist-full-name': organization.archivistFullName,
             'creator-full-name': organization.creatorFullName,
-            'identity-provider-for-campaigns': 'super-idp',
+            'identity-provider-for-campaigns': SamlIdentityProviders.GAR.code,
           },
           relationships: {
             memberships: {
@@ -121,7 +122,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
         showSkills: false,
-        identityProviderForCampaigns: 'external-OIDC',
+        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
       };
 
       // when

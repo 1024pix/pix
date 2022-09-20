@@ -2,6 +2,7 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
 const Membership = require('../../../../../lib/domain/models/Membership');
+const { SamlIdentityProviders } = require('../../../../../lib/domain/constants/saml-identity-providers');
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {
@@ -91,6 +92,41 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           organization,
           serializedField: 'is-agriculture',
           field: 'isAgriculture',
+        });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
+    context('when organization has an identity provider for campaigns', function () {
+      it('should serialize prescriber with identityProviderForCampaigns', function () {
+        // given
+        const organization = domainBuilder.buildOrganization({
+          identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+        });
+        const membership = domainBuilder.buildMembership({ organization });
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'identity-provider-for-campaigns',
+          field: 'identityProviderForCampaigns',
         });
 
         // when

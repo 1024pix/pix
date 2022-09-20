@@ -1,8 +1,9 @@
+const _ = require('lodash');
 const { catchErr, expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Organization = require('../../../../lib/domain/models/Organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const _ = require('lodash');
+const { SamlIdentityProviders } = require('../../../../lib/domain/constants/saml-identity-providers');
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {
@@ -81,6 +82,7 @@ describe('Integration | Repository | Organization', function () {
         logoUrl: 'http://new.logo.url',
         externalId: '999Z527F',
         provinceCode: '999',
+        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
         isManagingStudents: true,
         credit: 50,
         email: 'email@example.net',
@@ -107,6 +109,7 @@ describe('Integration | Repository | Organization', function () {
         externalId: '999Z527F',
         provinceCode: '999',
         isManagingStudents: true,
+        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
         credit: 50,
         email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
@@ -139,7 +142,7 @@ describe('Integration | Repository | Organization', function () {
 
   describe('#get', function () {
     describe('success management', function () {
-      it('should return a organization by provided id', async function () {
+      it('should return an organization by provided id', async function () {
         // given
         const superAdminUserId = databaseBuilder.factory.buildUser().id;
 
@@ -150,6 +153,7 @@ describe('Integration | Repository | Organization', function () {
           credit: 154,
           externalId: '100',
           provinceCode: '75',
+          identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
           isManagingStudents: 'true',
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
@@ -158,6 +162,7 @@ describe('Integration | Repository | Organization', function () {
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
         });
+
         const tag = databaseBuilder.factory.buildTag({ name: 'SUPER-TAG' });
         databaseBuilder.factory.buildTag({ name: 'OTHER-TAG' });
         databaseBuilder.factory.buildOrganizationTag({ organizationId: insertedOrganization.id, tagId: tag.id });
@@ -180,6 +185,7 @@ describe('Integration | Repository | Organization', function () {
           email: 'sco.generic.account@example.net',
           targetProfileShares: [],
           organizationInvitations: [],
+          identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
           tags: [{ id: tag.id, name: 'SUPER-TAG' }],
           documentationUrl: 'https://pix.fr/',
           createdBy: insertedOrganization.createdBy,

@@ -19,6 +19,10 @@ export default class CampaignView extends Component {
     return campaignIsNotArchived && isCurrentUserAllowedToUpdateCampaign;
   }
 
+  get displayCampaignsRootUrl() {
+    return !this.currentUser.prescriber.hasCurrentOrganizationWithGARAsIdentityProvider;
+  }
+
   get campaignsRootUrl() {
     return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
   }

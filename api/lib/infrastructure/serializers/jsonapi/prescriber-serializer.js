@@ -49,6 +49,7 @@ module.exports = {
             'credit',
             'isManagingStudents',
             'isAgriculture',
+            'identityProviderForCampaigns',
             'targetProfiles',
             'memberships',
             'students',
