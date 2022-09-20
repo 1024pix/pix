@@ -21,9 +21,9 @@ module.exports = {
 
     const competenceTree = await competenceTreeRepository.get({ locale });
 
-    const certifiedBadgeImages = await _getCertifiedBadgeImages(shareableCertificateDTO.id);
+    const certifiedBadges = await _getCertifiedBadges(shareableCertificateDTO.id);
 
-    return _toDomain(shareableCertificateDTO, competenceTree, certifiedBadgeImages);
+    return _toDomain({ shareableCertificateDTO, competenceTree, certifiedBadges });
   },
 };
 
@@ -72,7 +72,7 @@ function _filterMostRecentValidatedAssessmentResult(qb) {
     .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
 
-async function _getCertifiedBadgeImages(certificationCourseId) {
+async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
       'complementary-certification-course-results.partnerKey',
@@ -105,7 +105,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   }).getAcquiredCertifiedBadgesDTO();
 }
 
-function _toDomain(shareableCertificateDTO, competenceTree, certifiedBadgeImages) {
+function _toDomain({ shareableCertificateDTO, competenceTree, certifiedBadges }) {
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
     competenceTree,
     competenceMarks: _.compact(shareableCertificateDTO.competenceMarks),
@@ -116,6 +116,6 @@ function _toDomain(shareableCertificateDTO, competenceTree, certifiedBadgeImages
   return new ShareableCertificate({
     ...shareableCertificateDTO,
     resultCompetenceTree,
-    certifiedBadgeImages,
+    certifiedBadgeImages: certifiedBadges,
   });
 }
