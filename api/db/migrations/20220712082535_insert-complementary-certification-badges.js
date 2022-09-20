@@ -1,5 +1,6 @@
 const TABLE_NAME = 'complementary-certification-badges';
 const { keys } = require('../../lib/domain/models/Badge');
+const { noop } = require('lodash');
 const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
@@ -131,4 +132,6 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = async function () {};
+exports.down = async function () {
+  noop;
+};
