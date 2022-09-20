@@ -207,15 +207,56 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
   });
 
   module('on campaign url display', function () {
-    test('it should display the campaign url', async function (assert) {
-      // given
-      this.campaign = store.createRecord('campaign', { code: '1234' });
+    module("when prescriber's current organization has not GAR as identity provider", function () {
+      test('it should display the campaign url', async function (assert) {
+        const organization = store.createRecord('organization', {
+          name: 'Garfield school',
+          identityProviderForCampaigns: null,
+        });
+        const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+        const membership = store.createRecord('membership', { organizationRole: 'ADMIN', organization });
+        const memberships = [membership];
+        const prescriber = store.createRecord('prescriber', { memberships, userOrgaSettings });
 
-      // when
-      await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+        class CurrentUserStub extends Service {
+          prescriber = prescriber;
+        }
+        this.owner.register('service:currentUser', CurrentUserStub);
+        this.campaign = store.createRecord('campaign', { code: '1234' });
 
-      // then
-      assert.contains('root-url/1234');
+        // when
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('root-url/1234');
+      });
+    });
+
+    module("when prescriber's current organization has GAR as identity provider", function () {
+      test('it should not display the campaign url', async function (assert) {
+        // given
+        const organization = store.createRecord('organization', {
+          name: 'Willow school',
+          identityProviderForCampaigns: 'GAR',
+        });
+        const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+        const membership = store.createRecord('membership', { organizationRole: 'ADMIN', organization });
+        const memberships = [membership];
+        const prescriber = store.createRecord('prescriber', { memberships, userOrgaSettings });
+
+        class CurrentUserStub extends Service {
+          prescriber = prescriber;
+        }
+        this.owner.register('service:currentUser', CurrentUserStub);
+
+        this.campaign = store.createRecord('campaign', { code: '1234' });
+
+        // when
+        await renderScreen(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+        // then
+        assert.notContains('root-url/1234');
+      });
     });
   });
 

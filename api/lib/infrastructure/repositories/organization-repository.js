@@ -15,6 +15,7 @@ function _toDomain(rawOrganization) {
     externalId: rawOrganization.externalId,
     provinceCode: rawOrganization.provinceCode,
     isManagingStudents: Boolean(rawOrganization.isManagingStudents),
+    identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
     credit: rawOrganization.credit,
     email: rawOrganization.email,
     documentationUrl: rawOrganization.documentationUrl,
