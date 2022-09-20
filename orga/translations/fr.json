@@ -679,7 +679,8 @@
           "lastest-participation": "Dernière participation",
           "participation-count": "Nombre de participations",
           "is-certifiable": {
-            "label": "Certificabilité"
+            "label": "Certificabilité",
+            "tooltip":"L’information de certificabilité remonte des campagnes de collecte de profil réalisées par le participant. Si le participant a déjà envoyé son profil, on affiche la date d’envoi ainsi que le statut du dernier envoi."
           }
         },
         "empty": "Aucun participant",
