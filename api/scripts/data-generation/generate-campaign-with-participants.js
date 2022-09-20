@@ -2,6 +2,7 @@ require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const _ = require('lodash');
 const { knex, disconnect } = require('../../db/knex-database-connection');
+const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
@@ -21,6 +22,7 @@ const baseDate = new Date('2020-05-03');
 let lowRAMMode = false;
 let createOrganizationLearner = false;
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -150,7 +152,7 @@ function _validateAndNormalizeCampaignType(commandLineArgs) {
 function _validateAndNormalizeArgs(commandLineArgs) {
   if (commandLineArgs.find((commandLineArg) => commandLineArg === '--help' || commandLineArg === '-h')) {
     _printUsage();
-    process.exit(0);
+    throw new Error('Invalid usage');
   }
   if (commandLineArgs.find((commandLineArg) => commandLineArg === '--lowRAM')) {
     lowRAMMode = true;
@@ -517,6 +519,7 @@ async function main() {
       process.exitCode = 1;
     } finally {
       await disconnect();
+      cache.quit();
     }
   }
 })();
