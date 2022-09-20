@@ -19,6 +19,11 @@ function createAccessTokenFromUser(userId, source) {
   return { accessToken, expirationDelaySeconds };
 }
 
+function createAccessTokenFromAnonymousUser(userId) {
+  const expirationDelaySeconds = settings.anonymous.accessTokenLifespanMs / 1000;
+  return _createAccessToken({ userId, source: 'pix', expirationDelaySeconds });
+}
+
 function createAccessTokenForSaml(userId) {
   const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
@@ -192,6 +197,7 @@ module.exports = {
   createAccessTokenFromUser,
   createAccessTokenForSaml,
   createAccessTokenFromApplication,
+  createAccessTokenFromAnonymousUser,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,
   createCertificationResultsByRecipientEmailLinkToken,

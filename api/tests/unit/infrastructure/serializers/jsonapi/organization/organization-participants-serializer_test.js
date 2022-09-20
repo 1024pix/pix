@@ -1,7 +1,7 @@
 const { expect } = require('../../../../../test-helper');
 const OrganizationParticipant = require('../../../../../../lib/domain/read-models/OrganizationParticipant');
 const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
-const campaignPartcipationsStatuses = require('../../../../../../lib/domain/models/CampaignParticipationStatuses');
+const campaignParticipationsStatuses = require('../../../../../../lib/domain/models/CampaignParticipationStatuses');
 describe('Unit | Serializer | JSONAPI | organization-participants-serializer', function () {
   describe('#serialize', function () {
     it('should convert an organization participant model object into JSON API data', function () {
@@ -15,7 +15,8 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           lastParticipationDate: '2021-03-05',
           campaignName: 'King Karam',
           campaignType: 'ASSESSMENT',
-          participationStatus: campaignPartcipationsStatuses.TO_SHARE,
+          participationStatus: campaignParticipationsStatuses.TO_SHARE,
+          isCertifiable: null,
         }),
         new OrganizationParticipant({
           id: 778,
@@ -25,7 +26,8 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           lastParticipationDate: '2021-03-05',
           campaignName: 'King Xavier',
           campaignType: 'PROFILES_COLLECTION',
-          participationStatus: campaignPartcipationsStatuses.SHARED,
+          participationStatus: campaignParticipationsStatuses.SHARED,
+          isCertifiable: true,
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -43,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'campaign-name': organizationParticipants[0].campaignName,
               'campaign-type': organizationParticipants[0].campaignType,
               'participation-status': organizationParticipants[0].participationStatus,
+              'is-certifiable': organizationParticipants[0].isCertifiable,
             },
           },
           {
@@ -56,6 +59,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'campaign-name': organizationParticipants[1].campaignName,
               'campaign-type': organizationParticipants[1].campaignType,
               'participation-status': organizationParticipants[1].participationStatus,
+              'is-certifiable': organizationParticipants[1].isCertifiable,
             },
           },
         ],

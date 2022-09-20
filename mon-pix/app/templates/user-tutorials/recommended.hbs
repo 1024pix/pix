@@ -1,8 +1,0 @@
-{{#if @model.meta.rowCount}}
-  <div class="user-tutorials-content-v2__container">
-    <Tutorials::Cards @tutorials={{@model}} />
-    <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} @isCondensed="true" />
-  </div>
-{{else}}
-  <Tutorials::RecommendedEmpty />
-{{/if}}

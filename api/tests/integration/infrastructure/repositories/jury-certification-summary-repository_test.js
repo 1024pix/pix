@@ -291,4 +291,153 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       });
     });
   });
+
+  describe('#findBySessionIdPaginated', function () {
+    context('when the session has no certifications', function () {
+      it('should return an empty array', async function () {
+        const page = {};
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        await databaseBuilder.commit();
+
+        // when
+        const { juryCertificationSummaries } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
+          page,
+          sessionId,
+        });
+
+        // then
+        expect(juryCertificationSummaries).to.have.length(0);
+      });
+    });
+
+    context('when the session has some certifications', function () {
+      it('should return JuryCertificationSummary based on their latest assessment result', async function () {
+        // given
+        const page = { size: 2, number: 1 };
+        const partnerKey = 'partnerKey';
+        const label = 'label';
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        const manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
+        const startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
+
+        const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
+        dbf.buildAssessment({ certificationCourseId: startedCertification.id });
+
+        dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
+        dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-03-15T00:00:00Z') });
+        const latestAssessmentResult = dbf.buildAssessmentResult({
+          assessmentId: manyAsrAssessmentId,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+          status: assessmentResultStatuses.VALIDATED,
+        });
+
+        const issueReport1 = dbf.buildCertificationIssueReport({
+          certificationCourseId: manyAsrCertification.id,
+          category: CertificationIssueReportCategories.OTHER,
+          description: 'first certification issue report',
+          hasBeenAutomaticallyResolved: false,
+        });
+        const issueReport2 = dbf.buildCertificationIssueReport({
+          certificationCourseId: manyAsrCertification.id,
+          category: CertificationIssueReportCategories.OTHER,
+          description: 'second certification issue report',
+          hasBeenAutomaticallyResolved: false,
+        });
+        const badgeId = dbf.buildBadge({ key: partnerKey }).id;
+        dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: manyAsrCertification.id });
+        dbf.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 998,
+          partnerKey,
+          acquired: true,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          label,
+          badgeId,
+          complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { juryCertificationSummaries } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
+          page,
+          sessionId,
+        });
+
+        const [juryCertificationSummary] = juryCertificationSummaries;
+
+        // then
+        expect(juryCertificationSummary.pixScore).to.equal(latestAssessmentResult.pixScore);
+        expect(juryCertificationSummary.status).to.equal(JuryCertificationSummary.statuses.VALIDATED);
+        expect(juryCertificationSummary.firstName).to.equal(manyAsrCertification.firstName);
+        expect(juryCertificationSummary.lastName).to.equal(manyAsrCertification.lastName);
+        expect(juryCertificationSummary.createdAt).to.deep.equal(manyAsrCertification.createdAt);
+        expect(juryCertificationSummary.completedAt).to.deep.equal(manyAsrCertification.completedAt);
+        expect(juryCertificationSummary.isPublished).to.equal(manyAsrCertification.isPublished);
+        expect(juryCertificationSummary.hasSeendEndTestScreen).to.equal(manyAsrCertification.hasSeendEndTestScreen);
+        expect(juryCertificationSummary.complementaryCertificationTakenLabels[0]).to.equal(label);
+        expect(juryCertificationSummary.certificationIssueReports).to.deep.equal([
+          new CertificationIssueReport({
+            id: issueReport1.id,
+            category: issueReport1.category,
+            certificationCourseId: manyAsrCertification.id,
+            description: 'first certification issue report',
+            hasBeenAutomaticallyResolved: false,
+            subcategory: null,
+            questionNumber: null,
+            resolvedAt: null,
+            resolution: null,
+          }),
+          new CertificationIssueReport({
+            id: issueReport2.id,
+            category: issueReport2.category,
+            certificationCourseId: manyAsrCertification.id,
+            description: 'second certification issue report',
+            hasBeenAutomaticallyResolved: false,
+            subcategory: null,
+            questionNumber: null,
+            resolvedAt: null,
+            resolution: null,
+          }),
+        ]);
+      });
+
+      it('should return paginated JuryCertificationSummary', async function () {
+        // given
+        const page = { size: 2, number: 2 };
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        const certification1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
+        const certification2 = dbf.buildCertificationCourse({ sessionId, lastName: 'BBB' });
+        const certification3 = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
+        const certification4 = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
+        const certification5 = dbf.buildCertificationCourse({ sessionId, lastName: 'EEE' });
+
+        const assessment1Id = dbf.buildAssessment({ certificationCourseId: certification1.id }).id;
+        const assessment2Id = dbf.buildAssessment({ certificationCourseId: certification2.id }).id;
+        const assessment3Id = dbf.buildAssessment({ certificationCourseId: certification3.id }).id;
+        const assessment4Id = dbf.buildAssessment({ certificationCourseId: certification4.id }).id;
+        const assessment5Id = dbf.buildAssessment({ certificationCourseId: certification5.id }).id;
+
+        dbf.buildAssessmentResult({ assessmentId: assessment1Id, createdAt: new Date('2018-02-15T00:00:00Z') });
+        dbf.buildAssessmentResult({ assessmentId: assessment2Id, createdAt: new Date('2018-03-15T00:00:00Z') });
+        dbf.buildAssessmentResult({ assessmentId: assessment3Id, createdAt: new Date('2018-03-15T00:00:00Z') });
+        dbf.buildAssessmentResult({ assessmentId: assessment4Id, createdAt: new Date('2018-03-15T00:00:00Z') });
+        dbf.buildAssessmentResult({ assessmentId: assessment5Id, createdAt: new Date('2018-03-15T00:00:00Z') });
+        await databaseBuilder.commit();
+
+        // when
+        const { juryCertificationSummaries, pagination } =
+          await juryCertificationSummaryRepository.findBySessionIdPaginated({
+            page,
+            sessionId,
+          });
+
+        // then
+        expect(juryCertificationSummaries).to.have.length(2);
+        expect(pagination).to.deep.equal({ rowCount: 5, pageCount: 3, page: page.number, pageSize: page.size });
+      });
+    });
+  });
 });

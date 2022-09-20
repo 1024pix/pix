@@ -118,7 +118,6 @@ describe('Integration | Repository | Badge', function () {
     await knex('skill-sets').delete();
     await knex('badge-criteria').delete();
     await knex('badge-acquisitions').delete();
-    await knex('complementary-certification-course-results').delete();
     await knex('complementary-certification-badges').delete();
     await knex('badges').delete();
   });
@@ -633,7 +632,7 @@ describe('Integration | Repository | Badge', function () {
     });
   });
 
-  describe('#hasBeenAcquiredDuringCertification', function () {
+  describe('#isRelatedToCertification', function () {
     describe('when the badge is not acquired', function () {
       it('should return false', async function () {
         // given
@@ -641,25 +640,10 @@ describe('Integration | Repository | Badge', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasBeenAcquired = await badgeRepository.isRelatedToCertification(badgeId);
+        const isRelatedToCertification = await badgeRepository.isRelatedToCertification(badgeId);
 
         // then
-        expect(hasBeenAcquired).to.be.false;
-      });
-    });
-
-    describe('when the badge is present in ComplementaryCertificationCourseResults', function () {
-      it('should return true', async function () {
-        // given
-        const badge = databaseBuilder.factory.buildBadge();
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({ partnerKey: badge.key });
-        await databaseBuilder.commit();
-
-        // when
-        const isNotAssociated = await badgeRepository.isRelatedToCertification(badge.id);
-
-        // then
-        expect(isNotAssociated).to.be.true;
+        expect(isRelatedToCertification).to.be.false;
       });
     });
 
@@ -667,18 +651,18 @@ describe('Integration | Repository | Badge', function () {
       it('should return true', async function () {
         // given
         const badge = databaseBuilder.factory.buildBadge();
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({ partnerKey: badge.key });
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
         databaseBuilder.factory.buildComplementaryCertificationBadge({
-          complementaryCertificationId: null,
           badgeId: badge.id,
-        });
+          complementaryCertificationId,
+        }).id;
         await databaseBuilder.commit();
 
         // when
-        const isNotAssociated = await badgeRepository.isRelatedToCertification(badge.id);
+        const isRelatedToCertification = await badgeRepository.isRelatedToCertification(badge.id);
 
         // then
-        expect(isNotAssociated).to.be.true;
+        expect(isRelatedToCertification).to.be.true;
       });
     });
 

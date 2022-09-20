@@ -11,7 +11,7 @@ function _toDomain(skillData) {
     tutorialIds: skillData.tutorialIds,
     tubeId: skillData.tubeId,
     version: skillData.version,
-    level: skillData.level,
+    difficulty: skillData.level,
     learningMoreTutorialIds: skillData.learningMoreTutorialIds,
   });
 }
@@ -47,6 +47,11 @@ module.exports = {
 
   async findOperativeByCompetenceId(competenceId) {
     const skillDatas = await skillDatasource.findOperativeByCompetenceId(competenceId);
+    return skillDatas.map(_toDomain);
+  },
+
+  async findOperativeByCompetenceIds(competenceIds) {
+    const skillDatas = await skillDatasource.findOperativeByCompetenceIds(competenceIds);
     return skillDatas.map(_toDomain);
   },
 

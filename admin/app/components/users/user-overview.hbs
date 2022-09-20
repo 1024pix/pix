@@ -1,11 +1,11 @@
 {{#if this.isEditionMode}}
   <form class="form" {{on "submit" this.updateUserDetails}}>
-    <span class="form__instructions col-md-4">
+    <span class="form__instructions">
       Les champs marqués de
       <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
       sont obligatoires.
     </span>
-    <div class="form-field col-md-4">
+    <div class="form-field">
       <label for="firstName" class="form-field__label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
         Prénom :
@@ -22,7 +22,7 @@
         @value={{this.form.firstName}}
       />
     </div>
-    <div class="form-field col-md-4">
+    <div class="form-field">
       <label for="lastName" class="form-field__label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
         Nom :
@@ -40,7 +40,7 @@
       />
     </div>
     {{#if this.canModifyEmail}}
-      <div class="form-field col-md-4">
+      <div class="form-field">
         <label for="email" class="form-field__label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
           Adresse e-mail :
@@ -59,7 +59,7 @@
       </div>
     {{/if}}
     {{#if @user.username}}
-      <div class="form-field col-md-4">
+      <div class="form-field">
         <label for="username" class="form-field__label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
           Identifiant :
@@ -77,7 +77,7 @@
         />
       </div>
     {{/if}}
-    <div class="col-md-4 form-actions">
+    <div class="form-actions">
       <PixButton
         @size="small"
         @backgroundColor="transparent-light"
@@ -144,7 +144,7 @@
         </div>
       </div>
     </section>
-    <div class="col-md-4 form-actions">
+    <div class="form-actions">
       {{#if this.accessControl.hasAccessToUsersActionsScope}}
         <PixButton
           @size="small"

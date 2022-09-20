@@ -6,7 +6,7 @@ export default class StudentScoRoute extends Route {
   @service session;
 
   beforeModel() {
-    this.session.prohibitAuthentication('user-dashboard');
+    this.session.prohibitAuthentication('authenticated.user-dashboard');
   }
 
   async model() {

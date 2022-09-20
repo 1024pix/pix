@@ -1,7 +1,7 @@
-{{page-title (t "pages.organization-participants.title")}}
+{{page-title (t "pages.organization-participants.page-title")}}
 
 <div class="organization-participant-list-page">
-  <h1 class="page__title page-title">{{t "pages.organization-participants.title"}}</h1>
+  <OrganizationParticipant::Header @participantCount={{this.currentUser.prescriber.participantCount}} />
   {{#if this.currentUser.prescriber.hasParticipants}}
     <OrganizationParticipant::List
       @participants={{@model}}

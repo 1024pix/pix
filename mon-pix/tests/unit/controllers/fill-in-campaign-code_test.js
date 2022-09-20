@@ -3,6 +3,9 @@ import { beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import setupIntl from '../../helpers/setup-intl';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
 describe('Unit | Controller | Fill in Campaign Code', function () {
   setupIntlRenderingTest();
@@ -16,7 +19,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
   beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
     const routerStub = { transitionTo: sinon.stub() };
-    sessionStub = { invalidate: sinon.stub() };
+    sessionStub = { invalidate: sinon.stub(), get: sinon.stub() };
     eventStub = { preventDefault: sinon.stub() };
     currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
     controller.set('router', routerStub);
@@ -27,24 +30,76 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
   });
 
   describe('#startCampaign', () => {
-    it('should call entry-point', async () => {
-      // given
-      const campaignCode = 'azerty1';
-      const campaign = Symbol('someCampaign');
-      const storeStub = {
-        queryRecord: sinon
-          .stub()
-          .withArgs('campaign', { filter: { code: campaignCode } })
-          .resolves(campaign),
-      };
-      controller.set('store', storeStub);
-      controller.set('campaignCode', campaignCode);
+    context('when user is connected to his Mediacentre and redirected to a GAR campaign', function () {
+      it('should redirect the user to the campaign entry point', async () => {
+        // given
+        const campaignCode = 'azerty1';
+        const campaign = Symbol('someCampaign');
+        const storeStub = {
+          queryRecord: sinon
+            .stub()
+            .withArgs('campaign', { filter: { code: campaignCode } })
+            .resolves(campaign),
+        };
+        sessionStub.get.returns('externalUserToken');
+        controller.set('store', storeStub);
+        controller.set('campaignCode', campaignCode);
 
-      // when
-      await controller.actions.startCampaign.call(controller, eventStub);
+        // when
+        await controller.actions.startCampaign.call(controller, eventStub);
 
-      // then
-      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
+        // then
+        sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
+      });
+    });
+
+    context('when user is connected to his Médiacentre and is already authenticated on Pix app', function () {
+      it('should not see a modal and be redirect to the campaign entry point', async () => {
+        // given
+        const campaignCode = 'azerty1';
+        const campaign = { code: campaignCode, identityProvider: 'GAR' };
+        const storeStub = {
+          queryRecord: sinon
+            .stub()
+            .withArgs('campaign', { filter: { code: campaignCode } })
+            .resolves(campaign),
+        };
+        sessionStub.get.withArgs('data.authenticated.source').returns(AUTHENTICATED_SOURCE_FROM_GAR);
+        sessionStub.get.withArgs('data.externalUser').returns(undefined);
+        controller.set('store', storeStub);
+        controller.set('campaignCode', campaignCode);
+
+        // when
+        await controller.actions.startCampaign.call(controller, eventStub);
+
+        // then
+        sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
+      });
+    });
+
+    context('when user is not connected to his Mediacentre', function () {
+      context('and starts a campaign with GAR as identity provider', function () {
+        it('should not redirect the user and display a modal', async function () {
+          // given
+          const campaignCode = 'LINKTOTHEPAST';
+          const storeStub = {
+            queryRecord: sinon
+              .stub()
+              .withArgs('campaign', { filter: { code: campaignCode } })
+              .resolves({ code: campaignCode, identityProvider: 'GAR' }),
+          };
+          sessionStub.get.returns(undefined);
+          controller.set('store', storeStub);
+          controller.set('campaignCode', campaignCode);
+
+          // when
+          await controller.actions.startCampaign.call(controller, eventStub);
+
+          // then
+          sinon.assert.notCalled(controller.router.transitionTo);
+          expect(controller.showGARModal).to.equal(true);
+        });
+      });
     });
 
     it('should set error when campaign code is empty', async () => {

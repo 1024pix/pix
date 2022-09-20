@@ -13,7 +13,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
   let campaignRepository;
   let campaignAnalysisRepository;
   let campaignParticipationRepository;
-  let targetProfileWithLearningContentRepository;
+  let learningContentRepository;
   let tutorialRepository;
 
   const userId = 1;
@@ -26,7 +26,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
     campaignAnalysisRepository = { getCampaignParticipationAnalysis: sinon.stub() };
-    targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
+    learningContentRepository = { findByCampaignId: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
 
     const campaign = domainBuilder.buildCampaign({ id: campaignId });
@@ -37,18 +37,17 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
     context('Participant has shared its results', function () {
       it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async function () {
         // given
-        const targetProfile = Symbol('targetProfile');
+        const learningContent = domainBuilder.buildLearningContent();
+        const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
         const tutorials = Symbol('tutorials');
         const campaignParticipationAnalysis = Symbol('analysis');
         campaignParticipation.userId = userId;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-        targetProfileWithLearningContentRepository.getByCampaignId
-          .withArgs({ campaignId, locale })
-          .resolves(targetProfile);
+        learningContentRepository.findByCampaignId.withArgs(campaignId, locale).resolves(learningContent);
         tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
         campaignAnalysisRepository.getCampaignParticipationAnalysis
-          .withArgs(campaignId, campaignParticipation, targetProfile, tutorials)
+          .withArgs(campaignId, campaignParticipation, campaignLearningContent, tutorials)
           .resolves(campaignParticipationAnalysis);
 
         // when
@@ -58,7 +57,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
           campaignRepository,
           campaignAnalysisRepository,
           campaignParticipationRepository,
-          targetProfileWithLearningContentRepository,
+          learningContentRepository,
           tutorialRepository,
           locale,
         });
@@ -88,7 +87,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
           campaignRepository,
           campaignAnalysisRepository,
           campaignParticipationRepository,
-          targetProfileWithLearningContentRepository,
+          learningContentRepository,
           tutorialRepository,
           locale,
         });
@@ -113,7 +112,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
           campaignRepository,
           campaignAnalysisRepository,
           campaignParticipationRepository,
-          targetProfileWithLearningContentRepository,
+          learningContentRepository,
           tutorialRepository,
           locale,
         });
@@ -138,7 +137,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
         campaignRepository,
         campaignParticipationRepository,
         campaignAnalysisRepository,
-        targetProfileWithLearningContentRepository,
+        learningContentRepository,
         tutorialRepository,
         locale,
       });

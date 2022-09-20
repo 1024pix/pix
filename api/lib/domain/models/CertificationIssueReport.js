@@ -21,18 +21,10 @@ const categoryNonBlockingCandidateIssueJoiSchema = Joi.object({
   description: Joi.string().trim().required(),
 });
 
-const categoryLateOrLeavingJoiSchema = Joi.object({
+const categorySignatureIssueJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
-  category: Joi.string().required().valid(CertificationIssueReportCategories.LATE_OR_LEAVING),
-  description: Joi.string().when('subcategory', {
-    switch: [
-      { is: Joi.valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM), then: Joi.string().trim().required() },
-    ],
-    otherwise: Joi.string().trim().optional(),
-  }),
-  subcategory: Joi.string()
-    .required()
-    .valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, CertificationIssueReportSubcategories.SIGNATURE_ISSUE),
+  category: Joi.string().required().valid(CertificationIssueReportCategories.SIGNATURE_ISSUE),
+  description: Joi.string().trim().required(),
 });
 
 const categoryCandidateInformationChangesJoiSchema = Joi.object({
@@ -81,7 +73,7 @@ const categoryTechnicalProblemJoiSchema = Joi.object({
 });
 
 const categorySchemas = {
-  [CertificationIssueReportCategories.LATE_OR_LEAVING]: categoryLateOrLeavingJoiSchema,
+  [CertificationIssueReportCategories.SIGNATURE_ISSUE]: categorySignatureIssueJoiSchema,
   [CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: categoryCandidateInformationChangesJoiSchema,
   [CertificationIssueReportCategories.IN_CHALLENGE]: categoryInChallengeJoiSchema,
   [CertificationIssueReportCategories.FRAUD]: categoryFraudJoiSchema,
@@ -98,7 +90,6 @@ const categoryCodeImpactful = [
 
 const subcategoryCodeImpactful = [
   CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
-  CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
   CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
   CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
   CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -116,11 +107,13 @@ const subcategoryCodeImpactful = [
 const deprecatedSubcategories = [
   CertificationIssueReportSubcategories.LINK_NOT_WORKING,
   CertificationIssueReportSubcategories.OTHER,
+  CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
 ];
 
 const deprecatedCategories = [
   CertificationIssueReportCategories.TECHNICAL_PROBLEM,
   CertificationIssueReportCategories.OTHER,
+  CertificationIssueReportCategories.LATE_OR_LEAVING,
 ];
 
 class CertificationIssueReport {
@@ -151,6 +144,7 @@ class CertificationIssueReport {
         CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
         CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
         CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
+        CertificationIssueReportCategories.SIGNATURE_ISSUE,
       ].includes(this.category)
     ) {
       this.subcategory = null;

@@ -1,0 +1,33 @@
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+      <Tutorials::Header @onTriggerFilterButton={{this.showSidebar}} @shouldShowFilterButton={{true}} />
+    </header>
+
+    <main id="main" class="main" role="main">
+      <UserTutorials::Filters::Sidebar
+        @onSubmit={{this.handleSubmitFilters}}
+        @isVisible={{this.isSidebarVisible}}
+        @areas={{this.model.areas}}
+        @onClose={{this.closeSidebar}}
+      />
+      <div class="user-tutorials-content-v2">
+        {{#if @model.recommendedTutorials.meta.rowCount}}
+          <div class="user-tutorials-content-v2__container">
+            <Tutorials::Cards @tutorials={{@model.recommendedTutorials}} />
+            <PixPagination
+              @pagination={{@model.recommendedTutorials.meta}}
+              @pageOptions={{this.pageOptions}}
+              @isCondensed="true"
+            />
+          </div>
+        {{else}}
+          <Tutorials::RecommendedEmpty />
+        {{/if}}
+      </div>
+    </main>
+
+    <Footer />
+  </burger.outlet>
+</BurgerMenu>

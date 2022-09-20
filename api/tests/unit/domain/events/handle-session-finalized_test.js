@@ -2,10 +2,6 @@ const { catchErr, expect, domainBuilder, sinon } = require('../../../test-helper
 const handleFinalizedSession = require('../../../../lib/domain/events/handle-session-finalized');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const {
-  CertificationIssueReportCategories,
-  CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
@@ -53,8 +49,8 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          category: 'NON_IMPACTFUL_CATEGORY',
+          subcategory: 'NON_IMPACTFUL_SUBCATEGORY',
         }),
       ],
     });

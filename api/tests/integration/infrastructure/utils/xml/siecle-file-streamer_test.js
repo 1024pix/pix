@@ -1,4 +1,4 @@
-const { expect, catchErr } = require('../../../../test-helper');
+const { expect, catchErr, sinon } = require('../../../../test-helper');
 const SiecleFileStreamer = require('../../../../../lib/infrastructure/utils/xml/siecle-file-streamer');
 const { FileValidationError, SiecleXmlImportError } = require('../../../../../lib/domain/errors');
 
@@ -33,6 +33,27 @@ describe('SiecleFileStreamer', function () {
 
           expect(error).to.be.an.instanceof(FileValidationError);
           expect(error.code).to.equal('INVALID_FILE');
+        });
+
+        it('log only the first sax error', async function () {
+          const path = `${__dirname}/files/xml/garbage.xml`;
+          const logger = {
+            error: sinon.stub(),
+          };
+
+          const streamer = await SiecleFileStreamer.create(path, logger);
+
+          await catchErr(
+            streamer.perform,
+            streamer
+          )((saxStream, resolve) => {
+            saxStream.on('data', () => {
+              return;
+            });
+            saxStream.on('end', resolve);
+          });
+
+          expect(logger.error).to.have.been.calledOnce;
         });
       });
 

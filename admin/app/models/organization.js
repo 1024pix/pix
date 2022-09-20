@@ -15,12 +15,14 @@ export default class Organization extends Model {
   @attr('string') formNPSUrl;
   @attr('number') credit;
   @attr('nullable-string') email;
-  @attr('date') createdBy;
+  @attr() createdBy;
+  @attr('date') createdAt;
   @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
   @attr('nullable-string') archivistFullName;
   @attr('date') archivedAt;
   @attr('nullable-string') creatorFullName;
+  @attr() identityProviderForCampaigns;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
@@ -36,6 +38,10 @@ export default class Organization extends Model {
 
   get archivedFormattedDate() {
     return dayjs(this.archivedAt).format('DD/MM/YYYY');
+  }
+
+  get createdAtFormattedDate() {
+    return dayjs(this.createdAt).format('DD/MM/YYYY');
   }
 
   get isArchived() {

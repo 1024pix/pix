@@ -47,17 +47,17 @@ describe('Acceptance | Profile', function () {
         const competenceNumber = splitIndex[splitIndex.length - 1];
         expect(
           find(
-            `.rounded-panel-body__areas:nth-child(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__area-name`
+            `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__area-name`
           ).textContent
         ).to.equal(scorecard.area.title);
         expect(
           find(
-            `.rounded-panel-body__areas:nth-child(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__competence-name`
+            `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__competence-name`
           ).textContent
         ).to.equal(scorecard.name);
         expect(
           find(
-            `.rounded-panel-body__areas:nth-child(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .score-value`
+            `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .score-value`
           ).textContent
         ).to.equal(scorecard.level > 0 ? scorecard.level.toString() : scorecard.status === 'NOT_STARTED' ? '' : '–');
       });
@@ -69,7 +69,7 @@ describe('Acceptance | Profile', function () {
 
       // when
       await click(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__link'
+        '.rounded-panel-body__areas:nth-of-type(1) .rounded-panel-body__competence-card:first-child .competence-card__link'
       );
 
       // then

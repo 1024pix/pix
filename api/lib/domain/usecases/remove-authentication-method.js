@@ -43,6 +43,10 @@ module.exports = async function removeAuthenticationMethod({
   if (type === OidcIdentityProviders.POLE_EMPLOI.code) {
     await _removeAuthenticationMethod(userId, OidcIdentityProviders.POLE_EMPLOI.code, authenticationMethodRepository);
   }
+
+  if (type === OidcIdentityProviders.CNAV.code) {
+    await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.code, authenticationMethodRepository);
+  }
 };
 
 async function _removeAuthenticationMethod(userId, identityProvider, authenticationMethodRepository) {

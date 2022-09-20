@@ -90,3 +90,13 @@
     }
   }
 }
+
+.mediacentre-start-campaign-modal__action-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  a {
+    margin-bottom: 16px;
+  }
+}

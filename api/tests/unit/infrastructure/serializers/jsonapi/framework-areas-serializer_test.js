@@ -111,5 +111,76 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
     });
+
+    describe('when without thematics is true', function () {
+      it('should return a serialized JSON data object without thematics', function () {
+        // given
+        const withoutThematics = true;
+        const tube = domainBuilder.buildTube({
+          id: 'tubeId',
+        });
+
+        const thematicWithTube = domainBuilder.buildThematic({
+          id: 'recThem1',
+          tubeIds: ['tubeId'],
+        });
+
+        const thematicWithoutTube = domainBuilder.buildThematic({
+          id: 'recThem2',
+        });
+
+        const area = domainBuilder.buildArea({});
+
+        const competence = domainBuilder.buildCompetence({ thematicIds: ['recThem1', 'recThem2'] });
+        area.competences = [competence];
+
+        const expectedSerializedResult = {
+          data: [
+            {
+              id: 'recArea123',
+              type: 'areas',
+              attributes: {
+                code: 5,
+                color: 'red',
+                title: 'Super domaine',
+              },
+              relationships: {
+                competences: {
+                  data: [
+                    {
+                      id: 'recCOMP1',
+                      type: 'competences',
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+          included: [
+            {
+              type: 'competences',
+              id: 'recCOMP1',
+              attributes: {
+                index: '1.1',
+                name: 'Manger des fruits',
+              },
+            },
+          ],
+        };
+
+        // when
+        const result = serializer.serialize(
+          {
+            tubes: [tube],
+            thematics: [thematicWithTube, thematicWithoutTube],
+            areas: [area],
+          },
+          { withoutThematics }
+        );
+
+        // then
+        expect(result).to.deep.equal(expectedSerializedResult);
+      });
+    });
   });
 });

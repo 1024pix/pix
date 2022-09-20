@@ -45,9 +45,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUserService.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUserService.prescriber, connectedUser);
+      assert.strictEqual(currentUserService.prescriber, connectedUser);
     });
 
     test('should load the memberships', async function (assert) {
@@ -66,9 +64,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUserService.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUserService.memberships, memberships);
+      assert.strictEqual(currentUserService.memberships, memberships);
     });
 
     test('should load the organization', async function (assert) {
@@ -81,9 +77,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUserService.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUserService.organization, organization);
+      assert.strictEqual(currentUserService.organization, organization);
     });
 
     module('When member is not ADMIN', function () {
@@ -253,9 +247,7 @@ module('Unit | Service | current-user', function (hooks) {
         await currentUserService.load();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentUserService.organization.id, organization2.id);
+        assert.strictEqual(currentUserService.organization.id, organization2.id);
       });
     });
   });
@@ -273,9 +265,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUser.prescriber, null);
+      assert.strictEqual(currentUser.prescriber, undefined);
     });
   });
 
@@ -299,9 +289,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUser.prescriber, null);
+      assert.strictEqual(currentUser.prescriber, null);
     });
   });
 
@@ -325,9 +313,7 @@ module('Unit | Service | current-user', function (hooks) {
       const result = await currentUser.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, 'invalidate');
+      assert.strictEqual(result, 'invalidate');
     });
   });
 });

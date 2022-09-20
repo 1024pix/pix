@@ -1,3 +1,4 @@
+import getAreas from './routes/get-areas';
 import getCampaigns from './routes/get-campaigns';
 import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
 import getCertifications from './routes/get-certifications';
@@ -24,8 +25,8 @@ import loadScoOrganizationLearnersRoutes from './routes/sco-organization-learner
 import loadSupOrganizationLearnersRoutes from './routes/sup-organization-learners/index';
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
-import putSaveTutorial from './routes/put-save-tutorial';
-import deleteUserTutorial from './routes/delete-user-tutorial';
+import putUserSavedTutorial from './routes/put-user-saved-tutorial';
+import deleteUserSavedTutorial from './routes/delete-user-saved-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
@@ -67,6 +68,8 @@ export default function () {
 
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
 
+  this.get('/frameworks/pix/areas-for-user', getAreas);
+
   this.get('/progressions/:id', getProgression);
 
   this.get('/scorecards/:id', getScorecard);
@@ -76,8 +79,8 @@ export default function () {
 
   this.post('/expired-password-updates', postExpiredPasswordUpdates);
 
-  this.put('/users/tutorials/:tutorialId', putSaveTutorial);
-  this.del('/users/tutorials/:tutorialId', deleteUserTutorial);
+  this.put('/users/tutorials/:tutorialId', putUserSavedTutorial);
+  this.del('/users/tutorials/:tutorialId', deleteUserSavedTutorial);
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
   this.get('/feature-toggles', getFeatureToggles);

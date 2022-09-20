@@ -10,12 +10,12 @@ function _getSkillOfMaxDifficulty(skills) {
   return _.maxBy(skills, 'difficulty');
 }
 
-function computeRecommendationScore(skillsOfTube, maxSkillLevelInTargetProfile, validatedKnowledgeElements) {
+function computeRecommendationScore(skillsOfTube, maxSkillLevel, validatedKnowledgeElements) {
   const skillOfMaxDifficulty = _getSkillOfMaxDifficulty(skillsOfTube);
   const reachedLevelInTube = _getReachedLevelInTube(validatedKnowledgeElements, skillsOfTube);
 
   const reachedLevelScore = _computeReachedLevelScore(skillOfMaxDifficulty, reachedLevelInTube);
-  const difficultyScore = _computeDifficultyScore(maxSkillLevelInTargetProfile, skillOfMaxDifficulty);
+  const difficultyScore = _computeDifficultyScore(maxSkillLevel, skillOfMaxDifficulty);
   const progressScore = _computeProgressScore(skillsOfTube, validatedKnowledgeElements);
   const nextStepScore = _computeNextStepScore(skillsOfTube, validatedKnowledgeElements, reachedLevelInTube);
 
@@ -39,8 +39,8 @@ function _computeNextStepScore(skillsOfTube, validatedKnowledgeElements, reached
   return (NEXT_STEP_POINTS / nextLevelToReach) * reachedLevelInTube;
 }
 
-function _computeDifficultyScore(maxSkillLevelInTargetProfile, skill) {
-  return (DIFFICULTY_POINTS / maxSkillLevelInTargetProfile) * skill.difficulty;
+function _computeDifficultyScore(maxSkillLevel, skill) {
+  return (DIFFICULTY_POINTS / maxSkillLevel) * skill.difficulty;
 }
 
 function _getNextLevelToReach(skillsOfTube, validatedKnowledgeElements) {

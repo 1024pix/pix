@@ -320,6 +320,31 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
+    describe('when returned value by external API is not a json object', function () {
+      it('should throw error', async function () {
+        // given
+        sinon.stub(httpAgent, 'get').resolves({
+          isSuccessful: true,
+          data: '',
+        });
+        sinon.stub(logger, 'error');
+        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
+
+        // when
+        const error = await catchErr(oidcAuthenticationService._getContentFromUserInfoEndpoint)({
+          accessToken: 'accessToken',
+          userInfoUrl: 'userInfoUrl',
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
+        expect(error.message).to.be.equal('Les informations utilisateur récupérées ne sont pas au format attendu.');
+        expect(logger.error).to.have.been.calledWith(
+          'Les informations utilisateur récupérées ne sont pas au format attendu.'
+        );
+      });
+    });
+
     describe('when call to external API fails', function () {
       it('should throw error', async function () {
         // given

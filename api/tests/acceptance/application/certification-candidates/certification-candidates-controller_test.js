@@ -176,13 +176,6 @@ describe('Acceptance | API | Certifications candidates', function () {
       const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      const session = databaseBuilder.factory.buildSession({
-        certificationCenterId: certificationCenter.id,
-      });
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId: session.id,
-      });
-
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         key: ComplementaryCertification.CLEA,
         label: 'CléA Numérique',
@@ -191,6 +184,21 @@ describe('Acceptance | API | Certifications candidates', function () {
         key: ComplementaryCertification.PIX_PLUS_DROIT,
         label: 'Pix+ Droit',
       });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId: certificationCenter.id,
+        complementaryCertificationId: cleaComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId: certificationCenter.id,
+        complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
+      });
+      const session = databaseBuilder.factory.buildSession({
+        certificationCenterId: certificationCenter.id,
+      });
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        sessionId: session.id,
+      });
+
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: candidate.id,
         complementaryCertificationId: cleaComplementaryCertification.id,

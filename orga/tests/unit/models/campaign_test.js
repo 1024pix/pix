@@ -10,12 +10,8 @@ module('Unit | Model | campaign', function (hooks) {
       name: 'Fake name',
       code: 'ABC123',
     });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.name, 'Fake name');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.code, 'ABC123');
+    assert.strictEqual(model.name, 'Fake name');
+    assert.strictEqual(model.code, 'ABC123');
   });
 
   module('#urlToResult', function () {
@@ -28,9 +24,10 @@ module('Unit | Model | campaign', function (hooks) {
         tokenForCampaignResults: 'token',
         type: 'ASSESSMENT',
       });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token');
+      assert.strictEqual(
+        model.urlToResult,
+        'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token'
+      );
     });
 
     test('it should construct the url to result of the campaign with type profiles collection', function (assert) {
@@ -42,9 +39,7 @@ module('Unit | Model | campaign', function (hooks) {
         tokenForCampaignResults: 'token',
         type: 'PROFILES_COLLECTION',
       });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+      assert.strictEqual(
         model.urlToResult,
         'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token'
       );
@@ -63,9 +58,7 @@ module('Unit | Model | campaign', function (hooks) {
       const model = store.createRecord('campaign', { type: 'ASSESSMENT' });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.readableType, 'Évaluation');
+      assert.strictEqual(model.readableType, 'Évaluation');
     });
 
     test('it should compute the readableType property when type is PROFILES_COLLECTION', function (assert) {
@@ -73,9 +66,7 @@ module('Unit | Model | campaign', function (hooks) {
       const model = store.createRecord('campaign', { type: 'PROFILES_COLLECTION' });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.readableType, 'Collecte de profils');
+      assert.strictEqual(model.readableType, 'Collecte de profils');
     });
   });
 
@@ -154,9 +145,7 @@ module('Unit | Model | campaign', function (hooks) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', { ownerFirstName: 'Jean-Baptiste', ownerLastName: 'Poquelin' });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.ownerFullName, 'Jean-Baptiste Poquelin');
+      assert.strictEqual(model.ownerFullName, 'Jean-Baptiste Poquelin');
     });
   });
 });

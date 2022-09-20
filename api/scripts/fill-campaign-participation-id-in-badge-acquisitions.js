@@ -1,4 +1,4 @@
-const { knex } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../db/knex-database-connection');
 const bluebird = require('bluebird');
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
@@ -59,32 +59,31 @@ async function updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitio
   );
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    const badgeAcquisitionsWithoutCampaignParticipationId =
-      await getAllBadgeAcquistionsWithoutCampaignParticipationId();
-    console.log(`${badgeAcquisitionsWithoutCampaignParticipationId.length} badges without campaignParticipationId.`);
-    console.log('badgeAcquisitionId;BadgeId;Possibility;ListOfCampaignParticipations');
+  const badgeAcquisitionsWithoutCampaignParticipationId = await getAllBadgeAcquistionsWithoutCampaignParticipationId();
+  console.log(`${badgeAcquisitionsWithoutCampaignParticipationId.length} badges without campaignParticipationId.`);
+  console.log('badgeAcquisitionId;BadgeId;Possibility;ListOfCampaignParticipations');
 
-    await bluebird.mapSeries(badgeAcquisitionsWithoutCampaignParticipationId, async (badgeAcquisition) => {
-      const campaignsParticipations = await getCampaignParticipationFromBadgeAcquisition(badgeAcquisition);
-      await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisition, campaignsParticipations);
-    });
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
+  await bluebird.mapSeries(badgeAcquisitionsWithoutCampaignParticipationId, async (badgeAcquisition) => {
+    const campaignsParticipations = await getCampaignParticipationFromBadgeAcquisition(badgeAcquisition);
+    await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisition, campaignsParticipations);
+  });
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   main,

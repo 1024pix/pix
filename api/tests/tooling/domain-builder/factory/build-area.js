@@ -10,7 +10,7 @@ module.exports = function buildArea({
   frameworkId = 'recFmk123',
 } = {}) {
   name = name || `${code}. ${title}`;
-  return new Area({
+  const area = new Area({
     id,
     name,
     code,
@@ -19,4 +19,8 @@ module.exports = function buildArea({
     color,
     frameworkId,
   });
+  competences.forEach((competence) => {
+    competence.area = area;
+  });
+  return area;
 };

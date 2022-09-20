@@ -36,6 +36,10 @@ class Tube {
   getHardestSkill() {
     return _.maxBy(this.skills, 'difficulty');
   }
+
+  hasSkill(skillId) {
+    return this.skills.some((skill) => skill.id === skillId);
+  }
 }
 
 module.exports = Tube;

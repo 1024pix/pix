@@ -21,9 +21,7 @@ module('Acceptance | Team Creation', function (hooks) {
     await visit('/equipe/creation');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/connexion');
+    assert.strictEqual(currentURL(), '/connexion');
   });
 
   module('When prescriber is logged in', function (hooks) {
@@ -48,9 +46,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await visit('/equipe/creation');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/les-miennes');
+
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       });
     });
 
@@ -77,9 +74,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await visit('/equipe/creation');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/creation');
+
+        assert.strictEqual(currentURL(), '/equipe/creation');
       });
 
       test('it should allow to invite a prescriber, redirect to invitations list and display confirmation invitation message', async function (assert) {
@@ -100,18 +96,14 @@ module('Acceptance | Team Creation', function (hooks) {
 
         // then
         const organizationInvitation = server.db.organizationInvitations[server.db.organizationInvitations.length - 1];
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(organizationInvitation.email, email);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(organizationInvitation.status, 'PENDING');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(organizationInvitation.code, code);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/invitations');
+
+        assert.strictEqual(organizationInvitation.email, email);
+
+        assert.strictEqual(organizationInvitation.status, 'PENDING');
+
+        assert.strictEqual(organizationInvitation.code, code);
+
+        assert.strictEqual(currentURL(), '/equipe/invitations');
         assert.contains(email);
         assert.contains(this.intl.t('pages.team-new.success.invitation', { email }));
       });
@@ -139,9 +131,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(inviteButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/creation');
+
+        assert.strictEqual(currentURL(), '/equipe/creation');
       });
 
       test('should display an empty input field after cancel and before add a team member', async function (assert) {
@@ -165,9 +156,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(cancelButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/invitations');
+
+        assert.strictEqual(currentURL(), '/equipe/invitations');
       });
 
       test('it should display error on global form when error 500 is returned from backend', async function (assert) {
@@ -194,9 +184,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(inviteButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/creation');
+
+        assert.strictEqual(currentURL(), '/equipe/creation');
         assert.contains(expectedErrorMessage);
       });
 
@@ -224,9 +213,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(inviteButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/creation');
+
+        assert.strictEqual(currentURL(), '/equipe/creation');
         assert.contains(expectedErrorMessage);
       });
 
@@ -254,9 +242,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(inviteButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/creation');
+
+        assert.strictEqual(currentURL(), '/equipe/creation');
         assert.contains(expectedErrorMessage);
       });
 
@@ -284,9 +271,8 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(inviteButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/equipe/creation');
+
+        assert.strictEqual(currentURL(), '/equipe/creation');
         assert.contains(expectedErrorMessage);
       });
     });

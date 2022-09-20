@@ -11,7 +11,7 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
+const learningContentRepository = require('../../../../lib/infrastructure/repositories/learning-content-repository');
 const certifiableProfileForLearningContentRepository = require('../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
 describe('Unit | Service | Certification Challenge Service', function () {
@@ -118,29 +118,76 @@ describe('Unit | Service | Certification Challenge Service', function () {
       area: '1',
     });
 
-    skillCitation4 = domainBuilder.buildSkill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
-    skillCollaborer4 = domainBuilder.buildSkill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
-    skillMoteur3 = domainBuilder.buildSkill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
-    skillRecherche4 = domainBuilder.buildSkill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
+    skillCitation4 = domainBuilder.buildSkill({
+      id: 10,
+      name: '@citation4',
+      difficulty: 4,
+      competenceId: competenceFlipper.id,
+    });
+    skillCollaborer4 = domainBuilder.buildSkill({
+      id: 20,
+      name: '@collaborer4',
+      difficulty: 4,
+      competenceId: competenceFlipper.id,
+    });
+    skillMoteur3 = domainBuilder.buildSkill({
+      id: 30,
+      name: '@moteur3',
+      difficulty: 3,
+      competenceId: competenceFlipper.id,
+    });
+    skillRecherche4 = domainBuilder.buildSkill({
+      id: 40,
+      name: '@recherche4',
+      difficulty: 4,
+      competenceId: competenceFlipper.id,
+    });
     skillRemplir2 = domainBuilder.buildSkill({
       id: 50,
       name: '@remplir2',
+      difficulty: 2,
       competenceId: competenceRemplir.id,
       version: 1,
     });
     skillRemplir2Focus = domainBuilder.buildSkill({
       id: 1789,
       name: '@remplir2',
+      difficulty: 2,
       competenceId: competenceRemplir.id,
       version: 2,
     });
-    skillRemplir4 = domainBuilder.buildSkill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
-    skillUrl3 = domainBuilder.buildSkill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
-    skillWeb1 = domainBuilder.buildSkill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
-    skillRequin5 = domainBuilder.buildSkill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
-    skillRequin8 = domainBuilder.buildSkill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
-    skillKoala1 = domainBuilder.buildSkill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
-    skillKoala2 = domainBuilder.buildSkill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
+    skillRemplir4 = domainBuilder.buildSkill({
+      id: 60,
+      name: '@remplir4',
+      difficulty: 4,
+      competenceId: competenceRemplir.id,
+    });
+    skillUrl3 = domainBuilder.buildSkill({ id: 70, name: '@url3', difficulty: 3, competenceId: competenceRemplir.id });
+    skillWeb1 = domainBuilder.buildSkill({ id: 80, name: '@web1', difficulty: 1, competenceId: competenceRemplir.id });
+    skillRequin5 = domainBuilder.buildSkill({
+      id: 110,
+      name: '@requin5',
+      difficulty: 5,
+      competenceId: competenceRequin.id,
+    });
+    skillRequin8 = domainBuilder.buildSkill({
+      id: 120,
+      name: '@requin7',
+      difficulty: 7,
+      competenceId: competenceRequin.id,
+    });
+    skillKoala1 = domainBuilder.buildSkill({
+      id: 110,
+      name: '@koala1',
+      difficulty: 1,
+      competenceId: competenceKoala.id,
+    });
+    skillKoala2 = domainBuilder.buildSkill({
+      id: 120,
+      name: '@koala2',
+      difficulty: 2,
+      competenceId: competenceKoala.id,
+    });
 
     challengeForSkillCollaborer4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdThree',
@@ -727,24 +774,28 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const toto6 = domainBuilder.buildSkill({
         id: 'toto6',
         name: '@toto6',
+        difficulty: 6,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const toto5 = domainBuilder.buildSkill({
         id: 'toto5',
         name: '@toto5',
+        difficulty: 5,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const toto4 = domainBuilder.buildSkill({
         id: 'toto4',
         name: '@toto4',
+        difficulty: 4,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const zaza4 = domainBuilder.buildSkill({
         id: 'zaza4',
         name: '@zaza4',
+        difficulty: 4,
         tubeId: 'zazaId',
         competenceId: 'competenceId',
       });
@@ -819,30 +870,35 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const toto6 = domainBuilder.buildSkill({
         id: 'toto6',
         name: '@toto6',
+        difficulty: 6,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const toto5 = domainBuilder.buildSkill({
         id: 'toto5',
         name: '@toto5',
+        difficulty: 5,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const mama5 = domainBuilder.buildSkill({
         id: 'mama5',
         name: '@mama5',
+        difficulty: 5,
         tubeId: 'mamaId',
         competenceId: 'competenceId',
       });
       const toto4 = domainBuilder.buildSkill({
         id: 'toto4',
         name: '@toto4',
+        difficulty: 4,
         tubeId: 'totoId',
         competenceId: 'competenceId',
       });
       const zaza4 = domainBuilder.buildSkill({
         id: 'zaza4',
         name: '@zaza4',
+        difficulty: 4,
         tubeId: 'zazaId',
         competenceId: 'competenceId',
       });
@@ -921,42 +977,42 @@ describe('Unit | Service | Certification Challenge Service', function () {
   });
 
   describe('#pickCertificationChallengesForPixPlus', function () {
-    let targetProfileWithLearningContent;
+    let learningContent;
     let clock;
     const now = new Date('2019-01-01T05:06:07Z');
-    function _createTargetedTubeWithSkills({ maxLevel, tubeName, tubeId, areaName }) {
-      const targetedSkills = [];
+    function _createTubeWithSkills({ maxLevel, tubeName, tubeId, areaName }) {
+      const skills = [];
       for (let i = 1; i <= maxLevel; ++i) {
-        targetedSkills.push(
-          domainBuilder.buildTargetedSkill({
+        skills.push(
+          domainBuilder.buildSkill({
             id: `${tubeName}${i}_id`,
             name: `@${tubeName}${i}`,
+            difficulty: i,
             tubeId,
           })
         );
       }
 
-      return domainBuilder.buildTargetedTube({
+      return domainBuilder.buildTube({
         id: tubeId,
         name: tubeName,
         competenceId: `comp_${areaName}_id`,
-        skills: targetedSkills,
+        skills,
       });
     }
-    function _createTargetedAreaForTubes({ tubes, areaName, areaId, origin }) {
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+    function _createAreaForTubes({ tubes, areaName, areaId, origin }) {
+      const competence = domainBuilder.buildCompetence({
         id: `comp_${areaName}_id`,
         name: `comp_${areaName}`,
-        areaId,
         tubes,
         origin,
       });
-
-      return domainBuilder.buildTargetedArea({
+      const area = domainBuilder.buildArea({
         id: areaId,
         name: areaName,
-        competences: [targetedCompetence],
+        competences: [competence],
       });
+      return area;
     }
     function _createChallengeWithDecl(challengeBaseId, skill, countDecl) {
       const challenges = [];
@@ -975,62 +1031,51 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
     beforeEach(function () {
       clock = sinon.useFakeTimers(now);
-      const targetedTube1Area1 = _createTargetedTubeWithSkills({
+      const tube1Area1 = _createTubeWithSkills({
         maxLevel: 5,
         tubeName: 'faireDesCourses',
         tubeId: 'faireDesCourses_id',
         areaName: 'reussirDehors',
       });
-      const targetedTube2Area1 = _createTargetedTubeWithSkills({
+      const tube2Area1 = _createTubeWithSkills({
         maxLevel: 4,
         tubeName: 'direBonjour',
         tubeId: 'direBonjour_id',
         areaName: 'reussirDehors',
       });
-      const targetedTube3Area1 = _createTargetedTubeWithSkills({
+      const tube3Area1 = _createTubeWithSkills({
         maxLevel: 5,
         tubeName: 'conduireUneVoiture',
         tubeId: 'conduireUneVoiture_id',
         areaName: 'reussirDehors',
       });
-      const targetedTube1Area2 = _createTargetedTubeWithSkills({
+      const tube1Area2 = _createTubeWithSkills({
         maxLevel: 3,
         tubeName: 'laverLesDents',
         tubeId: 'laverLesDents_id',
         areaName: 'faireBienDedans',
       });
-      const targetedTube2Area2 = _createTargetedTubeWithSkills({
+      const tube2Area2 = _createTubeWithSkills({
         maxLevel: 6,
         tubeName: 'faireSonLit',
         tubeId: 'faireSonLit_id',
         areaName: 'faireBienDedans',
       });
-      const targetedArea1 = _createTargetedAreaForTubes({
-        tubes: [targetedTube1Area1, targetedTube2Area1, targetedTube3Area1],
+      const area1 = _createAreaForTubes({
+        tubes: [tube1Area1, tube2Area1, tube3Area1],
         areaId: 'reussirDehors_id',
         areaName: 'reussirDehors',
         origin: 'PixPlusEpreuvesDeLaVie',
       });
-      const targetedArea2 = _createTargetedAreaForTubes({
-        tubes: [targetedTube1Area2, targetedTube2Area2],
+      const area2 = _createAreaForTubes({
+        tubes: [tube1Area2, tube2Area2],
         areaId: 'faireBienDedans_id',
         areaName: 'faireBienDedans',
         origin: 'PixPlusEpreuvesDeLaVie',
       });
 
-      targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: _.flatMap(
-          [targetedTube1Area1, targetedTube2Area1, targetedTube3Area1, targetedTube1Area2, targetedTube2Area2],
-          'skills'
-        ),
-        tubes: [targetedTube1Area1, targetedTube2Area1, targetedTube3Area1, targetedTube1Area2, targetedTube2Area2],
-        competences: _.flatMap([targetedArea1, targetedArea2], 'competences'),
-        areas: [targetedArea1, targetedArea2],
-      });
-      sinon
-        .stub(targetProfileWithLearningContentRepository, 'get')
-        .withArgs({ id: 123 })
-        .resolves(targetProfileWithLearningContent);
+      learningContent = domainBuilder.buildLearningContent([area1, area2]);
+      sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(123, locale).resolves(learningContent);
     });
 
     afterEach(function () {
@@ -1085,7 +1130,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
           keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
@@ -1100,7 +1145,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -1115,11 +1160,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
@@ -1266,7 +1314,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
           keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
@@ -1281,7 +1329,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -1296,11 +1344,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 2));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
@@ -1452,23 +1503,23 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
-          keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
+          keFaireDesCoursesLvl3,
           keDireBonjourLvl2,
           keConduireUneVoitureLvl2,
-          keLaverLesDentsLvl2,
           keLaverLesDentsLvl3,
+          keLaverLesDentsLvl2,
           keFaireSonLitLvl4,
-          keFaireSonLitLvl6,
           keFaireSonLitLvl5,
+          keFaireSonLitLvl6,
         ],
         answerAndChallengeIdsByAnswerId,
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -1484,28 +1535,20 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
 
       // then
       let expectedCertificationChallenges = [];
-      expectedCertificationChallenges = expectedCertificationChallenges.concat(
-        _createCertificationChallenge(
-          'ch_faireDesCourses3_dec1',
-          {
-            id: 'faireDesCourses3_id',
-            name: '@faireDesCourses3',
-            competenceId: 'comp_reussirDehors_id',
-          },
-          'BADGE_KEY'
-        )
-      );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
           'ch_faireDesCourses4_dec1',
@@ -1519,10 +1562,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_direBonjour2_dec1',
+          'ch_faireDesCourses3_dec1',
           {
-            id: 'direBonjour2_id',
-            name: '@direBonjour2',
+            id: 'faireDesCourses3_id',
+            name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
           'BADGE_KEY'
@@ -1541,21 +1584,21 @@ describe('Unit | Service | Certification Challenge Service', function () {
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_laverLesDents3_dec1',
+          'ch_direBonjour2_dec1',
           {
-            id: 'laverLesDents3_id',
-            name: '@laverLesDents3',
-            competenceId: 'comp_faireBienDedans_id',
+            id: 'direBonjour2_id',
+            name: '@direBonjour2',
+            competenceId: 'comp_reussirDehors_id',
           },
           'BADGE_KEY'
         )
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_faireSonLit4_dec1',
+          'ch_faireSonLit6_dec1',
           {
-            id: 'faireSonLit4_id',
-            name: '@faireSonLit4',
+            id: 'faireSonLit6_id',
+            name: '@faireSonLit6',
             competenceId: 'comp_faireBienDedans_id',
           },
           'BADGE_KEY'
@@ -1574,22 +1617,33 @@ describe('Unit | Service | Certification Challenge Service', function () {
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
-          'ch_faireSonLit6_dec1',
+          'ch_faireSonLit4_dec1',
           {
-            id: 'faireSonLit6_id',
-            name: '@faireSonLit6',
+            id: 'faireSonLit4_id',
+            name: '@faireSonLit4',
             competenceId: 'comp_faireBienDedans_id',
           },
           'BADGE_KEY'
         )
       );
-      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
-      expect(certificationChallengesForPlus).to.have.length(8);
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(
+        _createCertificationChallenge(
+          'ch_laverLesDents3_dec1',
+          {
+            id: 'laverLesDents3_id',
+            name: '@laverLesDents3',
+            competenceId: 'comp_faireBienDedans_id',
+          },
+          'BADGE_KEY'
+        )
+      );
+
+      expect(certificationChallengesForPlus).to.deepEqualArray(expectedCertificationChallenges);
     });
 
     it('should exclude skill which origin is Pix', async function () {
       // given
-      targetProfileWithLearningContent.getCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
+      learningContent.findCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 1,
@@ -1641,7 +1695,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
           keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
@@ -1657,7 +1711,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -1673,11 +1727,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
@@ -1734,7 +1791,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
     it('should return an empty array when there is only challenges from origin Pix', async function () {
       // given
-      targetProfileWithLearningContent.competences.forEach((competence) => (competence.origin = PIX_ORIGIN));
+      learningContent.competences.forEach((competence) => (competence.origin = PIX_ORIGIN));
 
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -1787,7 +1844,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
           keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
@@ -1803,7 +1860,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -1819,11 +1876,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
@@ -1880,7 +1940,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
           keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
@@ -1895,7 +1955,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -1909,11 +1969,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
@@ -2049,7 +2112,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
         userId: 456,
         profileDate: now,
-        targetProfileWithLearningContent,
+        learningContent,
         knowledgeElements: [
           keFaireDesCoursesLvl3,
           keFaireDesCoursesLvl4,
@@ -2064,7 +2127,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       });
       sinon
         .stub(certifiableProfileForLearningContentRepository, 'get')
-        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .withArgs({ id: 456, profileDate: now, learningContent })
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
@@ -2079,11 +2142,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+        campaignId: 123,
+      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        certifiableBadge,
+        badgeAcquisition,
         456,
         locale
       );
@@ -2209,7 +2275,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
           userId: 456,
           profileDate: now,
-          targetProfileWithLearningContent,
+          learningContent,
           knowledgeElements: [
             keFaireDesCoursesLvl3,
             keFaireDesCoursesLvl4,
@@ -2224,7 +2290,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         });
         sinon
           .stub(certifiableProfileForLearningContentRepository, 'get')
-          .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+          .withArgs({ id: 456, profileDate: now, learningContent })
           .resolves(certifiableProfile);
         // challenges
         let challenges = [];
@@ -2243,11 +2309,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
         challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
         challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
         sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-        const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
+        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+          badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
+          campaignId: 123,
+        });
 
         // when
         const certificationChallengesForPlus =
-          await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
+          await certificationChallengesService.pickCertificationChallengesForPixPlus(badgeAcquisition, 456, locale);
 
         // then
         let expectedCertificationChallenges = [];

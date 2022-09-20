@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-
+import { action } from '@ember/object';
 export default class Places extends Route {
   @service store;
 
@@ -14,5 +14,10 @@ export default class Places extends Route {
     });
 
     return { organization, places, placesCapacity };
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

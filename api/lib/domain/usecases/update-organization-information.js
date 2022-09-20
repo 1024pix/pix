@@ -4,11 +4,11 @@ const OrganizationTag = require('../models/OrganizationTag');
 
 module.exports = async function updateOrganizationInformation({
   organization,
-  organizationRepository,
+  organizationForAdminRepository,
   organizationTagRepository,
   tagRepository,
 }) {
-  const existingOrganization = await organizationRepository.get(organization.id);
+  const existingOrganization = await organizationForAdminRepository.get(organization.id);
   await _updateOrganizationTags({
     organization,
     existingOrganization,
@@ -26,7 +26,9 @@ module.exports = async function updateOrganizationInformation({
   existingOrganization.isManagingStudents = organization.isManagingStudents;
   existingOrganization.documentationUrl = organization.documentationUrl;
   existingOrganization.showSkills = organization.showSkills;
-  return organizationRepository.update(existingOrganization);
+  existingOrganization.identityProviderForCampaigns = organization.identityProviderForCampaigns;
+
+  return organizationForAdminRepository.update(existingOrganization);
 };
 
 async function _updateOrganizationTags({

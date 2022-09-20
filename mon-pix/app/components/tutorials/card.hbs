@@ -1,34 +1,42 @@
-<article class="tutorial-card-v2" role="article">
-  <div class="tutorial-card-v2__content">
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      href="{{@tutorial.link}}"
-      class="tutorial-card-v2-content__link"
-      title="{{@tutorial.title}}"
-    >
-      {{@tutorial.title}}
-    </a>
-    <p class="tutorial-card-v2-content__details">
-      {{@tutorial.source}}
-      •
-      {{@tutorial.format}}
-      •
-      {{moment-duration @tutorial.duration}}
-    </p>
-    <div class="tutorial-card-v2-content__actions">
-      <ActionChip
-        @title={{this.evaluateInformation}}
-        @isCompleted={{this.isTutorialEvaluated}}
-        @triggerAction={{this.evaluateTutorial}}
-        @icon="thumbs-up"
-      />
-      <ActionChip
-        @title={{this.saveInformation}}
-        @isCompleted={{this.isTutorialSaved}}
-        @triggerAction={{this.toggleSaveTutorial}}
-        @icon="bookmark"
-      />
+<li>
+  <article class="tutorial-card-v2" role="article">
+    <div class="tutorial-card-v2__content">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="{{@tutorial.link}}"
+        class="tutorial-card-v2-content__link"
+        title="{{@tutorial.title}}"
+      >
+        {{@tutorial.title}}
+      </a>
+      <p class="tutorial-card-v2-content__details">
+        {{@tutorial.source}}
+        •
+        {{@tutorial.format}}
+        •
+        {{moment-duration @tutorial.duration}}
+      </p>
+      {{#if this.shouldShowActions}}
+        <ul class="tutorial-card-v2-content__actions">
+          <li>
+            <ActionChip
+              @title={{this.evaluateInformation}}
+              @isCompleted={{this.isTutorialEvaluated}}
+              @triggerAction={{this.evaluateTutorial}}
+              @icon="thumbs-up"
+            />
+          </li>
+          <li>
+            <ActionChip
+              @title={{this.saveInformation}}
+              @isCompleted={{this.isTutorialSaved}}
+              @triggerAction={{this.toggleSaveTutorial}}
+              @icon="bookmark"
+            />
+          </li>
+        </ul>
+      {{/if}}
     </div>
-  </div>
-</article>
+  </article>
+</li>

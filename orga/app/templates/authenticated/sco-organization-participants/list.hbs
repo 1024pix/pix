@@ -1,16 +1,21 @@
-{{page-title (t "pages.sco-organization-participants.title")}}
+{{page-title (t "pages.sco-organization-participants.page-title")}}
 
 <div class="organization-participant-list-page sco-organization-participant-list-page">
-  <ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudents}} />
-
+  <ScoOrganizationParticipant::HeaderActions
+    @onImportStudents={{this.importStudents}}
+    @participantCount={{@model.meta.participantCount}}
+  />
   <ScoOrganizationParticipant::List
     @students={{@model}}
     @connectionTypesOptions={{this.connectionTypesOptions}}
+    @certificabilityOptions={{this.certificabilityOptions}}
     @lastNameFilter={{this.lastName}}
     @firstNameFilter={{this.firstName}}
     @divisionsFilter={{this.divisions}}
     @connexionTypeFilter={{this.connexionType}}
+    @certificabilityFilter={{this.certificability}}
     @onFilter={{this.triggerFiltering}}
+    @onResetFilter={{this.resetFiltering}}
   />
 
   {{#if this.isLoading}}

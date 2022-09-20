@@ -339,7 +339,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 tutorialIds: [],
                 learningMoreTutorialIds: [],
                 version: 1,
-                level: 2,
+                difficulty: 2,
               },
             ],
           });
@@ -486,7 +486,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 tutorialIds: [],
                 learningMoreTutorialIds: [],
                 version: 1,
-                level: 2,
+                difficulty: 2,
               },
             ],
           });

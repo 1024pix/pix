@@ -2,7 +2,8 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, find, findAll, click } from '@ember/test-helpers';
+import { find, findAll, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
 
 describe('Acceptance | User-tutorials-v2 | Saved', function () {
@@ -11,11 +12,12 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
   let user;
 
   beforeEach(async function () {
+    server.create('feature-toggle', { id: 0, isPixAppTutoFiltersEnabled: true });
     const numberOfTutorials = 100;
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
-    server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
+    server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
   });
 
   describe('When there are tutorials saved', function () {
@@ -31,8 +33,8 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         // given
         const numberOfTutorials = 10;
         await server.db.tutorials.remove();
-        await server.db.userTutorials.remove();
-        server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
+        await server.db.userSavedTutorials.remove();
+        server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
         await visit('/mes-tutos/enregistres');
 
         // when

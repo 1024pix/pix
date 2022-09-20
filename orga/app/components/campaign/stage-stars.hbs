@@ -4,7 +4,7 @@
     @total={{this.starsTotal}}
     @alt={{this.altMessage}}
     @color="blue"
-    class="stage-stars {{if @isWide "stage-stars--wide"}}"
+    class="stage-stars {{if @isWide 'stage-stars--wide'}}"
   />
   {{#if this.displayTooltip}}
     <PixTooltip
@@ -15,7 +15,7 @@
     >
       <:triggerElement>
         <FaIcon
-          @icon="info-circle"
+          @icon="circle-info"
           class="stage-stars__info-icon"
           tabindex="0"
           aria-describedby="stage-tooltip-{{this.reachedStage.id}}"

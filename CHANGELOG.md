@@ -1,5 +1,192 @@
 # Pix Changelog
 
+## v3.256.0 (19/09/2022)
+
+
+### :rocket: Amélioration
+- [#4927](https://github.com/1024pix/pix/pull/4927) [FEATURE] Supprimer les filtres sur la pages des tutoriels enregistrés (PIX-5684).
+- [#4926](https://github.com/1024pix/pix/pull/4926) [FEATURE] Ajout du FT pour la récupération des résultats CleA par les CDC habilités (PIX-5373).
+- [#4904](https://github.com/1024pix/pix/pull/4904) [FEATURE] Ajouter un champ de recherche par nom ou prénom à la liste des candidats dans l'espace surveillant (PIX-5452)
+
+### :building_construction: Tech
+- [#4849](https://github.com/1024pix/pix/pull/4849) [TECH] Retrait des warnings liés à l'usage déprécié de process.exit() dans les scripts (PIX-5585)
+- [#4937](https://github.com/1024pix/pix/pull/4937) [TECH] Monté de versions mineurs de PixOrga (PIX-5522)
+- [#4909](https://github.com/1024pix/pix/pull/4909) [TECH] Modifier la gestion du code HTTP 401 sur Pix App (PIX-5661)
+- [#4919](https://github.com/1024pix/pix/pull/4919) [TECH] Renommer UserTutorial en UserSavedTutorial (PIX-5363)
+- [#4898](https://github.com/1024pix/pix/pull/4898) [TECH] Ajouter de nouvelles pages dans les tests axes automatisés.
+
+### :bug: Correction
+- [#4932](https://github.com/1024pix/pix/pull/4932) [BUGFIX] Des thématiques en dehors du profil-cible sont comprises dans le payload de lecture du profil-cible sur PixAdmin (PIX-5708)
+- [#4929](https://github.com/1024pix/pix/pull/4929) [BUGFIX] Supprimer l'appel au helper text-with-multiple-lang dans la page d'affichage des résultats (PIX-5703).
+- [#4924](https://github.com/1024pix/pix/pull/4924) [BUGFIX] Afficher la méthode de connexion CNAV dans la modale de suppression sur Pix Admin (PIX-5670).
+
+## v3.255.0 (15/09/2022)
+
+
+### :rocket: Amélioration
+- [#4908](https://github.com/1024pix/pix/pull/4908) [FEATURE] Proposer les épreuves du référentiel Pix+ en début de test de certification (PIX-5448)
+- [#4914](https://github.com/1024pix/pix/pull/4914) [FEATURE] Simplifier l'import de candidats avec un code postal / code Insee commençant par un 0 (PIX-5305)
+- [#4873](https://github.com/1024pix/pix/pull/4873) [FEATURE] Affichage de la certificabilité dans l'onglet participant de Pix Orga (PIX-5557)
+- [#4700](https://github.com/1024pix/pix/pull/4700) [FEATURE] Pouvoir mettre plusieurs langues dans le bandeau de communication (PIX-5395).
+- [#4902](https://github.com/1024pix/pix/pull/4902) [FEATURE] Ajouter un titre invisible pour les domaines dans l'affichage des compétences (PIX-5608).
+- [#4875](https://github.com/1024pix/pix/pull/4875) [FEATURE] Ajouter le nombre de participants/étudiants/élèves dans le titre de la page (PIX-5568).
+
+### :building_construction: Tech
+- [#4865](https://github.com/1024pix/pix/pull/4865) [TECH] Suppression de TargetProfileWithLearningContent (PIX-5615)
+- [#4869](https://github.com/1024pix/pix/pull/4869) [TECH] Supprimer bootstrap de admin (PIX-5614 )
+- [#4922](https://github.com/1024pix/pix/pull/4922) [TECH] Corriger les tests du organization places lot repository (Pix 5681).
+- [#4920](https://github.com/1024pix/pix/pull/4920) [TECH] Il manque un test pour la méthode update du campaign repository (Pix 5679).
+- [#4921](https://github.com/1024pix/pix/pull/4921) [TECH] Corriger les tests sur la distance d'édition (Pix 5680)
+- [#4911](https://github.com/1024pix/pix/pull/4911) [TECH] Ajouter des cas d'utilisation pour le script d'ajout de skillId aux userSavedTutorials (PIX-5665) 
+
+### :bug: Correction
+- [#4910](https://github.com/1024pix/pix/pull/4910) [BUGFIX] Corrige la redirection lorsqu'une certification a été terminé par le superviseur (PIX-5666)
+- [#4913](https://github.com/1024pix/pix/pull/4913) [BUGFIX] Prévenir l'épuisement de mémoire à l'import d'un fichier SIECLE xml mal formé
+
+### :coffee: Autre
+- [#4915](https://github.com/1024pix/pix/pull/4915) [CLEANUP] Abaisse le niveau du log lorsque le rate limit est atteint
+
+## v3.254.0 (13/09/2022)
+
+
+### :rocket: Amélioration
+- [#4891](https://github.com/1024pix/pix/pull/4891) [FEATURE] Enregistrer les certifications qui ont été générées dans un fichier d'export CPF (PIX-5624).
+- [#4906](https://github.com/1024pix/pix/pull/4906) [FEATURE] Afficher le label plutôt que la valeur pour les formations (PIX-5597)
+- [#4893](https://github.com/1024pix/pix/pull/4893) [FEATURE] Retourner les souscriptions aux certifications complémentaires si le centre de certification est habilité (PIX-5602)
+- [#4895](https://github.com/1024pix/pix/pull/4895) [FEATURE] Améliorer l'accessibilité de l'affichage des tutoriels (PIX-5610).
+- [#4886](https://github.com/1024pix/pix/pull/4886) [FEATURE] Ajouter la possibilité de supprimer la méthode d'authentification CNAV (PIX-5633)
+
+### :building_construction: Tech
+- [#4903](https://github.com/1024pix/pix/pull/4903) [TECH] Rendre les tests de sélection des épreuves de certification complémentaire plus robustes (PIX-5652).
+- [#4866](https://github.com/1024pix/pix/pull/4866) [TECH] Refactorer le scoring des certifications complémentaires  Cléa (PIX-5574)
+
+## v3.253.0 (09/09/2022)
+
+
+### :rocket: Amélioration
+- [#4897](https://github.com/1024pix/pix/pull/4897) [FEATURE] Ré-ordonner les champs d'édition d'une organisation (PIX-5648)
+
+### :building_construction: Tech
+- [#4894](https://github.com/1024pix/pix/pull/4894) [TECH] Améliorer le message d'information dans le script de remplissage de la colonne `skillId` de la table `user-saved-tutorials` (PIX-5651)
+
+### :bug: Correction
+- [#4899](https://github.com/1024pix/pix/pull/4899) [BUGFIX] Ne pas afficher la "pop-up connecte toi au GAR" si l'utilisateur est déjà connecté (PIX-5649)
+
+## v3.252.0 (08/09/2022)
+
+
+### :bug: Correction
+- [#4892](https://github.com/1024pix/pix/pull/4892) [BUGFIX] Réparer la connexion GAR (PIX-5646)
+
+## v3.251.0 (08/09/2022)
+
+
+### :rocket: Amélioration
+- [#4890](https://github.com/1024pix/pix/pull/4890) [FEATURE] Remonter les compétences Pix+ en plus des compétences Pix. (PIX-5647).
+- [#4882](https://github.com/1024pix/pix/pull/4882) [FEATURE] Ajouter l'ID d'assessment dans les résultats d'assessment flash (PIX-5628)
+- [#4883](https://github.com/1024pix/pix/pull/4883) [FEATURE] Filtrer les tutoriels par compétences dans Pix App (PIX-5607).
+- [#4856](https://github.com/1024pix/pix/pull/4856) [FEATURE] Ajouter le filtre par certificabilité sur la liste des participants (Pix-5482)
+- [#4858](https://github.com/1024pix/pix/pull/4858) [FEATURE] Modifier une organisation pour la lier à un SSO (PIX-5575)
+- [#4853](https://github.com/1024pix/pix/pull/4853) [FEATURE] Afficher la date de certificabilité dans la liste des élèves (PIX-5484).
+- [#4863](https://github.com/1024pix/pix/pull/4863) [FEATURE] Afficher une sidebar pour filtrer les tutoriels par compétences (PIX-5606).
+
+### :building_construction: Tech
+- [#4888](https://github.com/1024pix/pix/pull/4888) [TECH] Refactorer le script permettant de remplir la colonne `skillId` de la table `user-saved-tutorials` (PIX-5642).
+- [#4781](https://github.com/1024pix/pix/pull/4781) [TECH] Disposer d'un environnement local sans dépendances logicielles
+- [#4880](https://github.com/1024pix/pix/pull/4880) [TECH] Ajout d'un script de changement de méthode d'assessment pour les campagnes FLASH (PIX-5627).
+
+### :bug: Correction
+- [#4879](https://github.com/1024pix/pix/pull/4879) [BUGFIX] Remettre les icônes supprimées par erreur (PIX-5623)
+
+## v3.250.0 (07/09/2022)
+
+
+### :rocket: Amélioration
+- [#4878](https://github.com/1024pix/pix/pull/4878) [FEATURE] Ne pas prendre en compte les certifications pour lesquels le sexe du candidat n'est pas renseigné (PIX-5621)
+- [#4870](https://github.com/1024pix/pix/pull/4870) [FEATURE] Remplacer la transition de tickets Jira des GitHub Action à une App côté Jira
+- [#4851](https://github.com/1024pix/pix/pull/4851) [FEATURE] Enregistrer le badge éligible de la certification complémentaire lors du début de parcours (PIX-5577)
+- [#4852](https://github.com/1024pix/pix/pull/4852) [FEATURE] Suppression de la sous-catégorie C3 de l'ajout de signalement. (PIX-5578).
+- [#4874](https://github.com/1024pix/pix/pull/4874) [FEATURE] Afficher un message d'erreur plus approprié quand il y a un conflit de compte (PIX-4991).
+- [#4876](https://github.com/1024pix/pix/pull/4876) [FEATURE] Implémenter la version définitive de la traduction des compétences Pix en compétences DigComp (PIX-5600)
+
+### :building_construction: Tech
+- [#4868](https://github.com/1024pix/pix/pull/4868) [TECH] Ajouter des rôles d'administration aux créateurs des organisations dans les seeds
+- [#4737](https://github.com/1024pix/pix/pull/4737) [TECH] Retirer le composant ModelsTable de la page sessions/<id>/certifications (PIX-5461)
+- [#4877](https://github.com/1024pix/pix/pull/4877) [TECH] Nettoyage du test de la version d'Hapi
+- [#4867](https://github.com/1024pix/pix/pull/4867) [TECH] Supprimer du code qui gère un cas qui n'arrivera jamais.
+
+### :bug: Correction
+- [#4871](https://github.com/1024pix/pix/pull/4871) [BUGFIX] Ajout de scopes manquants pour pole emploi(PIX-5616)
+
+### :coffee: Autre
+- [#4884](https://github.com/1024pix/pix/pull/4884) [DOC] Mise à jour de la doc
+- [#4872](https://github.com/1024pix/pix/pull/4872) [CLEANUP] Met à jour l'action commune d'automerge
+
+## v3.249.0 (05/09/2022)
+
+
+### :rocket: Amélioration
+- [#4861](https://github.com/1024pix/pix/pull/4861) [FEATURE] Ajouter la traduction anglaise pour l'aide sur l'utilisation d'un code parcours (PIX-5581)
+- [#4864](https://github.com/1024pix/pix/pull/4864) [FEATURE] Changer la traduction pour "Afficher une alternative textuelle" (PIX-5596).
+- [#4860](https://github.com/1024pix/pix/pull/4860) [FEATURE][ADMIN] Afficher la date de création d'une organisation (PIX-5601)
+- [#4862](https://github.com/1024pix/pix/pull/4862) [FEATURE] Ramener les domaines et compétences dans les pages tutos sur Pix App (PIX-5605).
+- [#4844](https://github.com/1024pix/pix/pull/4844) [FEATURE] Réconcilier un utilisateur externe avec son compte Pix (PIX-5345).
+- [#4848](https://github.com/1024pix/pix/pull/4848) [FEATURE] Si l'organisation est rattachée au GAR, pousser l'élève à se connecter via son Mediacentre (PIX-5140)
+- [#4840](https://github.com/1024pix/pix/pull/4840) [FEATURE] Améliore l'accessiblité de la tooltip du score Pix sur Pix App (PIX-5428)
+
+### :building_construction: Tech
+- [#4784](https://github.com/1024pix/pix/pull/4784) [TECH] Script pour convertir les profil-cibles existants dans le nouveau format. Conversion acquis vers sujets cappés par niveau (PIX-5502)
+- [#4843](https://github.com/1024pix/pix/pull/4843) [TECH] Améliorer le message d'erreur lorsqu'on tente de créer un RT avec un acquis inconnu du profil cible (PIX-5579)
+- [#4817](https://github.com/1024pix/pix/pull/4817) [TECH] Utiliser la valeur de difficulté de l'acquis donnée par l'API LCMS (PIX-5531)
+
+### :bug: Correction
+- [#4857](https://github.com/1024pix/pix/pull/4857) [BUGFIX][ADMIN] Corriger l'affichage de l'identifiant du créateur de l'organisation (PIX-5586)
+- [#4850](https://github.com/1024pix/pix/pull/4850) [BUGFIX] Mettre à jour les packages font awesome (Pix-5558)
+- [#4855](https://github.com/1024pix/pix/pull/4855) [BUGFIX] Ne pas remonter l'erreur de Pole Emploi au renvoie des informations de l'utilisateur (PIX_5599).
+
+## v3.248.0 (01/09/2022)
+
+
+### :rocket: Amélioration
+- [#4846](https://github.com/1024pix/pix/pull/4846) [FEATURE] Afficher le SSO d'une organisation sur la page de détail d'une organisation sur Pix Admin(PIX-5571)
+- [#4795](https://github.com/1024pix/pix/pull/4795) [FEATURE] Permettre la suppression d'un lot de place (PIX-5346)
+- [#4842](https://github.com/1024pix/pix/pull/4842) [FEATURE] Sortir les filtres des étudiants du tableau (PIX-5536).
+- [#4814](https://github.com/1024pix/pix/pull/4814) [FEATURE] Ajout du lien menant au détail de ma participation même si celle ci est désactivée par l'organisateur (PIX-5519)
+- [#4820](https://github.com/1024pix/pix/pull/4820) [FEATURE] Déplacer les filtres de la page élèves dans un bandeau dédié (PIX-5535)
+- [#4832](https://github.com/1024pix/pix/pull/4832) [FEATURE] Ajout d'un tooltip sur l'en-tête de la colonne certificabilité dans le tableau sur la page des élèves (PIX-5476)
+- [#4813](https://github.com/1024pix/pix/pull/4813) [FEATURE] Affichage de la certificabilité dans l'onglet élèves de Pix Orga (PIX-5481).
+- [#4839](https://github.com/1024pix/pix/pull/4839) [FEATURE] Pouvoir identifier les organisations qui utilisent le GAR (PIX-5139)
+
+### :building_construction: Tech
+- [#4666](https://github.com/1024pix/pix/pull/4666) [TECH] Se déconnecter de redis avant d'arrêter le serveur
+- [#4740](https://github.com/1024pix/pix/pull/4740) [TECH] Supprimer la dépendance ember-route-action-helper (PIX-5471).
+- [#4838](https://github.com/1024pix/pix/pull/4838) [TECH] Utiliser le service oidc providers pour afficher les méthodes de connexion OIDC (PIX-5537)
+- [#4835](https://github.com/1024pix/pix/pull/4835) [TECH] Refactorer le scoring des certifications complémentaires hors CléA (PIX-5517)
+
+## v3.247.0 (30/08/2022)
+
+
+### :rocket: Amélioration
+- [#4801](https://github.com/1024pix/pix/pull/4801) [FEATURE] Afficher les informations sur la page de réconciliation - Pix App (PIX-5506).
+- [#4807](https://github.com/1024pix/pix/pull/4807) [FEATURE] Gérer un accès à durée spécifique, étendue et limitée, pour les comptes anonymes (en accès simplifié) (PIX-4633)
+- [#4837](https://github.com/1024pix/pix/pull/4837) [FEATURE] Ajout d'un point (PIX-5552)
+- [#4824](https://github.com/1024pix/pix/pull/4824) [FEATURE] Retourner le contexte du tutoriel dans la page `/mes-tutos/enregistres` (PIX-5545).
+- [#4752](https://github.com/1024pix/pix/pull/4752) [FEATURE] Notifier par email de la génération des fichiers CPF (PIX-5398).
+
+### :building_construction: Tech
+- [#4836](https://github.com/1024pix/pix/pull/4836) [TECH] Si on ne trouve pas un utilisateur, renvoyer une erreur générique (PIX-5538)
+- [#4815](https://github.com/1024pix/pix/pull/4815) [TECH] Refacto l'architecture des routes authentifiées et non authentifiées sur Pix App (PIX-5528)
+- [#4823](https://github.com/1024pix/pix/pull/4823) [TECH] Ajouter un test manquant sur l'enregistrement d'un tutoriel (PIX-5550).
+- [#4829](https://github.com/1024pix/pix/pull/4829) [TECH] Migrer de Bookshelf vers knex le repository des paliers (PIX-5549)
+- [#4821](https://github.com/1024pix/pix/pull/4821) [TECH] Mettre à jour Cypress en 8.7.0 (PIX-5541).
+- [#4803](https://github.com/1024pix/pix/pull/4803) [TECH] Refacto autour du profil cible dans PixAdmin (PIX-5532)
+
+### :bug: Correction
+- [#4828](https://github.com/1024pix/pix/pull/4828) [BUGFIX] Ne pas afficher les boutons d'actions des tutoriels lorsque l'utilisateur n'est pas connecté (PIX-5547).
+
+### :coffee: Autre
+- [#4834](https://github.com/1024pix/pix/pull/4834) [CLEANUP] Nettoie les applications gravitee
+
 ## v3.246.0 (25/08/2022)
 
 

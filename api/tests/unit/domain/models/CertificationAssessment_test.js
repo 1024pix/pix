@@ -454,62 +454,6 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
     });
   });
 
-  describe('#listCertifiableBadgeKeysTaken', function () {
-    it('returns the certifiable badge keys of those taken during this certification', function () {
-      // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal1',
-        certifiableBadgeKey: 'BADGE_2',
-      });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal2',
-        certifiableBadgeKey: 'BADGE_1',
-      });
-      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal3',
-        certifiableBadgeKey: 'BADGE_2',
-      });
-      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal4',
-        certifiableBadgeKey: null,
-      });
-
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationChallenges: [
-          certificationChallenge1,
-          certificationChallenge2,
-          certificationChallenge3,
-          certificationChallenge4,
-        ],
-      });
-
-      // when
-      const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
-
-      // then
-      expect(certifiableBadgeKeys).to.deep.include.members(['BADGE_2', 'BADGE_1']);
-      expect(certifiableBadgeKeys).to.have.lengthOf(2);
-    });
-
-    it('returns an empty array if no certifiable badge exam was taken', function () {
-      // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal1',
-        certifiableBadgeKey: null,
-      });
-
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationChallenges: [certificationChallenge1],
-      });
-
-      // when
-      const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
-
-      // then
-      expect(certifiableBadgeKeys).to.be.empty;
-    });
-  });
-
   describe('#findAnswersAndChallengesForCertifiableBadgeKey', function () {
     it('returns the answers and challenges for a certifiableBadgeKey', function () {
       // given

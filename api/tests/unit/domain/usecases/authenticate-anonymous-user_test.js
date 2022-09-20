@@ -20,7 +20,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
       create: sinon.stub(),
     };
     tokenService = {
-      createAccessTokenFromUser: sinon.stub(),
+      createAccessTokenFromAnonymousUser: sinon.stub(),
     };
     campaignToJoinRepository.getByCode.withArgs(campaignCode).resolves({ isSimplifiedAccess: true });
   });
@@ -28,7 +28,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
   it('should create an anonymous user', async function () {
     // given
     userToCreateRepository.create.resolves({ id: 1 });
-    tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 123 });
+    tokenService.createAccessTokenFromAnonymousUser.returns('access-token');
 
     // when
     await authenticateAnonymousUser({
@@ -58,9 +58,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     const accessToken = 'access.token';
 
     userToCreateRepository.create.resolves({ id: userId });
-    tokenService.createAccessTokenFromUser
-      .withArgs(userId, 'pix')
-      .returns({ accessToken, expirationDelaySeconds: 1000 });
+    tokenService.createAccessTokenFromAnonymousUser.withArgs(userId).returns(accessToken);
 
     // when
     const result = await authenticateAnonymousUser({

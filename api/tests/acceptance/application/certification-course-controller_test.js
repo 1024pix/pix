@@ -46,6 +46,7 @@ describe('Acceptance | API | Certification Course', function () {
                       {
                         id: 'recSkill1',
                         challenges: [{ id: 'k_challenge_id' }],
+                        level: 1,
                       },
                     ],
                   },
@@ -115,6 +116,7 @@ describe('Acceptance | API | Certification Course', function () {
                       {
                         id: 'recSkill1',
                         challenges,
+                        level: 1,
                       },
                     ],
                   },
@@ -175,10 +177,10 @@ describe('Acceptance | API | Certification Course', function () {
       databaseBuilder.factory.buildSession({ id: 456 });
       databaseBuilder.factory.buildBadge({ id: 123, key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
       databaseBuilder.factory.buildBadge({ id: 456, key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE });
-      const pixDroitComplementatyCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         name: 'Pix+ Droit',
       }).id;
-      const pixEduComplementatyCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         name: 'Pix+ Édu 1er degré',
       }).id;
       databaseBuilder.factory.buildCertificationCourse({
@@ -197,11 +199,18 @@ describe('Acceptance | API | Certification Course', function () {
         createdAt: new Date('2020-01-01'),
         completedAt: new Date('2020-02-01'),
       });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 567,
+        badgeId: 123,
+        complementaryCertificationId: pixDroitComplementaryCertificationId,
+        label: 'Pix+ Droit Expert',
+      });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 456,
         userId: 789,
         certificationCourseId: 123,
-        complementaryCertificationId: pixDroitComplementatyCertificationId,
+        complementaryCertificationId: pixDroitComplementaryCertificationId,
+        complementaryCertificationBadgeId: 567,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 789,
@@ -211,15 +220,17 @@ describe('Acceptance | API | Certification Course', function () {
         source: 'PIX',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: 123,
-        complementaryCertificationId: pixDroitComplementatyCertificationId,
-        label: 'Pix+ Droit Expert',
+        id: 789,
+        badgeId: 456,
+        complementaryCertificationId: pixEduComplementaryCertificationId,
+        label: 'Pix+ Édu 1er degré Avancé',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 654,
         userId: 789,
         certificationCourseId: 123,
-        complementaryCertificationId: pixEduComplementatyCertificationId,
+        complementaryCertificationId: pixEduComplementaryCertificationId,
+        complementaryCertificationBadgeId: 789,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 987,
@@ -234,11 +245,6 @@ describe('Acceptance | API | Certification Course', function () {
         acquired: false,
         complementaryCertificationCourseId: 654,
         source: 'EXTERNAL',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: 456,
-        complementaryCertificationId: pixEduComplementatyCertificationId,
-        label: 'Pix+ Édu 1er degré Avancé',
       });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 123 });
       databaseBuilder.factory.buildUser({ id: 66 });
@@ -617,16 +623,19 @@ describe('Acceptance | API | Certification Course', function () {
                       id: 'recSkill0_0',
                       nom: '@recSkill0_0',
                       challenges: [{ id: 'recChallenge0_0_0' }],
+                      level: 0,
                     },
                     {
                       id: 'recSkill0_1',
                       nom: '@recSkill0_1',
                       challenges: [{ id: 'recChallenge0_1_0' }],
+                      level: 1,
                     },
                     {
                       id: 'recSkill0_2',
                       nom: '@recSkill0_2',
                       challenges: [{ id: 'recChallenge0_2_0' }],
+                      level: 2,
                     },
                   ],
                 },
@@ -642,16 +651,19 @@ describe('Acceptance | API | Certification Course', function () {
                       id: 'recSkill1_0',
                       nom: '@recSkill1_0',
                       challenges: [{ id: 'recChallenge1_0_0' }],
+                      level: 0,
                     },
                     {
                       id: 'recSkill1_1',
                       nom: '@recSkill1_1',
                       challenges: [{ id: 'recChallenge1_1_0' }],
+                      level: 1,
                     },
                     {
                       id: 'recSkill1_2',
                       nom: '@recSkill1_2',
                       challenges: [{ id: 'recChallenge1_2_0' }],
+                      level: 2,
                     },
                   ],
                 },
@@ -667,16 +679,19 @@ describe('Acceptance | API | Certification Course', function () {
                       id: 'recSkill2_0',
                       nom: '@recSkill2_0',
                       challenges: [{ id: 'recChallenge2_0_0' }],
+                      level: 0,
                     },
                     {
                       id: 'recSkill2_1',
                       nom: '@recSkill2_1',
                       challenges: [{ id: 'recChallenge2_1_0' }],
+                      level: 1,
                     },
                     {
                       id: 'recSkill2_2',
                       nom: '@recSkill2_2',
                       challenges: [{ id: 'recChallenge2_2_0' }],
+                      level: 2,
                     },
                   ],
                 },
@@ -692,16 +707,19 @@ describe('Acceptance | API | Certification Course', function () {
                       id: 'recSkill3_0',
                       nom: '@recSkill3_0',
                       challenges: [{ id: 'recChallenge3_0_0' }],
+                      level: 0,
                     },
                     {
                       id: 'recSkill3_1',
                       nom: '@recSkill3_1',
                       challenges: [{ id: 'recChallenge3_1_0' }],
+                      level: 1,
                     },
                     {
                       id: 'recSkill3_2',
                       nom: '@recSkill3_2',
                       challenges: [{ id: 'recChallenge3_2_0' }],
+                      level: 2,
                     },
                   ],
                 },
@@ -717,16 +735,19 @@ describe('Acceptance | API | Certification Course', function () {
                       id: 'recSkill4_0',
                       nom: '@recSkill4_0',
                       challenges: [{ id: 'recChallenge4_0_0' }],
+                      level: 0,
                     },
                     {
                       id: 'recSkill4_1',
                       nom: '@recSkill4_1',
                       challenges: [{ id: 'recChallenge4_1_0' }],
+                      level: 1,
                     },
                     {
                       id: 'recSkill4_2',
                       nom: '@recSkill4_2',
                       challenges: [{ id: 'recChallenge4_2_0' }],
+                      level: 2,
                     },
                   ],
                 },
@@ -745,11 +766,13 @@ describe('Acceptance | API | Certification Course', function () {
                         { id: 'recChallenge5_0_0', langues: ['Franco Français'] },
                         { id: 'recChallenge5_0_1' },
                       ],
+                      level: 0,
                     },
                     {
                       id: 'recSkill5_1',
                       nom: '@recSkill5_1',
                       challenges: [{ id: 'recChallenge5_1_1', langues: ['Franco Français'] }],
+                      level: 1,
                     },
                   ],
                 },
@@ -765,11 +788,13 @@ describe('Acceptance | API | Certification Course', function () {
                       id: 'recSkill6_0',
                       nom: '@recSkill6_0',
                       challenges: [{ id: 'recChallenge6_0_0', langues: ['Anglais'] }],
+                      level: 0,
                     },
                     {
                       id: 'recSkill6_1',
                       nom: '@recSkill6_1',
                       challenges: [{ id: 'recChallenge6_1_0', langues: ['Anglais'] }],
+                      level: 1,
                     },
                   ],
                 },

@@ -60,6 +60,11 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre } =
         certificationCandidateData;
 
+      if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
+        certificationCandidateData.birthINSEECode = `0${birthINSEECode}`;
+      if (birthPostalCode && birthPostalCode.length < 5)
+        certificationCandidateData.birthPostalCode = `0${birthPostalCode}`;
+
       if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
       if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
 

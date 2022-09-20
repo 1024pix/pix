@@ -1,5 +1,5 @@
 const handlers = require('./');
-const { plannerJob } = require('../../../config').cpf;
+const { plannerJob, sendEmailJob } = require('../../../config').cpf;
 
 module.exports = async function scheduleCpfJobs(pgBoss) {
   await pgBoss.schedule('CpfExportPlannerJob', plannerJob.cron, null, { tz: 'Europe/Paris' });
@@ -10,6 +10,11 @@ module.exports = async function scheduleCpfJobs(pgBoss) {
 
   await pgBoss.work('CpfExportBuilderJob', { batchSize: 1 }, async ([job]) => {
     await _processJob(job, handlers.createAndUpload, { data: job.data });
+  });
+
+  await pgBoss.schedule('CpfExportSenderJob', sendEmailJob.cron, null, { tz: 'Europe/Paris' });
+  await pgBoss.work('CpfExportSenderJob', async (job) => {
+    await _processJob(job, handlers.sendEmail, {});
   });
 };
 

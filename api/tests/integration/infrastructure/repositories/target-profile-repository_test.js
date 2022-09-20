@@ -373,25 +373,22 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.skills[0]).to.deep.equal(new Skill(skillAssociatedToTargetProfile));
     });
 
-    context('when they are same skillId for the target profile', function () {
+    context('when there are same skillId for the target profile', function () {
       it('should return only one skill', async function () {
         // given
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        const { skillId: skillId1 } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
-        const { skillId: skillId2 } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
+        const skillId = 'recSKI666';
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId });
 
-        const skillAssociatedToTargetProfile1 = { id: skillId1, name: '@Acquis2' };
-        const skillAssociatedToTargetProfile2 = { id: skillId2, name: '@Acquis3' };
+        const skillAssociatedToTargetProfile = { id: skillId, name: '@AcquisSKI666' };
 
         const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
 
         await databaseBuilder.commit();
 
-        skillDatasource.findOperativeByRecordIds.resolves([
-          skillAssociatedToTargetProfile1,
-          skillAssociatedToTargetProfile2,
-        ]);
+        skillDatasource.findOperativeByRecordIds.withArgs([skillId]).resolves([skillAssociatedToTargetProfile]);
 
         // when
         const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
@@ -654,7 +651,10 @@ describe('Integration | Repository | Target-profile', function () {
 
         // then
         expect(error).to.be.instanceOf(InvalidSkillSetError);
-        expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
+        expect(error).to.haveOwnProperty(
+          'message',
+          'Les acquis suivants ne font pas partie du profil cible : recSkill666'
+        );
       });
     });
   });

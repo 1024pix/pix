@@ -30,7 +30,7 @@ describe('Integration | Component | Training | Card', function () {
     expect(find('.training-card__content')).to.exist;
     expect(find('.training-card__title').textContent.trim()).to.equal('Mon super training');
     expect(find('.training-card__infos')).to.exist;
-    expect(find('.training-card__type').textContent.trim()).to.equal('webinaire');
+    expect(find('.training-card__type').textContent.trim()).to.equal('Webinaire');
     expect(find('.training-card__duration').textContent.trim()).to.equal('6h');
   });
 });

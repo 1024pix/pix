@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
-const userTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-tutorial-serializer');
+const userSavedTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
 const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
-const userTutorialRepository = require('../../infrastructure/repositories/user-tutorial-repository');
+const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -9,18 +9,18 @@ module.exports = {
   async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
-    const userTutorial = userTutorialSerializer.deserialize(request.payload);
+    const userSavedTutorial = userSavedTutorialSerializer.deserialize(request.payload);
 
-    const userSavedTutorial = await usecases.addTutorialToUser({ ...userTutorial, userId, tutorialId });
+    const createdUserSavedTutorial = await usecases.addTutorialToUser({ ...userSavedTutorial, userId, tutorialId });
 
-    return h.response(userTutorialSerializer.serialize(userSavedTutorial)).created();
+    return h.response(userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
   },
 
   async findSaved(request, h) {
     const { userId } = request.auth.credentials;
-    const { page } = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
 
-    const userPaginatedSavedTutorials = await usecases.findPaginatedSavedTutorials({ userId, page });
+    const userPaginatedSavedTutorials = await usecases.findPaginatedFilteredSavedTutorials({ userId, filters, page });
 
     return h.response(
       tutorialSerializer.serialize(userPaginatedSavedTutorials.results, userPaginatedSavedTutorials.meta)
@@ -29,9 +29,14 @@ module.exports = {
 
   async findRecommended(request, h) {
     const { userId } = request.auth.credentials;
-    const { page } = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
     const locale = extractLocaleFromRequest(request);
-    const userRecommendedTutorials = await usecases.findPaginatedRecommendedTutorials({ userId, page, locale });
+    const userRecommendedTutorials = await usecases.findPaginatedFilteredRecommendedTutorials({
+      userId,
+      filters,
+      page,
+      locale,
+    });
 
     return h.response(
       tutorialSerializer.serialize(userRecommendedTutorials.results, userRecommendedTutorials.pagination)
@@ -42,7 +47,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
 
-    await userTutorialRepository.removeFromUser({ userId, tutorialId });
+    await userSavedTutorialRepository.removeFromUser({ userId, tutorialId });
 
     return h.response().code(204);
   },

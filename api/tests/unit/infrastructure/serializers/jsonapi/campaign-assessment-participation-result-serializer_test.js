@@ -11,15 +11,15 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
     let expectedJsonApi;
 
     beforeEach(function () {
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
-        id: 'competence1',
+      const area = domainBuilder.buildArea({ id: 'area1' });
+      const tube = domainBuilder.buildTube({
+        id: 'recTube1',
         skills: ['oneSkill'],
-        areaId: 'area1',
       });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        competences: [targetedCompetence],
-        areas: [targetedArea],
+      const competence = domainBuilder.buildCompetence({
+        id: 'competence1',
+        tubes: [tube],
+        area,
       });
       expectedJsonApi = {
         data: {
@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
             'competence-results': {
               data: [
                 {
-                  id: `1-${targetedCompetence.id}`,
+                  id: `1-${competence.id}`,
                   type: 'campaign-assessment-participation-competence-results',
                 },
               ],
@@ -42,23 +42,22 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
         included: [
           {
             type: 'campaign-assessment-participation-competence-results',
-            id: `1-${targetedCompetence.id}`,
+            id: `1-${competence.id}`,
             attributes: {
-              name: targetedCompetence.name,
-              index: targetedCompetence.index,
+              name: competence.name,
+              index: competence.index,
               'competence-mastery-rate': 1,
-              'area-color': targetedArea.color,
+              'area-color': area.color,
             },
           },
         ],
       };
 
       modelCampaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
-        targetedCompetences: [targetedCompetence],
+        competences: [competence],
         campaignParticipationId: 1,
         campaignId: 2,
-        targetProfile,
-        validatedTargetedKnowledgeElementsCountByCompetenceId: { [targetedCompetence.id]: 1 },
+        validatedTargetedKnowledgeElementsCountByCompetenceId: { [competence.id]: 1 },
         status: SHARED,
       });
     });

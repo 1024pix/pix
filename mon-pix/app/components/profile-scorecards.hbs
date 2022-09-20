@@ -1,10 +1,11 @@
 <div class="rounded-panel-body">
   <h2 class="sr-only">{{t "pages.profile.accessibility.user-skills"}}</h2>
   <div>
-    {{#each @areasCode as |areaCode|}}
+    {{#each @areas as |area|}}
+      <h3 class="sr-only">{{area.title}}</h3>
       <div class="rounded-panel-body__areas">
         {{#each @scorecards as |scorecard|}}
-          {{#if (eq areaCode scorecard.area.code)}}
+          {{#if (eq area.code scorecard.area.code)}}
             <div class="rounded-panel-body__competence-card">
               <CompetenceCard @interactive={{@interactive}} @scorecard={{scorecard}} />
             </div>

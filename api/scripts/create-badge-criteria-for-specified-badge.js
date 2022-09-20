@@ -7,7 +7,7 @@ const badgeRepository = require('../lib/infrastructure/repositories/badge-reposi
 const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
 const skillSetRepository = require('../lib/infrastructure/repositories/skill-set-repository');
 const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
-const { knex } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../db/knex-database-connection');
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json
@@ -26,37 +26,6 @@ const { knex } = require('../db/knex-database-connection');
 //     }
 //   ]
 // }
-async function main() {
-  console.log('Starting creating badge criteria');
-
-  const filePath = process.argv[2];
-
-  console.log('Reading json data file... ');
-  const jsonFile = require(filePath);
-  console.log('ok');
-
-  await checkBadgeExistence(jsonFile.badgeId);
-  console.log('Badge exists');
-
-  checkCriteriaFormat(jsonFile.criteria);
-  console.log('BadgeCriteria schema ok');
-
-  console.log('Check skillSet');
-  await bluebird.mapSeries(jsonFile.criteria, async (badgeCriterion) => {
-    if (badgeCriterion.skillSetIds) {
-      await checkSkillSetIds(badgeCriterion.skillSetIds);
-    }
-  });
-  console.log('Check skillSet ok');
-
-  console.log('Creating badge criteria... ');
-  console.log('Saving badge criteria... ');
-  return DomainTransaction.execute(async (domainTransaction) => {
-    await bluebird.mapSeries(jsonFile.criteria, (badgeCriterion) => {
-      return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
-    });
-  });
-}
 
 async function checkBadgeExistence(badgeId) {
   try {
@@ -117,14 +86,51 @@ async function copySkillSets({ skillSetIds, newBadgeId }) {
   });
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  console.log('Starting creating badge criteria');
+
+  const filePath = process.argv[2];
+
+  console.log('Reading json data file... ');
+  const jsonFile = require(filePath);
+  console.log('ok');
+
+  await checkBadgeExistence(jsonFile.badgeId);
+  console.log('Badge exists');
+
+  checkCriteriaFormat(jsonFile.criteria);
+  console.log('BadgeCriteria schema ok');
+
+  console.log('Check skillSet');
+  await bluebird.mapSeries(jsonFile.criteria, async (badgeCriterion) => {
+    if (badgeCriterion.skillSetIds) {
+      await checkSkillSetIds(badgeCriterion.skillSetIds);
     }
-  );
+  });
+  console.log('Check skillSet ok');
+
+  console.log('Creating badge criteria... ');
+  console.log('Saving badge criteria... ');
+  return DomainTransaction.execute(async (domainTransaction) => {
+    await bluebird.mapSeries(jsonFile.criteria, (badgeCriterion) => {
+      return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
+    });
+  });
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();
 
 module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };

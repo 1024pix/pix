@@ -1,87 +1,78 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const findUserForOidcReconciliation = require('../../../../lib/domain/usecases/find-user-for-oidc-reconciliation');
 const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
-  let authenticationMethodRepository, userRepository;
-  let pixAuthenticationService, authenticationSessionService, oidcAuthenticationService;
+  let authenticationMethodRepository, userRepository, pixAuthenticationService, authenticationSessionService;
 
   beforeEach(function () {
     authenticationMethodRepository = {
-      findOneByUserIdAndIdentityProvider: sinon.stub(),
+      findByUserId: sinon.stub(),
       updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
     };
     userRepository = { updateLastLoggedAt: sinon.stub() };
     pixAuthenticationService = { getUserByUsernameAndPassword: sinon.stub() };
     authenticationSessionService = { getByKey: sinon.stub(), update: sinon.stub() };
-    oidcAuthenticationService = {
-      createAccessToken: sinon.stub(),
-      saveIdToken: sinon.stub(),
-      createAuthenticationComplement: sinon.stub(),
-    };
   });
 
-  it('should find pix user and their oidc authentication method', async function () {
-    // given
-    pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-    authenticationSessionService.getByKey.resolves({
-      sessionContent: { idToken: 'idToken' },
-      userInfo: { firstName: 'Anne' },
+  context('when authentication key is valid', function () {
+    it('should retrieve user session content', async function () {
+      // given
+      authenticationMethodRepository.findByUserId.resolves([]);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
+      authenticationSessionService.getByKey.resolves({
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Anne' },
+      });
+
+      // when
+      await findUserForOidcReconciliation({
+        authenticationKey: 'authenticationKey',
+        email: 'ane.trotro@example.net',
+        password: 'pix123',
+        identityProvider: 'oidc',
+        authenticationSessionService,
+        pixAuthenticationService,
+        authenticationMethodRepository,
+        userRepository,
+      });
+
+      // then
+      expect(authenticationSessionService.getByKey).to.be.calledOnceWith('authenticationKey');
     });
 
-    // when
-    await findUserForOidcReconciliation({
-      email: 'ane.trotro@example.net',
-      password: 'pix123',
-      identityProvider: 'oidc',
-      authenticationSessionService,
-      pixAuthenticationService,
-      authenticationMethodRepository,
-      userRepository,
-    });
+    it('should update the session content with the found user id', async function () {
+      // given
+      const authenticationKey = 'authenticationKey';
+      authenticationMethodRepository.findByUserId.resolves([]);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
+      const sessionContentAndUserInfo = {
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Anne' },
+      };
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(sessionContentAndUserInfo);
 
-    // then
-    expect(pixAuthenticationService.getUserByUsernameAndPassword).to.be.calledOnceWith({
-      username: 'ane.trotro@example.net',
-      password: 'pix123',
-      userRepository,
-    });
+      // when
+      await findUserForOidcReconciliation({
+        authenticationKey,
+        email: 'ane.trotro@example.net',
+        password: 'pix123',
+        identityProvider: 'oidc',
+        authenticationSessionService,
+        pixAuthenticationService,
+        authenticationMethodRepository,
+        userRepository,
+      });
 
-    expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.be.calledOnceWith({
-      userId: 2,
-      identityProvider: 'oidc',
+      // then
+      sessionContentAndUserInfo.userInfo.userId = 2;
+      expect(authenticationSessionService.update).to.be.calledOnceWith(authenticationKey, sessionContentAndUserInfo);
     });
-  });
-
-  it('should retrieve user session content', async function () {
-    // given
-    pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-    authenticationSessionService.getByKey.resolves({
-      sessionContent: { idToken: 'idToken' },
-      userInfo: { firstName: 'Anne' },
-    });
-
-    // when
-    await findUserForOidcReconciliation({
-      authenticationKey: 'authenticationKey',
-      email: 'ane.trotro@example.net',
-      password: 'pix123',
-      identityProvider: 'oidc',
-      authenticationSessionService,
-      pixAuthenticationService,
-      authenticationMethodRepository,
-      userRepository,
-    });
-
-    // then
-    expect(authenticationSessionService.getByKey).to.be.calledOnceWith('authenticationKey');
   });
 
   context('when authentication key is expired', function () {
     it('should throw an AuthenticationKeyExpired', async function () {
       // given
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
       authenticationSessionService.getByKey.resolves(null);
 
       // when
@@ -102,12 +93,25 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
     });
   });
 
-  context('when user has no oidc authentication method', function () {
-    it('should save user id in existing key', async function () {
+  context('when user account is found', function () {
+    it('should return authentication methods and full names', async function () {
       // given
-      const sessionContentAndUserInfo = { sessionContent: { idToken: 'idToken' }, userInfo: { firstName: 'Anne' } };
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(null);
+      const firstName = 'Sarah';
+      const lastName = 'Pix';
+      const sessionContentAndUserInfo = {
+        sessionContent: { idToken: 'idToken' },
+        userInfo: { firstName: 'Sarah', lastName: 'Idp' },
+      };
+      const pixAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({});
+      authenticationMethodRepository.findByUserId.resolves([pixAuthenticationMethod]);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves({
+        id: 2,
+        firstName,
+        lastName,
+        email: 'sarahcroche@example.net',
+        username: 'sarahcroche123',
+      });
       authenticationSessionService.getByKey.resolves(sessionContentAndUserInfo);
 
       // when
@@ -124,158 +128,43 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
       // then
       expect(authenticationSessionService.update).to.be.calledOnceWith('authenticationKey', sessionContentAndUserInfo);
-      expect(result).to.deep.equal({ isAuthenticationComplete: false });
+      expect(result).to.deep.equal({
+        fullNameFromPix: 'Sarah Pix',
+        fullNameFromExternalIdentityProvider: 'Sarah Idp',
+        email: 'sarahcroche@example.net',
+        username: 'sarahcroche123',
+        authenticationMethods: [pixAuthenticationMethod],
+      });
     });
   });
 
-  context('when user has an oidc authentication method', function () {
-    context('when externalIdentifier and externalIdentityId are different', function () {
-      it('should throw an DifferentExternalIdentifierError', async function () {
-        // given
-        const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          externalIdentifier: '789fge',
-        });
-        pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
-        authenticationSessionService.getByKey.resolves({
-          sessionContent: {},
-          userInfo: { externalIdentityId: '123abc' },
-        });
-
-        // when
-        const error = await catchErr(findUserForOidcReconciliation)({
-          authenticationKey: 'authenticationKey',
-          email: 'ane.trotro@example.net',
-          password: 'pix123',
-          identityProvider: 'POLE_EMPLOI',
-          authenticationSessionService,
-          pixAuthenticationService,
-          authenticationMethodRepository,
-          userRepository,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(DifferentExternalIdentifierError);
+  context('when user has an oidc authentication method and external identifiers are different', function () {
+    it('should throw an DifferentExternalIdentifierError', async function () {
+      // given
+      const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+        externalIdentifier: '789fge',
       });
-    });
-
-    context('when externalIdentifier and externalIdentityId are the same', function () {
-      context('when the provider have an authentication complement', function () {
-        it('should update authentication complement', async function () {
-          // given
-          const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            externalIdentifier: '123abc',
-          });
-          const sessionContent = { accessToken: 'accessToken', refreshToken: 'refreshToken' };
-          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
-            accessToken: sessionContent.accessToken,
-            refreshToken: sessionContent.refreshToken,
-            expiredDate: 1000,
-          });
-
-          pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
-          authenticationSessionService.getByKey.resolves({
-            sessionContent,
-            userInfo: { externalIdentityId: '123abc' },
-          });
-          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-
-          // when
-          await findUserForOidcReconciliation({
-            authenticationKey: 'authenticationKey',
-            email: 'ane.trotro@example.net',
-            password: 'pix123',
-            identityProvider: 'POLE_EMPLOI',
-            authenticationSessionService,
-            pixAuthenticationService,
-            oidcAuthenticationService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).to.be.calledOnceWith({
-            authenticationComplement,
-            userId: 2,
-            identityProvider: 'POLE_EMPLOI',
-          });
-        });
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
+      authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);
+      authenticationSessionService.getByKey.resolves({
+        sessionContent: {},
+        userInfo: { externalIdentityId: '123abc' },
       });
 
-      context('when the provider does not have an authentication complement', function () {
-        it('should not update authentication complement', async function () {
-          // given
-          const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            externalIdentifier: '123abc',
-          });
-          pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
-          authenticationSessionService.getByKey.resolves({
-            sessionContent: { idToken: 'idToken' },
-            userInfo: { externalIdentityId: '123abc' },
-          });
-          oidcAuthenticationService.createAuthenticationComplement.returns(null);
-
-          // when
-          await findUserForOidcReconciliation({
-            authenticationKey: 'authenticationKey',
-            email: 'ane.trotro@example.net',
-            password: 'pix123',
-            identityProvider: 'POLE_EMPLOI',
-            authenticationSessionService,
-            pixAuthenticationService,
-            oidcAuthenticationService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).not.to.have.been.called;
-        });
+      // when
+      const error = await catchErr(findUserForOidcReconciliation)({
+        authenticationKey: 'authenticationKey',
+        email: 'ane.trotro@example.net',
+        password: 'pix123',
+        identityProvider: 'POLE_EMPLOI',
+        authenticationSessionService,
+        pixAuthenticationService,
+        authenticationMethodRepository,
+        userRepository,
       });
 
-      it('should return access token, logout url uuid and update last logged at parameter', async function () {
-        // given
-        const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          externalIdentifier: '123abc',
-        });
-        pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
-        authenticationSessionService.getByKey.resolves({
-          sessionContent: { idToken: 'idToken' },
-          userInfo: { externalIdentityId: '123abc' },
-        });
-        oidcAuthenticationService.createAccessToken.resolves('accessToken');
-        oidcAuthenticationService.saveIdToken.resolves('logoutUrl');
-
-        // when
-        const result = await findUserForOidcReconciliation({
-          authenticationKey: 'authenticationKey',
-          email: 'ane.trotro@example.net',
-          password: 'pix123',
-          identityProvider: 'POLE_EMPLOI',
-          authenticationSessionService,
-          pixAuthenticationService,
-          oidcAuthenticationService,
-          authenticationMethodRepository,
-          userRepository,
-        });
-
-        // then
-        expect(oidcAuthenticationService.createAccessToken).to.be.calledOnceWith(2);
-        expect(oidcAuthenticationService.saveIdToken).to.be.calledOnceWith({ idToken: 'idToken', userId: 2 });
-        expect(userRepository.updateLastLoggedAt).to.be.calledOnceWith({ userId: 2 });
-        expect(result).to.deep.equal({
-          accessToken: 'accessToken',
-          logoutUrlUUID: 'logoutUrl',
-          isAuthenticationComplete: true,
-        });
-      });
+      // then
+      expect(error).to.be.instanceOf(DifferentExternalIdentifierError);
     });
   });
 });

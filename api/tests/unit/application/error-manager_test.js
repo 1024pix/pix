@@ -11,6 +11,7 @@ const {
   EntityValidationError,
   InvalidExternalAPIResponseError,
   MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
@@ -189,6 +190,19 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
+    });
+
+    it('should instantiate BadRequestError when MissingUserAccountError', async function () {
+      // given
+      const error = new MissingUserAccountError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
 
     it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async function () {
@@ -453,17 +467,17 @@ describe('Unit | Application | ErrorManager', function () {
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
-    it('should instantiate PreconditionFailedError when DifferentExternalIdentifierError', async function () {
+    it('should instantiate ConflictError when DifferentExternalIdentifierError', async function () {
       // given
       const error = new DifferentExternalIdentifierError();
-      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      sinon.stub(HttpErrors, 'ConflictError');
       const params = { request: {}, h: hFake, error };
 
       // when
       await handle(params.request, params.h, params.error);
 
       // then
-      expect(HttpErrors.PreconditionFailedError).to.have.been.calledWithExactly(error.message);
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
     });
   });
 });

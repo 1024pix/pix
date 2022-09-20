@@ -4,7 +4,7 @@
   </header>
   <div class="places__resume">
     <h3 class="page-section__title page-section__title--sub">Nombre de places actives</h3>
-    <Organizations::PlacesCapacity @placesCapacity={{@placesCapacity}} />
+    <Organizations::Places::Capacity @placesCapacity={{@placesCapacity}} />
 
     {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
       <PixButtonLink
@@ -23,46 +23,18 @@
   <h3 class="page-section__title page-section__title--sub">Historique des lots</h3>
 
   {{#if @places}}
-    <table
-      class="table-admin"
-      summary="Affichage des lots de place disponible triés par ordre anti-chronologique d'activation puis d'expiration"
-    >
-      <thead>
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Catégorie</th>
-          <th scope="col">Date d'activation</th>
-          <th scope="col">Statut</th>
-          <th scope="col">Référence</th>
-          <th scope="col">Créé par</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each @places as |place|}}
-          <tr aria-label="Lot de Places">
-            <td class="td--bold">{{place.count}}</td>
-            <td class="td--bold" scope="row">{{place.categoryLabel}}</td>
-            <td>
-              Du:
-              {{dayjs-format place.activationDate "DD/MM/YYYY"}}
-              {{#if place.hasExpirationDate}}
-                <br />
-                Au:
-                {{dayjs-format place.expirationDate "DD/MM/YYYY"}}
-              {{/if}}
-            </td>
-            <td class="table__column table__column--center">
-              <PixTag @color={{if (eq place.status "ACTIVE") "blue" "grey"}}>{{place.displayStatus}}</PixTag>
-            </td>
-            <td>{{place.reference}}</td>
-            <td>{{place.creatorFullName}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+    <Organizations::Places::List @places={{@places}} @onDelete={{this.toggleDisplayDeletePlacesLotModal}} />
   {{/if}}
 
   {{#unless @places}}
     <div class="table-admin-empty">Aucun lot de places saisi</div>
   {{/unless}}
+
+  <Organizations::Places::DeleteModal
+    @organizationId={{@organizationId}}
+    @organizationPlacesLot={{this.organizationPlacesLotToDelete}}
+    @show={{this.displayDeletePlacesLotModal}}
+    @toggle={{this.toggleDisplayDeletePlacesLotModal}}
+    @refreshModel={{@refreshModel}}
+  />
 </section>

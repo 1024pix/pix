@@ -4,7 +4,7 @@ const CampaignParticipationOverview = require('../../../../../lib/domain/read-mo
 const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 const Stage = require('../../../../../lib/domain/models/Stage');
 const Skill = require('../../../../../lib/domain/models/Skill');
-const TargetProfileWithLearningContent = require('../../../../../lib/domain/models/TargetProfileWithLearningContent');
+const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
     const stage3 = new Stage({
       threshold: 70,
     });
-    const targetProfile = new TargetProfileWithLearningContent({
+    const targetProfile = new TargetProfile({
       stages: [stage1, stage2, stage3],
       skills: [new Skill(), new Skill()],
     });
@@ -72,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
   describe('#serializeForPaginatedList', function () {
     it('should call serialize method by destructuring passed parameter', function () {
       // given
-      const targetProfile = new TargetProfileWithLearningContent({ skills: [new Skill(), new Skill()] });
+      const targetProfile = new TargetProfile({ skills: [new Skill(), new Skill()] });
       const campaignParticipationOverviews = [
         new CampaignParticipationOverview({
           id: 6,

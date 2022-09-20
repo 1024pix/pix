@@ -113,14 +113,6 @@ class CertificationAssessment {
     return CertificationAnswerStatusChangeAttempt.skipped(questionNumber);
   }
 
-  listCertifiableBadgePixPlusKeysTaken() {
-    return _(this.certificationChallenges)
-      .filter((certificationChallenge) => certificationChallenge.isPixPlus())
-      .uniqBy('certifiableBadgeKey')
-      .map('certifiableBadgeKey')
-      .value();
-  }
-
   findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey) {
     const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');

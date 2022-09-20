@@ -40,9 +40,7 @@ module('Acceptance | join', function (hooks) {
       await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+      assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
 
@@ -51,9 +49,7 @@ module('Acceptance | join', function (hooks) {
       await visit('rejoindre?invitationId=123456&code=FAKE999');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
 
@@ -73,9 +69,7 @@ module('Acceptance | join', function (hooks) {
       await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
       assert.dom('.login-form__invitation-error').exists();
       assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
@@ -96,9 +90,7 @@ module('Acceptance | join', function (hooks) {
       await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
       assert.contains(this.intl.t('pages.login-form.invitation-was-cancelled'));
     });
@@ -144,9 +136,8 @@ module('Acceptance | join', function (hooks) {
         await clickByName(loginButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/cgu');
+
+        assert.strictEqual(currentURL(), '/cgu');
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 
@@ -201,9 +192,8 @@ module('Acceptance | join', function (hooks) {
         await clickByName(loginButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/les-miennes');
+
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 
@@ -266,9 +256,8 @@ module('Acceptance | join', function (hooks) {
         await clickByName(loginButton);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+
+        assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
         assert.contains(expectedErrorMessage);
       });
@@ -319,9 +308,7 @@ module('Acceptance | join', function (hooks) {
           await clickByName(loginButton);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/cgu');
+          assert.strictEqual(currentURL(), '/cgu');
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
         });
       }
@@ -374,14 +361,10 @@ module('Acceptance | join', function (hooks) {
           await clickByName(registerButtonLabel);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/cgu');
+          assert.strictEqual(currentURL(), '/cgu');
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
           const organizationInvitation = server.db.organizationInvitations[0];
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(organizationInvitation.status, 'accepted');
+          assert.strictEqual(organizationInvitation.status, 'accepted');
         });
       });
 
@@ -427,9 +410,7 @@ module('Acceptance | join', function (hooks) {
           await clickByName(registerButtonLabel);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
         });
       });

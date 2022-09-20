@@ -49,113 +49,106 @@ describe('Integration | Repository | Campaign collective result repository', fun
     });
 
     context('in a rich context close to reality', function () {
-      let targetProfile;
+      let learningContent;
       let campaignId;
 
       beforeEach(async function () {
         campaignId = databaseBuilder.factory.buildCampaign().id;
 
         // Competence A - nobody validated skills @url4 and @url5
-        const url1 = domainBuilder.buildTargetedSkill({ id: 'recUrl1', tubeId: 'recTubeA' });
-        const url2 = domainBuilder.buildTargetedSkill({ id: 'recUrl2', tubeId: 'recTubeA' });
-        const url3 = domainBuilder.buildTargetedSkill({ id: 'recUrl3', tubeId: 'recTubeA' });
-        const url4 = domainBuilder.buildTargetedSkill({ id: 'recUrl4', tubeId: 'recTubeA' });
-        const url5 = domainBuilder.buildTargetedSkill({ id: 'recUrl5', tubeId: 'recTubeA' });
-        const tubeA = domainBuilder.buildTargetedTube({
+        const url1 = domainBuilder.buildSkill({ id: 'recUrl1', tubeId: 'recTubeA' });
+        const url2 = domainBuilder.buildSkill({ id: 'recUrl2', tubeId: 'recTubeA' });
+        const url3 = domainBuilder.buildSkill({ id: 'recUrl3', tubeId: 'recTubeA' });
+        const url4 = domainBuilder.buildSkill({ id: 'recUrl4', tubeId: 'recTubeA' });
+        const url5 = domainBuilder.buildSkill({ id: 'recUrl5', tubeId: 'recTubeA' });
+        const tubeA = domainBuilder.buildTube({
           id: 'recTubeA',
           competenceId: 'recCompetenceA',
           skills: [url1, url2, url3, url4, url5],
         });
-        const competenceA = domainBuilder.buildTargetedCompetence({
-          id: 'recCompetenceA',
-          areaId: 'recArea1',
-          tubes: [tubeA],
-          name: 'Competence A',
-          index: '1.1',
-        });
 
         // Competence B - all skills are validated by different people
-        const file2 = domainBuilder.buildTargetedSkill({ id: 'recFile2', tubeId: 'recTubeB' });
-        const file3 = domainBuilder.buildTargetedSkill({ id: 'recFile3', tubeId: 'recTubeB' });
-        const file5 = domainBuilder.buildTargetedSkill({ id: 'recFile5', tubeId: 'recTubeB' });
-        const text1 = domainBuilder.buildTargetedSkill({ id: 'recText1', tubeId: 'recTubeB' });
-        const tubeB = domainBuilder.buildTargetedTube({
+        const file2 = domainBuilder.buildSkill({ id: 'recFile2', tubeId: 'recTubeB' });
+        const file3 = domainBuilder.buildSkill({ id: 'recFile3', tubeId: 'recTubeB' });
+        const file5 = domainBuilder.buildSkill({ id: 'recFile5', tubeId: 'recTubeB' });
+        const text1 = domainBuilder.buildSkill({ id: 'recText1', tubeId: 'recTubeB' });
+        const tubeB = domainBuilder.buildTube({
           id: 'recTubeB',
           competenceId: 'recCompetenceB',
           skills: [file2, file3, file5, text1],
         });
-        const competenceB = domainBuilder.buildTargetedCompetence({
-          id: 'recCompetenceB',
-          areaId: 'recArea1',
-          tubes: [tubeB],
-          name: 'Competence B',
-          index: '1.2',
-        });
 
         // Competence C - skill @media2 is validated by someone but is not part of campaign target profile
-        const media1 = domainBuilder.buildTargetedSkill({ id: 'recMedia1', tubeId: 'recTubeC' });
-        const tubeC = domainBuilder.buildTargetedTube({
+        const media1 = domainBuilder.buildSkill({ id: 'recMedia1', tubeId: 'recTubeC' });
+        const tubeC = domainBuilder.buildTube({
           id: 'recTubeC',
           competenceId: 'recCompetenceC',
           skills: [media1],
-        });
-        const competenceC = domainBuilder.buildTargetedCompetence({
-          id: 'recCompetenceC',
-          areaId: 'recArea1',
-          tubes: [tubeC],
-          name: 'Competence C',
-          index: '1.3',
         });
 
         // Competence D - competence D is not covered by campaign target profile
 
         // Competence E - competence E is targeted by campaign but nobody validated its skills
-        const browser1 = domainBuilder.buildTargetedSkill({ id: 'recBrowser1', tubeId: 'recTubeE' });
-        const tubeE = domainBuilder.buildTargetedTube({
+        const browser1 = domainBuilder.buildSkill({ id: 'recBrowser1', tubeId: 'recTubeE' });
+        const tubeE = domainBuilder.buildTube({
           id: 'recTubeE',
           competenceId: 'recCompetenceE',
           skills: [browser1],
         });
-        const competenceE = domainBuilder.buildTargetedCompetence({
-          id: 'recCompetenceE',
-          areaId: 'recArea2',
-          tubes: [tubeE],
-          name: 'Competence E',
-          index: '2.2',
-        });
 
         // Competence F - skill is validated and then invalidated
-        const computer1 = domainBuilder.buildTargetedSkill({ id: 'recComputer1', tubeId: 'recTubeF' });
-        const tubeF = domainBuilder.buildTargetedTube({
+        const computer1 = domainBuilder.buildSkill({ id: 'recComputer1', tubeId: 'recTubeF' });
+        const tubeF = domainBuilder.buildTube({
           id: 'recTubeF',
           competenceId: 'recCompetenceF',
           skills: [computer1],
         });
-        const competenceF = domainBuilder.buildTargetedCompetence({
-          id: 'recCompetenceF',
-          areaId: 'recArea2',
-          tubes: [tubeF],
-          name: 'Competence F',
-          index: '2.3',
-        });
 
-        const area1 = domainBuilder.buildTargetedArea({
+        const area1 = domainBuilder.buildArea({
           id: 'recArea1',
-          competences: [competenceA, competenceB, competenceC],
+          competences: [
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceA',
+              tubes: [tubeA],
+              name: 'Competence A',
+              index: '1.1',
+            }),
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceB',
+              tubes: [tubeB],
+              name: 'Competence B',
+              index: '1.2',
+            }),
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceC',
+              tubes: [tubeC],
+              name: 'Competence C',
+              index: '1.3',
+            }),
+          ],
           color: 'jaffa',
         });
-        const area2 = domainBuilder.buildTargetedArea({
+
+        const area2 = domainBuilder.buildArea({
           id: 'recArea2',
-          competences: [competenceE, competenceF],
           color: 'emerald',
+          competences: [
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceE',
+              tubes: [tubeE],
+              name: 'Competence E',
+              index: '2.2',
+            }),
+            domainBuilder.buildCompetence({
+              id: 'recCompetenceF',
+              tubes: [tubeF],
+              name: 'Competence F',
+              index: '2.3',
+            }),
+          ],
         });
 
-        targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-          skills: [url1, url2, url3, url4, url5, file2, file3, file5, text1, media1, browser1, computer1],
-          tubes: [tubeA, tubeB, tubeC, tubeE, tubeF],
-          competences: [competenceA, competenceB, competenceC, competenceE, competenceF],
-          areas: [area1, area2],
-        });
+        learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area1, area2]);
       });
 
       context('when there is no participant', function () {
@@ -167,7 +160,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then
@@ -242,7 +235,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
             competenceId: 'recCompetenceA',
             skillId: 'recUrl1',
             status: 'validated',
-            campaignId,
             createdAt: new Date('2019-02-01'),
           });
 
@@ -253,7 +245,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then
@@ -326,7 +318,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
             competenceId: 'recCompetenceA',
             skillId: 'recUrl1',
             status: 'validated',
-            campaignId,
             createdAt: new Date('2019-02-01'),
           });
 
@@ -337,7 +328,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then
@@ -415,7 +406,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceA',
                 skillId: 'recUrl1',
                 status: 'validated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -423,7 +413,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceA',
                 skillId: 'recUrl2',
                 status: 'invalidated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -431,7 +420,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceA',
                 skillId: 'recUrl3',
                 status: 'invalidated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -439,7 +427,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceB',
                 skillId: 'recFile2',
                 status: 'validated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -447,7 +434,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceB',
                 skillId: 'recFile3',
                 status: 'validated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -455,7 +441,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceB',
                 skillId: 'recFile5',
                 status: 'validated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -463,7 +448,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceB',
                 skillId: 'recText1',
                 status: 'validated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -471,7 +455,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceC',
                 skillId: 'recMedia1',
                 status: 'invalidated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
               {
@@ -479,7 +462,6 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceF',
                 skillId: 'recComputer1',
                 status: 'validated',
-                campaignId,
                 createdAt: longTimeAgo,
               },
               {
@@ -487,12 +469,11 @@ describe('Integration | Repository | Campaign collective result repository', fun
                 competenceId: 'recCompetenceF',
                 skillId: 'recComputer1',
                 status: 'invalidated',
-                campaignId,
                 createdAt: beforeCampaignParticipationShareDate,
               },
             ],
-            (knownledgeElement) => {
-              databaseBuilder.factory.buildKnowledgeElement(knownledgeElement);
+            (knowledgeElement) => {
+              databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
             }
           );
 
@@ -503,7 +484,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then
@@ -917,7 +898,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then
@@ -967,7 +948,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then
@@ -1050,7 +1031,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
             campaignId,
-            targetProfile
+            learningContent
           );
 
           // then

@@ -1,14 +1,57 @@
-<div>
+<div class="table-admin">
+  <table>
+    <thead>
+      <tr>
+        <th class="table__column table__column--id">ID</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Statut</th>
+        <th>Signalements impactants non résolus</th>
+        {{#if @displayHasSeenEndTestScreenColumn}}
+          <th>Ecran de fin de test vu</th>
+        {{/if}}
+        <th>Autres certifications</th>
+        <th>Score</th>
+        <th>Début</th>
+        <th>Fin</th>
+        <th>Publiée</th>
+      </tr>
+    </thead>
 
-  <ModelsTable
-    @data={{@certifications}}
-    @columns={{this.columns}}
-    @showColumnsDropdown={{false}}
-    @showGlobalFilter={{false}}
-    @useNumericPagination={{true}}
-    @multipleSelect={{true}}
-    @pageSize={{25}}
-    @pageSizeValues={{this.pageValues}}
-  />
-
+    {{#if @certifications}}
+      <tbody>
+        {{#each @certifications as |certification|}}
+          <tr aria-label="Certifications de {{certification.firstName certification.LastName}}">
+            <td class="table__column table__column--id">
+              <LinkTo @route="authenticated.certifications.certification.informations" @model={{certification.id}}>
+                {{certification.id}}
+              </LinkTo>
+            </td>
+            <td>{{certification.firstName}}</td>
+            <td>{{certification.lastName}}</td>
+            <td>
+              <Certifications::Status @record={{certification}} />
+            </td>
+            <td
+              class="certification-list-page__cell--important"
+            >{{certification.numberOfCertificationIssueReportsWithRequiredActionLabel}}</td>
+            {{#if @displayHasSeenEndTestScreenColumn}}
+              <td class="certification-list-page__cell--important">{{certification.hasSeenEndTestScreenLabel}}</td>
+            {{/if}}
+            <td>{{certification.complementaryCertificationsLabel}}</td>
+            <td>{{certification.pixScore}}</td>
+            <td>{{certification.creationDate}}</td>
+            <td>{{certification.completionDate}}</td>
+            <td>
+              <Certifications::InfoPublished @record={{certification}} />
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
 </div>
+
+{{#if @certifications}}
+  <PixPagination @pagination={{@pagination}} />
+{{/if}}

@@ -11,7 +11,7 @@ module.exports = function buildTargetProfile({
   ownerOrganizationId = 456,
   outdated = false,
   stages = [],
-  badges,
+  badges = [],
 } = {}) {
   return new TargetProfile({
     id,

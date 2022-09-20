@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { find, findAll } from '@ember/test-helpers';
+import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
@@ -11,37 +11,51 @@ describe('Integration | Component | Tutorials | Header', function () {
 
   beforeEach(function () {
     class RouterStub extends Service {
-      currentRouteName = 'user-tutorials.recommended';
+      currentRouteName = 'authenticated.user-tutorials.recommended';
     }
     this.owner.register('service:router', RouterStub);
   });
 
   it('renders the header', async function () {
     // when
-    await render(hbs`<Tutorials::Header />`);
-
-    // then
-    expect(find('.user-tutorials-banner-v2__title')).to.exist;
-    expect(find('.user-tutorials-banner-v2__description')).to.exist;
-    expect(find('.user-tutorials-banner-v2__filters')).to.exist;
-    expect(findAll('a.pix-choice-chip')).to.have.lengthOf(2);
-    expect(find('a.pix-choice-chip,a.pix-choice-chip--active')).to.exist;
-    expect(find('a.pix-choice-chip,a.pix-choice-chip--active'))
-      .to.have.property('textContent')
-      .that.contains('Recommandés');
-  });
-
-  it('should render filter button when tutorial filter feature toggle is activate', async function () {
-    // given
-    class FeatureTogglesStub extends Service {
-      featureToggles = { isPixAppTutoFiltersEnabled: true };
-    }
-    this.owner.register('service:featureToggles', FeatureTogglesStub);
-
-    // when
     const screen = await render(hbs`<Tutorials::Header />`);
 
     // then
-    expect(screen.getByRole('button', { name: 'Filtrer' })).to.exist;
+    expect(contains(this.intl.t('pages.user-tutorials.title'))).to.exist;
+    expect(contains(this.intl.t('pages.user-tutorials.description'))).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.recommended') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.saved') })).to.exist;
+  });
+
+  describe('when shouldShowFilterButton is true', function () {
+    it('should render filter button when tutorial filter feature toggle is activate', async function () {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isPixAppTutoFiltersEnabled: true };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+
+      // when
+      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{true}}/>`);
+
+      // then
+      expect(screen.getByRole('button', { name: 'Filtrer' })).to.exist;
+    });
+  });
+
+  describe('when shouldShowFilterButton is false', function () {
+    it('should render filter button when tutorial filter feature toggle is activate', async function () {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isPixAppTutoFiltersEnabled: true };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+
+      // when
+      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{false}}/>`);
+
+      // then
+      expect(screen.queryByRole('button', { name: 'Filtrer' })).to.not.exist;
+    });
   });
 });

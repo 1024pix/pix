@@ -32,7 +32,7 @@ describe('Integration | Repository | Certified Profile', function () {
             index: 'competence1_2_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-            origin: 'Pix',
+            origin: 'Edu',
           },
         ],
         tubes: [
@@ -55,6 +55,7 @@ describe('Integration | Repository | Certified Profile', function () {
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
+            level: 1,
           },
           {
             id: 'recArea1_Competence1_Tube1_Skill2',
@@ -63,6 +64,7 @@ describe('Integration | Repository | Certified Profile', function () {
             tubeId: 'recArea1_Competence1_Tube1',
             competenceId: 'recArea1_Competence1',
             tutorialIds: [],
+            level: 2,
           },
           {
             id: 'recArea1_Competence2_Tube1_Skill1',
@@ -71,6 +73,7 @@ describe('Integration | Repository | Certified Profile', function () {
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
+            level: 3,
           },
         ],
       };
@@ -79,6 +82,7 @@ describe('Integration | Repository | Certified Profile', function () {
         name: 'skill1_1_1_2_name',
         hasBeenAskedInCertif: false,
         tubeId: 'recArea1_Competence1_Tube1',
+        difficulty: 2,
       });
       const tube1_1_1 = domainBuilder.buildCertifiedTube({
         id: 'recArea1_Competence1_Tube1',
@@ -94,12 +98,39 @@ describe('Integration | Repository | Certified Profile', function () {
         id: 'recArea1',
         name: 'area1_Title',
       });
-      const userId = databaseBuilder.factory.buildUser().id;
+
+      const skill1_2_1_1 = domainBuilder.buildCertifiedSkill({
+        id: 'recArea1_Competence2_Tube1_Skill1',
+        name: 'skill1_2_1_1_name',
+        hasBeenAskedInCertif: false,
+        tubeId: 'recArea1_Competence2_Tube1',
+        difficulty: 3,
+      });
+      const tube1_2_1 = domainBuilder.buildCertifiedTube({
+        id: 'recArea1_Competence2_Tube1',
+        name: 'tube1_2_1_practicalTitle',
+        competenceId: 'recArea1_Competence2',
+      });
+      const competence1_2 = domainBuilder.buildCertifiedCompetence({
+        id: 'recArea1_Competence2',
+        name: 'competence1_2_name',
+        areaId: 'recArea1',
+      });
+
+      const userId = databaseBuilder.factory.buildUser({ id: 123 }).id;
+      databaseBuilder.factory.buildUser({ id: 456 });
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        id: 1234,
         userId,
         createdAt: new Date('2020-01-01'),
       }).id;
-      databaseBuilder.factory.buildCertificationCourse({ userId });
+
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 4567,
+        userId: 456,
+        createdAt: new Date('2020-01-01'),
+      }).id;
+
       databaseBuilder.factory.buildKnowledgeElement({
         userId,
         createdAt: new Date('2019-01-01'),
@@ -117,17 +148,18 @@ describe('Integration | Repository | Certified Profile', function () {
       databaseBuilder.factory.buildKnowledgeElement({
         userId,
         createdAt: new Date('2019-01-01'),
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        status: KnowledgeElement.StatusType.VALIDATED,
         skillId: 'recArea1_Competence2_Tube1_Skill1',
         competenceId: 'recArea1_Competence2',
       });
+      databaseBuilder.factory.buildCertificationChallenge({ courseId: 4567 });
       databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId });
       const expectedCertifiedProfile = domainBuilder.buildCertifiedProfile({
         id: certificationCourseId,
         userId,
-        certifiedSkills: [skill1_1_1_2],
-        certifiedTubes: [tube1_1_1],
-        certifiedCompetences: [competence1_1],
+        certifiedSkills: [skill1_1_1_2, skill1_2_1_1],
+        certifiedTubes: [tube1_1_1, tube1_2_1],
+        certifiedCompetences: [competence1_1, competence1_2],
         certifiedAreas: [area1],
       });
       mockLearningContent(learningContent);
@@ -167,7 +199,7 @@ describe('Integration | Repository | Certified Profile', function () {
             index: 'competence1_2_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-            origin: 'Pix',
+            origin: 'Edu',
           },
         ],
         tubes: [
@@ -211,10 +243,17 @@ describe('Integration | Repository | Certified Profile', function () {
       };
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        id: 12345,
         userId,
         createdAt: new Date('2020-01-01'),
       }).id;
-      databaseBuilder.factory.buildCertificationCourse({ userId });
+
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 1234,
+        userId,
+        createdAt: new Date('2020-01-01'),
+      });
+
       databaseBuilder.factory.buildKnowledgeElement({
         userId,
         createdAt: new Date('2019-01-01'),
@@ -233,6 +272,7 @@ describe('Integration | Repository | Certified Profile', function () {
         courseId: certificationCourseId,
         associatedSkillId: 'recArea1_Competence1_Tube1_Skill2',
       });
+
       mockLearningContent(learningContent);
       await databaseBuilder.commit();
 

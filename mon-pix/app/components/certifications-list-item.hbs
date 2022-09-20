@@ -70,7 +70,7 @@
     </CpPanel>
   {{else if this.isValidated}}
     <LinkTo
-      @route="user-certifications.get"
+      @route="authenticated.user-certifications.get"
       @model={{@certification.id}}
       class="certifications-list-item__row-presentation"
     >

@@ -653,6 +653,11 @@
       }
     },
     "organization-participants": {
+      "empty-state": {
+        "message": "Aucun participant pour l’instant !",
+        "call-to-action": "Invitez-les à rejoindre une campagne ou créez-en une nouvelle.",
+        "action": "Voir mes campagnes"
+      },
       "filters": {
         "actions": {
           "clear": "Effacer les filtres"
@@ -667,22 +672,21 @@
           }
         }
       },
-      "empty-state": {
-        "message": "Aucun participant pour l’instant !",
-        "call-to-action": "Invitez-les à rejoindre une campagne ou créez-en une nouvelle.",
-        "action": "Voir mes campagnes"
-      },
       "table": {
         "column": {
           "first-name": "Prénom",
           "last-name": "Nom",
           "lastest-participation": "Dernière participation",
-          "participation-count": "Nombre de participations"
+          "participation-count": "Nombre de participations",
+          "is-certifiable": {
+            "label": "Certificabilité"
+          }
         },
         "empty": "Aucun participant",
         "row-title": "Participant"
       },
-      "title": "Participants"
+      "page-title": "Participants",
+      "title": "{count, plural, =0 {Participants} =1 {Participant} other {Participants ({count})}}"
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
@@ -756,7 +760,8 @@
       }
     },
     "sco-organization-participants": {
-      "title": "Élèves",
+      "page-title": "Élèves",
+      "title": "{count, plural, =0 {Élèves} =1 {Élève} other {Élèves ({count})}}",
       "actions": {
         "import-file": {
           "file-type-separator": " ou ",
@@ -814,41 +819,60 @@
           }
         }
       },
+      "filter": {
+        "certificability": {
+          "aria-label": "Enter un statut de certification",
+          "empty": "Pas de status",
+          "label": "Rechercher par certificabilité"
+        },
+        "division": {
+          "aria-label": "Entrer une classe",
+          "empty": "Aucune classe",
+          "label": "Rechercher par classe"
+        },
+        "first-name": {
+          "aria-label": "Entrer un prénom",
+          "label": "Rechercher par prénom"
+        },
+        "last-name": {
+          "aria-label": "Entrer un nom",
+          "label": "Rechercher par nom"
+        },
+        "login-method": {
+          "aria-label": "Rechercher par méthode de connexion",
+          "empty-option": "Méthode de connexion"
+        },
+        "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}",
+        "title": "Filtres",
+        "aria-label":"Filtres sur les élèves",
+        "actions": {
+          "clear": "Effacer les filtres"
+        }
+      },
       "table": {
         "column": {
           "date-of-birth": "Date de naissance",
           "division": "Classe",
           "first-name": "Prénom",
+          "is-certifiable": {
+            "eligible": "Certifiable",
+            "label": "Certificabilité",
+            "non-eligible": "Non Certifiable",
+            "not-available": "Non communiqué",
+            "tooltip": "L’information de certificabilité remonte des campagnes de collecte de profils réalisées par l'élève. Si l'élève a déjà envoyé son profil, on affiche la date d’envoi ainsi que le statut du dernier envoi."
+          },
           "last-name": "Nom",
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
           "participation-count": "Nombre de participations"
         },
         "empty": "Aucun élève.",
-        "filter": {
-          "division": {
-            "aria-label": "Entrer une classe",
-            "empty": "Aucune classe",
-            "label": "Rechercher par classe"
-          },
-          "first-name": {
-            "aria-label": "Entrer un prénom",
-            "label": "Rechercher par prénom"
-          },
-          "last-name": {
-            "aria-label": "Entrer un nom",
-            "label": "Rechercher par nom"
-          },
-          "login-method": {
-            "aria-label": "Rechercher par méthode de connexion",
-            "empty-option": "Tous"
-          }
-        },
         "row-title": "Élève"
       }
     },
     "sup-organization-participants": {
-      "title": "Étudiants",
+      "title": "{count, plural, =0 {Étudiants} =1 {Étudiant} other {Étudiants ({count})}}",
+      "page-title": "Étudiants",
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
@@ -879,6 +903,10 @@
         },
         "empty": "Aucun étudiant.",
         "filter": {
+          "aria-label":"Filtrer les étudiants",
+          "actions": {
+            "clear": "Effacer les filtres"
+          },
           "first-name": {
             "aria-label": "Entrer un prénom",
             "label": "Rechercher par prénom"
@@ -895,7 +923,9 @@
           "student-number": {
             "aria-label": "Entrer un numéro étudiant",
             "label": "Rechercher par numéro étudiant"
-          }
+          },
+          "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}",
+          "title": "Filtres"
         },
         "row-title": "Étudiant"
       }

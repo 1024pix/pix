@@ -85,8 +85,8 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
       });
 
       const skills = [
-        domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', tubeId: 'recTUB123' }),
-        domainBuilder.buildSkill({ id: 'recDEF', name: '@sau7', tubeId: 'recTUB123' }),
+        domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', difficulty: 6, tubeId: 'recTUB123' }),
+        domainBuilder.buildSkill({ id: 'recDEF', name: '@sau7', difficulty: 7, tubeId: 'recTUB123' }),
       ];
 
       const tubes = [domainBuilder.buildTube({ id: 'recTUB123', name: '@sau', skills })];
@@ -344,7 +344,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         isAlwaysVisible: false,
       });
 
-      const skills = [domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', tubeId: 'recTUB123' })];
+      const skills = [domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', difficulty: 6, tubeId: 'recTUB123' })];
 
       const tubes = [domainBuilder.buildTube({ id: 'recTUB123', name: '@sau', skills })];
 

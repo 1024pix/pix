@@ -8,7 +8,7 @@
     <p class="send-profile-disabled-share__text">
       {{t "pages.send-profile.disabled-share" htmlSafe=true}}
     </p>
-    <LinkTo @route="index" class="send-profile-disabled-share__back-to-home link">
+    <LinkTo @route="authenticated" class="send-profile-disabled-share__back-to-home link">
       {{t "pages.send-profile.form.continue"}}
     </LinkTo>
   </div>
@@ -18,7 +18,7 @@
       <ProfileScorecards
         @interactive={{false}}
         class="send-profile-header__profile__cards"
-        @areasCode={{@user.profile.areasCode}}
+        @areas={{@user.profile.areas}}
         @scorecards={{@user.profile.scorecards}}
       />
     </div>
@@ -44,7 +44,7 @@
       <ProfileScorecards
         @interactive={{false}}
         class="send-profile-header__profile__cards"
-        @areasCode={{@user.profile.areasCode}}
+        @areas={{@user.profile.areas}}
         @scorecards={{@user.profile.scorecards}}
       />
     </div>

@@ -11,8 +11,8 @@ export default class TermsOfServiceController extends Controller {
   @tracked isTermsOfServiceValidated = false;
   @tracked showErrorTermsOfServiceNotSelected = false;
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   @action

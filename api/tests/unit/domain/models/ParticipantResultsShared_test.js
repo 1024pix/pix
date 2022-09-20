@@ -2,6 +2,7 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const ParticipantResultsShared = require('../../../../lib/domain/models/ParticipantResultsShared');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
+const noop = require('lodash/noop');
 
 describe('Unit | Domain | Models | ParticipantResultsShared', function () {
   context('#masteryRate', function () {
@@ -48,7 +49,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
         const participantResultsShared = new ParticipantResultsShared({
           knowledgeElements,
           targetedSkillIds,
-          placementProfile: { isCertifiable: () => {} },
+          placementProfile: { isCertifiable: noop },
         });
 
         // then

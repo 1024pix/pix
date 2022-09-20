@@ -9,7 +9,7 @@ const {
 } = require('../../../test-helper');
 
 describe('Acceptance | API | Campaign Participations | Analyses', function () {
-  let server, options, userId, organization, targetProfile, campaign, campaignParticipation;
+  let server, options, userId, organization, campaign, campaignParticipation;
 
   beforeEach(async function () {
     server = await createServer();
@@ -26,17 +26,12 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
         organizationRole: Membership.roles.MEMBER,
       });
 
-      targetProfile = databaseBuilder.factory.buildTargetProfile({
-        organizationId: organization.id,
-        name: 'Profile 3',
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°3',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id,
       });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
       });
@@ -60,6 +55,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
                     {
                       id: 'recSkillId1',
                       nom: '@skill1',
+                      level: 1,
                       challenges: [],
                       tutorials: [
                         {
@@ -76,6 +72,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
                     {
                       id: 'recSkillId2',
                       nom: '@skill2',
+                      level: 2,
                       challenges: [],
                     },
                   ],

@@ -16,7 +16,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     };
   });
 
-  it('should send to CpfExportBuilderJob chunks of cpf certification results', async function () {
+  it('should send to CpfExportBuilderJob chunks of certification course ids', async function () {
     // given
     sinon.stub(cpf.plannerJob, 'chunkSize').value(2);
     sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
@@ -40,17 +40,8 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
 
     // then
     expect(cpfCertificationResultRepository.findByTimeRange).to.have.been.calledWith({ startDate, endDate });
-    expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {
-      startId: 1,
-      endId: 2,
-    });
-    expect(pgBoss.send.secondCall).to.have.been.calledWith('CpfExportBuilderJob', {
-      startId: 3,
-      endId: 4,
-    });
-    expect(pgBoss.send.thirdCall).to.have.been.calledWith('CpfExportBuilderJob', {
-      startId: 5,
-      endId: 5,
-    });
+    expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', { certificationCourseIds: [1, 2] });
+    expect(pgBoss.send.secondCall).to.have.been.calledWith('CpfExportBuilderJob', { certificationCourseIds: [3, 4] });
+    expect(pgBoss.send.thirdCall).to.have.been.calledWith('CpfExportBuilderJob', { certificationCourseIds: [5] });
   });
 });

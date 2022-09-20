@@ -57,9 +57,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
 
       const summaries = route.fetchProfileSummaries(params);
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(summaries, expectedSummaries);
+      assert.strictEqual(summaries, expectedSummaries);
     });
   });
 
@@ -89,18 +87,16 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
     module('when the transition comes from somewhere else', function () {
       test('if returns undefined', function (assert) {
         const transition = { from: { name: 'authenticated.campaigns.campaign' } };
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(route.loading(transition), undefined);
+
+        assert.strictEqual(route.loading(transition), undefined);
       });
     });
 
     module('when the transition has no from attribute', function () {
       test('if keeps loading page', function (assert) {
         const transition = {};
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(route.loading(transition), undefined);
+
+        assert.strictEqual(route.loading(transition), undefined);
       });
     });
   });

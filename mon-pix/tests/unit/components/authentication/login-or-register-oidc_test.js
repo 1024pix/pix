@@ -30,6 +30,7 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
         authenticationKey: 'super-key',
         identityProviderSlug: 'super-idp',
+        hostSlug: 'users',
       });
     });
 
@@ -161,49 +162,35 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       // given
       const email = 'glace.alo@example.net';
       const password = 'pix123';
-      const identityProvider = 'OIDC_PARTNER';
-      const authenticationKey = '1234567azerty';
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
-      const login = sinon.stub();
-      component.store = { createRecord: () => ({ login }) };
       component.email = email;
       component.password = password;
-      component.args.authenticationKey = authenticationKey;
-      component.args.identityProviderSlug = 'oidc-partner';
-      component.args.toggleOidcReconciliation = sinon.stub();
-      sinon.spy(component.store, 'createRecord');
+      component.args.onLogin = sinon.stub();
       const eventStub = { preventDefault: sinon.stub() };
 
       // when
       await component.login(eventStub);
 
       // then
-      sinon.assert.calledWith(component.store.createRecord, 'user-oidc-authentication-request', {
-        password,
-        email,
-        authenticationKey,
-        identityProvider,
+      sinon.assert.calledWith(component.args.onLogin, {
+        enteredPassword: password,
+        enteredEmail: email,
       });
-      sinon.assert.calledOnce(login);
-      sinon.assert.calledOnce(component.args.toggleOidcReconciliation);
     });
 
     context('when form is invalid', function () {
       it('should not request api for reconciliation', async function () {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
-        const login = sinon.stub();
-        component.store = { createRecord: () => ({ login }) };
         component.email = '';
-        sinon.spy(component.store, 'createRecord');
         const eventStub = { preventDefault: sinon.stub() };
+        component.args.onLogin = sinon.stub();
 
         // when
         await component.login(eventStub);
 
         // then
-        sinon.assert.notCalled(component.store.createRecord);
-        sinon.assert.notCalled(login);
+        sinon.assert.notCalled(component.args.onLogin);
       });
     });
 
@@ -211,11 +198,7 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       it('should display error', async function () {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
-        const login = sinon.stub().rejects({ errors: [{ status: '401' }] });
-        component.store = { createRecord: () => ({ login }) };
-        sinon.spy(component.store, 'createRecord');
-        component.args.identityProviderSlug = 'super-idp';
-        component.args.authenticationKey = 'super-key';
+        component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '401' }] });
         component.email = 'glace.alo@example.net';
         component.password = 'pix123';
         const eventStub = { preventDefault: sinon.stub() };
@@ -234,11 +217,7 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       it('should display error', async function () {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
-        const login = sinon.stub().rejects({ errors: [{ status: '404' }] });
-        component.store = { createRecord: () => ({ login }) };
-        sinon.spy(component.store, 'createRecord');
-        component.args.identityProviderSlug = 'super-idp';
-        component.args.authenticationKey = 'super-key';
+        component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '404' }] });
         component.email = 'glace.alo@example.net';
         component.password = 'pix123';
         const eventStub = { preventDefault: sinon.stub() };
@@ -253,14 +232,29 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       });
     });
 
+    context('when there is an account conflict', function () {
+      it('should display error', async function () {
+        // given
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
+        component.email = 'glace.alo@example.net';
+        component.password = 'pix123';
+        const eventStub = { preventDefault: sinon.stub() };
+
+        // when
+        await component.login(eventStub);
+
+        // then
+        expect(component.loginErrorMessage).to.equal(
+          this.intl.t('pages.login-or-register-oidc.error.account-conflict')
+        );
+      });
+    });
+
     it('it should display generic error', async function () {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
-      const login = sinon.stub().rejects({ errors: [{ status: '500' }] });
-      component.store = { createRecord: () => ({ login }) };
-      sinon.spy(component.store, 'createRecord');
-      component.args.identityProviderSlug = 'super-idp';
-      component.args.authenticationKey = 'super-key';
+      component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
       component.email = 'glace.alo@example.net';
       component.password = 'pix123';
       const eventStub = { preventDefault: sinon.stub() };

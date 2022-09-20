@@ -11,7 +11,24 @@ export default class CurrentSessionService extends SessionService {
   @service router;
   @service oidcIdentityProviders;
 
-  routeAfterAuthentication = 'user-dashboard';
+  routeAfterAuthentication = 'authenticated.user-dashboard';
+
+  async authenticateUser(login, password) {
+    await this._removeExternalUserContext();
+
+    const scope = 'mon-pix';
+    const trimedLogin = login ? login.trim() : '';
+    return this.authenticate('authenticator:oauth2', { login: trimedLogin, password, scope });
+  }
+
+  async _removeExternalUserContext() {
+    if (this.data && this.data.expectedUserId) {
+      delete this.data.expectedUserId;
+    }
+    if (this.data && this.data.externalUser) {
+      delete this.data.externalUser;
+    }
+  }
 
   async handleAuthentication() {
     await this._loadCurrentUserAndSetLocale();

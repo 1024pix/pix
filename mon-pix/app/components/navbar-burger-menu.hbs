@@ -17,22 +17,22 @@
     {{/if}}
     <ul class="navbar-burger-menu-navigation__list">
       <li class="navbar-burger-menu-navigation__item">
-        <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation-item__link">
+        <LinkTo @route="authenticated.user-dashboard" class="navbar-burger-menu-navigation-item__link">
           {{t "navigation.main.dashboard"}}
         </LinkTo>
       </li>
       <li class="navbar-burger-menu-navigation__item">
-        <LinkTo @route="profile" class="navbar-burger-menu-navigation-item__link">
+        <LinkTo @route="authenticated.profile" class="navbar-burger-menu-navigation-item__link">
           {{t "navigation.main.skills"}}
         </LinkTo>
       </li>
       <li class="navbar-burger-menu-navigation__item">
-        <LinkTo @route="certifications" class="navbar-burger-menu-navigation-item__link">
+        <LinkTo @route="authenticated.certifications" class="navbar-burger-menu-navigation-item__link">
           {{t "navigation.main.start-certification"}}
         </LinkTo>
       </li>
       <li class="navbar-burger-menu-navigation__item">
-        <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation-item__link">
+        <LinkTo @route="authenticated.user-tutorials" class="navbar-burger-menu-navigation-item__link">
           {{t "navigation.main.tutorials"}}
         </LinkTo>
       </li>
@@ -47,18 +47,18 @@
     <ul class="navbar-burger-menu-user-info__list">
       {{#if this.showMyTestsLink}}
         <li class="navbar-burger-menu-user-info__item">
-          <LinkTo @route="user-tests" class="navbar-burger-menu-user-info-item__link">
+          <LinkTo @route="authenticated.user-tests" class="navbar-burger-menu-user-info-item__link">
             {{t "navigation.user.tests"}}
           </LinkTo>
         </li>
       {{/if}}
       <li class="navbar-burger-menu-user-info__item">
-        <LinkTo @route="user-account" class="navbar-burger-menu-user-info-item__link">
+        <LinkTo @route="authenticated.user-account" class="navbar-burger-menu-user-info-item__link">
           {{t "navigation.user.account"}}
         </LinkTo>
       </li>
       <li class="navbar-burger-menu-user-info__item">
-        <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info-item__link">
+        <LinkTo @route="authenticated.user-certifications" class="navbar-burger-menu-user-info-item__link">
           {{t "navigation.user.certifications"}}
         </LinkTo>
       </li>

@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { render } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -28,7 +27,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('it should display the table headers', async function (assert) {
+  test('it should display the filter banner', async function (assert) {
     // given
     this.set('students', []);
 
@@ -59,7 +58,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
   });
 
-  test('it should display the firstName, lastName, birthdate, division, participation count, last participation date of student and the last participation tooltip', async function (assert) {
+  test('it should display the firstName, lastName, birthdate, division, participation count, last participation date of student, the last participation tooltip and certifiableAt', async function (assert) {
     // given
     const students = [
       {
@@ -69,6 +68,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         birthdate: new Date('2010-02-01'),
         participationCount: 42,
         lastParticipationDate: new Date('2022-01-03'),
+        certifiableAt: new Date('2022-01-02'),
       },
     ];
     this.set('students', students);
@@ -83,6 +83,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.contains('3B');
     assert.contains('42');
     assert.contains('03/01/2022');
+    assert.contains('02/01/2022');
     assert
       .dom(
         screen.getByLabelText(
@@ -90,6 +91,21 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         )
       )
       .exists();
+  });
+
+  test('it should display participant as eligible for certification when the participant is certifiable', async function (assert) {
+    // given
+    this.set('students', [
+      store.createRecord('sco-organization-participant', {
+        isCertifiable: true,
+      }),
+    ]);
+
+    // when
+    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+    // then
+    assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
   });
 
   module('when user is filtering some users', function () {
@@ -162,6 +178,54 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', 'email');
+      assert.ok(true);
+    });
+
+    test('it should trigger filtering with certificability', async function (assert) {
+      // given
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+
+      const { getByPlaceholderText } = await render(
+        hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @certificabilityOptions={{certificabilityOptions}} @certificability={{certificability}} />`
+      );
+
+      // when
+      const select = await getByPlaceholderText('Rechercher par certificabilité');
+      await click(select);
+      await clickByName('Certifiable');
+
+      // then
+      sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
+      assert.ok(true);
+    });
+
+    test('it should call resetFiltered', async function (assert) {
+      // given
+      const resetFiltered = sinon.spy();
+      this.set('resetFiltered', resetFiltered);
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', [
+        store.createRecord('sco-organization-participant', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+        }),
+      ]);
+
+      await render(
+        hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFiltered}}  />`
+      );
+
+      // when
+      await clickByName('Effacer les filtres');
+
+      // then
+      sinon.assert.called(resetFiltered);
       assert.ok(true);
     });
   });

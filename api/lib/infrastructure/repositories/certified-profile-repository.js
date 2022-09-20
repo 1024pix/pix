@@ -13,7 +13,6 @@ const tubeDatasource = require('../datasources/learning-content/tube-datasource'
 const competenceDatasource = require('../datasources/learning-content/competence-datasource');
 const areaDatasource = require('../datasources/learning-content/area-datasource');
 const knowledgeElementRepository = require('./knowledge-element-repository');
-const competenceRepository = require('./competence-repository');
 
 module.exports = {
   async get(certificationCourseId) {
@@ -39,16 +38,9 @@ module.exports = {
       limitDate: createdAt,
     });
 
-    const pixCompetences = await competenceRepository.listPixCompetencesOnly();
-    const pixCompetenceIds = pixCompetences.map((pixCompetence) => pixCompetence.id);
     const isKnowledgeElementValidated = (knowledgeElement) => knowledgeElement.status === 'validated';
-    const isKnowledgeElementFromPixCompetences = (knowledgeElement) =>
-      pixCompetenceIds.includes(knowledgeElement.competenceId);
     const skillIds = knowledgeElements
-      .filter(
-        (knowledgeElement) =>
-          isKnowledgeElementValidated(knowledgeElement) && isKnowledgeElementFromPixCompetences(knowledgeElement)
-      )
+      .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement))
       .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
 
     const certifiedSkills = await _createCertifiedSkills(skillIds, askedSkillIds);
@@ -75,6 +67,7 @@ async function _createCertifiedSkills(skillIds, askedSkillIds) {
       name: learningContentSkill.name,
       hasBeenAskedInCertif: askedSkillIds.includes(learningContentSkill.id),
       tubeId: learningContentSkill.tubeId,
+      difficulty: learningContentSkill.level,
     });
   });
 }

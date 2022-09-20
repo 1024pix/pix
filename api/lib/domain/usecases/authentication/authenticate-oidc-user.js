@@ -1,6 +1,7 @@
-const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../../errors');
+const { UnexpectedOidcStateError, DifferentExternalIdentifierError } = require('../../errors');
 const logger = require('../../../infrastructure/logger');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const config = require('../../../config');
 
 module.exports = async function authenticateOidcUser({
   stateReceived,
@@ -35,13 +36,23 @@ module.exports = async function authenticateOidcUser({
     return { authenticationKey, isAuthenticationComplete: false };
   }
 
-  await _createOrUpdateAuthenticationMethodWithComplement({
-    userInfo,
-    userId,
-    sessionContent,
-    oidcAuthenticationService,
-    authenticationMethodRepository,
-  });
+  if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
+    await _createOrUpdateAuthenticationMethodWithComplement({
+      userInfo,
+      userId,
+      sessionContent,
+      oidcAuthenticationService,
+      authenticationMethodRepository,
+    });
+  } else {
+    await _updateAuthenticationMethodWithComplement({
+      userInfo,
+      userId,
+      sessionContent,
+      oidcAuthenticationService,
+      authenticationMethodRepository,
+    });
+  }
 
   const pixAccessToken = oidcAuthenticationService.createAccessToken(userId);
   const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
@@ -52,6 +63,22 @@ module.exports = async function authenticateOidcUser({
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
 };
+
+async function _updateAuthenticationMethodWithComplement({
+  userId,
+  sessionContent,
+  oidcAuthenticationService,
+  authenticationMethodRepository,
+}) {
+  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
+  if (!authenticationComplement) return;
+
+  return await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+    authenticationComplement,
+    userId,
+    identityProvider: oidcAuthenticationService.identityProvider,
+  });
+}
 
 async function _createOrUpdateAuthenticationMethodWithComplement({
   userInfo,
@@ -80,7 +107,7 @@ async function _createOrUpdateAuthenticationMethodWithComplement({
   }
 
   if (alreadyExistingAuthenticationMethod.externalIdentifier !== userInfo.externalIdentityId) {
-    throw new UnexpectedUserAccountError({ message: "Le compte Pix connecté n'est pas celui qui est attendu." });
+    throw new DifferentExternalIdentifierError();
   }
 
   return await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({

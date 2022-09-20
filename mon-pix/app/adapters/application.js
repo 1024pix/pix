@@ -35,4 +35,13 @@ export default class Application extends JSONAPIAdapter {
     }
     return currentLocale;
   }
+
+  handleResponse(status) {
+    if (status === 401 && this.session.isAuthenticated) {
+      // no-await-on-purpose -- We want the session invalidation to happen in the background
+      this.session.invalidate();
+    }
+
+    return super.handleResponse(...arguments);
+  }
 }

@@ -5,7 +5,7 @@ const {
 } = require('../../../../../lib/domain/services/learning-content/learning-content-conversion-service');
 
 describe('Unit | Service | learning-content-conversion-service', function () {
-  describe('#findOperativeSkillsForCappedTubes', function () {
+  describe('#findActiveSkillsForCappedTubes', function () {
     it('should find all skills of provided tubes capped by difficulty', async function () {
       // given
       const cappedTubes = [
@@ -18,11 +18,11 @@ describe('Unit | Service | learning-content-conversion-service', function () {
           level: '4',
         },
       ];
-      const skill1Tube1 = domainBuilder.buildSkill({ tubeId: 'recTube1', name: '@skillTube1_1' });
-      const skill2Tube1 = domainBuilder.buildSkill({ tubeId: 'recTube1', name: '@skillTube1_2' });
-      const skill6Tube1 = domainBuilder.buildSkill({ tubeId: 'recTube1', name: '@skillTube1_6' });
-      const skill2Tube2 = domainBuilder.buildSkill({ tubeId: 'recTube2', name: '@skillTube2_2' });
-      const skill4Tube2 = domainBuilder.buildSkill({ tubeId: 'recTube2', name: '@skillTube2_4' });
+      const skill1Tube1 = domainBuilder.buildSkill({ tubeId: 'recTube1', name: '@skillTube1_1', difficulty: 1 });
+      const skill2Tube1 = domainBuilder.buildSkill({ tubeId: 'recTube1', name: '@skillTube1_2', difficulty: 2 });
+      const skill6Tube1 = domainBuilder.buildSkill({ tubeId: 'recTube1', name: '@skillTube1_6', difficulty: 6 });
+      const skill2Tube2 = domainBuilder.buildSkill({ tubeId: 'recTube2', name: '@skillTube2_2', difficulty: 2 });
+      const skill4Tube2 = domainBuilder.buildSkill({ tubeId: 'recTube2', name: '@skillTube2_4', difficulty: 4 });
       sinon.stub(skillRepository, 'findActiveByTubeId');
       skillRepository.findActiveByTubeId.withArgs('recTube1').resolves([skill1Tube1, skill2Tube1, skill6Tube1]);
       skillRepository.findActiveByTubeId.withArgs('recTube2').resolves([skill2Tube2, skill4Tube2]);

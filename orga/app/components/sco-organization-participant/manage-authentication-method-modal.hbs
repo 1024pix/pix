@@ -1,5 +1,5 @@
 <Modal::Dialog
-  @title="{{t "pages.sco-organization-participants.manage-authentication-method-modal.title"}}"
+  @title="{{t 'pages.sco-organization-participants.manage-authentication-method-modal.title'}}"
   @display={{@display}}
   @close={{this.closeModal}}
 >
@@ -16,7 +16,7 @@
             <span>
               {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label"}}
             </span>
-            <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+            <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
           </div>
         </div>
       {{/if}}
@@ -27,7 +27,7 @@
             <span>
               {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.email.label"}}
             </span>
-            <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+            <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
           </div>
           <div class="input-container">
             <div class="manage-authentication-window__clipboard">
@@ -49,7 +49,7 @@
                   <:triggerElement>
                     <CopyButton
                       @aria-label="{{t
-                        "pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy"
+                        'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'
                       }}"
                       @clipboardText={{@student.email}}
                       @success={{this.clipboardSuccessEmail}}
@@ -76,7 +76,7 @@
             <span>
               {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label"}}
             </span>
-            <FaIcon @icon="check-circle" @prefix="far" class="grey-icon" />
+            <FaIcon @icon="circle-check" @prefix="far" class="grey-icon" />
           </div>
           <PixButton @triggerAction={{this.generateUsernameWithTemporaryPassword}}>
             {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.button"}}
@@ -87,7 +87,7 @@
               <span>
                 {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.username.label"}}
               </span>
-              <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+              <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
             </div>
             <div class="input-container">
               <div class="manage-authentication-window__clipboard">
@@ -205,7 +205,7 @@
             </PixButton>
 
             <div class="manage-authentication-window__warning">
-              <FaIcon @icon="exclamation-triangle" class="icon--warning" />
+              <FaIcon @icon="triangle-exclamation" class="icon--warning" />
               <span>{{t
                   "pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.warning"
                 }}</span>

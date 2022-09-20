@@ -2,7 +2,7 @@ const _ = require('lodash');
 const randomString = require('randomstring');
 const OrganizationLearner = require('../../lib/domain/models/OrganizationLearner');
 const { OrganizationLearnersCouldNotBeSavedError } = require('../../lib/domain/errors');
-const { knex } = require('../../lib/infrastructure/bookshelf');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 
 function _buildOrganizationLearner(division, organizationId, iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
@@ -48,6 +48,8 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
   }
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log('Starting adding SCO students to certification center.');
 
@@ -59,15 +61,18 @@ async function main() {
   console.log('\nDone.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   addManyDivisionsAndStudentsToScoCertificationCenter,

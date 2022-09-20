@@ -4,18 +4,18 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | add-tutorial-to-user', function () {
   let tutorialRepository;
-  let userTutorialRepository;
+  let userSavedTutorialRepository;
   let skillRepository;
   let userId;
 
   beforeEach(function () {
-    userTutorialRepository = { addTutorial: sinon.spy() };
+    userSavedTutorialRepository = { addTutorial: sinon.spy() };
     userId = 'userId';
   });
 
   context('when the tutorial exists', function () {
     describe('when skillId is not given', function () {
-      it('should call the userTutorialRepository', async function () {
+      it('should call the userSavedTutorialRepository', async function () {
         // Given
         tutorialRepository = { get: domainBuilder.buildTutorial };
         skillRepository = { get: sinon.stub() };
@@ -25,7 +25,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
         // When
         await addTutorialToUser({
           tutorialRepository,
-          userTutorialRepository,
+          userSavedTutorialRepository,
           skillRepository,
           userId,
           tutorialId,
@@ -33,14 +33,14 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
         });
 
         // Then
-        expect(userTutorialRepository.addTutorial).to.have.been.calledWith({ userId, tutorialId, skillId });
+        expect(userSavedTutorialRepository.addTutorial).to.have.been.calledWith({ userId, tutorialId, skillId });
         expect(skillRepository.get).not.to.have.been.called;
       });
     });
 
     describe('when skillId is given', function () {
       describe('when skill exists', function () {
-        it('should call the userTutorialRepository', async function () {
+        it('should call the userSavedTutorialRepository', async function () {
           // Given
           tutorialRepository = { get: domainBuilder.buildTutorial };
           skillRepository = { get: sinon.stub().resolves({}) };
@@ -50,7 +50,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
           // When
           await addTutorialToUser({
             tutorialRepository,
-            userTutorialRepository,
+            userSavedTutorialRepository,
             skillRepository,
             userId,
             tutorialId,
@@ -58,7 +58,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
           });
 
           // Then
-          expect(userTutorialRepository.addTutorial).to.have.been.calledWith({ userId, tutorialId, skillId });
+          expect(userSavedTutorialRepository.addTutorial).to.have.been.calledWith({ userId, tutorialId, skillId });
           expect(skillRepository.get).to.have.been.calledWith(skillId);
         });
       });
@@ -74,7 +74,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
           // When
           const error = await catchErr(addTutorialToUser)({
             tutorialRepository,
-            userTutorialRepository,
+            userSavedTutorialRepository,
             skillRepository,
             userId,
             tutorialId,
@@ -102,13 +102,13 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
       // When
       const error = await catchErr(addTutorialToUser)({
         tutorialRepository,
-        userTutorialRepository,
+        userSavedTutorialRepository,
         userId,
         tutorialId,
       });
 
       // Then
-      expect(userTutorialRepository.addTutorial).to.not.have.been.called;
+      expect(userSavedTutorialRepository.addTutorial).to.not.have.been.called;
       expect(error).to.be.instanceOf(NotFoundError);
     });
   });

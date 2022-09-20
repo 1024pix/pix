@@ -32,6 +32,8 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     const matchingKeys = keys.filter((key) => key.startsWith(prefix));
     return this._client.del(matchingKeys);
   }
+
+  quit() {}
 }
 
 module.exports = InMemoryTemporaryStorage;

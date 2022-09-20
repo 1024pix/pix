@@ -1,7 +1,7 @@
 require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const _ = require('lodash');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
@@ -488,35 +488,35 @@ async function _do({ organizationId, targetProfileId, participantCount, profileT
   );
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    const commandLineArgs = process.argv.slice(2);
-    console.log('Validation des arguments...');
-    const { organizationId, targetProfileId, participantCount, profileType, campaignType } =
-      _validateAndNormalizeArgs(commandLineArgs);
+  const commandLineArgs = process.argv.slice(2);
+  console.log('Validation des arguments...');
+  const { organizationId, targetProfileId, participantCount, profileType, campaignType } =
+    _validateAndNormalizeArgs(commandLineArgs);
 
-    console.log('OK');
-    await _do({
-      organizationId,
-      targetProfileId,
-      participantCount,
-      profileType,
-      campaignType,
-    });
-    console.log('FIN');
-  } catch (error) {
-    console.error(error);
-    _printUsage();
-    process.exit(1);
-  }
+  console.log('OK');
+  await _do({
+    organizationId,
+    targetProfileId,
+    participantCount,
+    profileType,
+    campaignType,
+  });
+  console.log('FIN');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      _printUsage();
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();

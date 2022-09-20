@@ -5,6 +5,7 @@ const bluebird = require('bluebird');
 const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const CampaignLearningContent = require('../models/CampaignLearningContent');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream({
   userId,
@@ -13,27 +14,34 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
   i18n,
   campaignRepository,
   userRepository,
-  targetProfileWithLearningContentRepository,
   campaignParticipationInfoRepository,
   organizationRepository,
   knowledgeElementRepository,
   badgeAcquisitionRepository,
   campaignCsvExportService,
+  targetProfileRepository,
+  learningContentRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({
-    id: campaign.targetProfileId,
-    locale: i18n.getLocale(),
-  });
+  const targetProfile = await targetProfileRepository.getByCampaignId(campaign.id);
+  const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
+  const campaignLearningContent = new CampaignLearningContent(learningContent);
+
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
   // Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfileWithLearningContent, campaign.idPixLabel, organization, translate);
+  const headers = _createHeaderOfCSV(
+    targetProfile,
+    campaign.idPixLabel,
+    organization,
+    translate,
+    campaignLearningContent
+  );
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -60,13 +68,13 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
           })
         );
         const knowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(
+          await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
             userIdsAndDates,
-            targetProfileWithLearningContent
+            campaignLearningContent
           );
 
         let acquiredBadgesByCampaignParticipations;
-        if (targetProfileWithLearningContent.hasBadges()) {
+        if (targetProfile.hasBadges) {
           const campaignParticipationsIds = campaignParticipationInfoChunk.map(
             (campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId
           );
@@ -93,7 +101,8 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfileWithLearningContent,
+            targetProfile,
+            learningContent: campaignLearningContent,
             participantKnowledgeElementsByCompetenceId,
             acquiredBadges,
             translate,
@@ -131,7 +140,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) {
+function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, learningContent) {
   const forSupStudents = organization.isSup && organization.isManagingStudents;
   const displayDivision = organization.isSco && organization.isManagingStudents;
 
@@ -151,7 +160,7 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) 
     translate('campaign-export.assessment.started-on'),
     translate('campaign-export.assessment.is-shared'),
     translate('campaign-export.assessment.shared-on'),
-    ...(targetProfile.hasReachableStages()
+    ...(targetProfile.hasReachableStages
       ? [translate('campaign-export.assessment.success-rate', { value: targetProfile.reachableStages.length })]
       : []),
 
@@ -160,18 +169,18 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) 
     ]),
     translate('campaign-export.assessment.mastery-percentage-target-profile'),
 
-    ..._.flatMap(targetProfile.competences, (competence) => [
+    ..._.flatMap(learningContent.competences, (competence) => [
       translate('campaign-export.assessment.skill.mastery-percentage', { name: competence.name }),
       translate('campaign-export.assessment.skill.total-items', { name: competence.name }),
       translate('campaign-export.assessment.skill.items-successfully-completed', { name: competence.name }),
     ]),
 
-    ..._.flatMap(targetProfile.areas, (area) => [
+    ..._.flatMap(learningContent.areas, (area) => [
       translate('campaign-export.assessment.competence-area.mastery-percentage', { name: area.title }),
       translate('campaign-export.assessment.competence-area.total-items', { name: area.title }),
       translate('campaign-export.assessment.competence-area.items-successfully-completed', { name: area.title }),
     ]),
 
-    ...(organization.showSkills ? targetProfile.skillNames : []),
+    ...(organization.showSkills ? learningContent.skillNames : []),
   ];
 }

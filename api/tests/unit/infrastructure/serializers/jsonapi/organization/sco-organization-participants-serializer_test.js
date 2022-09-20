@@ -23,6 +23,8 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
           campaignName: 'King Karam',
           campaignType: 'ASSESSMENT',
           participationStatus: campaignParticipationsStatuses.TO_SHARE,
+          isCertifiable: null,
+          certifiableAt: null,
         }),
         new ScoOrganizationParticipant({
           id: 778,
@@ -39,9 +41,13 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
           campaignName: 'King Xavier',
           campaignType: 'PROFILES_COLLECTION',
           participationStatus: campaignParticipationsStatuses.SHARED,
+          isCertifiable: true,
+          certifiableAt: '2021-03-04',
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
+      const participantCount = 10;
+      const meta = { ...pagination, participantCount };
 
       const expectedJSON = {
         data: [
@@ -62,6 +68,8 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
               'campaign-name': scoOrganizationParticipants[0].campaignName,
               'campaign-type': scoOrganizationParticipants[0].campaignType,
               'participation-status': scoOrganizationParticipants[0].participationStatus,
+              'is-certifiable': scoOrganizationParticipants[0].isCertifiable,
+              'certifiable-at': scoOrganizationParticipants[0].certifiableAt,
             },
           },
           {
@@ -81,14 +89,16 @@ describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer
               'campaign-name': scoOrganizationParticipants[1].campaignName,
               'campaign-type': scoOrganizationParticipants[1].campaignType,
               'participation-status': scoOrganizationParticipants[1].participationStatus,
+              'is-certifiable': scoOrganizationParticipants[1].isCertifiable,
+              'certifiable-at': scoOrganizationParticipants[1].certifiableAt,
             },
           },
         ],
-        meta: pagination,
+        meta,
       };
 
       // when
-      const json = serializer.serialize({ scoOrganizationParticipants, pagination });
+      const json = serializer.serialize({ scoOrganizationParticipants, meta });
 
       // then
       expect(json).to.deep.equal(expectedJSON);

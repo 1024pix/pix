@@ -24,8 +24,9 @@ module.exports = {
 
     const complementaryCertificationCourses = certificationCourse
       .toDTO()
-      .complementaryCertificationCourses.map(({ complementaryCertificationId }) => ({
+      .complementaryCertificationCourses.map(({ complementaryCertificationId, complementaryCertificationBadgeId }) => ({
         complementaryCertificationId,
+        complementaryCertificationBadgeId,
         certificationCourseId: savedCertificationCourseDTO.id,
       }));
 

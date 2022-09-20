@@ -1,14 +1,14 @@
 const bluebird = require('bluebird');
 const { knex } = require('../../../db/knex-database-connection');
 const { fetchPage } = require('../utils/knex-utils');
-const targetProfileRepository = require('./target-profile-with-learning-content-repository');
+const targetProfileRepository = require('./target-profile-repository');
 const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
 const { SHARED } = CampaignParticipationStatuses;
 
 async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-  const targetProfile = await targetProfileRepository.getByCampaignId({ campaignId });
+  const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
   const { results, pagination } = await _getResultListPaginated(campaignId, targetProfile, filters, page);
 
   const participations = await _buildCampaignAssessmentParticipationResultList(results);
@@ -102,12 +102,13 @@ function _filterByBadgeAcquisitionsOut(queryBuilder, filters) {
 function _filterByStage(queryBuilder, targetProfile, filters) {
   if (!filters.stages) return;
 
-  const thresholdBoundaries = targetProfile.getThresholdBoundariesFromStages(filters.stages);
-  const thresholdRateBoundaries = thresholdBoundaries.map((boundary) => ({
-    id: boundary.id,
-    from: boundary.from / 100,
-    to: boundary.to / 100,
-  }));
+  const thresholdRateBoundaries = targetProfile.stageThresholdBoundaries
+    .filter((boundary) => filters.stages.includes(boundary.id))
+    .map((boundary) => ({
+      id: boundary.id,
+      from: boundary.from / 100,
+      to: boundary.to / 100,
+    }));
   queryBuilder.where((builder) => {
     thresholdRateBoundaries.forEach((boundary) => {
       builder.orWhereBetween('campaign-participations.masteryRate', [boundary.from, boundary.to]);

@@ -53,6 +53,12 @@ function certificationCpfCityBuilder({ databaseBuilder }) {
     postalCode: '27160',
     INSEECode: '27240',
   });
+
+  databaseBuilder.factory.buildCertificationCpfCity({
+    name: 'BUELLAS',
+    postalCode: '01310',
+    INSEECode: '01065',
+  });
 }
 
 module.exports = { certificationCpfCityBuilder };

@@ -1,95 +1,88 @@
-<PixBackgroundHeader>
-  <PixBlock @shadow="light" class="login-or-register-oidc-form">
-    <a href={{this.homeUrl}} class="login-or-register-oidc-form__logo">
-      <img src="/images/pix-logo.svg" alt="{{t 'common.pix'}}" />
-    </a>
-    <h1 class="login-or-register-oidc-form__title">{{t "pages.login-or-register-oidc.title"}}</h1>
-    <div class="login-or-register-oidc-form__container">
-      <div class="login-or-register-oidc-form__register-container">
-        <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.register-form.title"}}</h2>
-        <p class="login-or-register-oidc-form__description">
-          {{t
-            "pages.login-or-register-oidc.register-form.description"
-            identityProviderOrganizationName=this.identityProviderOrganizationName
-          }}
-        </p>
-        <div class="login-or-register-oidc-form__cgu-container">
-          <PixCheckbox
-            @id="checkbox"
-            @label={{t "common.cgu.label"}}
-            @screenReaderOnly="true"
-            {{on "change" this.onChange}}
-          />
-          <p class="login-or-register-oidc-form__cgu-label">
-            {{t "common.cgu.accept"}}
-            <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-              {{t "common.cgu.cgu"}}
-            </a>
-            {{t "common.cgu.and"}}
-            <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-              {{t "common.cgu.data-protection-policy"}}
-            </a>
-            {{t "common.cgu.pix"}}
-          </p>
-        </div>
-
-        {{#if this.registerError}}
-          <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
-            {{this.registerErrorMessage}}
-          </PixMessage>
-        {{/if}}
-
-        <PixButton @type="submit" @triggerAction={{this.register}}>
-          {{t "pages.login-or-register-oidc.register-form.button"}}
-        </PixButton>
-      </div>
-
-      <div class="login-or-register-oidc-form__divider"></div>
-
-      <div class="login-or-register-oidc-form__login-container">
-        <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.login-form.title"}}</h2>
-        <p class="login-or-register-oidc-form__description">
-          {{t "pages.login-or-register-oidc.login-form.description"}}
-        </p>
-        <form {{on "submit" this.login}}>
-          <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
-
-          <PixInput
-            @id="email"
-            @label={{t "pages.login-or-register-oidc.login-form.email"}}
-            @errorMessage={{this.emailValidationMessage}}
-            @value={{this.email}}
-            type="email"
-            {{on "change" this.validateEmail}}
-            autocomplete="off"
-            required
-          />
-
-          <div class="login-or-register-oidc-form__password-container">
-            <PixInputPassword
-              @id="password"
-              @value={{this.password}}
-              @label={{t "pages.login-or-register-oidc.login-form.password"}}
-              autocomplete="off"
-              required
-              {{on "change" this.setPassword}}
-            />
-            <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
-              {{t "pages.sign-in.forgotten-password"}}
-            </LinkTo>
-          </div>
-
-          {{#if this.loginError}}
-            <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
-              {{this.loginErrorMessage}}
-            </PixMessage>
-          {{/if}}
-
-          <PixButton @type="submit" class="login-or-register-oidc-form__submit-button">
-            {{t "pages.login-or-register-oidc.login-form.button"}}
-          </PixButton>
-        </form>
-      </div>
+<h1 class="login-or-register-oidc-form__title">{{t "pages.login-or-register-oidc.title"}}</h1>
+<div class="login-or-register-oidc-form__container">
+  <div class="login-or-register-oidc-form__register-container">
+    <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.register-form.title"}}</h2>
+    <p class="login-or-register-oidc-form__description">
+      {{t
+        "pages.login-or-register-oidc.register-form.description"
+        identityProviderOrganizationName=this.identityProviderOrganizationName
+      }}
+    </p>
+    <div class="login-or-register-oidc-form__cgu-container">
+      <PixCheckbox
+        @id="checkbox"
+        @label={{t "common.cgu.label"}}
+        @screenReaderOnly="true"
+        {{on "change" this.onChange}}
+      />
+      <p class="login-or-register-oidc-form__cgu-label">
+        {{t "common.cgu.accept"}}
+        <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t "common.cgu.cgu"}}
+        </a>
+        {{t "common.cgu.and"}}
+        <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t "common.cgu.data-protection-policy"}}
+        </a>
+        {{t "common.cgu.pix"}}
+      </p>
     </div>
-  </PixBlock>
-</PixBackgroundHeader>
+
+    {{#if this.registerError}}
+      <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
+        {{this.registerErrorMessage}}
+      </PixMessage>
+    {{/if}}
+
+    <PixButton @type="submit" @triggerAction={{this.register}}>
+      {{t "pages.login-or-register-oidc.register-form.button"}}
+    </PixButton>
+  </div>
+
+  <div class="login-or-register-oidc-form__divider"></div>
+
+  <div class="login-or-register-oidc-form__login-container">
+    <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.login-form.title"}}</h2>
+    <p class="login-or-register-oidc-form__description">
+      {{t "pages.login-or-register-oidc.login-form.description"}}
+    </p>
+    <form {{on "submit" this.login}}>
+      <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
+
+      <PixInput
+        @id="email"
+        @label={{t "pages.login-or-register-oidc.login-form.email"}}
+        @errorMessage={{this.emailValidationMessage}}
+        @value={{this.email}}
+        type="email"
+        {{on "change" this.validateEmail}}
+        autocomplete="off"
+        required
+      />
+
+      <div class="login-or-register-oidc-form__password-container">
+        <PixInputPassword
+          @id="password"
+          @value={{this.password}}
+          @label={{t "pages.login-or-register-oidc.login-form.password"}}
+          autocomplete="off"
+          required
+          {{on "change" this.setPassword}}
+        />
+        <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
+          {{t "pages.sign-in.forgotten-password"}}
+        </LinkTo>
+      </div>
+
+      {{#if this.loginError}}
+        <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
+          {{this.loginErrorMessage}}
+        </PixMessage>
+      {{/if}}
+
+      <PixButton @type="submit" class="login-or-register-oidc-form__submit-button">
+        {{t "pages.login-or-register-oidc.login-form.button"}}
+      </PixButton>
+    </form>
+  </div>
+</div>

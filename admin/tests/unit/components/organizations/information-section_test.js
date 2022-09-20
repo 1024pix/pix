@@ -8,7 +8,7 @@ module('Unit | Component | organizations/information-section', function (hooks) 
 
   test('it should generate link based on environment and object', async function (assert) {
     // given
-    const component = createGlimmerComponent('component:organizations/information-section');
+    const component = createGlimmerComponent('component:organizations/information-section-view');
     ENV.APP.ORGANIZATION_DASHBOARD_URL = 'https://metabase.pix.fr/dashboard/137/?id=';
     component.args = { organization: { id: 1 } };
 

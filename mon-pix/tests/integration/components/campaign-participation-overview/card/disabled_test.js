@@ -69,9 +69,52 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' })))
           .to.exist;
       });
+
+      it('should not display go to details link', async function () {
+        // given
+        const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+          createdAt: '2020-01-01',
+          disabledAt: '2020-01-03',
+          status: 'TO_SHARE',
+          campaignTitle: 'My campaign',
+          organizationName: 'My organization',
+          masteryRate: null,
+        });
+        this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+        // when
+        await render(
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+        );
+
+        // then
+        expect(contains('Voir le détail')).to.not.exist;
+      });
     });
 
     context('when the participation is completed', function () {
+      it('should display go to details link', async function () {
+        // given
+        const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+          createdAt: '2020-01-01',
+          disabledAt: '2020-01-03',
+          status: 'SHARED',
+          isShared: true,
+          campaignTitle: 'My campaign',
+          organizationName: 'My organization',
+          masteryRate: 0.56,
+        });
+        this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+        // when
+        await render(
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+        );
+
+        // then
+        expect(contains('Voir le détail')).to.exist;
+      });
+
       context('when the participation has a mastery percentage', () => {
         it('should render the result with percentage', async function () {
           // given

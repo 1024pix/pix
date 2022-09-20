@@ -10,6 +10,8 @@ const FileType = require('file-type');
 const iconv = require('iconv-lite');
 const sax = require('sax');
 const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
+const _ = require('lodash');
+
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744
   Démonstration et explication sur https://regex101.com/r/Z0V2s7/5
@@ -26,7 +28,7 @@ const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
 
 class SiecleFileStreamer {
-  static async create(path) {
+  static async create(path, injectedLogger = logger) {
     let filePath = path;
     let directory = undefined;
     if (await _isFileZipped(path)) {
@@ -34,14 +36,15 @@ class SiecleFileStreamer {
       filePath = await _unzipFile(directory, path);
     }
     const encoding = await _detectEncoding(filePath);
-    const stream = new SiecleFileStreamer(filePath, encoding, directory);
+    const stream = new SiecleFileStreamer(filePath, encoding, directory, injectedLogger);
     return stream;
   }
 
-  constructor(path, encoding, directory) {
+  constructor(path, encoding, directory, logger) {
     this.path = path;
     this.encoding = encoding;
     this.directory = directory;
+    this.logger = logger;
   }
 
   async perform(callback) {
@@ -50,14 +53,14 @@ class SiecleFileStreamer {
 
   async _callbackAsPromise(callback) {
     return new Promise((resolve, reject) => {
-      const saxStream = _getSaxStream(this.path, this.encoding, reject);
+      const saxStream = _getSaxStream(this.path, this.encoding, reject, this.logger);
       callback(saxStream, resolve, reject);
     });
   }
 
   async close() {
     if (this.directory) {
-      await fsPromises.rmdir(this.directory, { recursive: true });
+      await fsPromises.rm(this.directory, { recursive: true });
     }
   }
 }
@@ -116,7 +119,7 @@ async function _readFirstLine(path) {
   return buffer;
 }
 
-function _getSaxStream(path, encoding, reject) {
+function _getSaxStream(path, encoding, reject, logger) {
   let inputStream;
   try {
     inputStream = fs.createReadStream(path);
@@ -136,10 +139,13 @@ function _getSaxStream(path, encoding, reject) {
   });
 
   const saxParser = sax.createStream(true);
-  saxParser.on('error', (err) => {
-    logger.error(err);
-    reject(new FileValidationError(ERRORS.INVALID_FILE));
-  });
+  saxParser.on(
+    'error',
+    _.once((err) => {
+      logger.error(err);
+      reject(new FileValidationError(ERRORS.INVALID_FILE));
+    })
+  );
 
   return inputStream.pipe(decodeStream).pipe(saxParser);
 }

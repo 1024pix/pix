@@ -24,7 +24,7 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
     this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
   });
 
-  it('should display elements for OIDC identity provider', async function () {
+  it('should display heading', async function () {
     // given & when
     const screen = await render(
       hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} />`
@@ -37,8 +37,6 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
         level: 1,
       })
     ).to.exist;
-    expect(screen.getByRole('img', { name: this.intl.t('common.pix') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('common.pix') })).to.exist;
   });
 
   context('on login form', function () {

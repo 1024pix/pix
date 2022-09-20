@@ -75,7 +75,11 @@ describe('Unit | Authenticator | oidc', function () {
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
-      const token = await authenticator.authenticate({ identityProviderSlug, authenticationKey: 'key' });
+      const token = await authenticator.authenticate({
+        identityProviderSlug,
+        authenticationKey: 'key',
+        hostSlug: 'users',
+      });
 
       // then
       request.body = JSON.stringify({
@@ -102,7 +106,13 @@ describe('Unit | Authenticator | oidc', function () {
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
-      const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
+      const token = await authenticator.authenticate({
+        code,
+        redirectUri,
+        state,
+        identityProviderSlug,
+        hostSlug: 'token',
+      });
 
       // then
       request.body = body;
@@ -141,7 +151,13 @@ describe('Unit | Authenticator | oidc', function () {
         authenticator.featureToggles = featureTogglesStub;
 
         // when
-        const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
+        const token = await authenticator.authenticate({
+          code,
+          redirectUri,
+          state,
+          identityProviderSlug,
+          hostSlug: 'token',
+        });
 
         // then
         request.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -182,7 +198,7 @@ describe('Unit | Authenticator | oidc', function () {
           authenticator.featureToggles = featureTogglesStub;
 
           // when
-          await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
+          await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug, hostSlug: 'token' });
 
           // then
           delete request.headers['Authorization'];
@@ -223,6 +239,7 @@ describe('Unit | Authenticator | oidc', function () {
 
         // then
         expect(authenticator.session.alternativeRootURL).to.equal(redirectLogoutUrl);
+        sinon.restore();
       });
     });
   });

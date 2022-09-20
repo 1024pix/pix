@@ -4,18 +4,18 @@ const CampaignAssessmentParticipationCompetenceResult = require('../../../../lib
 describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResult', function () {
   describe('constructor', function () {
     it('should correctly initialize the competence data', function () {
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'rec123',
         name: 'competence1',
         index: '1.1',
         areaId: 'area1',
       });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1' });
+      const area = domainBuilder.buildArea({ id: 'area1' });
 
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
         campaignParticipationId: '1',
-        targetedArea,
-        targetedCompetence,
+        area,
+        competence,
       });
 
       expect(campaignAssessmentParticipationCompetenceResult.id).equal('1-rec123');
@@ -24,15 +24,15 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
     });
 
     it('should return the area color', function () {
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'rec123',
         areaId: 'area1',
       });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', color: 'red' });
+      const area = domainBuilder.buildArea({ id: 'area1', color: 'red' });
 
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
-        targetedArea,
-        targetedCompetence,
+        area,
+        competence,
       });
 
       expect(campaignAssessmentParticipationCompetenceResult.areaColor).equal('red');

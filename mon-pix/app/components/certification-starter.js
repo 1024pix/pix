@@ -54,7 +54,7 @@ export default class CertificationJoiner extends Component {
     try {
       await newCertificationCourse.save();
       this.focusedCertificationChallengeWarningManager.reset();
-      this.router.replaceWith('certifications.resume', newCertificationCourse.id);
+      this.router.replaceWith('authenticated.certifications.resume', newCertificationCourse.id);
     } catch (err) {
       newCertificationCourse.deleteRecord();
       const statusCode = err.errors?.[0]?.status;

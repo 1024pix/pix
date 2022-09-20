@@ -6,7 +6,7 @@ describe('Unit | Route | profile', function () {
   setupTest();
 
   it('exists', function () {
-    const route = this.owner.lookup('route:profile');
+    const route = this.owner.lookup('route:authenticated.profile');
     expect(route).to.be.ok;
   });
 });

@@ -43,14 +43,10 @@ describe('Unit | Route | login-oidc', function () {
         const oidcPartner = {
           id: 'oidc-partner',
           code: 'OIDC_PARTNER',
-          organizationName: 'Partenaire OIDC',
-          hasLogoutUrl: false,
-          source: 'oidc-externe',
         };
         class OidcIdentityProvidersStub extends Service {
           'oidc-partner' = oidcPartner;
           list = [oidcPartner];
-          load = sinon.stub().resolves();
         }
         this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       });
@@ -112,12 +108,16 @@ describe('Unit | Route | login-oidc', function () {
         });
       });
 
-      it('should direct user to identity provider login page and set state and nonce', async function () {
+      it('should clear previous session data, redirect user to identity provider login page and set state and nonce', async function () {
         // given
         const sessionStub = Service.create({
           attemptedTransition: { intent: { url: '/campagnes/PIXOIDC01/acces' } },
           authenticate: sinon.stub().resolves(),
-          data: {},
+          data: {
+            nextURL: '/previous-url',
+            state: 'previous-state',
+            nonce: 'previous-nonce',
+          },
         });
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.set('session', sessionStub);

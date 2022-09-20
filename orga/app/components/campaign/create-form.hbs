@@ -44,7 +44,7 @@
 
     <div class="form__field-info">
       <span class="form__field-info-title">
-        <FaIcon @icon="info-circle" class="form__field-info-icon" />
+        <FaIcon @icon="circle-info" class="form__field-info-icon" />
         <span>{{t "pages.campaign-creation.owner.title"}}</span>
       </span>
       <span class="form__field-info-message">{{t "pages.campaign-creation.owner.info"}}</span>
@@ -90,7 +90,7 @@
       {{#if this.isCampaignGoalAssessment}}
         <div class="form__field-info" id="campaign-goal-assessment-info">
           <span class="form__field-info-title">
-            <FaIcon @icon="info-circle" class="form__field-info-icon" />
+            <FaIcon @icon="circle-info" class="form__field-info-icon" />
             <span>{{t "pages.campaign-creation.purpose.assessment"}}</span>
           </span>
           <span class="form__field-info-message">{{t "pages.campaign-creation.purpose.assessment-info"}}</span>
@@ -98,7 +98,7 @@
       {{else if this.isCampaignGoalProfileCollection}}
         <div class="form__field-info" id="campaign-goal-profiles-collection-info">
           <span class="form__field-info-title">
-            <FaIcon @icon="info-circle" class="form__field-info-icon" />
+            <FaIcon @icon="circle-info" class="form__field-info-icon" />
             <span>{{t "pages.campaign-creation.purpose.profiles-collection"}}</span>
           </span>
           <span class="form__field-info-message">
@@ -146,7 +146,7 @@
               <PixIconButton
                 @ariaLabel={{t "pages.campaign-creation.actions.delete"}}
                 aria-describedby="clean-input-button"
-                @icon="times"
+                @icon="xmark"
                 @size="small"
                 @triggerAction={{this.cleanInput}}
               />
@@ -167,7 +167,7 @@
         {{#if this.targetProfile}}
           <div class="form__field-info" id="target-profile-info">
             <span class="form__field-info-title">
-              <FaIcon @icon="info-circle" class="form__field-info-icon" />
+              <FaIcon @icon="circle-info" class="form__field-info-icon" />
               <span>{{this.targetProfile.name}}</span>
             </span>
 
@@ -217,7 +217,7 @@
         </div>
         <div class="form__field-info" id="multiple-sendings-info">
           <span class="form__field-info-title">
-            <FaIcon @icon="info-circle" class="form__field-info-icon" />
+            <FaIcon @icon="circle-info" class="form__field-info-icon" />
             <span>{{t "pages.campaign-creation.multiple-sendings.info-title"}}</span>
           </span>
           <span class="form__field-info-message">{{t "pages.campaign-creation.multiple-sendings.info"}}</span>

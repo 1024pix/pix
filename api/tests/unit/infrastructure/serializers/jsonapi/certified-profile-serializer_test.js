@@ -10,12 +10,14 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function 
         name: 'skill_1',
         hasBeenAskedInCertif: false,
         tubeId: 'recTube1',
+        difficulty: 1,
       });
       const skill2 = domainBuilder.buildCertifiedSkill({
         id: 'recSkill2',
         name: 'skill_2',
         hasBeenAskedInCertif: true,
         tubeId: 'recTube1',
+        difficulty: 2,
       });
       const tube1 = domainBuilder.buildCertifiedTube({
         id: 'recTube1',

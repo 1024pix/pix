@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 
 export const certificationIssueReportCategories = {
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
-  LATE_OR_LEAVING: 'LATE_OR_LEAVING',
+  SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
   IN_CHALLENGE: 'IN_CHALLENGE',
   FRAUD: 'FRAUD',
   NON_BLOCKING_CANDIDATE_ISSUE: 'NON_BLOCKING_CANDIDATE_ISSUE',
@@ -13,8 +13,6 @@ export const certificationIssueReportCategories = {
 export const certificationIssueReportSubcategories = {
   NAME_OR_BIRTHDATE: 'NAME_OR_BIRTHDATE',
   EXTRA_TIME_PERCENTAGE: 'EXTRA_TIME_PERCENTAGE',
-  LEFT_EXAM_ROOM: 'LEFT_EXAM_ROOM',
-  SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
   IMAGE_NOT_DISPLAYING: 'IMAGE_NOT_DISPLAYING',
   EMBED_NOT_WORKING: 'EMBED_NOT_WORKING',
   FILE_NOT_OPENING: 'FILE_NOT_OPENING',
@@ -29,7 +27,8 @@ export const certificationIssueReportSubcategories = {
 
 export const categoryToLabel = {
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'Modification infos candidat',
-  [certificationIssueReportCategories.LATE_OR_LEAVING]: 'Retard, absence ou départ',
+  [certificationIssueReportCategories.SIGNATURE_ISSUE]:
+    'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'Incident technique non bloquant',
   [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'Incident lié au candidat non bloquant',
@@ -39,9 +38,6 @@ export const categoryToLabel = {
 export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Modification des prénom/nom/date de naissance',
   [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Ajout/modification du temps majoré',
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Écran de fin de test non vu',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]:
-    'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: "L'image ne s'affiche pas",
   [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: "Le simulateur/l'application ne s'affiche pas",
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]:
@@ -64,7 +60,7 @@ export const subcategoryToLabel = {
 
 export const categoryToCode = {
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'C1-C2',
-  [certificationIssueReportCategories.LATE_OR_LEAVING]: 'C3-C4',
+  [certificationIssueReportCategories.SIGNATURE_ISSUE]: 'C4',
   [certificationIssueReportCategories.FRAUD]: 'C6',
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'C7',
   [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'C8',
@@ -74,8 +70,6 @@ export const categoryToCode = {
 export const subcategoryToCode = {
   [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
   [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'C2',
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'C4',
   [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
   [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E2',
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
@@ -89,8 +83,6 @@ export const subcategoryToCode = {
 };
 
 export const subcategoryToTextareaLabel = {
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Précisez et indiquez l’heure de sortie',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Précisez',
   [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Renseignez les informations correctes',
   [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Précisez le temps majoré',
 };

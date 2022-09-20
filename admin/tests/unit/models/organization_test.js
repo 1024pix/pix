@@ -19,6 +19,20 @@ module('Unit | Model | organization', function (hooks) {
     });
   });
 
+  module('#createdAtFormattedDate', function () {
+    test('it formats the organization creation date', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('organization', { createdAt: new Date('2022-09-02') }));
+
+      // when
+      const createdAtFormattedDate = model.createdAtFormattedDate;
+
+      // then
+      assert.strictEqual(createdAtFormattedDate, '02/09/2022');
+    });
+  });
+
   module('#isArchived', function () {
     test('it return whether organization is archived', function (assert) {
       // given

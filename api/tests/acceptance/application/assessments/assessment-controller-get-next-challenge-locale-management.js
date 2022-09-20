@@ -30,6 +30,7 @@ const learningContent = [
                 id: 'skillWeb1',
                 nom: '@skillWeb1',
                 challenges: [],
+                level: 1,
               },
               {
                 id: 'skillWeb2',
@@ -38,11 +39,13 @@ const learningContent = [
                   { id: frenchChallengeId, langues: ['Franco Français'] },
                   { id: frenchSpokenChallengeId, langues: ['Francophone'] },
                 ],
+                level: 2,
               },
               {
                 id: 'skillWeb3',
                 nom: '@skillWeb3',
                 challenges: [],
+                level: 3,
               },
             ],
           },

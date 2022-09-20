@@ -903,27 +903,34 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
 
   acquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
     const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
+
+    const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
       complementaryCertificationId,
+      complementaryCertificationBadgeId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
       partnerKey: key,
       acquired: true,
     });
-
-    databaseBuilder.factory.buildComplementaryCertificationBadge({
-      badgeId,
-      complementaryCertificationId,
-      imageUrl,
-    });
   });
   temporaryAcquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
     const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
+    const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
       complementaryCertificationId,
+      complementaryCertificationBadgeId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
@@ -931,29 +938,24 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
       acquired: true,
       source: ComplementaryCertificationCourseResult.sources.PIX,
     });
-    databaseBuilder.factory.buildComplementaryCertificationBadge({
-      badgeId,
-      complementaryCertificationId,
-      imageUrl,
-    });
   });
 
   notAcquiredBadges.forEach(({ key, imageUrl, complementaryCertificationId }) => {
     const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
+    const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
       complementaryCertificationId,
+      complementaryCertificationBadgeId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
       partnerKey: key,
       acquired: false,
-    });
-
-    databaseBuilder.factory.buildComplementaryCertificationBadge({
-      badgeId,
-      complementaryCertificationId,
-      imageUrl,
     });
   });
 

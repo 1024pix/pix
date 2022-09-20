@@ -1,6 +1,6 @@
 <div>
   <div class="scorecard-details__header">
-    <PixReturnTo @route="profile">{{t "navigation.back-to-profile"}}</PixReturnTo>
+    <PixReturnTo @route="authenticated.profile">{{t "navigation.back-to-profile"}}</PixReturnTo>
   </div>
 
   <div class="scorecard-details__content">
@@ -91,7 +91,7 @@
         {{/if}}
       {{else}}
         <LinkTo
-          @route="competences.resume"
+          @route="authenticated.competences.resume"
           @model={{@scorecard.competenceId}}
           class={{concat
             "button button--big button--thin button--round button--link button--green "
@@ -138,11 +138,11 @@
           {{#each this.tutorialsGroupedByTubeName as |tube|}}
             <div class="tube">
               <h4 class="tube__title">{{tube.practicalTitle}}</h4>
-              <div class="tube__content">
+              <ul class="tube__content">
                 {{#each tube.tutorials as |tutorial|}}
                   <Tutorials::Card @tutorial={{tutorial}} />
                 {{/each}}
-              </div>
+              </ul>
             </div>
           {{/each}}
         </div>
@@ -151,7 +151,7 @@
   {{/if}}
 </div>
 {{#if this.showResetModal}}
-  <PixModal
+  <PixModalDeprecated
     @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide"
     @onClickOverlay={{this.closeModal}}
     @originId="#reset-button"
@@ -209,5 +209,5 @@
         </PixButton>
       </div>
     </div>
-  </PixModal>
+  </PixModalDeprecated>
 {{/if}}

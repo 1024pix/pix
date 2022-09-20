@@ -46,7 +46,7 @@ class CampaignParticipationOverview {
   }
 
   _getReachableStages() {
-    return this.targetProfile?.stages.filter((stage) => stage.threshold > 0);
+    return this.targetProfile?.stages?.filter((stage) => stage.threshold > 0);
   }
 }
 

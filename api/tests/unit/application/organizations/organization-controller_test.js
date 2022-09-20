@@ -347,14 +347,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const serializedOrganization = Symbol('the updated and serialized organization');
 
       sinon.stub(usecases, 'updateOrganizationInformation');
-      sinon.stub(organizationSerializer, 'serialize');
-      sinon.stub(organizationSerializer, 'deserialize');
+      sinon.stub(organizationForAdminSerializer, 'serialize');
+      sinon.stub(organizationForAdminSerializer, 'deserialize');
 
-      organizationSerializer.deserialize.withArgs(request.payload).returns(organizationDeserialized);
+      organizationForAdminSerializer.deserialize.withArgs(request.payload).returns(organizationDeserialized);
       usecases.updateOrganizationInformation
         .withArgs({ organization: organizationDeserialized })
         .resolves(updatedOrganization);
-      organizationSerializer.serialize.withArgs(updatedOrganization).returns(serializedOrganization);
+      organizationForAdminSerializer.serialize.withArgs(updatedOrganization).returns(serializedOrganization);
 
       // when
       const response = await organizationController.updateOrganizationInformation(request, hFake);
@@ -842,6 +842,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
             isAuthenticatedFromGAR: false,
           },
         ],
+        meta: { pagination: { page: 1 } },
       };
     });
 
@@ -902,14 +903,109 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return the serialized sco participants belonging to the organization', async function () {
       // given
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [scoOrganizationParticipant] });
-      scoOrganizationParticipantsSerializer.serialize.returns(serializedScoOrganizationParticipant);
+      const meta = { pagination: { page: 1 } };
+      const scoOrganizationParticipants = [scoOrganizationParticipant];
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: scoOrganizationParticipants, meta });
+      scoOrganizationParticipantsSerializer.serialize
+        .withArgs({ scoOrganizationParticipants, meta })
+        .returns(serializedScoOrganizationParticipant);
 
       // when
       const response = await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
       // then
       expect(response).to.deep.equal(serializedScoOrganizationParticipant);
+    });
+
+    it('map the certificability eligible value', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': 'eligible',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [true] },
+        page: {},
+      });
+    });
+
+    it('map the certificability non-eligible value', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': 'non-eligible',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [false] },
+        page: {},
+      });
+    });
+
+    it('map the certificability not-available value', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': 'not-available',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [null] },
+        page: {},
+      });
+    });
+
+    it('map the all certificability values', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': ['eligible', 'not-available'],
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
+      scoOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [true, null] },
+        page: {},
+      });
     });
   });
 
@@ -937,6 +1033,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
             ...supOrganizationParticipant,
           },
         ],
+        meta: { pagination: { page: 1 } },
       };
     });
 
@@ -996,8 +1093,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return the serialized sup participants belonging to the organization', async function () {
       // given
-      usecases.findPaginatedFilteredSupParticipants.resolves({ data: [supOrganizationParticipant] });
-      supOrganizationParticipantsSerializer.serialize.returns(serializedSupOrganizationParticipant);
+      const meta = { pagination: { page: 1 } };
+      const supOrganizationParticipants = [supOrganizationParticipant];
+      usecases.findPaginatedFilteredSupParticipants.resolves({ data: supOrganizationParticipants, meta });
+      supOrganizationParticipantsSerializer.serialize
+        .withArgs({ supOrganizationParticipants, meta })
+        .returns(serializedSupOrganizationParticipant);
 
       // when
       const response = await organizationController.findPaginatedFilteredSupParticipants(request, hFake);

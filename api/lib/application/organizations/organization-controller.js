@@ -31,6 +31,12 @@ const certificationResultUtils = require('../../infrastructure/utils/csv/certifi
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 
+const certificabilityByLabel = {
+  'not-available': null,
+  eligible: true,
+  'non-eligible': false,
+};
+
 module.exports = {
   async getOrganizationDetails(request) {
     const organizationId = request.params.id;
@@ -66,12 +72,12 @@ module.exports = {
   },
 
   async updateOrganizationInformation(request) {
-    const organizationDeserialized = organizationSerializer.deserialize(request.payload);
+    const organizationDeserialized = organizationForAdminSerializer.deserialize(request.payload);
 
     const organizationUpdated = await usecases.updateOrganizationInformation({
       organization: organizationDeserialized,
     });
-    return organizationSerializer.serialize(organizationUpdated);
+    return organizationForAdminSerializer.serialize(organizationUpdated);
   },
 
   async findPaginatedFilteredOrganizations(request) {
@@ -142,6 +148,15 @@ module.exports = {
     const organizationId = request.params.id;
     const places = await usecases.findOrganizationPlacesLot({ organizationId });
     return organizationPlacesLotManagmentSerializer.serialize(places);
+  },
+
+  async deleteOrganizationPlacesLot(request, h) {
+    const organizationPlaceId = request.params.placeId;
+    const userId = request.auth.credentials.userId;
+
+    await usecases.deleteOrganizationPlaceLot({ organizationPlaceId, userId });
+
+    return h.response(null).code(204);
   },
 
   async createOrganizationPlacesLot(request, h) {
@@ -252,13 +267,21 @@ module.exports = {
     if (filter.divisions && !Array.isArray(filter.divisions)) {
       filter.divisions = [filter.divisions];
     }
-
-    const { data: scoOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredScoParticipants({
+    if (filter.certificability) {
+      if (!Array.isArray(filter.certificability)) {
+        filter.certificability = [filter.certificability];
+      }
+      filter.certificability = filter.certificability.map((value) => certificabilityByLabel[value]);
+    }
+    const { data: scoOrganizationParticipants, meta } = await usecases.findPaginatedFilteredScoParticipants({
       organizationId,
       filter,
       page,
     });
-    return scoOrganizationParticipantsSerializer.serialize({ scoOrganizationParticipants, pagination });
+    return scoOrganizationParticipantsSerializer.serialize({
+      scoOrganizationParticipants,
+      meta,
+    });
   },
 
   async findPaginatedFilteredSupParticipants(request) {
@@ -268,12 +291,12 @@ module.exports = {
       filter.groups = [filter.groups];
     }
 
-    const { data: supOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredSupParticipants({
+    const { data: supOrganizationParticipants, meta } = await usecases.findPaginatedFilteredSupParticipants({
       organizationId,
       filter,
       page,
     });
-    return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, pagination });
+    return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
   },
 
   async importOrganizationLearnersFromSIECLE(request, h) {

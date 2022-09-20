@@ -123,6 +123,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message, error.code);
   }
+  if (error instanceof DomainErrors.DeletedError) {
+    return new HttpErrors.ConflictError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }
@@ -207,6 +210,9 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.UnexpectedUserAccountError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
+  }
+  if (error instanceof DomainErrors.MissingUserAccountError) {
+    return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyExistingEntityError) {
     return new HttpErrors.PreconditionFailedError(error.message);
@@ -437,7 +443,7 @@ function _mapToHttpError(error) {
   }
 
   if (error instanceof DomainErrors.DifferentExternalIdentifierError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
+    return new HttpErrors.ConflictError(error.message);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

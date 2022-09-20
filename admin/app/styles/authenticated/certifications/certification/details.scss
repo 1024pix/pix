@@ -1,8 +1,18 @@
 .certification-details {
   padding: 20px;
 
+  .card {
+    margin-bottom: 20px;
+  }
+
   &__info {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+      flex: 50%;
+    }
   }
 
   .certificate {

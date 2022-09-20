@@ -1,8 +1,8 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const userTutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-tutorial-serializer');
-const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
+const userSavedTutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
+const userSavedTutorialRepository = require('../../../../lib/infrastructure/repositories/user-saved-tutorial-repository');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Controller | User-tutorials', function () {
@@ -12,7 +12,7 @@ describe('Unit | Controller | User-tutorials', function () {
       const tutorialId = 'tutorialId';
       const userId = 'userId';
       sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-      sinon.stub(userTutorialSerializer, 'deserialize').returns({});
+      sinon.stub(userSavedTutorialSerializer, 'deserialize').returns({});
 
       const request = {
         auth: { credentials: { userId } },
@@ -35,7 +35,7 @@ describe('Unit | Controller | User-tutorials', function () {
         const tutorialId = 'tutorialId';
         const userId = 'userId';
         sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-        sinon.stub(userTutorialSerializer, 'deserialize').returns({ skillId });
+        sinon.stub(userSavedTutorialSerializer, 'deserialize').returns({ skillId });
 
         const request = {
           auth: { credentials: { userId } },
@@ -51,7 +51,7 @@ describe('Unit | Controller | User-tutorials', function () {
         expect(addTutorialToUserArgs).to.have.property('userId', userId);
         expect(addTutorialToUserArgs).to.have.property('tutorialId', tutorialId);
         expect(addTutorialToUserArgs).to.have.property('skillId', skillId);
-        expect(userTutorialSerializer.deserialize).to.have.been.calledWith(request.payload);
+        expect(userSavedTutorialSerializer.deserialize).to.have.been.calledWith(request.payload);
       });
     });
   });
@@ -65,14 +65,18 @@ describe('Unit | Controller | User-tutorials', function () {
           number: '1',
           size: '200',
         },
+        filter: {
+          competences: ['competence1', 'competence2'],
+        },
       };
       const headers = {
         'accept-language': 'fr',
       };
-      sinon.stub(usecases, 'findPaginatedRecommendedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedFilteredRecommendedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
       const request = {
         auth: { credentials: { userId } },
+        'filter[competences]': 'competence1,competence2',
         'page[number]': '1',
         'page[size]': '200',
         headers,
@@ -82,8 +86,12 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findRecommended(request, hFake);
 
       // then
-      const findPaginatedRecommendedTutorialsArgs = usecases.findPaginatedRecommendedTutorials.firstCall.args[0];
+      const findPaginatedRecommendedTutorialsArgs =
+        usecases.findPaginatedFilteredRecommendedTutorials.firstCall.args[0];
       expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedRecommendedTutorialsArgs.filters).to.deep.equal({
+        competences: ['competence1', 'competence2'],
+      });
       expect(findPaginatedRecommendedTutorialsArgs.page).to.deep.equal({
         number: '1',
         size: '200',
@@ -101,12 +109,16 @@ describe('Unit | Controller | User-tutorials', function () {
           number: '1',
           size: '200',
         },
+        filter: {
+          competences: ['competence1', 'competence2'],
+        },
       };
-      sinon.stub(usecases, 'findPaginatedSavedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedFilteredSavedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
 
       const request = {
         auth: { credentials: { userId } },
+        'filter[competences]': 'competence1,competence2',
         'page[number]': '1',
         'page[size]': '200',
       };
@@ -115,9 +127,12 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findSaved(request, hFake);
 
       // then
-      const findPaginatedSavedTutorialsArgs = usecases.findPaginatedSavedTutorials.firstCall.args[0];
-      expect(findPaginatedSavedTutorialsArgs).to.have.property('userId', userId);
-      expect(findPaginatedSavedTutorialsArgs.page).to.deep.equal({
+      const findPaginatedFilteredSavedTutorialsArgs = usecases.findPaginatedFilteredSavedTutorials.firstCall.args[0];
+      expect(findPaginatedFilteredSavedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedFilteredSavedTutorialsArgs.filters).to.deep.equal({
+        competences: ['competence1', 'competence2'],
+      });
+      expect(findPaginatedFilteredSavedTutorialsArgs.page).to.deep.equal({
         number: '1',
         size: '200',
       });
@@ -129,7 +144,7 @@ describe('Unit | Controller | User-tutorials', function () {
       // given
       const userId = 'userId';
       const tutorialId = 'tutorialId';
-      sinon.stub(userTutorialRepository, 'removeFromUser');
+      sinon.stub(userSavedTutorialRepository, 'removeFromUser');
 
       const request = {
         auth: { credentials: { userId } },
@@ -140,7 +155,7 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.removeFromUser(request, hFake);
 
       // then
-      const removeFromUserArgs = userTutorialRepository.removeFromUser.firstCall.args[0];
+      const removeFromUserArgs = userSavedTutorialRepository.removeFromUser.firstCall.args[0];
       expect(removeFromUserArgs).to.have.property('userId', userId);
       expect(removeFromUserArgs).to.have.property('tutorialId', tutorialId);
     });

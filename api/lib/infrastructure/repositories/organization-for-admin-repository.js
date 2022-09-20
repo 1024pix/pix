@@ -3,6 +3,7 @@ const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin')
 const Tag = require('../../domain/models/Tag');
 const { knex } = require('../../../db/knex-database-connection');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
+const _ = require('lodash');
 
 function _toDomain(rawOrganization) {
   const organization = new OrganizationForAdmin({
@@ -17,6 +18,7 @@ function _toDomain(rawOrganization) {
     email: rawOrganization.email,
     documentationUrl: rawOrganization.documentationUrl,
     createdBy: rawOrganization.createdBy,
+    createdAt: rawOrganization.createdAt,
     showNPS: rawOrganization.showNPS,
     formNPSUrl: rawOrganization.formNPSUrl,
     showSkills: rawOrganization.showSkills,
@@ -25,6 +27,7 @@ function _toDomain(rawOrganization) {
     archivistLastName: rawOrganization.archivistLastName,
     creatorFirstName: rawOrganization.creatorFirstName,
     creatorLastName: rawOrganization.creatorLastName,
+    identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
   });
 
   organization.tags = rawOrganization.tags || [];
@@ -47,6 +50,7 @@ module.exports = {
         email: 'organizations.email',
         documentationUrl: 'organizations.documentationUrl',
         createdBy: 'organizations.createdBy',
+        createdAt: 'organizations.createdAt',
         showNPS: 'organizations.showNPS',
         formNPSUrl: 'organizations.formNPSUrl',
         showSkills: 'organizations.showSkills',
@@ -55,6 +59,7 @@ module.exports = {
         archivistLastName: 'archivists.lastName',
         creatorFirstName: 'creators.firstName',
         creatorLastName: 'creators.lastName',
+        identityProviderForCampaigns: 'organizations.identityProviderForCampaigns',
       })
       .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
       .leftJoin('users AS creators', 'creators.id', 'organizations.createdBy')
@@ -75,6 +80,36 @@ module.exports = {
     });
 
     return _toDomain(organization);
+  },
+
+  async update(organization) {
+    const organizationRawData = _.pick(organization, [
+      'name',
+      'type',
+      'logoUrl',
+      'externalId',
+      'provinceCode',
+      'isManagingStudents',
+      'email',
+      'credit',
+      'documentationUrl',
+      'showSkills',
+      'identityProviderForCampaigns',
+    ]);
+
+    const [organizationDB] = await knex('organizations')
+      .update(organizationRawData)
+      .where({ id: organization.id })
+      .returning('*');
+
+    const tagsDB = await knex('tags')
+      .select(['tags.id', 'tags.name'])
+      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+      .where('organization-tags.organizationId', organizationDB.id);
+
+    const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+
+    return _toDomain({ ...organizationDB, tags });
   },
 
   async archive({ id, archivedBy }) {

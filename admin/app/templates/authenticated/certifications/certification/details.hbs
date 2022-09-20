@@ -1,55 +1,44 @@
 {{page-title "Certif " @model.id " Détails | Pix Admin" replace=true}}
 <div class="certification-details">
-  <div class="row">
-    <div class="col">
-      <div class="card border-primary certification-details__info">
-        <div class="card-body">
-          <div class="row">
-            <div class="col">Statut :</div>
-            <div class="col">{{this.details.status}}</div>
-          </div>
-          <div class="row">
-            <div class="col">Créé le :</div>
-            <div class="col">{{this.details.creationDate}}</div>
-          </div>
-          <div class="row">
-            <div class="col">Terminée le :</div>
-            <div class="col">{{this.details.completionDate}}</div>
-          </div>
-          <div class="row">
-            <div class="col">Score :</div>
-            <div class="col certificate">{{this.score}}</div>
-          </div>
+  <div>
+    <div>
+      <Card>
+        <div class="certification-details__info">
+          <div>Statut :</div>
+          <div>{{this.details.status}}</div>
+
+          <div>Créé le :</div>
+          <div>{{this.details.creationDate}}</div>
+
+          <div>Terminée le :</div>
+          <div>{{this.details.completionDate}}</div>
+
+          <div>Score :</div>
+          <div class="certificate">{{this.score}}</div>
           {{#if this.shouldDisplayJuryScore}}
-            <div class="row jury">
-              <div class="col">Score corrigé :</div>
-              <div class="col jury">{{this.juryScore}}</div>
-            </div>
+            <div class="jury">Score corrigé :</div>
+            <div class="jury">{{this.juryScore}}</div>
           {{/if}}
-          <div class="row">
-            <div class="col">Taux de reproductibilité :</div>
-            <div class="col certificate">{{this.rate}}</div>
-          </div>
+          <div>Taux de reproductibilité :</div>
+          <div class="certificate">{{this.rate}}</div>
           {{#if this.juryRate}}
-            <div class="row">
-              <div class="col">Taux corrigé :</div>
-              <div class="col jury">{{this.juryRate}}</div>
-            </div>
+            <div>Taux corrigé :</div>
+            <div class="jury">{{this.juryRate}}</div>
           {{/if}}
         </div>
-      </div>
-      {{#each this.details.competences as |competence|}}
-        <Certifications::DetailsCompetence
-          @competence={{competence}}
-          @rate={{this.rate}}
-          @juryRate={{this.juryRate}}
-          @onUpdateRate={{this.onUpdateRate}}
-        />
-      {{/each}}
+      </Card>
     </div>
+    {{#each this.details.competences as |competence|}}
+      <Certifications::DetailsCompetence
+        @competence={{competence}}
+        @rate={{this.rate}}
+        @juryRate={{this.juryRate}}
+        @onUpdateRate={{this.onUpdateRate}}
+      />
+    {{/each}}
   </div>
-  <div class="row">
-    <div class="col certification-details__actions">
+  <div>
+    <div class="certification-details__actions">
       {{#if this.accessControl.hasAccessToCertificationActionsScope}}
         <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
       {{/if}}

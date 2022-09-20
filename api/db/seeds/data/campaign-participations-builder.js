@@ -126,7 +126,7 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, or
   return campaignParticipationId;
 }
 
-function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false }) {
+function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false, isCertifiable = null }) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
   const deletedAt = deleted ? today : null;
@@ -143,6 +143,7 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
     sharedAt,
     deletedAt,
     deletedBy,
+    isCertifiable,
   });
 
   if (isImprovingOldParticipation) {
@@ -155,6 +156,7 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
       createdAt: user.createdAt,
       sharedAt: user.createdAt,
       isImproved: true,
+      isCertifiable,
     });
   }
 }

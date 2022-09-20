@@ -87,6 +87,11 @@
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 45px;
   }
 }
 
@@ -108,12 +113,14 @@
   }
 
   &__cards {
+    list-style: none;
+    padding: 0;
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: min-content;
     row-gap: 16px;
     width: 100%;
-    margin-bottom: 32px;
+    margin: 0 0 32px;
 
     @include device-is('desktop') {
       grid-template-columns: 1fr 1fr;

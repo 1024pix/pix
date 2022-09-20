@@ -106,13 +106,11 @@ async function _startNewCertification({
 }) {
   const challengesForCertification = [];
 
-  const challengesForPixCertification = await _createPixCertification(
-    placementProfileService,
-    certificationChallengesService,
-    userId,
-    locale
-  );
-  challengesForCertification.push(...challengesForPixCertification);
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+
+  if (!placementProfile.isCertifiable()) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -131,7 +129,7 @@ async function _startNewCertification({
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
 
-  const complementaryCertificationIds = [];
+  const complementaryCertificationCourseData = [];
 
   const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId,
@@ -139,17 +137,26 @@ async function _startNewCertification({
   });
 
   await bluebird.each(highestCertifiableBadgeAcquisitions, async (badgeAcquisition) => {
-    const { key, id } = badgeAcquisition.complementaryCertification;
+    const { key, id: complementaryCertificationId } = badgeAcquisition.complementaryCertification;
     if (certificationCenter.isHabilitated(key) && certificationCandidate.isGranted(key)) {
-      complementaryCertificationIds.push(id);
+      complementaryCertificationCourseData.push({
+        complementaryCertificationBadgeId: badgeAcquisition.badge.complementaryCertificationBadge.id,
+        complementaryCertificationId,
+      });
       const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition.badge,
+        badgeAcquisition,
         userId,
         locale
       );
       challengesForCertification.push(...certificationChallenges);
     }
   });
+
+  const challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
+    placementProfile,
+    locale
+  );
+  challengesForCertification.push(...challengesForPixCertification);
 
   return _createCertificationCourse({
     certificationCandidate,
@@ -159,7 +166,7 @@ async function _startNewCertification({
     certificationChallenges: challengesForCertification,
     domainTransaction,
     verifyCertificateCodeService,
-    complementaryCertificationIds,
+    complementaryCertificationCourseData,
   });
 }
 
@@ -176,16 +183,6 @@ async function _getCertificationCourseIfCreatedMeanwhile(
   });
 }
 
-async function _createPixCertification(placementProfileService, certificationChallengesService, userId, locale) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
-
-  if (!placementProfile.isCertifiable()) {
-    throw new UserNotAuthorizedToCertifyError();
-  }
-
-  return certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
-}
-
 async function _createCertificationCourse({
   certificationCandidate,
   certificationCourseRepository,
@@ -193,12 +190,13 @@ async function _createCertificationCourse({
   verifyCertificateCodeService,
   userId,
   certificationChallenges,
-  complementaryCertificationIds,
+  complementaryCertificationCourseData,
   domainTransaction,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
-  const complementaryCertificationCourses = complementaryCertificationIds.map(
-    ComplementaryCertificationCourse.fromComplementaryCertificationId
+  const complementaryCertificationCourses = complementaryCertificationCourseData.map(
+    ({ complementaryCertificationBadgeId, complementaryCertificationId }) =>
+      new ComplementaryCertificationCourse({ complementaryCertificationBadgeId, complementaryCertificationId })
   );
   const newCertificationCourse = CertificationCourse.from({
     certificationCandidate,

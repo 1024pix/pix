@@ -1,3 +1,43 @@
+<PixFilterBanner
+  @title={{t "pages.sup-organization-participants.table.filter.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.sup-organization-participants.table.filter.aria-label"}}
+  @details={{t "pages.sup-organization-participants.table.filter.students-count" count=@students.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.sup-organization-participants.table.filter.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+>
+  <Ui::SearchInputFilter
+    @field="studentNumber"
+    @value={{@studentNumberFilter}}
+    @placeholder={{t "pages.sup-organization-participants.table.filter.student-number.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.table.filter.student-number.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::SearchInputFilter
+    @field="lastName"
+    @value={{@lastNameFilter}}
+    @placeholder={{t "pages.sup-organization-participants.table.filter.last-name.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.table.filter.last-name.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::SearchInputFilter
+    @field="firstName"
+    @value={{@firstNameFilter}}
+    @placeholder={{t "pages.sup-organization-participants.table.filter.first-name.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.table.filter.first-name.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::MultiSelectFilter
+    @field="groups"
+    @title={{t "pages.sup-organization-participants.table.column.group"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@groupsFilter}}
+    @onLoadOptions={{this.loadGroups}}
+    @placeholder={{t "pages.sup-organization-participants.table.filter.group.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.table.filter.group.aria-label"}}
+    @emptyMessage={{t "pages.sup-organization-participants.table.filter.group.empty"}}
+  />
+</PixFilterBanner>
 <div class="panel">
   <table class="table content-text content-text--small">
     <thead>
@@ -18,43 +58,6 @@
           {{t "pages.sup-organization-participants.table.column.last-participation-date"}}
         </Table::Header>
         <Table::Header @size="medium" class="hide-on-mobile" />
-      </tr>
-      <tr class="hide-on-mobile">
-        <Table::HeaderFilterInput
-          @field="studentNumber"
-          @value={{@studentNumberFilter}}
-          @placeholder={{t "pages.sup-organization-participants.table.filter.student-number.label"}}
-          @ariaLabel={{t "pages.sup-organization-participants.table.filter.student-number.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::HeaderFilterInput
-          @field="lastName"
-          @value={{@lastNameFilter}}
-          @placeholder={{t "pages.sup-organization-participants.table.filter.last-name.label"}}
-          @ariaLabel={{t "pages.sup-organization-participants.table.filter.last-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::HeaderFilterInput
-          @field="firstName"
-          @value={{@firstNameFilter}}
-          @placeholder={{t "pages.sup-organization-participants.table.filter.first-name.label"}}
-          @ariaLabel={{t "pages.sup-organization-participants.table.filter.first-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::Header />
-        <Table::HeaderFilterMultiSelect
-          @field="groups"
-          @title={{t "pages.sup-organization-participants.table.column.group"}}
-          @onSelect={{@onFilter}}
-          @selectedOption={{@groupsFilter}}
-          @onLoadOptions={{this.loadGroups}}
-          @placeholder={{t "pages.sup-organization-participants.table.filter.group.label"}}
-          @ariaLabel={{t "pages.sup-organization-participants.table.filter.group.aria-label"}}
-          @emptyMessage={{t "pages.sup-organization-participants.table.filter.group.empty"}}
-        />
-        <Table::Header class="table__column--right" />
-        <Table::Header />
-        <Table::Header />
       </tr>
     </thead>
 
@@ -84,7 +87,7 @@
             <td class="organization-participant-list-page__actions hide-on-mobile">
               {{#if this.currentUser.isAdminInOrganization}}
                 <Dropdown::IconTrigger
-                  @icon="ellipsis-v"
+                  @icon="ellipsis-vertical"
                   @dropdownButtonClass="organization-participant-list-page__dropdown-button"
                   @dropdownContentClass="organization-participant-list-page__dropdown-content"
                   @ariaLabel={{t "pages.sup-organization-participants.actions.show-actions"}}

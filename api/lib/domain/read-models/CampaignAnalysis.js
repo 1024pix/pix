@@ -2,21 +2,20 @@ const _ = require('lodash');
 const recommendationService = require('../services/recommendation-service');
 
 class CampaignAnalysis {
-  constructor({ campaignId, targetProfileWithLearningContent, tutorials, participantCount = 0 } = {}) {
+  constructor({ campaignId, learningContent, tutorials, participantCount = 0 } = {}) {
     this.id = campaignId;
     this.participantCount = participantCount;
-    const maxSkillLevelInTargetProfile = targetProfileWithLearningContent.maxSkillDifficulty;
-    this.campaignTubeRecommendations = targetProfileWithLearningContent.tubes.map((tube) => {
-      const competence = targetProfileWithLearningContent.getCompetence(tube.competenceId);
-      const area = targetProfileWithLearningContent.getArea(competence.areaId);
+    const maxSkillLevel = learningContent.maxSkillDifficulty;
+    this.campaignTubeRecommendations = learningContent.tubes.map((tube) => {
+      const competence = learningContent.getCompetence(tube.competenceId);
       const tutorialIds = _.uniq(_.flatMap(tube.skills, 'tutorialIds'));
       const tubeTutorials = _.filter(tutorials, (tutorial) => tutorialIds.includes(tutorial.id));
       return new CampaignTubeRecommendation({
         campaignId: campaignId,
-        area,
+        area: competence.area,
         competence,
         tube,
-        maxSkillLevelInTargetProfile,
+        maxSkillLevel,
         tutorials: tubeTutorials,
         participantCount: this.participantCount,
       });
@@ -40,21 +39,13 @@ class CampaignAnalysis {
 }
 
 class CampaignTubeRecommendation {
-  constructor({
-    campaignId,
-    area,
-    tube,
-    competence,
-    maxSkillLevelInTargetProfile,
-    tutorials,
-    participantCount = 0,
-  } = {}) {
+  constructor({ campaignId, area, tube, competence, maxSkillLevel, tutorials, participantCount = 0 } = {}) {
     this.campaignId = campaignId;
     this.tube = tube;
     this.competenceId = competence.id;
     this.competenceName = competence.name;
     this.areaColor = area.color;
-    this.maxSkillLevelInTargetProfile = maxSkillLevelInTargetProfile;
+    this.maxSkillLevel = maxSkillLevel;
     this.tutorials = tutorials;
     this.participantCount = participantCount;
     this.cumulativeScore = 0;
@@ -71,7 +62,7 @@ class CampaignTubeRecommendation {
   }
 
   get tubeDescription() {
-    return this.tube.description;
+    return this.tube.practicalDescription;
   }
 
   get id() {
@@ -95,11 +86,7 @@ class CampaignTubeRecommendation {
 
   _computeCumulativeScore(knowledgeElementsByParticipant) {
     this.cumulativeScore += _(knowledgeElementsByParticipant).sumBy((knowledgeElements) =>
-      recommendationService.computeRecommendationScore(
-        this.tube.skills,
-        this.maxSkillLevelInTargetProfile,
-        knowledgeElements
-      )
+      recommendationService.computeRecommendationScore(this.tube.skills, this.maxSkillLevel, knowledgeElements)
     );
   }
 }

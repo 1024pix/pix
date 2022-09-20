@@ -3,7 +3,6 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-import ENV from 'mon-pix/config/environment';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
 describe('Unit | Service | locale', function () {
@@ -35,64 +34,49 @@ describe('Unit | Service | locale', function () {
   });
 
   describe('#homeUrl', function () {
-    context('when environnement not prod', function () {
-      const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
+    it('should get home url', function () {
+      // given
+      const service = this.owner.lookup('service:url');
+      service.definedHomeUrl = 'pix.test.fr';
 
-      beforeEach(function () {
-        ENV.APP.IS_PROD_ENVIRONMENT = false;
-      });
+      // when
+      const homeUrl = service.homeUrl;
 
-      afterEach(function () {
-        ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
-      });
+      // then
+      const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
+      expect(homeUrl).to.equal(expectedDefinedHomeUrl);
+    });
+  });
 
-      it('should get default home url', function () {
-        // given
-        const service = this.owner.lookup('service:url');
-        service.definedHomeUrl = 'pix.test.fr';
+  describe('#showcaseUrl', function () {
+    let defaultLocale;
 
-        // when
-        const homeUrl = service.homeUrl;
-
-        // then
-        const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
-        expect(homeUrl).to.equal(expectedDefinedHomeUrl);
-      });
+    beforeEach(function () {
+      defaultLocale = this.intl.t('current-lang');
     });
 
-    context('when it is not a Review App and environnement is ‘production‘', function () {
-      const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
-      let defaultLocale;
+    afterEach(function () {
+      this.intl.setLocale(defaultLocale);
+    });
 
-      beforeEach(function () {
-        ENV.APP.IS_PROD_ENVIRONMENT = true;
-        defaultLocale = this.intl.t('current-lang');
-      });
+    [
+      { language: 'fr', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr' },
+      { language: 'fr', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org' },
+      { language: 'en', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr/en-gb' },
+      { language: 'en', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org/en-gb' },
+    ].forEach(function (testCase) {
+      it(`should get "${testCase.expectedShowcaseUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function () {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.definedHomeUrl = '/';
+        service.currentDomain = { getExtension: sinon.stub().returns(testCase.currentDomainExtension) };
+        this.intl.setLocale([testCase.language]);
 
-      afterEach(function () {
-        ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
-        this.intl.setLocale(defaultLocale);
-      });
+        // when
+        const showcaseUrl = service.showcaseUrl;
 
-      [
-        { language: 'fr', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr' },
-        { language: 'fr', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org' },
-        { language: 'en', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr/en-gb' },
-        { language: 'en', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org/en-gb' },
-      ].forEach(function (testCase) {
-        it(`should get "${testCase.expectedHomeUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function () {
-          // given
-          const service = this.owner.lookup('service:url');
-          service.definedHomeUrl = '/';
-          service.currentDomain = { getExtension: sinon.stub().returns(testCase.currentDomainExtension) };
-          this.intl.setLocale([testCase.language]);
-
-          // when
-          const homeUrl = service.homeUrl;
-
-          // then
-          expect(homeUrl).to.equal(testCase.expectedHomeUrl);
-        });
+        // then
+        expect(showcaseUrl).to.equal(testCase.expectedShowcaseUrl);
       });
     });
   });

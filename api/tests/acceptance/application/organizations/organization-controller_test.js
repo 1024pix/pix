@@ -18,6 +18,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -599,6 +600,7 @@ describe('Acceptance | Application | organization-controller', function () {
           lastName: 'Bonneau',
         });
         const archivedAt = new Date('2019-04-28T02:42:00Z');
+        const createdAt = new Date('2019-04-28T02:42:00Z');
         const organization = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
           name: 'Organization catalina',
@@ -612,6 +614,7 @@ describe('Acceptance | Application | organization-controller', function () {
           documentationUrl: 'https://pix.fr/',
           archivedBy: archivist.id,
           archivedAt,
+          createdAt,
         });
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
@@ -637,6 +640,7 @@ describe('Acceptance | Application | organization-controller', function () {
               credit: organization.credit,
               email: organization.email,
               'created-by': superAdminUserId,
+              'created-at': createdAt,
               'documentation-url': organization.documentationUrl,
               'show-nps': organization.showNPS,
               'form-nps-url': organization.formNPSUrl,
@@ -644,6 +648,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'archivist-full-name': 'Jean Bonneau',
               'archived-at': archivedAt,
               'creator-full-name': 'Tom Dereck',
+              'identity-provider-for-campaigns': null,
             },
             id: organization.id.toString(),
             relationships: {
@@ -1053,7 +1058,10 @@ describe('Acceptance | Application | organization-controller', function () {
       let organizationLearner, campaign, participation;
 
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+        campaign = databaseBuilder.factory.buildCampaign({
+          organizationId: organization.id,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        });
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           userId: user.id,
@@ -1061,6 +1069,7 @@ describe('Acceptance | Application | organization-controller', function () {
         participation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
+          isCertifiable: true,
         });
 
         await databaseBuilder.commit();
@@ -1085,6 +1094,8 @@ describe('Acceptance | Application | organization-controller', function () {
                 'campaign-name': campaign.name,
                 'campaign-type': campaign.type,
                 'participation-status': participation.status,
+                'is-certifiable': participation.isCertifiable,
+                'certifiable-at': participation.sharedAt,
               },
               id: organizationLearner.id.toString(),
               type: 'sco-organization-participants',
@@ -1251,6 +1262,45 @@ describe('Acceptance | Application | organization-controller', function () {
         // then
         expect(response.statusCode).to.equal(403);
       });
+    });
+  });
+
+  describe('GET /api/organizations/{organizationId}/participants', function () {
+    it('should return the matching participants as JSON API', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: false }).id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        organizationLearnerId: organizationLearner.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const expectedResult = {
+        data: [{ id: organizationLearner.id.toString() }],
+      };
+
+      const request = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/participants`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(request);
+      expect(response.result.data.id).to.deep.equal(expectedResult.data.id);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -1989,34 +2039,6 @@ describe('Acceptance | Application | organization-controller', function () {
       const request = {
         method: 'GET',
         url: '/api/organizations/' + organization.id + '/divisions',
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      // when
-      const response = await server.inject(request);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('GET /api/organizations/{organizationId}/participants', function () {
-    it('should return the participants', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const organizationLearnersId = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnersId });
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId,
-        organizationRole: Membership.roles.ADMIN,
-      });
-      await databaseBuilder.commit();
-
-      const request = {
-        method: 'GET',
-        url: `/api/organizations/${organizationId}/participants`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 

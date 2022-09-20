@@ -4,6 +4,7 @@ module.exports = function () {
     'free-solid-svg-icons': [
       'arrow-left',
       'arrow-right',
+      'arrow-up',
       'bars',
       'bookmark',
       'chevron-down',
@@ -21,6 +22,8 @@ module.exports = function () {
       'image',
       'link',
       'lock',
+      'minus',
+      'plus',
       'power-off',
       'right-from-bracket',
       'right-long',

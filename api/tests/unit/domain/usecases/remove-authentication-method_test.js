@@ -24,7 +24,25 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     return [
       domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
-      domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId }),
+      domainBuilder.buildAuthenticationMethod.withIdentityProvider({
+        userId,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+      }),
+    ];
+  }
+
+  function buildAllAuthenticationMethodsForUser(userId) {
+    return [
+      domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
+      domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
+      domainBuilder.buildAuthenticationMethod.withIdentityProvider({
+        userId,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+      }),
+      domainBuilder.buildAuthenticationMethod.withIdentityProvider({
+        userId,
+        identityProvider: OidcIdentityProviders.CNAV.code,
+      }),
     ];
   }
 
@@ -171,6 +189,26 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
         userId: user.id,
         identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+      });
+    });
+  });
+
+  context('When type is CNAV', function () {
+    it('should remove CNAV authentication method', async function () {
+      // given
+      const type = OidcIdentityProviders.CNAV.code;
+      const user = domainBuilder.buildUser();
+      userRepository.get.resolves(user);
+      const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
+      authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
+
+      // when
+      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+
+      // then
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+        userId: user.id,
+        identityProvider: OidcIdentityProviders.CNAV.code,
       });
     });
   });

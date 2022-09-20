@@ -1,7 +1,6 @@
 # Contribuer à Pix
 
 Pour toute contribution, il est essentiel de respecter *a minima* les points suivants.
-Pour aller plus loin, vous pouvez parcourir les différents fichiers présentés dans le [README.md](./README.md)
 
 ## Règles de bonnes conduites pour déclarer les problèmes
 

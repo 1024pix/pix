@@ -14,6 +14,10 @@ class RedisMonitor {
     }
     return this._client.ping();
   }
+
+  quit() {
+    this._client.quit();
+  }
 }
 
 module.exports = new RedisMonitor();

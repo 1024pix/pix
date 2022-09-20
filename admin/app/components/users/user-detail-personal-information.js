@@ -11,6 +11,7 @@ const typesLabel = {
   USERNAME: 'Identifiant',
   POLE_EMPLOI: 'Pôle Emploi',
   GAR: 'Médiacentre',
+  CNAV: 'CNAV',
 };
 
 export default class UserDetailPersonalInformationComponent extends Component {

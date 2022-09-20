@@ -34,6 +34,11 @@
           "disclaimer": "Attention, cette action est irréversible."
         }
       }
+    },
+    "session-supervising": {
+      "candidate-list": {
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"
+      }
     }
   }
 }

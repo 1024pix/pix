@@ -46,6 +46,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
         authenticationKey: 'super-key',
         identityProviderSlug: 'super-idp',
+        hostSlug: 'users',
       });
     });
 

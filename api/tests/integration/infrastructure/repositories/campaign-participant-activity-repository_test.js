@@ -362,7 +362,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const { campaignParticipantsActivities, pagination } =
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({
             campaignId: campaign.id,
-            filters: { search: 'Eura' },
+            filters: { search: 'Eur' },
           });
 
         // then

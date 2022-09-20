@@ -5,24 +5,19 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
   describe('constructor', function () {
     it('should initialize as many CampaignTubeRecommendations objects as competences in target profile', function () {
       // given
-      const targetedTube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetenceId' });
-      const targetedTube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetenceId' });
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+      const tube1 = domainBuilder.buildTube({ id: 'recTube1', competenceId: 'recCompetenceId' });
+      const tube2 = domainBuilder.buildTube({ id: 'recTube2', competenceId: 'recCompetenceId' });
+      const competence = domainBuilder.buildCompetence({
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
-        tubes: [targetedTube1, targetedTube2],
+        tubes: [tube1, tube2],
       });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence] });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        tubes: [targetedTube1, targetedTube2],
-        competences: [targetedCompetence],
-        areas: [targetedArea],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
 
       // when
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        targetProfileWithLearningContent,
+        learningContent,
         tutorials: [],
       });
 
@@ -32,77 +27,75 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('should initialize CampaignTubeRecommendation with appropriate properties', function () {
       // given
-      const targetedTube = domainBuilder.buildTargetedTube({
+      const tube = domainBuilder.buildTube({
         id: 'recTubeId',
         competenceId: 'recCompetence',
         index: '3.1',
       });
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'recCompetence',
-        areaId: 'recAreaId',
-        tubes: [targetedTube],
+        tubes: [tube],
       });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence] });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        tubes: [targetedTube],
-        competences: [targetedCompetence],
-        areas: [targetedArea],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+
       const campaignId = 123;
 
       // when
-      const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfileWithLearningContent, tutorials: [] });
+      const campaignAnalysis = new CampaignAnalysis({
+        campaignId,
+        learningContent,
+        tutorials: [],
+      });
 
       // then
       expect(campaignAnalysis.campaignTubeRecommendations[0].id).to.equal('123_recTubeId');
       expect(campaignAnalysis.campaignTubeRecommendations[0].campaignId).to.equal(123);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].tubeId).to.equal(targetedTube.id);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].competenceId).to.equal(targetedCompetence.id);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].competenceName).to.equal(targetedCompetence.name);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].tubePracticalTitle).to.equal(targetedTube.practicalTitle);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].tubeDescription).to.equal(targetedTube.description);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].areaColor).to.equal(targetedArea.color);
-      expect(campaignAnalysis.campaignTubeRecommendations[0].maxSkillLevelInTargetProfile).to.equal(
-        targetProfileWithLearningContent.maxSkillDifficulty
+      expect(campaignAnalysis.campaignTubeRecommendations[0].tubeId).to.equal(tube.id);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].competenceId).to.equal(competence.id);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].competenceName).to.equal(competence.name);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].tubePracticalTitle).to.equal(tube.practicalTitle);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].tubeDescription).to.equal(tube.practicalDescription);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].areaColor).to.equal(area.color);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].maxSkillLevel).to.equal(
+        learningContent.maxSkillDifficulty
       );
     });
 
     it('should affect CampaignTubeRecommendation with appropriate unique tutorials', function () {
       // given
-      const targetedSkill1 = domainBuilder.buildTargetedSkill({
+      const skill1 = domainBuilder.buildSkill({
         id: 'recSkill1',
         tubeId: 'recTubeId',
         tutorialIds: ['tutorial2', 'nonexistent'],
       });
-      const targetedSkill2 = domainBuilder.buildTargetedSkill({
+      const skill2 = domainBuilder.buildSkill({
         id: 'recSkill2',
         tubeId: 'recTubeId',
         tutorialIds: ['tutorial2'],
       });
-      const targetedTube = domainBuilder.buildTargetedTube({
+      const tube = domainBuilder.buildTube({
         id: 'recTubeId',
         competenceId: 'recCompetence',
-        skills: [targetedSkill1, targetedSkill2],
+        skills: [skill1, skill2],
       });
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         id: 'recCompetence',
-        areaId: 'recAreaId',
-        tubes: [targetedTube],
+        tubes: [tube],
       });
-      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence] });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [targetedSkill1, targetedSkill2],
-        tubes: [targetedTube],
-        competences: [targetedCompetence],
-        areas: [targetedArea],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
       const campaignId = 123;
       const tutorial1 = domainBuilder.buildTutorial({ id: 'tutorial1' });
       const tutorial2 = domainBuilder.buildTutorial({ id: 'tutorial2' });
       const tutorials = [tutorial1, tutorial2];
 
       // when
-      const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfileWithLearningContent, tutorials });
+      const campaignAnalysis = new CampaignAnalysis({
+        campaignId,
+        learningContent,
+        tutorials,
+      });
 
       // then
       expect(campaignAnalysis.campaignTubeRecommendations[0].tutorials).to.deep.equal([tutorial2]);
@@ -113,30 +106,34 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
     it('should add up to obtain expected average recommendation score on a tube when finalizing ', function () {
       // given
       const participantCount = 2;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
-      const tube = domainBuilder.buildTargetedTube({
+      const skill1 = domainBuilder.buildSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
+      const tube = domainBuilder.buildTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName',
         skills: [skill1, skill2],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
-      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        targetProfileWithLearningContent,
+        learningContent,
         tutorials: [],
         participantCount,
       });
@@ -159,30 +156,34 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('computes average recommendation when some participants does not have knowledge element', function () {
       const participantCount = 2;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
-      const tube = domainBuilder.buildTargetedTube({
+      const skill1 = domainBuilder.buildSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
+      const tube = domainBuilder.buildTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName',
         skills: [skill1, skill2],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
-      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        targetProfileWithLearningContent,
+        learningContent,
         tutorials: [],
         participantCount,
       });
@@ -200,30 +201,34 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
     });
 
     it('returns null when there is no participant', function () {
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
-      const tube = domainBuilder.buildTargetedTube({
+      const skill1 = domainBuilder.buildSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
+      const tube = domainBuilder.buildTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName',
         skills: [skill1, skill2],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube],
       });
-      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        targetProfileWithLearningContent,
+        learningContent,
         tutorials: [],
       });
 
@@ -236,37 +241,46 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('returns the difficulty score when there are participant but no knowledge elements', function () {
       const participantCount = 6;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
-      const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill3', name: '@difficulty4', tubeId: 'recTubeId2' });
-      const tube1 = domainBuilder.buildTargetedTube({
+      const skill1 = domainBuilder.buildSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId',
+        difficulty: 2,
+      });
+      const skill3 = domainBuilder.buildSkill({
+        id: 'recSkill3',
+        name: '@difficulty4',
+        tubeId: 'recTubeId2',
+        difficulty: 4,
+      });
+      const tube1 = domainBuilder.buildTube({
         id: 'recTubeId',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName',
         skills: [skill1, skill2],
       });
-      const tube2 = domainBuilder.buildTargetedTube({
+      const tube2 = domainBuilder.buildTube({
         id: 'recTubeId2',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName2',
         skills: [skill3],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube1, tube2],
       });
-      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2, skill3],
-        tubes: [tube1, tube2],
-        competences: [competence],
-        areas: [area],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        targetProfileWithLearningContent,
+        learningContent,
         tutorials: [],
         participantCount,
       });
@@ -280,36 +294,40 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
 
     it('should work for all the tubes', function () {
       const participantCount = 2;
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId2' });
-      const tube1 = domainBuilder.buildTargetedTube({
+      const skill1 = domainBuilder.buildSkill({
+        id: 'recSkill1',
+        name: '@difficulty1',
+        tubeId: 'recTubeId',
+        difficulty: 1,
+      });
+      const skill2 = domainBuilder.buildSkill({
+        id: 'recSkill2',
+        name: '@difficulty2',
+        tubeId: 'recTubeId2',
+        difficulty: 2,
+      });
+      const tube1 = domainBuilder.buildTube({
         id: 'recTubeId1',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName',
         skills: [skill1],
       });
-      const tube2 = domainBuilder.buildTargetedTube({
+      const tube2 = domainBuilder.buildTube({
         id: 'recTubeId2',
         competenceId: 'recCompetenceId',
         practicalTitle: 'TubeName2',
         skills: [skill2],
       });
-      const competence = domainBuilder.buildTargetedCompetence({
+      const competence = domainBuilder.buildCompetence({
         name: 'CompetenceName',
         id: 'recCompetenceId',
-        areaId: 'recAreaId',
         tubes: [tube1, tube2],
       });
-      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
-      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube1, tube2],
-        competences: [competence],
-        areas: [area],
-      });
+      const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        targetProfileWithLearningContent,
+        learningContent,
         tutorials: [],
         participantCount,
       });

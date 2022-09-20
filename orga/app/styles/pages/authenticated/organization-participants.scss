@@ -12,6 +12,11 @@ $margin-right: 32px;
     justify-content: center;
   }
 
+  &__certifiable-at {
+    display: block;
+    margin-top: $spacing-xxs;
+  }
+
   &__header {
     display: flex;
     align-items: baseline;

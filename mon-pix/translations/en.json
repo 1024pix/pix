@@ -189,7 +189,7 @@
         "legal": "Information about your progress will be sent to the organiser so they can help you if necessary. It will only be sent with your permission."
       },
       "warning-message": "If you are not { firstName } { lastName },",
-      "warning-message-logout": "please log out"
+      "warning-message-logout": "Please log out"
     },
     "campaign-participation": {
       "title": "Customised test"
@@ -551,8 +551,8 @@
       "statement": {
         "alternative-instruction": {
           "actions": {
-            "display": "Show alternative instruction",
-            "hide": "Hide alternative instruction"
+            "display": "Show alternative text",
+            "hide": "Hide alternative text"
           }
         },
         "external-link-title": "new window",
@@ -769,12 +769,23 @@
         "missing-code": "Please enter a code.",
         "not-found": "Your code is incorrect. Please check it or contact the organiser."
       },
-      "explanation-message": "Qu’est-ce qu’un code parcours et comment l’utiliser ?",
+      "explanation-message": "What is a customised test code and how do I use it?",
+      "explanation-link": "https://support.pix.org/en/support/solutions/articles/15000029147-what-is-a-customised-test-code-and-how-do-i-use-it-",
       "first-title-connected": "{ firstName }, enter your code",
       "first-title-not-connected": "Enter your code",
       "start": "Start the customised test",
       "warning-message": "If you are not { firstName } { lastName },",
-      "warning-message-logout": "please log out"
+      "warning-message-logout": "please log out",
+      "mediacentre-start-campaign-modal": {
+        "title": "Customised test via Mediacentre",
+        "message": "To access the customised test:",
+        "organised-by": "organised by ",
+        "message-footer": "Connect to Pix via your Mediacentre",
+        "actions": {
+          "continue": "Continue",
+          "quit": "Exit"
+        }
+      }
     },
     "fill-in-certificate-verification-code": {
       "title": "Verify the authenticity of a Pix Certificate",
@@ -947,10 +958,25 @@
       },
       "error": {
         "error-message": "Please agree to the terms and conditions of use.",
-        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in",
+        "expired-authentication-key": "Your authentication demand has expired.",
         "invalid-email": "Your email address is invalid.",
-        "login-unauthorized-error": "There was an error in the email address or password entered."
+        "login-unauthorized-error": "There was an error in the email address or password entered.",
+        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support."
       }
+    },
+    "oidc-reconciliation": {
+      "title": "Attention",
+      "sub-title": "Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
+      "information": "L'évaluation des compétences étant personnalisée, votre compte doit rester strictement personnel",
+      "current-authentication-methods": "Mes méthodes de connexion actuelles :",
+      "authentication-method-to-add": "Méthode de connexion ajoutée :",
+      "external-connection": "Connexion externe",
+      "external-connection-via": "Connexion via",
+      "switch-account": "Changer de compte",
+      "confirm": "Continuer",
+      "return": "Retour",
+      "email": "Adresse e-mail",
+      "username": "Identifiant"
     },
     "not-connected": {
       "title": "Logged out",
@@ -1011,6 +1037,8 @@
         "reminder-send-campaign-with-title": "customised test \"{title}\" finished. Don’t forget to submit your results!"
       },
       "total-score-helper": {
+        "label": "Open tooltip",
+        "icon": "Pix information",
         "title": "Why 1,024 pix?",
         "explanation": "<p>That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'</p><p>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is {maxReachablePixCount} pix'</span>', corresponding to level {maxReachableLevel}.'</p>'"
       }
@@ -1361,6 +1389,12 @@
       "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
       "secondary": "You can continue answering after this, but the question will not be marked as correct."
     },
+    "training" : {
+      "type": {
+        "autoformation": "Autoformation course",
+        "webinaire": "Webinar"
+      }
+    },
     "tutorial": {
       "title": "Campaign tutorial",
       "next": "Next",
@@ -1464,9 +1498,8 @@
         "username": "Username",
         "authentication-methods": {
           "label": "External login",
-          "gar": "ENT/Mediacentre",
-          "pole-emploi": "Pôle Emploi",
-          "cnav": "Cnav"
+          "via": "via {identityProviderOrganizationName}",
+          "gar": "ENT/Mediacentre"
         }
       },
       "email-verification": {
@@ -1519,6 +1552,10 @@
         "image-link": "images/illustrations/user-tutorials/illustration-en.svg"
       },
       "filter": "Filter",
+      "sidebar": {
+        "reset": "Reset",
+        "see-results": "See the results"
+      },
       "label": "Tutorials",
       "list": {
         "title": "My list",

@@ -14,8 +14,8 @@ export default class PasswordResetDemandForm extends Component {
 
   email = '';
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   get error() {

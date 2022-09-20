@@ -1,23 +1,7 @@
 const { PassThrough } = require('stream');
-const {
-  expect,
-  mockLearningContent,
-  databaseBuilder,
-  domainBuilder,
-  streamToPromise,
-} = require('../../../test-helper');
+const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
 
-const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
-
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
-
+const usecases = require('../../../../lib/domain/usecases');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
@@ -39,58 +23,43 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       organization = databaseBuilder.factory.buildOrganization({ showSkills: true });
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
-      const skillWeb1 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1' });
-      const skillWeb2 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb2', name: '@web2', tubeId: 'recTube1' });
-      const skillWeb3 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb3', name: '@web3', tubeId: 'recTube1' });
-      const tube1 = domainBuilder.buildTargetedTube({
-        id: 'recTube1',
-        skills: [skillWeb1, skillWeb2, skillWeb3],
-        competenceId: 'recCompetence1',
-      });
-      const competence1 = domainBuilder.buildTargetedCompetence({
-        id: 'recCompetence1',
-        index: '1.1',
-        tubes: [tube1],
-        areaId: 'recArea1',
-      });
-      domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1] });
 
       participant = databaseBuilder.factory.buildUser();
       const createdAt = new Date('2019-02-25T10:00:00Z');
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
-        skillId: skillWeb1.id,
-        competenceId: competence1.id,
+        skillId: 'recSkillWeb1',
+        competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
-        skillId: skillWeb2.id,
-        competenceId: competence1.id,
+        skillId: 'recSkillWeb2',
+        competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'invalidated',
-        skillId: skillWeb3.id,
-        competenceId: competence1.id,
+        skillId: 'recSkillWeb3',
+        competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
-        skillId: skillWeb3.id,
-        competenceId: competence1.id,
+        skillId: 'recSkillWeb3',
+        competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt: new Date('2019-03-25T10:00:00Z'),
       });
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({ name: '+Profile 1' });
-      [skillWeb1, skillWeb2, skillWeb3].forEach((skill) => {
+      ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
         databaseBuilder.factory.buildTargetProfileSkill({
           targetProfileId: targetProfile.id,
-          skillId: skill.id,
+          skillId: skillId,
         });
       });
 
@@ -181,19 +150,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         '"KO"';
 
       // when
-      startWritingCampaignAssessmentResultsToStream({
+      await usecases.startWritingCampaignAssessmentResultsToStream({
         userId: user.id,
         campaignId: campaign.id,
         writableStream,
         i18n,
-        campaignRepository,
-        userRepository,
-        targetProfileWithLearningContentRepository,
-        organizationRepository,
-        campaignParticipationInfoRepository,
-        knowledgeElementRepository,
-        badgeAcquisitionRepository,
-        campaignCsvExportService,
       });
 
       const csv = await csvPromise;

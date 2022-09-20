@@ -15,7 +15,7 @@
         <p class="skill-review-disabled-share__text">
           {{t "pages.skill-review.disabled-share" htmlSafe=true}}
         </p>
-        <LinkTo @route="index" class="skill-review-share__back-to-home link">
+        <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">
           {{t "pages.skill-review.actions.continue"}}
         </LinkTo>
       </div>
@@ -40,7 +40,7 @@
                 {{text-with-multiple-lang this.reachedStage.title}}
               </div>
               <div class="stage-congrats__message">
-                <MarkdownToHtml @markdown={{text-with-multiple-lang this.reachedStage.message}} />
+                <MarkdownToHtml @markdown={{this.reachedStage.message}} />
               </div>
             </div>
           {{else}}

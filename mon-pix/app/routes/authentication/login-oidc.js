@@ -12,6 +12,12 @@ export default class LoginOidcRoute extends Route {
   @service oidcIdentityProviders;
   @service featureToggles;
 
+  _unsetOidcProperties() {
+    this.session.set('data.nextURL', undefined);
+    this.session.set('data.nonce', undefined);
+    this.session.set('data.state', undefined);
+  }
+
   beforeModel(transition) {
     const queryParams = transition.to.queryParams;
     if (queryParams.error) {
@@ -19,6 +25,8 @@ export default class LoginOidcRoute extends Route {
     }
 
     if (!queryParams.code) {
+      this._unsetOidcProperties();
+
       const identityProviderSlug = transition.to.params.identity_provider_slug.toString();
       const isSupportedIdentityProvider = this.oidcIdentityProviders[identityProviderSlug] ?? null;
       if (isSupportedIdentityProvider) return this._handleRedirectRequest(identityProviderSlug);
@@ -65,6 +73,7 @@ export default class LoginOidcRoute extends Route {
         redirectUri,
         state,
         identityProviderSlug,
+        hostSlug: 'token',
       });
     } catch (response) {
       const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';

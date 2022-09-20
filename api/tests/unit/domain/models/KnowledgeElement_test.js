@@ -153,7 +153,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       });
     });
 
-    context('and the skill is in the target profil and is alone in it’s tube', function () {
+    context('and the skill is in the target profile and is alone in it’s tube', function () {
       let createdKnowledgeElements;
       let targetSkills;
 

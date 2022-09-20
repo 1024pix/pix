@@ -76,4 +76,13 @@ export default function (config) {
         'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion',
     };
   });
+
+  config.post('/oidc/user/check-reconciliation', () => {
+    return {
+      'full-name-from-pix': 'LLoyd Cé',
+      'full-name-from-external-identity-provider': 'LLoyd Idp',
+      email: 'lloyd.ce@example.net',
+      'authentication-methods': [{ identityProvider: 'PIX' }],
+    };
+  });
 }

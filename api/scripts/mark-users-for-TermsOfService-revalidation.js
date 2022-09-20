@@ -1,12 +1,11 @@
-const Bookshelf = require('../lib/infrastructure/bookshelf');
-const ERROR_RETURN_CODE = 1;
+const { knex, disconnect } = require('../db/knex-database-connection');
 
 async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
-  const subquery = Bookshelf.knex.select('users.id').from('users').where({
+  const subquery = knex.select('users.id').from('users').where({
     cgu: true,
   });
 
-  const result = await Bookshelf.knex
+  const result = await knex
     .table('users')
     .update({ mustValidateTermsOfService: true })
     .whereIn('id', subquery)
@@ -14,31 +13,31 @@ async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
   return result.map(({ id }) => id);
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
   console.log(
     'Start updating "mustValidateTermsOfService" column for some records of users table, from false to true.'
   );
 
-  try {
-    const updatedUserIds = await markUsersRequiringTermsOfServiceValidationForRevalidation();
-    console.log(`Successfully updated ${updatedUserIds.length} records.`);
+  const updatedUserIds = await markUsersRequiringTermsOfServiceValidationForRevalidation();
+  console.log(`Successfully updated ${updatedUserIds.length} records.`);
 
-    console.log('Done.');
-  } catch (error) {
-    console.error('\n', error);
-    process.exit(ERROR_RETURN_CODE);
-  }
+  console.log('Done.');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(ERROR_RETURN_CODE);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   markUsersRequiringTermsOfServiceValidationForRevalidation,

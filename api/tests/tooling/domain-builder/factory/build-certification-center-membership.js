@@ -17,6 +17,7 @@ module.exports = function buildCertificationCenterMembership({
   user = _buildUser(),
   createdAt = new Date('2020-01-01'),
   disabledAt,
+  isReferer = false,
 } = {}) {
   return new CertificationCenterMembership({
     id,
@@ -24,5 +25,6 @@ module.exports = function buildCertificationCenterMembership({
     user,
     createdAt,
     disabledAt,
+    isReferer,
   });
 };

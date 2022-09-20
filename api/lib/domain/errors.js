@@ -664,6 +664,12 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
+class MissingUserAccountError extends DomainError {
+  constructor(message = 'Les informations de compte requises sont manquantes') {
+    super(message);
+  }
+}
+
 class UnexpectedUserAccountError extends DomainError {
   constructor({ message = "Ce compte utilisateur n'est pas celui qui est attendu.", code, meta }) {
     super(message);
@@ -716,6 +722,13 @@ class NotEligibleCandidateError extends DomainError {
 
 class NotFoundError extends DomainError {
   constructor(message = 'Erreur, ressource introuvable.', code) {
+    super(message);
+    this.code = code;
+  }
+}
+
+class DeletedError extends DomainError {
+  constructor(message = 'Erreur, ressource supprimée.', code) {
     super(message);
     this.code = code;
   }
@@ -1131,6 +1144,12 @@ class DifferentExternalIdentifierError extends DomainError {
   }
 }
 
+class NoSkillsInCampaignError extends DomainError {
+  constructor(message = 'La campagne ne contient aucun acquis opérationnel.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1226,14 +1245,17 @@ module.exports = {
   MissingAttributesError,
   MissingBadgeCriterionError,
   MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
   CantImproveCampaignParticipationError,
   NoCertificationResultForDivision,
+  NoSkillsInCampaignError,
   NoStagesForCampaign,
   NoOrganizationToAttach,
   NotEligibleCandidateError,
   NotFoundError,
+  DeletedError,
   NotImplementedError,
   ObjectValidationError,
   OrganizationArchivedError,

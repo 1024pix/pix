@@ -11,6 +11,7 @@ class OrganizationForAdmin {
     email,
     documentationUrl,
     createdBy,
+    createdAt,
     showNPS,
     formNPSUrl,
     showSkills,
@@ -19,6 +20,7 @@ class OrganizationForAdmin {
     archivistLastName,
     creatorFirstName,
     creatorLastName,
+    identityProviderForCampaigns,
     tags = [],
   } = {}) {
     this.id = id;
@@ -32,6 +34,7 @@ class OrganizationForAdmin {
     this.email = email;
     this.documentationUrl = documentationUrl;
     this.createdBy = createdBy;
+    this.createdAt = createdAt;
     this.showNPS = showNPS;
     this.formNPSUrl = formNPSUrl;
     this.showSkills = showSkills;
@@ -40,6 +43,7 @@ class OrganizationForAdmin {
     this.archivistLastName = archivistLastName;
     this.creatorFirstName = creatorFirstName;
     this.creatorLastName = creatorLastName;
+    this.identityProviderForCampaigns = identityProviderForCampaigns;
     this.tags = tags;
   }
 

@@ -1,16 +1,16 @@
 class CampaignAssessmentParticipationCompetenceResult {
   constructor({
     campaignParticipationId,
-    targetedArea,
-    targetedCompetence,
-    targetedSkillsCount,
+    area,
+    competence,
+    skillsCount,
     validatedTargetedKnowledgeElementsCount,
   } = {}) {
-    this.id = `${campaignParticipationId}-${targetedCompetence.id}`;
-    this.name = targetedCompetence.name;
-    this.index = targetedCompetence.index;
-    this.areaColor = targetedArea.color;
-    this.competenceMasteryRate = Number((validatedTargetedKnowledgeElementsCount / targetedSkillsCount).toFixed(2));
+    this.id = `${campaignParticipationId}-${competence.id}`;
+    this.name = competence.name;
+    this.index = competence.index;
+    this.areaColor = area.color;
+    this.competenceMasteryRate = Number((validatedTargetedKnowledgeElementsCount / skillsCount).toFixed(2));
   }
 }
 

@@ -20,8 +20,8 @@ export default class TermsOfServiceOidcComponent extends Component {
   @tracked isAuthenticationKeyExpired = false;
   @tracked errorMessage = null;
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   get identityProviderOrganizationName() {
@@ -36,6 +36,7 @@ export default class TermsOfServiceOidcComponent extends Component {
         await this.session.authenticate('authenticator:oidc', {
           authenticationKey: this.args.authenticationKey,
           identityProviderSlug: this.args.identityProviderSlug,
+          hostSlug: 'users',
         });
       } catch (error) {
         const status = get(error, 'errors[0].status');

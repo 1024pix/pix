@@ -9,10 +9,10 @@ const constants = require('../constants');
 const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = {
-  async getCampaignCollectiveResult(campaignId, targetProfileWithLearningContent) {
+  async getCampaignCollectiveResult(campaignId, learningContent) {
     const campaignCollectiveResult = new CampaignCollectiveResult({
       id: campaignId,
-      targetProfile: targetProfileWithLearningContent,
+      learningContent,
     });
 
     const userIdsAndSharedDatesChunks = await _getChunksSharedParticipationsWithUserIdsAndDates(campaignId);
@@ -21,9 +21,9 @@ module.exports = {
     await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
       participantCount += userIdsAndSharedDates.length;
       const validatedTargetedKnowledgeElementsCountByCompetenceId =
-        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers(
+        await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           Object.fromEntries(userIdsAndSharedDates),
-          targetProfileWithLearningContent
+          learningContent
         );
       campaignCollectiveResult.addValidatedSkillCountToCompetences(
         validatedTargetedKnowledgeElementsCountByCompetenceId

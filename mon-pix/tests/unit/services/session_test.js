@@ -28,6 +28,50 @@ describe('Unit | Services | session', function () {
     oauthAuthenticator.authenticate = sinon.stub().resolves('ok');
   });
 
+  describe('#authenticateUser', function () {
+    it('should authenticate the user with oauth2 and mon-pix scope', async function () {
+      // given
+      const expectedScope = 'mon-pix';
+      const expectedLogin = 'user';
+      const expectedPassword = 'secret';
+      sessionService.currentDomain.getExtension.returns('fr');
+
+      // when
+      await sessionService.authenticateUser(expectedLogin, expectedPassword);
+
+      // then
+      sinon.assert.calledWith(oauthAuthenticator.authenticate, {
+        login: expectedLogin,
+        password: expectedPassword,
+        scope: expectedScope,
+      });
+    });
+
+    it('should delete expectedUserId', async function () {
+      // given
+      sessionService.currentDomain.getExtension.returns('fr');
+      sessionService.data.expectedUserId = 1;
+
+      // when
+      await sessionService.authenticateUser('user', 'secret');
+
+      // then
+      expect(sessionService.data.expectedUserId).to.be.undefined;
+    });
+
+    it('should delete externalUser', async function () {
+      // given
+      sessionService.currentDomain.getExtension.returns('fr');
+      sessionService.data.externalUser = 1;
+
+      // when
+      await sessionService.authenticateUser('user', 'secret');
+
+      // then
+      expect(sessionService.data.externalUser).to.be.undefined;
+    });
+  });
+
   describe('#handleAuthentication', function () {
     beforeEach(function () {
       const oidcPartner = {
@@ -106,7 +150,7 @@ describe('Unit | Services | session', function () {
 
       // then
       sinon.assert.calledOnce(routerService.transitionTo);
-      sinon.assert.calledWith(routerService.transitionTo, 'user-dashboard');
+      sinon.assert.calledWith(routerService.transitionTo, 'authenticated.user-dashboard');
     });
   });
 

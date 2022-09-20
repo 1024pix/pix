@@ -8,8 +8,7 @@ class CampaignAssessmentParticipationResult {
     campaignParticipationId,
     campaignId,
     status,
-    targetedCompetences,
-    targetProfile,
+    competences,
     validatedTargetedKnowledgeElementsCountByCompetenceId = {},
   }) {
     this.campaignParticipationId = campaignParticipationId;
@@ -19,15 +18,14 @@ class CampaignAssessmentParticipationResult {
     if (status !== SHARED) {
       this.competenceResults = [];
     } else {
-      this.competenceResults = targetedCompetences.map((targetedCompetence) => {
-        const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
+      this.competenceResults = competences.map((competence) => {
+        const area = competence.area;
         return new CampaignAssessmentParticipationCompetenceResult({
           campaignParticipationId,
-          targetedArea,
-          targetedCompetence,
-          targetedSkillsCount: targetedCompetence.skillCount,
-          validatedTargetedKnowledgeElementsCount:
-            validatedTargetedKnowledgeElementsCountByCompetenceId[targetedCompetence.id],
+          area,
+          competence,
+          skillsCount: competence.skillCount,
+          validatedTargetedKnowledgeElementsCount: validatedTargetedKnowledgeElementsCountByCompetenceId[competence.id],
         });
       });
     }

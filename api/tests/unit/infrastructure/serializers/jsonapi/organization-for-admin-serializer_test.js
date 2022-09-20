@@ -1,5 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
+const Organization = require('../../../../../lib/domain/models/Organization');
+const OrganizationForAdmin = require('../../../../../lib/domain/models/OrganizationForAdmin');
+const Tag = require('../../../../../lib/domain/models/Tag');
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -16,6 +19,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         documentationUrl: 'https://pix.fr/',
         archivistFirstName: 'John',
         archivistLastName: 'Doe',
+        identityProviderForCampaigns: 'super-idp',
       });
       const meta = { some: 'meta' };
 
@@ -37,6 +41,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             credit: organization.credit,
             email: organization.email,
             'created-by': organization.createdBy,
+            'created-at': organization.createdAt,
             'documentation-url': organization.documentationUrl,
             'show-nps': organization.showNPS,
             'form-nps-url': organization.formNPSUrl,
@@ -44,6 +49,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'archived-at': organization.archivedAt,
             'archivist-full-name': organization.archivistFullName,
             'creator-full-name': organization.creatorFullName,
+            'identity-provider-for-campaigns': 'super-idp',
           },
           relationships: {
             memberships: {
@@ -97,6 +103,114 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
           some: 'meta',
         },
       });
+    });
+  });
+
+  describe('#deserialize', function () {
+    it('should convert JSON API data to a OrganizationForAdmin', function () {
+      // given
+      const organizationAttributes = {
+        name: 'Lycée St Cricq',
+        type: Organization.types.SCO,
+        email: 'saint-cricq@example.net',
+        credit: 0,
+        logoUrl: null,
+        externalId: 'ABCD123',
+        provinceCode: '64',
+        isManagingStudents: true,
+        createdBy: 10,
+        documentationUrl: 'https://pix.fr/',
+        showSkills: false,
+        identityProviderForCampaigns: 'external-OIDC',
+      };
+
+      // when
+      const organization = serializer.deserialize({
+        data: {
+          type: 'organizations',
+          id: '7',
+          attributes: {
+            name: organizationAttributes.name,
+            type: organizationAttributes.type,
+            email: organizationAttributes.email,
+            credit: organizationAttributes.credit,
+            'logo-url': organizationAttributes.logoUrl,
+            'external-id': organizationAttributes.externalId,
+            'province-code': organizationAttributes.provinceCode,
+            'is-managing-students': organizationAttributes.isManagingStudents,
+            'created-by': organizationAttributes.createdBy,
+            'documentation-url': organizationAttributes.documentationUrl,
+            'show-skills': organizationAttributes.showSkills,
+            'identity-provider-for-campaigns': organizationAttributes.identityProviderForCampaigns,
+          },
+        },
+      });
+
+      // then
+      const expectedOrganization = new OrganizationForAdmin({
+        id: 7,
+        name: organizationAttributes.name,
+        type: organizationAttributes.type,
+        email: organizationAttributes.email,
+        credit: organizationAttributes.credit,
+        logoUrl: organizationAttributes.logoUrl,
+        externalId: organizationAttributes.externalId,
+        provinceCode: organizationAttributes.provinceCode,
+        isManagingStudents: organizationAttributes.isManagingStudents,
+        createdBy: organizationAttributes.createdBy,
+        documentationUrl: organizationAttributes.documentationUrl,
+        showSkills: organizationAttributes.showSkills,
+        identityProviderForCampaigns: organizationAttributes.identityProviderForCampaigns,
+      });
+      expect(organization).to.be.instanceOf(OrganizationForAdmin);
+      expect(organization).to.deep.equal(expectedOrganization);
+    });
+
+    it('should deserialize tags if there are some', function () {
+      // given
+      const organizationAttributes = {
+        name: 'Lycée St Cricq',
+        type: Organization.types.SCO,
+        email: 'saint-cricq@example.net',
+        credit: 0,
+        logoUrl: null,
+        externalId: 'ABCD123',
+        provinceCode: '64',
+        isManagingStudents: true,
+      };
+      const tagAttributes1 = { id: '4', type: 'tags' };
+      const tagAttributes2 = { id: '2', type: 'tags' };
+      const jsonApiOrganization = {
+        data: {
+          type: 'organizations',
+          id: '7',
+          attributes: {
+            name: organizationAttributes.name,
+            type: organizationAttributes.type,
+            email: organizationAttributes.email,
+            credit: organizationAttributes.credit,
+            logoUrl: organizationAttributes.logoUrl,
+            'external-id': organizationAttributes.externalId,
+            'province-code': organizationAttributes.provinceCode,
+            'is-managing-students': organizationAttributes.isManagingStudents,
+          },
+          relationships: {
+            tags: {
+              data: [tagAttributes1, tagAttributes2],
+            },
+          },
+        },
+      };
+
+      // when
+      const organization = serializer.deserialize(jsonApiOrganization);
+
+      // then
+      const expectedTag1 = new Tag({ id: parseInt(tagAttributes1.id) });
+      const expectedTag2 = new Tag({ id: parseInt(tagAttributes2.id) });
+      expect(organization.tags[0]).to.be.instanceOf(Tag);
+      expect(organization.tags[0]).to.deep.equal(expectedTag1);
+      expect(organization.tags[1]).to.deep.equal(expectedTag2);
     });
   });
 });

@@ -26,7 +26,7 @@ import {
   getOrganizationPlaces,
   getOrganizationPlacesCapacity,
 } from './handlers/organizations';
-import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
+import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { createAdminMember } from './handlers/admin-members';
 
 export default function () {
@@ -81,7 +81,7 @@ export default function () {
     return new Response(204);
   });
   this.get('/admin/sessions/:id');
-  this.get('/admin/sessions/:id/jury-certification-summaries', getJuryCertificationSummariesBySessionId);
+  this.get('/admin/sessions/:id/jury-certification-summaries', getPaginatedJuryCertificationSummariesBySessionId);
   this.put('/admin/sessions/:id/results-sent-to-prescriber', (schema, request) => {
     const sessionId = request.params.id;
     const session = schema.sessions.findBy({ id: sessionId });
@@ -270,6 +270,11 @@ export default function () {
       user.update({ email: null });
     }
 
+    if (type === 'CNAV') {
+      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'CNAV' });
+      authenticationMethod.destroy();
+    }
+
     return new Response(204);
   });
 
@@ -399,4 +404,21 @@ export default function () {
   this.post('/admin/organizations/:id/archive', archiveOrganization);
 
   this.get('/admin/frameworks');
+
+  this.get('/oidc/identity-providers', () => {
+    return {
+      data: [
+        {
+          type: 'oidc-identity-providers',
+          id: 'oidc-partner',
+          attributes: {
+            code: 'OIDC_PARTNER',
+            'organization-name': 'Partenaire OIDC',
+            'has-logout-url': false,
+            source: 'oidc-externe',
+          },
+        },
+      ],
+    };
+  });
 }

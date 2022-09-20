@@ -647,6 +647,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           answerId: id,
           estimatedLevel,
           errorRate,
+          assessmentId: assessment.id,
         });
       });
 

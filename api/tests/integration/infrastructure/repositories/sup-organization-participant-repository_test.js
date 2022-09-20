@@ -509,6 +509,64 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
       });
     });
 
+    context('#participantCount', function () {
+      it('should only count SUP participants in currentOrganization', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
+        const otherOrganization = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({ isDisabled: false, organizationId: otherOrganization.id });
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(1);
+      });
+
+      it('should not count disabled SUP participants', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
+        databaseBuilder.factory.buildOrganizationLearner({
+          isDisabled: false,
+          organizationId: organization.id,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({ isDisabled: true, organizationId: organization.id });
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(1);
+      });
+
+      it('should count all participants when several exist', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id });
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(2);
+      });
+    });
+
     context('#lastParticipationDate', function () {
       it('should take the last participation date', async function () {
         // given

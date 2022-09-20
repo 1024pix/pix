@@ -24,9 +24,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
       await visit('/eleves');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -51,9 +49,8 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         await visit('/eleves');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/les-miennes');
+
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       });
     });
 
@@ -70,9 +67,8 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         await visit('/eleves');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/eleves');
+
+        assert.strictEqual(currentURL(), '/eleves');
       });
 
       module('when admin uploads a file', function (hooks) {
@@ -137,9 +133,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           await visit('/eleves');
           await fillByLabel('Entrer un nom', 'ambo');
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/eleves?lastName=ambo');
+          assert.strictEqual(currentURL(), '/eleves?lastName=ambo');
           assert.contains('Rambo');
           assert.notContains('Norris');
         });
@@ -150,9 +144,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           await fillByLabel('Entrer un prénom', 'Jo');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/eleves?firstName=Jo');
+          assert.strictEqual(currentURL(), '/eleves?firstName=Jo');
           assert.contains('Rambo');
           assert.notContains('Norris');
         });
@@ -163,9 +155,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           await fillByLabel('Rechercher par méthode de connexion', 'email');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/eleves?connexionType=email');
+          assert.strictEqual(currentURL(), '/eleves?connexionType=email');
           assert.contains('Rambo');
           assert.notContains('Norris');
         });

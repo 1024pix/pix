@@ -26,6 +26,9 @@
         <Table::Header @size="medium">{{t
             "pages.organization-participants.table.column.lastest-participation"
           }}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.organization-participants.table.column.is-certifiable.label"}}
+        </Table::Header>
       </tr>
     </thead>
 
@@ -46,6 +49,9 @@
                   @participationStatus={{participant.participationStatus}}
                 />
               </div>
+            </td>
+            <td class="table__column--center">
+              <Ui::IsCertifiable @isCertifiable={{participant.isCertifiable}} />
             </td>
           </tr>
         {{/each}}

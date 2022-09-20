@@ -1,5 +1,7 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
+
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
 const SCO_AGRI_ID = 7;
@@ -8,6 +10,7 @@ const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
 const SCO_FOREIGNER_USER_ID = 301;
 const SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION = 302;
+const SCO_STUDENT_NOT_CERTIFIABLE_ID = 303;
 const SCO_FRENCH_USER_ID = 311;
 const SCO_DISABLED_USER_ID = 321;
 const SCO_ADMIN_ID = 4;
@@ -16,7 +19,7 @@ const SCO_MEMBER_ID = 5;
 function organizationsScoBuilder({ databaseBuilder }) {
   _buildMiddleSchools({ databaseBuilder });
   _buildHighSchools({ databaseBuilder });
-  _buildAgri({ databaseBuilder });
+  _buildFarmingSchools({ databaseBuilder });
   _buildAEFE({ databaseBuilder });
 }
 
@@ -33,7 +36,6 @@ function _buildMiddleSchools({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
     lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
-
   databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_MEMBER_ID,
     firstName: 'Aemon',
@@ -45,6 +47,14 @@ function _buildMiddleSchools({ databaseBuilder }) {
     lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
 
+  const middleSchoolsCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Iven',
+    lastName: 'Patry',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: middleSchoolsCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: SCO_MIDDLE_SCHOOL_ID,
     type: 'SCO',
@@ -54,6 +64,8 @@ function _buildMiddleSchools({ databaseBuilder }) {
     externalId: SCO_COLLEGE_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
+    identityProviderForCampaigns: 'GAR',
+    createdBy: middleSchoolsCreator.id,
   });
 
   databaseBuilder.factory.buildMembership({
@@ -158,6 +170,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
 
   // organization learner associated with email
   const userWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_STUDENT_NOT_CERTIFIABLE_ID,
     firstName: 'Lyanna',
     lastName: 'Mormont',
     email: 'mormont.lyanna@example.net',
@@ -166,13 +179,14 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildOrganizationLearner({
+    id: SCO_STUDENT_NOT_CERTIFIABLE_ID,
     firstName: userWithEmail.firstName,
     lastName: userWithEmail.lastName,
     birthdate: '2002-01-07',
     division: '5D',
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
-    userId: userWithEmail.id,
+    userId: SCO_STUDENT_NOT_CERTIFIABLE_ID,
     nationalStudentId: '123456789EE',
   });
 
@@ -287,6 +301,13 @@ function _buildMiddleSchools({ databaseBuilder }) {
 
 function _buildHighSchools({ databaseBuilder }) {
   const SCO_LYCEE_EXTERNAL_ID = '1237457B';
+  const highSchoolsCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'France',
+    lastName: 'Guernon',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: highSchoolsCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SCO_HIGH_SCHOOL_ID,
@@ -296,6 +317,7 @@ function _buildHighSchools({ databaseBuilder }) {
     email: 'sco2.generic.account@example.net',
     externalId: SCO_LYCEE_EXTERNAL_ID,
     provinceCode: '12',
+    createdBy: highSchoolsCreator.id,
   });
 
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_HIGH_SCHOOL_ID, tagId: 9 });
@@ -380,8 +402,16 @@ function _buildHighSchools({ databaseBuilder }) {
   });
 }
 
-function _buildAgri({ databaseBuilder }) {
+function _buildFarmingSchools({ databaseBuilder }) {
   const SCO_AGRI_EXTERNAL_ID = '1237457C';
+
+  const farmingSchoolsCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Maryse',
+    lastName: 'Marceau',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: farmingSchoolsCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: SCO_AGRI_ID,
@@ -391,6 +421,7 @@ function _buildAgri({ databaseBuilder }) {
     email: 'sco3.generic.account@example.net',
     externalId: SCO_AGRI_EXTERNAL_ID,
     provinceCode: '12',
+    createdBy: farmingSchoolsCreator.id,
   });
 
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID, tagId: 1 });
@@ -411,6 +442,14 @@ function _buildAgri({ databaseBuilder }) {
 function _buildAEFE({ databaseBuilder }) {
   const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
 
+  const aefeCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Bevis',
+    lastName: 'Bellefeuille',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: aefeCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: SCO_AEFE_ID,
     type: 'SCO',
@@ -418,6 +457,7 @@ function _buildAEFE({ databaseBuilder }) {
     email: 'sco4.generic.account@example.net',
     externalId: SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID,
     provinceCode: '12',
+    createdBy: aefeCreator.id,
   });
 
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AEFE_ID, tagId: 6 });
@@ -446,4 +486,5 @@ module.exports = {
   SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION,
   SCO_FRENCH_USER_ID,
   SCO_DISABLED_USER_ID,
+  SCO_STUDENT_NOT_CERTIFIABLE_ID,
 };

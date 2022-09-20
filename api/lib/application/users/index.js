@@ -179,7 +179,15 @@ exports.register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                type: Joi.string().valid('GAR', 'EMAIL', 'USERNAME', OidcIdentityProviders.POLE_EMPLOI.code).required(),
+                type: Joi.string()
+                  .valid(
+                    'GAR',
+                    'EMAIL',
+                    'USERNAME',
+                    OidcIdentityProviders.POLE_EMPLOI.code,
+                    OidcIdentityProviders.CNAV.code
+                  )
+                  .required(),
               },
             },
           }),

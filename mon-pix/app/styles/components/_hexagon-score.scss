@@ -99,6 +99,11 @@
   }
 }
 
-hexagon-score-content-pix-total__icon {
-  padding: 0 0 0 4px;
+.hexagon-score-content-pix-total__icon {
+  padding: 0;
+  margin-left: 4px;
+  line-height: 0;
+  background: none;
+  color: inherit;
+  border: none;
 }

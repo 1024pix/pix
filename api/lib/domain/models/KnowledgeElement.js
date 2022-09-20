@@ -142,7 +142,7 @@ function _enrichDirectKnowledgeElementWithInferredKnowledgeElements({
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
   if (directKnowledgeElement) {
-    const directSkill = _findSkillByIdFromTargetSkills(directKnowledgeElement.skillId, targetSkills);
+    const directSkill = targetSkills.find((skill) => skill.id === directKnowledgeElement.skillId);
 
     const newKnowledgeElements = targetSkillsGroupedByTubeName[directSkill.tubeNameWithoutPrefix]
       .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
@@ -159,11 +159,6 @@ function _enrichDirectKnowledgeElementWithInferredKnowledgeElements({
     return [directKnowledgeElement, ...newKnowledgeElements];
   }
   return [];
-}
-
-function _findSkillByIdFromTargetSkills(skillId, targetSkills) {
-  const skillToCopy = targetSkills.find((skill) => skill.id === skillId);
-  return new Skill({ id: skillToCopy.id, name: skillToCopy.name });
 }
 
 function _createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer, userId }) {

@@ -5,7 +5,7 @@ export default class Profile extends Model {
 
   @hasMany('scorecard') scorecards;
 
-  get areasCode() {
-    return this.scorecards.mapBy('area.code').uniq();
+  get areas() {
+    return this.scorecards.mapBy('area').uniqBy('code');
   }
 }

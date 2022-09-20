@@ -148,6 +148,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               tubeId: 'recArea1_Competence1_Tube1',
               competenceId: 'recArea1_Competence1',
               tutorialIds: [],
+              level: 4,
             },
             {
               id: 'recArea1_Competence2_Tube1_Skill1',
@@ -156,6 +157,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               tubeId: 'recArea1_Competence2_Tube1',
               competenceId: 'recArea1_Competence2',
               tutorialIds: [],
+              level: 3,
             },
           ],
           thematics: [],
@@ -283,6 +285,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               tubeId: 'recTube1',
               competenceId: 'recCompetence1',
               tutorialIds: [],
+              level: 1,
             },
           ],
           thematics: [],
@@ -490,7 +493,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               index: '5',
               areaId: 'recAreaA',
               origin: 'Pix',
-              thematicIds: ['recThemC'],
+              thematicIds: ['recThemC', 'recThemD'],
             },
           ],
           thematics: [
@@ -515,6 +518,13 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               competenceId: 'recCompB',
               tubeIds: ['recTube3'],
             },
+            {
+              id: 'recThemD',
+              name: 'nameFRD',
+              index: '4',
+              competenceId: 'recCompB',
+              tubeIds: ['recTube4'],
+            },
           ],
           tubes: [
             {
@@ -535,6 +545,12 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               name: 'tubeName3',
               practicalTitleFrFr: 'practicalTitleFR3',
             },
+            {
+              id: 'recTube4',
+              competenceId: 'recCompB',
+              name: 'tubeName4',
+              practicalTitleFrFr: 'practicalTitleFR4',
+            },
           ],
           skills: [
             {
@@ -550,6 +566,11 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recSkillTube3',
               tubeId: 'recTube3',
+              status: 'actif',
+            },
+            {
+              id: 'recSkillTube4',
+              tubeId: 'recTube4',
               status: 'actif',
             },
           ],
@@ -593,6 +614,13 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recChalBTube3',
               responsive: [],
               skillId: 'recSkillTube3',
+              status: 'validé',
+              genealogy: 'Prototype 1',
+            },
+            {
+              id: 'recChalTube4',
+              responsive: [],
+              skillId: 'recSkillTube4',
               status: 'validé',
               genealogy: 'Prototype 1',
             },

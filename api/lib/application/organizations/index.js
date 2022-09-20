@@ -276,6 +276,34 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/admin/organizations/{id}/places/{placeId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+            placeId: identifiersType.placeId,
+          }),
+        },
+        handler: organizationController.deleteOrganizationPlacesLot,
+        tags: ['api', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet la suppression d'un lot de place",
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/organizations/{id}/places/capacity',
       config: {
@@ -722,6 +750,7 @@ exports.register = async (server) => {
             'page[size]': Joi.number().integer().empty(''),
             'page[number]': Joi.number().integer().empty(''),
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'page[certificability]': [Joi.string()],
           }).options({ allowUnknown: true }),
         },
         handler: organizationController.findPaginatedFilteredScoParticipants,

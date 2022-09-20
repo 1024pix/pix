@@ -1,6 +1,6 @@
 {
   "name": "mon-pix",
-  "version": "3.246.0",
+  "version": "3.256.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "license": "AGPL-3.0",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.5.0",
-    "@1024pix/pix-ui": "^16.1.0",
+    "@1024pix/pix-ui": "^18.0.2",
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.0.4",
@@ -98,7 +98,6 @@
     "ember-page-title": "^7.0.0",
     "ember-resolver": "^8.0.3",
     "ember-responsive": "^4.0.2",
-    "ember-route-action-helper": "^2.0.8",
     "ember-simple-auth": "^3.1.0",
     "ember-source": "^3.25.4",
     "ember-template-lint": "^3.16.0",

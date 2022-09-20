@@ -5,18 +5,28 @@
       {{t "pages.user-tutorials.description"}}
     </p>
 
-    <div class="user-tutorials-banner-v2__filters">
-      {{#if this.featureToggles.featureToggles.isPixAppTutoFiltersEnabled}}
-        <PixButton @backgroundColor="transparent-light" @isBorderVisible={{false}}>
-          {{t "pages.user-tutorials.filter"}}
-        </PixButton>
+    <ul class="user-tutorials-banner-v2__filters">
+      <li class="user-tutorials-banner-v2-filters__filter">
+        <ChoiceChip @route="authenticated.user-tutorials.recommended">
+          {{t "pages.user-tutorials.recommended"}}
+        </ChoiceChip>
+      </li>
+      <li class="user-tutorials-banner-v2-filters__filter">
+        <ChoiceChip @route="authenticated.user-tutorials.saved">
+          {{t "pages.user-tutorials.saved"}}
+        </ChoiceChip>
+      </li>
+      {{#if (and this.featureToggles.featureToggles.isPixAppTutoFiltersEnabled @shouldShowFilterButton)}}
+        <li class="user-tutorials-banner-v2-filters__filter">
+          <PixButton
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{false}}
+            @triggerAction={{@onTriggerFilterButton}}
+          >
+            {{t "pages.user-tutorials.filter"}}
+          </PixButton>
+        </li>
       {{/if}}
-      <ChoiceChip @route="user-tutorials.recommended">
-        {{t "pages.user-tutorials.recommended"}}
-      </ChoiceChip>
-      <ChoiceChip @route="user-tutorials.saved">
-        {{t "pages.user-tutorials.saved"}}
-      </ChoiceChip>
-    </div>
+    </ul>
   </div>
 </div>

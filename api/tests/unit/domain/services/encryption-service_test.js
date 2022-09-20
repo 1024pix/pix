@@ -2,7 +2,7 @@ const { catchErr, expect } = require('../../../test-helper');
 
 const bcrypt = require('bcrypt');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
+const UserNotFoundError = require('../../../../lib/domain/errors').UserNotFoundError;
 
 describe('Unit | Service | Encryption', function () {
   describe('#checkPassword', function () {
@@ -25,7 +25,7 @@ describe('Unit | Service | Encryption', function () {
     });
 
     describe('when password and hash are not matching', function () {
-      it('should reject a PasswordNotMatching error ', async function () {
+      it('should reject a UserNotFoundError error ', async function () {
         // given
         const password = 'my-expected-password';
         const passwordHash = 'ABCDEF1234';
@@ -37,12 +37,12 @@ describe('Unit | Service | Encryption', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceof(PasswordNotMatching);
+        expect(error).to.be.an.instanceof(UserNotFoundError);
       });
     });
 
     describe('when password is not supplied', function () {
-      it('should reject, but not a PasswordNotMatching error ', async function () {
+      it('should reject, but not a UserNotFoundError error ', async function () {
         // given
         const password = undefined;
         // eslint-disable-next-line no-sync
@@ -54,7 +54,7 @@ describe('Unit | Service | Encryption', function () {
             passwordHash,
           });
         } catch (error) {
-          expect(error).not.to.be.an.instanceof(PasswordNotMatching);
+          expect(error).not.to.be.an.instanceof(UserNotFoundError);
         }
       });
     });

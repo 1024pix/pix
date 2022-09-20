@@ -45,7 +45,7 @@ describe('Unit | Service | competence-evaluation', function () {
 
       it('redirects to competences.resume route', async function () {
         // then
-        sinon.assert.calledWith(router.transitionTo, 'competences.resume', competenceId);
+        sinon.assert.calledWith(router.transitionTo, 'authenticated.competences.resume', competenceId);
       });
     });
 

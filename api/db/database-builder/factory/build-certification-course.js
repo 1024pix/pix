@@ -26,6 +26,7 @@ module.exports = function buildCertificationCourse({
   maxReachableLevelOnCertificationDate = 5,
   isCancelled = false,
   abortReason = null,
+  cpfFilename = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
@@ -52,6 +53,7 @@ module.exports = function buildCertificationCourse({
     maxReachableLevelOnCertificationDate,
     isCancelled,
     abortReason,
+    cpfFilename,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',

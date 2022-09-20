@@ -522,7 +522,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const expectedError = {
         errors: [
           {
-            detail: 'Unknown skillIds : aki9',
+            detail: 'Les acquis suivants ne font pas partie du profil cible : aki9',
             status: '400',
             title: 'Default Bad Request',
           },
@@ -713,7 +713,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal('[{"id":"recTube","level":6,"frameworkId":"recFmwk","skills":["recSkill"]}]');
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename=20201101_profil_cible_Roxane est très jolie.json'
+        'attachment; filename=20201101_profil_cible_Roxane est tr_s jolie.json'
       );
       expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
     });

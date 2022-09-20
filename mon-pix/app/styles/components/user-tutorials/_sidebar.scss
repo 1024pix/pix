@@ -1,0 +1,69 @@
+.tutorials-filters {
+
+  .pix-collapsible {
+
+    &__title {
+      align-items: center;
+      font-family: $font-open-sans;
+      font-size: 0.875rem;
+      font-weight: 500;
+      position: relative;
+      padding-left: 2rem;
+      color: $pix-neutral-70;
+      text-transform: uppercase;
+      text-align: left;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 10%;
+        left: 1rem;
+        border-left: 4px solid;
+        border-radius: 5px;
+        height: 80%;
+      }
+
+      &.jaffa::before {
+        border-color: $pix-information-light;
+      }
+
+      &.emerald::before {
+        border-color: $pix-content-light;
+      }
+
+      &.cerulean::before {
+        border-color: $pix-communication-light;
+      }
+
+      &.wild-strawberry::before {
+        border-color: $pix-security-light;
+      }
+
+      &.butterfly-bush::before {
+        border-color: $pix-environment-light;
+      }
+    }
+  }
+
+  &__footer {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.tutorials-filters-areas-competences {
+
+  &__item-checkbox {
+
+    .pix-checkbox__label {
+      flex-grow: 1;
+    }
+  }
+
+  &__item-checkbox + &__item-checkbox {
+    margin-top: 20px;
+  }
+}

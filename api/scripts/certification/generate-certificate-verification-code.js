@@ -3,7 +3,7 @@
 'use strict';
 require('dotenv').config();
 const yargs = require('yargs');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
 const verifyCertificateCodeService = require('../../lib/domain/services/verify-certificate-code-service');
@@ -16,36 +16,6 @@ function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
   process.stdout.write(`${Math.round((progression * 100) / totalCount, 2)} %`);
-}
-
-async function main() {
-  console.log('DEBUT');
-  try {
-    console.log('Validation des arguments...');
-    const commandLineArgs = yargs
-      .option('count', {
-        description: 'Nombre de certificats pour lesquels on génère un code.',
-        type: 'number',
-        default: DEFAULT_COUNT,
-      })
-      .option('concurrency', {
-        description: 'Concurrence',
-        type: 'number',
-        default: DEFAULT_CONCURRENCY,
-      })
-      .help().argv;
-    const { count, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
-    console.log(`OK : Nombre de certificats - ${count} / Concurrence - ${concurrency}`);
-
-    console.log('Génération des codes...');
-    await _do({ count, concurrency });
-    console.log('OK');
-    console.log('FIN');
-  } catch (error) {
-    console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-    yargs.showHelp();
-    process.exit(1);
-  }
 }
 
 function _validateAndNormalizeArgs({ count, concurrency }) {
@@ -115,12 +85,41 @@ async function _generateVerificationCode(certificationId) {
   return certificationRepository.saveVerificationCode(certificationId, verificationCode);
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
-    }
-  );
+const isLaunchedFromCommandLine = require.main === module;
+
+async function main() {
+  console.log('Validation des arguments...');
+  const commandLineArgs = yargs
+    .option('count', {
+      description: 'Nombre de certificats pour lesquels on génère un code.',
+      type: 'number',
+      default: DEFAULT_COUNT,
+    })
+    .option('concurrency', {
+      description: 'Concurrence',
+      type: 'number',
+      default: DEFAULT_CONCURRENCY,
+    })
+    .help().argv;
+  const { count, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
+  console.log(`OK : Nombre de certificats - ${count} / Concurrence - ${concurrency}`);
+
+  console.log('Génération des codes...');
+  await _do({ count, concurrency });
+  console.log('OK');
+  console.log('FIN');
 }
+
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+      yargs.showHelp();
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
+    }
+  }
+})();

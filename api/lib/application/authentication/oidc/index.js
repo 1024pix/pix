@@ -115,7 +115,7 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/oidc/token-reconciliation',
+      path: '/api/oidc/user/check-reconciliation',
       config: {
         auth: false,
         pre: [
@@ -143,6 +143,38 @@ exports.register = async (server) => {
         notes: [
           "- Cette route permet d'identifier un utilisateur Pix provenant de la double mire oidc.\n" +
             '- Elle retournera un access token et une uri de déconnexion',
+        ],
+        tags: ['api', 'oidc'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/oidc/user/reconcile',
+      config: {
+        auth: false,
+        pre: [
+          {
+            method: featureToggles.checkIfSsoAccountReconciliationIsEnabled,
+            assign: 'checkIfSsoAccountReconciliationIsEnabled',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                identity_provider: Joi.string()
+                  .required()
+                  .valid(...validProviders),
+                authentication_key: Joi.string().required(),
+              }),
+              type: Joi.string(),
+            }),
+          }),
+        },
+        handler: oidcController.reconcileUser,
+        notes: [
+          "- Cette route permet d'ajouter le fournisseur d'identité d'où provient l'utilisateur comme méthode de connexion à son compte Pix.\n" +
+            "- Cette action se fait suite à la double mire OIDC quand l'utilisateur vient de s'identifier auprès de son fournisseur d'identité",
         ],
         tags: ['api', 'oidc'],
       },

@@ -289,13 +289,16 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
       });
     });
 
-    context('when there are competence marks', function () {
+    context('when there are at least one competence by domain in competence marks', function () {
       it(`should return an EuropeanNumericLevel for competence '5.3' with level equal to the average of all competence marks levels`, function () {
         // given
         const competenceMarks = [
-          { competenceCode: '3.4', level: 8 },
-          { competenceCode: '4.1', level: 5 },
-          { competenceCode: '4.2', level: 3 },
+          { competenceCode: '1.1', areaCode: '1', level: 1 },
+          { competenceCode: '2.2', areaCode: '2', level: 3 },
+          { competenceCode: '3.4', areaCode: '3', level: 8 },
+          { competenceCode: '4.1', areaCode: '4', level: 5 },
+          { competenceCode: '4.2', areaCode: '4', level: 3 },
+          { competenceCode: '5.2', areaCode: '5', level: 0 },
         ];
 
         // when
@@ -303,8 +306,26 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
 
         // then
         expect(europeanNumericLevels).to.deep.contains(
-          new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: 5 })
+          new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: 3 })
         );
+      });
+    });
+
+    context('when there is european numeric levels with a level of 0 after computing', function () {
+      it('should remove these european numeric levels', function () {
+        // given
+        const competenceMarks = [
+          { competenceCode: '1.1', level: 0 },
+          { competenceCode: '2.1', level: 0 },
+          { competenceCode: '3.1', level: 0 },
+          { competenceCode: '3.2', level: 0 },
+        ];
+
+        // when
+        const europeanNumericLevels = EuropeanNumericLevelFactory.buildFromCompetenceMarks(competenceMarks);
+
+        // then
+        expect(europeanNumericLevels).to.be.empty;
       });
     });
   });

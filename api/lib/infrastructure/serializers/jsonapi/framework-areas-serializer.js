@@ -1,7 +1,7 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(framework) {
+  serialize(framework, { withoutThematics = false } = {}) {
     return new Serializer('area', {
       ref: 'id',
       attributes: ['code', 'title', 'color', 'competences'],
@@ -32,6 +32,9 @@ module.exports = {
       },
 
       transform(area) {
+        if (withoutThematics) {
+          return area;
+        }
         area.competences.forEach((competence) => {
           competence.thematics = framework.thematics
             .filter((thematic) => {

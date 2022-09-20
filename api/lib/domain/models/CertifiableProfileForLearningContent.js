@@ -2,16 +2,16 @@ const _ = require('lodash');
 const KnowledgeElement = require('./KnowledgeElement');
 
 class CertifiableProfileForLearningContent {
-  constructor({ targetProfileWithLearningContent, knowledgeElements, answerAndChallengeIdsByAnswerId }) {
+  constructor({ learningContent, knowledgeElements, answerAndChallengeIdsByAnswerId }) {
     this.skillResults = [];
     for (const knowledgeElement of knowledgeElements) {
-      const targetedSkill = targetProfileWithLearningContent.findSkill(knowledgeElement.skillId);
-      if (targetedSkill) {
+      const skill = learningContent.findSkill(knowledgeElement.skillId);
+      if (skill) {
         this.skillResults.push(
           new SkillResult({
-            skillId: targetedSkill.id,
-            tubeId: targetedSkill.tubeId,
-            difficulty: targetedSkill.difficulty,
+            skillId: skill.id,
+            tubeId: skill.tubeId,
+            difficulty: skill.difficulty,
             createdAt: knowledgeElement.createdAt,
             source: knowledgeElement.source,
             status: knowledgeElement.status,
@@ -27,23 +27,22 @@ class CertifiableProfileForLearningContent {
     const skillResultsByCompetenceId = {};
     const skillResultsGroupedByTubeId = _.groupBy(this.skillResults, 'tubeId');
     for (const [tubeId, skillResults] of Object.entries(skillResultsGroupedByTubeId)) {
-      const targetedTube = targetProfileWithLearningContent.findTube(tubeId);
-      if (!skillResultsByCompetenceId[targetedTube.competenceId])
-        skillResultsByCompetenceId[targetedTube.competenceId] = [];
-      skillResultsByCompetenceId[targetedTube.competenceId] = [
-        ...skillResultsByCompetenceId[targetedTube.competenceId],
+      const tube = learningContent.findTube(tubeId);
+      if (!skillResultsByCompetenceId[tube.competenceId]) skillResultsByCompetenceId[tube.competenceId] = [];
+      skillResultsByCompetenceId[tube.competenceId] = [
+        ...skillResultsByCompetenceId[tube.competenceId],
         ...skillResults,
       ];
     }
 
     this.resultsByCompetence = [];
     for (const [competenceId, skillResults] of Object.entries(skillResultsByCompetenceId)) {
-      const targetedCompetence = targetProfileWithLearningContent.getCompetence(competenceId);
+      const competence = learningContent.findCompetence(competenceId);
       this.resultsByCompetence.push(
         new ResultByCompetence({
-          competenceId: targetedCompetence.id,
-          areaId: targetedCompetence.areaId,
-          origin: targetedCompetence.origin,
+          competenceId: competence.id,
+          areaId: competence.areaId,
+          origin: competence.origin,
           skillResults,
         })
       );
@@ -52,17 +51,17 @@ class CertifiableProfileForLearningContent {
     this.resultsByArea = [];
     const resultsByCompetenceGroupedByAreaId = _.groupBy(this.resultsByCompetence, 'areaId');
     for (const [areaId, resultsByCompetence] of Object.entries(resultsByCompetenceGroupedByAreaId)) {
-      const targetedArea = targetProfileWithLearningContent.getArea(areaId);
+      const area = learningContent.findArea(areaId);
       this.resultsByArea.push(
         new ResultByArea({
-          areaId: targetedArea.id,
+          areaId: area.id,
           resultsByCompetence,
         })
       );
     }
   }
 
-  getOrderedCertifiableSkillsByAreaId(excludedOrigins = []) {
+  getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId(excludedOrigins = []) {
     const skillIdsByAreaId = {};
     for (const resultByArea of this.resultsByArea) {
       const certifiableSkillsForArea = this._getCertifiableSkillsForArea(resultByArea, excludedOrigins);

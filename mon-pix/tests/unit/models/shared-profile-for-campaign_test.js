@@ -11,7 +11,7 @@ describe('Unit | Model | SharedProfileForCampaign model', function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should return an array of unique areas code', function () {
+  it('should return an array of unique areas', function () {
     // given
     const area1 = store.createRecord('area', { code: 1 });
     const area2 = store.createRecord('area', { code: 2 });
@@ -24,9 +24,9 @@ describe('Unit | Model | SharedProfileForCampaign model', function () {
     model.scorecards = [scorecard1, scorecard2, scorecard3];
 
     // when
-    const areasCode = model.areasCode;
+    const areas = model.areas;
 
     // then
-    expect(areasCode).to.deep.equal([1, 2]);
+    expect(areas.map((area) => area.get('code'))).to.deep.equal([1, 2]);
   });
 });

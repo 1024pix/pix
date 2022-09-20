@@ -10,6 +10,9 @@ export default class SigninForm extends Component {
   @service url;
   @service intl;
   @service featureToggles;
+  @service session;
+  @service store;
+  @service router;
 
   @tracked hasFailed = false;
   @tracked errorMessage;
@@ -17,8 +20,8 @@ export default class SigninForm extends Component {
   login = '';
   password = '';
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   get displayPoleEmploiButton() {
@@ -30,12 +33,12 @@ export default class SigninForm extends Component {
     event && event.preventDefault();
     this.hasFailed = false;
     try {
-      await this.args.authenticateUser(this.login, this.password);
+      await this.session.authenticateUser(this.login, this.password);
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
         const passwordResetToken = response.responseJSON.errors[0].meta;
-        await this.args.updateExpiredPassword(passwordResetToken);
+        await this._updateExpiredPassword(passwordResetToken);
       } else {
         this.errorMessage = this._findErrorMessage(response.status);
       }
@@ -51,5 +54,10 @@ export default class SigninForm extends Component {
       default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
+  }
+
+  async _updateExpiredPassword(passwordResetToken) {
+    this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
+    return this.router.replaceWith('update-expired-password');
   }
 }

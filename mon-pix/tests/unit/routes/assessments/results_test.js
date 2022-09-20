@@ -24,7 +24,7 @@ describe('Unit | Route | Assessments | Results', function () {
       route.afterModel(assessment);
 
       // then
-      sinon.assert.calledWith(route.router.transitionTo, 'index');
+      sinon.assert.calledWith(route.router.transitionTo, 'authenticated');
     });
 
     it('should not redirect to homepage if assessment is not a certification', function () {

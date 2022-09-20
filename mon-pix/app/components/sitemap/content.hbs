@@ -4,17 +4,17 @@
 
     <ul class="sitemap-content__items">
       <li class="sitemap-content-items__link">
-        <LinkTo @route="user-dashboard">
+        <LinkTo @route="authenticated.user-dashboard">
           {{t "navigation.main.dashboard"}}
         </LinkTo>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="profile">{{t "navigation.main.skills"}}</LinkTo>
+        <LinkTo @route="authenticated.profile">{{t "navigation.main.skills"}}</LinkTo>
         <ul class="sitemap-content-items-link-skills">
           {{#each @model.scorecards as |scorecard|}}
             <li class="sitemap-content-items-link-skills__skill">
-              <LinkTo @route="competences.details" @model={{scorecard.competenceId}}>
+              <LinkTo @route="authenticated.competences.details" @model={{scorecard.competenceId}}>
                 {{scorecard.name}}
               </LinkTo>
             </li>
@@ -23,13 +23,13 @@
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="certifications">
+        <LinkTo @route="authenticated.certifications">
           {{t "navigation.main.start-certification"}}
         </LinkTo>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="user-tutorials">
+        <LinkTo @route="authenticated.user-tutorials">
           {{t "navigation.main.tutorials"}}
         </LinkTo>
       </li>
@@ -41,19 +41,19 @@
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="user-account">
+        <LinkTo @route="authenticated.user-account">
           {{t "navigation.user.account"}}
         </LinkTo>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="user-tests">
+        <LinkTo @route="authenticated.user-tests">
           {{t "navigation.user.tests"}}
         </LinkTo>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="user-certifications">
+        <LinkTo @route="authenticated.user-certifications">
           {{t "navigation.user.certifications"}}
         </LinkTo>
       </li>

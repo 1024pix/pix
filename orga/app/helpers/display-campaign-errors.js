@@ -5,7 +5,7 @@ export default class extends Helper {
   @service errorMessages;
 
   compute([errors]) {
-    if (!errors.length) return;
+    if (!errors.length) return null;
     return this.errorMessages.getErrorMessage(errors[0].message);
   }
 }

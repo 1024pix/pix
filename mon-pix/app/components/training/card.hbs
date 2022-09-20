@@ -8,7 +8,7 @@
   <div class="training-card__content">
     <h3 class="training-card__title">{{@training.title}}</h3>
     <ul class="training-card__infos">
-      <li class="training-card__type">{{@training.type}}</li>
+      <li class="training-card__type">{{this.type}}</li>
       <li class="training-card__duration">
         <FaIcon @icon="clock" @prefix="far" aria-hidden="true" />
         <time>{{this.durationFormatted}}</time>

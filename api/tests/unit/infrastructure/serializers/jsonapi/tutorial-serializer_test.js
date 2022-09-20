@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
 
       const tutorial = domainBuilder.buildTutorialForUser({
         tutorial: domainBuilder.buildTutorial({ id: tutorialId }),
-        userTutorial: null,
+        userSavedTutorial: null,
         skillId,
       });
 
@@ -29,6 +29,9 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
           },
           relationships: {
             'tutorial-evaluation': {
+              data: null,
+            },
+            'user-saved-tutorial': {
               data: null,
             },
             'user-tutorial': {
@@ -72,6 +75,11 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             'tube-practical-description': 'Tube Practical Description',
             'tube-practical-title': 'Tube Practical Title',
           },
+          relationships: {
+            'user-tutorial': {
+              data: null,
+            },
+          },
         },
       };
 
@@ -87,13 +95,13 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       const userId = 456;
       const tutorialId = 123;
       const tutorialEvaluationId = `${userId}_${tutorialId}`;
-      const userTutorialId = `${userId}_${tutorialId}`;
+      const userSavedTutorialId = `${userId}_${tutorialId}`;
       const skillId = 'rec123';
 
       const tutorial = domainBuilder.buildTutorialForUser({
         tutorial: domainBuilder.buildTutorial({ id: tutorialId }),
         tutorialEvaluation: { userId, id: tutorialEvaluationId, tutorialId },
-        userTutorial: { userId, id: userTutorialId, tutorialId },
+        userSavedTutorial: { userId, id: userSavedTutorialId, tutorialId },
         skillId,
       });
 
@@ -116,9 +124,15 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
                 type: 'tutorialEvaluation',
               },
             },
+            'user-saved-tutorial': {
+              data: {
+                id: userSavedTutorialId,
+                type: 'user-saved-tutorial',
+              },
+            },
             'user-tutorial': {
               data: {
-                id: userTutorialId,
+                id: userSavedTutorialId,
                 type: 'user-tutorial',
               },
             },
@@ -136,11 +150,20 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
           },
           {
             attributes: {
-              id: userTutorialId,
+              id: userSavedTutorialId,
               'user-id': userId,
               'tutorial-id': tutorialId,
             },
-            id: userTutorialId,
+            id: userSavedTutorialId,
+            type: 'user-saved-tutorial',
+          },
+          {
+            attributes: {
+              id: userSavedTutorialId,
+              'user-id': userId,
+              'tutorial-id': tutorialId,
+            },
+            id: userSavedTutorialId,
             type: 'user-tutorial',
           },
         ],
@@ -180,6 +203,11 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
               link: 'https://youtube.fr',
               source: 'Youtube',
               title: 'Savoir regarder des vidéos youtube.',
+            },
+            relationships: {
+              'user-tutorial': {
+                data: null,
+              },
             },
           },
         ],

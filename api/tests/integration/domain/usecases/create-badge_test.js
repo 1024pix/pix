@@ -230,7 +230,10 @@ describe('Integration | UseCases | create-badge', function () {
 
       // then
       expect(error).to.be.instanceOf(InvalidSkillSetError);
-      expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
+      expect(error).to.haveOwnProperty(
+        'message',
+        'Les acquis suivants ne font pas partie du profil cible : recSkill666'
+      );
     });
   });
 });

@@ -1,8 +1,13 @@
 .certification-details-card {
   padding: 5px 10px;
+  text-align: center;
 }
 
 .certification-details-answer {
+
+  .card__content {
+    padding: 0;
+  }
 
   .certification-details-answer-skill {
     font-size: 0.875rem;

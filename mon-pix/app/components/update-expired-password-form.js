@@ -11,7 +11,7 @@ import ENV from 'mon-pix/config/environment';
 
 const SCOPE_MON_PIX = 'mon-pix';
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
-const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
 const VALIDATION_MAP = {
   default: {
@@ -36,8 +36,8 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   @tracked errorMessage = null;
 
-  get homeUrl() {
-    return this.url.homeUrl;
+  get showcaseUrl() {
+    return this.url.showcaseUrl;
   }
 
   get validationMessage() {
@@ -76,7 +76,7 @@ export default class UpdateExpiredPasswordForm extends Component {
         });
 
         if (this.session.get('data.externalUser')) {
-          this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+          this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_GAR;
         }
       } catch (errorResponse) {
         const error = get(errorResponse, 'errors[0]');

@@ -68,9 +68,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
     describe('nominal case', function () {
       it('should respond with a 201 and return user-tutorial created', async function () {
         // given
-        const expectedUserTutorial = {
+        const expectedUserSavedTutorial = {
           data: {
-            type: 'user-tutorials',
+            type: 'user-saved-tutorials',
             id: '1',
             attributes: {
               'tutorial-id': 'tutorialId',
@@ -84,23 +84,23 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
+        expect(response.result.data.type).to.deep.equal(expectedUserSavedTutorial.data.type);
         expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes['user-id']).to.deep.equal(
-          expectedUserTutorial.data.attributes['user-id']
+          expectedUserSavedTutorial.data.attributes['user-id']
         );
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-          expectedUserTutorial.data.attributes['tutorial-id']
+          expectedUserSavedTutorial.data.attributes['tutorial-id']
         );
       });
 
       describe('when skill id is given', function () {
-        it('should respond with a 201 and return user-tutorial created', async function () {
+        it('should respond with a 201 and return user-saved-tutorial created', async function () {
           // given
           options.payload = { data: { attributes: { 'skill-id': 'skillId' } } };
-          const expectedUserTutorial = {
+          const expectedUserSavedTutorial = {
             data: {
-              type: 'user-tutorials',
+              type: 'user-saved-tutorials',
               id: '1',
               attributes: {
                 'skill-id': 'skillId',
@@ -115,16 +115,16 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
           // then
           expect(response.statusCode).to.equal(201);
-          expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
+          expect(response.result.data.type).to.deep.equal(expectedUserSavedTutorial.data.type);
           expect(response.result.data.id).to.exist;
           expect(response.result.data.attributes['user-id']).to.deep.equal(
-            expectedUserTutorial.data.attributes['user-id']
+            expectedUserSavedTutorial.data.attributes['user-id']
           );
           expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-            expectedUserTutorial.data.attributes['tutorial-id']
+            expectedUserSavedTutorial.data.attributes['tutorial-id']
           );
           expect(response.result.data.attributes['skill-id']).to.deep.equal(
-            expectedUserTutorial.data.attributes['skill-id']
+            expectedUserSavedTutorial.data.attributes['skill-id']
           );
         });
       });
@@ -154,7 +154,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
       cache.flushAll();
       options = {
         method: 'GET',
-        url: '/api/users/tutorials/recommended',
+        url: '/api/users/tutorials/recommended?filter[competences]=recCompetence1',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
           'accept-language': 'fr',
@@ -247,6 +247,44 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 },
               ],
             },
+            {
+              id: 'recCompetence2',
+              name: 'Fabriquer une table',
+              index: '1.2',
+              tubes: [
+                {
+                  id: 'recTube3',
+                  skills: [
+                    {
+                      id: 'recSkill4',
+                      nom: '@table2',
+                      challenges: [],
+                      tutorialIds: ['tuto6', 'tuto7'],
+                      tutorials: [
+                        {
+                          id: 'tuto6',
+                          locale: 'fr-fr',
+                          duration: '00:00:54',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example6.html',
+                          source: 'tuto.com',
+                          title: 'tuto6',
+                        },
+                        {
+                          id: 'tuto7',
+                          locale: 'fr-fr',
+                          duration: '00:01:51',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example7.html',
+                          source: 'tuto.com',
+                          title: 'tuto7',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ]);
@@ -278,6 +316,13 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           skillId: 'recSkill3',
         });
 
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          source: KnowledgeElement.SourceType.DIRECT,
+          skillId: 'recSkill4',
+        });
+
         const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
           userId,
           tutorialId: 'tuto1',
@@ -290,7 +335,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         await databaseBuilder.commit();
 
-        const expectedUserTutorials = [
+        const expectedUserSavedTutorials = [
           {
             attributes: {
               duration: '00:00:54',
@@ -306,6 +351,12 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 data: {
                   id: `${tutorialEvaluationId}`,
                   type: 'tutorialEvaluation',
+                },
+              },
+              'user-saved-tutorial': {
+                data: {
+                  id: `${userSavedTutorialId}`,
+                  type: 'user-saved-tutorial',
                 },
               },
               'user-tutorial': {
@@ -331,6 +382,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
+              'user-saved-tutorial': {
+                data: null,
+              },
               'user-tutorial': {
                 data: null,
               },
@@ -351,6 +405,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
+              'user-saved-tutorial': {
+                data: null,
+              },
               'user-tutorial': {
                 data: null,
               },
@@ -364,7 +421,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedUserTutorials);
+        expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
         expect(response.result.meta).to.deep.equal({
           page: 1,
           pageSize: 10,
@@ -403,7 +460,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         await databaseBuilder.commit();
 
-        const expectedUserTutorials = [
+        const expectedUserSavedTutorials = [
           {
             attributes: {
               duration: '00:00:54',
@@ -416,6 +473,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
             id: 'tuto1',
             relationships: {
               'tutorial-evaluation': {
+                data: null,
+              },
+              'user-saved-tutorial': {
                 data: null,
               },
               'user-tutorial': {
@@ -438,6 +498,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'tutorial-evaluation': {
                 data: null,
               },
+              'user-saved-tutorial': {
+                data: null,
+              },
               'user-tutorial': {
                 data: null,
               },
@@ -451,7 +514,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedUserTutorials);
+        expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
         expect(response.result.meta).to.deep.equal({
           page: 1,
           pageSize: 2,
@@ -472,7 +535,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
       cache.flushAll();
       options = {
         method: 'GET',
-        url: '/api/users/tutorials/saved',
+        url: '/api/users/tutorials/saved?filter[competences]=recCompetence1',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
@@ -556,6 +619,44 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 },
               ],
             },
+            {
+              id: 'recCompetence2',
+              name: 'Fabriquer une table',
+              index: '1.2',
+              tubes: [
+                {
+                  id: 'recTube3',
+                  skills: [
+                    {
+                      id: 'recSkill4',
+                      nom: '@table2',
+                      challenges: [],
+                      tutorialIds: ['tuto6', 'tuto7'],
+                      tutorials: [
+                        {
+                          id: 'tuto6',
+                          locale: 'fr-fr',
+                          duration: '00:00:54',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example6.html',
+                          source: 'tuto.com',
+                          title: 'tuto6',
+                        },
+                        {
+                          id: 'tuto7',
+                          locale: 'fr-fr',
+                          duration: '00:01:51',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example7.html',
+                          source: 'tuto.com',
+                          title: 'tuto7',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ]);
@@ -570,6 +671,14 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           id: 101,
           userId: 4444,
           tutorialId: 'tuto1',
+          skillId: 'skill123',
+        });
+
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 102,
+          userId: 4444,
+          tutorialId: 'tuto6',
+          skillId: 'recSkill4',
         });
 
         await databaseBuilder.commit();
@@ -582,9 +691,10 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'tuto.com',
               title: 'tuto1',
-              'skill-id': undefined,
+              'skill-id': 'skill123',
             },
             relationships: {
+              'user-saved-tutorial': { data: { id: '101', type: 'user-saved-tutorial' } },
               'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
               'tutorial-evaluation': {
                 data: null,
@@ -627,6 +737,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           id: 102,
           userId: 4444,
           tutorialId: 'tuto2',
+          skillId: 'skill123',
           createdAt: new Date('2022-05-04'),
         });
         databaseBuilder.factory.buildUserSavedTutorial({
@@ -646,12 +757,18 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example3.html',
               source: 'tuto.com',
               title: 'tuto3',
-              'skill-id': undefined,
+              'skill-id': null,
             },
             id: 'tuto3',
             relationships: {
               'tutorial-evaluation': {
                 data: null,
+              },
+              'user-saved-tutorial': {
+                data: {
+                  id: '103',
+                  type: 'user-saved-tutorial',
+                },
               },
               'user-tutorial': {
                 data: {
@@ -669,12 +786,18 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example2.html',
               source: 'tuto.com',
               title: 'tuto2',
-              'skill-id': undefined,
+              'skill-id': 'skill123',
             },
             id: 'tuto2',
             relationships: {
               'tutorial-evaluation': {
                 data: null,
+              },
+              'user-saved-tutorial': {
+                data: {
+                  id: '102',
+                  type: 'user-saved-tutorial',
+                },
               },
               'user-tutorial': {
                 data: {

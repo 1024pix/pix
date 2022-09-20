@@ -770,11 +770,22 @@
         "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur."
       },
       "explanation-message": "Qu’est-ce qu’un code parcours et comment l’utiliser ?",
+      "explanation-link": "https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-",
       "first-title-connected": "{ firstName }, saisissez votre code",
       "first-title-not-connected": "Saisissez votre code",
       "start": "Accéder au parcours",
       "warning-message": "Vous n'êtes pas { firstName } { lastName } ?",
-      "warning-message-logout": "Se déconnecter"
+      "warning-message-logout": "Se déconnecter",
+      "mediacentre-start-campaign-modal": {
+        "title": "Accès au parcours par Mediacentre",
+        "message": "Pour accéder au parcours :",
+        "organised-by": "proposé par ",
+        "message-footer": "Connecte toi à Pix en passant par ton Mediacentre",
+        "actions": {
+          "continue": "Continuer",
+          "quit": "Quitter"
+        }
+      }
     },
     "fill-in-certificate-verification-code": {
       "title": "Vérifier un certificat Pix",
@@ -947,10 +958,25 @@
       },
       "error": {
         "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
-        "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour.",
+        "expired-authentication-key": "Votre demande d'authentification a expiré.",
         "invalid-email": "Votre adresse e-mail n’est pas valide.",
-        "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects."
+        "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support."
       }
+    },
+    "oidc-reconciliation": {
+      "title": "Attention !",
+      "sub-title": "Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
+      "information": "L'évaluation des compétences étant personnalisée, votre compte doit rester strictement personnel",
+      "current-authentication-methods": "Mes méthodes de connexion actuelles :",
+      "authentication-method-to-add": "Connexion ajoutée :",
+      "external-connection": "Connexion externe",
+      "external-connection-via": "Connexion via",
+      "switch-account": "Changer de compte",
+      "return": "Retour",
+      "confirm": "Continuer",
+      "email": "Adresse e-mail",
+      "username": "Identifiant"
     },
     "not-connected": {
       "title": "Déconnecté",
@@ -1011,6 +1037,8 @@
         "reminder-send-campaign-with-title": "Parcours \"{title}\" terminé. N'oubliez pas de finaliser votre envoi !"
       },
       "total-score-helper": {
+        "label": "Ouvrir l'infobulle",
+        "icon": "Information sur les pix",
         "title": "Pourquoi 1024 pix ?",
         "explanation": "<p>C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'</p><p>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de {maxReachablePixCount} pix'</span>', correspondant au niveau {maxReachableLevel}.'</p>'"
       }
@@ -1361,6 +1389,12 @@
       "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",
       "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     },
+    "training" : {
+      "type": {
+        "autoformation": "Parcours d'autoformation",
+        "webinaire": "Webinaire"
+      }
+    },
     "tutorial": {
       "title": "Didacticiel de la campagne",
       "next": "Suivant",
@@ -1464,9 +1498,8 @@
         "username": "Identifiant",
         "authentication-methods": {
           "label": "Connexion externe",
-          "gar": "via ENT/Mediacentre",
-          "pole-emploi": "via Pôle Emploi",
-          "cnav": "via CNAV"
+          "via": "via {identityProviderOrganizationName}",
+          "gar": "via ENT/Mediacentre"
         }
       },
       "email-verification": {
@@ -1520,6 +1553,10 @@
       },
       "filter": "Filtrer",
       "label": "tutoriels",
+      "sidebar": {
+        "reset": "Réinitialiser",
+        "see-results": "Voir les résultats"
+      },
       "list": {
         "title": "Ma liste",
         "tutorial": {

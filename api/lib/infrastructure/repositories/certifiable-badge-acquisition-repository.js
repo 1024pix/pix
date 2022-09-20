@@ -22,7 +22,8 @@ module.exports = {
         'complementary-certification-badges.label as complementaryCertificationBadgeLabel',
         'complementary-certifications.id as complementaryCertificationId',
         'complementary-certifications.label as complementaryCertificationLabel',
-        'complementary-certifications.key as complementaryCertificationKey'
+        'complementary-certifications.key as complementaryCertificationKey',
+        'campaign-participations.campaignId'
       )
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
       .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
@@ -31,6 +32,7 @@ module.exports = {
         'complementary-certifications.id',
         'complementary-certification-badges.complementaryCertificationId'
       )
+      .join('campaign-participations', 'campaign-participations.id', 'badge-acquisitions.campaignParticipationId')
       .where({
         'badge-acquisitions.userId': userId,
         'badges.isCertifiable': true,

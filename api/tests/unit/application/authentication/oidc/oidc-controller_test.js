@@ -1,4 +1,4 @@
-const { sinon, expect, hFake, catchErr } = require('../../../../test-helper');
+const { sinon, expect, hFake, catchErr, domainBuilder } = require('../../../../test-helper');
 const authenticationServiceRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
 const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
 const oidcSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer');
@@ -13,7 +13,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#getIdentityProviders', function () {
     it('should return the list of oidc identity providers', async function () {
       // given & when
-      const response = await oidcController.getIdentityProviders();
+      const response = await oidcController.getIdentityProviders(null, hFake);
 
       // then
       const expectedCnavProvider = {
@@ -21,7 +21,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         id: 'cnav',
         attributes: { code: 'CNAV', 'organization-name': 'CNAV', 'has-logout-url': false, source: 'cnav' },
       };
-      expect(response.data).to.deep.contain(expectedCnavProvider);
+      expect(response.source.data).to.deep.contain(expectedCnavProvider);
     });
   });
 
@@ -156,7 +156,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         access_token: pixAccessToken,
         logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
       };
-      expect(response).to.deep.equal(expectedResult);
+      expect(response.source).to.deep.equal(expectedResult);
     });
 
     it('should return UnauthorizedError if pix access token does not exist', async function () {
@@ -253,9 +253,14 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         deserializedPayload: { identityProvider, authenticationKey: 'abcde' },
       };
       const accessToken = 'access.token';
+      const oidcAuthenticationService = {};
+      sinon
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
+        .withArgs(identityProvider)
+        .returns(oidcAuthenticationService);
       sinon
         .stub(usecases, 'createOidcUser')
-        .withArgs({ authenticationKey: 'abcde', identityProvider })
+        .withArgs({ authenticationKey: 'abcde', identityProvider, oidcAuthenticationService })
         .resolves({ accessToken, logoutUrlUUID: 'logoutUrlUUID' });
 
       // when
@@ -268,33 +273,66 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   });
 
   describe('#findUserForReconciliation', function () {
-    context('when user has an oidc authentication method with same external identifier', function () {
-      it('should return an access token and logout url uuid', async function () {
-        // given
-        const email = 'eva.poree@example.net';
-        const password = '123pix';
-        const identityProvider = 'OIDC';
-        const authenticationKey = '123abc';
-        const request = {
-          deserializedPayload: {
-            identityProvider,
-            email,
-            password,
-            authenticationKey,
-          },
-        };
-        sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
-        sinon
-          .stub(usecases, 'findUserForOidcReconciliation')
-          .resolves({ accessToken: 'accessToken', logoutUrlUUID: 'logoutUrl', isAuthenticationComplete: true });
-        sinon.stub(oidcSerializer, 'serialize').returns({ access_token: 'accessToken', logout_url_uuid: 'logoutUrl' });
-
-        // when
-        const result = await oidcController.findUserForReconciliation(request, hFake);
-
-        // then
-        expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrl' });
+    it('should call the use case and serialize the result', async function () {
+      // given
+      const pixAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword();
+      const email = 'eva.poree@example.net';
+      const password = '123pix';
+      const identityProvider = 'OIDC';
+      const authenticationKey = '123abc';
+      const request = {
+        deserializedPayload: {
+          identityProvider,
+          email,
+          password,
+          authenticationKey,
+        },
+      };
+      sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
+      sinon.stub(usecases, 'findUserForOidcReconciliation').resolves({
+        firstName: 'sarah',
+        lastName: 'croche',
+        authenticationMethods: [pixAuthenticationMethod],
       });
+      sinon.stub(oidcSerializer, 'serialize').returns({
+        'full-name-from-pix': 'Sarah Pix',
+        'full-name-from-external-identity-provider': 'Sarah Idp',
+        'authentication-methods': [pixAuthenticationMethod],
+      });
+
+      // when
+      const result = await oidcController.findUserForReconciliation(request, hFake);
+
+      // then
+      expect(result.source).to.deep.equal({
+        'full-name-from-pix': 'Sarah Pix',
+        'full-name-from-external-identity-provider': 'Sarah Idp',
+        'authentication-methods': [pixAuthenticationMethod],
+      });
+    });
+  });
+
+  describe('#reconcileUser', function () {
+    it('should call use case and return the result', async function () {
+      // given
+      const request = {
+        deserializedPayload: {
+          identityProvider: 'OIDC',
+          authenticationKey: '123abc',
+        },
+      };
+      sinon.stub(authenticationServiceRegistry, 'lookupAuthenticationService');
+      sinon.stub(usecases, 'reconcileOidcUser').resolves({
+        accessToken: 'accessToken',
+        logoutUrlUUID: 'logoutUrlUUID',
+      });
+
+      // when
+      const result = await oidcController.reconcileUser(request, hFake);
+
+      // then
+      expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
     });
   });
 });

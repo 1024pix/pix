@@ -21,7 +21,7 @@
           htmlSafe=true
         }}
       </p>
-      <LinkTo @route="index" class="skill-review-share__back-to-home link">
+      <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">
         {{t "pages.profile-already-shared.actions.continue"}}
       </LinkTo>
     </div>
@@ -45,7 +45,7 @@
         <ProfileScorecards
           class="send-profile-header__profile__cards"
           @interactive={{false}}
-          @areasCode={{this.model.sharedProfile.areasCode}}
+          @areas={{this.model.sharedProfile.areas}}
           @scorecards={{this.model.sharedProfile.scorecards}}
         />
       </div>

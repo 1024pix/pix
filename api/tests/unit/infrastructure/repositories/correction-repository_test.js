@@ -21,10 +21,10 @@ describe('Unit | Repository | correction-repository', function () {
     let expectedHint;
     let expectedTutorials;
     let expectedLearningMoreTutorials;
-    const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
+    const userSavedTutorial = { id: 'userSavedTutorialId', userId, tutorialId: 'recTuto1' };
     const tutorialEvaluation = { id: 'tutorialEvaluationId', userId, tutorialId: 'recTuto1' };
 
-    const userTutorial3 = { id: 'userTutorialId3', userId, tutorialId: 'recTuto3' };
+    const userSavedTutorial3 = { id: 'userSavedTutorialId3', userId, tutorialId: 'recTuto3' };
     const tutorialEvaluation3 = { id: 'tutorialEvaluationId3', userId, tutorialId: 'recTuto3' };
 
     beforeEach(function () {
@@ -38,14 +38,14 @@ describe('Unit | Repository | correction-repository', function () {
         domainBuilder.buildTutorial({ id: 'recTuto2', title: 'Comment dresser un chat' }),
       ];
 
-      expectedTutorials[0].userTutorial = userTutorial;
+      expectedTutorials[0].userSavedTutorial = userSavedTutorial;
       expectedTutorials[0].tutorialEvaluation = tutorialEvaluation;
 
       expectedLearningMoreTutorials = [
         domainBuilder.buildTutorial({ id: 'recTuto3', title: 'Comment dresser un tigre du bengale' }),
         domainBuilder.buildTutorial({ id: 'recTuto4', title: 'Comment dresser une belette' }),
       ];
-      expectedLearningMoreTutorials[0].userTutorial = userTutorial3;
+      expectedLearningMoreTutorials[0].userSavedTutorial = userSavedTutorial3;
       expectedLearningMoreTutorials[0].tutorialEvaluation = tutorialEvaluation3;
     });
 

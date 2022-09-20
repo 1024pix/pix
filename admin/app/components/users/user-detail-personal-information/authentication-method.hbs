@@ -189,6 +189,18 @@
           />
         {{/if}}
       </td>
+      <td>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.isAllowedToRemoveCnavAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "CNAV"}}
+            >Supprimer</PixButton>
+          {{/if}}
+        {{/if}}
+      </td>
     </tr>
   </tbody>
 </table>

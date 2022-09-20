@@ -4,9 +4,9 @@ const TutorialForUser = require('../../../../lib/domain/read-models/TutorialForU
 
 module.exports = function buildTutorialForUser({
   tutorial = buildTutorial(),
-  userTutorial = buildUserSavedTutorial(),
+  userSavedTutorial = buildUserSavedTutorial(),
   tutorialEvaluation,
   skillId,
 } = {}) {
-  return new TutorialForUser({ ...tutorial, tutorialEvaluation, userTutorial, skillId });
+  return new TutorialForUser({ ...tutorial, tutorialEvaluation, userSavedTutorial, skillId });
 };

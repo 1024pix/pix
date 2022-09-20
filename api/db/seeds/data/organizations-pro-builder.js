@@ -1,11 +1,13 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;
 const PRO_CNAV_ID = 17;
 const PRO_MED_NUM_ID = 5;
 const PRO_ARCHIVED_ID = 15;
+const PRO_LEARNER_ASSOCIATED_ID = 1200;
 
 function organizationsProBuilder({ databaseBuilder }) {
   /* PRIVATE COMPANY */
@@ -19,7 +21,6 @@ function organizationsProBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
     lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
-
   const proUser2 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 3,
     firstName: 'Thorgo',
@@ -30,12 +31,20 @@ function organizationsProBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
     lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
+  const privateCompanyCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Gormadoc',
+    lastName: 'Fleetfoot',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: privateCompanyCreator.id, role: ROLES.SUPER_ADMIN });
 
   databaseBuilder.factory.buildOrganization({
     id: PRO_COMPANY_ID,
     type: 'PRO',
     name: 'Dragon & Co',
     logoUrl: require('../src/dragonAndCoBase64'),
+    createdBy: privateCompanyCreator.id,
     credit: 100,
     externalId: null,
     provinceCode: null,
@@ -68,7 +77,34 @@ function organizationsProBuilder({ databaseBuilder }) {
     organizationId: PRO_COMPANY_ID,
   });
 
+  // learner associated
+  const userAssociated = databaseBuilder.factory.buildUser.withRawPassword({
+    id: PRO_LEARNER_ASSOCIATED_ID,
+    firstName: 'learnerPro',
+    lastName: 'Associated',
+    email: 'learnerpro.associated@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildOrganizationLearner({
+    id: PRO_LEARNER_ASSOCIATED_ID,
+    firstName: userAssociated.firstName,
+    lastName: userAssociated.lastName,
+    birthdate: '2005-03-28',
+    organizationId: PRO_COMPANY_ID,
+    userId: PRO_LEARNER_ASSOCIATED_ID,
+  });
+
   /* POLE EMPLOI */
+  const poleEmploiCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Paul',
+    lastName: 'Emploi',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: poleEmploiCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: PRO_POLE_EMPLOI_ID,
     type: 'PRO',
@@ -76,6 +112,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     externalId: null,
     provinceCode: null,
     email: null,
+    createdBy: poleEmploiCreator.id,
     identityProviderForCampaigns: 'POLE_EMPLOI',
   });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: PRO_POLE_EMPLOI_ID, tagId: 4 });
@@ -87,6 +124,14 @@ function organizationsProBuilder({ databaseBuilder }) {
   });
 
   /* CNAV */
+  const cnavCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Timothy',
+    lastName: 'Chaney',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: cnavCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: PRO_CNAV_ID,
     type: 'PRO',
@@ -94,6 +139,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     externalId: null,
     provinceCode: null,
     email: null,
+    createdBy: cnavCreator.id,
     identityProviderForCampaigns: 'CNAV',
   });
 
@@ -104,6 +150,14 @@ function organizationsProBuilder({ databaseBuilder }) {
   });
 
   /* MEDIATION NUMERIQUE */
+  const digitalMediationCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Fanchon',
+    lastName: 'Ricard',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: digitalMediationCreator.id, role: ROLES.SUPER_ADMIN });
+
   databaseBuilder.factory.buildOrganization({
     id: PRO_MED_NUM_ID,
     type: 'PRO',
@@ -112,6 +166,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     externalId: null,
     provinceCode: null,
     email: null,
+    createdBy: digitalMediationCreator.id,
   });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: PRO_MED_NUM_ID, tagId: 7 });
 
@@ -140,6 +195,13 @@ function organizationsProBuilder({ databaseBuilder }) {
     email: 'mimi.lasouris@example.net',
     rawPassword: DEFAULT_PASSWORD,
   });
+  const archivedCreator = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Sébastien',
+    lastName: 'Rouleau',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: archivedCreator.id, role: ROLES.SUPER_ADMIN });
 
   const archivedAt = new Date('2022-02-02');
 
@@ -149,6 +211,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     name: 'Orga archivée',
     archivedAt,
     archivedBy: pixSuperAdmin.id,
+    createdBy: archivedCreator.id,
   });
   databaseBuilder.factory.buildMembership({
     userId: membership1.id,
@@ -170,4 +233,5 @@ module.exports = {
   PRO_POLE_EMPLOI_ID,
   PRO_CNAV_ID,
   PRO_MED_NUM_ID,
+  PRO_LEARNER_ASSOCIATED_ID,
 };

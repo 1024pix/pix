@@ -17,7 +17,7 @@ describe('Unit | Model | Profile model', function () {
     expect(model).to.be.ok;
   });
 
-  describe('@areasCode', () => {
+  describe('@areas', () => {
     it('should return an array of unique areas code', function () {
       return run(() => {
         // given
@@ -32,10 +32,10 @@ describe('Unit | Model | Profile model', function () {
         model.scorecards = [scorecard1, scorecard2, scorecard3];
 
         // when
-        const areasCode = model.areasCode;
+        const areas = model.areas;
 
         // then
-        expect(areasCode).to.deep.equal([1, 2]);
+        expect(areas.map((area) => area.get('code'))).to.deep.equal([1, 2]);
       });
     });
   });

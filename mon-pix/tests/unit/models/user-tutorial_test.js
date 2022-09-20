@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | user-tutorial model', function () {
+describe('Unit | Model | user-saved-tutorial model', function () {
   setupTest();
 
   let store;
@@ -12,7 +12,7 @@ describe('Unit | Model | user-tutorial model', function () {
   });
 
   it('exists', function () {
-    const model = store.createRecord('user-tutorial');
+    const model = store.createRecord('user-saved-tutorial');
     expect(model).to.be.ok;
   });
 });

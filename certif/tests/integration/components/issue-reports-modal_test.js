@@ -77,7 +77,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     });
 
     const issue2 = EmberObject.create({
-      category: certificationIssueReportCategories.LATE_OR_LEAVING,
+      category: certificationIssueReportCategories.SIGNATURE_ISSUE,
     });
 
     const report = EmberObject.create({
@@ -109,8 +109,8 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
   test('it should list existing issue reports with subcategory', async function (assert) {
     // given
     const issue1 = EmberObject.create({
-      category: certificationIssueReportCategories.LATE_OR_LEAVING,
-      categoryLabel: categoryToLabel[certificationIssueReportCategories.LATE_OR_LEAVING],
+      category: certificationIssueReportCategories.SIGNATURE_ISSUE,
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE],
     });
 
     const issue2 = EmberObject.create({
@@ -143,7 +143,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     `);
 
     // then
-    assert.contains(categoryToLabel[certificationIssueReportCategories.LATE_OR_LEAVING]);
+    assert.contains(categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE]);
     assert.contains(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]);
     assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]);
     assert.dom('li').exists({ count: 2 });

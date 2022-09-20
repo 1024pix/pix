@@ -7,72 +7,42 @@ module.exports = async function findUserForOidcReconciliation({
   identityProvider,
   authenticationSessionService,
   pixAuthenticationService,
-  oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
 }) {
+  const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
+  if (!sessionContentAndUserInfo) {
+    throw new AuthenticationKeyExpired();
+  }
+
   const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
     username: email,
     password,
     userRepository,
   });
 
-  const oidcAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
-    userId: foundUser.id,
-    identityProvider: identityProvider,
-  });
-
-  const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
-  if (!sessionContentAndUserInfo) {
-    throw new AuthenticationKeyExpired();
-  }
-
-  if (!oidcAuthenticationMethod) {
-    sessionContentAndUserInfo.userInfo.userId = foundUser.id;
-    await authenticationSessionService.update(authenticationKey, sessionContentAndUserInfo);
-    return { isAuthenticationComplete: false };
-  }
+  const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId: foundUser.id });
+  const oidcAuthenticationMethod = authenticationMethods.find(
+    (authenticationMethod) => authenticationMethod.identityProvider === identityProvider
+  );
 
   const isSameExternalIdentifier =
-    oidcAuthenticationMethod.externalIdentifier === sessionContentAndUserInfo.userInfo.externalIdentityId;
-
-  if (!isSameExternalIdentifier) {
+    oidcAuthenticationMethod?.externalIdentifier === sessionContentAndUserInfo.userInfo.externalIdentityId;
+  if (oidcAuthenticationMethod && !isSameExternalIdentifier) {
     throw new DifferentExternalIdentifierError();
   }
 
-  await _updateAuthenticationComplement({
-    identityProvider,
-    userId: foundUser.id,
-    sessionContent: sessionContentAndUserInfo.sessionContent,
-    oidcAuthenticationService,
-    authenticationMethodRepository,
-  });
+  sessionContentAndUserInfo.userInfo.userId = foundUser.id;
+  await authenticationSessionService.update(authenticationKey, sessionContentAndUserInfo);
 
-  const accessToken = await oidcAuthenticationService.createAccessToken(foundUser.id);
+  const fullNameFromPix = `${foundUser.firstName} ${foundUser.lastName}`;
+  const fullNameFromExternalIdentityProvider = `${sessionContentAndUserInfo.userInfo.firstName} ${sessionContentAndUserInfo.userInfo.lastName}`;
 
-  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
-    idToken: sessionContentAndUserInfo.sessionContent.idToken,
-    userId: foundUser.id,
-  });
-
-  userRepository.updateLastLoggedAt({ userId: foundUser.id });
-
-  return { accessToken, logoutUrlUUID, isAuthenticationComplete: true };
+  return {
+    fullNameFromPix,
+    fullNameFromExternalIdentityProvider,
+    email: foundUser.email,
+    username: foundUser.username,
+    authenticationMethods,
+  };
 };
-
-async function _updateAuthenticationComplement({
-  identityProvider,
-  userId,
-  sessionContent,
-  oidcAuthenticationService,
-  authenticationMethodRepository,
-}) {
-  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
-  if (!authenticationComplement) return;
-
-  await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
-    authenticationComplement,
-    userId,
-    identityProvider,
-  });
-}

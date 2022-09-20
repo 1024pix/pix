@@ -7,10 +7,7 @@ export default Factory.extend({
   withGarIdentityProvider: trait({
     identityProvider: 'GAR',
   }),
-  withPoleEmploiIdentityProvider: trait({
-    identityProvider: 'POLE_EMPLOI',
-  }),
-  withCnavIdentityProvider: trait({
-    identityProvider: 'CNAV',
+  withGenericOidcIdentityProvider: trait({
+    identityProvider: 'OIDC_PARTNER',
   }),
 });

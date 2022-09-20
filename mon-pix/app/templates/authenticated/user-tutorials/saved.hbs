@@ -1,0 +1,27 @@
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+      <Tutorials::Header @onTriggerFilterButton={{this.showSidebar}} @shouldShowFilterButton={{false}} />
+    </header>
+
+    <main id="main" class="main" role="main">
+      <div class="user-tutorials-content-v2">
+        {{#if @model.savedTutorials.meta.rowCount}}
+          <div class="user-tutorials-content-v2__container">
+            <Tutorials::Cards @tutorials={{@model.savedTutorials}} @afterRemove={{this.refresh}} />
+            <PixPagination
+              @pagination={{@model.savedTutorials.meta}}
+              @pageOptions={{this.pageOptions}}
+              @isCondensed="true"
+            />
+          </div>
+        {{else}}
+          <Tutorials::SavedEmpty />
+        {{/if}}
+      </div>
+    </main>
+
+    <Footer />
+  </burger.outlet>
+</BurgerMenu>

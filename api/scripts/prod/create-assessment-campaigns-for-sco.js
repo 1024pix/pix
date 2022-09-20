@@ -2,7 +2,7 @@
 // To use on file with columns |targetProfileId, name, externalId, title, customLandingPageText, creatorId|, those headers included
 const bluebird = require('bluebird');
 const _ = require('lodash');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const CampaignTypes = require('../../lib/domain/models/CampaignTypes');
 const campaignCodeGenerator = require('../../lib/domain/services/campaigns/campaign-code-generator');
 const campaignValidator = require('../../lib/domain/validators/campaign-validator');
@@ -72,38 +72,38 @@ function createAssessmentCampaignsForSco(campaigns) {
   return knex.batchInsert('campaigns', campaigns);
 }
 
+const isLaunchedFromCommandLine = require.main === module;
+
 async function main() {
-  try {
-    const filePath = process.argv[2];
+  const filePath = process.argv[2];
 
-    console.log('Lecture et parsing du fichier csv... ');
-    const csvData = await parseCsvWithHeader(filePath);
+  console.log('Lecture et parsing du fichier csv... ');
+  const csvData = await parseCsvWithHeader(filePath);
 
-    console.log('Vérification des données du fichier csv...');
-    const checkedData = checkData(csvData);
+  console.log('Vérification des données du fichier csv...');
+  const checkedData = checkData(csvData);
 
-    console.log('Création des modèles campagne...');
-    const campaigns = await prepareCampaigns(checkedData);
+  console.log('Création des modèles campagne...');
+  const campaigns = await prepareCampaigns(checkedData);
 
-    console.log('Création des campagnes...');
-    await createAssessmentCampaignsForSco(campaigns);
+  console.log('Création des campagnes...');
+  await createAssessmentCampaignsForSco(campaigns);
 
-    console.log('FIN');
-  } catch (error) {
-    console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-    process.exit(1);
-  }
+  console.log('FIN');
 }
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+(async () => {
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 1;
+    } finally {
+      await disconnect();
     }
-  );
-}
+  }
+})();
 
 module.exports = {
   prepareCampaigns,

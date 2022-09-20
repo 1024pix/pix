@@ -1,6 +1,6 @@
-{{page-title (t "pages.sup-organization-participants.title")}}
+{{page-title (t "pages.sup-organization-participants.page-title")}}
 <div class="organization-participant-list-page sup-organization-participant-list-page">
-  <SupOrganizationParticipant::HeaderActions />
+  <SupOrganizationParticipant::HeaderActions @participantCount={{@model.meta.participantCount}} />
 
   <SupOrganizationParticipant::List
     @students={{@model}}
@@ -9,5 +9,6 @@
     @studentNumberFilter={{this.studentNumber}}
     @groupsFilter={{this.groups}}
     @onFilter={{this.triggerFiltering}}
+    @onResetFilter={{this.onResetFilter}}
   />
 </div>

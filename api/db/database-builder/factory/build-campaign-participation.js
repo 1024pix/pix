@@ -67,5 +67,6 @@ module.exports = function buildCampaignParticipation({
     isImproved,
     deletedAt,
     deletedBy,
+    isCertifiable,
   };
 };

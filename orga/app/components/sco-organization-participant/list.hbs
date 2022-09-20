@@ -1,3 +1,58 @@
+<PixFilterBanner
+  @title={{t "pages.sco-organization-participants.filter.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.sco-organization-participants.filter.aria-label"}}
+  @details={{t "pages.sco-organization-participants.filter.students-count" count=@students.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.sco-organization-participants.filter.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+>
+  <Ui::SearchInputFilter
+    @field="firstName"
+    @value={{@firstNameFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.first-name.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.first-name.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+
+  <Ui::SearchInputFilter
+    @field="lastName"
+    @value={{@lastNameFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.last-name.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.last-name.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+
+  <Ui::MultiSelectFilter
+    @field="divisions"
+    @title={{t "pages.sco-organization-participants.filter.division.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@divisionsFilter}}
+    @onLoadOptions={{this.loadDivisions}}
+    @placeholder={{t "pages.sco-organization-participants.filter.division.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.division.aria-label"}}
+    @emptyMessage={{t "pages.sco-organization-participants.filter.division.empty"}}
+  />
+
+  <Ui::SelectFilter
+    @field="connexionType"
+    @options={{@connectionTypesOptions}}
+    @selectedOption={{@connexionTypeFilter}}
+    @triggerFiltering={{@onFilter}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
+    @emptyOptionLabel={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
+  />
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{@certificabilityOptions}}
+    @placeholder={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.certificability.aria-label"}}
+    @emptyMessage={{t "pages.sco-organization-participants.filter.certificability.empty"}}
+  />
+</PixFilterBanner>
+
 <div class="panel">
   <table class="table content-text content-text--small">
     <colgroup class="table__column">
@@ -7,6 +62,7 @@
       <col />
       <col />
       <col class="table__column--right" />
+      <col class="table__column--center" />
       <col class="table__column--center" />
       <col class="hide-on-mobile" />
     </colgroup>
@@ -27,45 +83,26 @@
         <Table::Header @size="medium" @align="center">
           {{t "pages.sco-organization-participants.table.column.last-participation-date"}}
         </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          <div class="sco-organization-participant-list-page__certificability-header">
+            {{t "pages.sco-organization-participants.table.column.is-certifiable.label"}}
+            <div class="sco-organization-participant-list-page__certificability-header__tooltip">
+              <PixTooltip
+                @position="top-left"
+                @isWide={{true}}
+                aria-label={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip"}}
+              >
+                <:triggerElement>
+                  <FaIcon @icon="circle-question" tabindex="0" />
+                </:triggerElement>
+                <:tooltip>
+                  {{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip"}}
+                </:tooltip>
+              </PixTooltip>
+            </div>
+          </div>
+        </Table::Header>
         <Table::Header @size="small" class="hide-on-mobile" />
-      </tr>
-      <tr class="hide-on-mobile">
-        <Table::HeaderFilterInput
-          @field="lastName"
-          @value={{@lastNameFilter}}
-          @placeholder={{t "pages.sco-organization-participants.table.filter.last-name.label"}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.last-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::HeaderFilterInput
-          @field="firstName"
-          @value={{@firstNameFilter}}
-          @placeholder={{t "pages.sco-organization-participants.table.filter.first-name.label"}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.first-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
-        />
-        <Table::Header />
-        <Table::HeaderFilterMultiSelect
-          @field="divisions"
-          @title={{t "pages.sco-organization-participants.table.column.division"}}
-          @onSelect={{@onFilter}}
-          @selectedOption={{@divisionsFilter}}
-          @onLoadOptions={{this.loadDivisions}}
-          @placeholder={{t "pages.sco-organization-participants.table.filter.division.label"}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.division.aria-label"}}
-          @emptyMessage={{t "pages.sco-organization-participants.table.filter.division.empty"}}
-        />
-        <Table::HeaderFilterSelect
-          @field="connexionType"
-          @options={{@connectionTypesOptions}}
-          @selectedOption={{@connexionTypeFilter}}
-          @triggerFiltering={{@onFilter}}
-          @ariaLabel={{t "pages.sco-organization-participants.table.filter.login-method.aria-label"}}
-          @emptyOptionLabel={{t "pages.sco-organization-participants.table.filter.login-method.empty-option"}}
-        />
-        <Table::Header class="table__column--right" />
-        <Table::Header />
-        <Table::Header />
       </tr>
     </thead>
 
@@ -96,10 +133,20 @@
                 </div>
               {{/if}}
             </td>
+            <td class="table__column--center">
+              <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
+              {{#if student.certifiableAt}}
+                <span class="organization-participant-list-page__certifiable-at">{{moment-format
+                    student.certifiableAt
+                    "DD/MM/YYYY"
+                    allow-empty=true
+                  }}</span>
+              {{/if}}
+            </td>
             <td class="organization-participant-list-page__actions hide-on-mobile">
               {{#if student.isAssociated}}
                 <Dropdown::IconTrigger
-                  @icon="ellipsis-v"
+                  @icon="ellipsis-vertical"
                   @dropdownButtonClass="organization-participant-list-page__dropdown-button"
                   @dropdownContentClass="organization-participant-list-page__dropdown-content"
                   @ariaLabel={{t "pages.sco-organization-participants.actions.show-actions"}}

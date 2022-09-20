@@ -1,9 +1,9 @@
 const Tutorial = require('../models/Tutorial');
 
 class TutorialForUser extends Tutorial {
-  constructor({ userTutorial, tutorialEvaluation, skillId, ...tutorial }) {
+  constructor({ userSavedTutorial, tutorialEvaluation, skillId, ...tutorial }) {
     super(tutorial);
-    this.userTutorial = userTutorial;
+    this.userSavedTutorial = userSavedTutorial;
     this.tutorialEvaluation = tutorialEvaluation;
     this.skillId = skillId;
   }

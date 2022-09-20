@@ -15,8 +15,6 @@ module('Unit | Component | Tube::List', function (hooks) {
 
     // then
     const text = await component.file.text();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(text, expectedFile);
+    assert.strictEqual(text, expectedFile);
   });
 });

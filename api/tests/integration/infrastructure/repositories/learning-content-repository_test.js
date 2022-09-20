@@ -1,0 +1,343 @@
+const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
+const { NoSkillsInCampaignError } = require('../../../../lib/domain/errors');
+const learningContentRepository = require('../../../../lib/infrastructure/repositories/learning-content-repository');
+const { buildLearningContent } = require('../../../tooling/learning-content-builder');
+
+describe('Integration | Repository | learning-content', function () {
+  let learningContent;
+  let area1Fr, area1En;
+  let competence2Fr, competence2En;
+  let tube2Fr, tube2En;
+  let skill2, skill3;
+
+  beforeEach(function () {
+    learningContent = buildLearningContent([
+      {
+        id: 'recArea1',
+        name: 'area1_name',
+        titleFr: 'area1_TitleFr',
+        titleEn: 'area1_TitleEn',
+        color: 'area1_color',
+        code: 'area1_code',
+        frameworkId: 'recFmk1',
+        competences: [
+          {
+            id: 'recCompetence1',
+            nameFr: 'competence1_nameFr',
+            nameEn: 'competence1_nameEn',
+            index: 1,
+            descriptionFr: 'competence1_descriptionFr',
+            descriptionEn: 'competence1_descriptionEn',
+            origin: 'Pix',
+            thematics: [
+              {
+                id: 'recThematic1',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    name: '@tube1_name',
+                    title: 'tube1_title',
+                    description: 'tube1_description',
+                    practicalTitleFr: 'tube1_practicalTitleFr',
+                    practicalTitleEn: 'tube1_practicalTitleEn',
+                    practicalDescriptionFr: 'tube1_practicalDescriptionFr',
+                    practicalDescriptionEn: 'tube1_practicalDescriptionEn',
+                    skills: [
+                      {
+                        id: 'recSkill1',
+                        name: '@tube1_name4',
+                        status: 'actif',
+                        level: 4,
+                        pixValue: 12,
+                        version: 98,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'recCompetence2',
+            nameFr: 'competence2_nameFr',
+            nameEn: 'competence2_nameEn',
+            index: 2,
+            descriptionFr: 'competence2_descriptionFr',
+            descriptionEn: 'competence2_descriptionEn',
+            origin: 'Pix',
+            thematics: [
+              {
+                id: 'recThematic2',
+                tubes: [
+                  {
+                    id: 'recTube2',
+                    name: '@tube2_name',
+                    title: '@tube2_title',
+                    description: '@tube2_description',
+                    practicalTitleFr: 'tube2_practicalTitleFr',
+                    practicalTitleEn: 'tube2_practicalTitleEn',
+                    practicalDescriptionFr: 'tube2_practicalDescriptionFr',
+                    practicalDescriptionEn: 'tube2_practicalDescriptionEn',
+                    skills: [
+                      {
+                        id: 'recSkill2',
+                        name: '@tube2_name1',
+                        status: 'actif',
+                        level: 1,
+                        pixValue: 34,
+                        version: 76,
+                      },
+                      {
+                        id: 'recSkill3',
+                        name: '@tube2_name2',
+                        status: 'archivé',
+                        level: 2,
+                        pixValue: 56,
+                        version: 54,
+                      },
+                      // outdated skill
+                      {
+                        id: 'recSkill4',
+                        status: 'périmé',
+                      },
+                    ],
+                  },
+                  {
+                    id: 'recTube3',
+                    name: '@tube3_name',
+                    title: '@tube3_title',
+                    description: '@tube3_description',
+                    practicalTitleFr: 'tube3_practicalTitleFr',
+                    practicalTitleEn: 'tube3_practicalTitleEn',
+                    practicalDescriptionFr: 'tube3_practicalDescriptionFr',
+                    practicalDescriptionEn: 'tube3_practicalDescriptionEn',
+                    skills: [
+                      {
+                        id: 'recSkill5',
+                        name: '@tube3_name5',
+                        status: 'archivé',
+                        level: 5,
+                        pixValue: 44,
+                        version: 55,
+                      },
+                      {
+                        id: 'recSkill6',
+                        status: 'périmé',
+                      },
+                      {
+                        id: 'recSkill7',
+                        status: 'périmé',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 'recArea2',
+        name: 'area2_name',
+        titleFr: 'area2_TitleFr',
+        titleEn: 'area2_TitleEn',
+        color: 'area2_color',
+        code: 'area2_code',
+        frameworkId: 'recFmk2',
+        competences: [
+          {
+            id: 'recCompetence3',
+            nameFr: 'competence3_nameFr',
+            nameEn: 'competence3_nameEn',
+            index: 1,
+            descriptionFr: 'competence3_descriptionFr',
+            descriptionEn: 'competence3_descriptionEn',
+            origin: 'Pix',
+            thematics: [
+              {
+                id: 'recThematic3',
+                tubes: [
+                  {
+                    id: 'recTube4',
+                    name: '@tube4_name',
+                    title: 'tube4_title',
+                    description: 'tube4_description',
+                    practicalTitleFr: 'tube4_practicalTitleFr',
+                    practicalTitleEn: 'tube4_practicalTitleEn',
+                    practicalDescriptionFr: 'tube4_practicalDescriptionFr',
+                    practicalDescriptionEn: 'tube4_practicalDescriptionEn',
+                    skills: [
+                      {
+                        id: 'recSkill6',
+                        name: '@tube4_name7',
+                        status: 'actif',
+                        level: 7,
+                        pixValue: 78,
+                        version: 32,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+
+    [area1Fr] = _buildDomainAreasFromLearningContent(learningContent, 'fr');
+    [area1En] = _buildDomainAreasFromLearningContent(learningContent, 'en');
+    [, competence2Fr] = _buildDomainCompetencesFromLearningContent(learningContent, 'fr');
+    [, competence2En] = _buildDomainCompetencesFromLearningContent(learningContent, 'en');
+    [, tube2Fr] = _buildDomainTubesFromLearningContent(learningContent, 'fr');
+    [, tube2En] = _buildDomainTubesFromLearningContent(learningContent, 'en');
+    [, skill2, skill3] = _buildDomainSkillsFromLearningContent(learningContent);
+
+    mockLearningContent(learningContent);
+  });
+
+  let targetProfileId, campaignId;
+
+  describe('#findByCampaignId', function () {
+    describe('when campaign has skills', function () {
+      it("should use campaign's skills", async function () {
+        // given
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        // target profile skills
+        ['recSkill3', 'recSkill4'].forEach((skillId) =>
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId })
+        );
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+        // campaign skills
+        ['recSkill2', 'recSkill3'].forEach((skillId) =>
+          databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId })
+        );
+        // skill on another campaign
+        databaseBuilder.factory.buildCampaignSkill({ skillId: 'recSkill5' });
+        await databaseBuilder.commit();
+
+        // when
+        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+
+        // then
+        expect(campaignLearningContent.skills).to.deep.equal([skill2, skill3]);
+      });
+    });
+
+    describe("when campaign doesn't have skills", function () {
+      it("should use target profile's skills", async function () {
+        // given
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        // target profile skills
+        ['recSkill3', 'recSkill4'].forEach((skillId) =>
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId })
+        );
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+        // skill on another target profile
+        databaseBuilder.factory.buildCampaign({
+          targetProfileId: databaseBuilder.factory.buildTargetProfileSkill({ skillId: 'recSkill5' }).targetProfileId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+
+        // then
+        expect(campaignLearningContent.skills).to.deep.equal([skill3]);
+      });
+    });
+
+    it('should return areas, competences and tubes of the skills hierarchy', async function () {
+      // given
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      ['recSkill2', 'recSkill3'].forEach((skillId) =>
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId })
+      );
+      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      await databaseBuilder.commit();
+
+      area1Fr.competences = [competence2Fr];
+      competence2Fr.area = area1Fr;
+      competence2Fr.tubes = [tube2Fr];
+      tube2Fr.skills = [skill2, skill3];
+
+      // when
+      const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+
+      // then
+      expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);
+    });
+
+    describe('when using a specific locale', function () {
+      it('should translate names and descriptions', async function () {
+        // given
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        ['recSkill2', 'recSkill3'].forEach((skillId) =>
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId })
+        );
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+        await databaseBuilder.commit();
+
+        area1En.competences = [competence2En];
+        competence2En.area = area1En;
+        competence2En.tubes = [tube2En];
+        tube2En.skills = [skill2, skill3];
+
+        // when
+        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId, 'en');
+
+        // then
+        expect(campaignLearningContent.areas).to.deep.equal([area1En]);
+      });
+    });
+
+    describe('when there is no more operative skills', function () {
+      it('should throw a NoSkillsInCampaignError', async function () {
+        // given
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill4' });
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const err = await catchErr(learningContentRepository.findByCampaignId)(campaignId);
+
+        // then
+        expect(err).to.be.instanceOf(NoSkillsInCampaignError);
+      });
+    });
+  });
+});
+
+function _buildDomainAreasFromLearningContent({ areas }, locale) {
+  return areas.map((area) =>
+    domainBuilder.buildArea({
+      ...area,
+      title: area[locale === 'en' ? 'titleEnUs' : 'titleFrFr'],
+    })
+  );
+}
+
+function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
+  return competences.map((competence) =>
+    domainBuilder.buildCompetence({
+      ...competence,
+      name: competence[locale === 'en' ? 'nameEnUs' : 'nameFrFr'],
+      description: competence[locale === 'en' ? 'descriptionEnUs' : 'descriptionFrFr'],
+    })
+  );
+}
+
+function _buildDomainTubesFromLearningContent({ tubes }, locale) {
+  return tubes.map((tube) =>
+    domainBuilder.buildTube({
+      ...tube,
+      practicalTitle: tube[locale === 'en' ? 'practicalTitleEnUs' : 'practicalTitleFrFr'],
+      practicalDescription: tube[locale === 'en' ? 'practicalDescriptionEnUs' : 'practicalDescriptionFrFr'],
+    })
+  );
+}
+
+function _buildDomainSkillsFromLearningContent({ skills }) {
+  return skills.map((skill) => domainBuilder.buildSkill({ ...skill, difficulty: skill.level }));
+}

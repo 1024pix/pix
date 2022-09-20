@@ -21,8 +21,10 @@ module('Integration | Component | certifications/list', function (hooks) {
       }),
     ];
 
+    this.pagination = {};
+
     // when
-    await render(hbs`<Certifications::List @certifications={{certifications}} />`);
+    await render(hbs`<Certifications::List @certifications={{certifications}} @pagination={{pagination}} />`);
 
     const numberOfCertificationIssueReportsWithRequiredAction =
       this.element.querySelector('tbody > tr td:nth-child(5)');
@@ -35,9 +37,12 @@ module('Integration | Component | certifications/list', function (hooks) {
       complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Maître'],
     });
     this.certifications = [juryCertificationSummaryProcessed];
+    this.pagination = {};
 
     // when
-    const screen = await render(hbs`<Certifications::List @certifications={{certifications}} />`);
+    const screen = await render(
+      hbs`<Certifications::List @certifications={{certifications}} @pagination={{pagination}}/>`
+    );
 
     // then
     assert.dom(screen.getByText('CléA Numérique Pix+ Droit Maître', { exact: false })).exists();
@@ -50,14 +55,15 @@ module('Integration | Component | certifications/list', function (hooks) {
         hasSeenEndTestScreen: true,
       });
       this.certifications = [juryCertificationSummaryProcessed];
+      this.pagination = {};
 
       // when
       const screen = await render(
-        hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{true}}/>`
+        hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{true}} @pagination={{pagination}}/>`
       );
 
       // then
-      assert.dom(screen.getByLabelText('Ecran de fin de test vu')).exists();
+      assert.dom(screen.getByText('Ecran de fin de test vu')).exists();
     });
   });
 
@@ -68,10 +74,11 @@ module('Integration | Component | certifications/list', function (hooks) {
         hasSeenEndTestScreen: true,
       });
       this.certifications = [juryCertificationSummaryProcessed];
+      this.pagination = {};
 
       // when
       const screen = await render(
-        hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{false}}/>`
+        hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{false}} @pagination={{pagination}}/>`
       );
 
       // then
