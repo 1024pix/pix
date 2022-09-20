@@ -40,7 +40,9 @@
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
         @id="stage"
-        @title={{t "pages.campaign-results.filters.type.stages"}}
+        @label={{t "pages.campaign-results.filters.type.stages"}}
+        @innerText={{t "pages.campaign-results.filters.type.stages"}}
+        @screenReaderOnly={{true}}
         @onSelect={{this.onSelectStage}}
         @selected={{@selectedStages}}
         @options={{this.stageOptions}}
@@ -53,7 +55,9 @@
     {{#if this.displayBadgesFilter}}
       <PixMultiSelect
         @id="badge"
-        @title={{t "pages.campaign-results.filters.type.badges"}}
+        @label={{t "pages.campaign-results.filters.type.badges"}}
+        @innerText={{t "pages.campaign-results.filters.type.badges"}}
+        @screenReaderOnly={{true}}
         @onSelect={{this.onSelectBadge}}
         @selected={{@selectedBadges}}
         @options={{this.badgeOptions}}

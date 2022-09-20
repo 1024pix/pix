@@ -51,12 +51,15 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
     module('filters', function () {
       test('it should filter students by group', async function (assert) {
         // given
-        const { getByPlaceholderText } = await visit('/etudiants');
+        const { getByPlaceholderText, findByRole } = await visit('/etudiants');
 
         // when
 
         const select = await getByPlaceholderText('Rechercher par groupe');
         await click(select);
+
+        await findByRole('menu');
+
         await clickByName('L1');
 
         // then

@@ -147,7 +147,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      const { getByPlaceholderText } = await render(hbs`<ScoOrganizationParticipant::List
+      const { getByPlaceholderText, findByRole } = await render(hbs`<ScoOrganizationParticipant::List
         @students={{students}}
         @onFilter={{triggerFiltering}}
       />`);
@@ -155,6 +155,9 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       // when
       const select = await getByPlaceholderText('Rechercher par classe');
       await click(select);
+
+      await findByRole('menu');
+
       await clickByName('3A');
 
       // then
@@ -189,13 +192,16 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
       this.set('certificability', []);
 
-      const { getByPlaceholderText } = await render(
+      const { getByPlaceholderText, findByRole } = await render(
         hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @certificabilityOptions={{certificabilityOptions}} @certificability={{certificability}} />`
       );
 
       // when
       const select = await getByPlaceholderText('Rechercher par certificabilité');
       await click(select);
+
+      await findByRole('menu');
+
       await clickByName('Certifiable');
 
       // then
