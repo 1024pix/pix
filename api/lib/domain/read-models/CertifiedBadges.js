@@ -14,13 +14,27 @@ class CertifiedBadges {
 
     return Object.values(complementaryCertificationCourseResultsByComplementaryCertificationCourseId)
       .map((complementaryCertificationCourseResults) => {
-        const { partnerKey, label, acquired, hasExternalJury, imageUrl } = complementaryCertificationCourseResults[0];
+        const {
+          partnerKey,
+          label,
+          acquired,
+          hasExternalJury,
+          imageUrl,
+          certificateMessage,
+          temporaryCertificateMessage,
+        } = complementaryCertificationCourseResults[0];
         if (hasExternalJury) {
           if (complementaryCertificationCourseResults.length === 1) {
             if (!acquired) {
               return;
             }
-            return { partnerKey, isTemporaryBadge: true, label, imageUrl, message: this._getBadgeMessage(true, label) };
+            return {
+              partnerKey,
+              isTemporaryBadge: true,
+              label,
+              imageUrl,
+              message: temporaryCertificateMessage,
+            };
           }
 
           if (complementaryCertificationCourseResults.length > 1) {
@@ -28,20 +42,22 @@ class CertifiedBadges {
               return;
             }
 
-            const { partnerKey, label, imageUrl } = this._getLowestByLevel(complementaryCertificationCourseResults);
+            const { partnerKey, label, imageUrl, certificateMessage } = this._getLowestByLevel(
+              complementaryCertificationCourseResults
+            );
 
             return {
               partnerKey,
               isTemporaryBadge: false,
               label,
               imageUrl,
-              message: this._getBadgeMessage(false, label),
+              message: certificateMessage,
             };
           }
         }
 
         if (acquired) {
-          return { partnerKey, isTemporaryBadge: false, label, imageUrl, message: null };
+          return { partnerKey, isTemporaryBadge: false, label, imageUrl, message: certificateMessage };
         }
       })
       .filter(Boolean);
@@ -57,12 +73,6 @@ class CertifiedBadges {
         !complementaryCertificationCourseResult.acquired &&
         complementaryCertificationCourseResult.source === ComplementaryCertificationCourseResult.sources.EXTERNAL
     );
-  }
-
-  _getBadgeMessage(isTemporaryBadge, label) {
-    return isTemporaryBadge
-      ? `Vous avez obtenu le niveau “${label}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`
-      : `Vous avez obtenu la certification Pix+Edu niveau "${label}"`;
   }
 }
 

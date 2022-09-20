@@ -50,7 +50,6 @@ module.exports = {
   buildCertificationRescoringCompletedEvent: require('./build-certification-rescoring-completed-event'),
   buildCertificationScoringCompletedEvent: require('./build-certification-scoring-completed-event'),
   buildCertifiedArea: require('./build-certified-area'),
-  buildCertifiedBadgeImage: require('./build-certified-badge-image'),
   buildCertifiedCompetence: require('./build-certified-competence'),
   buildCertifiedProfile: require('./build-certified-profile'),
   buildCertifiedSkill: require('./build-certified-skill'),

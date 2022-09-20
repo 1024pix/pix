@@ -405,6 +405,10 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           name: 'Pix+ test',
           hasExternalJury: false,
         }).id;
+        const complementaryCertificationWithJuryId = databaseBuilder.factory.buildComplementaryCertification({
+          name: 'Pix+ test with Jury',
+          hasExternalJury: true,
+        }).id;
 
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -429,14 +433,14 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
               imageUrl: 'https://images.pix.fr/badge1.svg',
               isTemporaryBadge: false,
               label: 'Pix+ test',
-              message: null,
+              message: 'message badge 1',
               partnerKey: 'PIX_TEST_1',
             },
             {
               imageUrl: 'https://images.pix.fr/badge2.svg',
-              isTemporaryBadge: false,
+              isTemporaryBadge: true,
               label: 'Pix+ test',
-              message: null,
+              message: 'temporary message badge 2',
               partnerKey: 'PIX_TEST_2',
             },
           ],
@@ -450,12 +454,14 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
               label: 'Pix+ test',
               imageUrl: 'https://images.pix.fr/badge1.svg',
               complementaryCertificationId,
+              certificateMessage: 'message badge 1',
             },
             {
               key: 'PIX_TEST_2',
               label: 'Pix+ test',
               imageUrl: 'https://images.pix.fr/badge2.svg',
-              complementaryCertificationId,
+              complementaryCertificationId: complementaryCertificationWithJuryId,
+              temporaryCertificateMessage: 'temporary message badge 2',
             },
           ],
         });
@@ -707,25 +713,29 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     createdAt: new Date('2021-01-01'),
   });
 
-  acquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId, label }) => {
-    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
-    const acquiredComplementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-      badgeId,
-      complementaryCertificationId,
-      imageUrl,
-      label,
-    }).id;
-    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-      certificationCourseId: certificateId,
-      complementaryCertificationId,
-      complementaryCertificationBadgeId: acquiredComplementaryBadgeId,
-    });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-      complementaryCertificationCourseId,
-      partnerKey: key,
-      acquired: true,
-    });
-  });
+  acquiredBadges?.forEach(
+    ({ key, imageUrl, complementaryCertificationId, label, certificateMessage, temporaryCertificateMessage }) => {
+      const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
+      const acquiredComplementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId,
+        complementaryCertificationId,
+        imageUrl,
+        label,
+        certificateMessage,
+        temporaryCertificateMessage,
+      }).id;
+      const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        certificationCourseId: certificateId,
+        complementaryCertificationId,
+        complementaryCertificationBadgeId: acquiredComplementaryBadgeId,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId,
+        partnerKey: key,
+        acquired: true,
+      });
+    }
+  );
   await databaseBuilder.commit();
   return { certificateId };
 }
