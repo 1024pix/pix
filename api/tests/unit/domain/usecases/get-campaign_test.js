@@ -7,7 +7,6 @@ describe('Unit | UseCase | get-campaign', function () {
   let userId, campaignId, campaign, stages, badges, masteryRates;
   let campaignRepository;
   let campaignReportRepository;
-  let stageRepository;
   let badgeRepository;
 
   beforeEach(function () {
@@ -28,20 +27,18 @@ describe('Unit | UseCase | get-campaign', function () {
     };
     campaignRepository = {
       checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
+      findStages: sinon.stub(),
     };
     campaignReportRepository = {
       get: sinon.stub(),
       findMasteryRates: sinon.stub(),
-    };
-    stageRepository = {
-      findByCampaignId: sinon.stub(),
     };
 
     badgeRepository.findByCampaignId.resolves(badges);
     campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
     campaignReportRepository.get.resolves(campaign);
     campaignReportRepository.findMasteryRates.resolves(masteryRates);
-    stageRepository.findByCampaignId.resolves(stages);
+    campaignRepository.findStages.resolves(stages);
     sinon.stub(CampaignReport.prototype, 'computeAverageResult');
   });
 
@@ -53,7 +50,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then
@@ -69,7 +65,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then
@@ -84,7 +79,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then
@@ -99,7 +93,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then
@@ -120,7 +113,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then
@@ -135,7 +127,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then
@@ -153,7 +144,6 @@ describe('Unit | UseCase | get-campaign', function () {
       badgeRepository,
       campaignRepository,
       campaignReportRepository,
-      stageRepository,
     });
 
     // then

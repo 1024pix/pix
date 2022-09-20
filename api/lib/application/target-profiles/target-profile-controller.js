@@ -108,7 +108,7 @@ module.exports = {
     return targetProfileSerializer.serializeId(targetProfileId);
   },
 
-  async findByTargetProfileId(request) {
+  async findStages(request) {
     const targetProfileId = request.params.id;
 
     const stages = await usecases.findTargetProfileStages({ targetProfileId });

@@ -6,7 +6,6 @@ module.exports = async function getCampaign({
   badgeRepository,
   campaignRepository,
   campaignReportRepository,
-  stageRepository,
 }) {
   const integerCampaignId = parseInt(campaignId);
   if (!Number.isFinite(integerCampaignId)) {
@@ -24,7 +23,7 @@ module.exports = async function getCampaign({
   const [campaignReport, badges, stages, masteryRates] = await Promise.all([
     campaignReportRepository.get(integerCampaignId),
     badgeRepository.findByCampaignId(integerCampaignId),
-    stageRepository.findByCampaignId(integerCampaignId),
+    campaignRepository.findStages({ campaignId: integerCampaignId }),
     campaignReportRepository.findMasteryRates(integerCampaignId),
   ]);
 
