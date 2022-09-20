@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
 const archiveCampaigns = require('../../../../scripts/prod/archive-campaigns');
+const { noop } = require('lodash');
 
 describe('Script | Prod | Archive Campaign', function () {
   let clock;
@@ -16,7 +17,18 @@ describe('Script | Prod | Archive Campaign', function () {
   describe('#archiveCampaigns', function () {
     it('archives all given campaigns', async function () {
       const file = './tests/tooling/fixtures/campaigns-to-archive.csv';
-      const logger = { setTotal: () => {}, log: () => {}, logCount: () => {} };
+
+      const logger = {
+        setTotal: () => {
+          noop;
+        },
+        log: () => {
+          noop;
+        },
+        logCount: () => {
+          noop;
+        },
+      };
       databaseBuilder.factory.buildCampaign({ code: 'ABC123' });
       databaseBuilder.factory.buildCampaign({ code: 'ABC456' });
       databaseBuilder.factory.buildUser({ id: 1 });
@@ -34,7 +46,18 @@ describe('Script | Prod | Archive Campaign', function () {
 
     it('archives all archivable campaigns', async function () {
       const file = './tests/tooling/fixtures/campaigns-unarchivable.csv';
-      const logger = { setTotal: () => {}, log: () => {}, logCount: () => {} };
+
+      const logger = {
+        setTotal: () => {
+          noop;
+        },
+        log: () => {
+          noop;
+        },
+        logCount: () => {
+          noop;
+        },
+      };
       databaseBuilder.factory.buildCampaign({ code: 'ARCHIVABLE' });
       databaseBuilder.factory.buildCampaign({ code: 'UNARCHIVABLE' });
       databaseBuilder.factory.buildUser({ id: 1 });

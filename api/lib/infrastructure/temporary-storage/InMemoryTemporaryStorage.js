@@ -1,6 +1,7 @@
 const NodeCache = require('node-cache');
 const trim = require('lodash/trim');
 const TemporaryStorage = require('./TemporaryStorage');
+const { noop } = require('lodash');
 
 class InMemoryTemporaryStorage extends TemporaryStorage {
   constructor() {
@@ -33,7 +34,9 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     return this._client.del(matchingKeys);
   }
 
-  quit() {}
+  quit() {
+    noop;
+  }
 }
 
 module.exports = InMemoryTemporaryStorage;
