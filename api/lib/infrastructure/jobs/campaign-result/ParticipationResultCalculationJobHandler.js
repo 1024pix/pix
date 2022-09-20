@@ -9,6 +9,10 @@ class ParticipationResultCalculationJobHandler {
     const participantResultsShared = await this.participantResultsSharedRepository.get(campaignParticipationId);
     await this.participantResultsSharedRepository.save(participantResultsShared);
   }
+
+  get name() {
+    return 'ParticipationResultCalculation';
+  }
 }
 
 module.exports = ParticipationResultCalculationJobHandler;

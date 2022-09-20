@@ -1,5 +1,3 @@
-const DomainTransaction = require('../DomainTransaction');
-
 class JobQueue {
   constructor(pgBoss, dependenciesBuilder) {
     this.pgBoss = pgBoss;
@@ -7,13 +5,12 @@ class JobQueue {
   }
 
   performJob(name, handlerClass) {
-    this.pgBoss.work(name, (job) => {
-      const promise = DomainTransaction.execute(async (domainTransaction) => {
-        const handler = this.dependenciesBuilder.build(handlerClass, domainTransaction);
-        await handler.handle(job.data);
-      });
-
-      promise.then(() => job.done()).catch((error) => job.done(error));
+    this.pgBoss.work(name, async (job) => {
+      const handler = this.dependenciesBuilder.build(handlerClass);
+      const promise = handler
+        .handle(job.data)
+        .then(() => job.done())
+        .catch((error) => job.done(error));
       return promise;
     });
   }

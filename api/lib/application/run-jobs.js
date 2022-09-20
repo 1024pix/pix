@@ -3,7 +3,7 @@ const config = require('../../lib/config');
 const JobQueue = require('../infrastructure/jobs/JobQueue');
 const ParticipationResultCalculationJob = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJob');
 const ParticipationResultCalculationJobHandler = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
-const dependenciesBuilder = require('../infrastructure/events/DependenciesBuilder');
+const dependenciesBuilder = require('../infrastructure/jobs/JobDependenciesBuilder');
 const PgBoss = require('pg-boss');
 const scheduleCpfJobs = require('../infrastructure/jobs/cpf-export/schedule-cpf-jobs');
 

@@ -6,7 +6,12 @@ class LogEvent {
   }
 
   async handle(event) {
-    this.monitoringTools.logInfoWithCorrelationIds({ message: event.attributes });
+    this.monitoringTools.logInfoWithCorrelationIds({
+      message: {
+        type: 'EVENT_LOG',
+        event: event.attributes,
+      },
+    });
   }
 }
 
