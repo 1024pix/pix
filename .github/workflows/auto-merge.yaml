@@ -12,6 +12,8 @@ on:
     types:
       - success
 
+permissions: {}
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
