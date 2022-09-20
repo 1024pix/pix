@@ -1,6 +1,5 @@
 const sortBy = require('lodash/sortBy');
 const moment = require('moment');
-const getImagePathByBadgeKey = require('./get-image-path-by-badge-key');
 const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils');
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
@@ -20,13 +19,7 @@ class AttestationViewModel {
     verificationCode,
     maxReachableLevelOnCertificationDate,
     hasAcquiredAnyComplementaryCertifications,
-    cleaCertificationImagePath,
-    hasAcquiredPixPlusDroitCertification,
-    hasAcquiredCleaCertification,
-    pixPlusDroitCertificationImagePath,
-    hasAcquiredPixPlusEduCertification,
-    pixPlusEduCertificationImagePath,
-    pixPlusEduBadgeMessage,
+    stickers,
     competenceDetailViewModels,
     isFrenchDomainExtension,
   }) {
@@ -40,17 +33,11 @@ class AttestationViewModel {
     this.birth = birth;
     this.certificationCenter = certificationCenter;
     this._deliveredAt = deliveredAt;
-    this.cleaCertificationImagePath = cleaCertificationImagePath;
-    this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
-    this.pixPlusEduCertificationImagePath = pixPlusEduCertificationImagePath;
-    this.pixPlusEduBadgeMessage = pixPlusEduBadgeMessage;
     this.competenceDetailViewModels = competenceDetailViewModels;
     this.verificationCode = verificationCode;
     this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._hasAcquiredAnyComplementaryCertifications = hasAcquiredAnyComplementaryCertifications;
-    this._hasAcquiredPixPlusDroitCertification = hasAcquiredPixPlusDroitCertification;
-    this._hasAcquiredCleaCertification = hasAcquiredCleaCertification;
-    this._hasAcquiredPixPlusEduCertification = hasAcquiredPixPlusEduCertification;
+    this.stickers = stickers;
     this._isFrenchDomainExtension = isFrenchDomainExtension;
   }
 
@@ -64,18 +51,6 @@ class AttestationViewModel {
 
   shouldDisplayAbsoluteMaxLevelIndication() {
     return this._maxReachableLevelOnCertificationDate < 8;
-  }
-
-  shouldDisplayCleaCertification() {
-    return Boolean(this._hasAcquiredCleaCertification);
-  }
-
-  shouldDisplayPixPlusDroitCertification() {
-    return Boolean(this._hasAcquiredPixPlusDroitCertification);
-  }
-
-  shouldDisplayPixPlusEduCertification() {
-    return Boolean(this._hasAcquiredPixPlusEduCertification);
   }
 
   shouldDisplayProfessionalizingCertificationMessage() {
@@ -103,34 +78,12 @@ class AttestationViewModel {
 
     const maxReachableLevelOnCertificationDate = certificate.maxReachableLevelOnCertificationDate < 8;
     const hasAcquiredAnyComplementaryCertifications = certificate.hasAcquiredAnyComplementaryCertifications();
-
-    let hasAcquiredCleaCertification = false;
-    let cleaCertificationImagePath;
-    if (certificate.getAcquiredCleaCertification()) {
-      hasAcquiredCleaCertification = true;
-      cleaCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredCleaCertification());
-    }
-
-    let hasAcquiredPixPlusDroitCertification = false;
-    let pixPlusDroitCertificationImagePath;
-    if (certificate.getAcquiredPixPlusDroitCertification()) {
-      hasAcquiredPixPlusDroitCertification = true;
-      pixPlusDroitCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredPixPlusDroitCertification());
-    }
-
-    let hasAcquiredPixPlusEduCertification = false;
-    let pixPlusEduCertificationImagePath;
-    let pixPlusEduBadgeMessage;
-    if (certificate.getAcquiredPixPlusEduCertification()) {
-      hasAcquiredPixPlusEduCertification = true;
-      const { partnerKey, isTemporaryBadge, label } = certificate.getAcquiredPixPlusEduCertification();
-      const levelName = label.replace(/Pix\+ Édu (1er|2nd) degré /, '');
-      const message = isTemporaryBadge
-        ? `Vous avez obtenu le niveau “${levelName}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`
-        : `Vous avez obtenu la certification Pix+Edu niveau "${levelName}"`;
-      pixPlusEduCertificationImagePath = getImagePathByBadgeKey(partnerKey);
-      pixPlusEduBadgeMessage = toArrayOfFixedLengthStringsConservingWords(message, 45);
-    }
+    const stickers = certificate.certifiedBadges.map(({ stickerUrl, message }) => {
+      return {
+        url: stickerUrl,
+        messageParts: message ? toArrayOfFixedLengthStringsConservingWords(message, 45) : null,
+      };
+    });
 
     const sortedCompetenceTree = sortBy(certificate.resultCompetenceTree.areas, 'code');
     const competenceDetailViewModels = sortedCompetenceTree.flatMap((area) => {
@@ -153,13 +106,7 @@ class AttestationViewModel {
       deliveredAt,
       maxReachableLevelOnCertificationDate,
       hasAcquiredAnyComplementaryCertifications,
-      cleaCertificationImagePath,
-      pixPlusDroitCertificationImagePath,
-      pixPlusEduCertificationImagePath,
-      pixPlusEduBadgeMessage,
-      hasAcquiredPixPlusDroitCertification,
-      hasAcquiredCleaCertification,
-      hasAcquiredPixPlusEduCertification,
+      stickers,
       competenceDetailViewModels,
       isFrenchDomainExtension,
     });
