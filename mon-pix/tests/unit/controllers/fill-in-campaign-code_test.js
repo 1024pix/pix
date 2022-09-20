@@ -3,9 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import setupIntl from '../../helpers/setup-intl';
-import ENV from 'mon-pix/config/environment';
-
-const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
+import Service from '@ember/service';
 
 describe('Unit | Controller | Fill in Campaign Code', function () {
   setupIntlRenderingTest();
@@ -30,18 +28,16 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
   });
 
   describe('#startCampaign', () => {
-    context('when user is connected to his Mediacentre and redirected to a GAR campaign', function () {
-      it('should redirect the user to the campaign entry point', async () => {
+    context('campaign does not have GAR as identity provider', function () {
+      it('should not show GAR modal', async function () {
         // given
-        const campaignCode = 'azerty1';
-        const campaign = Symbol('someCampaign');
+        const campaignCode = 'LINKTOTHEPAST';
         const storeStub = {
           queryRecord: sinon
             .stub()
             .withArgs('campaign', { filter: { code: campaignCode } })
-            .resolves(campaign),
+            .resolves({ code: campaignCode, identityProvider: 'FRANCE DECONNECT' }),
         };
-        sessionStub.get.returns('externalUserToken');
         controller.set('store', storeStub);
         controller.set('campaignCode', campaignCode);
 
@@ -49,37 +45,13 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         await controller.actions.startCampaign.call(controller, eventStub);
 
         // then
-        sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
+        expect(controller.showGARModal).to.equal(false);
       });
     });
 
-    context('when user is connected to his Médiacentre and is already authenticated on Pix app', function () {
-      it('should not see a modal and be redirect to the campaign entry point', async () => {
-        // given
-        const campaignCode = 'azerty1';
-        const campaign = { code: campaignCode, identityProvider: 'GAR' };
-        const storeStub = {
-          queryRecord: sinon
-            .stub()
-            .withArgs('campaign', { filter: { code: campaignCode } })
-            .resolves(campaign),
-        };
-        sessionStub.get.withArgs('data.authenticated.source').returns(AUTHENTICATED_SOURCE_FROM_GAR);
-        sessionStub.get.withArgs('data.externalUser').returns(undefined);
-        controller.set('store', storeStub);
-        controller.set('campaignCode', campaignCode);
-
-        // when
-        await controller.actions.startCampaign.call(controller, eventStub);
-
-        // then
-        sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
-      });
-    });
-
-    context('when user is not connected to his Mediacentre', function () {
-      context('and starts a campaign with GAR as identity provider', function () {
-        it('should not redirect the user and display a modal', async function () {
+    context('campaign has GAR as identity provider', function () {
+      context('user is coming from GAR', function () {
+        it('should not show GAR modal', async function () {
           // given
           const campaignCode = 'LINKTOTHEPAST';
           const storeStub = {
@@ -88,16 +60,64 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
               .withArgs('campaign', { filter: { code: campaignCode } })
               .resolves({ code: campaignCode, identityProvider: 'GAR' }),
           };
-          sessionStub.get.returns(undefined);
+          const sessionStub = Service.create({ data: { externalUser: true } });
           controller.set('store', storeStub);
           controller.set('campaignCode', campaignCode);
+          controller.set('session', sessionStub);
 
           // when
           await controller.actions.startCampaign.call(controller, eventStub);
 
           // then
-          sinon.assert.notCalled(controller.router.transitionTo);
-          expect(controller.showGARModal).to.equal(true);
+          expect(controller.showGARModal).to.equal(false);
+        });
+      });
+
+      context('user is not coming from GAR', function () {
+        context('user is authenticated', function () {
+          it('should not show GAR modal', async function () {
+            // given
+            const campaignCode = 'LINKTOTHEPAST';
+            const storeStub = {
+              queryRecord: sinon
+                .stub()
+                .withArgs('campaign', { filter: { code: campaignCode } })
+                .resolves({ code: campaignCode, identityProvider: 'GAR' }),
+            };
+            const sessionStub = Service.create({ isAuthenticated: true });
+            controller.set('store', storeStub);
+            controller.set('campaignCode', campaignCode);
+            controller.set('session', sessionStub);
+
+            // when
+            await controller.actions.startCampaign.call(controller, eventStub);
+
+            // then
+            expect(controller.showGARModal).to.equal(false);
+          });
+        });
+
+        context('user is not authenticated', function () {
+          it('should show GAR modal', async function () {
+            // given
+            const campaignCode = 'LINKTOTHEPAST';
+            const storeStub = {
+              queryRecord: sinon
+                .stub()
+                .withArgs('campaign', { filter: { code: campaignCode } })
+                .resolves({ code: campaignCode, identityProvider: 'GAR' }),
+            };
+            const sessionStub = Service.create({ isAuthenticated: false });
+            controller.set('store', storeStub);
+            controller.set('campaignCode', campaignCode);
+            controller.set('session', sessionStub);
+
+            // when
+            await controller.actions.startCampaign.call(controller, eventStub);
+
+            // then
+            expect(controller.showGARModal).to.equal(true);
+          });
         });
       });
     });
