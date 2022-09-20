@@ -4,11 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class UserInformationController extends Controller {
   @service notifications;
-
-  AUTHENTICATION_METHODS = {
-    POLE_EMPLOI: 'Pôle Emploi',
-    GAR: 'Médiacentre',
-  };
+  @service oidcIdentityProviders;
 
   ERROR_MESSAGES = {
     DEFAULT: 'Une erreur est survenue.',
@@ -34,6 +30,11 @@ export default class UserInformationController extends Controller {
   @action
   async reassignAuthenticationMethod({ targetUserId, identityProvider }) {
     const authenticationMethod = this.model.authenticationMethods.findBy('identityProvider', identityProvider);
+    const oidcIdentityProvider = this.oidcIdentityProviders.list.findBy('code', identityProvider);
+    const reassignedAuthenticationMethodLabel = oidcIdentityProvider
+      ? oidcIdentityProvider.organizationName
+      : 'Médiacentre';
+
     try {
       await authenticationMethod.destroyRecord({
         adapterOptions: {
@@ -45,7 +46,7 @@ export default class UserInformationController extends Controller {
       });
       this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${targetUserId}`);
       this.notifications.success(
-        `L'utilisateur n'a plus de méthode de connexion ${this.AUTHENTICATION_METHODS[identityProvider]}`
+        `L'utilisateur n'a plus de méthode de connexion ${reassignedAuthenticationMethodLabel}`
       );
     } catch (errors) {
       authenticationMethod.rollbackAttributes();

@@ -1,11 +1,12 @@
 <PixModal
   @title="Déplacer la méthode de connexion"
-  @onCloseButtonClick={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
+  @onCloseButtonClick={{fn @toggleReassignOidcAuthenticationMethodModal null}}
 >
   <:content>
     <p class="reassign-authentication-method-modal__form-body__information">
-      Vous vous apprêtez à déplacer la méthode Pôle Emploi sur un autre utilisateur. Cela signifie qu'elle n'existera
-      plus pour cet utilisateur.
+      Vous vous apprêtez à déplacer la méthode
+      {{@oidcAuthenticationMethod.name}}
+      sur un autre utilisateur. Cela signifie qu'elle n'existera plus pour cet utilisateur.
     </p>
     <PixInput
       @id="user-id-for-reassign-authentication-method"
@@ -21,9 +22,13 @@
       @size="small"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
-      @triggerAction={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
+      @triggerAction={{fn @toggleReassignOidcAuthenticationMethodModal null}}
     >Annuler</PixButton>
-    <PixButton @type="submit" @size="small" {{on "click" @submitReassignPoleEmploiAuthenticationMethod}}>
+    <PixButton
+      @type="submit"
+      @size="small"
+      @triggerAction={{fn @submitReassignOidcAuthenticationMethod @oidcAuthenticationMethod.code}}
+    >
       Valider le déplacement
     </PixButton>
   </:footer>

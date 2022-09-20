@@ -91,33 +91,34 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
     });
   });
 
-  module('when reassign Pole Emploi authentication method', function () {
-    test('should remove Pole Emploi authentication method information', async function (assert) {
+  module('when reassigning an oidc authentication method', function () {
+    test('should remove the oidc authentication method information', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';
-      const poleEmploiAuthenticationMethod = server.create('authentication-method', {
-        identityProvider: 'POLE_EMPLOI',
+      const oidcAuthenticationMethod = server.create('authentication-method', {
+        identityProvider: 'OIDC_PARTNER',
       });
+      const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
       const user = server.create('user', {
         firstName,
         lastName,
-        authenticationMethods: [poleEmploiAuthenticationMethod],
+        authenticationMethods: [pixAuthenticationMethod, oidcAuthenticationMethod],
       });
 
       // when
       const screen = await visit(`/users/${user.id}`);
 
-      await clickByName('Déplacer cette méthode de connexion');
+      await click(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
       await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
-      await clickByName('Valider le déplacement');
+      await click(screen.getByRole('button', { name: 'Valider le déplacement' }));
 
       // then
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
-      assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Pôle Emploi")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
+      assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Partenaire OIDC")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
       assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
     });
   });
@@ -129,12 +130,12 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       const firstName = 'Ayotunde';
       const lastName = 'Efemena';
-      const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
-      const cnavAuthenticationMethod = server.create('authentication-method', { identityProvider: 'CNAV' });
+      const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
+      const oidcAuthenticationMethod = server.create('authentication-method', { identityProvider: 'OIDC_PARTNER' });
       const user = server.create('user', {
         firstName,
         lastName,
-        authenticationMethods: [garAuthenticationMethod, cnavAuthenticationMethod],
+        authenticationMethods: [pixAuthenticationMethod, oidcAuthenticationMethod],
       });
 
       // when
@@ -143,7 +144,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
 
       // then
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion CNAV")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
     });
   });
 });
