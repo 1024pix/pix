@@ -121,7 +121,7 @@ exports.register = async (server) => {
             id: identifiersType.targetProfileId,
           }),
         },
-        handler: targetProfileController.findByTargetProfileId,
+        handler: targetProfileController.findStages,
         tags: ['api', 'admin', 'target-profiles', 'stages'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +

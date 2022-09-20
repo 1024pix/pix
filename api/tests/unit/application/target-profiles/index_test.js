@@ -372,9 +372,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
             securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
-        sinon
-          .stub(targetProfileController, 'findByTargetProfileId')
-          .callsFake((request, h) => h.response('ok').code(200));
+        sinon.stub(targetProfileController, 'findStages').callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
