@@ -78,7 +78,6 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           campaignCode: 'ABCD',
           campaignTitle: 'Campaign ABCD',
           organizationName: 'Organization ABCD',
-          targetProfileId: targetProfile.id,
           masteryRate: 0.1,
           totalStagesCount: 1,
           validatedStagesCount: 1,
@@ -534,7 +533,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
     });
 
     context('when there is at least one flash campaign', function () {
-      it('should not fetch targetProfile', async function () {
+      it('should retrieve information about flash campaign participation', async function () {
         // given
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' });
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
@@ -573,9 +572,8 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             organizationName: 'Organization ABCD',
             sharedAt: new Date('2020-01-02T00:00:00Z'),
             status: 'SHARED',
-            targetProfile: undefined,
-            targetProfileId: undefined,
             disabledAt: null,
+            campaignStages: { stages: [] },
           },
         ]);
       });

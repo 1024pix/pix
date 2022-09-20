@@ -63,14 +63,7 @@ module.exports = {
     })
       .where({ 'campaigns.id': campaignId })
       .fetch({
-        withRelated: [
-          {
-            stages: function (query) {
-              query.orderBy('threshold', 'ASC');
-            },
-          },
-          'badges',
-        ],
+        withRelated: ['badges'],
       });
     return targetProfileAdapter.fromDatasourceObjects({
       bookshelfTargetProfile,
