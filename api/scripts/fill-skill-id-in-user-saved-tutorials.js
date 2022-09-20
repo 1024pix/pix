@@ -166,16 +166,6 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
-    }
-  );
-}
-
 module.exports = {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,

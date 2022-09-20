@@ -4,6 +4,7 @@ const fs = require('fs');
 const Joi = require('joi');
 const ScalingoClient = require('./helpers/scalingo/scalingo-client');
 const logger = require('../../../lib/infrastructure/logger');
+const { disconnect } = require('../../../db/knex-database-connection');
 
 const postgresDatabaseAddonProviderId = 'postgresql';
 
@@ -74,9 +75,10 @@ const main = async () => {
 (async () => {
   try {
     await main();
-    process.exit(0);
   } catch (error) {
     logger.fatal(error);
-    process.exit(1);
+    process.exitCode = 1;
+  } finally {
+    await disconnect();
   }
 })();
