@@ -22,8 +22,10 @@ const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/se
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
 const authenticationMethodsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
+const userOrganizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
 
 const userController = require('../../../../lib/application/users/user-controller');
+const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
 
 describe('Unit | Controller | user-controller', function () {
   describe('#save', function () {
@@ -1115,6 +1117,32 @@ describe('Unit | Controller | user-controller', function () {
           authenticationMethodId,
         });
       });
+    });
+  });
+
+  describe('#findUserOrganizationsForAdmin', function () {
+    it('should return user’s organization memberships', async function () {
+      // given
+      const organizationMemberships = [new UserOrganizationForAdmin()];
+      const organizationMembershipsSerialized = Symbol('an array of user’s organization memberships serialized');
+
+      sinon
+        .stub(userOrganizationForAdminSerializer, 'serialize')
+        .withArgs(organizationMemberships)
+        .returns(organizationMembershipsSerialized);
+
+      sinon.stub(usecases, 'findUserOrganizationsForAdmin').resolves(organizationMemberships);
+
+      // when
+      const request = {
+        params: {
+          id: 1,
+        },
+      };
+      await userController.findUserOrganizationsForAdmin(request, hFake);
+
+      // then
+      expect(usecases.findUserOrganizationsForAdmin).to.have.been.calledWith({ userId: 1 });
     });
   });
 });

@@ -103,6 +103,11 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
                   related: `/api/admin/users/${user.id}/profile`,
                 },
               },
+              'organization-memberships': {
+                links: {
+                  related: `/api/admin/users/${user.id}/organizations`,
+                },
+              },
               participations: {
                 links: {
                   related: `/api/admin/users/${user.id}/participations`,
