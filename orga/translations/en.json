@@ -679,7 +679,8 @@
           "lastest-participation": "Lastest participation",
           "participation-count": "Number of participations",
           "is-certifiable":{
-            "label": "Eligibility for certification"
+            "label": "Eligibility for certification",
+            "tooltip":"To know if a participant is eligible for certification, their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed."
           }
         },
         "empty": "No participants",
