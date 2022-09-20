@@ -216,6 +216,32 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
+  describe('get isUserAuthenticatedByGAR', () => {
+    it('returns true if an external user token is present', () => {
+      // given
+      sessionStub.get.withArgs('data.externalUser').returns('TOKEN_FROM_GAR');
+      controller.set('session', sessionStub);
+
+      // when
+      const isUserAuthenticatedByGAR = controller.isUserAuthenticatedByGAR;
+
+      // then
+      expect(isUserAuthenticatedByGAR).to.equal(true);
+    });
+
+    it('returns false if there is no external user token in session', () => {
+      // given
+      sessionStub.get.withArgs('data.externalUser').returns(undefined);
+      controller.set('session', sessionStub);
+
+      // when
+      const isUserAuthenticatedByGAR = controller.isUserAuthenticatedByGAR;
+
+      // then
+      expect(isUserAuthenticatedByGAR).to.equal(false);
+    });
+  });
+
   describe('get showWarningMessage', () => {
     it('should return true if user is authenticated and not anonymous', () => {
       // given
