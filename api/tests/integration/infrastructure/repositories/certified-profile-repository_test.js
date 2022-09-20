@@ -93,6 +93,7 @@ describe('Integration | Repository | Certified Profile', function () {
         id: 'recArea1_Competence1',
         name: 'competence1_1_name',
         areaId: 'recArea1',
+        origin: 'Pix',
       });
       const area1 = domainBuilder.buildCertifiedArea({
         id: 'recArea1',
@@ -115,6 +116,7 @@ describe('Integration | Repository | Certified Profile', function () {
         id: 'recArea1_Competence2',
         name: 'competence1_2_name',
         areaId: 'recArea1',
+        origin: 'Edu',
       });
 
       const userId = databaseBuilder.factory.buildUser({ id: 123 }).id;
