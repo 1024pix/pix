@@ -1,11 +1,7 @@
 const { NotFoundError } = require('../../errors');
 
-module.exports = async function getCertificationAttestation({
-  userId,
-  certificationId,
-  certificationAttestationRepository,
-}) {
-  const certificationAttestation = await certificationAttestationRepository.get(certificationId);
+module.exports = async function getCertificationAttestation({ userId, certificationId, certificateRepository }) {
+  const certificationAttestation = await certificateRepository.getCertificationAttestation(certificationId);
   if (certificationAttestation.userId !== userId) {
     throw new NotFoundError();
   }

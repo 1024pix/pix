@@ -3,16 +3,16 @@ const findCertificationAttestationsForDivision = require('../../../../lib/domain
 const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-certification-attestations-for-division', function () {
-  const certificationAttestationRepository = {
+  const certificateRepository = {
     findByDivisionForScoIsManagingStudentsOrganization: () => undefined,
   };
 
   const dependencies = {
-    certificationAttestationRepository,
+    certificateRepository,
   };
 
   beforeEach(function () {
-    certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization = sinon.stub();
+    certificateRepository.findByDivisionForScoIsManagingStudentsOrganization = sinon.stub();
   });
 
   it('should return multiple certification attestations enhanced with result competence tree', async function () {
@@ -34,7 +34,7 @@ describe('Unit | UseCase | find-certification-attestations-for-division', functi
       resultCompetenceTree: resultCompetenceTree2,
     });
 
-    certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization
+    certificateRepository.findByDivisionForScoIsManagingStudentsOrganization
       .withArgs({ organizationId: 1234, division: '3b' })
       .resolves([certificationAttestation1, certificationAttestation2]);
 
@@ -67,7 +67,7 @@ describe('Unit | UseCase | find-certification-attestations-for-division', functi
   describe('when there is no attestation', function () {
     it('should throw a NoCertificationAttestationForDivisionError', async function () {
       // given
-      certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization
+      certificateRepository.findByDivisionForScoIsManagingStudentsOrganization
         .withArgs({ organizationId: 1234, division: '3b' })
         .resolves([]);
 

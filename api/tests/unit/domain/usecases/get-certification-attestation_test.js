@@ -3,16 +3,16 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const get = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
 describe('Unit | UseCase | get-certification-attestation', function () {
-  const certificationAttestationRepository = {
-    get: () => undefined,
+  const certificateRepository = {
+    getCertificationAttestation: () => undefined,
   };
 
   const dependencies = {
-    certificationAttestationRepository,
+    certificateRepository,
   };
 
   beforeEach(function () {
-    certificationAttestationRepository.get = sinon.stub();
+    certificateRepository.getCertificationAttestation = sinon.stub();
   });
 
   context('when the user is not owner of the certification attestation', function () {
@@ -22,7 +22,7 @@ describe('Unit | UseCase | get-certification-attestation', function () {
         id: 123,
         userId: 456,
       });
-      certificationAttestationRepository.get.withArgs(123).resolves(certificationAttestation);
+      certificateRepository.getCertificationAttestation.withArgs(123).resolves(certificationAttestation);
 
       // when
       const error = await catchErr(get)({ certificationId: 123, userId: 789, ...dependencies });
@@ -41,7 +41,7 @@ describe('Unit | UseCase | get-certification-attestation', function () {
         userId: 456,
         resultCompetenceTree,
       });
-      certificationAttestationRepository.get.withArgs(123).resolves(certificationAttestation);
+      certificateRepository.getCertificationAttestation.withArgs(123).resolves(certificationAttestation);
 
       // when
       const actualCertificationAttestation = await get({ certificationId: 123, userId: 456, ...dependencies });
