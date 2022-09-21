@@ -8,6 +8,7 @@ const bluebird = require('bluebird');
 const axios = require('axios');
 
 const AttestationViewModel = require('./AttestationViewModel');
+const { CertificationAttestationGenerationError } = require('../../../domain/errors');
 
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',
@@ -90,9 +91,14 @@ async function _embedImages(pdfDocument, viewModels) {
 }
 
 async function _embedCertificationImage(pdfDocument, certificationImagePath) {
-  const response = await axios.get(certificationImagePath, {
-    responseType: 'arraybuffer',
-  });
+  let response;
+  try {
+    response = await axios.get(certificationImagePath, {
+      responseType: 'arraybuffer',
+    });
+  } catch (_) {
+    throw new CertificationAttestationGenerationError();
+  }
   const [page] = await pdfDocument.embedPdf(response.data);
   return page;
 }
