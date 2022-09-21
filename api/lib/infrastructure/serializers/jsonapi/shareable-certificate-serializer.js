@@ -40,7 +40,6 @@ const attributes = [
   'lastName',
   'pixScore',
   'resultCompetenceTree',
-  'cleaCertificationStatus',
   'certifiedBadgeImages',
   'maxReachableLevelOnCertificationDate',
 ];
@@ -49,10 +48,6 @@ module.exports = {
   serialize(certificate) {
     return new Serializer('certifications', {
       typeForAttribute,
-      transform(shareableCertificate) {
-        shareableCertificate.cleaCertificationStatus = shareableCertificate.cleaCertificationResult.status;
-        return shareableCertificate;
-      },
       attributes,
       resultCompetenceTree,
     }).serialize(certificate);

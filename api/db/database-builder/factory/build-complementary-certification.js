@@ -8,6 +8,7 @@ module.exports = function buildComplementaryCertification({
   minimumReproducibilityRate = 70.0,
   minimumEarnedPix,
   hasComplementaryReferential = false,
+  hasExternalJury = false,
 } = {}) {
   const values = {
     id,
@@ -17,6 +18,7 @@ module.exports = function buildComplementaryCertification({
     minimumReproducibilityRate,
     minimumEarnedPix,
     hasComplementaryReferential,
+    hasExternalJury,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certifications',

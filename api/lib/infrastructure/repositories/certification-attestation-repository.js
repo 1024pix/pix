@@ -1,29 +1,11 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../domain/models/Badge').keys;
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 const CertifiedBadges = require('../../domain/read-models/CertifiedBadges');
 
 module.exports = {
@@ -38,9 +20,9 @@ module.exports = {
     }
 
     const competenceTree = await competenceTreeRepository.get();
-    const acquiredComplementaryCertifications = await _getPartnerCertification(certificationCourseDTO.id);
+    const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
 
-    return _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications);
+    return _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges });
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
@@ -77,7 +59,7 @@ module.exports = {
     return _(mostRecentCertificationsPerOrganizationLearner)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
       .map((certificationCourseDTO) => {
-        return _toDomain(certificationCourseDTO, competenceTree, []);
+        return _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges: [] });
       })
       .value();
   },
@@ -142,26 +124,20 @@ function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
   return mostRecent;
 }
 
-async function _getPartnerCertification(certificationCourseId) {
-  const handledBadgeKeys = [
-    PIX_EMPLOI_CLEA_V1,
-    PIX_EMPLOI_CLEA_V2,
-    PIX_EMPLOI_CLEA_V3,
-    PIX_DROIT_EXPERT_CERTIF,
-    PIX_DROIT_MAITRE_CERTIF,
-    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-  ];
+async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
-    .select('complementary-certification-course-results.*', 'complementary-certification-badges.label')
+    .select(
+      'complementary-certification-course-results.partnerKey',
+      'complementary-certification-course-results.source',
+      'complementary-certification-course-results.acquired',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.level',
+      'complementary-certification-badges.certificateMessage',
+      'complementary-certification-badges.temporaryCertificateMessage',
+      'complementary-certifications.hasExternalJury'
+    )
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -170,15 +146,20 @@ async function _getPartnerCertification(certificationCourseId) {
     )
     .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .innerJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
+    )
     .where({ certificationCourseId })
-    .where(function () {
-      this.whereIn('partnerKey', handledBadgeKeys);
-    });
+    .orderBy('partnerKey');
 
-  return complementaryCertificationCourseResults.map(ComplementaryCertificationCourseResult.from);
+  return new CertifiedBadges({
+    complementaryCertificationCourseResults,
+  }).getAcquiredCertifiedBadgesDTO();
 }
 
-function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications) {
+function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges }) {
   const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
     (competenceMark) => new CompetenceMark({ ...competenceMark })
   );
@@ -190,13 +171,9 @@ function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementary
     assessmentResultId: certificationCourseDTO.assessmentResultId,
   });
 
-  const certifiedBadgesDTO = new CertifiedBadges({
-    complementaryCertificationCourseResults: acquiredComplementaryCertifications,
-  }).getAcquiredCertifiedBadgesDTO();
-
   return new CertificationAttestation({
     ...certificationCourseDTO,
     resultCompetenceTree,
-    certifiedBadges: certifiedBadgesDTO,
+    certifiedBadges,
   });
 }

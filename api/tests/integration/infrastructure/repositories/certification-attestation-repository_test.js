@@ -9,25 +9,7 @@ const {
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 const _ = require('lodash');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../../../lib/domain/models/Badge').keys;
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [
@@ -322,178 +304,90 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     });
 
     context('acquired certifiable badges', function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        { partnerKey: PIX_EMPLOI_CLEA_V1, isTemporaryBadge: false, label: 'CléA Numérique' },
-        { partnerKey: PIX_EMPLOI_CLEA_V2, isTemporaryBadge: false, label: 'CléA Numérique' },
-        { partnerKey: PIX_EMPLOI_CLEA_V3, isTemporaryBadge: false, label: 'CléA Numérique' },
-        { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Expert' },
-        { partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Maître' },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 2nd degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 2nd degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 2nd degré Avancé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 2nd degré Expert',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 1er degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 1er degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 1er degré Avancé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 1er degré Expert',
-        },
-      ].forEach(({ partnerKey, isTemporaryBadge, label }) => {
-        it(`should get the certified badge ${partnerKey} when acquired`, async function () {
-          // given
-          const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-          mockLearningContent(learningContentObjects);
-          const certificationAttestationData = {
-            id: 123,
-            firstName: 'Sarah Michelle',
-            lastName: 'Gellar',
-            birthdate: '1977-04-14',
-            birthplace: 'Saint-Ouen',
-            isPublished: true,
-            userId: 456,
-            date: new Date('2020-01-01'),
-            verificationCode: 'P-SOMECODE',
-            maxReachableLevelOnCertificationDate: 5,
-            deliveredAt: new Date('2021-05-05'),
-            certificationCenter: 'Centre des poules bien dodues',
-            pixScore: 51,
-            certifiedBadges: [{ partnerKey, isTemporaryBadge, label }],
-            sessionId: 789,
-          };
-          await _buildValidCertificationAttestation(certificationAttestationData);
-          const badgeId = databaseBuilder.factory.buildBadge({ key: partnerKey }).id;
-          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-          const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-            label,
-            badgeId,
-            complementaryCertificationId,
-          }).id;
-
-          databaseBuilder.factory.buildComplementaryCertificationCourse({
-            id: 998,
-            certificationCourseId: 123,
-            complementaryCertificationId,
-            complementaryCertificationBadgeId,
-          });
-
-          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            complementaryCertificationCourseId: 998,
-            partnerKey,
-            acquired: true,
-          });
-
-          await databaseBuilder.commit();
-
-          // when
-          const certificationAttestation = await certificationAttestationRepository.get(123);
-
-          // then
-          const expectedCertificationAttestation =
-            domainBuilder.buildCertificationAttestation(certificationAttestationData);
-          expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-          expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-            _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-          );
-        });
-      });
-
-      it(`should get the appropriate certified badge when acquired`, async function () {
+      it(`should get the certified badge images when the certifications were acquired`, async function () {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
         const certificationAttestationData = {
           id: 123,
-          certifiedBadges: [
-            { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Expert' },
-          ],
-        };
-        const certificationAttestationData2 = {
-          id: 124,
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId: 456,
+          date: new Date('2020-01-01'),
+          verificationCode: 'P-SOMECODE',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
           certifiedBadges: [
             {
-              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
               isTemporaryBadge: false,
-              label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+              label: 'Pix+ Test 1',
+              partnerKey: 'PIX_TEST_1',
+              imageUrl: 'https://images.pix.fr/badge1.svg',
+              message: 'Pix+ Test 1 certificate message',
+            },
+            {
+              isTemporaryBadge: true,
+              label: 'Pix+ Test 2',
+              partnerKey: 'PIX_TEST_2',
+              imageUrl: 'https://images.pix.fr/badge2.svg',
+              message: 'Pix+ Test 2 temporary certificate message',
             },
           ],
+          sessionId: 789,
         };
-        const badgeIdEdu = databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }).id;
-        const badgeIdDroit = databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF }).id;
-        const pixEduComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-          badgeId: badgeIdEdu,
-          complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
-          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-        }).id;
-        const pixDroitComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-          badgeId: badgeIdDroit,
-          complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
-          label: 'Pix+ Droit Expert',
-        }).id;
         await _buildValidCertificationAttestation(certificationAttestationData);
-        await _buildValidCertificationAttestation(certificationAttestationData2);
+        const badge1Id = databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' }).id;
+        const badge2Id = databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_2' }).id;
+        const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({
+          label: 'Pix+ Test 1',
+          hasExternalJury: false,
+        }).id;
+        const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification({
+          label: 'Pix+ Test 2',
+          hasExternalJury: true,
+        }).id;
+        const complementaryCertificationBadge1Id = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          label: 'Pix+ Test 1',
+          badgeId: badge1Id,
+          complementaryCertificationId: complementaryCertification1Id,
+          imageUrl: 'https://images.pix.fr/badge1.svg',
+          certificateMessage: 'Pix+ Test 1 certificate message',
+          temporaryCertificateMessage: '',
+        }).id;
+        const complementaryCertificationBadge2Id = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          label: 'Pix+ Test 2',
+          badgeId: badge2Id,
+          complementaryCertificationId: complementaryCertification2Id,
+          imageUrl: 'https://images.pix.fr/badge2.svg',
+          certificateMessage: 'Pix+ Test 2 certificate message',
+          temporaryCertificateMessage: 'Pix+ Test 2 temporary certificate message',
+        }).id;
 
         databaseBuilder.factory.buildComplementaryCertificationCourse({
           id: 998,
           certificationCourseId: 123,
-          complementaryCertificationBadgeId: pixDroitComplementaryCertificationBadgeId,
+          complementaryCertificationId: complementaryCertification1Id,
+          complementaryCertificationBadgeId: complementaryCertificationBadge1Id,
         });
-
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          complementaryCertificationCourseId: 998,
-          partnerKey: PIX_DROIT_EXPERT_CERTIF,
-          acquired: true,
-        });
-
         databaseBuilder.factory.buildComplementaryCertificationCourse({
           id: 999,
-          certificationCourseId: 124,
-          complementaryCertificationBadgeId: pixEduComplementaryCertificationBadgeId,
+          certificationCourseId: 123,
+          complementaryCertificationId: complementaryCertification2Id,
+          complementaryCertificationBadgeId: complementaryCertificationBadge2Id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 998,
+          partnerKey: 'PIX_TEST_1',
+          acquired: true,
         });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 999,
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          source: ComplementaryCertificationCourseResult.sources.PIX,
+          partnerKey: 'PIX_TEST_2',
           acquired: true,
         });
         await databaseBuilder.commit();
@@ -502,47 +396,13 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         const certificationAttestation = await certificationAttestationRepository.get(123);
 
         // then
-        expect(certificationAttestation.certifiedBadges).to.deep.equals([
-          { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Expert' },
-        ]);
+        const expectedCertificationAttestation =
+          domainBuilder.buildCertificationAttestation(certificationAttestationData);
+        expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
+        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+        );
       });
-    });
-
-    it('should only take into account acquired ones', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-      const certificationAttestationData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId: 456,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        certifiedBadges: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Maître' }],
-        sessionId: 789,
-      };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _buildCleaResult({ certificationCourseId: 123, acquired: false, cleaBadgeKey: PIX_EMPLOI_CLEA_V1 });
-      await _buildPixPlusDroitMaitreResult({ certificationCourseId: 123, acquired: true });
-
-      // when
-      const certificationAttestation = await certificationAttestationRepository.get(123);
-
-      // then
-      const expectedCertificationAttestation =
-        domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
     });
   });
 
@@ -1360,46 +1220,6 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
     assessmentResultId: mostRecentAssessmentResultId3,
   });
 
-  await databaseBuilder.commit();
-}
-
-async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey }) {
-  const badgeId = databaseBuilder.factory.buildBadge({ key: cleaBadgeKey }).id;
-  const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-  const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-    complementaryCertificationId,
-    badgeId,
-  }).id;
-  const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
-    certificationCourseId,
-    complementaryCertificationBadgeId,
-  }).id;
-  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId,
-    partnerKey: cleaBadgeKey,
-    acquired,
-  });
-
-  await databaseBuilder.commit();
-}
-
-async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired }) {
-  const badgeId = databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF }).id;
-  const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-  const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-    badgeId,
-    complementaryCertificationId,
-    label: 'Pix+ Droit Maître',
-  }).id;
-  const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
-    certificationCourseId,
-    complementaryCertificationBadgeId,
-  }).id;
-  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId,
-    partnerKey: PIX_DROIT_MAITRE_CERTIF,
-    acquired,
-  });
   await databaseBuilder.commit();
 }
 
