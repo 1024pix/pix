@@ -1,5 +1,4 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
-import { inject as service } from '@ember/service';
 
 export const certificationIssueReportCategories = {
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
@@ -88,7 +87,6 @@ export const subcategoryToTextareaLabel = {
 };
 
 export default class CertificationIssueReport extends Model {
-  @service featureToggles;
   @attr('string') category;
   @attr('string') subcategory;
   @attr('string') description;
