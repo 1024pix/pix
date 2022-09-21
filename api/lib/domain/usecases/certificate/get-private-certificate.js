@@ -1,12 +1,7 @@
 const { NotFoundError } = require('../../errors');
 
-module.exports = async function getPrivateCertificate({
-  certificationId,
-  userId,
-  locale,
-  privateCertificateRepository,
-}) {
-  const privateCertificate = await privateCertificateRepository.get(certificationId, { locale });
+module.exports = async function getPrivateCertificate({ certificationId, userId, locale, certificateRepository }) {
+  const privateCertificate = await certificateRepository.getPrivateCertificate(certificationId, { locale });
   if (privateCertificate.userId !== userId) {
     throw new NotFoundError();
   }

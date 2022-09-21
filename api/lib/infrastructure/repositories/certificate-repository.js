@@ -8,7 +8,7 @@ const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree')
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 module.exports = {
-  async get(id, { locale } = {}) {
+  async getPrivateCertificate(id, { locale } = {}) {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
@@ -18,18 +18,18 @@ module.exports = {
       throw new NotFoundError(`Certificate not found for ID ${id}`);
     }
 
-    const certifiedBadges = await _getcertifiedBadges(id);
+    const certifiedBadges = await _getCertifiedBadges(id);
 
     const competenceTree = await competenceTreeRepository.get({ locale });
 
-    return _toDomain({
+    return _toDomainForPrivateCertificate({
       certificationCourseDTO,
       competenceTree,
       certifiedBadges,
     });
   },
 
-  async findByUserId({ userId }) {
+  async findPrivateCertificateByUserId({ userId }) {
     const certificationCourseDTOs = await _selectPrivateCertificates()
       .where('certification-courses.userId', '=', userId)
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
@@ -37,8 +37,8 @@ module.exports = {
 
     const privateCertificates = [];
     for (const certificationCourseDTO of certificationCourseDTOs) {
-      const certifiedBadges = await _getcertifiedBadges(certificationCourseDTO.id);
-      const privateCertificate = _toDomain({
+      const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
+      const privateCertificate = _toDomainForPrivateCertificate({
         certificationCourseDTO,
         certifiedBadges,
       });
@@ -77,22 +77,12 @@ function _selectPrivateCertificates() {
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .modify(_filterMostRecentAssessmentResult)
+    .modify(_filterMostRecentValidatedAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId');
 }
 
-function _filterMostRecentAssessmentResult(qb) {
-  return qb.whereNotExists(
-    knex
-      .select(1)
-      .from({ 'last-assessment-results': 'assessment-results' })
-      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-  );
-}
-
-async function _getcertifiedBadges(certificationCourseId) {
+async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
       'complementary-certification-course-results.partnerKey',
@@ -128,7 +118,7 @@ async function _getcertifiedBadges(certificationCourseId) {
   }).getAcquiredCertifiedBadgesDTO();
 }
 
-function _toDomain({ certificationCourseDTO, competenceTree, certifiedBadges }) {
+function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree, certifiedBadges }) {
   if (competenceTree) {
     const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
       (competenceMark) => new CompetenceMark({ ...competenceMark })

@@ -3,12 +3,12 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
 
 describe('Unit | UseCase | getPrivateCertificate', function () {
-  const privateCertificateRepository = {
-    get: () => undefined,
+  const certificateRepository = {
+    getPrivateCertificate: () => undefined,
   };
 
   beforeEach(function () {
-    privateCertificateRepository.get = sinon.stub();
+    certificateRepository.getPrivateCertificate = sinon.stub();
   });
 
   context('when the user is not owner of the certification', function () {
@@ -19,14 +19,14 @@ describe('Unit | UseCase | getPrivateCertificate', function () {
         userId: 789,
       });
       const locale = 'fr';
-      privateCertificateRepository.get.withArgs(123, { locale }).resolves(privateCertificate);
+      certificateRepository.getPrivateCertificate.withArgs(123, { locale }).resolves(privateCertificate);
 
       // when
       const error = await catchErr(getPrivateCertificate)({
         certificationId: 123,
         userId: 456,
         locale,
-        privateCertificateRepository,
+        certificateRepository,
       });
 
       // then
@@ -42,14 +42,14 @@ describe('Unit | UseCase | getPrivateCertificate', function () {
         userId: 456,
       });
       const locale = 'fr';
-      privateCertificateRepository.get.withArgs(123, { locale }).resolves(privateCertificate);
+      certificateRepository.getPrivateCertificate.withArgs(123, { locale }).resolves(privateCertificate);
 
       // when
       const actualPrivateCertificate = await getPrivateCertificate({
         certificationId: 123,
         userId: 456,
         locale,
-        privateCertificateRepository,
+        certificateRepository,
       });
 
       // then
