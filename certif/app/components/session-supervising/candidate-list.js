@@ -38,10 +38,17 @@ export default class CandidateList extends Component {
   }
 
   get filteredCandidates() {
-    return this.args.candidates.filter(
-      (candidate) =>
-        candidate.firstName.toLowerCase().indexOf(this.filter.toLowerCase()) === 0 ||
-        candidate.lastName.toLowerCase().indexOf(this.filter.toLowerCase()) === 0
-    );
+    const filter = this.filter.toLowerCase();
+    return this.args.candidates.filter((candidate) => {
+      const firstName = candidate.firstName.toLowerCase();
+      const lastName = candidate.lastName.toLowerCase();
+
+      return (
+        firstName.startsWith(filter) ||
+        lastName.startsWith(filter) ||
+        (firstName + ' ' + lastName).startsWith(filter) ||
+        (lastName + ' ' + firstName).startsWith(filter)
+      );
+    });
   }
 }
