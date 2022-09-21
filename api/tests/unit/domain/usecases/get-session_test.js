@@ -9,6 +9,7 @@ describe('Unit | UseCase | get-session', function () {
   beforeEach(function () {
     sessionRepository = {
       get: sinon.stub(),
+      hasSomeCleaAcquired: sinon.stub(),
     };
     supervisorAccessRepository = {
       sessionHasSupervisorAccess: sinon.stub(),
@@ -21,6 +22,7 @@ describe('Unit | UseCase | get-session', function () {
       const sessionId = 123;
       const sessionToFind = domainBuilder.buildSession({ id: sessionId });
       sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+      sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
       supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
       // when
@@ -36,6 +38,7 @@ describe('Unit | UseCase | get-session', function () {
         const sessionId = 123;
         const sessionToFind = domainBuilder.buildSession({ id: sessionId });
         sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
         // when
@@ -52,6 +55,7 @@ describe('Unit | UseCase | get-session', function () {
         const sessionId = 123;
         const sessionToFind = domainBuilder.buildSession({ id: sessionId });
         sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
 
         // when
@@ -59,6 +63,48 @@ describe('Unit | UseCase | get-session', function () {
 
         // then
         expect(hasSupervisorAccess).to.be.false;
+      });
+    });
+
+    context('when the session does have any acquired clea result', function () {
+      it('should return hasSomeCleaAcquired to true', async function () {
+        // given
+        const sessionId = 123;
+        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
+        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(true);
+        supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
+
+        // when
+        const { hasSomeCleaAcquired } = await getSession({
+          sessionId,
+          sessionRepository,
+          supervisorAccessRepository,
+        });
+
+        // then
+        expect(hasSomeCleaAcquired).to.be.true;
+      });
+    });
+
+    context('when the session does not have acquired clea result', function () {
+      it('should return hasSomeCleaAcquired to true', async function () {
+        // given
+        const sessionId = 123;
+        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
+        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
+        supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
+
+        // when
+        const { hasSomeCleaAcquired } = await getSession({
+          sessionId,
+          sessionRepository,
+          supervisorAccessRepository,
+        });
+
+        // then
+        expect(hasSomeCleaAcquired).to.be.false;
       });
     });
   });
