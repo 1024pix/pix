@@ -22,14 +22,18 @@ module.exports = {
         name: 'target-profiles.name',
         outdated: 'target-profiles.outdated',
       })
-      .leftJoin('target-profile-shares', 'target-profile-shares.targetProfileId', 'target-profiles.id')
+      .leftJoin('target-profile-shares', function () {
+        this.on('target-profile-shares.targetProfileId', 'target-profiles.id').on(
+          'target-profile-shares.organizationId',
+          organizationId
+        );
+      })
       .where({ outdated: false })
       .where((qb) => {
         qb.orWhere({ isPublic: true });
         qb.orWhere({ ownerOrganizationId: organizationId });
         qb.orWhere((subQb) => {
           subQb.whereNotNull('target-profile-shares.id');
-          subQb.where('target-profile-shares.organizationId', organizationId);
         });
       })
       .orderBy('id', 'ASC');
