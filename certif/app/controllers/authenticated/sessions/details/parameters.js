@@ -13,7 +13,6 @@ export default class SessionParametersController extends Controller {
   @tracked sessionNumberTooltipText = '';
   @tracked accessCodeTooltipText = '';
   @tracked supervisorPasswordTooltipText = '';
-  @service featureToggles;
   @service currentUser;
 
   @computed('certificationCandidates.@each.isLinked')

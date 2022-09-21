@@ -10,7 +10,6 @@ import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
   @service currentUser;
-  @service featureToggles;
   @service notifications;
 
   @alias('model') session;

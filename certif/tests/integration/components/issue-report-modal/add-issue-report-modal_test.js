@@ -4,7 +4,6 @@ import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import { hbs } from 'ember-cli-htmlbars';
-import Service from '@ember/service';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import {
@@ -15,17 +14,6 @@ import {
 
 module('Integration | Component | add-issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
-
-  const featureToggles = {
-    isCertificationFreeFieldsDeletionEnabled: false,
-  };
-
-  hooks.beforeEach(function () {
-    class FeatureTogglesStub extends Service {
-      featureToggles = featureToggles;
-    }
-    this.owner.register('service:feature-toggles', FeatureTogglesStub);
-  });
 
   test('it show candidate informations in title', async function (assert) {
     // given
