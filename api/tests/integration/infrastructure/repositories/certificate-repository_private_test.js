@@ -7,11 +7,11 @@ const {
   mockLearningContent,
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
+const certificateRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const _ = require('lodash');
 
-describe('Integration | Infrastructure | Repository | Private Certificate', function () {
+describe('Integration | Infrastructure | Repository | Certificate', function () {
   const minimalLearningContent = [
     {
       id: 'recArea0',
@@ -26,10 +26,10 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
     },
   ];
 
-  describe('#get', function () {
+  describe('#getPrivateCertificate', function () {
     it('should throw a NotFoundError when private certificate does not exist', async function () {
       // when
-      const error = await catchErr(privateCertificateRepository.get)(123, { locale: 'fr' });
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(123, { locale: 'fr' });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -61,7 +61,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
 
       // when
-      const privateCertificate = await privateCertificateRepository.get(certificateId);
+      const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
@@ -166,7 +166,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         mockLearningContent(learningContentObjects);
 
         // when
-        const privateCertificate = await privateCertificateRepository.get(certificateId, { locale: 'fr' });
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId, { locale: 'fr' });
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
@@ -279,7 +279,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         mockLearningContent(learningContentObjects);
 
         // when
-        const privateCertificate = await privateCertificateRepository.get(certificateId, { locale: 'en' });
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId, { locale: 'en' });
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
@@ -332,7 +332,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
 
       // when
-      const privateCertificate = await privateCertificateRepository.get(certificateId);
+      const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.rejected({
@@ -388,7 +388,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       await databaseBuilder.commit();
 
       // when
-      const privateCertificate = await privateCertificateRepository.get(certificateId);
+      const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
@@ -473,7 +473,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         await databaseBuilder.commit();
 
         // when
-        const privateCertificate = await privateCertificateRepository.get(certificateId);
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
 
         // then
         const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
@@ -486,7 +486,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
     });
   });
 
-  describe('#findByUserId', function () {
+  describe('#findPrivateCertificateByUserId', function () {
     it('should return a collection of PrivateCertificate', async function () {
       // given
 
@@ -509,7 +509,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
       // when
-      const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
@@ -550,7 +550,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       await databaseBuilder.commit();
 
       // when
-      const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
       expect(privateCertificates).to.have.length(2);
@@ -580,7 +580,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
 
       // when
-      const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.rejected({
@@ -633,7 +633,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       await databaseBuilder.commit();
 
       // when
-      const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
