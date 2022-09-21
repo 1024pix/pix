@@ -2,7 +2,6 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -31,9 +30,6 @@ describe('Integration | Component | navbar-burger-menu', function () {
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
 
     // then
-    expect(find('.navbar-burger-menu__navigation')).to.exist;
-
-    expect(findAll('.navbar-burger-menu-navigation-list__item')).to.have.lengthOf(4);
     expect(screen.getByRole('link', { name: this.intl.t('navigation.main.code') })).to.exist;
     expect(screen.getByRole('link', { name: this.intl.t('navigation.main.dashboard') })).to.exist;
     expect(screen.getByRole('link', { name: this.intl.t('navigation.main.skills') })).to.exist;
@@ -46,8 +42,6 @@ describe('Integration | Component | navbar-burger-menu', function () {
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
 
     // then
-    expect(find('.navbar-burger-menu__footer')).to.exist;
-
     expect(screen.getByRole('link', { name: this.intl.t('navigation.user.account') })).to.exist;
     expect(screen.getByRole('link', { name: this.intl.t('navigation.user.certifications') })).to.exist;
     expect(screen.getByRole('link', { name: this.intl.t('navigation.main.help') })).to.exist;
