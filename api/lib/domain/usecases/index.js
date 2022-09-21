@@ -132,7 +132,6 @@ const dependencies = {
   sessionJuryCommentRepository: require('../../infrastructure/repositories/sessions/session-jury-comment-repository'),
   sessionSummaryRepository: require('../../infrastructure/repositories/sessions/session-summary-repository'),
   settings: require('../../config'),
-  shareableCertificateRepository: require('../../infrastructure/repositories/shareable-certificate-repository'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   skillSetRepository: require('../../infrastructure/repositories/skill-set-repository'),
   stageRepository: require('../../infrastructure/repositories/stage-repository'),

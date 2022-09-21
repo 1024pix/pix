@@ -2,12 +2,12 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shareable-certificate');
 
 describe('Unit | UseCase | get-shareable-certificate', function () {
-  const shareableCertificateRepository = {
-    getByVerificationCode: () => undefined,
+  const certificateRepository = {
+    getShareableCertificateByVerificationCode: () => undefined,
   };
 
   beforeEach(function () {
-    shareableCertificateRepository.getByVerificationCode = sinon.stub();
+    certificateRepository.getShareableCertificateByVerificationCode = sinon.stub();
   });
 
   it('should return certification from verification code enhanced with resultCompetenceTree', async function () {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-shareable-certificate', function () {
       resultCompetenceTree,
     });
     const locale = 'fr';
-    shareableCertificateRepository.getByVerificationCode
+    certificateRepository.getShareableCertificateByVerificationCode
       .withArgs('P-123456CC', { locale })
       .resolves(shareableCertificate);
 
@@ -27,7 +27,7 @@ describe('Unit | UseCase | get-shareable-certificate', function () {
     const finalShareableCertificate = await getCertificationByVerificationCode({
       verificationCode: 'P-123456CC',
       locale,
-      shareableCertificateRepository,
+      certificateRepository,
     });
 
     // then
