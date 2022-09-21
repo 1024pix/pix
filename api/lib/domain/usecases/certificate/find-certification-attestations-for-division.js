@@ -3,13 +3,12 @@ const { NoCertificationAttestationForDivisionError } = require('../../errors');
 module.exports = async function findCertificationAttestationsForDivision({
   organizationId,
   division,
-  certificationAttestationRepository,
+  certificateRepository,
 }) {
-  const certificationAttestations =
-    await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-      organizationId,
-      division,
-    });
+  const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+    organizationId,
+    division,
+  });
 
   if (certificationAttestations.length === 0) {
     throw new NoCertificationAttestationForDivisionError(division);
