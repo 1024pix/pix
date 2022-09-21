@@ -32,6 +32,11 @@ export default class FileSaver extends Service {
   }) {
     const response = await fetcher({ url, token });
 
+    if (!response.ok) {
+      const payload = await response.json();
+      throw new Error(payload?.errors[0]?.detail);
+    }
+
     if (response.headers && response.headers.get('Content-Disposition')) {
       const contentDispositionHeader = response.headers.get('Content-Disposition');
       [, fileName] = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDispositionHeader);

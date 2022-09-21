@@ -77,6 +77,12 @@
       max-width: 250px;
       padding: 14px 20px;
     }
+
+    &__error-message {
+      color: $error;
+      max-width: 250px;
+      margin-top: 15px;
+    }
   }
 
   hr {
