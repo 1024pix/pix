@@ -23,7 +23,6 @@ class PrivateCertificate {
     pixScore,
     status,
     commentForCandidate,
-    cleaCertificationResult,
     certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
@@ -42,7 +41,6 @@ class PrivateCertificate {
     this.pixScore = pixScore;
     this.status = status;
     this.commentForCandidate = commentForCandidate;
-    this.cleaCertificationResult = cleaCertificationResult;
     this.certifiedBadgeImages = certifiedBadgeImages;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
@@ -62,7 +60,6 @@ class PrivateCertificate {
     certificationCenter,
     pixScore,
     commentForCandidate,
-    cleaCertificationResult,
     certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
@@ -84,7 +81,6 @@ class PrivateCertificate {
       certificationCenter,
       pixScore,
       commentForCandidate,
-      cleaCertificationResult,
       certifiedBadgeImages,
       resultCompetenceTree,
       verificationCode,

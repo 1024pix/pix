@@ -13,25 +13,6 @@ describe('Unit | Controller | user-certifications/get', function () {
         firstName: 'Laura',
         lastName: 'Summers',
         commentForCandidate: 'some comment',
-        cleaCertificationStatus: 'not_taken',
-        certifiedBadgeImages: [],
-      });
-
-      // when
-      const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
-
-      // then
-      expect(shouldDisplayDetailsSection).to.be.true;
-    });
-
-    it('should return true when certification has an acquired clea certification', function () {
-      const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
-      const store = this.owner.lookup('service:store');
-      controller.model = store.createRecord('certification', {
-        firstName: 'Laura',
-        lastName: 'Summers',
-        commentForCandidate: null,
-        cleaCertificationStatus: 'acquired',
         certifiedBadgeImages: [],
       });
 
@@ -49,7 +30,6 @@ describe('Unit | Controller | user-certifications/get', function () {
         firstName: 'Laura',
         lastName: 'Summers',
         commentForCandidate: null,
-        cleaCertificationStatus: 'not_taken',
         certifiedBadgeImages: ['/some/img'],
       });
 
@@ -67,7 +47,6 @@ describe('Unit | Controller | user-certifications/get', function () {
         firstName: 'Laura',
         lastName: 'Summers',
         commentForCandidate: null,
-        cleaCertificationStatus: 'not_taken',
         certifiedBadgeImages: [],
       });
 
