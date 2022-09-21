@@ -34,7 +34,7 @@
                 type="button"
                 aria-label="Espace surveillant"
               >
-                <FaIcon @icon="eye" @class="sidebar-menu__item-icon" />
+                <FaIcon @icon="eye" class="sidebar-menu__item-icon" />
                 Espace surveillant
               </LinkTo>
             </li>
@@ -42,13 +42,13 @@
         {{/if}}
         <li>
           <LinkTo @route="authenticated.team" class="sidebar-menu__item" type="button" aria-label="Équipe">
-            <FaIcon @icon="users" @class="sidebar-menu__item-icon" />
+            <FaIcon @icon="users" class="sidebar-menu__item-icon" />
             Équipe
           </LinkTo>
         </li>
         <li>
           <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
-            <FaIcon @icon="book" @class="sidebar-menu__item-icon" />
+            <FaIcon @icon="book" class="sidebar-menu__item-icon" />
             Documentation
           </a>
         </li>
