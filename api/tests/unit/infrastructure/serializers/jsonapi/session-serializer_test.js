@@ -6,7 +6,7 @@ const { statuses } = require('../../../../../lib/domain/models/Session');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function () {
   describe('#serialize()', function () {
-    let modelSession;
+    let session;
     let expectedJsonApi;
 
     beforeEach(function () {
@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
           },
         },
       };
-      modelSession = new Session({
+      session = new Session({
         id: 12,
         certificationCenterId: 123,
         address: 'Nice',
@@ -69,7 +69,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
     context('when session does not have a link to an existing certification center', function () {
       it('should convert a Session model object into JSON API data including supervisor password', function () {
         // when
-        const json = serializer.serialize(modelSession);
+        const json = serializer.serialize({ session });
 
         // then
         expect(json).to.deep.equal(expectedJsonApi);
@@ -85,10 +85,26 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         expectedJsonApiIncludingHasSupervisorAccess.data.attributes['has-supervisor-access'] = true;
 
         // when
-        const json = serializer.serialize(modelSession, true);
+        const json = serializer.serialize({ session, hasSupervisorAccess: true });
 
         // then
         expect(json).to.deep.equal(expectedJsonApiIncludingHasSupervisorAccess);
+      });
+    });
+
+    context('when hasSomeCleaAcquired is provided', function () {
+      it('should add hasSomeCleaAcquired to the serialized session', function () {
+        // given
+        const expectedJsonApiIncludingHasSomeCleaAcquired = {
+          ...expectedJsonApi,
+        };
+        expectedJsonApiIncludingHasSomeCleaAcquired.data.attributes['has-some-clea-acquired'] = true;
+
+        // when
+        const json = serializer.serialize({ session, hasSomeCleaAcquired: true });
+
+        // then
+        expect(json).to.deep.equal(expectedJsonApiIncludingHasSomeCleaAcquired);
       });
     });
   });

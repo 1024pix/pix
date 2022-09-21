@@ -96,7 +96,7 @@ describe('Unit | Controller | sessionController', function () {
 
       // then
       expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
+      expect(sessionSerializer.serialize).to.have.been.calledWith({ session: savedSession });
     });
   });
 
@@ -154,7 +154,9 @@ describe('Unit | Controller | sessionController', function () {
         const foundSession = Symbol('foundSession');
         const serializedSession = Symbol('serializedSession');
         usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession });
-        sessionSerializer.serialize.withArgs(foundSession).resolves(serializedSession);
+        sessionSerializer.serialize
+          .withArgs({ session: foundSession, hasSupervisorAccess: undefined })
+          .returns(serializedSession);
 
         // when
         const response = await sessionController.get(request, hFake);
@@ -193,7 +195,7 @@ describe('Unit | Controller | sessionController', function () {
     it('should return the updated session', async function () {
       // given
       usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
-      sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
+      sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
 
       // when
       const response = await sessionController.update(request, hFake);
@@ -727,7 +729,7 @@ describe('Unit | Controller | sessionController', function () {
             sessionId,
           })
           .resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+        sinon.stub(sessionSerializer, 'serialize').withArgs({ session: usecaseResult }).resolves(serializedSession);
       });
 
       it('should return the serialized session', async function () {
@@ -749,7 +751,7 @@ describe('Unit | Controller | sessionController', function () {
             sessionId,
           })
           .resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+        sinon.stub(sessionSerializer, 'serialize').withArgs({ session }).resolves(serializedSession);
       });
 
       it('should return the serialized session', async function () {
@@ -886,7 +888,7 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         const usecaseResult = { resultsFlaggedAsSent: false, session };
         sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+        sinon.stub(sessionSerializer, 'serialize').withArgs({ session }).resolves(serializedSession);
       });
 
       it('should return the serialized session', async function () {
@@ -902,7 +904,7 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         const usecaseResult = { resultsFlaggedAsSent: true, session };
         sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+        sinon.stub(sessionSerializer, 'serialize').withArgs({ session }).resolves(serializedSession);
       });
 
       it('should return the serialized session with code 201', async function () {

@@ -45,7 +45,7 @@ module.exports = {
   async get(request) {
     const sessionId = request.params.id;
     const { session, hasSupervisorAccess } = await usecases.getSession({ sessionId });
-    return sessionSerializer.serialize(session, hasSupervisorAccess);
+    return sessionSerializer.serialize({ session, hasSupervisorAccess });
   },
 
   async save(request) {
@@ -54,7 +54,7 @@ module.exports = {
 
     const newSession = await usecases.createSession({ userId, session });
 
-    return sessionSerializer.serialize(newSession);
+    return sessionSerializer.serialize({ session: newSession });
   },
 
   async update(request) {
@@ -64,7 +64,7 @@ module.exports = {
 
     const updatedSession = await usecases.updateSession({ userId, session });
 
-    return sessionSerializer.serialize(updatedSession);
+    return sessionSerializer.serialize({ session: updatedSession });
   },
 
   async getAttendanceSheet(request, h) {
@@ -288,7 +288,7 @@ module.exports = {
 
     const session = await usecases.publishSession({ sessionId });
 
-    return sessionSerializer.serialize(session);
+    return sessionSerializer.serialize({ session });
   },
 
   async publishInBatch(request, h) {
@@ -308,13 +308,13 @@ module.exports = {
 
     const session = await usecases.unpublishSession({ sessionId });
 
-    return sessionSerializer.serialize(session);
+    return sessionSerializer.serialize({ session });
   },
 
   async flagResultsAsSentToPrescriber(request, h) {
     const sessionId = request.params.id;
     const { resultsFlaggedAsSent, session } = await usecases.flagSessionResultsAsSentToPrescriber({ sessionId });
-    const serializedSession = await sessionSerializer.serialize(session);
+    const serializedSession = await sessionSerializer.serialize({ session });
     return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
   },
 
