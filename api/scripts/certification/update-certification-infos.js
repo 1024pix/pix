@@ -101,7 +101,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
       await trx.rollback();
     }
     logger.error(error);
-    process.exit(1);
+    throw error;
   }
 
   logger.info('Done.');

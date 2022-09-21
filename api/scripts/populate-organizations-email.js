@@ -28,8 +28,8 @@ async function main() {
   const filePath = process.argv[2];
 
   if (!filePath) {
-    console.log('Usage: populate-organizations-email.js <FILE_NAME>.csv');
-    process.exit(1);
+    console.error('Usage: populate-organizations-email.js <FILE_NAME>.csv');
+    throw new Error('Invalid usage');
   }
 
   console.log('Reading and parsing csv file (checking headers)... ');
