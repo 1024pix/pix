@@ -10,7 +10,7 @@ function isPlatformScalingo() {
 function preventDatabaseDropAsItCannotBeCreatedAgain() {
   if (isPlatformScalingo()) {
     logger.error('Database will not be dropped, as it would require to recreate the addon');
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 
@@ -30,13 +30,12 @@ PgClient.getClient(url.href).then(async (client) => {
     await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME}${WITH_FORCE};`);
     logger.info('Database dropped');
     await client.end();
-    process.exit(0);
   } catch (error) {
     if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
       logger.info(`Database ${DB_TO_DELETE_NAME} does not exist`);
-      await client.end();
-      process.exit(0);
     }
+  } finally {
+    await client.end();
   }
 });
 

@@ -1,5 +1,7 @@
 require('dotenv').config();
 const PgBoss = require('pg-boss');
+const logger = require('../../lib/infrastructure/logger');
+const { disconnect } = require('../../db/knex-database-connection');
 
 async function main() {
   console.log('run pgboss migrations');
@@ -9,11 +11,13 @@ async function main() {
   await boss.stop();
 }
 
-if (require.main === module) {
-  main()
-    .then(() => process.exit(0))
-    .catch((err) => {
-      console.error(err);
-      process.exit(1);
-    });
-}
+(async () => {
+  try {
+    await main();
+  } catch (error) {
+    logger.error(error);
+    process.exitCode = 1;
+  } finally {
+    await disconnect();
+  }
+})();

@@ -16,12 +16,11 @@ PgClient.getClient(url.href).then(async (client) => {
     await client.query_and_log(`CREATE DATABASE ${DB_TO_CREATE_NAME};`);
     logger.info('Database created');
     await client.end();
-    process.exit(0);
   } catch (error) {
     if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
       logger.info(`Database ${DB_TO_CREATE_NAME} already created`);
-      await client.end();
-      process.exit(0);
     }
+  } finally {
+    await client.end();
   }
 });
