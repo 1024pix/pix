@@ -165,7 +165,9 @@
     }
   }
 
-  &__pe-connect-link {
+  &__pole-emploi-connect-link {
+    $pole-emploi: #1B2E57;
+
     border-radius: 100px;
     display: flex;
     align-items: center;
@@ -180,7 +182,7 @@
     &:focus,
     &:hover,
     &:focus-within {
-      border: 2px solid white;
+      border: 2px solid $white;
       box-shadow: 0 0 0 2px $pole-emploi;
     }
 
