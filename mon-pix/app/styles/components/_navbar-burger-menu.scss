@@ -2,32 +2,22 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-}
 
-.navbar-burger-menu {
-
-  &__content {
-    flex-grow: 1;
-  }
-
-  &__footer {
-    display: flex;
-    flex-direction: column;
-    background-color: $pix-primary-40;
+  .navbar-burger-menu__list {
     padding: 20px 0;
   }
-}
 
-.navbar-burger-menu-content {
+  .navbar-burger-menu-list {
 
-  &__navigation {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
+    &__item {
+      list-style: none;
+      margin: 5px 0;
+      padding: 10px 0;
+    }
   }
 }
 
-.navbar-burger-menu-content-navigation {
+.navbar-burger__menu .navbar-burger-menu {
 
   &__header {
     display: flex;
@@ -36,9 +26,8 @@
     padding-right: 32px;
   }
 
-  &__list {
-    padding-left: 0;
-    margin: 0;
+  &__content {
+    flex-grow: 1;
   }
 
   &__button {
@@ -48,19 +37,14 @@
     flex-direction: column;
     padding: 10px 32px;
   }
-}
 
-.navbar-burger-menu-content-navigation-list {
-
-  &__item {
-    list-style: none !important;
-    padding: 12px 0 !important;
-    margin: 5px 0 !important;
+  &__footer {
+    background-color: $pix-primary-40;
+    padding: 20px 0;
   }
 }
 
-.navbar-burger-menu-content-navigation-list-item {
-  margin-bottom: auto;
+.navbar-burger-menu-list-item {
 
   &__link {
     color: $pix-neutral-35;
@@ -94,16 +78,7 @@
   }
 }
 
-.navbar-burger-menu-footer-list {
-
-  &__item {
-    list-style: none !important;
-    margin: 5px 0 !important;
-    padding: 10px 0 !important;
-  }
-}
-
-.navbar-burger-menu-footer-list-item {
+.navbar-burger-menu-footer-item {
 
   &__link {
     margin: 5px 0;
@@ -117,22 +92,15 @@
       color: $pix-neutral-0;
       text-decoration: none;
     }
-  }
 
-  &__logout {
-    font-size: 1rem;
-    margin: 10px 0;
+    &--logout {
+      font-size: 1rem;
+      margin: 10px 0;
 
-    &:hover {
-      color: $pix-neutral-0;
-      text-decoration: underline;
+      &:hover {
+        color: $pix-neutral-0;
+        text-decoration: underline;
+      }
     }
-  }
-}
-
-.navbar-burger-menu-footer-item-logout {
-
-  &__icon {
-    margin-right: 6px;
   }
 }
