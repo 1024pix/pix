@@ -684,4 +684,157 @@ describe('Integration | Repository | Session', function () {
       });
     });
   });
+
+  describe('#hasSomeCleaAcquired', function () {
+    context('when session is published', function () {
+      context('when at least one candidate has acquired Cléa', function () {
+        it('should return true', async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession({
+            publishedAt: '2022-01-01',
+          }).id;
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            sessionId,
+            userId,
+          }).id;
+          const badgeId = databaseBuilder.factory.buildBadge({}).id;
+          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
+          const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+            badgeId,
+            complementaryCertificationId,
+          }).id;
+          const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+            complementaryCertificationId,
+            complementaryCertificationBadgeId,
+            certificationCourseId,
+          }).id;
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId,
+            acquired: true,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+
+          // then
+          expect(hasSomeCleaAcquired).to.be.true;
+        });
+      });
+    });
+
+    context('when session is not published', function () {
+      it('should return true', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession({
+          publishedAt: null,
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId,
+        }).id;
+        const badgeId = databaseBuilder.factory.buildBadge({}).id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'CLEA',
+          label: 'Cléa Numérique',
+        }).id;
+        const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId,
+          complementaryCertificationId,
+        }).id;
+        const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+          complementaryCertificationId,
+          complementaryCertificationBadgeId,
+          certificationCourseId,
+        }).id;
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId,
+          acquired: true,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+
+        // then
+        expect(hasSomeCleaAcquired).to.be.false;
+      });
+    });
+
+    context('when no candidate has acquired Cléa', function () {
+      it('should return false', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId,
+        }).id;
+        const badgeId = databaseBuilder.factory.buildBadge({}).id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'CLEA',
+        }).id;
+        const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId,
+          complementaryCertificationId,
+        }).id;
+        const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+          complementaryCertificationId,
+          complementaryCertificationBadgeId,
+          certificationCourseId,
+        }).id;
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId,
+          acquired: false,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+
+        // then
+        expect(hasSomeCleaAcquired).to.be.false;
+      });
+    });
+
+    context('when the session has no certification course', function () {
+      it('should return false', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+
+        // then
+        expect(hasSomeCleaAcquired).to.be.false;
+      });
+    });
+
+    context('when the session has no candidate', function () {
+      it('should return false', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+
+        // then
+        expect(hasSomeCleaAcquired).to.be.false;
+      });
+    });
+  });
 });
