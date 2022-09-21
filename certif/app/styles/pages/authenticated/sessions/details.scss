@@ -14,7 +14,6 @@
 }
 
 .session-details-header {
-
   &__title {
     display: flex;
     flex-direction: column;
@@ -132,6 +131,44 @@ $details-content-margin: 8px;
 }
 
 .session-details {
+  &__clea-results-download {
+    padding: 6px;
+  }
+
+  &__clea-results-download-grey {
+    padding: 16px;
+    background: $pix-neutral-5;
+    display: flex;
+  }
+
+  &__clea-results-download-title {
+    font-weight: 500;
+    font-size: 20px;
+    color: $pix-neutral-90;
+    margin: 0 0 4px 0;
+  }
+
+
+  &__clea-results-download-description {
+    color: $pix-neutral-50;
+  }
+
+  &__clea-results-download-icon {
+    width: 80px;
+    padding: 2px;
+    margin-right: 16px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    svg {
+      font-size: 40px;
+      color: $pix-neutral-50;
+    }
+  }
+
+  &__clea-results-download-button {
+    width: 30%;
+  }
 
   &__controls {
     display: flex;
