@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.258.0 (21/09/2022)
+
+
+### :rocket: Amélioration
+- [#4953](https://github.com/1024pix/pix/pull/4953) [FEATURE] Ajout légende onglet Profil dans Pix Admin(PIX-5657).
+- [#4918](https://github.com/1024pix/pix/pull/4918) [FEATURE] Filtrer les badges perdus sur la page de détails de fin de parcours (PIX-5422)
+
+### :building_construction: Tech
+- [#4946](https://github.com/1024pix/pix/pull/4946) [TECH] Prévenir les process.exit() dans l'API
+- [#4912](https://github.com/1024pix/pix/pull/4912) [TECH] Refacto des repositories de récupération de données pour les certificats et attestations (PIX-5515).
+- [#4930](https://github.com/1024pix/pix/pull/4930) [TECH] Nettoyages liés à la brique générique SSO OIDC (PIX-5706)
+- [#4925](https://github.com/1024pix/pix/pull/4925) [TECH] Supprimer le calcul des résultats partagés via l'event dispatcher (PIX5588).
+
+### :bug: Correction
+- [#4956](https://github.com/1024pix/pix/pull/4956) [BUGFIX] Le endpoint  /admin/organizations/1/target-profile-summaries renvoie des doublons (PIX-5734)
+
+### :coffee: Autre
+- [#4951](https://github.com/1024pix/pix/pull/4951) GitHub Workflows security hardening
+
 ## v3.257.0 (20/09/2022)
 
 
