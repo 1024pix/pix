@@ -59,7 +59,7 @@ describe('Acceptance | user-account | connection-methods', function () {
       // when
       await visit(
         '/?token=aaa.' +
-          btoa(`{"user_id":${user.id},"source":"pole-emploi","iat":1545321469,"exp":4702193958}`) +
+          btoa(`{"user_id":${user.id},"source":"oidc-source","iat":1545321469,"exp":4702193958}`) +
           '.bbb'
       );
       await visit('/mon-compte/methodes-de-connexion');
