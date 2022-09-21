@@ -1,9 +1,10 @@
-const { domainBuilder, expect, nock } = require('../../../../test-helper');
+const { domainBuilder, expect, nock, catchErr } = require('../../../../test-helper');
 const moment = require('moment');
 const { isSameBinary } = require('../../../../tooling/binary-comparator');
 const {
   getCertificationAttestationsPdfBuffer,
 } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+const { CertificationAttestationGenerationError } = require('../../../../../lib/domain/errors');
 const fs = require('fs');
 
 const { addRandomSuffix } = require('pdf-lib/cjs/utils');
@@ -219,6 +220,33 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
       referencePdfPath + ' is not generated as expected'
     ).to.be.true;
+  });
+
+  it('should throw a CertificationAttestationGenerationError when a sticker cannot be retrieved', async function () {
+    // given
+    nock('https://images.pix.fr').get('/stickers/macaron.pdf').reply(503);
+
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    const certificate = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
+      resultCompetenceTree,
+      certifiedBadges: [
+        {
+          stickerUrl: 'https://images.pix.fr/stickers/macaron.pdf',
+        },
+      ],
+    });
+
+    // when
+    const error = await catchErr(getCertificationAttestationsPdfBuffer)({
+      certificates: [certificate],
+      creationDate: new Date('2021-01-01'),
+    });
+
+    // then
+    expect(error).to.be.an.instanceOf(CertificationAttestationGenerationError);
   });
 });
 

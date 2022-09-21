@@ -1150,6 +1150,12 @@ class NoSkillsInCampaignError extends DomainError {
   }
 }
 
+class CertificationAttestationGenerationError extends DomainError {
+  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1186,6 +1192,7 @@ module.exports = {
   CandidateNotAuthorizedToResumeCertificationTestError,
   CertificateVerificationCodeGenerationTooManyTrials,
   NoCertificationAttestationForDivisionError,
+  CertificationAttestationGenerationError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidateAddError,
