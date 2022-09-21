@@ -30,6 +30,7 @@ export default class Session extends Model {
   @attr('string') examinerGlobalComment;
   @attr('string') supervisorPassword;
   @attr('boolean') hasSupervisorAccess;
+  @attr('boolean') hasSomeCleaAcquired;
   @attr('boolean') hasIncident;
   @attr('boolean') hasJoiningIssue;
   @attr() certificationCenterId;
@@ -75,5 +76,12 @@ export default class Session extends Model {
 
   get uncompletedCertificationReports() {
     return this.certificationReports.filter((certificationReport) => !certificationReport.isCompleted);
+  }
+
+  get shouldDisplayCleaResultDownloadSection() {
+    return (
+      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled &&
+      this.hasSomeCleaAcquired
+    );
   }
 }
