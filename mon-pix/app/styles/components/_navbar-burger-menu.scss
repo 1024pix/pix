@@ -1,4 +1,14 @@
+.navbar-burger__menu {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .navbar-burger-menu {
+
+  &__content {
+    flex-grow: 1;
+  }
 
   &__footer {
     display: flex;
@@ -6,6 +16,9 @@
     background-color: $pix-primary-40;
     padding: 20px 0;
   }
+}
+
+.navbar-burger-menu-content {
 
   &__navigation {
     display: flex;
@@ -14,7 +27,7 @@
   }
 }
 
-.navbar-burger-menu-navigation {
+.navbar-burger-menu-content-navigation {
 
   &__header {
     display: flex;
@@ -37,7 +50,7 @@
   }
 }
 
-.navbar-burger-menu-navigation-list {
+.navbar-burger-menu-content-navigation-list {
 
   &__item {
     list-style: none !important;
@@ -46,7 +59,7 @@
   }
 }
 
-.navbar-burger-menu-navigation-list-item {
+.navbar-burger-menu-content-navigation-list-item {
   margin-bottom: auto;
 
   &__link {
