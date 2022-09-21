@@ -116,6 +116,32 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         assert.dom(screen.queryByText('Lord Star')).doesNotExist();
       });
 
+      test('it renders the full name filtered candidates information', async function (assert) {
+        // given
+        this.certificationCandidates = [
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'Gamora',
+            lastName: 'Zen Whoberi Ben Titan',
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 456,
+            firstName: 'Star',
+            lastName: 'Lord',
+          }),
+        ];
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        );
+
+        // when
+        await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Star Lord');
+
+        // then
+        assert.dom(screen.getByText('Lord Star')).exists();
+        assert.dom(screen.queryByText('Zen Whoberi Ben Titan Gamora')).doesNotExist();
+      });
+
       module('when the empty input button is clicked', function () {
         test('it empties the input field', async function (assert) {
           // given
