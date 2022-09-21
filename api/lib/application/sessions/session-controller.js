@@ -44,8 +44,8 @@ module.exports = {
 
   async get(request) {
     const sessionId = request.params.id;
-    const { session, hasSupervisorAccess } = await usecases.getSession({ sessionId });
-    return sessionSerializer.serialize({ session, hasSupervisorAccess });
+    const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
+    return sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
   },
 
   async save(request) {

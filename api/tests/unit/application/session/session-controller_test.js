@@ -153,9 +153,9 @@ describe('Unit | Controller | sessionController', function () {
         // given
         const foundSession = Symbol('foundSession');
         const serializedSession = Symbol('serializedSession');
-        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession });
+        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession, hasSomeCleaAcquired: false });
         sessionSerializer.serialize
-          .withArgs({ session: foundSession, hasSupervisorAccess: undefined })
+          .withArgs({ session: foundSession, hasSupervisorAccess: undefined, hasSomeCleaAcquired: false })
           .returns(serializedSession);
 
         // when
