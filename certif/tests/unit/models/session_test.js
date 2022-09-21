@@ -143,7 +143,7 @@ module('Unit | Model | session', function (hooks) {
             id: 123,
             status: CREATED,
             publishedAt: '2022-01-01',
-            hasAnyAcquiredCleaResult: true,
+            hasSomeCleaAcquired: true,
           });
 
           // when/then
@@ -163,7 +163,7 @@ module('Unit | Model | session', function (hooks) {
             id: 123,
             status: CREATED,
             publishedAt: '2022-01-01',
-            hasAnyAcquiredCleaResult: false,
+            hasSomeCleaAcquired: false,
           });
 
           // when/then
@@ -184,7 +184,7 @@ module('Unit | Model | session', function (hooks) {
           id: 123,
           status: CREATED,
           publishedAt: '2022-01-01',
-          hasAnyAcquiredCleaResult: true,
+          hasSomeCleaAcquired: true,
         });
 
         // when/then
