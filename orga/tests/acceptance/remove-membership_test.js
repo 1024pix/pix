@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
-import { click, visit } from '@ember/test-helpers';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -32,12 +31,14 @@ module('Acceptance | Remove membership', function (hooks) {
 
   test('should remove the membership', async function (assert) {
     // given
-    await visit('/equipe');
+    const screen = await visit('/equipe');
     await clickByName('Gérer');
     await clickByName('Supprimer');
 
+    await screen.findByRole('dialog');
+
     // when
-    await click('button[data-test-modal-remove-button]');
+    await clickByName('Oui, supprimer le membre');
 
     // then
     assert.contains(`${user.firstName} ${user.lastName} a été supprimé avec succès de votre équipe Pix Orga.`);
