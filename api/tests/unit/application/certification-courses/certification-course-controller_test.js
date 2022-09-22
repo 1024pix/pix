@@ -390,6 +390,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         id: 'recCompetence1',
         name: 'competence_1',
         areaId: 'recArea1',
+        origin: 'Pix',
       });
       const area1 = domainBuilder.buildCertifiedArea({
         id: 'recArea1',
@@ -494,6 +495,7 @@ describe('Unit | Controller | certification-course-controller', function () {
             attributes: {
               name: 'competence_1',
               'area-id': 'recArea1',
+              origin: 'Pix',
             },
           },
           {

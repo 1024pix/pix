@@ -1,12 +1,19 @@
 import Component from '@glimmer/component';
 import ENV from 'pix-admin/config/environment';
+import partition from 'lodash/partition';
 
 export default class CertifiedProfile extends Component {
   get certifiedCompetenceList() {
     const { certifiedAreas } = this.args.certifiedProfile;
-    return certifiedAreas
+
+    const competencesOfCertifiedAreas = certifiedAreas
       .toArray()
       .flatMap((certifiedArea) => this._buildCertifiedCompetencesOfCertifiedArea(certifiedArea));
+
+    const [pixCompetences, nonPixCompetences] = partition(competencesOfCertifiedAreas, { origin: 'Pix' });
+    const certifiedCompetencesGroupedByOriginWithNonPixCompetencesFirst = [...nonPixCompetences, ...pixCompetences];
+
+    return certifiedCompetencesGroupedByOriginWithNonPixCompetencesFirst;
   }
 
   get difficultyLevels() {
@@ -21,6 +28,7 @@ export default class CertifiedProfile extends Component {
         name: certifiedCompetence.name,
         certifiedArea,
         certifiedTubes: this._buildCertifiedTubeOfCertifiedCompetence(certifiedCompetence.id),
+        origin: certifiedCompetence.origin,
       }));
   }
 
