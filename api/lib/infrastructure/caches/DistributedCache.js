@@ -32,9 +32,11 @@ class DistributedCache extends Cache {
   }
 
   quit() {
-    this._underlyingCache.quit();
-    this._redisClientPublisher.quit();
-    this._redisClientSubscriber.quit();
+    return Promise.all([
+      this._underlyingCache.quit(),
+      this._redisClientPublisher.quit(),
+      this._redisClientSubscriber.quit(),
+    ]);
   }
 }
 

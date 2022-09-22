@@ -24,13 +24,13 @@ async function _exitOnSignal(signal) {
   logger.info('Closing connexions to database...');
   await disconnect();
   logger.info('Closing connexions to cache...');
-  cache.quit();
+  await cache.quit();
   logger.info('Closing connexions to temporary storage...');
-  temporaryStorage.quit();
+  await temporaryStorage.quit();
   logger.info('Closing connexions to redis monitor...');
-  redisMonitor.quit();
+  await redisMonitor.quit();
   logger.info('Closing connexions to redis rate limiter...');
-  redisRateLimiter.quit();
+  await redisRateLimiter.quit();
   logger.info('Exiting process...');
 }
 

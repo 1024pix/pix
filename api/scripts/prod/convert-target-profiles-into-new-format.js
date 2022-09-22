@@ -21,7 +21,7 @@ async function main() {
     throw err;
   } finally {
     await disconnect();
-    cache.quit();
+    await cache.quit();
   }
 }
 

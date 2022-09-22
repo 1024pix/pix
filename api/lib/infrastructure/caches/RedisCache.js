@@ -65,8 +65,8 @@ class RedisCache extends Cache {
     return this._client.flushall();
   }
 
-  quit() {
-    this._client.quit();
+  async quit() {
+    await this._client.quit();
   }
 }
 
