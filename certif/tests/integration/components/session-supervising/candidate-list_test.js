@@ -71,6 +71,44 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       assert.dom(screen.getByRole('textbox', { name: 'Rechercher un candidat' })).exists();
     });
 
+    module('when the candidate search filter is filled but has no match', function () {
+      test('it renders an empty candidates list', async function (assert) {
+        // given
+        this.certificationCandidates = [
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'Tom',
+            lastName: 'Nook',
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 456,
+            firstName: 'Kéké',
+            lastName: 'Laglisse',
+          }),
+        ];
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        );
+
+        // when
+        await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Marie');
+
+        // then
+        assert.dom(screen.queryByText('Nook Tom')).doesNotExist();
+        assert.dom(screen.queryByText('Laglisse Kéké')).doesNotExist();
+        assert
+          .dom(
+            screen.getByText(
+              this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
+                authorizedToStartCandidates: 0,
+                totalCandidates: this.certificationCandidates.length,
+              })
+            )
+          )
+          .exists();
+      });
+    });
+
     module('when the candidate search filter is filled', function () {
       [
         { firstName: 'FirstName', lastName: 'Whatever', filter: 'Fir' },
