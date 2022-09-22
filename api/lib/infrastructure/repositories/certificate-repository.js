@@ -154,7 +154,9 @@ function _selectPrivateCertificates() {
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentValidatedAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .join('sessions', 'sessions.id', 'certification-courses.sessionId');
+    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false);
 }
 
 async function _getCertifiedBadges(certificationCourseId) {

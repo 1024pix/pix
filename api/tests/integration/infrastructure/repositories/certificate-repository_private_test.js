@@ -9,9 +9,8 @@ const {
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificateRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const _ = require('lodash');
 
-describe('Integration | Infrastructure | Repository | Certificate', function () {
+describe('Integration | Infrastructure | Repository | Certificate_private', function () {
   const minimalLearningContent = [
     {
       id: 'recArea0',
@@ -36,6 +35,212 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
       expect(error.message).to.equal('Certificate not found for ID 123');
     });
 
+    it('should throw a NotFoundError when the certificate has no assessment-result', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: false,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+    });
+
+    it('should throw a NotFoundError when the certificate is cancelled', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: true,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: privateCertificateData.pixScore,
+        status: 'validated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+    });
+
+    it('should throw a NotFoundError when the certificate is not published', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isCancelled: false,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: false,
+        isCancelled: privateCertificateData.isCancelled,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: privateCertificateData.pixScore,
+        status: 'validated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+    });
+
+    it('should throw a NotFoundError when the certificate is rejected', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        isCancelled: false,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: privateCertificateData.isCancelled,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: privateCertificateData.pixScore,
+        status: 'rejected',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+    });
+
     it('should return a PrivateCertificate', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
@@ -48,6 +253,7 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
         birthdate: '1977-04-14',
         birthplace: 'Saint-Ouen',
         isPublished: true,
+        isCancelled: false,
         userId,
         date: new Date('2020-01-01'),
         verificationCode: 'ABCDE-F',
@@ -195,6 +401,7 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
           birthdate: '1977-04-14',
           birthplace: 'Saint-Ouen',
           isPublished: true,
+          isCancelled: false,
           userId,
           date: new Date('2020-01-01'),
           verificationCode: 'ABCDE-F',
@@ -307,97 +514,6 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
       });
     });
 
-    it('should build from the latest assessment result if any', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      const privateCertificateData = {
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'ABCDE-F',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
-      };
-
-      const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
-
-      // when
-      const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
-
-      // then
-      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.rejected({
-        id: certificateId,
-        ...privateCertificateData,
-      });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
-    });
-
-    it('should build even if there is not assessment result', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      const privateCertificateData = {
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'ABCDE-F',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: null,
-        commentForCandidate: null,
-      };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      await databaseBuilder.commit();
-
-      // when
-      const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
-
-      // then
-      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
-        id: certificateId,
-        ...privateCertificateData,
-      });
-      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
-    });
-
     context('acquired certifiable badges', function () {
       it('should get the certified badge images when the certifications were acquired', async function () {
         // given
@@ -420,6 +536,7 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
           birthdate: '1977-04-14',
           birthplace: 'Saint-Ouen',
           isPublished: true,
+          isCancelled: false,
           userId,
           date: new Date('2020-01-01'),
           verificationCode: 'ABCDF-G',
@@ -476,7 +593,7 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
         const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
 
         // then
-        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
           id: certificateId,
           ...privateCertificateData,
         });
@@ -487,9 +604,16 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
   });
 
   describe('#findPrivateCertificateByUserId', function () {
-    it('should return a collection of PrivateCertificate', async function () {
-      // given
+    it('should return an empty list when the certificate does not exist', async function () {
+      // when
+      const result = await certificateRepository.findPrivateCertificateByUserId({ userId: 123 });
 
+      // then
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return an empty list when the certificate has no assessment-result', async function () {
+      // given
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -497,6 +621,159 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
         birthdate: '1977-04-14',
         birthplace: 'Saint-Ouen',
         isPublished: true,
+        isCancelled: false,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: privateCertificateData.isCancelled,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return an empty list when the certificate is not published', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: false,
+        isCancelled: false,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: privateCertificateData.isCancelled,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: privateCertificateData.pixScore,
+        status: 'validated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return en empty list when the certificate is rejected', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        isCancelled: false,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: privateCertificateData.isCancelled,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: privateCertificateData.pixScore,
+        status: 'rejected',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return a collection of PrivateCertificate', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        isCancelled: false,
         userId,
         date: new Date('2020-01-01'),
         verificationCode: 'ABCDE-F',
@@ -523,42 +800,23 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
 
     it('should return all the certificates of the user if he has many ordered by creation date DESC', async function () {
       // given
-
       const userId = databaseBuilder.factory.buildUser().id;
-      const anotherUserId = databaseBuilder.factory.buildUser().id;
-      const sessionId1 = databaseBuilder.factory.buildSession().id;
-      const sessionId2 = databaseBuilder.factory.buildSession().id;
-      const sessionId3 = databaseBuilder.factory.buildSession().id;
-      const certificateId1 = databaseBuilder.factory.buildCertificationCourse({
-        sessionId: sessionId1,
-        createdAt: new Date('2020-01-01'),
-        userId,
-      }).id;
-      const certificateId2 = databaseBuilder.factory.buildCertificationCourse({
-        sessionId: sessionId2,
-        createdAt: new Date('2020-02-01'),
-        userId,
-      }).id;
-      const anotherUserCertificateId = databaseBuilder.factory.buildCertificationCourse({
-        sessionId: sessionId3,
-        createdAt: new Date('2020-03-01'),
-        userId: anotherUserId,
-      }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId1 });
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId2 });
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: anotherUserCertificateId });
+      const { certificateId } = await _buildValidPrivateCertificate({ userId, date: '2021-05-02' });
+      const { certificateId: certificateId2 } = await _buildValidPrivateCertificate({ userId, date: '2021-06-02' });
+      const { certificateId: certificateId3 } = await _buildValidPrivateCertificate({ userId, date: '2021-07-02' });
       await databaseBuilder.commit();
 
       // when
       const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
-      expect(privateCertificates).to.have.length(2);
-      expect(privateCertificates[0].id).to.equal(certificateId2);
-      expect(privateCertificates[1].id).to.equal(certificateId1);
+      expect(privateCertificates).to.have.length(3);
+      expect(privateCertificates[0].id).to.equal(certificateId3);
+      expect(privateCertificates[1].id).to.equal(certificateId2);
+      expect(privateCertificates[2].id).to.equal(certificateId);
     });
 
-    it('should build from the latest assessment result if any', async function () {
+    it('should build from the latest assessment result if validated', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
@@ -583,64 +841,11 @@ describe('Integration | Infrastructure | Repository | Certificate', function () 
       const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
-      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.rejected({
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
         id: certificateId,
         ...privateCertificateData,
       });
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
-    });
-
-    it('should build even if there is not assessment result', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-      const userId = databaseBuilder.factory.buildUser().id;
-      const privateCertificateData = {
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'ABCDE-F',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: null,
-        commentForCandidate: null,
-      };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      await databaseBuilder.commit();
-
-      // when
-      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
-
-      // then
-      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
-        id: certificateId,
-        ...privateCertificateData,
-      });
-      expect(privateCertificates[0]).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
   });
 });
@@ -701,7 +906,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     birthdate: privateCertificateData.birthdate,
     birthplace: privateCertificateData.birthplace,
     isPublished: privateCertificateData.isPublished,
-    isCancelled: false,
+    isCancelled: privateCertificateData.isCancelled,
     createdAt: privateCertificateData.date,
     verificationCode: privateCertificateData.verificationCode,
     maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
@@ -712,7 +917,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: privateCertificateData.pixScore,
-    status: 'started',
+    status: 'validated',
     commentForCandidate: privateCertificateData.commentForCandidate,
     createdAt: new Date('2021-01-01'),
   });
@@ -785,7 +990,7 @@ async function _buildValidPrivateCertificateWithSeveralResults(privateCertificat
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: privateCertificateData.pixScore,
-    status: 'rejected',
+    status: 'validated',
     commentForCandidate: privateCertificateData.commentForCandidate,
     createdAt: new Date('2021-03-01'),
   });
