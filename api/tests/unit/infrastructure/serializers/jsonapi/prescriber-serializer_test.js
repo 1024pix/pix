@@ -254,11 +254,6 @@ function createExpectedPrescriberSerializedWithOneMoreField({
               related: `/api/organizations/${organization.id}/invitations`,
             },
           },
-          students: {
-            links: {
-              related: `/api/organizations/${organization.id}/students`,
-            },
-          },
           'target-profiles': {
             links: {
               related: `/api/organizations/${organization.id}/target-profiles`,
@@ -360,11 +355,6 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
           'organization-invitations': {
             links: {
               related: `/api/organizations/${organization.id}/invitations`,
-            },
-          },
-          students: {
-            links: {
-              related: `/api/organizations/${organization.id}/students`,
             },
           },
           'target-profiles': {

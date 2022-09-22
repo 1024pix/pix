@@ -8,7 +8,6 @@ const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const userWithOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
@@ -237,30 +236,6 @@ module.exports = {
     return groupSerializer.serialize(groups);
   },
 
-  async findPaginatedFilteredOrganizationLearners(request, h) {
-    const organizationId = request.params.id;
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    if (filter.divisions && !Array.isArray(filter.divisions)) {
-      filter.divisions = [filter.divisions];
-    }
-
-    if (filter.groups && !Array.isArray(filter.groups)) {
-      filter.groups = [filter.groups];
-    }
-    const { data, pagination } = await usecases.findPaginatedFilteredOrganizationLearners({
-      organizationId,
-      filter,
-      page,
-    });
-    return h
-      .response(userWithOrganizationLearnerSerializer.serialize(data, pagination))
-      .header('Deprecation', 'true')
-      .header(
-        'Link',
-        `/api/organizations/${request.params.id}/sco-participants or /api/organizations/${request.params.id}/sup-participants; rel="successor-version"`
-      );
-  },
-
   async findPaginatedFilteredScoParticipants(request) {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
@@ -310,16 +285,7 @@ module.exports = {
       i18n: request.i18n,
     });
 
-    const response = h.response(null).code(204);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-siecle`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sco-organization-learners/import-siecle; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response(null).code(204);
   },
 
   async importSupOrganizationLearners(request, h) {
@@ -328,18 +294,7 @@ module.exports = {
     const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
     const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
 
-    const response = h
-      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-      .code(200);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-csv`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sup-organization-learners/import-csv; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings })).code(200);
   },
 
   async replaceSupOrganizationLearners(request, h) {
@@ -351,18 +306,7 @@ module.exports = {
       supOrganizationLearnerParser,
     });
 
-    const response = h
-      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-      .code(200);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/replace-csv`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sup-organization-learners/replace-csv; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings })).code(200);
   },
 
   async sendInvitations(request, h) {
@@ -412,19 +356,10 @@ module.exports = {
       i18n: request.i18n,
     });
 
-    const response = h
+    return h
       .response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
-    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/csv-template`) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${request.params.id}/sup-organization-learners/csv-template; rel="successor-version"`
-        );
-    }
-    return response;
   },
 
   async archiveOrganization(request) {

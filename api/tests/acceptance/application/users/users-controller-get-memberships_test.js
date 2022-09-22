@@ -111,11 +111,6 @@ describe('Acceptance | Controller | users-controller-get-memberships', function 
                     related: `/api/organizations/${organization.id.toString()}/invitations`,
                   },
                 },
-                students: {
-                  links: {
-                    related: `/api/organizations/${organization.id.toString()}/students`,
-                  },
-                },
               },
             },
           ],

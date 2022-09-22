@@ -43,7 +43,6 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'external-id': certificationCandidate.externalId,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
             'is-linked': !_.isNil(certificationCandidate.userId),
-            'schooling-registration-id': 1,
             'organization-learner-id': 1,
             sex: certificationCandidate.sex,
             'complementary-certifications': [
@@ -108,27 +107,6 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       expect(deserializedCertificationCandidate.resultRecipientEmail).to.equal(
         certificationCandidate.resultRecipientEmail
       );
-      expect(deserializedCertificationCandidate.organizationLearnerId).to.equal(
-        certificationCandidate.organizationLearnerId
-      );
-    });
-
-    it('should convert JSON deprecated schoolingRegistrationId to organizationLearnerId', async function () {
-      // given
-      const jsonApiData = {
-        data: {
-          type: 'certification-candidates',
-          id: certificationCandidate.id.toString(),
-          attributes: {
-            'schooling-registration-id': certificationCandidate.organizationLearnerId,
-          },
-        },
-      };
-
-      // when
-      const deserializedCertificationCandidate = await serializer.deserialize(jsonApiData);
-
-      // then
       expect(deserializedCertificationCandidate.organizationLearnerId).to.equal(
         certificationCandidate.organizationLearnerId
       );

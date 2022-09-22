@@ -136,7 +136,6 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': false,
-          'schooling-registration-id': null,
           'organization-learner-id': null,
           'birth-insee-code': certificationCpfCity.INSEECode,
           'birth-postal-code': null,

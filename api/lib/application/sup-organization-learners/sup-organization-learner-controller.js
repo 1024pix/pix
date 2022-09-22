@@ -17,35 +17,17 @@ module.exports = {
 
     await usecases.reconcileSupOrganizationLearner({ campaignCode, reconciliationInfo });
 
-    const response = h.response(null).code(204);
-    if (h.request.path === '/api/schooling-registration-user-associations/student') {
-      response
-        .header('Deprecation', 'true')
-        .header('Link', '/api/sup-organization-learners/association; rel="successor-version"');
-    }
-    return response;
+    return h.response(null).code(204);
   },
 
   async updateStudentNumber(request, h) {
     const payload = request.payload.data.attributes;
     const organizationId = request.params.id;
     const studentNumber = payload['student-number'];
-    const organizationLearnerId = request.params.schoolingRegistrationId || request.params.organizationLearnerId;
+    const organizationLearnerId = request.params.organizationLearnerId;
 
     await usecases.updateStudentNumber({ organizationLearnerId, studentNumber, organizationId });
 
-    const response = h.response().code(204);
-    if (
-      h.request.path ===
-      `/api/organizations/${organizationId}/schooling-registration-user-associations/${organizationLearnerId}`
-    ) {
-      response
-        .header('Deprecation', 'true')
-        .header(
-          'Link',
-          `/api/organizations/${organizationId}/sup-organization-learners/${organizationLearnerId}; rel="successor-version"`
-        );
-    }
-    return response;
+    return h.response().code(204);
   },
 };

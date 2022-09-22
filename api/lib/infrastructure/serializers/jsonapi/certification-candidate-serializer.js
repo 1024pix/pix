@@ -12,7 +12,6 @@ module.exports = {
           ...certificationCandidate,
           billingMode: certificationCandidate.translatedBillingMode,
           isLinked: !_.isNil(certificationCandidate.userId),
-          schoolingRegistrationId: certificationCandidate.organizationLearnerId,
         };
       },
       attributes: [
@@ -27,7 +26,6 @@ module.exports = {
         'externalId',
         'extraTimePercentage',
         'isLinked',
-        'schoolingRegistrationId',
         'organizationLearnerId',
         'sex',
         'birthINSEECode',
@@ -52,11 +50,6 @@ module.exports = {
     const deserializedCandidate = await deserializer.deserialize(json);
     deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
     delete deserializedCandidate.birthInseeCode;
-
-    if (!deserializedCandidate.organizationLearnerId) {
-      deserializedCandidate.organizationLearnerId = deserializedCandidate.schoolingRegistrationId;
-    }
-    delete deserializedCandidate.schoolingRegistrationId;
 
     return new CertificationCandidate(deserializedCandidate);
   },

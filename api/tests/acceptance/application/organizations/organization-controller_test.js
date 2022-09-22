@@ -657,11 +657,6 @@ describe('Acceptance | Application | organization-controller', function () {
                   related: `/api/organizations/${organization.id}/memberships`,
                 },
               },
-              students: {
-                links: {
-                  related: `/api/organizations/${organization.id}/students`,
-                },
-              },
               tags: {
                 data: [
                   {
@@ -910,125 +905,6 @@ describe('Acceptance | Application | organization-controller', function () {
       };
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedResult);
-    });
-  });
-
-  describe('GET /api/organizations/{id}/students', function () {
-    let user;
-    let organization;
-    let options;
-
-    beforeEach(async function () {
-      user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-        externalIdentifier: '234',
-        userId: user.id,
-      });
-      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
-      await databaseBuilder.commit();
-
-      options = {
-        method: 'GET',
-        url: `/api/organizations/${organization.id}/students`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-      };
-    });
-
-    context('Expected output', function () {
-      let organizationLearner, campaign, participation;
-
-      beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          userId: user.id,
-        });
-        participation = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaign.id,
-          organizationLearnerId: organizationLearner.id,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return the matching organizationLearners as JSON API', async function () {
-        // given
-        const expectedResult = {
-          data: [
-            {
-              attributes: {
-                'last-name': organizationLearner.lastName,
-                'first-name': organizationLearner.firstName,
-                birthdate: organizationLearner.birthdate,
-                'user-id': user.id,
-                username: user.username,
-                email: user.email,
-                'is-authenticated-from-gar': true,
-                'student-number': organizationLearner.studentNumber,
-                division: organizationLearner.division,
-                group: organizationLearner.group,
-                'participation-count': 1,
-                'last-participation-date': participation.createdAt,
-                'campaign-name': campaign.name,
-                'campaign-type': campaign.type,
-                'participation-status': participation.status,
-              },
-              id: organizationLearner.id.toString(),
-              type: 'students',
-            },
-          ],
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedResult.data);
-      });
-    });
-
-    context('Resource access management', function () {
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-
-      it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser.withMembership().id;
-        await databaseBuilder.commit();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-
-      it('should respond with a 403 - Forbidden access - if Organization does not manage organizationLearners', async function () {
-        // given
-        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
-        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
-        await databaseBuilder.commit();
-
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-        options.url = `/api/organizations/${organizationId}/students`;
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
     });
   });
 
@@ -1753,68 +1629,6 @@ describe('Acceptance | Application | organization-controller', function () {
           .orderBy('targetProfileId', 'ASC');
         expect(response.statusCode).to.equal(404);
         expect(attachedTargetProfileIds).to.deepEqualArray([alreadyAttachedTargetProfileId]);
-      });
-    });
-  });
-
-  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function () {
-    let userId, organization, accessToken;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      const authHeader = generateValidRequestAuthorizationHeader(userId);
-      accessToken = authHeader.replace('Bearer ', '');
-    });
-
-    context('when it‘s a SUP organization', function () {
-      beforeEach(async function () {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return csv file with statusCode 200', async function () {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200, response.payload);
-      });
-    });
-
-    context('when it‘s not a valid organization', function () {
-      beforeEach(async function () {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return an error with statusCode 403', async function () {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403, response.payload);
       });
     });
   });
