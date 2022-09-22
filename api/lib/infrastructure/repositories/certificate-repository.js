@@ -123,6 +123,41 @@ module.exports = {
   },
 };
 
+async function _getCertifiedBadges(certificationCourseId) {
+  const complementaryCertificationCourseResults = await knex
+    .select(
+      'complementary-certification-course-results.partnerKey',
+      'complementary-certification-course-results.source',
+      'complementary-certification-course-results.acquired',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.level',
+      'complementary-certification-badges.certificateMessage',
+      'complementary-certification-badges.temporaryCertificateMessage',
+      'complementary-certifications.hasExternalJury'
+    )
+    .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId'
+    )
+    .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .innerJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
+    )
+    .where({ certificationCourseId })
+    .orderBy('partnerKey');
+
+  return new CertifiedBadges({
+    complementaryCertificationCourseResults,
+  }).getAcquiredCertifiedBadgesDTO();
+}
+
 function _selectPrivateCertificates() {
   return knex
     .select({
@@ -159,42 +194,6 @@ function _selectPrivateCertificates() {
     .where('certification-courses.isCancelled', false);
 }
 
-async function _getCertifiedBadges(certificationCourseId) {
-  const complementaryCertificationCourseResults = await knex
-    .select(
-      'complementary-certification-course-results.partnerKey',
-      'complementary-certification-course-results.source',
-      'complementary-certification-course-results.acquired',
-      'complementary-certification-course-results.complementaryCertificationCourseId',
-      'complementary-certification-badges.imageUrl',
-      'complementary-certification-badges.stickerUrl',
-      'complementary-certification-badges.label',
-      'complementary-certification-badges.level',
-      'complementary-certification-badges.certificateMessage',
-      'complementary-certification-badges.temporaryCertificateMessage',
-      'complementary-certifications.hasExternalJury'
-    )
-    .from('complementary-certification-course-results')
-    .innerJoin(
-      'complementary-certification-courses',
-      'complementary-certification-courses.id',
-      'complementary-certification-course-results.complementaryCertificationCourseId'
-    )
-    .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
-    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-    .innerJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId'
-    )
-    .where({ certificationCourseId })
-    .orderBy('partnerKey');
-
-  return new CertifiedBadges({
-    complementaryCertificationCourseResults,
-  }).getAcquiredCertifiedBadgesDTO();
-}
-
 function _selectShareableCertificates() {
   return knex
     .select({
@@ -225,18 +224,6 @@ function _selectShareableCertificates() {
     .modify(_filterMostRecentValidatedAssessmentResult)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
-}
-
-function _filterMostRecentValidatedAssessmentResult(qb) {
-  return qb
-    .whereNotExists(
-      knex
-        .select(1)
-        .from({ 'last-assessment-results': 'assessment-results' })
-        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-    )
-    .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
 
 function _selectCertificationAttestations() {
@@ -270,6 +257,18 @@ function _selectCertificationAttestations() {
     .modify(_filterMostRecentValidatedAssessmentResult)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
+}
+
+function _filterMostRecentValidatedAssessmentResult(qb) {
+  return qb
+    .whereNotExists(
+      knex
+        .select(1)
+        .from({ 'last-assessment-results': 'assessment-results' })
+        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+    )
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
 
 function _checkOrganizationIsScoIsManagingStudents(qb) {
