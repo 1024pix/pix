@@ -7,7 +7,7 @@ const AuthenticationSessionContent = require('../../models/AuthenticationSession
 const { v4: uuidv4 } = require('uuid');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
-const logger = require('../../../infrastructure/logger');
+const monitoringTools = require('../../../infrastructure/monitoring-tools');
 
 class OidcAuthenticationService {
   constructor({
@@ -101,6 +101,23 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
+  _validateUserInfoContent({ userInfoContent }) {
+    const missingFields = [];
+    if (!userInfoContent.family_name) {
+      missingFields.push('family_name');
+    }
+    if (!userInfoContent.given_name) {
+      missingFields.push('given_name');
+    }
+    if (!userInfoContent.sub) {
+      missingFields.push('sub');
+    }
+    const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
+    if (thereIsAtLeastOneRequiredMissingField) {
+      throw new InvalidExternalAPIResponseError(missingFields.join(','));
+    }
+  }
+
   async _getContentFromUserInfoEndpoint({ accessToken, userInfoUrl }) {
     let userInfoContent;
 
@@ -111,20 +128,30 @@ class OidcAuthenticationService {
       });
       userInfoContent = data;
     } catch (error) {
-      logger.error('Une erreur est survenue en récupérant les information des utilisateurs.');
+      error.customMessage = 'Une erreur est survenue en récupérant les information des utilisateurs.';
+      monitoringTools.logErrorWithCorrelationIds({ message: error });
       throw new InvalidExternalAPIResponseError(
-        'Une erreur est survenue en récupérant les information des utilisateurs'
+        'Une erreur est survenue en récupérant les information des utilisateurs.'
       );
     }
 
     if (!userInfoContent || typeof userInfoContent !== 'object') {
       const message = 'Les informations utilisateur récupérées ne sont pas au format attendu.';
-      logger.error(message);
+      const dataToLog = {
+        message,
+        typeOfUserInfoContent: typeof userInfoContent,
+      };
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
       throw new InvalidExternalAPIResponseError(message);
     }
 
-    if (!userInfoContent.family_name || !userInfoContent.given_name || !userInfoContent.sub) {
-      logger.error(`Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify(userInfoContent)}.`);
+    try {
+      this._validateUserInfoContent({ userInfoContent });
+    } catch (error) {
+      monitoringTools.logErrorWithCorrelationIds({
+        message: "Un des champs obligatoires n'a pas été renvoyé",
+        missingFields: error,
+      });
       throw new InvalidExternalAPIResponseError('Les informations utilisateurs récupérées sont incorrectes.');
     }
 
