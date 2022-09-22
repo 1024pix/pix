@@ -3,8 +3,9 @@
 .issue-report-modal {
   min-width: 650px;
   max-width: 650px;
-  margin: 100px auto; // to fix in pix UI
+  margin: 100px auto;
 
+  /* to fix in pix UI */
   h2 {
     font-size: 0.875rem;
   }
@@ -49,11 +50,11 @@
     font-family: $font-roboto;
     color: $pix-neutral-50;
     padding: 0 0 0 16px;
-    margin: 8px 0 0 0;
+    margin: 8px 0 0;
   }
 }
 
-// Override Pix UI reset CSS
+/* Override Pix UI reset CSS */
 .pix-modal.issue-report-modal li.issue-report-modal__report {
   padding-bottom: 18px;
 }
