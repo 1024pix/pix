@@ -27,7 +27,23 @@
             "pages.organization-participants.table.column.lastest-participation"
           }}</Table::Header>
         <Table::Header @size="medium" @align="center">
-          {{t "pages.organization-participants.table.column.is-certifiable.label"}}
+          <div class="organization-participant-list-page__certificability-header">
+            {{t "pages.organization-participants.table.column.is-certifiable.label"}}
+            <div class="organization-participant-list-page__certificability-header__tooltip">
+              <PixTooltip
+                @position="top-left"
+                @isWide={{true}}
+                aria-label={{t "pages.organization-participants.table.column.is-certifiable.tooltip"}}
+              >
+                <:triggerElement>
+                  <FaIcon @icon="circle-question" tabindex="0" />
+                </:triggerElement>
+                <:tooltip>
+                  {{t "pages.organization-participants.table.column.is-certifiable.tooltip"}}
+                </:tooltip>
+              </PixTooltip>
+            </div>
+          </div>
         </Table::Header>
       </tr>
     </thead>
