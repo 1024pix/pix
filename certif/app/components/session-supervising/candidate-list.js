@@ -45,7 +45,7 @@ export default class CandidateList extends Component {
       const startOfLastName = candidate.lastName.substring(0, filter.length);
       const fullNameFirstNameFirst = candidate.firstName.concat(' ', candidate.lastName).substring(0, filter.length);
       const fullNameLastNameFirst = candidate.lastName.concat(' ', candidate.firstName).substring(0, filter.length);
-      const collator = new Intl.Collator('fr', { sensitivity: 'base' });
+      const collator = new Intl.Collator('fr', { sensitivity: 'base', ignorePunctuation: true });
 
       return (
         collator.compare(startOfLastName, filter) === 0 ||

@@ -115,6 +115,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         { firstName: 'Whatever', lastName: 'LastName', filter: 'Last' },
         { firstName: 'FirstName', lastName: 'LastName', filter: 'LastName FirstName' },
         { firstName: 'Mïchèle', lastName: 'Désarçônnée', filter: 'Michele Desarconnee' },
+        { firstName: 'Jean-Michel', lastName: 'Promis-Je-La-Fais-Pas', filter: 'jean michel promis je la fais pas' },
       ].forEach(({ firstName, lastName, filter }) => {
         test(`it renders the ${firstName} and ${lastName} candidates information for ${filter} filter`, async function (assert) {
           // given
