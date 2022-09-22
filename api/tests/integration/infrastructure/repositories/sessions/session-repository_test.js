@@ -699,8 +699,8 @@ describe('Integration | Repository | Session', function () {
             sessionId,
             userId,
           }).id;
-          const badgeId = databaseBuilder.factory.buildBadge({}).id;
-          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
+          const badgeId = databaseBuilder.factory.buildBadge().id;
+          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea().id;
           const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
             badgeId,
             complementaryCertificationId,
@@ -738,11 +738,8 @@ describe('Integration | Repository | Session', function () {
           sessionId,
           userId,
         }).id;
-        const badgeId = databaseBuilder.factory.buildBadge({}).id;
-        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-          key: 'CLEA',
-          label: 'Cléa Numérique',
-        }).id;
+        const badgeId = databaseBuilder.factory.buildBadge().id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea().id;
         const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
           badgeId,
           complementaryCertificationId,
@@ -777,10 +774,8 @@ describe('Integration | Repository | Session', function () {
           sessionId,
           userId,
         }).id;
-        const badgeId = databaseBuilder.factory.buildBadge({}).id;
-        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-          key: 'CLEA',
-        }).id;
+        const badgeId = databaseBuilder.factory.buildBadge().id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea().id;
         const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
           badgeId,
           complementaryCertificationId,

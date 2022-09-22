@@ -1,6 +1,7 @@
+const ComplementaryCertification = require('../../../lib/domain/models/ComplementaryCertification');
 const databaseBuffer = require('../database-buffer');
 
-module.exports = function buildComplementaryCertification({
+function buildComplementaryCertification({
   id = databaseBuffer.getNextId(),
   label = 'UneSuperCertifComplémentaire',
   key = 'SUPERCERTIF',
@@ -24,4 +25,19 @@ module.exports = function buildComplementaryCertification({
     tableName: 'complementary-certifications',
     values,
   });
+}
+
+buildComplementaryCertification.clea = function () {
+  return buildComplementaryCertification({
+    id: databaseBuffer.getNextId(),
+    label: 'CléA Numérique',
+    key: ComplementaryCertification.CLEA,
+    createdAt: new Date('2020-01-01'),
+    minimumReproducibilityRate: 50.0,
+    minimumEarnedPix: 70,
+    hasComplementaryReferential: false,
+    hasExternalJury: false,
+  });
 };
+
+module.exports = buildComplementaryCertification;
