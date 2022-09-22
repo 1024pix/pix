@@ -23,7 +23,7 @@ module.exports = {
       certifiedCompetences: {
         ref: 'id',
         included: true,
-        attributes: ['name', 'areaId'],
+        attributes: ['name', 'areaId', 'origin'],
       },
       certifiedAreas: {
         ref: 'id',
