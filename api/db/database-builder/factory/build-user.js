@@ -175,6 +175,45 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   return user;
 };
 
+buildUser.withoutPixAuthenticationMethod = function buildUserWithoutPixAuthenticationMethod({
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
+  cgu = true,
+  lang = 'fr',
+  lastTermsOfServiceValidatedAt = new Date('2019-04-28T02:42:00Z'),
+  lastPixOrgaTermsOfServiceValidatedAt = null,
+  lastPixCertifTermsOfServiceValidatedAt = null,
+  mustValidateTermsOfService = false,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenAssessmentInstructions = false,
+  createdAt = new Date(),
+} = {}) {
+  const values = {
+    id,
+    firstName,
+    lastName,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    createdAt,
+  };
+
+  const user = databaseBuffer.pushInsertable({
+    tableName: 'users',
+    values,
+  });
+
+  return user;
+};
+
 buildUser.withRole = function buildUserWithRole({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',

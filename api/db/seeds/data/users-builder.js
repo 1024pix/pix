@@ -1,3 +1,5 @@
+const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+
 const PIX_SUPER_ADMIN_ID = 199;
 const PIX_SUPPORT_ID = 200;
 const PIX_METIER_ID = 201;
@@ -79,29 +81,95 @@ function usersBuilder({ databaseBuilder }) {
   };
   databaseBuilder.factory.buildUser.withRawPassword(userShouldChangePassword);
 
-  const userWithSamlId = databaseBuilder.factory.buildUser.withRawPassword({
+  const pixUserWithGarAuthenticationMethod = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Margaery',
     lastName: 'Tyrell',
     email: null,
     rawPassword: 'Password123',
     cgu: false,
   });
-
   databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: 'samlId',
-    userId: userWithSamlId.id,
+    userId: pixUserWithGarAuthenticationMethod.id,
   });
 
-  const userFromPoleEmploi = databaseBuilder.factory.buildUser.withRawPassword({
+  const userWithGarAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
+    firstName: 'Mariamu',
+    lastName: 'Tatenda',
+    cgu: false,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+    externalIdentifier: `${userWithGarAuthenticationMethod.firstName}.${userWithGarAuthenticationMethod.lastName}`,
+    userId: userWithGarAuthenticationMethod.id,
+  });
+
+  const pixUserWithPoleEmploiAuthenticationMethod = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Paul',
     lastName: 'Amplois',
     email: null,
+    username: 'Paul.Amplois',
     rawPassword: 'Password123',
     cgu: false,
   });
+  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+    userId: pixUserWithPoleEmploiAuthenticationMethod.id,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+  });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-    userId: userFromPoleEmploi.id,
+  const userWithPoleEmploiAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
+    firstName: 'Itai',
+    lastName: 'Chrizanne',
+    cgu: false,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+    userId: userWithPoleEmploiAuthenticationMethod.id,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+  });
+
+  const pixUserWithCnavAuthenticationMethod = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'David',
+    lastName: 'Cnav',
+    email: 'david.cnav@example.net',
+    username: 'David.Cnav',
+    rawPassword: 'Password123',
+    cgu: false,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+    userId: pixUserWithCnavAuthenticationMethod.id,
+    identityProvider: OidcIdentityProviders.CNAV.code,
+  });
+
+  const userWithCnavAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
+    firstName: 'Ashura',
+    lastName: 'Onyinye',
+    cgu: false,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+    userId: userWithCnavAuthenticationMethod.id,
+    identityProvider: OidcIdentityProviders.CNAV.code,
+  });
+
+  const userWithMultiplesAuthenticationMethods = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Charity',
+    lastName: 'Noble',
+    email: 'charity.noble@example.net',
+    username: 'Ch@rity.N0bl3',
+    rawPassword: 'Password123',
+    cgu: false,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+    userId: userWithMultiplesAuthenticationMethods.id,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+    userId: userWithMultiplesAuthenticationMethods.id,
+    identityProvider: OidcIdentityProviders.CNAV.code,
+  });
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+    externalIdentifier: `${userWithMultiplesAuthenticationMethods.firstName}.${userWithMultiplesAuthenticationMethods.lastName}.${userWithMultiplesAuthenticationMethods.id}`,
+    userId: userWithMultiplesAuthenticationMethods.id,
+    userFirstName: userWithMultiplesAuthenticationMethods.firstName,
+    userLastName: userWithMultiplesAuthenticationMethods.lastName,
   });
 
   const userWithLastTermsOfServiceValidated = {
