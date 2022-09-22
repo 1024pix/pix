@@ -30,7 +30,7 @@
   }
 
   &__footer {
-    background-color: $pix-primary-40;
+    background-color: $pix-primary;
     padding: 20px 0;
   }
 }
@@ -40,25 +40,25 @@
   &__link {
     display: inline-block;
     width: 100%;
-    color: $pix-neutral-35;
+    color: $pix-neutral-70;
     font-size: 1.125rem;
     padding: 12px 32px;
     font-family: $font-roboto;
 
     &.active {
-      color: $pix-primary-40;
-      border-left: 5px solid $pix-primary-40;
-      padding-left: 27px;
-    }
-
-    &:focus {
-      color: $pix-neutral-35;
-      text-decoration: none;
+      color: $pix-primary;
+      border-left: 5px solid $pix-primary;
+      padding-left: calc(32px - 5px);
     }
 
     &:hover {
-      color: $pix-primary-40;
-      text-decoration: none;
+      color: $pix-primary-60;
+      background-color: $pix-neutral-10;
+    }
+
+    &:active {
+      color: $pix-primary-70;
+      background-color: $pix-neutral-15;
     }
   }
 }
@@ -81,20 +81,21 @@
     padding: 10px 32px;
     font-family: $font-open-sans;
 
-    &.active,
+    &.active {
+      border-left: 5px solid $pix-neutral-0;
+      padding-left: calc(32px - 5px);
+    }
+
     &:hover {
-      color: $pix-neutral-0;
-      text-decoration: none;
+      background-color: $pix-primary-60;
+    }
+
+    &:active {
+      background-color: $pix-primary-70;
     }
 
     &--logout {
-      font-size: 1rem;
       margin-top: $spacing-xs;
-
-      &:hover {
-        color: $pix-neutral-0;
-        text-decoration: underline;
-      }
     }
   }
 }
