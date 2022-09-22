@@ -12,7 +12,6 @@ const {
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const logger = require('../../../../../lib/infrastructure/logger');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
@@ -299,7 +298,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
           },
         });
-        sinon.stub(logger, 'error');
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
 
         // when
@@ -311,12 +309,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.be.equal('Les informations utilisateurs récupérées sont incorrectes.');
-        const expectedMessage = `Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify({
-          given_name: 'givenName',
-          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        })}.`;
-        expect(logger.error).to.have.been.calledWith(expectedMessage);
       });
     });
 
@@ -327,7 +319,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           isSuccessful: true,
           data: '',
         });
-        sinon.stub(logger, 'error');
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
 
         // when
@@ -339,9 +330,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.be.equal('Les informations utilisateur récupérées ne sont pas au format attendu.');
-        expect(logger.error).to.have.been.calledWith(
-          'Les informations utilisateur récupérées ne sont pas au format attendu.'
-        );
       });
     });
 
@@ -350,7 +338,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // given
         const anError = new Error('something bad happened');
         sinon.stub(httpAgent, 'get').rejects(anError);
-        sinon.stub(logger, 'error');
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
 
         // when
@@ -361,10 +348,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // then
         expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
-        expect(error.message).to.be.equal('Une erreur est survenue en récupérant les information des utilisateurs');
-        expect(logger.error).to.have.been.calledWith(
-          'Une erreur est survenue en récupérant les information des utilisateurs.'
-        );
+        expect(error.message).to.be.equal('Une erreur est survenue en récupérant les information des utilisateurs.');
       });
     });
   });
