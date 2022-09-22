@@ -6,15 +6,6 @@
   .navbar-burger-menu__list {
     padding: 20px 0;
   }
-
-  .navbar-burger-menu-list {
-
-    &__item {
-      list-style: none;
-      margin: 5px 0;
-      padding: 10px 0;
-    }
-  }
 }
 
 .navbar-burger__menu .navbar-burger-menu {
@@ -47,6 +38,8 @@
 .navbar-burger-menu-list-item {
 
   &__link {
+    display: inline-block;
+    width: 100%;
     color: $pix-neutral-35;
     font-size: 1.125rem;
     padding: 12px 32px;
@@ -81,10 +74,11 @@
 .navbar-burger-menu-footer-item {
 
   &__link {
-    margin: 5px 0;
-    padding: 10px 32px;
+    display: inline-block;
+    width: 100%;
     color: $pix-neutral-0;
     font-size: 1rem;
+    padding: 10px 32px;
     font-family: $font-open-sans;
 
     &.active,
@@ -95,7 +89,7 @@
 
     &--logout {
       font-size: 1rem;
-      margin: 10px 0;
+      margin-top: $spacing-xs;
 
       &:hover {
         color: $pix-neutral-0;
