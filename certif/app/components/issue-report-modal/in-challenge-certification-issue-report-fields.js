@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import {
   certificationIssueReportSubcategories,
@@ -8,8 +7,6 @@ import {
 } from 'pix-certif/models/certification-issue-report';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
-  @service featureToggles;
-
   @action
   onChangeSubcategory(event) {
     this.args.inChallengeCategory.subcategory = event.target.value;

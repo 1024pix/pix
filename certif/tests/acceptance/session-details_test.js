@@ -179,6 +179,23 @@ module('Acceptance | Session Details', function (hooks) {
           assert.dom(screen.queryByRole('link', { name: 'Télécharger le kit surveillant' })).doesNotExist();
         });
       });
+
+      module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function () {
+        module('when session has clea results and session is published', function () {
+          test('it should show the clea result download section', async function (assert) {
+            // given
+            session.update({ publishedAt: '2022-01-01', hasSomeCleaAcquired: true });
+            server.create('feature-toggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
+
+            // when
+            const screen = await visit(`/sessions/${session.id}`);
+
+            // then
+            assert.dom(screen.getByText('Des candidats ont obtenu le CléA numérique')).exists();
+            assert.dom(screen.getByRole('link', { name: 'Télécharger la liste des candidats' })).exists();
+          });
+        });
+      });
     });
   });
 });

@@ -7,6 +7,7 @@ const { NotFoundError } = require('../../../domain/errors');
 const Session = require('../../../domain/models/Session');
 const CertificationCenter = require('../../../domain/models/CertificationCenter');
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
+const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
 
 module.exports = {
   async save(sessionData) {
@@ -165,6 +166,34 @@ module.exports = {
     });
 
     return;
+  },
+
+  async hasSomeCleaAcquired(sessionId) {
+    const result = await knex
+      .select(1)
+      .from('sessions')
+      .innerJoin('certification-courses', 'certification-courses.sessionId', 'sessions.id')
+      .innerJoin(
+        'complementary-certification-courses',
+        'complementary-certification-courses.certificationCourseId',
+        'certification-courses.id'
+      )
+      .innerJoin(
+        'complementary-certifications',
+        'complementary-certifications.id',
+        'complementary-certification-courses.complementaryCertificationId'
+      )
+      .innerJoin(
+        'complementary-certification-course-results',
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+        'complementary-certification-courses.id'
+      )
+      .where('sessions.id', sessionId)
+      .whereNotNull('sessions.publishedAt')
+      .where('complementary-certification-course-results.acquired', true)
+      .where('complementary-certifications.key', ComplementaryCertification.CLEA)
+      .first();
+    return Boolean(result);
   },
 };
 

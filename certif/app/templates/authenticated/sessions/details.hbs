@@ -25,6 +25,10 @@
     </div>
   </div>
 
+  {{#if this.session.shouldDisplayCleaResultDownloadSection}}
+    <SessionCleaResultsDownload />
+  {{/if}}
+
   <div class="panel session-details__controls">
     <nav class="navbar session-details__controls-navbar-tabs">
       <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">

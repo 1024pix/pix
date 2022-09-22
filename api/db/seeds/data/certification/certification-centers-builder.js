@@ -44,12 +44,8 @@ const {
 } = require('../badges-builder');
 
 function certificationCentersBuilder({ databaseBuilder }) {
-  databaseBuilder.factory.buildComplementaryCertification({
-    label: 'CléA Numérique',
-    key: 'CLEA',
+  databaseBuilder.factory.buildComplementaryCertification.clea({
     id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-    minimumReproducibilityRate: 50.0,
-    minimumEarnedPix: 70,
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V1,
