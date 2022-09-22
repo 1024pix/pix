@@ -225,6 +225,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
     module('When remove member button is clicked', (hooks) => {
       let removeMembershipStub;
+      let screen;
 
       hooks.beforeEach(async function () {
         // given
@@ -237,9 +238,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('removeMembership', removeMembershipStub);
 
         // when
-        await render(hbs`<Team::MembersListItem @membership={{membership}} @onRemoveMember={{removeMembership}} />`);
+        screen = await render(
+          hbs`<Team::MembersListItem @membership={{membership}} @onRemoveMember={{removeMembership}} />`
+        );
         await clickByName('Gérer');
         await clickByText('Supprimer');
+
+        await screen.findByRole('dialog');
       });
 
       test('should display a confirmation modal', function (assert) {
