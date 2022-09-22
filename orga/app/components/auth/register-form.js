@@ -87,7 +87,7 @@ export default class RegisterForm extends Component {
   @action
   validateEmail(event) {
     this.emailValidationMessage = null;
-    this.email = event.target.value?.trim();
+    this.email = event.target.value?.trim().toLowerCase();
     const isInvalidInput = !isEmailValid(this.email);
 
     if (isInvalidInput) {
