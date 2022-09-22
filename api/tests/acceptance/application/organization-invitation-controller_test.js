@@ -49,7 +49,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
               type: 'organization-invitation-responses',
               attributes: {
                 code,
-                email: userToInviteEmail,
+                email: userToInviteEmail.toUpperCase(),
               },
             },
           },
