@@ -59,6 +59,7 @@ const dependencies = {
   certificationResultRepository: require('../../infrastructure/repositories/certification-result-repository'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
   challengeForPixAutoAnswerRepository: require('../../infrastructure/repositories/challenge-for-pix-auto-answer-repository'),
+  cleaCertifiedCandidateRepository: require('../../infrastructure/repositories/clea-certified-candidate-repository'),
   competenceEvaluationRepository: require('../../infrastructure/repositories/competence-evaluation-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
@@ -314,6 +315,8 @@ module.exports = injectDependencies(
     getCertificationsResultsForLS: require('./certificate/get-certifications-results-for-ls'),
     getCertificationPointOfContact: require('./get-certification-point-of-contact'),
     getChallengeForPixAutoAnswer: require('./get-challenge-for-pix-auto-answer'),
+    getCleaCertifiedCandidateBySession: require('./get-clea-certified-candidate-by-session'),
+
     getCorrectionForAnswer: require('./get-correction-for-answer'),
     getCurrentUser: require('./get-current-user'),
     getExternalAuthenticationRedirectionUrl: require('./get-external-authentication-redirection-url'),
