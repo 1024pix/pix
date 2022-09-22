@@ -8,7 +8,6 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class CertificationCandidatesController extends Controller {
-  @service featureToggles;
   @service currentUser;
 
   @alias('model.session') currentSession;

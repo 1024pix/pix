@@ -51,7 +51,6 @@ export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
 }
 
 export class RadioButtonCategoryWithSubcategory extends RadioButtonCategory {
-  @service featureToggles;
   @tracked subcategory;
 
   constructor({ name, subcategory, isChecked }) {
@@ -106,7 +105,6 @@ export class RadioButtonCategoryWithSubcategoryAndQuestionNumber extends RadioBu
 
 export default class AddIssueReportModal extends Component {
   @service store;
-  @service featureToggles;
 
   @tracked signatureIssueCategory = new RadioButtonCategoryWithDescription({
     name: certificationIssueReportCategories.SIGNATURE_ISSUE,

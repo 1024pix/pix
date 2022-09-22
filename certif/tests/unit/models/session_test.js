@@ -128,6 +128,70 @@ module('Unit | Model | session', function (hooks) {
       assert.notPropEqual(model.completedCertificationReports[1].id, 3);
     });
   });
+
+  module('#shouldDisplayCleaResultDownloadSection', function () {
+    module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function () {
+      module('when session has any acquired Clea result', function () {
+        test('it should return true', function (assert) {
+          // given
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('session', {
+            id: 123,
+            status: CREATED,
+            publishedAt: '2022-01-01',
+            hasSomeCleaAcquired: true,
+          });
+
+          // when/then
+          assert.true(model.shouldDisplayCleaResultDownloadSection);
+        });
+      });
+
+      module('when session has no acquired Clea result', function () {
+        test('it should return false', function (assert) {
+          // given
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('session', {
+            id: 123,
+            status: CREATED,
+            publishedAt: '2022-01-01',
+            hasSomeCleaAcquired: false,
+          });
+
+          // when/then
+          assert.false(model.shouldDisplayCleaResultDownloadSection);
+        });
+      });
+    });
+
+    module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is not enabled', function () {
+      test('it should return false', function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: false };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('session', {
+          id: 123,
+          status: CREATED,
+          publishedAt: '2022-01-01',
+          hasSomeCleaAcquired: true,
+        });
+
+        // when/then
+        assert.false(model.shouldDisplayCleaResultDownloadSection);
+      });
+    });
+  });
 });
 
 function _createTwoCompleteAndOneUncompleteCertificationReports(store) {
