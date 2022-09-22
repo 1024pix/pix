@@ -27,16 +27,22 @@ function buildComplementaryCertification({
   });
 }
 
-buildComplementaryCertification.clea = function () {
+buildComplementaryCertification.clea = function ({
+  id = databaseBuffer.getNextId(),
+  minimumReproducibilityRate = 50.0,
+  minimumEarnedPix = 70,
+  hasComplementaryReferential = false,
+  hasExternalJury = false,
+}) {
   return buildComplementaryCertification({
-    id: databaseBuffer.getNextId(),
+    id,
     label: 'CléA Numérique',
     key: ComplementaryCertification.CLEA,
     createdAt: new Date('2020-01-01'),
-    minimumReproducibilityRate: 50.0,
-    minimumEarnedPix: 70,
-    hasComplementaryReferential: false,
-    hasExternalJury: false,
+    minimumReproducibilityRate,
+    minimumEarnedPix,
+    hasComplementaryReferential,
+    hasExternalJury,
   });
 };
 
