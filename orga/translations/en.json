@@ -899,7 +899,10 @@
           "last-name": "Last name",
           "last-participation-date": "Latest participation",
           "participation-count": "Number of participations",
-          "student-number": "Student number"
+          "student-number": "Student number",
+          "is-certifiable": {
+            "label": "Certificabilité"
+          }
         },
         "empty": "No students.",
         "filter": {

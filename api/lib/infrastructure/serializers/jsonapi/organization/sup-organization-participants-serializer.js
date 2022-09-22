@@ -15,6 +15,7 @@ module.exports = {
         'campaignName',
         'campaignType',
         'participationStatus',
+        'isCertifiable',
       ],
       meta,
     }).serialize(supOrganizationParticipants);

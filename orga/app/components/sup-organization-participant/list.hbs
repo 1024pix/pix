@@ -57,6 +57,9 @@
         <Table::Header @size="medium" @align="center">
           {{t "pages.sup-organization-participants.table.column.last-participation-date"}}
         </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sup-organization-participants.table.column.is-certifiable.label"}}
+        </Table::Header>
         <Table::Header @size="medium" class="hide-on-mobile" />
       </tr>
     </thead>
@@ -83,6 +86,9 @@
                   />
                 </div>
               {{/if}}
+            </td>
+            <td class="table__column--center">
+              <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
             </td>
             <td class="organization-participant-list-page__actions hide-on-mobile">
               {{#if this.currentUser.isAdminInOrganization}}
