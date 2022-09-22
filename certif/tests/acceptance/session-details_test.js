@@ -191,7 +191,7 @@ module('Acceptance | Session Details', function (hooks) {
             const screen = await visit(`/sessions/${session.id}`);
 
             // then
-            assert.dom(screen.getByText('Des candidats ont obtenu le CléA numérique')).exists();
+            assert.dom(screen.getByText('Des candidats ont obtenu le certificat CléA numérique')).exists();
             assert.dom(screen.getByRole('link', { name: 'Télécharger la liste des candidats' })).exists();
           });
         });
