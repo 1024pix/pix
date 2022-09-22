@@ -26,7 +26,6 @@ const organizationPlacesLotManagementSerializer = require('../../../../lib/infra
 const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const userWithOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
@@ -705,118 +704,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findPaginatedFilteredOrganizationLearners', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-
-    let studentWithUserInfo;
-    let serializedStudentsWithUsersInfos;
-    let request;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-      };
-
-      sinon.stub(usecases, 'findPaginatedFilteredOrganizationLearners');
-      sinon.stub(userWithOrganizationLearnerSerializer, 'serialize');
-
-      studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
-      serializedStudentsWithUsersInfos = {
-        data: [
-          {
-            ...studentWithUserInfo,
-            isAuthenticatedFromGAR: false,
-          },
-        ],
-      };
-    });
-
-    it('should call the usecase to find students with users infos related to the organization id', async function () {
-      // given
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
-
-      // when
-      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
-        organizationId,
-        filter: {},
-        page: {},
-      });
-    });
-
-    it('should call the usecase to find students with users infos related to filters', async function () {
-      // given
-      request = {
-        ...request,
-        query: {
-          'filter[lastName]': 'Bob',
-          'filter[firstName]': 'Tom',
-          'filter[connexionType]': 'email',
-          'filter[divisions][]': 'D1',
-          'filter[group]': 'L1',
-        },
-      };
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
-
-      // when
-      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
-        organizationId,
-        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', divisions: ['D1'], group: 'L1' },
-        page: {},
-      });
-    });
-
-    it('should call the usecase to find students with users infos related to pagination', async function () {
-      // given
-      request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
-
-      // when
-      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
-        organizationId,
-        filter: {},
-        page: { size: 10, number: 1 },
-      });
-    });
-
-    it('should return the serialized students belonging to the organization', async function () {
-      // given
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
-      userWithOrganizationLearnerSerializer.serialize.returns(serializedStudentsWithUsersInfos);
-
-      // when
-      const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.source).to.deep.equal(serializedStudentsWithUsersInfos);
-    });
-
-    it('should return information about deprecation', async function () {
-      //given
-      usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [] });
-      userWithOrganizationLearnerSerializer.serialize.returns();
-
-      // when
-      const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sco-participants or /api/organizations/145/sup-participants; rel="successor-version"'
-      );
-    });
-  });
-
   describe('#findPaginatedFilteredScoParticipants', function () {
     const connectedUserId = 1;
     const organizationId = 145;
@@ -1144,119 +1031,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
         i18n: request.i18n,
       });
     });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/schooling-registrations/import-siecle',
-      };
-      const response = await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sco-organization-learners/import-siecle; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/sco-organization-learners/import-siecle',
-      };
-      const response = await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
-  describe('#importSupOrganizationLearners', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-
-    const request = {
-      auth: { credentials: { userId: connectedUserId } },
-      params: { id: organizationId },
-      payload: { path: 'path-to-file' },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'importSupOrganizationLearners');
-      usecases.importSupOrganizationLearners.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/schooling-registrations/import-csv',
-      };
-      const response = await organizationController.importSupOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sup-organization-learners/import-csv; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/sup-organization-learners/import-csv',
-      };
-      const response = await organizationController.importSupOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
-  });
-
-  describe('#replaceSupOrganizationLearners', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-
-    const request = {
-      auth: { credentials: { userId: connectedUserId } },
-      params: { id: organizationId },
-      payload: { path: 'path-to-file' },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'replaceSupOrganizationLearners');
-      usecases.replaceSupOrganizationLearners.resolves();
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/schooling-registrations/replace-csv',
-      };
-      const response = await organizationController.replaceSupOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/145/sup-organization-learners/replace-csv; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/sup-organization-learners/replace-csv',
-      };
-      const response = await organizationController.replaceSupOrganizationLearners(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
-    });
   });
 
   describe('#sendInvitations', function () {
@@ -1434,40 +1208,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // when
       request.i18n = getI18n();
       hFake.request = {
-        path: '/api/organizations/2/schooling-registrations/csv-template',
+        path: '/api/organizations/2/sup-organization-learners/csv-template',
       };
       const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
 
       // then
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
-    });
-
-    it('should return information about deprecation when old route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/2/schooling-registrations/csv-template',
-      };
-      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.equal('true');
-      expect(response.headers['Link']).to.equal(
-        '/api/organizations/2/sup-organization-learners/csv-template; rel="successor-version"'
-      );
-    });
-
-    it('should not return information about deprecation when new route is used', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/2/sup-organization-learners/csv-template',
-      };
-      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
-
-      // then
-      expect(response.headers['Deprecation']).to.not.exist;
     });
   });
 

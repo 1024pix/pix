@@ -61,8 +61,7 @@ exports.register = async function (server) {
         handler: userController.getUserDetailsForAdmin,
         notes: [
           '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
-            "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration\n" +
-            "- L'attribut **schoolingRegistrations** retourné est **déprécié** en faveur de **organizationLearners**",
+            "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration",
         ],
         tags: ['api', 'admin', 'user'],
       },
@@ -120,10 +119,7 @@ exports.register = async function (server) {
           },
         },
         handler: userController.addPixAuthenticationMethodByEmail,
-        notes: [
-          "- Permet à un administrateur d'ajouter une méthode de connexion Pix à un utilisateur\n" +
-            "- L'attribut **schoolingRegistrations** retourné est **déprécié** en faveur de **organizationLearners**",
-        ],
+        notes: ["- Permet à un administrateur d'ajouter une méthode de connexion Pix à un utilisateur"],
         tags: ['api', 'admin', 'user'],
       },
     },
@@ -239,8 +235,7 @@ exports.register = async function (server) {
         },
         handler: userController.updateUserDetailsForAdministration,
         notes: [
-          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant\n" +
-            "- L'attribut **schoolingRegistrations** retourné est **déprécié** en faveur de **organizationLearners**",
+          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
         ],
         tags: ['api', 'admin', 'user'],
       },

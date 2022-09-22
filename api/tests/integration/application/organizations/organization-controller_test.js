@@ -18,7 +18,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
-    sandbox.stub(usecases, 'findPaginatedFilteredOrganizationLearners');
     sandbox.stub(usecases, 'findPaginatedFilteredScoParticipants');
     sandbox.stub(usecases, 'findPaginatedFilteredSupParticipants');
     sandbox.stub(usecases, 'createOrganizationInvitations');
@@ -156,53 +155,6 @@ describe('Integration | Application | Organizations | organization-controller', 
         expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
         expect(response.result.included[1].type).to.equal('users');
         expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
-      });
-    });
-  });
-
-  describe('#findPaginatedFilteredOrganizationLearners', function () {
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        const studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
-        usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
-        securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return an HTTP response formatted as JSON:API', async function () {
-        // given
-        const studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
-        usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
-        securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
-
-        // then
-        expect(response.result.data[0].type).to.equal('students');
-      });
-    });
-
-    context('Error cases', function () {
-      context('when user is not allowed to access resource', function () {
-        it('should resolve a 403 HTTP response', async function () {
-          // given
-          securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
-
-          // when
-          const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
       });
     });
   });

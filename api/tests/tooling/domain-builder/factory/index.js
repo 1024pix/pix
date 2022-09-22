@@ -129,7 +129,6 @@ module.exports = {
   buildUserScorecard: require('./build-user-scorecard'),
   buildUserSavedTutorial: require('./build-user-saved-tutorial'),
   buildUserSavedTutorialWithTutorial: require('./build-user-saved-tutorial-with-tutorial'),
-  buildUserWithOrganizationLearner: require('./build-user-with-organization-learner'),
   buildValidation: require('./build-validation'),
   buildValidator: require('./build-validator'),
 };

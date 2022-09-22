@@ -25,7 +25,6 @@ module.exports = {
         'creatorFullName',
         'tags',
         'memberships',
-        'students',
         'targetProfileSummaries',
         'identityProviderForCampaigns',
       ],
@@ -36,16 +35,6 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/organizations/${parent.id}/memberships`;
-          },
-        },
-      },
-      students: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/organizations/${parent.id}/students`;
           },
         },
       },
