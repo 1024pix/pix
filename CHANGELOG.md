@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.259.0 (22/09/2022)
+
+
+### :rocket: Amélioration
+- [#4964](https://github.com/1024pix/pix/pull/4964) [FEATURE] Modifier le wording du téléchargement de resultats CléA sur pix-certif (PIX-5768)
+- [#4965](https://github.com/1024pix/pix/pull/4965) [FEATURE] Modifier les messages des badges certifiables (PIX-5769) 
+- [#4959](https://github.com/1024pix/pix/pull/4959) [FEATURE] Afficher un bouton pour télécharger les resultats clea dans pix-certif (PIX-5376)
+- [#4950](https://github.com/1024pix/pix/pull/4950) [FEATURE] Afficher les compétences non Pix en premier dans le profil certifié (PIX 5655)
+- [#4945](https://github.com/1024pix/pix/pull/4945) [FEATURE] Ajouter la colonne Certificabilité dans l'onglet Étudiants (Pix-5562)
+
+### :building_construction: Tech
+- [#4780](https://github.com/1024pix/pix/pull/4780) [TECH] Mises à jour mineures des packages sur certif (PIX-5523).
+- [#4947](https://github.com/1024pix/pix/pull/4947) [TECH] Utiliser le logger du service monitoring pour les erreurs d'authentification OIDC 
+- [#4958](https://github.com/1024pix/pix/pull/4958) [TECH] Attendre patiemment la cloture des clients redis
+
+### :bug: Correction
+- [#4940](https://github.com/1024pix/pix/pull/4940) [BUGFIX] Ne pas poser deux fois les mêmes challenges en certif si un badge est acquis plusieurs fois (PIx-5720)
+
+### :coffee: Autre
+- [#4923](https://github.com/1024pix/pix/pull/4923) [CLEAN] Suppression des routes API dépréciées sur les prescrits (PIX-5678).
+
 ## v3.258.0 (21/09/2022)
 
 
