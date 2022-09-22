@@ -149,7 +149,7 @@ const isLaunchedFromCommandLine = require.main === module;
       process.exitCode = 1;
     } finally {
       await disconnect();
-      cache.quit();
+      await cache.quit();
     }
   }
 })();

@@ -15,8 +15,8 @@ class RedisMonitor {
     return this._client.ping();
   }
 
-  quit() {
-    this._client.quit();
+  async quit() {
+    await this._client.quit();
   }
 }
 

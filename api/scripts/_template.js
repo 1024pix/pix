@@ -32,7 +32,7 @@ async function main() {
       process.exitCode = 1;
     } finally {
       await disconnect();
-      cache.quit();
+      await cache.quit();
     }
   }
 })();

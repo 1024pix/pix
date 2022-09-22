@@ -57,8 +57,8 @@ module.exports = class RedisClient {
     this._client.on(event, callback);
   }
 
-  quit() {
-    this._client.quit();
+  async quit() {
+    await this._client.quit();
   }
 
   async deleteByPrefix(searchedPrefix) {

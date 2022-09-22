@@ -25,8 +25,7 @@ class LayeredCache extends Cache {
   }
 
   quit() {
-    this._firstLevelCache.quit();
-    this._secondLevelCache.quit();
+    return Promise.all([this._firstLevelCache.quit(), this._secondLevelCache.quit()]);
   }
 }
 
