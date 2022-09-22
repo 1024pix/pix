@@ -700,7 +700,7 @@ describe('Integration | Repository | Session', function () {
             userId,
           }).id;
           const badgeId = databaseBuilder.factory.buildBadge().id;
-          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea().id;
+          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
           const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
             badgeId,
             complementaryCertificationId,
@@ -739,7 +739,7 @@ describe('Integration | Repository | Session', function () {
           userId,
         }).id;
         const badgeId = databaseBuilder.factory.buildBadge().id;
-        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea().id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
         const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
           badgeId,
           complementaryCertificationId,
@@ -775,7 +775,7 @@ describe('Integration | Repository | Session', function () {
           userId,
         }).id;
         const badgeId = databaseBuilder.factory.buildBadge().id;
-        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea().id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
         const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
           badgeId,
           complementaryCertificationId,
