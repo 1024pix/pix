@@ -1,19 +1,20 @@
-<Modal::Dialog
-  class="edit-student-number-modal"
+<PixModal
   @title={{t "pages.sup-organization-participants.edit-student-number-modal.title"}}
-  @display={{@display}}
-  @close={{this.close}}
+  @showModal={{@display}}
+  @onCloseButtonClick={{this.close}}
 >
-  <form {{on "submit" this.updateStudentNumber}}>
-    <Modal::Body class="edit-student-number-modal__content">
+  <:content>
+    <div class="edit-student-number-modal">
       {{#if @student.studentNumber}}
-        <p class="content-text">{{t
+        <p>
+          {{t
             "pages.sup-organization-participants.edit-student-number-modal.form.student-number"
             firstName=@student.firstName
             lastName=@student.lastName
-          }}<span class="content-text--info">{{@student.studentNumber}}</span></p>
+          }}<span class="edit-student-number-modal__student-number">{{@student.studentNumber}}</span></p>
       {{/if}}
-      <label for="editStudentNumber" class="content-text">{{t
+
+      <label for="editStudentNumber">{{t
           "pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label"
         }}</label>
       <div class="input-container">
@@ -23,14 +24,15 @@
           {{this.error}}
         </div>
       </div>
-    </Modal::Body>
-    <Modal::Footer class="edit-student-number-modal__actions">
-      <PixButton @triggerAction={{this.close}} @backgroundColor="transparent-light">
-        {{t "common.actions.cancel"}}
-      </PixButton>
-      <PixButton @type="submit" @isDisabled={{this.isDisabled}}>
-        {{t "pages.sup-organization-participants.edit-student-number-modal.actions.update"}}
-      </PixButton>
-    </Modal::Footer>
-  </form>
-</Modal::Dialog>
+    </div>
+  </:content>
+  <:footer>
+    <PixButton @triggerAction={{this.close}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
+    </PixButton>
+
+    <PixButton @triggerAction={{this.updateStudentNumber}} @isDisabled={{this.isDisabled}}>
+      {{t "pages.sup-organization-participants.edit-student-number-modal.actions.update"}}
+    </PixButton>
+  </:footer>
+</PixModal>
