@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { find, currentURL, triggerEvent } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -193,11 +193,13 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should open modal and display password reset button', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
 
             // when
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
+
+            await screen.findByRole('dialog');
 
             // then
             assert.contains('Réinitialiser le mot de passe');
@@ -205,13 +207,14 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should display unique password input when reset button is clicked', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
 
+            await screen.findByRole('dialog');
+
             // when
             await clickByName('Réinitialiser le mot de passe');
-
             // then
             assert.dom('#generate-password').doesNotExist();
             assert.dom('#generated-password').exists();
@@ -219,11 +222,13 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should open password modal window with email and username value', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
 
             // when
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
+
+            await screen.findByRole('dialog');
 
             // then
             assert.dom('#username').hasValue(username);
@@ -241,11 +246,13 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should open password modal window with GAR connexion method', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
 
             // when
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
+
+            await screen.findByRole('dialog');
 
             // then
             assert.contains('Médiacentre');
@@ -254,9 +261,11 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should display username and unique password when add username button is clicked', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
+
+            await screen.findByRole('dialog');
 
             // when
             await clickByName('Ajouter l’identifiant');
@@ -281,12 +290,13 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should open password modal window with GAR and username connexion method', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
 
             // when
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
 
+            await screen.findByRole('dialog');
             // then
             assert.contains('Médiacentre');
             assert.contains('Identifiant');
@@ -294,22 +304,24 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           test('it should open pasword modal and display password reset button', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
 
             // when
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
 
+            await screen.findByRole('dialog');
             // then
             assert.contains('Réinitialiser le mot de passe');
           });
 
           test('it should open password modal and display unique password when reset button is clicked', async function (assert) {
             // given
-            await visit('/eleves');
+            const screen = await visit('/eleves');
             await clickByName('Afficher les actions');
             await clickByName('Gérer le compte');
 
+            await screen.findByRole('dialog');
             // when
             await clickByName('Réinitialiser le mot de passe');
 
