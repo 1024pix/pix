@@ -5,6 +5,7 @@ const { DEFAULT_PASSWORD } = require('./users-builder');
 const SUP_UNIVERSITY_ID = 2;
 const SUP_STUDENT_ASSOCIATED_ID = 888;
 const SUP_STUDENT_DISABLED_ID = 889;
+const SUP_STUDENT_CERTIFIABLE = 999;
 
 function organizationsSupBuilder({ databaseBuilder }) {
   const supUser1 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -103,6 +104,28 @@ function organizationsSupBuilder({ databaseBuilder }) {
     division: null,
   });
 
+  // student certifiable
+  const studentCertfiable = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SUP_STUDENT_CERTIFIABLE,
+    firstName: 'Certi',
+    lastName: 'Fiable',
+    email: 'certi.fiable@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildOrganizationLearner({
+    id: SUP_STUDENT_CERTIFIABLE,
+    firstName: studentCertfiable.firstName,
+    lastName: studentCertfiable.lastName,
+    birthdate: '2005-03-28',
+    organizationId: SUP_UNIVERSITY_ID,
+    userId: SUP_STUDENT_CERTIFIABLE,
+    studentNumber: 'c3rt1f',
+    group: 'L3',
+    division: null,
+  });
+
   // disabled student
   const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
     id: SUP_STUDENT_DISABLED_ID,
@@ -130,4 +153,6 @@ module.exports = {
   SUP_UNIVERSITY_ID,
   SUP_STUDENT_ASSOCIATED_ID,
   SUP_STUDENT_DISABLED_ID,
+  SUP_STUDENT_CERTIFIABLE,
+
 };

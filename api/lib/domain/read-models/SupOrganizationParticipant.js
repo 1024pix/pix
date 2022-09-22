@@ -11,6 +11,7 @@ class SupOrganizationParticipant {
     campaignName,
     campaignType,
     participationStatus,
+    isCertifiable,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -23,6 +24,7 @@ class SupOrganizationParticipant {
     this.campaignName = campaignName;
     this.campaignType = campaignType;
     this.participationStatus = participationStatus;
+    this.isCertifiable = isCertifiable;
   }
 }
 

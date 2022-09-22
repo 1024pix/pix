@@ -1082,6 +1082,7 @@ describe('Acceptance | Application | organization-controller', function () {
                 'campaign-name': campaign.name,
                 'campaign-type': campaign.type,
                 'participation-status': participation.status,
+                'is-certifiable': participation.isCertifiable,
               },
               id: organizationLearner.id.toString(),
               type: 'sup-organization-participants',
