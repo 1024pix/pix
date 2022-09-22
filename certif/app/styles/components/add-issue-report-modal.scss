@@ -3,8 +3,9 @@
 .add-issue-report-modal {
   min-width: 650px;
   max-width: 650px;
-  margin: 100px auto; // to fix in pix UI
+  margin: 100px auto;
 
+  /* to fix in pix UI */
   input {
     outline: 2px transparent;
   }
