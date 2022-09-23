@@ -21,7 +21,7 @@ const schema = Joi.object({
   }),
   provinceCode: Joi.string().required().allow('', null),
   credit: Joi.number().required().messages({
-    'number.base': "Le crédit n'est pas renseigné.",
+    'number.base': 'Le crédit doit être un entier.',
   }),
   email: Joi.string().email().messages({
     'string.email': "L'email fourni n'est pas valide.",
@@ -32,6 +32,9 @@ const schema = Joi.object({
   }),
   createdBy: Joi.number().required().messages({
     'number.base': "L'id du créateur doit être un nombre",
+  }),
+  targetProfiles: Joi.string().required().messages({
+    'string.empty': 'Les profiles cibles ne sont pas renseignés.',
   }),
 });
 
