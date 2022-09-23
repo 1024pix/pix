@@ -35,6 +35,8 @@ async function _createNewOrganizationLearner(organizationLearner, queryBuilder) 
         firstName: organizationLearner.firstName,
         lastName: organizationLearner.lastName,
       })
+      .onConflict(['userId', 'organizationId'])
+      .merge({ isDisabled: false })
       .returning('id');
     return id;
   }
