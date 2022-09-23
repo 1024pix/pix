@@ -31,6 +31,8 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
+      const participantCount = 10;
+      const meta = { ...pagination, participantCount };
 
       const expectedJSON = {
         data: [
@@ -63,11 +65,11 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
             },
           },
         ],
-        meta: pagination,
+        meta,
       };
 
       // when
-      const json = serializer.serialize({ organizationParticipants, pagination });
+      const json = serializer.serialize({ organizationParticipants, meta });
 
       // then
       expect(json).to.deep.equal(expectedJSON);
