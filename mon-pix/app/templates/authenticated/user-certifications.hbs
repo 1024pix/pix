@@ -1,13 +1,9 @@
 {{page-title (t "pages.certifications-list.title")}}
-<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
-  <burger.outlet>
 
-    <header role="banner">
-      <NavbarHeader @burger={{burger}} />
-    </header>
+<header role="banner">
+  <NavbarHeader />
+</header>
 
-    {{outlet}}
+{{outlet}}
 
-    <Footer />
-  </burger.outlet>
-</BurgerMenu>
+<Footer />
