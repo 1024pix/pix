@@ -9,7 +9,8 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   async acceptOrganizationInvitation(request) {
     const organizationInvitationId = request.params.id;
-    const { code, email } = request.payload.data.attributes;
+    const { code, email: rawEmail } = request.payload.data.attributes;
+    const email = rawEmail?.trim().toLowerCase();
 
     const membership = await usecases.acceptOrganizationInvitation({ organizationInvitationId, code, email });
     await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
