@@ -15,6 +15,9 @@ module.exports = {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .where('certification-courses.isPublished', true)
+      .where('certification-courses.isCancelled', false)
+      .modify(_filterMostRecentValidatedAssessmentResult)
       .first();
 
     if (!certificationCourseDTO) {
@@ -35,6 +38,7 @@ module.exports = {
   async findPrivateCertificateByUserId({ userId }) {
     const certificationCourseDTOs = await _selectPrivateCertificates()
       .where('certification-courses.userId', '=', userId)
+      .modify(_filterMostRecentAssessmentResult)
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .orderBy('certification-courses.createdAt', 'DESC');
 
@@ -184,50 +188,58 @@ function _selectPrivateCertificates() {
 }
 
 function _selectShareableCertificates() {
-  return _getCertificateQuery().select({
-    id: 'certification-courses.id',
-    firstName: 'certification-courses.firstName',
-    lastName: 'certification-courses.lastName',
-    birthdate: 'certification-courses.birthdate',
-    birthplace: 'certification-courses.birthplace',
-    isPublished: 'certification-courses.isPublished',
-    userId: 'certification-courses.userId',
-    date: 'certification-courses.createdAt',
-    deliveredAt: 'sessions.publishedAt',
-    certificationCenter: 'sessions.certificationCenter',
-    maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
-    pixScore: 'assessment-results.pixScore',
-    assessmentResultId: 'assessment-results.id',
-    competenceMarks: knex.raw(`
+  return _getCertificateQuery()
+    .select({
+      id: 'certification-courses.id',
+      firstName: 'certification-courses.firstName',
+      lastName: 'certification-courses.lastName',
+      birthdate: 'certification-courses.birthdate',
+      birthplace: 'certification-courses.birthplace',
+      isPublished: 'certification-courses.isPublished',
+      userId: 'certification-courses.userId',
+      date: 'certification-courses.createdAt',
+      deliveredAt: 'sessions.publishedAt',
+      certificationCenter: 'sessions.certificationCenter',
+      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
+      pixScore: 'assessment-results.pixScore',
+      assessmentResultId: 'assessment-results.id',
+      competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
         )`),
-  });
+    })
+    .modify(_filterMostRecentValidatedAssessmentResult)
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false);
 }
 
 function _selectCertificationAttestations() {
-  return _getCertificateQuery().select({
-    id: 'certification-courses.id',
-    firstName: 'certification-courses.firstName',
-    lastName: 'certification-courses.lastName',
-    birthdate: 'certification-courses.birthdate',
-    birthplace: 'certification-courses.birthplace',
-    isPublished: 'certification-courses.isPublished',
-    userId: 'certification-courses.userId',
-    date: 'certification-courses.createdAt',
-    deliveredAt: 'sessions.publishedAt',
-    verificationCode: 'certification-courses.verificationCode',
-    certificationCenter: 'sessions.certificationCenter',
-    maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
-    pixScore: 'assessment-results.pixScore',
-    assessmentResultId: 'assessment-results.id',
-    competenceMarks: knex.raw(`
+  return _getCertificateQuery()
+    .select({
+      id: 'certification-courses.id',
+      firstName: 'certification-courses.firstName',
+      lastName: 'certification-courses.lastName',
+      birthdate: 'certification-courses.birthdate',
+      birthplace: 'certification-courses.birthplace',
+      isPublished: 'certification-courses.isPublished',
+      userId: 'certification-courses.userId',
+      date: 'certification-courses.createdAt',
+      deliveredAt: 'sessions.publishedAt',
+      verificationCode: 'certification-courses.verificationCode',
+      certificationCenter: 'sessions.certificationCenter',
+      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
+      pixScore: 'assessment-results.pixScore',
+      assessmentResultId: 'assessment-results.id',
+      competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
         )`),
-  });
+    })
+    .modify(_filterMostRecentValidatedAssessmentResult)
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false);
 }
 
 function _getCertificateQuery() {
@@ -235,11 +247,8 @@ function _getCertificateQuery() {
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .join('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .modify(_filterMostRecentValidatedAssessmentResult)
-    .where('certification-courses.isPublished', true)
-    .where('certification-courses.isCancelled', false);
+    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
+    .join('sessions', 'sessions.id', 'certification-courses.sessionId');
 }
 
 function _filterMostRecentValidatedAssessmentResult(qb) {
@@ -252,6 +261,16 @@ function _filterMostRecentValidatedAssessmentResult(qb) {
         .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
     )
     .where('assessment-results.status', AssessmentResult.status.VALIDATED);
+}
+
+function _filterMostRecentAssessmentResult(qb) {
+  return qb.whereNotExists(
+    knex
+      .select(1)
+      .from({ 'last-assessment-results': 'assessment-results' })
+      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+  );
 }
 
 function _checkOrganizationIsScoIsManagingStudents(qb) {
