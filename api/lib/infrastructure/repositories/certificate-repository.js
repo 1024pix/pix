@@ -159,96 +159,81 @@ async function _getCertifiedBadges(certificationCourseId) {
 }
 
 function _selectPrivateCertificates() {
-  return knex
-    .select({
-      id: 'certification-courses.id',
-      firstName: 'certification-courses.firstName',
-      lastName: 'certification-courses.lastName',
-      birthdate: 'certification-courses.birthdate',
-      birthplace: 'certification-courses.birthplace',
-      isPublished: 'certification-courses.isPublished',
-      isCancelled: 'certification-courses.isCancelled',
-      userId: 'certification-courses.userId',
-      date: 'certification-courses.createdAt',
-      verificationCode: 'certification-courses.verificationCode',
-      deliveredAt: 'sessions.publishedAt',
-      certificationCenter: 'sessions.certificationCenter',
-      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
-      pixScore: 'assessment-results.pixScore',
-      commentForCandidate: 'assessment-results.commentForCandidate',
-      assessmentResultStatus: 'assessment-results.status',
-      assessmentResultId: 'assessment-results.id',
-      competenceMarks: knex.raw(`
+  return _getCertificateQuery().select({
+    id: 'certification-courses.id',
+    firstName: 'certification-courses.firstName',
+    lastName: 'certification-courses.lastName',
+    birthdate: 'certification-courses.birthdate',
+    birthplace: 'certification-courses.birthplace',
+    isPublished: 'certification-courses.isPublished',
+    isCancelled: 'certification-courses.isCancelled',
+    userId: 'certification-courses.userId',
+    date: 'certification-courses.createdAt',
+    verificationCode: 'certification-courses.verificationCode',
+    deliveredAt: 'sessions.publishedAt',
+    certificationCenter: 'sessions.certificationCenter',
+    maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
+    pixScore: 'assessment-results.pixScore',
+    commentForCandidate: 'assessment-results.commentForCandidate',
+    assessmentResultStatus: 'assessment-results.status',
+    assessmentResultId: 'assessment-results.id',
+    competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
         )`),
-    })
-    .from('certification-courses')
-    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .modify(_filterMostRecentValidatedAssessmentResult)
-    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .where('certification-courses.isPublished', true)
-    .where('certification-courses.isCancelled', false);
+  });
 }
 
 function _selectShareableCertificates() {
-  return knex
-    .select({
-      id: 'certification-courses.id',
-      firstName: 'certification-courses.firstName',
-      lastName: 'certification-courses.lastName',
-      birthdate: 'certification-courses.birthdate',
-      birthplace: 'certification-courses.birthplace',
-      isPublished: 'certification-courses.isPublished',
-      userId: 'certification-courses.userId',
-      date: 'certification-courses.createdAt',
-      deliveredAt: 'sessions.publishedAt',
-      certificationCenter: 'sessions.certificationCenter',
-      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
-      pixScore: 'assessment-results.pixScore',
-      assessmentResultId: 'assessment-results.id',
-      competenceMarks: knex.raw(`
+  return _getCertificateQuery().select({
+    id: 'certification-courses.id',
+    firstName: 'certification-courses.firstName',
+    lastName: 'certification-courses.lastName',
+    birthdate: 'certification-courses.birthdate',
+    birthplace: 'certification-courses.birthplace',
+    isPublished: 'certification-courses.isPublished',
+    userId: 'certification-courses.userId',
+    date: 'certification-courses.createdAt',
+    deliveredAt: 'sessions.publishedAt',
+    certificationCenter: 'sessions.certificationCenter',
+    maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
+    pixScore: 'assessment-results.pixScore',
+    assessmentResultId: 'assessment-results.id',
+    competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
         )`),
-    })
-    .from('certification-courses')
-    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .join('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .modify(_filterMostRecentValidatedAssessmentResult)
-    .where('certification-courses.isPublished', true)
-    .where('certification-courses.isCancelled', false);
+  });
 }
 
 function _selectCertificationAttestations() {
-  return knex
-    .select({
-      id: 'certification-courses.id',
-      firstName: 'certification-courses.firstName',
-      lastName: 'certification-courses.lastName',
-      birthdate: 'certification-courses.birthdate',
-      birthplace: 'certification-courses.birthplace',
-      isPublished: 'certification-courses.isPublished',
-      userId: 'certification-courses.userId',
-      date: 'certification-courses.createdAt',
-      deliveredAt: 'sessions.publishedAt',
-      verificationCode: 'certification-courses.verificationCode',
-      certificationCenter: 'sessions.certificationCenter',
-      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
-      pixScore: 'assessment-results.pixScore',
-      assessmentResultId: 'assessment-results.id',
-      competenceMarks: knex.raw(`
+  return _getCertificateQuery().select({
+    id: 'certification-courses.id',
+    firstName: 'certification-courses.firstName',
+    lastName: 'certification-courses.lastName',
+    birthdate: 'certification-courses.birthdate',
+    birthplace: 'certification-courses.birthplace',
+    isPublished: 'certification-courses.isPublished',
+    userId: 'certification-courses.userId',
+    date: 'certification-courses.createdAt',
+    deliveredAt: 'sessions.publishedAt',
+    verificationCode: 'certification-courses.verificationCode',
+    certificationCenter: 'sessions.certificationCenter',
+    maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
+    pixScore: 'assessment-results.pixScore',
+    assessmentResultId: 'assessment-results.id',
+    competenceMarks: knex.raw(`
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
         )`),
-    })
+  });
+}
+
+function _getCertificateQuery() {
+  return knex
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
