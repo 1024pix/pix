@@ -5,14 +5,14 @@ describe('Unit | UseCase | find-user-private-certificates', function () {
   const certificateRepository = {};
 
   beforeEach(function () {
-    certificateRepository.findPrivateCertificateByUserId = sinon.stub();
+    certificateRepository.findPrivateCertificatesByUserId = sinon.stub();
   });
 
   it('should return the private certificates', async function () {
     // given
     const privateCertificate1 = domainBuilder.buildPrivateCertificate();
     const privateCertificate2 = domainBuilder.buildPrivateCertificate();
-    certificateRepository.findPrivateCertificateByUserId
+    certificateRepository.findPrivateCertificatesByUserId
       .withArgs({ userId: 123 })
       .resolves([privateCertificate1, privateCertificate2]);
 
