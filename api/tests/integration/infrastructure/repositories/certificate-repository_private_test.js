@@ -660,7 +660,59 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       expect(result).to.deep.equal([]);
     });
 
-    it('should return an empty list when the certificate is not published', async function () {
+    it('should return the certificate when it is cancelled', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        isCancelled: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: privateCertificateData.isCancelled,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: privateCertificateData.pixScore,
+        status: 'validated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+
+      // then
+      expect(result).to.have.length(1);
+    });
+
+    it('should return the certificate when it is not published', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
@@ -709,10 +761,10 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
-      expect(result).to.deep.equal([]);
+      expect(result).to.have.length(1);
     });
 
-    it('should return en empty list when the certificate is rejected', async function () {
+    it('should return the certificate when it is rejected', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
@@ -761,7 +813,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
 
       // then
-      expect(result).to.deep.equal([]);
+      expect(result).to.have.length(1);
     });
 
     it('should return a collection of PrivateCertificate', async function () {
