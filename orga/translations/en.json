@@ -687,7 +687,7 @@
         "row-title": "Participant"
       },
       "page-title": "Participants",
-      "title": "{count, plural, =0 {Participants} =1 {Participant} other {Participants ({count})}}"
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
@@ -762,7 +762,7 @@
     },
     "sco-organization-participants": {
       "page-title": "Students",
-      "title": "{count, plural, =0 {Students} =1 {Student} other {Students ({count})}}",
+      "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
       "actions": {
         "import-file": {
           "file-type-separator": " or ",
@@ -872,7 +872,7 @@
       }
     },
     "sup-organization-participants": {
-      "title": "{count, plural, =0 {Students} =1 {Student} other {Students ({count})}}",
+      "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
       "page-title": "Students",
       "actions": {
         "download-template": "Download the template",
