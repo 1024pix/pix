@@ -113,10 +113,10 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       });
 
       const screen = await visit(`/users/${userToAnonymise.id}`);
-      await clickByName('Anonymiser cet utilisateur');
+      await click(screen.getByRole('button', { name: 'Anonymiser cet utilisateur' }));
 
       // when
-      await clickByName('Confirmer');
+      await click(screen.getByRole('button', { name: 'Confirmer' }));
 
       // then
       assert.dom(screen.getByText(`prenom_${userToAnonymise.id}`)).exists();
@@ -126,7 +126,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
     });
   });
 

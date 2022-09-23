@@ -6,13 +6,85 @@ import { inject as service } from '@ember/service';
 export default class AuthenticationMethod extends Component {
   @service notifications;
   @service accessControl;
+  @service oidcIdentityProviders;
 
   @tracked showAddAuthenticationMethodModal = false;
   @tracked showReassignGarAuthenticationMethodModal = false;
-  @tracked showReassignPoleEmploiAuthenticationMethodModal = false;
+  @tracked showReassignOidcAuthenticationMethodModal = false;
   @tracked newEmail = '';
   @tracked targetUserId = '';
   @tracked showAlreadyExistingEmailError = false;
+  @tracked selectedOidcAuthenticationMethod = null;
+
+  get hasPixAuthenticationMethod() {
+    return this.args.user.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+    );
+  }
+
+  get hasEmailAuthenticationMethod() {
+    return (
+      this.args.user.email &&
+      this.args.user.authenticationMethods.any(
+        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      )
+    );
+  }
+
+  get hasUsernameAuthenticationMethod() {
+    return (
+      this.args.user.username &&
+      this.args.user.authenticationMethods.any(
+        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      )
+    );
+  }
+
+  get hasGarAuthenticationMethod() {
+    return this.args.user.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+    );
+  }
+
+  get isAllowedToRemoveEmailAuthenticationMethod() {
+    return this.hasEmailAuthenticationMethod && this._hasMultipleAuthenticationMethods();
+  }
+
+  get isAllowedToRemoveUsernameAuthenticationMethod() {
+    return this.hasUsernameAuthenticationMethod && this._hasMultipleAuthenticationMethods();
+  }
+
+  get isAllowedToRemoveGarAuthenticationMethod() {
+    return this.hasGarAuthenticationMethod && this._hasMultipleAuthenticationMethods();
+  }
+
+  get isAllowedToAddEmailAuthenticationMethod() {
+    return !this.hasPixAuthenticationMethod;
+  }
+
+  _hasMultipleAuthenticationMethods() {
+    const userAuthenticationMethods = this.args.user.authenticationMethods;
+    const hasUsername = !!this.args.user.username;
+    const hasEmail = !!this.args.user.email;
+
+    return userAuthenticationMethods.length > 1 || (userAuthenticationMethods.length === 1 && hasUsername && hasEmail);
+  }
+
+  get oidcAuthenticationMethods() {
+    return this.oidcIdentityProviders.list.map((oidcIdentityProvider) => {
+      const hasAuthenticationMethod = this.args.user.authenticationMethods.any(
+        (authenticationMethod) => authenticationMethod.identityProvider === oidcIdentityProvider.code
+      );
+
+      return {
+        code: oidcIdentityProvider.code,
+        name: oidcIdentityProvider.organizationName,
+        hasAuthenticationMethod,
+        canBeRemoved: hasAuthenticationMethod && this._hasMultipleAuthenticationMethods(),
+        canBeReassigned: hasAuthenticationMethod,
+      };
+    });
+  }
 
   @action
   toggleAddAuthenticationMethodModal() {
@@ -24,12 +96,6 @@ export default class AuthenticationMethod extends Component {
   @action
   toggleReassignGarAuthenticationMethodModal() {
     this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
-    this.targetUserId = '';
-  }
-
-  @action
-  toggleReassignPoleEmploiAuthenticationMethodModal() {
-    this.showReassignPoleEmploiAuthenticationMethodModal = !this.showReassignPoleEmploiAuthenticationMethodModal;
     this.targetUserId = '';
   }
 
@@ -77,12 +143,19 @@ export default class AuthenticationMethod extends Component {
   }
 
   @action
-  async submitReassignPoleEmploiAuthenticationMethod(event) {
-    event.preventDefault();
+  toggleReassignOidcAuthenticationMethodModal(oidcAuthenticationMethod) {
+    this.targetUserId = '';
+    this.selectedOidcAuthenticationMethod = oidcAuthenticationMethod ? { ...oidcAuthenticationMethod } : null;
+    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
+  }
+
+  @action
+  async submitReassignOidcAuthenticationMethod(oidcAuthenticationMethodCode) {
     await this.args.reassignAuthenticationMethod({
       targetUserId: this.targetUserId,
-      identityProvider: 'POLE_EMPLOI',
+      identityProvider: oidcAuthenticationMethodCode,
     });
-    this.showReassignPoleEmploiAuthenticationMethodModal = false;
+
+    this.showReassignOidcAuthenticationMethodModal = false;
   }
 }

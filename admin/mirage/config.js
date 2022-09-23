@@ -270,8 +270,8 @@ export default function () {
       user.update({ email: null });
     }
 
-    if (type === 'CNAV') {
-      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'CNAV' });
+    if (type === 'OIDC_PARTNER') {
+      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'OIDC_PARTNER' });
       authenticationMethod.destroy();
     }
 
