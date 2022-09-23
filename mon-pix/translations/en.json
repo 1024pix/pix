@@ -318,7 +318,8 @@
         "ended-by-supervisor": "Your invigilator has marked your certification test as completed. You cannot continue to answer questions.",
         "disconnect": "Log out of my account",
         "disconnect-tip": "If this is not your computer, please remember to log out.",
-        "ended-due-to-finalization": "Your certification centre has ended the session. You can no longer answer questions."
+        "ended-due-to-finalization": "Your certification centre has ended the session. You can no longer answer questions.",
+        "remote-certification": "If you're taking your Pix certificate remotely, please make sure you log out from the monitoring tool once your test is finished."
       },
       "results": {
         "disclaimer": "Your results, pending validation by the Pix team, will soon be available on your Pix account",
