@@ -186,7 +186,6 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         const screen = await visit(`/sessions/${session.id}`);
 
         // when
-        console.log(session.publishedAt, 'publish');
         assert.dom(screen.getByText('24/10/2022')).exists();
       });
     });
