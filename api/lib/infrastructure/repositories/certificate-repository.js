@@ -3,7 +3,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
-const CertifiedBadges = require('../../../lib/domain/read-models/CertifiedBadges');
+const CertifiedBadge = require('../../../lib/domain/read-models/CertifiedBadge');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
@@ -153,9 +153,7 @@ async function _getCertifiedBadges(certificationCourseId) {
     .where({ certificationCourseId })
     .orderBy('partnerKey');
 
-  return new CertifiedBadges({
-    complementaryCertificationCourseResults,
-  }).getAcquiredCertifiedBadgesDTO();
+  return CertifiedBadge.fromComplementaryCertificationCourseResults(complementaryCertificationCourseResults);
 }
 
 function _selectPrivateCertificates() {
