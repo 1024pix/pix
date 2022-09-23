@@ -40,7 +40,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         type: 'organization-invitation-responses',
         attributes: {
           code: 'DZWMP7L5UM',
-          email: 'user@example.net',
+          email: 'USER@example.net',
         },
       },
     };

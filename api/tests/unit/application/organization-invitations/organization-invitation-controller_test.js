@@ -17,7 +17,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         payload: {
           data: {
             type: 'organization-invitations',
-            attributes: { code, email },
+            attributes: { code, email: email.toUpperCase() },
           },
         },
       };

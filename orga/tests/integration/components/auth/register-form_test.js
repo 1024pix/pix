@@ -110,7 +110,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       await renderScreen(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillByLabel(firstNameInputLabel, 'pix');
       await fillByLabel(lastNameInputLabel, 'pix');
-      await fillByLabel(emailInputLabel, 'shi@fu.me');
+      await fillByLabel(emailInputLabel, 'SHI@fu.me');
       await fillByLabel(passwordInputLabel, 'Mypassword1');
       await clickByName(cguAriaLabel);
 
