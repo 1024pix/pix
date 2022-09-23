@@ -318,7 +318,8 @@
         "ended-by-supervisor": "Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.",
         "disconnect": "Déconnecter mon compte",
         "disconnect-tip": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.",
-        "ended-due-to-finalization": "La session a été finalisée par votre centre de certification. Vous ne pouvez plus continuer de répondre aux questions."
+        "ended-due-to-finalization": "La session a été finalisée par votre centre de certification. Vous ne pouvez plus continuer de répondre aux questions.",
+        "remote-certification": "Si vous passez votre certification Pix à distance, veillez à bien vous déconnecter de l’outil de surveillance une fois votre test terminé."
       },
       "results": {
         "disclaimer": "Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles depuis votre compte Pix",

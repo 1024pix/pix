@@ -50,6 +50,16 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     expect(contains('Jim Halpert')).to.exist;
   });
 
+  it('should display the remote certification logout message', async function () {
+    // when
+    await render(hbs`
+      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} />
+    `);
+
+    // then
+    expect(contains(this.intl.t('pages.certification-ender.candidate.remote-certification'))).to.exist;
+  });
+
   context('when the assessment status is not ended by supervisor', function () {
     it('should not display the ended by supervisor text', async function () {
       // given
