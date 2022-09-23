@@ -19,7 +19,6 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       // given
       this.certificationCandidates = [
         store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
           firstName: 'Gamora',
           lastName: 'Zen Whoberi Ben Titan',
           birthdate: '1984-05-28',
@@ -28,7 +27,6 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           assessmentStatus: null,
         }),
         store.createRecord('certification-candidate-for-supervising', {
-          id: 456,
           firstName: 'Star',
           lastName: 'Lord',
           birthdate: '1983-06-28',
@@ -52,13 +50,9 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       // given
       this.certificationCandidates = [
         store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
           firstName: 'Gamora',
           lastName: 'Zen Whoberi Ben Titan',
           birthdate: '1984-05-28',
-          extraTimePercentage: '8',
-          authorizedToStart: true,
-          assessmentStatus: null,
         }),
       ];
 
@@ -76,12 +70,10 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         // given
         this.certificationCandidates = [
           store.createRecord('certification-candidate-for-supervising', {
-            id: 123,
             firstName: 'Tom',
             lastName: 'Nook',
           }),
           store.createRecord('certification-candidate-for-supervising', {
-            id: 456,
             firstName: 'Kéké',
             lastName: 'Laglisse',
           }),
@@ -121,12 +113,10 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           // given
           this.certificationCandidates = [
             store.createRecord('certification-candidate-for-supervising', {
-              id: 123,
               firstName,
               lastName,
             }),
             store.createRecord('certification-candidate-for-supervising', {
-              id: 456,
               firstName: 'OtherFirstName',
               lastName: 'OtherLastName',
             }),
@@ -149,13 +139,8 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           // given
           this.certificationCandidates = [
             store.createRecord('certification-candidate-for-supervising', {
-              id: 123,
               firstName: 'Gamora',
               lastName: 'Zen Whoberi Ben Titan',
-              birthdate: '1984-05-28',
-              extraTimePercentage: '8',
-              authorizedToStart: true,
-              assessmentStatus: null,
             }),
           ];
           const screen = await renderScreen(
@@ -178,31 +163,19 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         // given
         this.certificationCandidates = [
           store.createRecord('certification-candidate-for-supervising', {
-            id: 123,
             firstName: 'Gamora',
             lastName: 'Zen Whoberi Ben Titan',
-            birthdate: '1984-05-28',
-            extraTimePercentage: '8',
             authorizedToStart: true,
-            assessmentStatus: null,
           }),
           store.createRecord('certification-candidate-for-supervising', {
-            id: 456,
             firstName: 'Star',
             lastName: 'Lord',
-            birthdate: '1983-06-28',
-            extraTimePercentage: '12',
             authorizedToStart: true,
-            assessmentStatus: null,
           }),
           store.createRecord('certification-candidate-for-supervising', {
-            id: 789,
             firstName: 'Gammvert',
             lastName: 'Rocket',
-            birthdate: '1982-06-06',
-            extraTimePercentage: '12',
             authorizedToStart: false,
-            assessmentStatus: null,
           }),
         ];
 

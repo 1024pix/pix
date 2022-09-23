@@ -38,7 +38,7 @@ export default class CandidateList extends Component {
   }
 
   get filteredCandidates() {
-    const filter = this.filter.toLowerCase();
+    const filter = this.filter;
 
     return this.args.candidates.filter((candidate) => {
       const startOfFirstName = candidate.firstName.substring(0, filter.length);
