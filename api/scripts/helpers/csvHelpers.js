@@ -25,6 +25,15 @@ const optionsWithHeader = {
     if (columnName === 'createdBy') {
       value = !isEmpty(value) && parseInt(value, 10);
     }
+    if (columnName === 'credit' && isEmpty(value)) {
+      value = 0;
+    }
+    if (columnName === 'locale' && isEmpty(value)) {
+      value = 'fr-fr';
+    }
+    if (columnName === 'email' && !isEmpty(value)) {
+      value = value.replaceAll(' ', '').toLowerCase();
+    }
     return value;
   },
 };
@@ -42,8 +51,7 @@ async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
     throw new FileValidationError(ERRORS.MISSING_REQUIRED_FIELD_NAMES);
   }
 
-  const options = { ...optionsWithHeader, preview: 1 };
-  const data = await parseCsv(filePath, options);
+  const data = await parseCsv(filePath, { skipEmptyLines: true, header: true, preview: 1 });
   if (isEmpty(data)) {
     throw new FileValidationError(ERRORS.EMPTY_FILE, 'File is empty');
   }

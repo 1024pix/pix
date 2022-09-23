@@ -5,6 +5,7 @@ const domainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
+const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
 const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
 const {
   OrganizationTagNotFound,
@@ -12,11 +13,12 @@ const {
   OrganizationAlreadyExistError,
   EntityValidationError,
   ObjectValidationError,
+  TargetProfileInvalidError,
 } = require('../../../../lib/domain/errors');
-const createProOrganizationsWithTags = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags');
+const createProOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags-and-target-profiles');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Integration | UseCases | create-pro-organization', function () {
+describe('Integration | UseCases | create-pro-organizations-with-tags-and-target-profiles', function () {
   let userId;
 
   beforeEach(async function () {
@@ -27,6 +29,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
   afterEach(async function () {
     await knex('organization-invitations').delete();
     await knex('organization-tags').delete();
+    await knex('target-profile-shares').delete();
     await knex('organizations').delete();
     await knex('users').delete();
   });
@@ -34,7 +37,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
   describe('validation error cases', function () {
     it('should throw an error when there is more than one occurrence of the same organization in data file', async function () {
       // given
-      const tooManyOccurencesOfTheSameorganizationWithTags = [
+      const tooManyOccurencesOfTheSameOrganizationWithTags = [
         {
           externalId: 'b200',
           name: 'Youness et Fils',
@@ -65,11 +68,12 @@ describe('Integration | UseCases | create-pro-organization', function () {
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
-        organizations: tooManyOccurencesOfTheSameorganizationWithTags,
+        organizations: tooManyOccurencesOfTheSameOrganizationWithTags,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -84,11 +88,12 @@ describe('Integration | UseCases | create-pro-organization', function () {
       const organizations = [];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -121,6 +126,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           locale: 'en',
           tags: 'Tag1',
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           createdBy: userId,
           organizationInvitationRole: 'ADMIN',
         },
@@ -136,6 +142,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           locale: 'en',
           tags: 'Tag1',
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
         },
         {
           externalId: 'b200',
@@ -148,15 +155,17 @@ describe('Integration | UseCases | create-pro-organization', function () {
           createdBy: userId,
           organizationInvitationRole: 'ADMIN',
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
         },
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsToCreate,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -168,9 +177,9 @@ describe('Integration | UseCases | create-pro-organization', function () {
       );
     });
 
-    it('should throw an error when required value are missing excepting for provinceCode that is optionnal', async function () {
+    it('should throw an error when required value are missing', async function () {
       //given
-      const organizationsWithTagsWithOneMissingExternalId = [
+      const organizationsWithEmptyValues = [
         {
           externalId: '',
           name: '',
@@ -180,16 +189,18 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: '',
           createdBy: '',
           documentationUrl: '',
+          targetProfiles: '',
           organizationInvitationRole: '',
         },
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
-        organizations: organizationsWithTagsWithOneMissingExternalId,
+        organizations: organizationsWithEmptyValues,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -223,7 +234,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
         },
         {
           attribute: 'credit',
-          message: "Le crédit n'est pas renseigné.",
+          message: 'Le crédit doit être un entier.',
         },
         {
           attribute: 'organizationInvitationRole',
@@ -236,6 +247,10 @@ describe('Integration | UseCases | create-pro-organization', function () {
         {
           attribute: 'createdBy',
           message: "L'id du créateur doit être un nombre",
+        },
+        {
+          attribute: 'targetProfiles',
+          message: 'Les profiles cibles ne sont pas renseignés.',
         },
       ]);
     });
@@ -253,6 +268,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: 'TagNotFound',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           organizationInvitationRole: 'ADMIN',
         },
         {
@@ -265,6 +281,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: 'TagNotFound',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           organizationInvitationRole: 'ADMIN',
         },
         {
@@ -277,16 +294,18 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: 'TagNotFound',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           organizationInvitationRole: 'ADMIN',
         },
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithTagsWithOneMissingExternalId,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -314,6 +333,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: 'TagNotFound',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           organizationInvitationRole: 'MEMBER',
         },
         {
@@ -326,6 +346,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: 'TagNotFound',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           organizationInvitationRole: 'MEMBER',
         },
         {
@@ -338,16 +359,18 @@ describe('Integration | UseCases | create-pro-organization', function () {
           tags: 'TagNotFound',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
+          targetProfiles: '1_2_3',
           organizationInvitationRole: 'MEMBER',
         },
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithTagsWithOneMissingName,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -364,8 +387,11 @@ describe('Integration | UseCases | create-pro-organization', function () {
   });
 
   describe('when one provided tag is not found in database', function () {
-    it('should rollback create pro organizations with tags', async function () {
+    it('should rollback', async function () {
       // given
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      await databaseBuilder.commit();
+
       const organizationsWithTagsNotExists = [
         {
           externalId: 'b400',
@@ -375,6 +401,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           email: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound_AnotherTagNotFound',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
           organizationInvitationRole: 'ADMIN',
@@ -387,6 +414,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           email: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
           organizationInvitationRole: 'MEMBER',
@@ -399,6 +427,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           email: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'AnotherTagNotFound',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
           organizationInvitationRole: 'ADMIN',
@@ -406,11 +435,12 @@ describe('Integration | UseCases | create-pro-organization', function () {
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTags)({
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithTagsNotExists,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -426,8 +456,9 @@ describe('Integration | UseCases | create-pro-organization', function () {
   });
 
   describe('when tags provided are found in database', function () {
-    it('should create pro organizations with tags', async function () {
+    it('should add tags to created organization', async function () {
       // given
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       databaseBuilder.factory.buildTag({ name: 'TAG2' });
       databaseBuilder.factory.buildTag({ name: 'TAG3' });
@@ -442,6 +473,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           email: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
           organizationInvitationRole: 'ADMIN',
@@ -454,6 +486,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           email: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
           organizationInvitationRole: 'ADMIN',
@@ -466,6 +499,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           email: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag3',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
           organizationInvitationRole: 'ADMIN',
@@ -473,11 +507,12 @@ describe('Integration | UseCases | create-pro-organization', function () {
       ];
 
       // when
-      await createProOrganizationsWithTags({
+      await createProOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations: organizationsWithTagsAlreadyExist,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });
@@ -490,7 +525,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
 
       for (const organization of organizationsWithTagsAlreadyExist) {
         const organizationInDB = await knex('organizations')
-          .first('id', 'externalId', 'name', 'provinceCode', 'credit', 'email')
+          .first('id', 'externalId', 'name', 'provinceCode', 'credit')
           .where({ externalId: organization.externalId });
         expect(omit(organizationInDB, 'id', 'email')).to.be.deep.equal(
           omit(
@@ -501,7 +536,8 @@ describe('Integration | UseCases | create-pro-organization', function () {
             'createdBy',
             'documentationUrl',
             'organizationInvitationRole',
-            'email'
+            'email',
+            'targetProfiles'
           )
         );
 
@@ -509,10 +545,170 @@ describe('Integration | UseCases | create-pro-organization', function () {
           .select()
           .where({ organizationId: organizationInDB.id });
         expect(organizationTagInDB.length).to.equal(2);
+      }
+    });
+  });
 
-        organizationTagInDB.forEach((value) => {
-          expect(value.organizationId).to.be.equal(organizationInDB.id);
-        });
+  describe('when one provided target profile is not found in database', function () {
+    it('should rollback', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTag({ name: 'TAG1' });
+      await databaseBuilder.commit();
+
+      const organizationsWithNonExistingTargetProfile = [
+        {
+          externalId: 'b400',
+          name: 'Mathieu Bâtiment',
+          provinceCode: '567',
+          credit: 20,
+          email: 'mathieu@example.net',
+          locale: 'fr-fr',
+          tags: 'TAG1',
+          targetProfiles: '1',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+        },
+        {
+          externalId: 'b200',
+          name: 'Youness et Fils',
+          provinceCode: '123',
+          credit: 0,
+          email: 'youness@example.net',
+          locale: 'fr-fr',
+          tags: 'TAG1',
+          targetProfiles: '123',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'MEMBER',
+        },
+        {
+          externalId: 'b300',
+          name: 'Andreia & Co',
+          provinceCode: '345',
+          credit: 10,
+          email: 'andreia@example.net',
+          locale: 'fr-fr',
+          tags: 'TAG1',
+          targetProfiles: '123',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+        },
+      ];
+
+      // when
+      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+        domainTransaction,
+        organizations: organizationsWithNonExistingTargetProfile,
+        organizationRepository,
+        tagRepository,
+        targetProfileShareRepository,
+        organizationTagRepository,
+        organizationInvitationRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(TargetProfileInvalidError);
+      expect(error.message).to.be.equal("Le profil cible 1 n'existe pas.");
+      const organizationsInDB = await knex('organizations').select();
+      expect(organizationsInDB.length).to.equal(0);
+      const organizationTargetProfilesInDB = await knex('target-profile-shares').select();
+      expect(organizationTargetProfilesInDB.length).to.equal(0);
+    });
+  });
+
+  describe('when target profiles provided are found in database', function () {
+    it('should add target profiles to created organization', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTag({ name: 'TAG1' });
+      databaseBuilder.factory.buildTag({ name: 'TAG2' });
+      databaseBuilder.factory.buildTag({ name: 'TAG3' });
+      await databaseBuilder.commit();
+
+      const organizationsWithExistingTargetProfiles = [
+        {
+          externalId: 'b200',
+          name: 'Youness et Fils',
+          provinceCode: '123',
+          credit: 0,
+          email: 'youness@example.net',
+          locale: 'fr-fr',
+          tags: 'Tag1_Tag2',
+          targetProfiles: '123',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+        },
+        {
+          externalId: 'b300',
+          name: 'Andreia & Co',
+          provinceCode: '345',
+          credit: 10,
+          email: 'andreia@example.net',
+          locale: 'fr-fr',
+          tags: 'Tag2_Tag3',
+          targetProfiles: '123',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+        },
+        {
+          externalId: 'b400',
+          name: 'Mathieu Bâtiment',
+          provinceCode: '567',
+          credit: 20,
+          email: 'mathieu@example.net',
+          locale: 'fr-fr',
+          tags: 'Tag1_Tag3',
+          targetProfiles: '123',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+        },
+      ];
+
+      // when
+      await createProOrganizationsWithTagsAndTargetProfiles({
+        domainTransaction,
+        organizations: organizationsWithExistingTargetProfiles,
+        organizationRepository,
+        tagRepository,
+        targetProfileShareRepository,
+        organizationTagRepository,
+        organizationInvitationRepository,
+      });
+
+      // then
+      const organizationsInDB = await knex('organizations').select();
+      expect(organizationsInDB.length).to.equal(3);
+      const organizationTargetProfilesInDB = await knex('target-profile-shares').select();
+      expect(organizationTargetProfilesInDB.length).to.equal(3);
+
+      for (const organization of organizationsWithExistingTargetProfiles) {
+        const organizationInDB = await knex('organizations')
+          .first('id', 'externalId', 'name', 'provinceCode', 'credit')
+          .where({ externalId: organization.externalId });
+        expect(omit(organizationInDB, 'id', 'email')).to.be.deep.equal(
+          omit(
+            organization,
+            'locale',
+            'tags',
+            'type',
+            'createdBy',
+            'documentationUrl',
+            'organizationInvitationRole',
+            'email',
+            'targetProfiles'
+          )
+        );
+
+        const organizationTargetProfilesInDB = await knex('target-profile-shares')
+          .select()
+          .where({ organizationId: organizationInDB.id });
+        expect(organizationTargetProfilesInDB.length).to.equal(1);
       }
     });
   });
@@ -520,6 +716,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
   describe('when role is specified', function () {
     it('should create organization invitation with role', async function () {
       // given
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       databaseBuilder.factory.buildTag({ name: 'TAG2' });
       databaseBuilder.factory.buildTag({ name: 'TAG3' });
@@ -535,6 +732,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
           organizationInvitationRole: Membership.roles.ADMIN,
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
         },
@@ -547,17 +745,19 @@ describe('Integration | UseCases | create-pro-organization', function () {
           organizationInvitationRole: Membership.roles.MEMBER,
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
+          targetProfiles: '123',
           createdBy: userId,
           documentationUrl: 'http://www.pix.fr',
         },
       ];
 
       // when
-      await createProOrganizationsWithTags({
+      await createProOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations: organizationsWithInvitationRole,
         organizationRepository,
         tagRepository,
+        targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
       });

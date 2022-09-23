@@ -13,6 +13,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;
   const badExtensionFilePath = `${__dirname}/files/bad_extension.html`;
   const validFilePath = `${__dirname}/files/valid-organizations-test.csv`;
+  const organizationProWithTagsAndTargetProfilesFilePath = `${__dirname}/files/organizations-pro-with-tags-and-target-profiles-test.csv`;
   const utf8FilePath = `${__dirname}/files/utf8_excel-test.csv`;
   const withHeaderFilePath = `${__dirname}/files/withHeader-test.csv`;
 
@@ -90,6 +91,36 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       // then
       expect(items.length).to.equal(3);
       expect(items).to.have.deep.members(expectedItems);
+    });
+
+    context('when email column exists', function () {
+      it('should remove spaces', async function () {
+        // given & when
+        const data = await parseCsvWithHeader(organizationProWithTagsAndTargetProfilesFilePath);
+
+        // then
+        expect(data[0].email).to.equal('team-acces@example.net');
+      });
+    });
+
+    context('when credits column exists and the value is empty', function () {
+      it('should return 0 by default', async function () {
+        // given & when
+        const data = await parseCsvWithHeader(organizationProWithTagsAndTargetProfilesFilePath);
+
+        // then
+        expect(data[0].credit).to.equal(0);
+      });
+    });
+
+    context('when locale column exists and the value is empty', function () {
+      it('should return fr-fr by default', async function () {
+        // given & when
+        const data = await parseCsvWithHeader(organizationProWithTagsAndTargetProfilesFilePath);
+
+        // then
+        expect(data[0].locale).to.equal('fr-fr');
+      });
     });
   });
 

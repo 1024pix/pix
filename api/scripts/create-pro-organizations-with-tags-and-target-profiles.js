@@ -1,17 +1,18 @@
-// Usage: node create-pro-organizations-with-tags.js path/file.csv
-// To use on file with columns |externalId, name, provinceCode, credit, email, organizationInvitationRole, locale, tags, createdBy|
+// Usage: node create-pro-organizations-with-tags-and-target-profiles.js path/file.csv
+// To use on file with columns |externalId, name, provinceCode, credit, email, organizationInvitationRole, locale, tags, createdBy, targetProfiles|
 
 'use strict';
 require('dotenv').config();
 
-const { checkCsvHeader, parseCsv, optionsWithHeader } = require('./helpers/csvHelpers');
+const { checkCsvHeader, parseCsvWithHeader } = require('./helpers/csvHelpers');
 
-const createProOrganizationsWithTags = require('../lib/domain/usecases/create-pro-organizations-with-tags');
+const createProOrganizationsWithTagsAndTargetProfiles = require('../lib/domain/usecases/create-pro-organizations-with-tags-and-target-profiles');
 const domainTransaction = require('../lib/infrastructure/DomainTransaction');
 const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
+const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
 const { disconnect } = require('../db/knex-database-connection');
 
 const REQUIRED_FIELD_NAMES = [
@@ -25,33 +26,26 @@ const REQUIRED_FIELD_NAMES = [
   'tags',
   'createdBy',
   'documentationUrl',
+  'targetProfiles',
 ];
 
-function cleanEmailPropertyFromOrganizations(organizationsToClean) {
-  return organizationsToClean.map(({ email, ...organization }) => ({
-    ...organization,
-    email: email?.trim().replaceAll(' ', '').toLowerCase(),
-  }));
-}
-
-async function createOrganizationWithTags(filePath) {
+async function createOrganizationWithTagsAndTargetProfiles(filePath) {
   await checkCsvHeader({
     filePath,
     requiredFieldNames: REQUIRED_FIELD_NAMES,
   });
 
   console.log('Reading and parsing csv data file... ');
-  const options = { ...optionsWithHeader };
 
-  const organizationsToClean = await parseCsv(filePath, options);
-  const organizations = cleanEmailPropertyFromOrganizations(organizationsToClean);
+  const organizations = await parseCsvWithHeader(filePath);
 
-  console.log('Creating PRO organizations...');
-  const createdOrganizations = await createProOrganizationsWithTags({
+  console.log('Creating PRO organizations with tags and target profiles..');
+  const createdOrganizations = await createProOrganizationsWithTagsAndTargetProfiles({
     organizations,
     domainTransaction,
     organizationRepository,
     tagRepository,
+    targetProfileShareRepository,
     organizationTagRepository,
     organizationInvitationRepository,
   });
@@ -67,9 +61,9 @@ async function createOrganizationWithTags(filePath) {
 const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
-  console.log('Starting creating PRO organizations.');
+  console.log('Starting creating PRO organizations with tags and target profiles.');
   const filePath = process.argv[2];
-  await createOrganizationWithTags(filePath);
+  await createOrganizationWithTagsAndTargetProfiles(filePath);
 }
 
 (async () => {
@@ -86,5 +80,5 @@ async function main() {
 })();
 
 module.exports = {
-  createOrganizationWithTags,
+  createOrganizationWithTagsAndTargetProfiles,
 };
