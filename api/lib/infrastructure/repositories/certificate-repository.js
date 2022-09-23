@@ -35,22 +35,18 @@ module.exports = {
     });
   },
 
-  async findPrivateCertificateByUserId({ userId }) {
+  async findPrivateCertificatesByUserId({ userId }) {
     const certificationCourseDTOs = await _selectPrivateCertificates()
       .where('certification-courses.userId', '=', userId)
       .modify(_filterMostRecentAssessmentResult)
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .orderBy('certification-courses.createdAt', 'DESC');
 
-    const privateCertificates = [];
-    for (const certificationCourseDTO of certificationCourseDTOs) {
-      const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
-      const privateCertificate = _toDomainForPrivateCertificate({
+    const privateCertificates = certificationCourseDTOs.map((certificationCourseDTO) =>
+      _toDomainForPrivateCertificate({
         certificationCourseDTO,
-        certifiedBadges,
-      });
-      privateCertificates.push(privateCertificate);
-    }
+      })
+    );
     return privateCertificates;
   },
 
@@ -287,7 +283,7 @@ function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
   return mostRecent;
 }
 
-function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree, certifiedBadges }) {
+function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree, certifiedBadges = [] }) {
   if (competenceTree) {
     const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
       (competenceMark) => new CompetenceMark({ ...competenceMark })

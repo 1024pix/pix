@@ -603,10 +603,10 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
     });
   });
 
-  describe('#findPrivateCertificateByUserId', function () {
+  describe('#findPrivateCertificatesByUserId', function () {
     it('should return an empty list when the certificate does not exist', async function () {
       // when
-      const result = await certificateRepository.findPrivateCertificateByUserId({ userId: 123 });
+      const result = await certificateRepository.findPrivateCertificatesByUserId({ userId: 123 });
 
       // then
       expect(result).to.deep.equal([]);
@@ -654,7 +654,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       expect(result).to.deep.equal([]);
@@ -706,7 +706,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       expect(result).to.have.length(1);
@@ -758,7 +758,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       expect(result).to.have.length(1);
@@ -810,7 +810,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const result = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const result = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       expect(result).to.have.length(1);
@@ -838,7 +838,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
 
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
       // when
-      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
@@ -859,7 +859,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       expect(privateCertificates).to.have.length(3);
@@ -890,7 +890,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
 
       // when
-      const privateCertificates = await certificateRepository.findPrivateCertificateByUserId({ userId });
+      const privateCertificates = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
