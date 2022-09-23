@@ -1,14 +1,9 @@
 {{page-title (t "pages.profile.title")}}
 
-<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
-  <burger.outlet>
+<header role="banner">
+  <NavbarHeader />
+</header>
 
-    <header role="banner">
-      <NavbarHeader @burger={{burger}} />
-    </header>
+<ProfileContent @model={{@model}} />
 
-    <ProfileContent @model={{@model}} />
-
-    <Footer />
-  </burger.outlet>
-</BurgerMenu>
+<Footer />
