@@ -38,6 +38,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignAttributes: { idPixLabel: null },
         userIdentity,
         participantExternalId: null,
+        isRestricted: false,
       });
 
       const id = await DomainTransaction.execute(async (domainTransaction) => {
@@ -49,12 +50,53 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       expect(id).to.equal(campaignParticipationId);
     });
 
+    context('when user is disabled and the orga isManagingStudent is set to false', function () {
+      it('creates a campaign participation', async function () {
+        const orga = databaseBuilder.factory.buildOrganization({
+          isManagingStudents: false,
+        });
+        const learnerDisabled = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userIdentity.id,
+          isDisabled: true,
+          organizationId: orga.id,
+        });
+        await databaseBuilder.commit();
+
+        const campaignParticipant = await makeCampaignParticipant({
+          campaignAttributes: { organizationId: orga.id, idPixLabel: null },
+          userIdentity,
+          participantExternalId: 'null',
+          isRestricted: orga.isManagingStudents,
+        });
+
+        //then
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        const campaignParticipation = await knex('campaign-participations')
+          .select(campaignParticipationDBAttributes)
+          .first();
+
+        const { isDisabled } = await knex('organization-learners')
+          .select('isDisabled')
+          .where('id', learnerDisabled.id)
+          .first();
+
+        expect(campaignParticipation).to.deep.equal(
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
+        );
+        expect(isDisabled).to.be.false;
+      });
+    });
+
     context('when the campaign is profile collection', function () {
-      it('create a campaign participation', async function () {
+      it('creates a campaign participation', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
           userIdentity,
           participantExternalId: null,
+          isRestricted: false,
         });
 
         await DomainTransaction.execute(async (domainTransaction) => {
@@ -75,6 +117,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
           userIdentity,
           participantExternalId: null,
+          isRestricted: false,
         });
 
         await DomainTransaction.execute(async (domainTransaction) => {
@@ -98,6 +141,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           },
           userIdentity,
           participantExternalId: null,
+          isRestricted: false,
         });
 
         //WHEN
@@ -327,6 +371,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignAttributes: { idPixLabel: 'some external id' },
           userIdentity,
           participantExternalId: 'some participant external id',
+          isRestricted: false,
         });
 
         await DomainTransaction.execute(async (domainTransaction) => {
@@ -961,12 +1006,13 @@ async function makeCampaignParticipant({
   userIdentity,
   organizationLearnerId,
   participantExternalId,
+  isRestricted,
 }) {
   const campaign = databaseBuilder.factory.buildCampaign(campaignAttributes);
 
   await databaseBuilder.commit();
 
-  const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+  const campaignToStartParticipation = new CampaignToStartParticipation({ ...campaign, isRestricted });
   const organizationLearner = {
     id: organizationLearnerId,
     hasParticipated: false,
