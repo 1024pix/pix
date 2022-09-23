@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Integration | Component | users | user-detail-personal-information/authentication-method', function (hooks) {
   setupRenderingTest(hooks);
@@ -16,7 +17,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when user has confirmed his email address', function () {
         test('should display email confirmed date', async function (assert) {
           // given
-          this.set('user', { emailConfirmedAt: new Date('2020-10-30') });
+          this.set('user', { emailConfirmedAt: new Date('2020-10-30'), authenticationMethods: [] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -31,7 +32,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when user has not confirmed their email address', function () {
         test('it should display "Adresse e-mail non confirmée"', async function (assert) {
           // given
-          this.set('user', { emailConfirmedAt: null });
+          this.set('user', { emailConfirmedAt: null, authenticationMethods: [] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -46,7 +47,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when last logged date exists', function () {
         test('should display date of latest connection', async function (assert) {
           // given
-          this.set('user', { lastLoggedAt: new Date('2022-07-01') });
+          this.set('user', { lastLoggedAt: new Date('2022-07-01'), authenticationMethods: [] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -62,7 +63,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when last logged date does not exist', function () {
         test('it should only display label', async function (assert) {
           // given
-          this.set('user', { lastLoggedAt: null });
+          this.set('user', { lastLoggedAt: null, authenticationMethods: [] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -79,7 +80,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user has email authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasEmailAuthenticationMethod: true });
+            this.set('user', { email: 'pix.aile@example.net', authenticationMethods: [{ identityProvider: 'PIX' }] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -96,7 +97,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have email authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasEmailAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.set('user', { authenticationMethods: [] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -117,7 +118,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user has username authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasUsernameAuthenticationMethod: true });
+            this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -134,7 +135,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have username authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasUsernameAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.set('user', { authenticationMethods: [] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -151,64 +152,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      module('pole emploi authentication method', function () {
-        module('when user has pole emploi authentication method', function () {
-          test('should display information', async function (assert) {
-            // given
-            this.set('user', { hasPoleEmploiAuthenticationMethod: true });
-            this.owner.register('service:access-control', AccessControlStub);
-
-            // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
-
-            // then
-            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Pôle Emploi")).exists();
-          });
-
-          test('should display reassign authentication method button', async function (assert) {
-            // given
-            this.set('user', {
-              hasPoleEmploiAuthenticationMethod: true,
-            });
-            this.owner.register('service:access-control', AccessControlStub);
-
-            // when
-            const screen = await render(hbs`
-          <Users::UserDetailPersonalInformation::AuthenticationMethod
-            @user={{this.user}}
-          />`);
-
-            // then
-            assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
-          });
-        });
-
-        module('when user does not have pole emploi authentication method', function () {
-          test('should display information', async function (assert) {
-            // given
-            this.set('user', { hasPoleEmploiAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
-            this.owner.register('service:access-control', AccessControlStub);
-
-            // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
-
-            // then
-            assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
-          });
-        });
-      });
-
       module('gar authentication method', function () {
         module('when user has gar authentication method', function () {
-          test('should display information', async function (assert) {
+          test('should display information and reassign authentication method button', async function (assert) {
             // given
-            this.set('user', { hasGarAuthenticationMethod: true });
+            this.set('user', { authenticationMethods: [{ identityProvider: 'GAR' }] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -219,22 +167,6 @@ module('Integration | Component | users | user-detail-personal-information/authe
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Médiacentre")).exists();
-          });
-
-          test('it should display reassign authentication method button', async function (assert) {
-            // given
-            this.set('user', {
-              hasGarAuthenticationMethod: true,
-            });
-            this.owner.register('service:access-control', AccessControlStub);
-
-            // when
-            const screen = await render(hbs`
-          <Users::UserDetailPersonalInformation::AuthenticationMethod
-            @user={{this.user}}
-          />`);
-
-            // then
             assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
           });
         });
@@ -242,7 +174,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have gar authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasGarAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -257,36 +189,26 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      module('cnav authentication method', function () {
-        module('when user has cnav authentication method', function () {
-          module('and another authentication method', function () {
-            test('it should display a delete button', async function (assert) {
-              // given
-              this.set('user', {
-                hasCnavAuthenticationMethod: true,
-                hasEmailAuthenticationMethod: true,
-                isAllowedToRemoveCnavAuthenticationMethod: true,
-              });
-              this.set('toggleDisplayRemoveAuthenticationMethodModal', function () {});
-              this.owner.register('service:access-control', AccessControlStub);
+      module('OIDC authentication method', function () {
+        class OidcIdentityProvidersStub extends Service {
+          get list() {
+            return [
+              {
+                code: 'SUNLIGHT_NAVIGATIONS',
+                organizationName: 'Sunlight Navigations',
+              },
+            ];
+          }
+        }
 
-              // when
-              const screen = await render(hbs`
-              <Users::UserDetailPersonalInformation::AuthenticationMethod
-                @user={{this.user}}
-                @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
-              />
-              `);
-
-              // then
-              assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
-            });
-          });
-
+        module('when user has "Sunlight Navigations" authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasCnavAuthenticationMethod: true });
+            this.set('user', {
+              authenticationMethods: [{ identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
+            });
             this.owner.register('service:access-control', AccessControlStub);
+            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
             const screen = await render(hbs`
@@ -295,15 +217,16 @@ module('Integration | Component | users | user-detail-personal-information/authe
         />`);
 
             // then
-            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion CNAV")).exists();
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
           });
         });
 
-        module('when user does not have cnav authentication method', function () {
+        module('when user does not have "Sunlight Navigations" authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { hasUsernameAuthenticationMethod: true, hasCnavAuthenticationMethod: false });
+            this.set('user', { authenticationMethods: [] });
             this.owner.register('service:access-control', AccessControlStub);
+            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
             const screen = await render(hbs`
@@ -312,7 +235,35 @@ module('Integration | Component | users | user-detail-personal-information/authe
         />`);
 
             // then
-            assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion CNAV")).exists();
+            assert
+              .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations"))
+              .exists();
+          });
+        });
+
+        module('when user has more authentication methods', function () {
+          test('should display information, delete and reassign buttons', async function (assert) {
+            // given
+            const toggleDisplayRemoveAuthenticationMethodModalStub = sinon.stub();
+            this.set('user', {
+              username: 'PixAile',
+              authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
+            });
+            this.set('toggleDisplayRemoveAuthenticationMethodModal', toggleDisplayRemoveAuthenticationMethodModalStub);
+            this.owner.register('service:access-control', AccessControlStub);
+            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+          @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+        />`);
+
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
+            assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
+            assert.strictEqual(screen.getAllByRole('button', { name: 'Supprimer' }).length, 2);
           });
         });
       });
@@ -320,7 +271,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('When user has only one authentication method', function () {
         test('it should not display a remove authentication method link', async function (assert) {
           // given
-          this.set('user', { hasOnlyOneAuthenticationMethod: true });
+          this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -337,9 +288,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
           test('it should display add authentication method button', async function (assert) {
             // given
             this.set('user', {
-              isAllowedToAddEmailAuthenticationMethod: true,
-              hasOnlyOneAuthenticationMethod: true,
-              hasPixAuthenticationMethod: false,
+              authenticationMethods: [],
             });
             this.owner.register('service:access-control', AccessControlStub);
 
@@ -357,7 +306,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('When user has a pix authentication method', function () {
           test('it should not display add authentication method button', async function (assert) {
             // given
-            this.set('user', { hasOnlyOneAuthenticationMethod: true, hasPixAuthenticationMethod: true });
+            this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
@@ -381,8 +330,8 @@ module('Integration | Component | users | user-detail-personal-information/authe
         hasAccessToUsersActionsScope = false;
       }
       this.set('user', {
-        isAllowedToRemoveGarAuthenticationMethod: true,
-        hasGarAuthenticationMethod: true,
+        username: 'PixAile',
+        authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'GAR' }],
       });
       this.owner.register('service:access-control', AccessControlStub);
 

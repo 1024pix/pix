@@ -21,6 +21,17 @@
     min-width: 200px;
   }
 
+  &__actions-column {
+
+    > div {
+      display: flex;
+
+      button:not(:first-child) {
+        margin-left: 10px;
+      }
+    }
+  }
+
   &__check {
     color: $pix-success-70;
     margin: 0 20px;

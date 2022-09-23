@@ -47,6 +47,16 @@ function _buildPixAuthenticationMethod({
   });
 }
 
+function _generateAnEmailIfNecessary(email, id, lastName, firstName) {
+  if (isUndefined(email)) {
+    return `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
+  }
+  if (email) {
+    return email;
+  }
+  return null;
+}
+
 const buildUser = function buildUser({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
@@ -71,7 +81,7 @@ const buildUser = function buildUser({
   lastLoggedAt = new Date(),
   emailConfirmedAt = null,
 } = {}) {
-  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -126,7 +136,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   lastLoggedAt = new Date('2022-04-28T02:42:00Z'),
   emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
 } = {}) {
-  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -165,6 +175,45 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   return user;
 };
 
+buildUser.withoutPixAuthenticationMethod = function buildUserWithoutPixAuthenticationMethod({
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
+  cgu = true,
+  lang = 'fr',
+  lastTermsOfServiceValidatedAt = new Date('2019-04-28T02:42:00Z'),
+  lastPixOrgaTermsOfServiceValidatedAt = null,
+  lastPixCertifTermsOfServiceValidatedAt = null,
+  mustValidateTermsOfService = false,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenAssessmentInstructions = false,
+  createdAt = new Date(),
+} = {}) {
+  const values = {
+    id,
+    firstName,
+    lastName,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    createdAt,
+  };
+
+  const user = databaseBuffer.pushInsertable({
+    tableName: 'users',
+    values,
+  });
+
+  return user;
+};
+
 buildUser.withRole = function buildUserWithRole({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
@@ -186,7 +235,7 @@ buildUser.withRole = function buildUserWithRole({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
-  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -243,7 +292,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
-  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -304,7 +353,7 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   updatedAt = new Date(),
   certificationCenterId = null,
 } = {}) {
-  email = generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
   const user = buildUser({
     id,
@@ -334,15 +383,5 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
 
   return user;
 };
-
-function generateAnEmailIfNecessary(email, id, lastName, firstName) {
-  if (isUndefined(email)) {
-    return `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
-  }
-  if (email) {
-    return email;
-  }
-  return null;
-}
 
 module.exports = buildUser;
