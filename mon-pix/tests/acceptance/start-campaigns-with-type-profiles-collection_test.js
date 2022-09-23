@@ -1,4 +1,5 @@
-import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
@@ -199,7 +200,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection
 
             it('should display error modal when fields are filled in', async function () {
               // given
-              await visit(`/campagnes/${campaign.code}`);
+              const screen = await visit(`/campagnes/${campaign.code}`);
               await clickByLabel("C'est parti !");
 
               // when
@@ -211,7 +212,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection
               await clickByLabel(this.intl.t('pages.join.button'));
 
               //then
-              expect(find('.join-error-modal')).to.exist;
+              expect(screen.getByRole('dialog', { name: this.intl.t('pages.join.sco.login-information-title') }));
             });
 
             it('should redirect to connection form when continue button is clicked', async function () {
