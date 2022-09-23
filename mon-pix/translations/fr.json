@@ -682,8 +682,8 @@
           "label": "Remettre à zéro",
           "modal": {
             "title": "Remise à zéro de la compétence",
-            "important-message": "Vos { earnedPix } Pix vont être supprimés.",
-            "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
+            "important-message": "Vos { earnedPix } Pix vont être supprimés de la compétence : { scoreCardName }.",
+            "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés de la compétence : { scoreCardName }.",
             "warning": {
               "certification": "si vous souhaitez faire certifier votre profil et vos différents résultats, cela pourrait altérer votre certification.",
               "header": "Attention : ",
