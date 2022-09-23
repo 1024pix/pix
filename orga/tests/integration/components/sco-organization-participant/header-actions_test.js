@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
@@ -7,15 +8,32 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | ScoOrganizationParticipant::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should show title with participant count', async function (assert) {
-    //given
-    this.set('participantCount', 10);
+  module('Title', () => {
+    test('it should show only title when participant count = 0', async function (assert) {
+      //given
+      this.set('participantCount', 0);
 
-    // when
-    await render(hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`);
+      // when
+      const screen = await renderScreen(
+        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`
+      );
 
-    // then
-    assert.contains(this.intl.t('pages.sco-organization-participants.title', { count: 10 }));
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.sco-organization-participants.title', { count: 0 }))).exists();
+    });
+
+    test('it should show title with participant count when count > 0', async function (assert) {
+      //given
+      this.set('participantCount', 5);
+
+      // when
+      const screen = await renderScreen(
+        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`
+      );
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.sco-organization-participants.title', { count: 5 }))).exists();
+    });
   });
 
   module('user rights', () => {
