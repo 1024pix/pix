@@ -69,7 +69,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isRestricted: orga.isManagingStudents,
         });
 
-        //then
+        // when
         await DomainTransaction.execute(async (domainTransaction) => {
           await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
         });
