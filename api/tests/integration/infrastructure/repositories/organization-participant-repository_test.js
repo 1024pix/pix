@@ -26,10 +26,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
     });
 
     context('display participants', function () {
-      it('should return no participants', async function () {
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        await databaseBuilder.commit();
-
+      it('should return no participants when there are no learners', async function () {
         // when
         const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
@@ -158,6 +155,24 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
         // then
         expect(participationCount).to.equal(1);
+      });
+
+      it('should not take into account anonymous users', async function () {
+        // given
+        const anonymousUserId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
+        buildLearnerWithParticipation(organizationId, { userId: anonymousUserId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const {
+          meta: { participantCount },
+        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(participantCount).to.equal(0);
       });
     });
 
@@ -311,8 +326,8 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
     });
 
-    context('pagination', function () {
-      it('should return paginated campaign participations based on the given size and number', async function () {
+    context('meta', function () {
+      it('should return meta informations on campaign participations based on the given size, number and total in the list', async function () {
         // given
         const page = { size: 1, number: 2 };
         const { id: otherOrganizationLearnerId } = buildLearnerWithParticipation(organizationId, {
@@ -324,7 +339,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants, pagination } =
+        const { organizationParticipants, meta } =
           await organizationParticipantRepository.getParticipantsByOrganizationId({
             organizationId,
             page,
@@ -333,7 +348,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // then
         expect(organizationParticipants).to.have.lengthOf(1);
         expect(organizationParticipants[0].id).to.equal(otherOrganizationLearnerId);
-        expect(pagination).to.deep.equals({ page: 2, pageCount: 2, pageSize: 1, rowCount: 2 });
+        expect(meta).to.deep.equals({ page: 2, pageCount: 2, pageSize: 1, rowCount: 2, participantCount: 2 });
       });
     });
 
@@ -398,7 +413,6 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('returns the participants which match by last name when fullName text is a part of last name', async function () {
-        // given
         // given
         buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
         const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigur' });
@@ -705,6 +719,104 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         // then
         expect(isCertifiable).to.equal(campaignParticipation.isCertifiable);
+      });
+    });
+
+    context('#participantCount', function () {
+      it('should only count participants in currentOrganization', async function () {
+        // given
+        const otherOrganization = databaseBuilder.factory.buildOrganization();
+        buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+        buildLearnerWithParticipation(otherOrganization.id, { firstName: 'Xavier' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId: organizationId,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(1);
+      });
+
+      it('should not count disabled participants', async function () {
+        // given
+        buildLearnerWithParticipation(organizationId, { firstName: 'Xavier', isDisabled: true });
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId: organizationId,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(0);
+      });
+
+      it('should not count participants with deleted participations', async function () {
+        // given
+        buildLearnerWithParticipation(
+          organizationId,
+          { firstName: 'Xavier', isDisabled: false },
+          { deletedAt: '2022-01-01' }
+        );
+        buildLearnerWithParticipation(organizationId, { firstName: 'Arthur', isDisabled: false }, { deletedAt: null });
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId: organizationId,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(1);
+      });
+
+      it('should count all participants when several exist', async function () {
+        // given
+        buildLearnerWithParticipation(organizationId, { firstName: 'Xavier', isDisabled: false });
+        buildLearnerWithParticipation(organizationId, { firstName: 'Yvo', isDisabled: false });
+        buildLearnerWithParticipation(organizationId, { firstName: 'Estelle', isDisabled: false });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId: organizationId,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(3);
+      });
+
+      it('should not count an extra participant if the same participant had many participations in many campaigns', async function () {
+        // given
+        const learner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+        const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId: learner.id,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          otherCampaignId,
+          organizationLearnerId: learner.id,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId: organizationId,
+        });
+
+        // then
+        expect(meta.participantCount).to.equal(1);
       });
     });
   });
