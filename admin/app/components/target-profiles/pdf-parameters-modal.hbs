@@ -1,0 +1,31 @@
+<PixModal @title="Paramètres du PDF" @onCloseButtonClick={{@onCloseButtonClicked}}>
+  <:content>
+    <PixInput
+      @id="pdfParameterTitle"
+      value={{this.title}}
+      {{on "change" this.onChangeTitle}}
+      @label="Titre dans le document :"
+      @errorMessage={{this.errorMessage}}
+      {{focus}}
+    />
+    <PixInput
+      @id="pdfParameterLanguage"
+      value={{this.language}}
+      {{on "change" this.onChangeLanguage}}
+      @label="Langue du référentiel (fr ou en) :"
+      @errorMessage={{this.errorMessage}}
+    />
+  </:content>
+
+  <:footer>
+    <PixButton
+      @type="submit"
+      @size="small"
+      class="pix-button--background-transparent-light"
+      {{on "click" @onCloseButtonClicked}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton @size="small" @triggerAction={{this.submit}}>Télécharger</PixButton>
+  </:footer>
+</PixModal>

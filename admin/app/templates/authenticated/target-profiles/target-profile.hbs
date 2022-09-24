@@ -79,6 +79,9 @@
           >
             Télécharger le profil cible (JSON)
           </PixButtonLink>
+          <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @backgroundColor="green">
+            Télécharger le profil cible (PDF)
+          </PixButton>
         {{/if}}
         {{#unless @model.outdated}}
           <div class="target-profile__actions-spacer"></div>
@@ -146,5 +149,11 @@
         </PixButton>
       </:footer>
     </PixModal>
+  {{/if}}
+  {{#if this.displayPdfParametersModal}}
+    <TargetProfiles::PdfParametersModal
+      @onDownloadButtonClicked={{this.downloadPDF}}
+      @onCloseButtonClicked={{this.toggleDisplayPdfParametersModal}}
+    />
   {{/if}}
 </main>
