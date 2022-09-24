@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const { NoSkillsInCampaignError } = require('../../../../lib/domain/errors');
+const { NoSkillsInCampaignError, NotFoundError } = require('../../../../lib/domain/errors');
 const learningContentRepository = require('../../../../lib/infrastructure/repositories/learning-content-repository');
 const { buildLearningContent } = require('../../../tooling/learning-content-builder');
 
@@ -208,9 +208,9 @@ describe('Integration | Repository | learning-content', function () {
     mockLearningContent(learningContent);
   });
 
-  let targetProfileId, campaignId;
-
   describe('#findByCampaignId', function () {
+    let targetProfileId, campaignId;
+
     describe('when campaign has skills', function () {
       it("should use campaign's skills", async function () {
         // given
@@ -343,6 +343,72 @@ describe('Integration | Repository | learning-content', function () {
 
         // then
         expect(err).to.be.instanceOf(NoSkillsInCampaignError);
+      });
+    });
+  });
+
+  describe('#findByTargetProfileId', function () {
+    context('when target profile does not have capped tubes', function () {
+      it('should throw a NotFound error', async function () {
+        // given
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: anotherTargetProfileId });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(learningContentRepository.findByTargetProfileId)(targetProfileId);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal("Le profil cible n'existe pas");
+      });
+    });
+
+    context('when target profile has capped tubes', function () {
+      it('should return areas, competences and tubes of the active skills hierarchy with default FR language', async function () {
+        // given
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 2 });
+        await databaseBuilder.commit();
+
+        area1Fr.competences = [competence2Fr];
+        competence2Fr.area = area1Fr;
+        competence2Fr.thematics = [thematic2Fr];
+        competence2Fr.tubes = [tube2Fr];
+        thematic2Fr.tubes = [tube2Fr];
+        tube2Fr.skills = [skill2];
+
+        // when
+        const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(targetProfileId);
+
+        // then
+        expect(targetProfileLearningContent.areas).to.deep.equal([area1Fr]);
+      });
+
+      context('when using a specific locale', function () {
+        it('should translate names and descriptions', async function () {
+          // given
+          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 2 });
+          await databaseBuilder.commit();
+
+          area1En.competences = [competence2En];
+          competence2En.area = area1En;
+          competence2En.thematics = [thematic2En];
+          competence2En.tubes = [tube2En];
+          thematic2En.tubes = [tube2En];
+          tube2En.skills = [skill2];
+
+          // when
+          const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(
+            targetProfileId,
+            'en'
+          );
+
+          // then
+          expect(targetProfileLearningContent.areas).to.deep.equal([area1En]);
+        });
       });
     });
   });
