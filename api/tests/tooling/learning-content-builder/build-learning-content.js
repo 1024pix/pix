@@ -87,9 +87,11 @@ const buildLearningContent = function (learningContent) {
           allTubes.push(tubes);
           return {
             id: thematic.id,
-            name: thematic.name,
+            name: thematic.nameFr || thematic.name,
+            nameEnUs: thematic.nameEn || thematic.name,
             index: thematic.index,
-            tubeIds: [],
+            tubeIds: tubes.map((tube) => tube.id),
+            competenceId: competence.id,
           };
         }) ?? [];
       allThematics.push(thematics);
