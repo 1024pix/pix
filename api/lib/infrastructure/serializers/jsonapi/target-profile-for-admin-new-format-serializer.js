@@ -26,7 +26,7 @@ module.exports = {
       newAreas: {
         ref: 'id',
         included: true,
-        attributes: ['title', 'code', 'color', 'competences'],
+        attributes: ['title', 'code', 'color', 'frameworkId', 'competences'],
         competences: {
           ref: 'id',
           included: true,

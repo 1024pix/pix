@@ -4,6 +4,7 @@ export default class NewArea extends Model {
   @attr() title;
   @attr() code;
   @attr() color;
+  @attr() frameworkId;
 
   @hasMany('new-competence') competences;
 
