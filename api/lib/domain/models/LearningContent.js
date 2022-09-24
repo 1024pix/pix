@@ -7,8 +7,13 @@ module.exports = class LearningContent {
     return this.areas.flatMap((area) => area.competences);
   }
 
+  get thematics() {
+    return this.competences.flatMap((competence) => competence.thematics);
+  }
+
+  // TODO faire sortir les tubes depuis les thématiques
   get tubes() {
-    return this.competences.flatMap((competence) => competence.tubes);
+    return this.competences.flatMap((competences) => competences.tubes);
   }
 
   get skills() {

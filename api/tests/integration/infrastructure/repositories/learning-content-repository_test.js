@@ -7,6 +7,7 @@ describe('Integration | Repository | learning-content', function () {
   let learningContent;
   let area1Fr, area1En;
   let competence2Fr, competence2En;
+  let thematic2Fr, thematic2En;
   let tube2Fr, tube2En;
   let skill2, skill3;
 
@@ -32,6 +33,9 @@ describe('Integration | Repository | learning-content', function () {
             thematics: [
               {
                 id: 'recThematic1',
+                nameFr: 'thematic1_nameFr',
+                nameEn: 'thematic1_nameEn',
+                index: '10',
                 tubes: [
                   {
                     id: 'recTube1',
@@ -68,6 +72,9 @@ describe('Integration | Repository | learning-content', function () {
             thematics: [
               {
                 id: 'recThematic2',
+                nameFr: 'thematic2_nameFr',
+                nameEn: 'thematic2_nameEn',
+                index: '20',
                 tubes: [
                   {
                     id: 'recTube2',
@@ -156,6 +163,9 @@ describe('Integration | Repository | learning-content', function () {
             thematics: [
               {
                 id: 'recThematic3',
+                nameFr: 'thematic3_nameFr',
+                nameEn: 'thematic3_nameEn',
+                index: '30',
                 tubes: [
                   {
                     id: 'recTube4',
@@ -189,6 +199,8 @@ describe('Integration | Repository | learning-content', function () {
     [area1En] = _buildDomainAreasFromLearningContent(learningContent, 'en');
     [, competence2Fr] = _buildDomainCompetencesFromLearningContent(learningContent, 'fr');
     [, competence2En] = _buildDomainCompetencesFromLearningContent(learningContent, 'en');
+    [, thematic2Fr] = _buildDomainThematicsFromLearningContent(learningContent, 'fr');
+    [, thematic2En] = _buildDomainThematicsFromLearningContent(learningContent, 'en');
     [, tube2Fr] = _buildDomainTubesFromLearningContent(learningContent, 'fr');
     [, tube2En] = _buildDomainTubesFromLearningContent(learningContent, 'en');
     [, skill2, skill3] = _buildDomainSkillsFromLearningContent(learningContent);
@@ -221,6 +233,29 @@ describe('Integration | Repository | learning-content', function () {
 
         // then
         expect(campaignLearningContent.skills).to.deep.equal([skill2, skill3]);
+      });
+
+      it('should return areas, competences and tubes of the skills hierarchy', async function () {
+        // given
+        campaignId = databaseBuilder.factory.buildCampaign().id;
+        // campaign skills
+        ['recSkill2', 'recSkill3'].forEach((skillId) =>
+          databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId })
+        );
+        await databaseBuilder.commit();
+
+        area1Fr.competences = [competence2Fr];
+        competence2Fr.area = area1Fr;
+        competence2Fr.thematics = [thematic2Fr];
+        competence2Fr.tubes = [tube2Fr];
+        thematic2Fr.tubes = [tube2Fr];
+        tube2Fr.skills = [skill2, skill3];
+
+        // when
+        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+
+        // then
+        expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);
       });
     });
 
@@ -258,7 +293,9 @@ describe('Integration | Repository | learning-content', function () {
 
       area1Fr.competences = [competence2Fr];
       competence2Fr.area = area1Fr;
+      competence2Fr.thematics = [thematic2Fr];
       competence2Fr.tubes = [tube2Fr];
+      thematic2Fr.tubes = [tube2Fr];
       tube2Fr.skills = [skill2, skill3];
 
       // when
@@ -280,7 +317,9 @@ describe('Integration | Repository | learning-content', function () {
 
         area1En.competences = [competence2En];
         competence2En.area = area1En;
+        competence2En.thematics = [thematic2En];
         competence2En.tubes = [tube2En];
+        thematic2En.tubes = [tube2En];
         tube2En.skills = [skill2, skill3];
 
         // when
@@ -324,6 +363,15 @@ function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
       ...competence,
       name: competence[locale === 'en' ? 'nameEnUs' : 'nameFrFr'],
       description: competence[locale === 'en' ? 'descriptionEnUs' : 'descriptionFrFr'],
+    })
+  );
+}
+
+function _buildDomainThematicsFromLearningContent({ thematics }, locale) {
+  return thematics.map((thematic) =>
+    domainBuilder.buildThematic({
+      ...thematic,
+      name: thematic[locale === 'en' ? 'nameEnUs' : 'name'],
     })
   );
 }

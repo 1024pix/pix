@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { NoSkillsInCampaignError } = require('../../domain/errors');
 const tubeRepository = require('./tube-repository');
+const thematicRepository = require('./thematic-repository');
 const campaignRepository = require('./campaign-repository');
 const competenceRepository = require('./competence-repository');
 const LearningContent = require('../../domain/models/LearningContent');
@@ -26,12 +27,19 @@ async function _getLearningContentBySkillIds(skills, locale) {
     });
   });
 
+  const thematics = await thematicRepository.list({ locale });
+  const goodThematics = thematics.filter((thematic) => tubeIds.some((tubeId) => thematic.tubeIds.includes(tubeId)));
+  goodThematics.forEach((thematic) => (thematic.tubes = tubes.filter((tube) => thematic.tubeIds.includes(tube.id))));
+
   const competenceIds = _.uniq(tubes.map((tube) => tube.competenceId));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
 
   competences.forEach((competence) => {
     competence.tubes = tubes.filter((tube) => {
       return tube.competenceId === competence.id;
+    });
+    competence.thematics = goodThematics.filter((thematic) => {
+      return thematic.competenceId === competence.id;
     });
   });
 
