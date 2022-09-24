@@ -1,8 +1,9 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learningContentPDFPresenter');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | target-profile-controller', function () {
@@ -242,6 +243,40 @@ describe('Unit | Controller | target-profile-controller', function () {
         'Content-Type': 'text/json;charset=utf-8',
         'Content-Disposition': 'attachment; filename=file_name',
       });
+    });
+  });
+
+  describe('#getLearningContentAsPdf', function () {
+    it('should return the pdf', async function () {
+      // given
+      const learningContent = domainBuilder.buildLearningContent();
+      const pdfBuffer = 'some_pdf_buffer';
+      sinon
+        .stub(usecases, 'getLearningContentByTargetProfile')
+        .withArgs({ targetProfileId: 123, language: 'fr' })
+        .resolves(learningContent);
+      sinon
+        .stub(learningContentPDFPresenter, 'present')
+        .withArgs(learningContent, 'titre du doc', 'fr')
+        .resolves(pdfBuffer);
+      const request = {
+        params: {
+          id: 123,
+          locale: 'fr',
+        },
+        query: {
+          language: 'fr',
+          title: 'titre du doc',
+        },
+      };
+
+      // when
+      const response = await targetProfileController.getLearningContentAsPdf(request, hFake);
+
+      // then
+      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=referentiel-du-profil-cible.pdf');
+      expect(response.headers['Content-Type']).to.equal('application/pdf');
+      expect(response.source).to.equal(pdfBuffer);
     });
   });
 });
