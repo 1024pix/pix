@@ -21,6 +21,7 @@ describe('Integration | Application | Route | target-profile-router', function (
         title: 'Super domaine',
         color: 'blue',
         code: 'lyoko',
+        frameworkId: 'recFrameworkCool1',
       });
       const targetProfileForAdminNewFormat = new TargetProfileForAdminNewFormat({
         id: 132,
@@ -169,6 +170,7 @@ describe('Integration | Application | Route | target-profile-router', function (
               title: 'Super domaine',
               color: 'blue',
               code: 'lyoko',
+              'framework-id': 'recFrameworkCool1',
             },
             relationships: {
               competences: {
