@@ -1,7 +1,13 @@
-const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  catchErr,
+  mockLearningContent,
+  domainBuilder,
+  learningContentBuilder,
+} = require('../../../test-helper');
 const { NoSkillsInCampaignError, NotFoundError } = require('../../../../lib/domain/errors');
 const learningContentRepository = require('../../../../lib/infrastructure/repositories/learning-content-repository');
-const { buildLearningContent } = require('../../../tooling/learning-content-builder');
 
 describe('Integration | Repository | learning-content', function () {
   let learningContent;
@@ -12,7 +18,7 @@ describe('Integration | Repository | learning-content', function () {
   let skill2, skill3;
 
   beforeEach(function () {
-    learningContent = buildLearningContent([
+    learningContent = learningContentBuilder.buildLearningContent([
       {
         id: 'recArea1',
         name: 'area1_name',

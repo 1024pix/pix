@@ -6,11 +6,11 @@ const {
   mockLearningContent,
   learningContentBuilder,
   MockDate,
-} = require('../../test-helper');
-const createServer = require('../../../server');
+} = require('../../../test-helper');
+const createServer = require('../../../../server');
 const omit = require('lodash/omit');
 
-describe('Acceptance | Controller | target-profile-controller', function () {
+describe('Acceptance | Route | target-profiles', function () {
   let server;
 
   const skillId = 'recArea1_Competence1_Tube1_Skill1';
@@ -717,6 +717,69 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         'attachment; filename=20201101_profil_cible_Roxane est tr_s jolie.json'
       );
       expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
+    });
+  });
+
+  // TODO le test dure 7 secondes sur mon poste :sad:
+  describe('GET /api/admin/target-profiles/{id}/learning-content-pdf?language={language}&title={title}', function () {
+    let user;
+    let targetProfileId;
+
+    beforeEach(function () {
+      const learningContent = learningContentBuilder.buildLearningContent([
+        {
+          id: 'recArea',
+          titleFr: 'area_TitleFr',
+          color: 'jaffa',
+          frameworkId: 'recFmk',
+          competences: [
+            {
+              id: 'recCompetence',
+              nameFr: 'competence_name',
+              thematics: [
+                {
+                  id: 'recThematic',
+                  name: 'thematic_name',
+                  tubes: [
+                    {
+                      id: 'recTube',
+                      practicalTitleFrFr: 'titlefr',
+                      practicalDescriptionFrFr: 'coucou',
+                      skills: [
+                        {
+                          id: 'recSkill',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ]);
+      mockLearningContent(learningContent);
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({ name: 'Roxane est très jolie' }).id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube', level: 6 });
+      user = databaseBuilder.factory.buildUser.withRole();
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return 200 and the pdf file', async function () {
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfileId}/learning-content-pdf?language=fr&title='un titre'`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-disposition']).to.equal('attachment; filename=referentiel-du-profil-cible.pdf');
+      expect(response.headers['content-type']).to.equal('application/pdf');
     });
   });
 });
