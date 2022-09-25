@@ -1,3 +1,4 @@
+const sortBy = require('lodash/sortBy');
 const tubeBuilder = require('./tube-builder');
 const ThematicText = require('../drawer/ThematicText.js');
 const PositionManager = require('../manager/position-manager');
@@ -17,7 +18,7 @@ module.exports = {
   build(positionY, page, thematic, dryRun) {
     let positionYAfterTubes = positionY;
     let pair = false;
-    for (const tube of thematic.tubes) {
+    for (const tube of sortBy(thematic.tubes, 'practicalTitle')) {
       const positionBeforeTube = positionYAfterTubes;
       if (!dryRun && pair) {
         positionYAfterTubes = tubeBuilder.build(positionBeforeTube, page, tube, true);

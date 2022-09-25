@@ -58,16 +58,24 @@ module.exports = class Text {
   }
 
   /**
-   * @param text{string}
-   * @param font{PDFFont}
-   * @param fontSize{number}
-   * @param positionY{number}
    * @param page{PDFPage}
    * @param overrideMaxWidth{number}
    * @returns {number}
    */
-  nextPositionY(text, font, fontSize, page, positionY, overrideMaxWidth = null) {
-    const numberOfLines = Text.numberOfLines(text, font, fontSize, page, overrideMaxWidth);
-    return positionY - (numberOfLines * font.heightAtSize(fontSize) + this.spaceUnderText);
+  nextPositionY(page, overrideMaxWidth = null) {
+    const numberOfLines = Text.numberOfLines(this.text, this.font, this.fontSize, page, overrideMaxWidth);
+    return this.position.y - (numberOfLines * this.font.heightAtSize(this.fontSize) + this.spaceUnderText);
+  }
+
+  /**
+   * @param text{string}
+   * @param page{PDFPage}
+   * @param font{PDFFont}
+   * @param fontSize{number}
+   * @returns {number}
+   */
+  static _positionXForHorizontalCentering(text, page, font, fontSize) {
+    const textWidth = font.widthOfTextAtSize(text, fontSize);
+    return page.getWidth() / 2 - textWidth / 2;
   }
 };

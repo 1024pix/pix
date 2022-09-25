@@ -1,3 +1,4 @@
+const sortBy = require('lodash/sortBy');
 const thematicBuilder = require('./thematic-builder');
 const CompetenceText = require('../drawer/CompetenceText');
 const PositionManager = require('../manager/position-manager');
@@ -31,7 +32,7 @@ module.exports = {
       positionY = competenceText.draw(page, true);
     }
     positionY = positionY - LINE_JUMP;
-    for (const thematic of competence.thematics) {
+    for (const thematic of sortBy(competence.thematics, 'index')) {
       if (!dryRun) {
         const nextPositionY = thematicBuilder.build(positionY, page, thematic, true);
         page.drawRectangle({

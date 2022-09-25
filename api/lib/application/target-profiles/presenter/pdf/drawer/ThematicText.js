@@ -3,18 +3,17 @@ const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
 const PositionManager = require('../manager/position-manager');
 
-const MAGIC_NUMBER = 5;
-
 class ThematicText extends Text {
   constructor({ text, positionY, positionYAfterTubes }) {
-    const positionYOfThematic = positionY - _computeMarginTopThematic(text, positionY, positionYAfterTubes);
+    const thematicText = text || 'error on thematic name';
+    const positionYOfThematic = positionY - _computeMarginTopThematic(thematicText, positionY, positionYAfterTubes);
     super({
-      text,
+      text: thematicText,
       positionX: PositionManager.thematicStart,
       positionY: positionYOfThematic,
       fontSize: FontManager.thematicHeight,
       font: FontManager.thematicFont,
-      fontColor: ColorManager.findRGBColorByAreaColor('black'),
+      fontColor: ColorManager.findRGBColor('black'),
       maxWidth: PositionManager.thematicWidth,
     });
   }

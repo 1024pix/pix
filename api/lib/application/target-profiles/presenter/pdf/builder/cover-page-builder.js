@@ -1,24 +1,28 @@
 const TemplatePageManager = require('../manager/template-page-manager');
 const CoverPageVersionText = require('../drawer/CoverPageVersionText');
 const CoverPageLegalMentionText = require('../drawer/CoverPageLegalMentionText');
+const CoverPageTitleText = require('../drawer/CoverPageTitleText');
 const PositionManager = require('../manager/position-manager');
 
 module.exports = {
   /**
    * @param pdfDocument{PDFDocument}
-   * @param todayDateString {string}
+   * @param title {string}
+   * @param language {string}
    */
-  build(pdfDocument, todayDateString) {
-    let page = pdfDocument.addPage();
+  build(pdfDocument, title, language) {
+    const page = pdfDocument.addPage();
     PositionManager.initialize(page);
     page.drawPage(TemplatePageManager.getCoverPage());
-    const coverPageVersionText = new CoverPageVersionText({
-      dateString: todayDateString,
+    const coverPageTitleText = new CoverPageTitleText({
+      title,
       page,
     });
-    const coverPageLegalMentionText = new CoverPageLegalMentionText();
+    const coverPageVersionText = new CoverPageVersionText({ language, page });
+    const coverPageLegalMentionText = new CoverPageLegalMentionText({ language });
     coverPageVersionText.draw(page);
     coverPageLegalMentionText.draw(page);
+    coverPageTitleText.draw(page);
     return;
   },
 };

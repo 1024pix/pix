@@ -11,7 +11,7 @@ module.exports = class TubeText extends Text {
       positionY,
       fontSize: FontManager.tubeHeight,
       font: FontManager.tubeFont,
-      fontColor: ColorManager.findRGBColorByAreaColor('black'),
+      fontColor: ColorManager.findRGBColor('black'),
       maxWidth: PositionManager.tubeFirstPartWidth,
     });
     this.text2 = practicalDescription || 'error on practicalDescription';
@@ -30,22 +30,8 @@ module.exports = class TubeText extends Text {
         lineHeight: this.font.heightAtSize(this.fontSize),
       });
     }
-    const nextPositionYText = this.nextPositionY(
-      this.text,
-      this.font,
-      this.fontSize,
-      page,
-      this.position.y,
-      PositionManager.tubeFirstPartWidth
-    );
-    const nextPositionYText2 = this.nextPositionY(
-      this.text2,
-      this.font,
-      this.fontSize,
-      page,
-      this.position.y,
-      PositionManager.tubeSecondPartWidth
-    );
+    const nextPositionYText = this.nextPositionY(page, PositionManager.tubeFirstPartWidth);
+    const nextPositionYText2 = this.nextPositionY(page, PositionManager.tubeSecondPartWidth);
     return Math.min(nextPositionYText, nextPositionYText2);
   }
 };

@@ -11,7 +11,7 @@ module.exports = class CompetenceText extends Text {
       positionY,
       fontSize: FontManager.competenceHeight,
       font: FontManager.competenceFont,
-      fontColor: ColorManager.findRGBColorByAreaColor(areaColor),
+      fontColor: ColorManager.findLighterShadeRGBColor(areaColor),
     });
   }
 };
