@@ -1,3 +1,4 @@
+const COVER_PAGE_TITLE_WIDTH = 400;
 const COMPETENCE_START = 20;
 const THEMATIC_START = 20;
 const THEMATIC_WIDTH = 120;
@@ -14,6 +15,9 @@ module.exports = {
   initialize(page) {
     if (this.maxWidth) return;
     this.maxWidth = page.getWidth();
+  },
+  get coverPageTitleWidth() {
+    return COVER_PAGE_TITLE_WIDTH;
   },
   get widthMaxWithoutMargin() {
     return this.maxWidth - this.margin * 2;

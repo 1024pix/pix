@@ -3,7 +3,6 @@ const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
 const TemplatePageManager = require('../manager/template-page-manager');
 
-const AREA_NAME_FONT_SIZE = 20;
 const MARGIN_TOP_AREA = 30;
 const MARGIN_BOTTOM_AREA = 30;
 
@@ -16,14 +15,16 @@ module.exports = class AreaText extends Text {
    */
   constructor({ text, areaColor, page }) {
     const positionY = page.getSize().height - MARGIN_TOP_AREA;
-    const robotoCondensedBoldFont = FontManager.findFontByFontKey(FontManager.key.robotoCondensedBold);
+    const font = FontManager.areaFont;
+    const fontSize = FontManager.areaHeight;
+    const positionX = Text._positionXForHorizontalCentering(text, page, font, fontSize);
     super({
       text,
-      positionX: _positionXToCenterText(text, page, robotoCondensedBoldFont),
+      positionX,
       positionY,
-      fontSize: AREA_NAME_FONT_SIZE,
-      font: robotoCondensedBoldFont,
-      fontColor: ColorManager.findRGBColorByAreaColor('white'),
+      fontSize,
+      font,
+      fontColor: ColorManager.findRGBColor('white'),
     });
     this.areaColor = areaColor;
   }
@@ -38,15 +39,3 @@ module.exports = class AreaText extends Text {
     return MARGIN_BOTTOM_AREA;
   }
 };
-
-/**
- * @param text{string}
- * @param page{PDFPage}
- * @param font{PDFFont}
- * @returns {number}
- * @private
- */
-function _positionXToCenterText(text, page, font) {
-  const textWidth = font.widthOfTextAtSize(text, AREA_NAME_FONT_SIZE);
-  return page.getWidth() / 2 - textWidth / 2;
-}

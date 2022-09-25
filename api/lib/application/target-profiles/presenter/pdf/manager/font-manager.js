@@ -3,7 +3,10 @@ const { readFile } = require('fs/promises');
 const embeddedFonts = {};
 const COVER_PAGE_VERSION_TEXT_FONT_SIZE = 20;
 const COVER_PAGE_LEGAL_MENTION_TEXT_FONT_SIZE = 10;
-const COMPETENCE_TEXT_FONT_SIZE = 10;
+const COVER_PAGE_TITLE_TEXT_FONT_SIZE = 30;
+const LEGAL_MENTION_TEXT_FONT_SIZE = 5;
+const AREA_NAME_FONT_SIZE = 20;
+const COMPETENCE_TEXT_FONT_SIZE = 12;
 const TUBE_TEXT_FONT_SIZE = 8;
 const THEMATIC_TEXT_FONT_SIZE = 8;
 
@@ -31,7 +34,42 @@ module.exports = {
     }
     return embeddedFonts[fontKey];
   },
-
+  /**
+   * @returns {PDFFont}
+   */
+  get legalMentionFont() {
+    return this.findFontByFontKey(this.key.robotoCondensedBold);
+  },
+  /**
+   * @returns {number}
+   */
+  get legalMentionFontHeight() {
+    return this.legalMentionFont.heightAtSize(this.legalMentionHeight);
+  },
+  /**
+   * @returns {number}
+   */
+  get legalMentionHeight() {
+    return LEGAL_MENTION_TEXT_FONT_SIZE;
+  },
+  /**
+   * @returns {PDFFont}
+   */
+  get areaFont() {
+    return this.findFontByFontKey(this.key.robotoCondensedBold);
+  },
+  /**
+   * @returns {number}
+   */
+  get areaFontHeight() {
+    return this.areaFont.heightAtSize(this.areaHeight);
+  },
+  /**
+   * @returns {number}
+   */
+  get areaHeight() {
+    return AREA_NAME_FONT_SIZE;
+  },
   /**
    * @returns {PDFFont}
    */
@@ -42,13 +80,31 @@ module.exports = {
    * @returns {number}
    */
   get coverPageLegalMentionFontHeight() {
-    return this.coverPageVersionFont.heightAtSize(this.coverPageLegalMentionHeight);
+    return this.coverPageLegalMentionFont.heightAtSize(this.coverPageLegalMentionHeight);
   },
   /**
    * @returns {number}
    */
   get coverPageLegalMentionHeight() {
     return COVER_PAGE_LEGAL_MENTION_TEXT_FONT_SIZE;
+  },
+  /**
+   * @returns {PDFFont}
+   */
+  get coverPageTitleFont() {
+    return this.findFontByFontKey(this.key.robotoCondensedBold);
+  },
+  /**
+   * @returns {number}
+   */
+  get coverPageTitleFontHeight() {
+    return this.coverPageTitleFont.heightAtSize(this.coverPageTitleHeight);
+  },
+  /**
+   * @returns {number}
+   */
+  get coverPageTitleHeight() {
+    return COVER_PAGE_TITLE_TEXT_FONT_SIZE;
   },
   /**
    * @returns {PDFFont}

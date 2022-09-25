@@ -1,18 +1,17 @@
+const sortBy = require('lodash/sortBy');
 const areaBuilder = require('./area-builder');
 
 module.exports = {
   /**
    * @param pdfDocument{PDFDocument}
    * @param learningContent{LearningContent}
-   * @param todayDateString {string}
+   * @param language {string}
    *
    * @return {PDFDocument}
    */
-  build(pdfDocument, learningContent, todayDateString) {
-    // areaBuilder.build(pdfDocument, learningContent.areas[29]);
-    // areaBuilder.build(pdfDocument, learningContent.areas[35]);
-    for (const area of learningContent.areas) {
-      areaBuilder.build(pdfDocument, area);
+  build(pdfDocument, learningContent, language) {
+    for (const area of sortBy(learningContent.areas, ['frameworkId', 'code'])) {
+      areaBuilder.build(pdfDocument, area, language);
     }
     return pdfDocument;
   },
