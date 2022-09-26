@@ -5,6 +5,7 @@ module.exports = function buildComplementaryCertificationBadge({
   label = 'Label par défaut',
   level = 1,
   imageUrl = 'url-image.fr',
+  stickerUrl = 'https://images.pix.fr/skicker.pdf',
   certificateMessage,
   temporaryCertificateMessage,
 } = {}) {
@@ -13,6 +14,7 @@ module.exports = function buildComplementaryCertificationBadge({
     label,
     level,
     imageUrl,
+    stickerUrl,
     certificateMessage,
     temporaryCertificateMessage,
   });
