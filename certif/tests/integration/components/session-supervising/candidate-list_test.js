@@ -19,7 +19,6 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       // given
       this.certificationCandidates = [
         store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
           firstName: 'Gamora',
           lastName: 'Zen Whoberi Ben Titan',
           birthdate: '1984-05-28',
@@ -28,7 +27,6 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           assessmentStatus: null,
         }),
         store.createRecord('certification-candidate-for-supervising', {
-          id: 456,
           firstName: 'Star',
           lastName: 'Lord',
           birthdate: '1983-06-28',
@@ -52,13 +50,9 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       // given
       this.certificationCandidates = [
         store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
           firstName: 'Gamora',
           lastName: 'Zen Whoberi Ben Titan',
           birthdate: '1984-05-28',
-          extraTimePercentage: '8',
-          authorizedToStart: true,
-          assessmentStatus: null,
         }),
       ];
 
@@ -71,36 +65,17 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       assert.dom(screen.getByRole('textbox', { name: 'Rechercher un candidat' })).exists();
     });
 
-    module('when the candidate search filter is filled', function () {
-      test('it renders the filtered candidates information', async function (assert) {
+    module('when the candidate search filter is filled but has no match', function () {
+      test('it renders an empty candidates list', async function (assert) {
         // given
         this.certificationCandidates = [
           store.createRecord('certification-candidate-for-supervising', {
-            id: 123,
-            firstName: 'Gamora',
-            lastName: 'Zen Whoberi Ben Titan',
-            birthdate: '1984-05-28',
-            extraTimePercentage: '8',
-            authorizedToStart: true,
-            assessmentStatus: null,
+            firstName: 'Tom',
+            lastName: 'Nook',
           }),
           store.createRecord('certification-candidate-for-supervising', {
-            id: 456,
-            firstName: 'Star',
-            lastName: 'Lord',
-            birthdate: '1983-06-28',
-            extraTimePercentage: '12',
-            authorizedToStart: false,
-            assessmentStatus: null,
-          }),
-          store.createRecord('certification-candidate-for-supervising', {
-            id: 789,
-            firstName: 'Gammvert',
-            lastName: 'Rocket',
-            birthdate: '1982-06-06',
-            extraTimePercentage: '12',
-            authorizedToStart: false,
-            assessmentStatus: null,
+            firstName: 'Kéké',
+            lastName: 'Laglisse',
           }),
         ];
         const screen = await renderScreen(
@@ -108,12 +83,55 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         );
 
         // when
-        await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Gam');
+        await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Marie');
 
         // then
-        assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
-        assert.dom(screen.getByText('Rocket Gammvert')).exists();
-        assert.dom(screen.queryByText('Lord Star')).doesNotExist();
+        assert.dom(screen.queryByText('Nook Tom')).doesNotExist();
+        assert.dom(screen.queryByText('Laglisse Kéké')).doesNotExist();
+        assert
+          .dom(
+            screen.getByText(
+              this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
+                authorizedToStartCandidates: 0,
+                totalCandidates: this.certificationCandidates.length,
+              })
+            )
+          )
+          .exists();
+      });
+    });
+
+    module('when the candidate search filter is filled', function () {
+      [
+        { firstName: 'FirstName', lastName: 'Whatever', filter: 'Fir' },
+        { firstName: 'Whatever', lastName: 'LastName', filter: 'Last' },
+        { firstName: 'FirstName', lastName: 'LastName', filter: 'LastName FirstName' },
+        { firstName: 'Mïchèle', lastName: 'Désarçônnée', filter: 'Michele Desarconnee' },
+        { firstName: 'Jean-Michel', lastName: 'Promis-Je-La-Fais-Pas', filter: 'jean michel promis je la fais pas' },
+      ].forEach(({ firstName, lastName, filter }) => {
+        test(`it renders the ${firstName} and ${lastName} candidates information for ${filter} filter`, async function (assert) {
+          // given
+          this.certificationCandidates = [
+            store.createRecord('certification-candidate-for-supervising', {
+              firstName,
+              lastName,
+            }),
+            store.createRecord('certification-candidate-for-supervising', {
+              firstName: 'OtherFirstName',
+              lastName: 'OtherLastName',
+            }),
+          ];
+          const screen = await renderScreen(
+            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+          );
+
+          // when
+          await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), filter);
+
+          // then
+          assert.dom(screen.getByText(lastName + ' ' + firstName)).exists();
+          assert.dom(screen.queryByText('OtherLastName OtherFirstName')).doesNotExist();
+        });
       });
 
       module('when the empty input button is clicked', function () {
@@ -121,13 +139,8 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           // given
           this.certificationCandidates = [
             store.createRecord('certification-candidate-for-supervising', {
-              id: 123,
               firstName: 'Gamora',
               lastName: 'Zen Whoberi Ben Titan',
-              birthdate: '1984-05-28',
-              extraTimePercentage: '8',
-              authorizedToStart: true,
-              assessmentStatus: null,
             }),
           ];
           const screen = await renderScreen(
@@ -150,31 +163,19 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         // given
         this.certificationCandidates = [
           store.createRecord('certification-candidate-for-supervising', {
-            id: 123,
             firstName: 'Gamora',
             lastName: 'Zen Whoberi Ben Titan',
-            birthdate: '1984-05-28',
-            extraTimePercentage: '8',
             authorizedToStart: true,
-            assessmentStatus: null,
           }),
           store.createRecord('certification-candidate-for-supervising', {
-            id: 456,
             firstName: 'Star',
             lastName: 'Lord',
-            birthdate: '1983-06-28',
-            extraTimePercentage: '12',
             authorizedToStart: true,
-            assessmentStatus: null,
           }),
           store.createRecord('certification-candidate-for-supervising', {
-            id: 789,
             firstName: 'Gammvert',
             lastName: 'Rocket',
-            birthdate: '1982-06-06',
-            extraTimePercentage: '12',
             authorizedToStart: false,
-            assessmentStatus: null,
           }),
         ];
 
