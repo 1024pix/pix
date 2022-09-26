@@ -18,7 +18,7 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
     };
   });
 
-  module('#addMembership', function () {
+  module('#addOrganizationMembership', function () {
     module('when user is not existing', function () {
       test('it should return an error', async function (assert) {
         // given
@@ -30,7 +30,7 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         controller.userEmailToAdd = 'a-user-not-in-store@example.net';
 
         // when
-        await controller.addMembership();
+        await controller.addOrganizationMembership();
 
         // then
         sinon.assert.calledWith(controller.notifications.error, 'Compte inconnu.');
@@ -54,7 +54,7 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         controller.userEmailToAdd = emailInLowerCase.toUpperCase();
 
         // when
-        await controller.addMembership();
+        await controller.addOrganizationMembership();
 
         // then
         sinon.assert.calledWith(controller.notifications.error, 'Compte déjà associé.');
@@ -73,7 +73,7 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
 
         controller.model = {
           hasMember: sinon.stub().resolves(false),
-          memberships: {
+          organizationMemberships: {
             reload: sinon.stub().resolves(true),
           },
           organization: {
@@ -83,11 +83,11 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         controller.userEmailToAdd = email;
 
         // when
-        await controller.addMembership();
+        await controller.addOrganizationMembership();
 
         // then
         assert.deepEqual(controller.userEmailToAdd, null);
-        assert.ok(controller.model.memberships.reload.calledOnce);
+        assert.ok(controller.model.organizationMemberships.reload.calledOnce);
         sinon.assert.calledWith(controller.notifications.success, 'Accès attribué avec succès.');
         assert.ok(true);
       });
@@ -101,7 +101,7 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         store.createRecord = sinon.stub().returns({ save: sinon.stub() });
         controller.model = {
           hasMember: sinon.stub().resolves(false),
-          memberships: {
+          organizationMemberships: {
             reload: sinon.stub().rejects('some error'),
           },
           organization: {
@@ -111,7 +111,7 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         controller.userEmailToAdd = email;
 
         // when
-        await controller.addMembership();
+        await controller.addOrganizationMembership();
 
         // then
         sinon.assert.calledWith(controller.notifications.error, 'Une erreur est survenue.');

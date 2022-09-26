@@ -200,16 +200,17 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator clicks on organizations tab', function () {
     test('should display user’s organizations', async function (assert) {
       // given
+      const organization = this.server.create('organization');
       const organizationMembership1 = this.server.create('organization-membership', {
-        role: 'MEMBER',
-        organizationId: 100025,
+        organizationRole: 'MEMBER',
+        organizationId: organization.id,
         organizationName: 'Dragon & Co',
         organizationType: 'PRO',
       });
 
       const organizationMembership2 = this.server.create('organization-membership', {
-        role: 'MEMBER',
-        organizationId: 100095,
+        organizationRole: 'MEMBER',
+        organizationId: organization.id,
         organizationName: 'Collège The Night Watch',
         organizationType: 'SCO',
         organizationExternalId: '1237457A',

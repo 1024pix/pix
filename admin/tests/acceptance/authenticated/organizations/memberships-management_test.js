@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Organizations | Memberships management', function (hooks) {
@@ -52,7 +52,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     test('it should redirect to user details on user id click', async function (assert) {
       // given
       const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
-      this.server.create('membership', { user, organization });
+      this.server.create('organization-membership', { user, organization });
 
       // when
       const screen = await visit(`/organizations/${organization.id}/team`);
@@ -69,9 +69,9 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     let user;
     hooks.beforeEach(async function () {
       user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
-      this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
+      this.server.create('organization-membership', { organizationRole: 'ADMIN', user, organization });
       user = this.server.create('user', { firstName: 'Jane', lastName: 'Doe', email: 'user2@example.com' });
-      this.server.create('membership', { organizationRole: 'MEMBER', user, organization });
+      this.server.create('organization-membership', { organizationRole: 'MEMBER', user, organization });
     });
 
     test('it should list all memberships when all is selected', async function (assert) {
@@ -122,7 +122,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
         lastName: 'Ter Hegg',
         email: 'denise@example.com',
       });
-      this.server.create('membership', { user, organization });
+      this.server.create('organization-membership', { user, organization });
 
       // when
       const screen = await visit(`/organizations/${organization.id}`);
@@ -142,7 +142,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     test('should not do anything when no user was found for the input email', async function (assert) {
       // given
       const user = this.server.create('user', { firstName: 'Erica', lastName: 'Caouette', email: 'erica@example.com' });
-      this.server.create('membership', { user, organization });
+      this.server.create('organization-membership', { user, organization });
 
       // when
       const screen = await visit(`/organizations/${organization.id}`);
@@ -172,47 +172,6 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
       // then
       assert.dom(screen.queryByText('Ajouter un membre')).doesNotExist();
-    });
-  });
-
-  module("editing a member's role", function (hooks) {
-    let membership;
-
-    hooks.beforeEach(async function () {
-      const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
-      membership = this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
-    });
-
-    test("should update member's role", async function (assert) {
-      // given / when
-      const screen = await visit(`/organizations/${organization.id}/team`);
-      await clickByName('Modifier le rôle');
-      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
-      await clickByName('Enregistrer');
-
-      // then
-      assert.strictEqual(membership.organizationRole, 'MEMBER');
-      assert.dom(screen.getByText('Le rôle du membre a été mis à jour avec succès.')).exists();
-    });
-  });
-
-  module('deactivating a member', function (hooks) {
-    hooks.beforeEach(async function () {
-      const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
-      this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
-    });
-
-    test('should deactivate a member', async function (assert) {
-      // given
-      const screen = await visit(`/organizations/${organization.id}/team`);
-      await clickByName("Désactiver l'agent");
-
-      // when
-      await clickByName('Confirmer');
-
-      // then
-      assert.dom(screen.getByText('Le membre a été désactivé avec succès.')).exists();
-      assert.dom(screen.getByText('Aucun résultat')).exists();
     });
   });
 });

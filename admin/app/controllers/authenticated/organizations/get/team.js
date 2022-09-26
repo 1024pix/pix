@@ -52,7 +52,7 @@ export default class GetTeamController extends Controller {
   }
 
   @action
-  async addMembership() {
+  async addOrganizationMembership() {
     const organization = this.model;
     const email = this.userEmailToAdd.trim();
     const user = await this._getUser(email);
@@ -65,9 +65,9 @@ export default class GetTeamController extends Controller {
     }
 
     try {
-      await this.store.createRecord('membership', { organization, user }).save();
+      await this.store.createRecord('organization-membership', { organization, user }).save();
 
-      await organization.memberships.reload({
+      await organization.organizationMemberships.reload({
         adapterOptions: {
           'page[size]': this.pageSize,
           'page[number]': this.pageNumber,
@@ -81,14 +81,15 @@ export default class GetTeamController extends Controller {
       this.userEmailToAdd = null;
       this.notifications.success('Accès attribué avec succès.');
     } catch (e) {
+      console.log(e);
       this.notifications.error('Une erreur est survenue.');
     }
   }
 
   @action
-  async updateMembership(membership) {
+  async updateMembership(organizationMembership) {
     try {
-      await membership.save();
+      await organizationMembership.save();
       this.notifications.success('Le rôle du membre a été mis à jour avec succès.');
     } catch (e) {
       this.notifications.error('Une erreur est survenue lors de la mise à jour du rôle du membre.');
@@ -96,10 +97,10 @@ export default class GetTeamController extends Controller {
   }
 
   @action
-  async disableMembership(membership) {
+  async disableMembership(organizationMembership) {
     try {
-      await membership.save({ adapterOptions: { disable: true } });
-      await this.model.memberships.reload();
+      await organizationMembership.save({ adapterOptions: { disable: true } });
+      await this.model.organizationMemberships.reload();
       this.notifications.success('Le membre a été désactivé avec succès.');
     } catch (e) {
       this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');

@@ -32,8 +32,8 @@ export default class MemberItem extends Component {
   updateRoleOfMember() {
     this.isEditionMode = false;
     if (!this.selectedNewRole) return false;
-    this.args.membership.organizationRole = this.selectedNewRole;
-    return this.args.updateMembership(this.args.membership);
+    this.args.organizationMembership.organizationRole = this.selectedNewRole;
+    return this.args.updateMembership(this.args.organizationMembership);
   }
 
   @action
@@ -56,6 +56,6 @@ export default class MemberItem extends Component {
   @action
   disableMembership() {
     this.toggleDisplayConfirm();
-    return this.args.disableMembership(this.args.membership);
+    return this.args.disableMembership(this.args.organizationMembership);
   }
 }

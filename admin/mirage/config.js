@@ -15,7 +15,7 @@ import {
 } from './handlers/target-profiles';
 
 import { Response } from 'ember-cli-mirage';
-import { createMembership } from './handlers/memberships';
+import { createOrganizationMembership } from './handlers/organization-memberships';
 import { getBadge } from './handlers/badges';
 import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
@@ -133,10 +133,10 @@ export default function () {
     return new Response(204);
   });
 
-  this.post('/admin/memberships', createMembership);
+  this.post('/admin/memberships', createOrganizationMembership);
   this.get('/admin/organizations');
   this.get('/admin/organizations/:id');
-  this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
+  this.get('/admin/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);
   this.post('/admin/organizations/:id/attach-target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
@@ -199,19 +199,19 @@ export default function () {
   });
 
   this.patch('/admin/memberships/:id', (schema, request) => {
-    const membershipId = request.params.id;
+    const organizationMembershipId = request.params.id;
     const params = JSON.parse(request.requestBody);
     const organizationRole = params.data.attributes['organization-role'];
 
-    const membership = schema.memberships.findBy({ id: membershipId });
-    return membership.update({ organizationRole });
+    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
+    return organizationMembership.update({ organizationRole });
   });
 
   this.post('/admin/memberships/:id/disable', (schema, request) => {
-    const membershipId = request.params.id;
+    const organizationMembershipId = request.params.id;
 
-    const membership = schema.memberships.findBy({ id: membershipId });
-    return membership.update({ disabledAt: new Date() });
+    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
+    return organizationMembership.update({ disabledAt: new Date() });
   });
 
   this.patch('/admin/organizations/:id');

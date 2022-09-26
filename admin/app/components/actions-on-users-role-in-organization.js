@@ -29,7 +29,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
     if (!this.selectedNewRole) return;
 
     try {
-      this.args.organizationMembership.role = this.selectedNewRole;
+      this.args.organizationMembership.organizationRole = this.selectedNewRole;
       await this.args.organizationMembership.save();
       this.notifications.success('Le rôle du membre a été mis à jour avec succès.');
     } catch (e) {
@@ -59,8 +59,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
   @action
   async disableOrganizationMembership() {
     try {
-      await this.args.organizationMembership.save({ adapterOptions: { disable: true } });
-      await this.args.organizationMembership.reload();
+      await this.args.organizationMembership.destroyRecord({ adapterOptions: { disable: true } });
       this.notifications.success('Le membre a été désactivé avec succès.');
     } catch (e) {
       this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
