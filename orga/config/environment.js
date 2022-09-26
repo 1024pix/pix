@@ -46,11 +46,6 @@ module.exports = function (environment) {
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
     },
 
-    googleFonts: [
-      'Roboto:300,400,500,700,900', // main font
-      'Open+Sans:300,400,600,700',
-    ],
-
     fontawesome: {
       warnIfNoIconsIncluded: false,
     },
