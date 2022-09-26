@@ -23,6 +23,9 @@ export default class Organization extends Model {
   @attr('date') archivedAt;
   @attr('nullable-string') creatorFullName;
   @attr() identityProviderForCampaigns;
+  @attr() dataProtectionOfficerFirstName;
+  @attr() dataProtectionOfficerLastName;
+  @attr() dataProtectionOfficerEmail;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
@@ -50,6 +53,10 @@ export default class Organization extends Model {
 
   get sortedTargetProfileSummaries() {
     return this.targetProfileSummaries.sortBy('id');
+  }
+
+  get dataProtectionOfficerFullName() {
+    return `${this.dataProtectionOfficerFirstName} ${this.dataProtectionOfficerLastName}`;
   }
 
   attachTargetProfiles = memberAction({
