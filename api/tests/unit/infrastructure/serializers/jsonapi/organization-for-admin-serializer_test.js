@@ -20,6 +20,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         documentationUrl: 'https://pix.fr/',
         archivistFirstName: 'John',
         archivistLastName: 'Doe',
+        dataProtectionOfficerFirstName: 'Justin',
+        dataProtectionOfficerLastName: 'Ptipeu',
+        dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
       });
       const meta = { some: 'meta' };
@@ -49,6 +52,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'show-skills': organization.showSkills,
             'archived-at': organization.archivedAt,
             'archivist-full-name': organization.archivistFullName,
+            'data-protection-officer-first-name': organization.dataProtectionOfficerFirstName,
+            'data-protection-officer-last-name': organization.dataProtectionOfficerLastName,
+            'data-protection-officer-email': organization.dataProtectionOfficerEmail,
             'creator-full-name': organization.creatorFullName,
             'identity-provider-for-campaigns': SamlIdentityProviders.GAR.code,
           },

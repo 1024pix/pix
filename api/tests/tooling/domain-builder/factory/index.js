@@ -69,6 +69,7 @@ module.exports = {
   buildCountry: require('./build-country'),
   buildCourse: require('./build-course'),
   buildCpfCertificationResult: require('./build-cpf-certification-result'),
+  buildDataProtectionOfficer: require('./build-data-protection-officer'),
   buildFinalizedSession: require('./build-finalized-session'),
   buildHint: require('./build-hint'),
   buildSupOrganizationLearner: require('./build-sup-organization-learner'),

@@ -8,8 +8,8 @@ function buildCertificationCenterDataProtectionOfficer({
   lastName,
   email,
   certificationCenterId,
-  createdAt = new Date(),
-  updatedAt = new Date(),
+  createdAt = new Date('2022-09-26T14:36:46Z'),
+  updatedAt = new Date('2022-09-26T14:36:46Z'),
 }) {
   const values = {
     id,
@@ -33,8 +33,8 @@ function buildOrganizationDataProtectionOfficer({
   lastName,
   email,
   organizationId,
-  createdAt = new Date(),
-  updatedAt = new Date(),
+  createdAt = new Date('2022-09-26T14:36:46Z'),
+  updatedAt = new Date('2022-09-26T14:36:46Z'),
 }) {
   const values = {
     id,
