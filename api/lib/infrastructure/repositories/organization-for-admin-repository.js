@@ -25,6 +25,9 @@ function _toDomain(rawOrganization) {
     archivedAt: rawOrganization.archivedAt,
     archivistFirstName: rawOrganization.archivistFirstName,
     archivistLastName: rawOrganization.archivistLastName,
+    dataProtectionOfficerFirstName: rawOrganization.dataProtectionOfficerFirstName,
+    dataProtectionOfficerLastName: rawOrganization.dataProtectionOfficerLastName,
+    dataProtectionOfficerEmail: rawOrganization.dataProtectionOfficerEmail,
     creatorFirstName: rawOrganization.creatorFirstName,
     creatorLastName: rawOrganization.creatorLastName,
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
@@ -57,12 +60,20 @@ module.exports = {
         archivedAt: 'organizations.archivedAt',
         archivistFirstName: 'archivists.firstName',
         archivistLastName: 'archivists.lastName',
+        dataProtectionOfficerFirstName: 'dataProtectionOfficers.firstName',
+        dataProtectionOfficerLastName: 'dataProtectionOfficers.lastName',
+        dataProtectionOfficerEmail: 'dataProtectionOfficers.email',
         creatorFirstName: 'creators.firstName',
         creatorLastName: 'creators.lastName',
         identityProviderForCampaigns: 'organizations.identityProviderForCampaigns',
       })
       .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
       .leftJoin('users AS creators', 'creators.id', 'organizations.createdBy')
+      .leftJoin(
+        'data-protection-officers AS dataProtectionOfficers',
+        'dataProtectionOfficers.organizationId',
+        'organizations.id'
+      )
       .where('organizations.id', id)
       .first();
 
