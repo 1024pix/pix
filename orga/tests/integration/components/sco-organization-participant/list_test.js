@@ -27,7 +27,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('it should display the filter banner', async function (assert) {
+  test('it should display columns headers', async function (assert) {
     // given
     this.set('students', []);
 
@@ -138,6 +138,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'firstName', 'bob');
+      assert.ok(true);
+    });
+
+    test('it should trigger filtering with search', async function (assert) {
+      // given
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+
+      // when
+      await fillByLabel(this.intl.t('pages.sco-organization-participants.filter.search.aria-label'), 'Bob M');
+
+      // then
+      sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');
       assert.ok(true);
     });
 
