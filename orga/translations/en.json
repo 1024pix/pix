@@ -842,6 +842,10 @@
           "aria-label": "Enter a last name",
           "label": "Search by last name"
         },
+        "search": {
+          "aria-label": "Search by lastname and firstname",
+          "label": "Lastname, firstname"
+        },
         "login-method": {
           "aria-label": "Search by log in method",
           "empty-option": "login method"

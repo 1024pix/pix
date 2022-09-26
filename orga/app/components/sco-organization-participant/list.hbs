@@ -22,6 +22,14 @@
     @triggerFiltering={{@onFilter}}
   />
 
+  <Ui::SearchInputFilter
+    @field="search"
+    @value={{@searchFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.search.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.search.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+
   <Ui::MultiSelectFilter
     @field="divisions"
     @title={{t "pages.sco-organization-participants.filter.division.label"}}

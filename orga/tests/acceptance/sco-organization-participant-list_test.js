@@ -147,6 +147,15 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           assert.notContains('Norris');
         });
 
+        test('it filters by search', async function (assert) {
+          // when
+          await visit('/eleves');
+          await fillByLabel('Recherche sur le nom et prénom', 'Jo');
+
+          // then
+          assert.strictEqual(currentURL(), '/eleves?search=Jo');
+        });
+
         test('it should display the students list filtered by connection type', async function (assert) {
           // when
           await visit('/eleves');

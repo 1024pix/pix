@@ -842,6 +842,10 @@
           "aria-label": "Entrer un nom",
           "label": "Rechercher par nom"
         },
+        "search": {
+          "aria-label": "Recherche sur le nom et prénom",
+          "label": "Nom, prénom"
+        },
         "login-method": {
           "aria-label": "Rechercher par méthode de connexion",
           "empty-option": "Méthode de connexion"
