@@ -144,7 +144,9 @@ async function _getKnowledgeElements({
     targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
-    targetSkills = await campaignRepository.findSkillsByCampaignParticipationId(assessment.campaignParticipationId);
+    targetSkills = await campaignRepository.findSkillsByCampaignParticipationId({
+      campaignParticipationId: assessment.campaignParticipationId,
+    });
   }
   return KnowledgeElement.createKnowledgeElementsForAnswer({
     answer,

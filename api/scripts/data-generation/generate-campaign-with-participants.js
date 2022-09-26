@@ -366,7 +366,7 @@ async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, u
   console.log('\tCréation des knowledge-elements...');
   const knowledgeElementData = [];
   console.log('\t\tCréation des données par acquis...');
-  const skills = await campaignRepository.findSkills(campaignId);
+  const skills = await campaignRepository.findSkills({ campaignId });
   for (const skill of skills) {
     const knowledgeElementDataForOneSkill = [];
     for (const userAndAssessmentId of userAndAssessmentIds) {

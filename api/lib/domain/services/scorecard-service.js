@@ -134,7 +134,9 @@ async function _resetCampaignAssessment({
   campaignRepository,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
-  const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId(assessment.campaignParticipationId);
+  const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
+    campaignParticipationId: assessment.campaignParticipationId,
+  });
 
   const resetSkillsNotIncludedInCampaign = _computeResetSkillsNotIncludedInCampaign({
     skillIds,

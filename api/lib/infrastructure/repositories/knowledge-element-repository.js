@@ -7,6 +7,7 @@ const CampaignParticipationStatuses = require('../../domain/models/CampaignParti
 const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
+const campaignRepository = require('./campaign-repository');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const { SHARED } = CampaignParticipationStatuses;
@@ -49,19 +50,13 @@ async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domai
 }
 
 async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId) {
-  const targetProfileSkillsFromDB = await knex('target-profiles_skills')
-    .select('target-profiles_skills.skillId')
-    .join('target-profiles', 'target-profiles.id', 'target-profiles_skills.targetProfileId')
-    .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
-    .where('campaigns.id', '=', campaignId);
-
-  const targetProfileSkillIds = _.map(targetProfileSkillsFromDB, 'skillId');
+  const skillIds = await campaignRepository.findSkillIds({ campaignId, filterByStatus: 'all' });
 
   return _.filter(knowledgeElements, (knowledgeElement) => {
     if (knowledgeElement.isInvalidated) {
       return false;
     }
-    return _.includes(targetProfileSkillIds, knowledgeElement.skillId);
+    return _.includes(skillIds, knowledgeElement.skillId);
   });
 }
 

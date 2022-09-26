@@ -332,10 +332,10 @@ describe('Unit | Service | ScorecardService', function () {
           .resolves(campaignParticipation2Updated);
 
         campaignRepository.findSkillIdsByCampaignParticipationId
-          .withArgs(campaignParticipation1.id)
+          .withArgs({ campaignParticipationId: campaignParticipation1.id })
           .resolves([skillId]);
         campaignRepository.findSkillIdsByCampaignParticipationId
-          .withArgs(campaignParticipation2.id)
+          .withArgs({ campaignParticipationId: campaignParticipation2.id })
           .resolves([skillId]);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId

@@ -18,10 +18,10 @@ const handleBadgeAcquisition = async function ({
     if (_.isEmpty(associatedBadges)) {
       return;
     }
-    const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId(
-      assessment.campaignParticipationId,
-      domainTransaction
-    );
+    const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
+      campaignParticipationId: assessment.campaignParticipationId,
+      domainTransaction,
+    });
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
       userId: assessment.userId,
       domainTransaction,

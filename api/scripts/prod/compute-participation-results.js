@@ -1,7 +1,7 @@
 // Usage: node compute-participation-results.js
 require('dotenv').config({ path: `${__dirname}/../../.env` });
 const knowlegeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const skillDatasource = require('../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
 const ParticipantResultsShared = require('../../lib/domain/models/ParticipantResultsShared');
 const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
 const { SHARED } = CampaignParticipationStatuses;
@@ -75,8 +75,8 @@ async function _updateCampaignParticipations(campaign) {
 async function _computeCampaignParticipationResults(campaign) {
   const competences = await competenceRepository.listPixCompetencesOnly();
   const campaignParticipationInfosChunks = await _getCampaignParticipationChunks(campaign);
-  const targetedSkillIds = await _fetchTargetedSkillIds(campaign.id);
-  const computeResultsWithTargetedSkillIds = _.partial(_computeResults, targetedSkillIds, competences);
+  const skillIds = await campaignRepository.findSkillIds({ campaignId: campaign.id });
+  const computeResultsWithTargetedSkillIds = _.partial(_computeResults, skillIds, competences);
 
   const participantsResults = await bluebird.mapSeries(
     campaignParticipationInfosChunks,
@@ -95,18 +95,7 @@ async function _getCampaignParticipationChunks(campaign) {
   return _.chunk(campaignParticipations, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 }
 
-async function _fetchTargetedSkillIds(campaignId) {
-  const skillIds = await knex('campaigns')
-    .pluck('skillId')
-    .join('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'campaigns.targetProfileId')
-    .where('campaigns.id', campaignId);
-
-  const targetedSkillIds = await skillDatasource.findOperativeByRecordIds(skillIds);
-
-  return targetedSkillIds.map(({ id }) => id);
-}
-
-async function _computeResults(targetedSkillIds, competences, campaignParticipations) {
+async function _computeResults(skillIds, competences, campaignParticipations) {
   const knowledgeElementByUser = await _getKnowledgeElementsByUser(campaignParticipations);
 
   const userIdsAndDates = {};
@@ -120,7 +109,7 @@ async function _computeResults(targetedSkillIds, competences, campaignParticipat
     return new ParticipantResultsShared({
       campaignParticipationId: id,
       knowledgeElements: knowledgeElementByUser[userId],
-      targetedSkillIds,
+      skillIds,
       placementProfile: placementProfiles.find((placementProfile) => placementProfile.userId === userId),
     });
   });
