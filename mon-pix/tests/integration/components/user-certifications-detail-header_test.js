@@ -189,7 +189,7 @@ describe('Integration | Component | user certifications detail header', function
         pixScore: 654,
         status: 'validated',
         commentForCandidate: 'Comment for candidate',
-        verificationCode: 'P-1223444',
+        verificationCode: 'P-122344',
       });
       this.set('certification', certification);
 
@@ -268,7 +268,7 @@ describe('Integration | Component | user certifications detail header', function
         pixScore: 654,
         status: 'validated',
         commentForCandidate: 'Comment for candidate',
-        verificationCode: 'P-1223444',
+        verificationCode: 'P-122344',
       });
       this.set('certification', certification);
 
@@ -283,6 +283,46 @@ describe('Integration | Component | user certifications detail header', function
         fileName: 'attestation_pix.pdf',
         token: undefined,
       });
+    });
+  });
+
+  context('when there is an error during the download of the attestation', function () {
+    it('should show the error message', async function () {
+      // given
+      const fileSaverSaveStub = sinon.stub();
+      class FileSaverStub extends Service {
+        save = fileSaverSaveStub;
+      }
+      this.owner.register('service:fileSaver', FileSaverStub);
+
+      fileSaverSaveStub.rejects(new Error('an error message'));
+
+      const store = this.owner.lookup('service:store');
+      const certification = store.createRecord('certification', {
+        id: 1234,
+        birthdate: '2000-01-22',
+        birthplace: 'Paris',
+        firstName: 'jean',
+        lastName: 'bon',
+        fullName: 'Jean Bon',
+        date: new Date('2018-02-15T15:15:52Z'),
+        deliveredAt: '2021-05-28',
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 654,
+        status: 'validated',
+        commentForCandidate: 'Comment for candidate',
+        verificationCode: 'P-122344',
+      });
+      this.set('certification', certification);
+
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
+
+      // then
+      expect(screen.getByText('an error message')).to.exist;
     });
   });
 });

@@ -3,8 +3,12 @@ const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const moment = require('moment');
 const _ = require('lodash');
+const bluebird = require('bluebird');
+// eslint-disable-next-line no-restricted-modules
+const axios = require('axios');
 
 const AttestationViewModel = require('./AttestationViewModel');
+const { CertificationAttestationGenerationError } = require('../../../domain/errors');
 
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',
@@ -74,50 +78,28 @@ async function _embedFontInPDFDocument(pdfDoc, fontFileName, dirname) {
 
 async function _embedImages(pdfDocument, viewModels) {
   const embeddedImages = {};
-  const viewModelsWithCleaCertification = _.filter(viewModels, (viewModel) =>
-    viewModel.shouldDisplayCleaCertification()
-  );
 
-  if (viewModelsWithCleaCertification.length > 0) {
-    const cleaCertificationImagePath = viewModelsWithCleaCertification[0].cleaCertificationImagePath;
-    const image = await _embedCertificationImage(pdfDocument, cleaCertificationImagePath);
-    embeddedImages[cleaCertificationImagePath] = image;
-  }
-
-  const viewModelsWithPixPlusDroitCertification = _.filter(viewModels, (viewModel) =>
-    viewModel.shouldDisplayPixPlusDroitCertification()
-  );
-
-  if (viewModelsWithPixPlusDroitCertification.length > 0) {
-    const singleImagePaths = _(viewModelsWithPixPlusDroitCertification)
-      .map('pixPlusDroitCertificationImagePath')
-      .uniq()
-      .value();
-    for (const path of singleImagePaths) {
-      const image = await _embedCertificationImage(pdfDocument, path);
-      embeddedImages[path] = image;
-    }
-  }
-
-  const viewModelsWithPixPlusEduCertification = _.filter(viewModels, (viewModel) =>
-    viewModel.shouldDisplayPixPlusEduCertification()
-  );
-
-  if (viewModelsWithPixPlusEduCertification.length > 0) {
-    const singleImagePaths = _(viewModelsWithPixPlusEduCertification)
-      .map('pixPlusEduCertificationImagePath')
-      .uniq()
-      .value();
-    for (const path of singleImagePaths) {
-      embeddedImages[path] = await _embedCertificationImage(pdfDocument, path);
-    }
-  }
+  const uniqStickerUrls = _(viewModels)
+    .flatMap(({ stickers }) => stickers)
+    .map('url')
+    .uniq()
+    .value();
+  await bluebird.each(uniqStickerUrls, async (url) => {
+    embeddedImages[url] = await _embedCertificationImage(pdfDocument, url);
+  });
   return embeddedImages;
 }
 
 async function _embedCertificationImage(pdfDocument, certificationImagePath) {
-  const pngBuffer = await readFile(certificationImagePath);
-  const [page] = await pdfDocument.embedPdf(pngBuffer);
+  let response;
+  try {
+    response = await axios.get(certificationImagePath, {
+      responseType: 'arraybuffer',
+    });
+  } catch (_) {
+    throw new CertificationAttestationGenerationError();
+  }
+  const [page] = await pdfDocument.embedPdf(response.data);
   return page;
 }
 
@@ -222,8 +204,7 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
     newPage.setFont(embeddedFonts.robotoMonoRegular);
     _renderVerificationCode(viewModel, newPage, rgb);
 
-    _renderCleaCertification(viewModel, newPage, embeddedImages);
-    _renderPixPlusCertificationCertification(viewModel, newPage, embeddedImages);
+    _renderComplementaryCertificationStickers(viewModel, newPage, embeddedImages);
   }
 }
 
@@ -320,57 +301,31 @@ function _renderVerificationCode(viewModel, page, rgb) {
   });
 }
 
-function _renderPixPlusCertificationCertification(viewModel, page, embeddedImages) {
-  let yCoordinate = 480;
-
-  if (viewModel.shouldDisplayCleaCertification()) {
-    yCoordinate -= 84;
-  }
-
-  if (viewModel.shouldDisplayPixPlusDroitCertification()) {
-    const pdfImage = embeddedImages[viewModel.pixPlusDroitCertificationImagePath];
-    page.drawPage(pdfImage, {
-      x: 397,
-      y: yCoordinate - 111,
-      width: 85,
-      height: 111,
-    });
-    yCoordinate -= 111;
-  }
-
-  if (viewModel.shouldDisplayPixPlusEduCertification()) {
-    const pdfImage = embeddedImages[viewModel.pixPlusEduCertificationImagePath];
+function _renderComplementaryCertificationStickers(viewModel, page, embeddedImages) {
+  let yCoordinate = 395;
+  viewModel.stickers.forEach(({ url, messageParts }) => {
+    const pdfImage = embeddedImages[url];
     page.drawPage(pdfImage, {
       x: 400,
-      y: yCoordinate - 89,
+      y: yCoordinate,
       width: 80,
-      height: 89,
+      height: 90,
     });
-    yCoordinate -= 89 + 15;
 
-    if (viewModel.pixPlusEduBadgeMessage) {
-      viewModel.pixPlusEduBadgeMessage.forEach((text, index) => {
+    if (messageParts) {
+      yCoordinate -= 10;
+      messageParts.forEach((text) => {
         page.drawText(text, {
           x: 350,
-          y: yCoordinate - index * 10,
+          y: yCoordinate,
           size: 7,
           color: rgb(37 / 255, 56 / 255, 88 / 255),
         });
+        yCoordinate -= 10;
       });
     }
-  }
-}
-
-function _renderCleaCertification(viewModel, page, embeddedImages) {
-  if (viewModel.shouldDisplayCleaCertification()) {
-    const pdfImage = embeddedImages[viewModel.cleaCertificationImagePath];
-    page.drawPage(pdfImage, {
-      x: 400,
-      y: 400,
-      width: 80,
-      height: 84,
-    });
-  }
+    yCoordinate -= 90;
+  });
 }
 
 function _renderCompetencesDetails(viewModel, page, rgb) {

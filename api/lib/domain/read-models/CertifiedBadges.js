@@ -22,6 +22,7 @@ class CertifiedBadges {
           imageUrl,
           certificateMessage,
           temporaryCertificateMessage,
+          stickerUrl,
         } = complementaryCertificationCourseResults[0];
         if (hasExternalJury) {
           if (complementaryCertificationCourseResults.length === 1) {
@@ -34,6 +35,7 @@ class CertifiedBadges {
               label,
               imageUrl,
               message: temporaryCertificateMessage,
+              stickerUrl,
             };
           }
 
@@ -42,7 +44,7 @@ class CertifiedBadges {
               return;
             }
 
-            const { partnerKey, label, imageUrl, certificateMessage } = this._getLowestByLevel(
+            const { partnerKey, label, imageUrl, certificateMessage, stickerUrl } = this._getLowestByLevel(
               complementaryCertificationCourseResults
             );
 
@@ -52,12 +54,13 @@ class CertifiedBadges {
               label,
               imageUrl,
               message: certificateMessage,
+              stickerUrl,
             };
           }
         }
 
         if (acquired) {
-          return { partnerKey, isTemporaryBadge: false, label, imageUrl, message: certificateMessage };
+          return { partnerKey, isTemporaryBadge: false, label, imageUrl, message: certificateMessage, stickerUrl };
         }
       })
       .filter(Boolean);

@@ -13,6 +13,7 @@ module.exports = function buildComplementaryCertificationBadge({
   label = 'Label par defaut',
   certificateMessage,
   temporaryCertificateMessage,
+  stickerUrl = 'http://stiker-url.fr',
 } = {}) {
   complementaryCertificationId = _.isNull(complementaryCertificationId)
     ? buildComplementaryCertification().id
@@ -29,6 +30,7 @@ module.exports = function buildComplementaryCertificationBadge({
     label,
     certificateMessage,
     temporaryCertificateMessage,
+    stickerUrl,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-badges',

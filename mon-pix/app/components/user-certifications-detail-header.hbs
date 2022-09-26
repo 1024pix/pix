@@ -42,6 +42,9 @@
         <PixButton @triggerAction={{this.downloadAttestation}}>
           {{t "pages.certificate.attestation"}}
         </PixButton>
+        {{#if this.attestationDownloadErrorMessage}}
+          <p class="attestation__error-message">{{this.attestationDownloadErrorMessage}}</p>
+        {{/if}}
       </div>
       <hr />
       <div class="verification-code">

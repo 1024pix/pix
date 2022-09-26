@@ -100,6 +100,7 @@ async function _getcertifiedBadges(certificationCourseId) {
       'complementary-certification-course-results.acquired',
       'complementary-certification-course-results.complementaryCertificationCourseId',
       'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.stickerUrl',
       'complementary-certification-badges.label',
       'complementary-certification-badges.level',
       'complementary-certification-badges.certificateMessage',
