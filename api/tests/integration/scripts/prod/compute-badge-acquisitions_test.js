@@ -12,14 +12,13 @@ const {
   computeBadgeAcquisition,
   getCampaignParticipationsBetweenIds,
 } = require('../../../../scripts/prod/compute-badge-acquisitions');
-const _ = require('lodash');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
 const logger = require('../../../../lib/infrastructure/logger');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Script | Prod | Compute Badge Acquisitions', function () {
@@ -215,7 +214,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
   });
 
   describe('Unit | #computeBadgeAcquisition', function () {
-    let badgeRepository, targetProfileRepository, knowledgeElementRepository, badgeAcquisitionRepository;
+    let badgeRepository, campaignRepository, knowledgeElementRepository, badgeAcquisitionRepository;
     let badgeCriteriaService;
     let dependencies;
     let campaignParticipation;
@@ -227,20 +226,20 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       };
 
       badgeRepository = {
-        findByCampaignParticipationId: _.noop,
+        findByCampaignParticipationId: sinon.stub(),
       };
-      targetProfileRepository = {
-        getByCampaignParticipationId: _.noop,
+      campaignRepository = {
+        findSkillIdsByCampaignParticipationId: sinon.stub(),
       };
       knowledgeElementRepository = {
-        findUniqByUserId: _.noop,
+        findUniqByUserId: sinon.stub(),
       };
       badgeAcquisitionRepository = {
-        createOrUpdate: _.noop,
-        getAcquiredBadgeIds: _.noop,
+        createOrUpdate: sinon.stub(),
+        getAcquiredBadgeIds: sinon.stub(),
       };
       badgeCriteriaService = {
-        areBadgeCriteriaFulfilled: _.noop,
+        areBadgeCriteriaFulfilled: sinon.stub(),
       };
 
       dependencies = {
@@ -248,22 +247,21 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         badgeCriteriaService,
         badgeRepository,
         knowledgeElementRepository,
-        targetProfileRepository,
+        campaignRepository,
       };
     });
 
     context('when the campaign is associated to one badge', function () {
       let badge;
-      let targetProfile;
+      let skillIds;
       let knowledgeElements;
       let badgeId;
 
       beforeEach(function () {
         badgeId = Symbol('badgeId');
-        targetProfile = Symbol('targetProfile');
+        skillIds = Symbol('skillIds');
         knowledgeElements = Symbol('knowledgeElements');
 
-        sinon.stub(badgeRepository, 'findByCampaignParticipationId');
         badge = new Badge({
           id: badgeId,
           badgeCriteria: Symbol('badgeCriteria'),
@@ -272,25 +270,16 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([badge]);
 
-        sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-        targetProfileRepository.getByCampaignParticipationId
-          .withArgs({ campaignParticipationId: campaignParticipation.id })
-          .resolves(targetProfile);
+        campaignRepository.findSkillIdsByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(skillIds);
 
-        sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
         knowledgeElementRepository.findUniqByUserId
           .withArgs({ userId: campaignParticipation.userId })
           .resolves(knowledgeElements);
-        sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
-        sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
-        sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgeIds');
       });
 
       it('should create a badge when badge requirements are fulfilled and return number of badge created', async function () {
         // given
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, knowledgeElements, badge })
-          .returns(true);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ skillIds, knowledgeElements, badge }).returns(true);
         badgeAcquisitionRepository.getAcquiredBadgeIds.resolves([]);
 
         // when
@@ -311,9 +300,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
 
       it('should not create a badge when badge requirements are not fulfilled', async function () {
         // given
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, knowledgeElements, badge })
-          .returns(false);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ skillIds, knowledgeElements, badge }).returns(false);
 
         // when
         const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
@@ -327,16 +314,15 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
     context('when the campaign is associated to two badges', function () {
       let badge1, badge2;
       let badgeId_1, badgeId_2;
-      let targetProfile;
+      let skillIds;
       let knowledgeElements;
 
       beforeEach(function () {
         badgeId_1 = Symbol('badgeId_1');
         badgeId_2 = Symbol('badgeId_2');
-        targetProfile = Symbol('targetProfile');
+        skillIds = Symbol('skillIds');
         knowledgeElements = Symbol('knowledgeElements');
 
-        sinon.stub(badgeRepository, 'findByCampaignParticipationId');
         badge1 = new Badge({
           id: badgeId_1,
           badgeCriteria: Symbol('badgeCriteria'),
@@ -349,29 +335,21 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([badge1, badge2]);
 
-        sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-        targetProfileRepository.getByCampaignParticipationId
-          .withArgs({ campaignParticipationId: campaignParticipation.id })
-          .resolves(targetProfile);
+        campaignRepository.findSkillIdsByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(skillIds);
 
-        sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
         knowledgeElementRepository.findUniqByUserId
           .withArgs({ userId: campaignParticipation.userId })
           .resolves(knowledgeElements);
-
-        sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
-        sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
-        sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgeIds');
       });
 
       context('when only one badge requirements are fulfilled', function () {
         it('should create one badge', async function () {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
+            .withArgs({ skillIds, knowledgeElements, badge: badge1 })
             .returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
+            .withArgs({ skillIds, knowledgeElements, badge: badge2 })
             .returns(false);
           badgeAcquisitionRepository.getAcquiredBadgeIds
             .withArgs({
@@ -402,10 +380,10 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           it('should create two badges', async function () {
             // given
             badgeCriteriaService.areBadgeCriteriaFulfilled
-              .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
+              .withArgs({ skillIds, knowledgeElements, badge: badge1 })
               .returns(true);
             badgeCriteriaService.areBadgeCriteriaFulfilled
-              .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
+              .withArgs({ skillIds, knowledgeElements, badge: badge2 })
               .returns(true);
             badgeAcquisitionRepository.getAcquiredBadgeIds
               .withArgs({
@@ -440,10 +418,10 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           it('should create the other one', async function () {
             // given
             badgeCriteriaService.areBadgeCriteriaFulfilled
-              .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
+              .withArgs({ skillIds, knowledgeElements, badge: badge1 })
               .returns(true);
             badgeCriteriaService.areBadgeCriteriaFulfilled
-              .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
+              .withArgs({ skillIds, knowledgeElements, badge: badge2 })
               .returns(true);
             badgeAcquisitionRepository.getAcquiredBadgeIds
               .withArgs({
@@ -474,12 +452,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
     context('when the campaign is not associated to a badge', function () {
       it('should not create a badge', async function () {
         // given
-        sinon.stub(badgeRepository, 'findByCampaignParticipationId');
         badgeRepository.findByCampaignParticipationId
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([]);
-
-        sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
 
         // when
         const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
@@ -492,16 +467,15 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
 
     context('when dry-run option is provided', function () {
       let badge;
-      let targetProfile;
+      let skillIds;
       let knowledgeElements;
       let badgeId;
 
       beforeEach(function () {
         badgeId = Symbol('badgeId');
-        targetProfile = Symbol('targetProfile');
+        skillIds = Symbol('skillIds');
         knowledgeElements = Symbol('knowledgeElements');
 
-        sinon.stub(badgeRepository, 'findByCampaignParticipationId');
         badge = new Badge({
           id: badgeId,
           badgeCriteria: Symbol('badgeCriteria'),
@@ -510,26 +484,17 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([badge]);
 
-        sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-        targetProfileRepository.getByCampaignParticipationId
-          .withArgs({ campaignParticipationId: campaignParticipation.id })
-          .resolves(targetProfile);
+        campaignRepository.findSkillIdsByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(skillIds);
 
-        sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
         knowledgeElementRepository.findUniqByUserId
           .withArgs({ userId: campaignParticipation.userId })
           .resolves(knowledgeElements);
-        sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
-        sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
-        sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgeIds');
       });
 
       context('when badge requirements are fulfilled and return number of badge created', function () {
         it('should not create a badge but should return number of supposedly created badges', async function () {
           // given
-          badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, knowledgeElements, badge })
-            .returns(true);
+          badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ skillIds, knowledgeElements, badge }).returns(true);
           badgeAcquisitionRepository.getAcquiredBadgeIds.resolves([]);
 
           // when
@@ -665,7 +630,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         badgeAcquisitionRepository,
         badgeRepository,
         knowledgeElementRepository,
-        targetProfileRepository,
+        campaignRepository,
       });
 
       // then

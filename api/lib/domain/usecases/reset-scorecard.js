@@ -11,7 +11,7 @@ module.exports = async function resetScorecard({
   knowledgeElementRepository,
   assessmentRepository,
   campaignParticipationRepository,
-  targetProfileRepository,
+  campaignRepository,
   locale,
 }) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
@@ -43,7 +43,7 @@ module.exports = async function resetScorecard({
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
-    targetProfileRepository,
+    campaignRepository,
   });
 
   return scorecardService.computeScorecard({

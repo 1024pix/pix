@@ -20,7 +20,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
   const competenceRepository = {};
   const assessmentRepository = {};
   const campaignParticipationRepository = {};
-  const targetProfileRepository = {};
+  const campaignRepository = {};
   const scorecardService = {};
   let getRemainingDaysBeforeResetStub;
 
@@ -84,7 +84,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
-        targetProfileRepository,
+        campaignRepository,
         locale,
       });
 
@@ -98,7 +98,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         knowledgeElementRepository,
         competenceEvaluationRepository,
-        targetProfileRepository,
+        campaignRepository,
       });
       expect(response).to.equal(scorecard);
     });

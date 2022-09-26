@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -188,15 +187,8 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       return promise.then((foundTargetProfile) => {
-        expect(skillDatasource.findOperativeByRecordIds).to.have.been.calledWith([targetProfileFirstSkill.skillId]);
-
         expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
-
-        expect(foundTargetProfile.skills).to.be.an('array');
-        expect(foundTargetProfile.skills.length).to.equal(1);
-        expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
-        expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
-        expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
+        expect(foundTargetProfile.id).to.be.equal(targetProfile.id);
       });
     });
 
@@ -206,80 +198,6 @@ describe('Integration | Repository | Target-profile', function () {
 
         expect(error).to.be.an.instanceOf(NotFoundError);
         expect(error.message).to.have.string("Le profil cible avec l'id 1 n'existe pas");
-      });
-    });
-  });
-
-  describe('#findAllTargetProfilesOrganizationCanUse', function () {
-    let ownerOrganizationId;
-    let ownerOtherOrganizationId;
-    let targetProfileSkill;
-
-    let organizationTargetProfile;
-    let organizationTargetProfilePublic;
-    let publicTargetProfile;
-
-    beforeEach(async function () {
-      ownerOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      ownerOtherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-
-      organizationTargetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: false });
-      organizationTargetProfilePublic = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId,
-        isPublic: true,
-      });
-      publicTargetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: null, isPublic: true });
-      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: ownerOtherOrganizationId, isPublic: false });
-      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: null, isPublic: true, outdated: true });
-      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: false, outdated: true });
-
-      const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId: organizationTargetProfile.id,
-      });
-      await databaseBuilder.commit();
-
-      targetProfileSkill = { id: targetProfileSkillAssociation.skillId, name: '@Acquis2' };
-      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([targetProfileSkill]);
-    });
-
-    it('should return an Array', async function () {
-      // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(
-        ownerOrganizationId
-      );
-
-      // then
-      expect(foundTargetProfiles).to.be.an('array');
-    });
-
-    it('should return all the target profile the organization can access but not outdated', async function () {
-      // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(
-        ownerOrganizationId
-      );
-
-      // then
-      expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
-      expect(foundTargetProfiles).to.have.lengthOf(3);
-      expect(foundTargetProfiles[0].name).to.equal(organizationTargetProfile.name);
-      expect(foundTargetProfiles[1].name).to.equal(organizationTargetProfilePublic.name);
-      expect(foundTargetProfiles[2].name).to.equal(publicTargetProfile.name);
-    });
-
-    it('should contain skills linked to every target profiles', function () {
-      // when
-      const promise = targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
-
-      // then
-      return promise.then((targetProfiles) => {
-        const targetProfileSkills = targetProfiles[0].skills;
-        expect(targetProfileSkills).to.be.an('array');
-        expect(targetProfileSkills.length).to.equal(1);
-
-        const skill = targetProfileSkills[0];
-        expect(skill).to.be.an.instanceOf(Skill);
-        expect(skill.id).to.equal(targetProfileSkill.id);
-        expect(skill.name).to.equal(targetProfileSkill.name);
       });
     });
   });
@@ -307,6 +225,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
+      expect(targetProfile.skills).to.deep.equal([]);
     });
 
     it('should return the target profile with the stages ordered by threshold ASC', async function () {
@@ -318,86 +237,7 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.stages).to.have.lengthOf(2);
       expect(targetProfile.stages[0].threshold).to.equal(20);
       expect(targetProfile.stages[1].threshold).to.equal(40);
-    });
-  });
-
-  describe('#getByCampaignParticipationId', function () {
-    let campaignParticipationId, targetProfileId, skillAssociatedToTargetProfile;
-
-    beforeEach(async function () {
-      const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const anotherCampaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: anotherTargetProfileId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId: anotherCampaignId });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: anotherTargetProfileId });
-
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
-      skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
-      databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildCampaign();
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 40 });
-      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 20 });
-      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return the target profile matching the campaign participation id', async function () {
-      // when
-      const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
-
-      // then
-      expect(targetProfile.id).to.equal(targetProfileId);
-    });
-
-    it('should return the target profile with the stages ordered by threshold ASC', async function () {
-      // when
-      const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
-
-      // then
-      expect(targetProfile.stages).to.exist;
-      expect(targetProfile.stages).to.have.lengthOf(2);
-      expect(targetProfile.stages[0].threshold).to.equal(20);
-      expect(targetProfile.stages[1].threshold).to.equal(40);
-    });
-
-    it('should return the target profile with the related skills', async function () {
-      // when
-      const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
-
-      // then
-      expect(targetProfile.skills).to.exist;
-      expect(targetProfile.skills).to.have.lengthOf(1);
-      expect(targetProfile.skills[0]).to.deep.equal(new Skill(skillAssociatedToTargetProfile));
-    });
-
-    context('when there are same skillId for the target profile', function () {
-      it('should return only one skill', async function () {
-        // given
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        const skillId = 'recSKI666';
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId });
-
-        const skillAssociatedToTargetProfile = { id: skillId, name: '@AcquisSKI666' };
-
-        const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-
-        await databaseBuilder.commit();
-
-        skillDatasource.findOperativeByRecordIds.withArgs([skillId]).resolves([skillAssociatedToTargetProfile]);
-
-        // when
-        const targetProfile = await targetProfileRepository.getByCampaignParticipationId({ campaignParticipationId });
-
-        // then
-        expect(targetProfile.skills).to.exist;
-        expect(targetProfile.skills).to.have.lengthOf(1);
-        expect(targetProfile.skills[0]).to.deep.equal(new Skill(skillAssociatedToTargetProfile));
-      });
+      expect(targetProfile.skills).to.deep.equal([]);
     });
   });
 

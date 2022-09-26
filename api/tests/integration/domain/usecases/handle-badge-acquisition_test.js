@@ -1,10 +1,5 @@
 const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const handleBadgeAcquisition = require('../../../../lib/domain/usecases/handle-badge-acquisition');
-const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const useCases = require('../../../../lib/domain/usecases');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -118,14 +113,9 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
       it('should not affect the database', async function () {
         await DomainTransaction.execute(async (domainTransaction) => {
           // when
-          await handleBadgeAcquisition({
+          await useCases.handleBadgeAcquisition({
             assessment,
             domainTransaction,
-            badgeCriteriaService,
-            badgeAcquisitionRepository,
-            badgeRepository,
-            knowledgeElementRepository,
-            targetProfileRepository,
           });
 
           // then

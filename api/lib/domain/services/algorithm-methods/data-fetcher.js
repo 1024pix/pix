@@ -3,20 +3,20 @@ const _ = require('lodash');
 async function fetchForCampaigns({
   assessment,
   answerRepository,
-  targetProfileRepository,
+  campaignRepository,
   challengeRepository,
   knowledgeElementRepository,
   campaignParticipationRepository,
   improvementService,
 }) {
-  const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
-    campaignParticipationId: assessment.campaignParticipationId,
-  });
+  const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId(
+    assessment.campaignParticipationId
+  );
   const isRetrying = await campaignParticipationRepository.isRetrying({
     campaignParticipationId: assessment.campaignParticipationId,
   });
 
-  const [allAnswers, knowledgeElements, [targetSkills, challenges]] = await Promise.all([
+  const [allAnswers, knowledgeElements, [skills, challenges]] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     _fetchKnowledgeElements({
       assessment,
@@ -25,13 +25,13 @@ async function fetchForCampaigns({
       knowledgeElementRepository,
       improvementService,
     }),
-    _fetchSkillsAndChallenges({ targetProfile, challengeRepository }),
+    _fetchSkillsAndChallenges({ campaignSkills, challengeRepository }),
   ]);
 
   return {
     allAnswers,
     lastAnswer: _.isEmpty(allAnswers) ? null : _.last(allAnswers),
-    targetSkills,
+    targetSkills: skills,
     challenges,
     knowledgeElements,
   };
@@ -47,9 +47,9 @@ async function _fetchKnowledgeElements({
   return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment, isRetrying });
 }
 
-async function _fetchSkillsAndChallenges({ targetProfile, challengeRepository }) {
-  const challenges = await challengeRepository.findOperativeBySkills(targetProfile.skills);
-  return [targetProfile.skills, challenges];
+async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository }) {
+  const challenges = await challengeRepository.findOperativeBySkills(campaignSkills);
+  return [campaignSkills, challenges];
 }
 
 async function fetchForCompetenceEvaluations({

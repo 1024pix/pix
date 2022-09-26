@@ -11,7 +11,7 @@ const badgeCriteriaService = require('../../lib/domain/services/badge-criteria-s
 const badgeAcquisitionRepository = require('../../lib/infrastructure/repositories/badge-acquisition-repository');
 const badgeRepository = require('../../lib/infrastructure/repositories/badge-repository');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
-const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
+const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
 const MAX_RANGE_SIZE = 100_000;
@@ -70,7 +70,7 @@ async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
         badgeAcquisitionRepository,
         badgeRepository,
         knowledgeElementRepository,
-        targetProfileRepository,
+        campaignRepository,
       });
     }
   );
@@ -84,7 +84,7 @@ async function computeBadgeAcquisition({
   badgeAcquisitionRepository,
   badgeRepository,
   knowledgeElementRepository,
-  targetProfileRepository,
+  campaignRepository,
 } = {}) {
   const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository);
   if (_.isEmpty(associatedBadges)) {
@@ -92,13 +92,11 @@ async function computeBadgeAcquisition({
   }
 
   const userId = campaignParticipation.userId;
-  const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
-    campaignParticipationId: campaignParticipation.id,
-  });
+  const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId(campaignParticipation.id);
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
   const validatedBadgesByUser = associatedBadges.filter((badge) =>
-    badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
+    badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, skillIds, badge })
   );
 
   const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({

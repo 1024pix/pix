@@ -1,6 +1,5 @@
 const campaignParticipationService = require('../services/campaign-participation-service');
 const CompetenceResult = require('./CompetenceResult');
-const CampaignParticipationBadge = require('./CampaignParticipationBadge');
 
 const _ = require('lodash');
 
@@ -13,7 +12,6 @@ class CampaignParticipationResult {
     validatedSkillsCount,
     knowledgeElementsCount,
     // relationships
-    campaignParticipationBadges,
     competenceResults = [],
     reachedStage,
     stageCount,
@@ -25,34 +23,15 @@ class CampaignParticipationResult {
     this.validatedSkillsCount = validatedSkillsCount;
     this.knowledgeElementsCount = knowledgeElementsCount;
     // relationships
-    this.campaignParticipationBadges = campaignParticipationBadges;
     this.competenceResults = competenceResults;
     this.reachedStage = reachedStage;
     this.stageCount = stageCount;
   }
 
-  static buildFrom({
-    campaignParticipationId,
-    assessment,
-    competences,
-    targetProfile,
-    knowledgeElements,
-    campaignBadges = [],
-    acquiredBadgeIds = [],
-  }) {
-    const targetProfileSkillsIds = targetProfile.getSkillIds();
-    const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
+  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, skillIds, knowledgeElements }) {
+    const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
 
-    const targetedCompetenceResults = _computeCompetenceResults(
-      competences,
-      targetProfileSkillsIds,
-      targetedKnowledgeElements
-    );
-    const campaignParticipationBadges = _.flatMap(campaignBadges, (badge) => {
-      const skillSetResults = _computeSkillSetResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
-      const isBadgeAcquired = _.includes(acquiredBadgeIds, badge.id);
-      return CampaignParticipationBadge.buildFrom({ badge, skillSetResults, isAcquired: isBadgeAcquired });
-    });
+    const targetedCompetenceResults = _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements);
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
@@ -68,7 +47,6 @@ class CampaignParticipationResult {
       knowledgeElementsCount: targetedKnowledgeElements.length,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
-      campaignParticipationBadges,
       reachedStage: _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }),
       stageCount: stages && stages.length,
     });
@@ -106,12 +84,12 @@ function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
   }
 }
 
-function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {
-  return _.filter(knowledgeElements, (ke) => targetProfileSkillsIds.some((skillId) => skillId === ke.skillId));
+function _removeUntargetedKnowledgeElements(knowledgeElements, skillIds) {
+  return _.filter(knowledgeElements, (ke) => skillIds.some((skillId) => skillId === ke.skillId));
 }
 
-function _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements) {
-  let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds);
+function _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements) {
+  let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, skillIds);
   targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
   const targetedCompetenceResults = _.map(targetedCompetences, (competence) =>
     _getTestedCompetenceResults(competence, targetedKnowledgeElements)
@@ -119,17 +97,9 @@ function _computeCompetenceResults(competences, targetProfileSkillsIds, targeted
   return targetedCompetenceResults;
 }
 
-function _computeSkillSetResults(badge, targetProfileSkillsIds, targetedKnowledgeElements) {
-  if (!badge || _.isEmpty(badge.skillSets)) {
-    return [];
-  }
-
-  return _computeCompetenceResults(badge.skillSets, targetProfileSkillsIds, targetedKnowledgeElements);
-}
-
-function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {
+function _removeUntargetedSkillIdsFromCompetences(competences, skillIds) {
   return _.map(competences, (competence) => {
-    competence.skillIds = _.intersection(competence.skillIds, targetProfileSkillsIds);
+    competence.skillIds = _.intersection(competence.skillIds, skillIds);
     return competence;
   });
 }

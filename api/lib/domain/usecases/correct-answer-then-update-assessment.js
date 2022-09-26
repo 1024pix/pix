@@ -20,7 +20,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   competenceRepository,
   competenceEvaluationRepository,
   skillRepository,
-  targetProfileRepository,
+  campaignRepository,
   knowledgeElementRepository,
   flashAssessmentResultRepository,
   flashAlgorithmService,
@@ -63,7 +63,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
     answer: correctedAnswer,
     challenge,
     skillRepository,
-    targetProfileRepository,
+    campaignRepository,
     knowledgeElementRepository,
   });
 
@@ -128,7 +128,7 @@ async function _getKnowledgeElements({
   answer,
   challenge,
   skillRepository,
-  targetProfileRepository,
+  campaignRepository,
   knowledgeElementRepository,
 }) {
   if (!assessment.hasKnowledgeElements()) {
@@ -144,10 +144,7 @@ async function _getKnowledgeElements({
     targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
-    const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
-      campaignParticipationId: assessment.campaignParticipationId,
-    });
-    targetSkills = targetProfile.skills;
+    targetSkills = await campaignRepository.findSkillsByCampaignParticipationId(assessment.campaignParticipationId);
   }
   return KnowledgeElement.createKnowledgeElementsForAnswer({
     answer,
