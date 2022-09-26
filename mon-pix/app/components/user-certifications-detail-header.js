@@ -11,6 +11,7 @@ export default class UserCertificationsDetailHeader extends Component {
   @service url;
 
   @tracked tooltipText = this.intl.t('pages.certificate.verification-code.copy');
+  @tracked attestationDownloadErrorMessage = null;
 
   get birthdateMidnightLocalTime() {
     return parseISODateOnly(this.args.certification.birthdate);
@@ -22,11 +23,16 @@ export default class UserCertificationsDetailHeader extends Component {
   }
 
   @action
-  downloadAttestation() {
+  async downloadAttestation() {
+    this.attestationDownloadErrorMessage = null;
     const certifId = this.args.certification.id;
     const url = `/api/attestation/${certifId}?isFrenchDomainExtension=${this.url.isFrenchDomainExtension}`;
     const fileName = 'attestation_pix.pdf';
     const token = this.session.data.authenticated.access_token;
-    this.fileSaver.save({ url, fileName, token });
+    try {
+      await this.fileSaver.save({ url, fileName, token });
+    } catch (error) {
+      this.attestationDownloadErrorMessage = error.message;
+    }
   }
 }

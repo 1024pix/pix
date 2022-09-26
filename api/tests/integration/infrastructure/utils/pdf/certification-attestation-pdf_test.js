@@ -1,21 +1,31 @@
-const { domainBuilder, expect } = require('../../../../test-helper');
+const { domainBuilder, expect, nock, catchErr } = require('../../../../test-helper');
 const moment = require('moment');
 const { isSameBinary } = require('../../../../tooling/binary-comparator');
 const {
   getCertificationAttestationsPdfBuffer,
 } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const {
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-} = require('../../../../../lib/domain/models/Badge').keys;
+const { CertificationAttestationGenerationError } = require('../../../../../lib/domain/errors');
+const fs = require('fs');
 
 const { addRandomSuffix } = require('pdf-lib/cjs/utils');
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
-  beforeEach(function () {
+  beforeEach(async function () {
     _makePdfLibPredictable();
+
+    nock('https://images.pix.fr')
+      .get('/stickers/macaron_clea.pdf')
+      // eslint-disable-next-line no-sync
+      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_clea.pdf`))
+      .get('/stickers/macaron_droit_maitre.pdf')
+      // eslint-disable-next-line no-sync
+      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_maitre.pdf`))
+      .get('/stickers/macaron_edu_2nd_initie.pdf')
+      // eslint-disable-next-line no-sync
+      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_edu_2nd_initie.pdf`))
+      .get('/stickers/macaron_droit_expert.pdf')
+      // eslint-disable-next-line no-sync
+      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_expert.pdf`));
   });
 
   afterEach(function () {
@@ -30,7 +40,16 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+      certifiedBadges: [
+        {
+          stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
+          message: null,
+        },
+        {
+          stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_maitre.pdf',
+          message: null,
+        },
+      ],
     });
     const referencePdfPath = 'certification-attestation-pdf_test_full.pdf';
 
@@ -59,9 +78,9 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       resultCompetenceTree,
       certifiedBadges: [
         {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          isTemporaryBadge: true,
-          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+          stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_initie.pdf',
+          message:
+            'Vous avez obtenu le niveau “Pix+ Édu 2nd degré Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
         },
       ],
     });
@@ -92,9 +111,9 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       resultCompetenceTree,
       certifiedBadges: [
         {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          isTemporaryBadge: false,
-          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+          stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_initie.pdf',
+          message:
+            'Vous avez obtenu la certification Pix+Edu niveau "Pix+ Édu 2nd degré Initié (entrée dans le métier)"',
         },
       ],
     });
@@ -128,7 +147,16 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         firstName: 'Jean',
         lastName: 'Bon',
         resultCompetenceTree,
-        certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+        certifiedBadges: [
+          {
+            stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
+            message: null,
+          },
+          {
+            stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_expert.pdf',
+            message: null,
+          },
+        ],
         deliveredAt: deliveredBeforeStartDate,
       });
     const certificateWithComplementaryCertificationsAndWithProfessionalizingMessage =
@@ -137,7 +165,16 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         firstName: 'Harry',
         lastName: 'Covert',
         resultCompetenceTree,
-        certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
+        certifiedBadges: [
+          {
+            stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
+            message: null,
+          },
+          {
+            stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_maitre.pdf',
+            message: null,
+          },
+        ],
         deliveredAt: deliveredAfterStartDate,
       });
     const certificateWithoutComplementaryCertificationsAndWithoutProfessionalizingMessage =
@@ -183,6 +220,33 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
       referencePdfPath + ' is not generated as expected'
     ).to.be.true;
+  });
+
+  it('should throw a CertificationAttestationGenerationError when a sticker cannot be retrieved', async function () {
+    // given
+    nock('https://images.pix.fr').get('/stickers/macaron.pdf').reply(503);
+
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    const certificate = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
+      resultCompetenceTree,
+      certifiedBadges: [
+        {
+          stickerUrl: 'https://images.pix.fr/stickers/macaron.pdf',
+        },
+      ],
+    });
+
+    // when
+    const error = await catchErr(getCertificationAttestationsPdfBuffer)({
+      certificates: [certificate],
+      creationDate: new Date('2021-01-01'),
+    });
+
+    // then
+    expect(error).to.be.an.instanceOf(CertificationAttestationGenerationError);
   });
 });
 

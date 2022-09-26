@@ -51,7 +51,8 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V1,
     level: 1,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
+    imageUrl: 'https://images.pix.fr/badges/CleA_Num_certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
     label: 'CléA Numérique',
   });
 
@@ -59,7 +60,8 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V2,
     level: 2,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
+    imageUrl: 'https://images.pix.fr/badges/CleA_Num_certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
     label: 'CléA Numérique',
   });
 
@@ -68,7 +70,8 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V3,
     level: 3,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
+    imageUrl: 'https://images.pix.fr/badges/CleA_Num_certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
     label: 'CléA Numérique',
   });
 
@@ -104,6 +107,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 1,
     complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_maitre.pdf',
     label: 'Pix+ Droit Maître',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -111,6 +115,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 2,
     complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_expert.pdf',
     label: 'Pix+ Droit Expert',
   });
 
@@ -120,6 +125,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 1,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_initie.pdf',
     label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -127,6 +133,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 1,
     complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_initie.pdf',
     label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -134,6 +141,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 2,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_confirme.pdf',
     label: 'Pix+ Édu 1er degré Confirmé',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -141,6 +149,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 2,
     complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_confirme.pdf',
     label: 'Pix+ Édu 2nd degré Confirmé',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -148,6 +157,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 3,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_confirme.pdf',
     label: 'Pix+ Édu 1er degré Confirmé',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -155,6 +165,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 3,
     complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_confirme.pdf',
     label: 'Pix+ Édu 2nd degré Confirmé',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -162,6 +173,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 4,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-avance_PREMIER-DEGRE.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_avance.pdf',
     label: 'Pix+ Édu 1er degré Avancé',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -169,6 +181,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 4,
     complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_avance.pdf',
     label: 'Pix+ Édu 2nd degré Avancé',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -176,6 +189,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 5,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Expert_PREMIER-DEGRE.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_expert.pdf',
     label: 'Pix+ Édu 1er degré Expert',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -183,6 +197,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     level: 5,
     complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_expert.pdf',
     label: 'Pix+ Édu 2nd degré Expert',
   });
 

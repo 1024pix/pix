@@ -1,21 +1,3 @@
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('./Badge').keys;
-
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 
@@ -59,40 +41,8 @@ class CertificationAttestation {
     this.resultCompetenceTree = resultCompetenceTree;
   }
 
-  getAcquiredCleaCertification() {
-    return this.certifiedBadges.find(
-      ({ partnerKey }) =>
-        partnerKey === PIX_EMPLOI_CLEA_V1 || partnerKey === PIX_EMPLOI_CLEA_V2 || partnerKey === PIX_EMPLOI_CLEA_V3
-    )?.partnerKey;
-  }
-
-  getAcquiredPixPlusDroitCertification() {
-    return this.certifiedBadges.find(
-      ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF || partnerKey === PIX_DROIT_EXPERT_CERTIF
-    )?.partnerKey;
-  }
-
-  getAcquiredPixPlusEduCertification() {
-    return (
-      this._findByPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE) ||
-      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT)
-    );
-  }
-
   hasAcquiredAnyComplementaryCertifications() {
     return this.certifiedBadges.length > 0;
-  }
-
-  _findByPartnerKey(key) {
-    return this.certifiedBadges.find(({ partnerKey }) => partnerKey === key);
   }
 }
 
