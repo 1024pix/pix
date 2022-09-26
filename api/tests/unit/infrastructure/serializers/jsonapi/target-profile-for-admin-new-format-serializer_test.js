@@ -11,6 +11,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         title: 'Super domaine',
         color: 'blue',
         code: 'lyoko',
+        frameworkId: 'recFrameworkCool1',
       });
       const targetProfileForAdminNewFormat = new TargetProfileForAdminNewFormat({
         id: 132,
@@ -149,6 +150,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               title: 'Super domaine',
               color: 'blue',
               code: 'lyoko',
+              'framework-id': 'recFrameworkCool1',
             },
             relationships: {
               competences: {
