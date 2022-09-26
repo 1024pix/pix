@@ -9,14 +9,14 @@ const campaignRepository = require('./campaign-repository');
 const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
-  async getByUserIdAndCampaignId({ userId, campaignId, targetProfile, badges, locale }) {
+  async getByUserIdAndCampaignId({ userId, campaignId, badges, locale }) {
     const participationResults = await _getParticipationResults(userId, campaignId);
     const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
     const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
     const isCampaignArchived = await _isCampaignArchived(campaignId);
     const competences = await _findTargetedCompetences(campaignId, locale);
     const badgeResultsDTO = await _getBadgeResults(badges);
-    const stages = await _getStages(targetProfile.id);
+    const stages = await _getStages(campaignId);
 
     return new AssessmentResult({
       participationResults,
@@ -123,8 +123,8 @@ async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
   return knex('badge-acquisitions').select('badgeId').where({ userId, campaignParticipationId });
 }
 
-function _getStages(targetProfileId) {
-  return knex('stages').where({ targetProfileId });
+function _getStages(campaignId) {
+  return campaignRepository.findStages({ campaignId });
 }
 
 async function _getBadgeResults(badges) {
