@@ -69,11 +69,7 @@
           <tbody>
             {{#each @organizationMemberships as |organizationMembership|}}
               <tr aria-label="Membre">
-                <Organizations::MemberItem
-                  @organizationMembership={{organizationMembership}}
-                  @updateMembership={{@updateMembership}}
-                  @disableMembership={{@disableMembership}}
-                />
+                <Organizations::MemberItem @organizationMembership={{organizationMembership}} />
               </tr>
             {{/each}}
           </tbody>

@@ -87,27 +87,6 @@ export default class GetTeamController extends Controller {
   }
 
   @action
-  async updateMembership(organizationMembership) {
-    try {
-      await organizationMembership.save();
-      this.notifications.success('Le rôle du membre a été mis à jour avec succès.');
-    } catch (e) {
-      this.notifications.error('Une erreur est survenue lors de la mise à jour du rôle du membre.');
-    }
-  }
-
-  @action
-  async disableMembership(organizationMembership) {
-    try {
-      await organizationMembership.save({ adapterOptions: { disable: true } });
-      await this.model.organizationMemberships.reload();
-      this.notifications.success('Le membre a été désactivé avec succès.');
-    } catch (e) {
-      this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
-    }
-  }
-
-  @action
   onChangeUserEmailToAdd(event) {
     this.userEmailToAdd = event.target.value;
   }
