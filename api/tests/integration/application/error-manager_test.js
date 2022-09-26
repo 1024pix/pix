@@ -555,6 +555,16 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Erreur, tentatives de finalisation multiples de la session.');
     });
 
+    it('responds Bad Request when a SessionWithoutStartedCertificationError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.SessionWithoutStartedCertificationError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal(
+        "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
+      );
+    });
+
     it('responds Bad Request when a SessionAlreadyPublishedError error occurs', async function () {
       routeHandler.throws(new DomainErrors.SessionAlreadyPublishedError());
       const response = await server.requestObject(request);

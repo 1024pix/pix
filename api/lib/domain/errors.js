@@ -845,6 +845,14 @@ class SessionAlreadyFinalizedError extends DomainError {
   }
 }
 
+class SessionWithoutStartedCertificationError extends DomainError {
+  constructor(
+    message = "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
+  ) {
+    super(message);
+  }
+}
+
 class SessionAlreadyPublishedError extends DomainError {
   constructor(message = 'La session est déjà publiée.') {
     super(message);
@@ -1283,6 +1291,7 @@ module.exports = {
   SessionAlreadyPublishedError,
   SessionNotAccessible,
   SessionStartedDeletionError,
+  SessionWithoutStartedCertificationError,
   SiecleXmlImportError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileInvalidError,
