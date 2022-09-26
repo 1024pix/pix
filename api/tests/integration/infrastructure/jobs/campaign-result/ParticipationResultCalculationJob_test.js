@@ -6,7 +6,7 @@ describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationRe
     await knex('pgboss.job').where({ name: 'ParticipationResultCalculationJob' }).delete();
   });
 
-  describe('#handle', function () {
+  describe('#schedule', function () {
     it('creates the results calculation job', async function () {
       const handler = new ParticipationResultCalculationJob(knex);
 
