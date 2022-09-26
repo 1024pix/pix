@@ -195,6 +195,11 @@ module.exports = {
       .first();
     return Boolean(result);
   },
+
+  async hasNoStartedCertification(sessionId) {
+    const result = await knex.select(1).from('certification-courses').where('sessionId', sessionId).first();
+    return !result;
+  },
 };
 
 function _toDomain(results) {
