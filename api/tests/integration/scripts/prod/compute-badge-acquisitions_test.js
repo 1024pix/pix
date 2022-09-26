@@ -213,7 +213,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
     });
   });
 
-  describe('Unit | #computeBadgeAcquisition', function () {
+  describe('#computeBadgeAcquisition', function () {
     let badgeRepository, campaignRepository, knowledgeElementRepository, badgeAcquisitionRepository;
     let badgeCriteriaService;
     let dependencies;
@@ -270,7 +270,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([badge]);
 
-        campaignRepository.findSkillIdsByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(skillIds);
+        campaignRepository.findSkillIdsByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves(skillIds);
 
         knowledgeElementRepository.findUniqByUserId
           .withArgs({ userId: campaignParticipation.userId })
@@ -335,7 +337,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([badge1, badge2]);
 
-        campaignRepository.findSkillIdsByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(skillIds);
+        campaignRepository.findSkillIdsByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves(skillIds);
 
         knowledgeElementRepository.findUniqByUserId
           .withArgs({ userId: campaignParticipation.userId })
@@ -484,7 +488,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .withArgs({ campaignParticipationId: campaignParticipation.id })
           .resolves([badge]);
 
-        campaignRepository.findSkillIdsByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(skillIds);
+        campaignRepository.findSkillIdsByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves(skillIds);
 
         knowledgeElementRepository.findUniqByUserId
           .withArgs({ userId: campaignParticipation.userId })

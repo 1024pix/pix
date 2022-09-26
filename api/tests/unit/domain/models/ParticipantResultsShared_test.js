@@ -14,12 +14,12 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
           domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
         ];
 
-        const targetedSkillIds = ['skill1', 'skill2', 'skill3'];
+        const skillIds = ['skill1', 'skill2', 'skill3'];
 
         // when
         const participantResultsShared = new ParticipantResultsShared({
           knowledgeElements,
-          targetedSkillIds,
+          skillIds,
         });
 
         // then
@@ -43,12 +43,12 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
           }),
         ];
 
-        const targetedSkillIds = [];
+        const skillIds = [];
 
         // when
         const participantResultsShared = new ParticipantResultsShared({
           knowledgeElements,
-          targetedSkillIds,
+          skillIds,
           placementProfile: { isCertifiable: noop },
         });
 
@@ -63,12 +63,12 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
       it('computes isCertifiable as null', function () {
         // given
         const knowledgeElements = [];
-        const targetedSkillIds = ['skill1', 'skill2', 'skill3'];
+        const skillIds = ['skill1', 'skill2', 'skill3'];
 
         // when
         const participantResultsShared = new ParticipantResultsShared({
           knowledgeElements,
-          targetedSkillIds,
+          skillIds,
         });
 
         // then
@@ -80,13 +80,13 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
       it('computes isCertifiable with placementProfile', function () {
         // given
         const knowledgeElements = [];
-        const targetedSkillIds = [];
+        const skillIds = [];
         const isCertifiable = Symbol('isCertifiable');
 
         // when
         const participantResultsShared = new ParticipantResultsShared({
           knowledgeElements,
-          targetedSkillIds,
+          skillIds,
           placementProfile: { isCertifiable: () => isCertifiable },
         });
 
@@ -103,12 +103,12 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
       domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
     ];
 
-    const targetedSkillIds = ['skill1', 'skill2', 'skill3'];
+    const skillIds = ['skill1', 'skill2', 'skill3'];
 
     // when
     const participantResultsShared = new ParticipantResultsShared({
       knowledgeElements,
-      targetedSkillIds,
+      skillIds,
     });
 
     // then
@@ -123,12 +123,12 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function () {
       domainBuilder.buildKnowledgeElement({ skillId: 'skill3.1', earnedPix: 2 }),
     ];
 
-    const targetedSkillIds = ['skill1.1', 'skill2.1'];
+    const skillIds = ['skill1.1', 'skill2.1'];
 
     // when
     const participantResultsShared = new ParticipantResultsShared({
       knowledgeElements,
-      targetedSkillIds,
+      skillIds,
     });
 
     // then

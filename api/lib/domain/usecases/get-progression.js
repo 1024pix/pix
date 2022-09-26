@@ -20,7 +20,7 @@ module.exports = async function getProgression({
     const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
     let skillIds;
     if (!assessment.isFlash()) {
-      skillIds = await campaignRepository.findSkillIds(campaignParticipation.campaignId);
+      skillIds = await campaignRepository.findSkillIds({ campaignId: campaignParticipation.campaignId });
     }
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({
       userId,

@@ -7,7 +7,7 @@ const { fetchPage } = require('../utils/knex-utils');
 const { NotFoundError } = require('../../domain/errors');
 const _ = require('lodash');
 const { filterByFullName } = require('../utils/filter-utils');
-const skillDataSource = require('../datasources/learning-content/skill-datasource');
+const campaignRepository = require('./campaign-repository');
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -49,7 +49,6 @@ module.exports = {
         targetProfileName: 'target-profiles.name',
       })
       .select(
-        knex.raw('ARRAY_AGG("skillId") AS "skillIds"'),
         knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
         knex.raw('ARRAY_AGG("stages"."id")  AS "stageIds"'),
         knex.raw(
@@ -63,7 +62,6 @@ module.exports = {
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
       .leftJoin('stages', 'stages.targetProfileId', 'target-profiles.id')
-      .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'campaigns.targetProfileId')
       .where('campaigns.id', id)
       .groupBy('campaigns.id', 'users.id', 'target-profiles.id')
       .first();
@@ -72,12 +70,12 @@ module.exports = {
       throw new NotFoundError(`La campagne d'id ${id} n'existe pas ou son accès est restreint`);
     }
 
-    const skills = await skillDataSource.findByRecordIds(result.skillIds);
+    const skills = await campaignRepository.findSkills({ campaignId: id, filterByStatus: 'all' });
 
     const targetProfile = new TargetProfileForSpecifier({
       id: result.targetProfileId,
       name: result.targetProfileName,
-      skills,
+      tubeCount: _.uniqBy(skills, 'tubeId').length,
       thematicResults: _.uniq(result.badgeIds).filter((id) => id),
       hasStage: result.stageIds.some((stage) => stage),
       description: result.targetProfileDescription,

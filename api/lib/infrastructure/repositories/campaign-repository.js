@@ -128,32 +128,46 @@ module.exports = {
     return campaign.id;
   },
 
-  async findSkillIds(campaignId, domainTransaction) {
-    const skills = await this.findSkills(campaignId, domainTransaction);
+  async findSkillIds({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
+    if (filterByStatus === 'all') {
+      return _findSkillIds({ campaignId, domainTransaction });
+    }
+    const skills = await this.findSkills({ campaignId, domainTransaction, filterByStatus });
     return skills.map(({ id }) => id);
   },
 
-  async findSkills(campaignId, domainTransaction) {
-    const knexConn = domainTransaction?.knexTransaction ?? knex;
-    let skillIds = await knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
-    // TODO remove it after target profile skills migration
-    if (skillIds.length === 0) {
-      skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction);
+  async findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
+    const skillIds = await _findSkillIds({ campaignId, domainTransaction });
+    switch (filterByStatus) {
+      case 'operative':
+        return skillRepository.findOperativeByIds(skillIds);
+      case 'all':
+        return skillRepository.findByRecordIds(skillIds);
+      default:
+        throw new TypeError(`unknown filterByStatus value "${filterByStatus}", use "operative" or "all"`);
     }
-    return skillRepository.findOperativeByIds(skillIds);
   },
 
-  async findSkillsByCampaignParticipationId(campaignParticipationId, domainTransaction) {
+  async findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {
     const knexConn = domainTransaction?.knexTransaction ?? knex;
     const [campaignId] = await knexConn('campaign-participations')
       .where({ id: campaignParticipationId })
       .pluck('campaignId');
-    return this.findSkills(campaignId);
+    return this.findSkills({ campaignId });
   },
 
-  async findSkillIdsByCampaignParticipationId(campaignParticipationId, domainTransaction) {
-    return (await this.findSkillsByCampaignParticipationId(campaignParticipationId, domainTransaction)).map(
-      ({ id }) => id
-    );
+  async findSkillIdsByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {
+    const skills = await this.findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction });
+    return skills.map(({ id }) => id);
   },
 };
+
+async function _findSkillIds({ campaignId, domainTransaction }) {
+  const knexConn = domainTransaction?.knexTransaction ?? knex;
+  let skillIds = await knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
+  // TODO remove it after target profile skills migration
+  if (skillIds.length === 0) {
+    skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction);
+  }
+  return skillIds;
+}

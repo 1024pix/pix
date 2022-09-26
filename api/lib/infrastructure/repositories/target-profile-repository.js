@@ -79,7 +79,7 @@ module.exports = {
   /**
    * @deprecated Use findSkillIds from campaignRepository
    * @param campaignId
-   * @param domainTransaction
+   * @param {DomainTransaction=} domainTransaction
    * @returns skillIds
    */
   async getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction) {
@@ -88,6 +88,17 @@ module.exports = {
       .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
       .where('campaigns.id', campaignId)
       .pluck('skillId');
+  },
+
+  /**
+   * @deprecated TargetProfile skill will disappear
+   * @param targetProfileId
+   * @param {DomainTransaction=} domainTransaction
+   * @returns skillIds
+   */
+  async getTargetProfileSkillIds(targetProfileId, domainTransaction) {
+    const knexConn = domainTransaction?.knexTransaction ?? knex;
+    return knexConn('target-profiles_skills').pluck('skillId').where({ targetProfileId });
   },
 
   async findByIds(targetProfileIds) {

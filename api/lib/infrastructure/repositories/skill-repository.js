@@ -59,4 +59,9 @@ module.exports = {
     const skillDatas = await skillDatasource.findOperativeByRecordIds(skillIds);
     return skillDatas.map(_toDomain);
   },
+
+  async findByRecordIds(skillIds) {
+    const skillDatas = await skillDatasource.findByRecordIds(skillIds);
+    return skillDatas.map(_toDomain);
+  },
 };

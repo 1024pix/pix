@@ -2,19 +2,19 @@ const { knex } = require('../../../db/knex-database-connection');
 const _ = require('lodash');
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const competenceRepository = require('./competence-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const flashAssessmentResultRepository = require('./flash-assessment-result-repository');
+const campaignRepository = require('./campaign-repository');
 const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, targetProfile, badges, locale }) {
-    const participationResults = await _getParticipationResults(userId, campaignId, targetProfile.id);
+    const participationResults = await _getParticipationResults(userId, campaignId);
     const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
     const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
     const isCampaignArchived = await _isCampaignArchived(campaignId);
-    const competences = await _findTargetedCompetences(targetProfile.id, locale);
+    const competences = await _findTargetedCompetences(campaignId, locale);
     const badgeResultsDTO = await _getBadgeResults(badges);
     const stages = await _getStages(targetProfile.id);
 
@@ -30,7 +30,7 @@ const ParticipantResultRepository = {
   },
 };
 
-async function _getParticipationResults(userId, campaignId, targetProfileId) {
+async function _getParticipationResults(userId, campaignId) {
   const {
     isCompleted,
     campaignParticipationId,
@@ -43,7 +43,7 @@ async function _getParticipationResults(userId, campaignId, targetProfileId) {
     isDeleted,
   } = await _getParticipationAttributes(userId, campaignId);
 
-  const knowledgeElements = await _findTargetedKnowledgeElements(userId, sharedAt, targetProfileId);
+  const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
 
   const acquiredBadgeIds = await _getAcquiredBadgeIds(userId, campaignParticipationId);
 
@@ -113,10 +113,10 @@ async function _getParticipationAttributes(userId, campaignId) {
   };
 }
 
-async function _findTargetedKnowledgeElements(userId, sharedAt, targetProfileId) {
-  const targetedSkillIds = await _findTargetedSkillIds(targetProfileId);
+async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
+  const skillIds = await campaignRepository.findSkillIds({ campaignId });
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
-  return knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
+  return knowledgeElements.filter(({ skillId }) => skillIds.includes(skillId));
 }
 
 async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
@@ -146,13 +146,13 @@ function _findSkillSet(badges) {
   );
 }
 
-async function _findTargetedCompetences(targetProfileId, locale) {
-  const targetedSkillIds = await _findTargetedSkillIds(targetProfileId);
+async function _findTargetedCompetences(campaignId, locale) {
+  const skillIds = await campaignRepository.findSkillIds({ campaignId });
   const competences = await competenceRepository.list({ locale });
   const targetedCompetences = [];
 
   competences.forEach((competence) => {
-    const matchingSkills = _.intersection(competence.skillIds, targetedSkillIds);
+    const matchingSkills = _.intersection(competence.skillIds, skillIds);
 
     if (matchingSkills.length > 0) {
       targetedCompetences.push({
@@ -167,15 +167,6 @@ async function _findTargetedCompetences(targetProfileId, locale) {
   });
 
   return targetedCompetences;
-}
-
-async function _findTargetedSkillIds(targetProfileId) {
-  const targetProfileSkillIds = await knex('target-profiles_skills')
-    .select('skillId')
-    .where({ targetProfileId })
-    .then((skills) => skills.map(({ skillId }) => skillId));
-  const targetedSkills = await skillDatasource.findOperativeByRecordIds(targetProfileSkillIds);
-  return targetedSkills.map(({ id }) => id);
 }
 
 async function _isCampaignMultipleSendings(campaignId) {

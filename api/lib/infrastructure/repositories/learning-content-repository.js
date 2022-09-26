@@ -6,7 +6,7 @@ const competenceRepository = require('./competence-repository');
 const LearningContent = require('../../domain/models/LearningContent');
 
 async function findByCampaignId(campaignId, locale) {
-  const skills = await campaignRepository.findSkills(campaignId);
+  const skills = await campaignRepository.findSkills({ campaignId });
 
   const areas = await _getLearningContentBySkillIds(skills, locale);
 

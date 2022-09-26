@@ -18,7 +18,10 @@ module.exports = {
       highestCertifiableBadgeAcquisitions,
       async (badgeAcquisition) => {
         const badge = badgeAcquisition.badge;
-        const skillIds = await campaignRepository.findSkillIds(badgeAcquisition.campaignId, domainTransaction);
+        const skillIds = await campaignRepository.findSkillIds({
+          campaignId: badgeAcquisition.campaignId,
+          domainTransaction,
+        });
         const isBadgeValid = badgeCriteriaService.areBadgeCriteriaFulfilled({
           knowledgeElements,
           skillIds,

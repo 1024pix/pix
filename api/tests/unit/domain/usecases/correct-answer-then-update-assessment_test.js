@@ -365,9 +365,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        expect(campaignRepository.findSkillsByCampaignParticipationId).to.have.been.calledWith(
-          assessment.campaignParticipationId
-        );
+        expect(campaignRepository.findSkillsByCampaignParticipationId).to.have.been.calledWith({
+          campaignParticipationId: assessment.campaignParticipationId,
+        });
       });
 
       it('should call the challenge repository to get the answer challenge', async function () {
