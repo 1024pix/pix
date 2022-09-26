@@ -38,6 +38,7 @@ module.exports = {
   buildComplementaryCertificationSubscription: require('./build-complementary-certification-subscription'),
   buildCorrectAnswersAndKnowledgeElementsForLearningContent: require('./build-correct-answers-and-knowledge-elements-for-learning-content'),
   buildCorrectAnswerAndKnowledgeElement: require('./build-correct-answer-and-knowledge-element'),
+  buildDataProtectionOfficer: require('./build-data-protection-officer'),
   buildFinalizedSession: require('./build-finalized-session'),
   buildFlashAssessmentResult: require('./build-flash-assessment-result'),
   buildKnowledgeElement: require('./build-knowledge-element'),

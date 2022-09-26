@@ -201,11 +201,20 @@ function certificationCentersBuilder({ databaseBuilder }) {
     label: 'Pix+ Édu 2nd degré Expert',
   });
 
-  databaseBuilder.factory.buildCertificationCenter({
+  const now = new Date();
+  const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
     id: SCO_COLLEGE_CERTIF_CENTER_ID,
     name: SCO_COLLEGE_CERTIF_CENTER_NAME,
     externalId: SCO_COLLEGE_EXTERNAL_ID,
     type: 'SCO',
+  });
+  databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
+    firstName: 'Yukiko',
+    lastName: 'Tsubaki',
+    email: 'yukiko.tsubaki@example.net',
+    certificationCenterId: certificationCenter.id,
+    createdAt: now,
+    updatedAt: now,
   });
 
   databaseBuilder.factory.buildCertificationCenter({

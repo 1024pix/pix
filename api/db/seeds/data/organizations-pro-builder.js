@@ -41,7 +41,8 @@ function organizationsProBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildPixAdminRole({ userId: privateCompanyCreator.id, role: ROLES.SUPER_ADMIN });
 
-  databaseBuilder.factory.buildOrganization({
+  const now = new Date();
+  const organization = databaseBuilder.factory.buildOrganization({
     id: PRO_COMPANY_ID,
     type: 'PRO',
     name: 'Dragon & Co',
@@ -51,6 +52,14 @@ function organizationsProBuilder({ databaseBuilder }) {
     externalId: null,
     provinceCode: null,
     email: null,
+  });
+  databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
+    firstName: 'Ayako',
+    lastName: 'Sora',
+    email: 'ayako.sora@example.net',
+    organizationId: organization.id,
+    createdAt: now,
+    updatedAt: now,
   });
 
   databaseBuilder.factory.buildMembership({
