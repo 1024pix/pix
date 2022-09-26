@@ -18,6 +18,9 @@ class OrganizationForAdmin {
     archivedAt,
     archivistFirstName,
     archivistLastName,
+    dataProtectionOfficerFirstName,
+    dataProtectionOfficerLastName,
+    dataProtectionOfficerEmail,
     creatorFirstName,
     creatorLastName,
     identityProviderForCampaigns,
@@ -41,6 +44,9 @@ class OrganizationForAdmin {
     this.archivedAt = archivedAt;
     this.archivistFirstName = archivistFirstName;
     this.archivistLastName = archivistLastName;
+    this.dataProtectionOfficerFirstName = dataProtectionOfficerFirstName;
+    this.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
+    this.dataProtectionOfficerEmail = dataProtectionOfficerEmail;
     this.creatorFirstName = creatorFirstName;
     this.creatorLastName = creatorLastName;
     this.identityProviderForCampaigns = identityProviderForCampaigns;
