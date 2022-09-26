@@ -18,7 +18,7 @@ module.exports = {
       let currentYAfterDryRun = positionY;
       currentYAfterDryRun = competenceBuilder.build(currentYAfterDryRun, page, competence, area.color, true);
       if (currentYAfterDryRun < 0) {
-        page = _addPage(pdfDocument);
+        page = _addPage(pdfDocument, language);
         positionY = page.getSize().height - MARGIN_TOP_WITHOUT_AREA;
       }
       positionY = competenceBuilder.build(positionY, page, competence, area.color, false);
