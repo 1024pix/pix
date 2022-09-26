@@ -2,21 +2,21 @@ import Controller from '@ember/controller';
 
 export default class TargetProfileDetailsController extends Controller {
   get areas() {
-    return this.model.newAreas.map((area) => this.buildAreaViewModel(area)).sortBy('code');
+    return this.model.newAreas.sortBy('frameworkId', 'code').map((area) => this.buildAreaViewModel(area));
   }
 
   buildAreaViewModel(area) {
     return {
       title: `${area.code} · ${area.title}`,
       color: area.color,
-      competences: area.competences.map((competence) => this.buildCompetenceViewModel(competence)).sortBy('index'),
+      competences: area.competences.sortBy('index').map((competence) => this.buildCompetenceViewModel(competence)),
     };
   }
 
   buildCompetenceViewModel(competence) {
     return {
       title: `${competence.index} ${competence.name}`,
-      thematics: competence.thematics.map((thematic) => this.buildThematicViewModel(thematic)).sortBy('index'),
+      thematics: competence.thematics.sortBy('index').map((thematic) => this.buildThematicViewModel(thematic)),
     };
   }
 
@@ -24,7 +24,7 @@ export default class TargetProfileDetailsController extends Controller {
     return {
       name: thematic.name,
       nbTubes: thematic.tubes.length,
-      tubes: thematic.tubes.map((tube) => this.buildTubeViewModel(tube)).sortBy('practicalTitle'),
+      tubes: thematic.tubes.sortBy('practicalTitle').map((tube) => this.buildTubeViewModel(tube)),
     };
   }
 
