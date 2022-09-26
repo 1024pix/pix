@@ -11,8 +11,11 @@
           <th>Nom</th>
           <th>Type</th>
           <th>Identifiant externe</th>
-          <th>Rôle</th>
           <th>Dernière modification</th>
+          <th>Rôle</th>
+          {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+            <th>Actions</th>
+          {{/if}}
         </tr>
       </thead>
 
@@ -29,8 +32,8 @@
               <td>{{organizationMembership.organizationName}}</td>
               <td>{{organizationMembership.organizationType}}</td>
               <td>{{organizationMembership.organizationExternalId}}</td>
-              <td>{{organizationMembership.roleLabel}}</td>
               <td>{{dayjs-format organizationMembership.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+              <ActionsOnUsersRoleInOrganization @organizationMembership={{organizationMembership}} />
             </tr>
           {{/each}}
         </tbody>

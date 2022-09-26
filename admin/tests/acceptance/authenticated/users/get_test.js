@@ -207,35 +207,27 @@ module('Acceptance | authenticated/users/get', function (hooks) {
         organizationName: 'Dragon & Co',
         organizationType: 'PRO',
       });
-
-      const organizationMembership2 = this.server.create('organization-membership', {
-        organizationRole: 'MEMBER',
-        organizationId: organization.id,
-        organizationName: 'Collège The Night Watch',
-        organizationType: 'SCO',
-        organizationExternalId: '1237457A',
+      const memberOfAnOrganization = this.server.create('user', {
+        organizationMemberships: [organizationMembership1],
       });
 
-      const user = server.create('user', {
-        email: 'john.harry@example.net',
-        organizationMemberships: [organizationMembership1, organizationMembership2],
-      });
-
+      const adminUser = this.server.create('user');
       this.server.create('admin-member', {
-        userId: user.id,
+        userId: adminUser.id,
         isSuperAdmin: true,
       });
-      await createAuthenticateSession({ userId: user.id });
+      await createAuthenticateSession({ userId: adminUser.id });
 
-      const screen = await visit(`/users/${user.id}`);
+      const screen = await visit(`/users/${memberOfAnOrganization.id}`);
 
       // when
       await click(screen.getByRole('link', { name: 'Organisations de l’utilisateur' }));
 
       // then
-      assert.deepEqual(currentURL(), `/users/${user.id}/organizations`);
-      assert.dom(screen.getByText('Collège The Night Watch')).exists();
+      assert.deepEqual(currentURL(), `/users/${memberOfAnOrganization.id}/organizations`);
       assert.dom(screen.getByText('Dragon & Co')).exists();
+      assert.dom(screen.getByText('Actions')).exists();
+      assert.dom(screen.getByText('Modifier le rôle')).exists();
     });
   });
 });
