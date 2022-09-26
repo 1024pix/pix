@@ -32,7 +32,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
   const competenceEvaluationRepository = {};
-  const targetProfileRepository = { getByCampaignParticipationId: () => undefined };
+  const campaignRepository = { findSkillsByCampaignParticipationId: () => undefined };
   const skillRepository = { findActiveByCompetenceId: () => undefined };
   const flashAssessmentResultRepository = { save: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
@@ -53,7 +53,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
     sinon.stub(skillRepository, 'findActiveByCompetenceId');
-    sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
+    sinon.stub(campaignRepository, 'findSkillsByCampaignParticipationId');
     sinon.stub(flashAssessmentResultRepository, 'save');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
@@ -82,7 +82,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       challengeRepository,
       competenceEvaluationRepository,
       skillRepository,
-      targetProfileRepository,
+      campaignRepository,
       knowledgeElementRepository,
       flashAssessmentResultRepository,
       scorecardService,
@@ -193,7 +193,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           firstCreatedKnowledgeElement,
           secondCreatedKnowledgeElement,
         ]);
-        targetProfileRepository.getByCampaignParticipationId.rejects(new NotFoundError());
+        campaignRepository.findSkillsByCampaignParticipationId.rejects(new NotFoundError());
         scorecardService.computeScorecard.resolves(scorecard);
       });
 
@@ -308,13 +308,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     context('and assessment is a CAMPAIGN with SMART_RANDOM method', function () {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
-      let scorecard,
-        knowledgeElement,
-        targetProfile,
-        skills,
-        challenge,
-        skillAlreadyValidated,
-        skillNotAlreadyValidated;
+      let scorecard, knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
 
       beforeEach(function () {
         // given
@@ -338,14 +332,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
-        targetProfile = domainBuilder.buildTargetProfile({ skills });
         challengeRepository.get.resolves(challenge);
 
         knowledgeElementRepository.findUniqByUserIdAndAssessmentId
           .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
           .resolves([knowledgeElement]);
+        domainBuilder.buildTargetProfile({ skills });
 
-        targetProfileRepository.getByCampaignParticipationId.resolves(targetProfile);
+        campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
         scorecardService.computeScorecard.resolves(scorecard);
       });
@@ -371,8 +365,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        const expectedArgument = { campaignParticipationId: assessment.campaignParticipationId };
-        expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWith(expectedArgument);
+        expect(campaignRepository.findSkillsByCampaignParticipationId).to.have.been.calledWith(
+          assessment.campaignParticipationId
+        );
       });
 
       it('should call the challenge repository to get the answer challenge', async function () {
@@ -404,7 +399,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           challenge: challenge,
           previouslyFailedSkills: [],
           previouslyValidatedSkills: [skillAlreadyValidated],
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
           userId: assessment.userId,
         };
         expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
@@ -493,13 +488,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     context('and assessment is a CAMPAIGN with FLASH method', function () {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
-      let scorecard,
-        knowledgeElement,
-        targetProfile,
-        skills,
-        challenge,
-        skillAlreadyValidated,
-        skillNotAlreadyValidated;
+      let scorecard, knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
       let flashData;
       const estimatedLevel = 1.93274982;
       const errorRate = 0.9127398127;
@@ -526,14 +515,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
-        targetProfile = domainBuilder.buildTargetProfile({ skills });
+        domainBuilder.buildTargetProfile({ skills });
         challengeRepository.get.resolves(challenge);
 
         knowledgeElementRepository.findUniqByUserIdAndAssessmentId
           .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
           .resolves([knowledgeElement]);
 
-        targetProfileRepository.getByCampaignParticipationId.resolves(targetProfile);
+        campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
         scorecardService.computeScorecard.resolves(scorecard);
 
@@ -566,7 +555,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        expect(targetProfileRepository.getByCampaignParticipationId).to.not.have.been.called;
+        expect(campaignRepository.findSkillsByCampaignParticipationId).to.not.have.been.called;
       });
 
       it('should call the challenge repository to get the answer challenge', async function () {

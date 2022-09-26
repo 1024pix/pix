@@ -2,34 +2,36 @@ const _ = require('lodash');
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const logger = require('../../infrastructure/logger');
 
-function areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }) {
-  const targetProfileSkillsIds = targetProfile.getSkillIds();
-  const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
+function areBadgeCriteriaFulfilled({ knowledgeElements, skillIds, badge }) {
+  const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
 
-  const masteryPercentage = getMasteryPercentageForTargetProfile({ targetProfileSkillsIds, targetedKnowledgeElements });
+  const masteryPercentage = getMasteryPercentageForTargetProfile({
+    skillIds,
+    targetedKnowledgeElements,
+  });
   const skillSetResults = getMasteryPercentageForAllSkillSets({
     badge,
-    targetProfileSkillsIds,
+    skillIds,
     targetedKnowledgeElements,
   });
 
   return verifyCriteriaFulfilment({ masteryPercentage, skillSetResults, badge });
 }
 
-function getMasteryPercentageForTargetProfile({ targetProfileSkillsIds, targetedKnowledgeElements }) {
+function getMasteryPercentageForTargetProfile({ skillIds, targetedKnowledgeElements }) {
   const validatedSkillsCount = targetedKnowledgeElements.filter(
     (targetedKnowledgeElement) => targetedKnowledgeElement.isValidated
   ).length;
-  const totalSkillsCount = targetProfileSkillsIds.length;
+  const totalSkillsCount = skillIds.length;
   return _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount });
 }
 
-function getMasteryPercentageForAllSkillSets({ targetedKnowledgeElements, targetProfileSkillsIds, badge }) {
+function getMasteryPercentageForAllSkillSets({ targetedKnowledgeElements, skillIds, badge }) {
   if (_.isEmpty(badge.skillSets)) {
     return [];
   }
 
-  const validTargetedSkillSets = _keepValidTargetedSkillSets(badge.skillSets, targetProfileSkillsIds);
+  const validTargetedSkillSets = _keepValidTargetedSkillSets(badge.skillSets, skillIds);
   return _.map(validTargetedSkillSets, (skillSet) => _getTestedCompetenceResults(skillSet, targetedKnowledgeElements));
 }
 

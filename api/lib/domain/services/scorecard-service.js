@@ -40,7 +40,7 @@ async function resetScorecard({
   knowledgeElementRepository,
   competenceEvaluationRepository,
   campaignParticipationRepository,
-  targetProfileRepository,
+  campaignRepository,
 }) {
   const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
 
@@ -54,7 +54,7 @@ async function resetScorecard({
         userId,
         resetSkillIds,
         assessmentRepository,
-        targetProfileRepository,
+        campaignRepository,
         campaignParticipationRepository,
       }),
       _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
@@ -68,7 +68,7 @@ async function resetScorecard({
       resetSkillIds,
       assessmentRepository,
       campaignParticipationRepository,
-      targetProfileRepository,
+      campaignRepository,
     }),
   ]);
 }
@@ -106,7 +106,7 @@ async function _resetCampaignAssessments({
   resetSkillIds,
   assessmentRepository,
   campaignParticipationRepository,
-  targetProfileRepository,
+  campaignRepository,
 }) {
   const notAbortedCampaignAssessments = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
@@ -120,7 +120,7 @@ async function _resetCampaignAssessments({
       resetSkillIds,
       assessmentRepository,
       campaignParticipationRepository,
-      targetProfileRepository,
+      campaignRepository,
     })
   );
   return Promise.all(resetCampaignAssessmentsPromises);
@@ -131,19 +131,17 @@ async function _resetCampaignAssessment({
   resetSkillIds,
   assessmentRepository,
   campaignParticipationRepository,
-  targetProfileRepository,
+  campaignRepository,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
-  const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
-    campaignParticipationId: assessment.campaignParticipationId,
-  });
+  const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId(assessment.campaignParticipationId);
 
-  const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
-    targetedSkillIds: targetProfile.skills.map((skill) => skill.id),
+  const resetSkillsNotIncludedInCampaign = _computeResetSkillsNotIncludedInCampaign({
+    skillIds,
     resetSkillIds,
   });
 
-  if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInTargetProfile) {
+  if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInCampaign) {
     return null;
   }
 
@@ -155,12 +153,12 @@ async function _resetCampaignAssessment({
   return await assessmentRepository.save({ assessment: newAssessment });
 }
 
-function _computeResetSkillsNotIncludedInTargetProfile({ targetedSkillIds, resetSkillIds }) {
-  return _(targetedSkillIds).intersection(resetSkillIds).isEmpty();
+function _computeResetSkillsNotIncludedInCampaign({ skillIds, resetSkillIds }) {
+  return _(skillIds).intersection(resetSkillIds).isEmpty();
 }
 
 module.exports = {
   resetScorecard,
   computeScorecard,
-  _computeResetSkillsNotIncludedInTargetProfile,
+  _computeResetSkillsNotIncludedInCampaign,
 };

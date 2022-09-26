@@ -17,47 +17,30 @@ const COMPETENCE_RESULT_ID = {
 describe('Unit | Domain | Services | badge-criteria', function () {
   describe('#verifyCriteriaFulfilment', function () {
     context('when there is multiple badge criteria to acquire one badge', function () {
-      const badgeCriteria = [
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        domainBuilder.buildBadgeCriterion({
-          id: 1,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION,
-        }),
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        domainBuilder.buildBadgeCriterion({
-          id: 2,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          scope: BadgeCriterion.SCOPES.SKILL_SET,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          threshold: CRITERION_THRESHOLD.SKILL_SET,
-        }),
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        domainBuilder.buildBadgeCriterion({
-          id: 3,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          scope: BadgeCriterion.SCOPES.SKILL_SET,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          threshold: CRITERION_THRESHOLD.SKILL_SET,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          skillSetIds: [COMPETENCE_RESULT_ID.SECOND],
-        }),
-      ];
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const badge = domainBuilder.buildBadge({ badgeCriteria });
+      let badgeCriteria;
+      let badge;
+
+      beforeEach(function () {
+        badgeCriteria = [
+          domainBuilder.buildBadgeCriterion({
+            id: 1,
+            scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+            threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION,
+          }),
+          domainBuilder.buildBadgeCriterion({
+            id: 2,
+            scope: BadgeCriterion.SCOPES.SKILL_SET,
+            threshold: CRITERION_THRESHOLD.SKILL_SET,
+          }),
+          domainBuilder.buildBadgeCriterion({
+            id: 3,
+            scope: BadgeCriterion.SCOPES.SKILL_SET,
+            threshold: CRITERION_THRESHOLD.SKILL_SET,
+            skillSetIds: [COMPETENCE_RESULT_ID.SECOND],
+          }),
+        ];
+        badge = domainBuilder.buildBadge({ badgeCriteria });
+      });
 
       it('should return true when all the badge criteria are fulfilled', async function () {
         // given
@@ -320,11 +303,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
         new KnowledgeElement({ skillId: 2, status: 'invalidated' }),
         new KnowledgeElement({ skillId: 7, status: 'validated' }),
       ];
-      const skills = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
-      const targetProfile = domainBuilder.buildTargetProfile({
-        id: 1,
-        skills,
-      });
+      const skillIds = [1, 2, 3, 4];
       const yellowBadge = domainBuilder.buildBadge({
         id: 1,
         altMessage: 'You won the Yellow badge',
@@ -348,13 +327,12 @@ describe('Unit | Domain | Services | badge-criteria', function () {
             skillIds: [1, 2, 4],
           }),
         ],
-        targetProfileId: targetProfile.id,
       });
 
       // when
       const badgeAcquired = badgeCriteriaService.areBadgeCriteriaFulfilled({
         knowledgeElements,
-        targetProfile,
+        skillIds,
         badge: yellowBadge,
       });
 
@@ -370,11 +348,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
         new KnowledgeElement({ skillId: 4, status: 'validated' }),
         new KnowledgeElement({ skillId: 7, status: 'validated' }),
       ];
-      const skills = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
-      const targetProfile = domainBuilder.buildTargetProfile({
-        id: 1,
-        skills,
-      });
+      const skillIds = [1, 2, 3, 4];
       const yellowBadge = domainBuilder.buildBadge({
         id: 1,
         altMessage: 'You won the Yellow badge',
@@ -408,13 +382,12 @@ describe('Unit | Domain | Services | badge-criteria', function () {
             skillIds: [3, 4],
           }),
         ],
-        targetProfileId: targetProfile.id,
       });
 
       // when
       const badgeAcquired = badgeCriteriaService.areBadgeCriteriaFulfilled({
         knowledgeElements,
-        targetProfile,
+        skillIds,
         badge: yellowBadge,
       });
 
@@ -431,23 +404,18 @@ describe('Unit | Domain | Services | badge-criteria', function () {
         new KnowledgeElement({ skillId: 2, status: 'invalidated' }),
         new KnowledgeElement({ skillId: 7, status: 'validated' }),
       ];
-      const targetProfileSkillsIds = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
-      const targetProfile = domainBuilder.buildTargetProfile({
-        id: 1,
-        skills: targetProfileSkillsIds,
-      });
+      const skillIds = [1, 2, 3, 4];
       const yellowBadge = domainBuilder.buildBadge({
         id: 1,
         badgeCriteria: [],
         skillSets: [],
-        targetProfileId: targetProfile.id,
       });
       const expectedMasteryPercentages = [];
 
       // when
       const masteryPercentages = badgeCriteriaService.getMasteryPercentageForAllSkillSets({
         targetedKnowledgeElements,
-        targetProfileSkillsIds,
+        skillIds,
         badge: yellowBadge,
       });
 
@@ -465,12 +433,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
         new KnowledgeElement({ skillId: 7, status: 'validated' }),
         new KnowledgeElement({ skillId: 8, status: 'validated' }),
       ];
-      const skillsIds = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
-      const targetProfileSkillsIds = [1, 2, 3, 4, 5];
-      const targetProfile = domainBuilder.buildTargetProfile({
-        id: 1,
-        skills: skillsIds,
-      });
+      const skillIds = [1, 2, 3, 4, 5];
       const yellowBadge = domainBuilder.buildBadge({
         id: 1,
         badgeCriteria: [],
@@ -492,7 +455,6 @@ describe('Unit | Domain | Services | badge-criteria', function () {
             skillIds: [1, 2, 7],
           }),
         ],
-        targetProfileId: targetProfile.id,
       });
       const expectedMasteryPercentages = [
         { id: 1, masteryPercentage: 67 },
@@ -503,7 +465,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
       // when
       const masteryPercentages = badgeCriteriaService.getMasteryPercentageForAllSkillSets({
         targetedKnowledgeElements,
-        targetProfileSkillsIds,
+        skillIds,
         badge: yellowBadge,
       });
 
@@ -519,14 +481,14 @@ describe('Unit | Domain | Services | badge-criteria', function () {
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
         new KnowledgeElement({ skillId: 2, status: 'invalidated' }),
       ];
-      const targetProfileSkillsIds = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+      const skillIds = [1, 2, 3, 4];
 
       const expectedMasteryPercentage = 25;
 
       // when
       const masteryPercentages = badgeCriteriaService.getMasteryPercentageForTargetProfile({
         targetedKnowledgeElements,
-        targetProfileSkillsIds,
+        skillIds,
       });
 
       // then

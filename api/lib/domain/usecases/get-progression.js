@@ -8,7 +8,7 @@ module.exports = async function getProgression({
   campaignParticipationRepository,
   knowledgeElementRepository,
   skillRepository,
-  targetProfileRepository,
+  campaignRepository,
   improvementService,
 }) {
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
@@ -18,9 +18,9 @@ module.exports = async function getProgression({
 
   if (assessment.isForCampaign()) {
     const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
-    let targetProfile;
+    let skillIds;
     if (!assessment.isFlash()) {
-      targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
+      skillIds = await campaignRepository.findSkillIds(campaignParticipation.campaignId);
     }
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({
       userId,
@@ -38,7 +38,7 @@ module.exports = async function getProgression({
 
     progression = new Progression({
       id: progressionId,
-      targetedSkills: targetProfile?.skills,
+      skillIds,
       knowledgeElements: knowledgeElementsForProgression,
       isProfileCompleted: assessment.isCompleted(),
     });
@@ -46,7 +46,7 @@ module.exports = async function getProgression({
 
   if (assessment.isCompetenceEvaluation()) {
     const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
-    const [targetedSkills, knowledgeElements] = await Promise.all([
+    const [skills, knowledgeElements] = await Promise.all([
       skillRepository.findActiveByCompetenceId(competenceEvaluation.competenceId),
       knowledgeElementRepository.findUniqByUserId({ userId }),
     ]);
@@ -57,7 +57,7 @@ module.exports = async function getProgression({
 
     progression = new Progression({
       id: progressionId,
-      targetedSkills,
+      skillIds: skills?.map((skill) => skill.id) ?? [],
       knowledgeElements: knowledgeElementsForProgression,
       isProfileCompleted: assessment.isCompleted(),
     });

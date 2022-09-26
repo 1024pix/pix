@@ -14,12 +14,12 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       lastAnswer,
       answerRepository,
       challengeRepository,
+      campaignRepository,
       challenges,
       knowledgeElementRepository,
       recentKnowledgeElements,
       campaignParticipationRepository,
       isRetrying,
-      targetProfileRepository,
       targetProfile,
       skills,
       actualNextChallenge,
@@ -47,7 +47,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       });
       skills = [];
       targetProfile = { skills };
-      targetProfileRepository = { getByCampaignParticipationId: sinon.stub().resolves(targetProfile) };
+      campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub().resolves(skills) };
       improvementService = { filterKnowledgeElementsIfImproving: sinon.stub().returns(recentKnowledgeElements) };
       pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeWeb22) };
 
@@ -88,7 +88,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         challengeRepository,
         knowledgeElementRepository,
         campaignParticipationRepository,
-        targetProfileRepository,
+        campaignRepository,
         improvementService,
         pickChallengeService,
         locale,
@@ -112,9 +112,9 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
     });
 
     it('should have fetched the target profile', function () {
-      expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWithExactly({
-        campaignParticipationId,
-      });
+      expect(campaignRepository.findSkillsByCampaignParticipationId).to.have.been.calledWithExactly(
+        campaignParticipationId
+      );
     });
 
     it('should have fetched the most recent knowledge elements', function () {

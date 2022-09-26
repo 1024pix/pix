@@ -8,7 +8,8 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     targetProfileRepository,
     knowledgeElementRepository,
     badgeRepository,
-    badgeCriteriaService;
+    badgeCriteriaService,
+    campaignRepository;
 
   beforeEach(function () {
     participantResultRepository = { getByUserIdAndCampaignId: sinon.stub() };
@@ -16,6 +17,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     badgeRepository = { findByTargetProfileId: sinon.stub() };
     badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
+    campaignRepository = { findSkillIds: sinon.stub() };
   });
 
   context('when the target profile has badges', function () {
@@ -23,6 +25,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       const userId = domainBuilder.buildUser().id;
       const campaignId = domainBuilder.buildCampaign().id;
       const targetProfile = domainBuilder.buildTargetProfile();
+      const skillIds = ['skillId1'];
       const targetProfileBadge = domainBuilder.buildBadge({ id: 98 });
       const badges = [domainBuilder.buildBadge({ id: 99 }), targetProfileBadge];
       const locale = 'FR';
@@ -31,11 +34,12 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
         .withArgs({ userId, campaignId, locale, targetProfile, badges: [targetProfileBadge] })
         .resolves(results);
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+      campaignRepository.findSkillIds.withArgs(campaignId).resolves(skillIds);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
       badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves(badges);
       badgeCriteriaService.areBadgeCriteriaFulfilled.returns(false);
       badgeCriteriaService.areBadgeCriteriaFulfilled
-        .withArgs({ knowledgeElements: [], targetProfile, badge: targetProfileBadge })
+        .withArgs({ knowledgeElements: [], skillIds, badge: targetProfileBadge })
         .returns(true);
 
       const actualCampaignParticipationResult = await getUserCampaignAssessmentResult({
@@ -48,6 +52,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
         knowledgeElementRepository,
         badgeRepository,
         badgeCriteriaService,
+        campaignRepository,
       });
 
       expect(actualCampaignParticipationResult).to.deep.equal(results);
@@ -65,6 +70,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       .withArgs({ userId, campaignId, locale, targetProfile, badges: [] })
       .resolves(results);
     targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+    campaignRepository.findSkillIds.withArgs(campaignId).resolves([]);
     knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
     badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
 
@@ -78,6 +84,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       knowledgeElementRepository,
       badgeRepository,
       badgeCriteriaService,
+      campaignRepository,
     });
 
     expect(actualCampaignParticipationResult).to.deep.equal(results);
@@ -90,6 +97,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     const locale = 'FR';
 
     targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+    campaignRepository.findSkillIds.withArgs(campaignId).resolves([]);
     knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves([]);
     badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
 
@@ -107,6 +115,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       knowledgeElementRepository,
       badgeRepository,
       badgeCriteriaService,
+      campaignRepository,
     });
 
     expect(error).to.be.instanceOf(NoCampaignParticipationForUserAndCampaign);

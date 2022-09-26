@@ -4,9 +4,9 @@ const Progression = require('../../../../lib/domain/models/Progression');
 
 module.exports = function buildProgression({
   id = Progression.generateIdFromAssessmentId(1234),
-  targetedSkills = buildSkillCollection(),
+  skillIds = buildSkillCollection().map((skill) => skill.id),
   knowledgeElements = [buildKnowledgeElement()],
   isProfileCompleted = true,
 } = {}) {
-  return new Progression({ id, targetedSkills, knowledgeElements, isProfileCompleted });
+  return new Progression({ id, skillIds, knowledgeElements, isProfileCompleted });
 };
