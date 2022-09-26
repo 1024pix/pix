@@ -616,6 +616,14 @@ describe('Acceptance | Application | organization-controller', function () {
           archivedAt,
           createdAt,
         });
+        const dataProtectionOfficer = databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
+          firstName: 'Justin',
+          lastName: 'Ptipeu',
+          email: 'justin.ptipeu@example.net',
+          organizationId: organization.id,
+          createdAt,
+          updatedAt: createdAt,
+        });
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
         await databaseBuilder.commit();
@@ -646,6 +654,9 @@ describe('Acceptance | Application | organization-controller', function () {
               'form-nps-url': organization.formNPSUrl,
               'show-skills': false,
               'archivist-full-name': 'Jean Bonneau',
+              'data-protection-officer-first-name': dataProtectionOfficer.firstName,
+              'data-protection-officer-last-name': dataProtectionOfficer.lastName,
+              'data-protection-officer-email': dataProtectionOfficer.email,
               'archived-at': archivedAt,
               'creator-full-name': 'Tom Dereck',
               'identity-provider-for-campaigns': null,
