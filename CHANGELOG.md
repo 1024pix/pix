@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.261.0 (26/09/2022)
+
+
+### :rocket: Amélioration
+- [#4975](https://github.com/1024pix/pix/pull/4975) [FEATURE] Créer la table `target-profile-trainings` (PIX-5773)
+- [#4970](https://github.com/1024pix/pix/pull/4970) [FEATURE] Création de la nouvelle table pour identifier les DPOs (PIX-3501)
+- [#4963](https://github.com/1024pix/pix/pull/4963) [FEATURE] Améliorer la fonction de recherche d'un candidat dans l'espace surveillant (PIX-5728)
+- [#4961](https://github.com/1024pix/pix/pull/4961) [FEATURE] Rendre plus générique la génération de l'attestation PDF pour les certifications complémentaires (PIX-5704)
+- [#4974](https://github.com/1024pix/pix/pull/4974) [FEATURE] Créer la table `trainings` (PIX-5763)
+
+### :building_construction: Tech
+- [#4916](https://github.com/1024pix/pix/pull/4916) [TECH] Minimiser la lecture des acquis depuis target-profiles_skills (PIX-5694)
+- [#4887](https://github.com/1024pix/pix/pull/4887) [TECH] Ne pas charger les acquis en même temps que le profil cible (PIX-5643)
+
 ## v3.260.0 (26/09/2022)
 
 
