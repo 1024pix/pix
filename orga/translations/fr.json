@@ -863,7 +863,11 @@
             "label": "Certificabilité",
             "non-eligible": "Non Certifiable",
             "not-available": "Non communiqué",
-            "tooltip": "L’information de certificabilité remonte des campagnes de collecte de profils réalisées par l'élève. Si l'élève a déjà envoyé son profil, on affiche la date d’envoi ainsi que le statut du dernier envoi."
+
+            "tooltip": {
+              "aria-label": "Explication sur la certificabilité",
+              "content": "La certificabilité signifie que l'élève a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si l'élève a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
+            }
           },
           "last-name": "Nom",
           "last-participation-date": "Dernière participation",

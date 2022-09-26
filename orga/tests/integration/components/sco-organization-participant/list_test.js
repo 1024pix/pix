@@ -364,5 +364,26 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
+
+    test('it should display the certificability tooltip', async function (assert) {
+      // given
+      this.set('students', [
+        store.createRecord('sco-organization-participant', {
+          isCertifiable: true,
+        }),
+      ]);
+
+      // when
+      const screen = await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+      // then
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label')
+          )
+        )
+        .exists();
+    });
   });
 });
