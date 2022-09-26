@@ -70,17 +70,6 @@ module.exports = function (environment) {
       includeLocales: ['fr'],
     },
 
-    // Set or update content security policies
-    contentSecurityPolicy: {
-      'default-src': "'none'",
-      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
-      'font-src': "'self' fonts.gstatic.com",
-      'connect-src': "'self' www.google-analytics.com app.getsentry.com",
-      'img-src': "'self' app.getsentry.com",
-      'style-src': "'self' fonts.googleapis.com",
-      'media-src': "'self'",
-    },
-
     matomo: {},
 
     formBuilderLinkUrl: 'https://form-eu.123formbuilder.com/41052/form',
