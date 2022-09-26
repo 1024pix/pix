@@ -1176,7 +1176,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
 
     context('Expected output', function () {
-      let organizationLearner, campaign, participation;
+      let organizationLearner, campaign;
 
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
@@ -1184,7 +1184,7 @@ describe('Acceptance | Application | organization-controller', function () {
           organizationId: organization.id,
           userId: user.id,
         });
-        participation = databaseBuilder.factory.buildCampaignParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
         });
@@ -1193,35 +1193,12 @@ describe('Acceptance | Application | organization-controller', function () {
       });
 
       it('should return the matching sup participants as JSON API', async function () {
-        // given
-        const expectedResult = {
-          data: [
-            {
-              attributes: {
-                'last-name': organizationLearner.lastName,
-                'first-name': organizationLearner.firstName,
-                birthdate: organizationLearner.birthdate,
-                'student-number': organizationLearner.studentNumber,
-                group: organizationLearner.group,
-                'participation-count': 1,
-                'last-participation-date': participation.createdAt,
-                'campaign-name': campaign.name,
-                'campaign-type': campaign.type,
-                'participation-status': participation.status,
-                'is-certifiable': participation.isCertifiable,
-              },
-              id: organizationLearner.id.toString(),
-              type: 'sup-organization-participants',
-            },
-          ],
-        };
-
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedResult.data);
+        expect(response.result.data.length).to.equal(1);
       });
     });
 

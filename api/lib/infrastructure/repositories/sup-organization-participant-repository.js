@@ -30,6 +30,9 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
       knex.raw(
         'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"'
       ),
+      knex.raw(
+        'FIRST_VALUE("sharedAt") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"'
+      ),
     ])
     .from('organization-learners')
     .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
@@ -63,6 +66,7 @@ module.exports = {
         'organization-learners.studentNumber',
         'organization-learners.organizationId',
         'subquery.isCertifiable',
+        'subquery.certifiableAt',
         knex.raw(
           'FIRST_VALUE("name") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
         ),
