@@ -3,7 +3,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
 const domainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const createProOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags-and-target-profiles');
+const createOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
 const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
 
 const organizationValidator = require('../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script');
@@ -15,7 +15,7 @@ const {
   OrganizationTagNotFound,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profiles', function () {
+describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
   let organizationRepositoryStub;
   let organizationTagRepositoryStub;
   let organizationInvitationRepositoryStub;
@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
   beforeEach(function () {
     organizationRepositoryStub = {
       findByExternalIdsFetchingIdsOnly: sinon.stub(),
-      batchCreateProOrganizations: sinon.stub(),
+      batchCreateOrganizations: sinon.stub(),
     };
     organizationTagRepositoryStub = {
       batchCreate: sinon.stub(),
@@ -58,7 +58,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
     const organizations = undefined;
 
     // when
-    const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({ organizations });
+    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({ organizations });
 
     // then
     expect(error).to.be.an.instanceOf(ObjectValidationError);
@@ -70,7 +70,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
     const organizations = [{ externalId: 'externalId' }, { externalId: 'externalId' }];
 
     // when
-    const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({ organizations });
+    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({ organizations });
 
     // then
     expect(error).to.be.an.instanceOf(ManyOrganizationsFoundError);
@@ -82,7 +82,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       {
         name: '',
         externalId: 'AB1234',
-        email: 'fake@axample.net',
+        emailInvitations: 'fake@axample.net',
         createdBy: 4,
         tags: 'tag1_tag2',
         targetProfiles: '123',
@@ -91,10 +91,10 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
 
     // when
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves(organizations);
+    organizationRepositoryStub.batchCreateOrganizations.resolves(organizations);
 
     // when
-    await createProOrganizationsWithTagsAndTargetProfiles({
+    await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: organizations,
       organizationRepository: organizationRepositoryStub,
@@ -116,7 +116,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       tags: 'TagNotFound',
       targetProfiles: '123',
       type: 'PRO',
-      email: 'fake@axample.net',
+      emailInvitations: 'fake@axample.net',
       createdBy: 4,
     };
     const secondOrganization = {
@@ -126,19 +126,19 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       tags: 'Tag1_Tag2',
       targetProfiles: '123_765',
       type: 'PRO',
-      email: 'fake@axample.net',
+      emailInvitations: 'fake@axample.net',
       createdBy: 4,
     };
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
       domainBuilder.buildOrganization(firstOrganization),
       domainBuilder.buildOrganization(secondOrganization),
     ]);
 
     // when
-    const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
       domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
@@ -151,28 +151,48 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
     expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation organization A n'existe pas.");
   });
 
-  it('should add organizations into database', async function () {
+  it('should add organizations into database ignoring the email for SCO activation for the PRO organization', async function () {
     // given
-    const organization = {
+    const organizationPRO = {
       id: 1,
       name: 'organization A',
       externalId: 'externalId A',
       tags: 'Tag1_Tag2_Tag3',
       targetProfiles: '123_765',
       type: 'PRO',
-      email: 'fake@example.net',
+      emailInvitations: 'fake@example.net',
       createdBy: 4,
+      isManagingStudents: true,
+      identityProviderForCampaigns: 'POLE_EMPLOI',
+      emailForSCOActivation: 'ignoredEmail@example.net',
     };
-    const organizationToCreate = new Organization(organization);
+    const organizationSCO = {
+      id: 2,
+      name: 'organization B',
+      externalId: 'externalId B',
+      tags: 'Tag1_Tag2_Tag3',
+      targetProfiles: '123_765',
+      type: 'SCO',
+      emailInvitations: 'fake@example.net',
+      createdBy: 4,
+      isManagingStudents: true,
+      identityProviderForCampaigns: 'GAR',
+      emailForSCOActivation: 'savedEmail@example.net',
+    };
+    const organizationPROToCreate = new Organization(organizationPRO);
+    const organizationSCOToCreate = new Organization({
+      ...organizationSCO,
+      email: organizationSCO.emailForSCOActivation,
+    });
 
-    const expectedProOrganizationToInsert = [organizationToCreate];
+    const expectedProOrganizationToInsert = [organizationPROToCreate, organizationSCOToCreate];
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([organizationToCreate]);
+    organizationRepositoryStub.batchCreateOrganizations.resolves([organizationPROToCreate, organizationSCOToCreate]);
 
     // when
-    await createProOrganizationsWithTagsAndTargetProfiles({
+    await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
-      organizations: [organization],
+      organizations: [organizationPRO, organizationSCO],
       organizationRepository: organizationRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
@@ -180,7 +200,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
     });
 
     // then
-    expect(organizationRepositoryStub.batchCreateProOrganizations).to.be.calledWith(expectedProOrganizationToInsert);
+    expect(organizationRepositoryStub.batchCreateOrganizations).to.be.calledWith(expectedProOrganizationToInsert);
   });
 
   it('should add organization tags when exists', async function () {
@@ -192,7 +212,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       tags: 'Tag1',
       targetProfiles: '123_765',
       type: 'PRO',
-      email: 'fake@axample.net',
+      emailInvitations: 'fake@axample.net',
       createdBy: 4,
     };
     const secondOrganization = {
@@ -202,7 +222,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       tags: 'Tag1_Tag2',
       targetProfiles: '765',
       type: 'PRO',
-      email: 'fake@axample.net',
+      emailInvitations: 'fake@axample.net',
       createdBy: 4,
     };
 
@@ -217,13 +237,13 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
       domainBuilder.buildOrganization(firstOrganization),
       domainBuilder.buildOrganization(secondOrganization),
     ]);
 
     // when
-    await createProOrganizationsWithTagsAndTargetProfiles({
+    await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
@@ -245,7 +265,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       tags: 'Tag1',
       targetProfiles: '123_765',
       type: 'PRO',
-      email: 'fake@axample.net',
+      emailInvitations: 'fake@axample.net',
       createdBy: 4,
     };
     const secondOrganization = {
@@ -255,19 +275,19 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       tags: 'Tag1_Tag2',
       targetProfiles: '765',
       type: 'PRO',
-      email: 'fake@axample.net',
+      emailInvitations: 'fake@axample.net',
       createdBy: 4,
     };
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
       domainBuilder.buildOrganization(firstOrganization),
       domainBuilder.buildOrganization(secondOrganization),
     ]);
 
     // when
-    await createProOrganizationsWithTagsAndTargetProfiles({
+    await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
@@ -292,7 +312,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       externalId: 'externalId A',
       tags: 'Tag1',
       targetProfiles: '123_765',
-      email: 'organizationA@exmaple.net',
+      emailInvitations: 'organizationA@example.net',
       organizationInvitationRole: Membership.roles.ADMIN,
       locale: 'en',
       type: 'PRO',
@@ -304,7 +324,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       externalId: 'externalId B',
       tags: 'Tag2',
       targetProfiles: '123',
-      email: 'organizationB@exmaple.net',
+      emailInvitations: 'organizationB@example.net',
       organizationInvitationRole: Membership.roles.MEMBER,
       type: 'PRO',
       createdBy: 4,
@@ -312,13 +332,13 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
       domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
       domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
     ]);
 
     // when
-    await createProOrganizationsWithTagsAndTargetProfiles({
+    await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganizationWithAdminRole, secondOrganizationWithMemberRole],
       organizationRepository: organizationRepositoryStub,
@@ -334,7 +354,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       organizationInvitationRepository: organizationInvitationRepositoryStub,
       organizationId: firstOrganizationWithAdminRole.id,
       name: firstOrganizationWithAdminRole.name,
-      email: firstOrganizationWithAdminRole.email,
+      email: firstOrganizationWithAdminRole.emailInvitations,
       role: firstOrganizationWithAdminRole.organizationInvitationRole,
       locale: firstOrganizationWithAdminRole.locale,
     });
@@ -343,7 +363,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       organizationInvitationRepository: organizationInvitationRepositoryStub,
       organizationId: secondOrganizationWithMemberRole.id,
       name: secondOrganizationWithMemberRole.name,
-      email: secondOrganizationWithMemberRole.email,
+      email: secondOrganizationWithMemberRole.emailInvitations,
       role: secondOrganizationWithMemberRole.organizationInvitationRole,
       locale: secondOrganizationWithMemberRole.locale,
     });
@@ -357,19 +377,19 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       externalId: 'externalId A',
       tags: 'TAG1',
       targetProfiles: '123_765',
-      email: null,
+      emailInvitations: null,
       type: 'PRO',
       createdBy: 4,
     };
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
       domainBuilder.buildOrganization(organizationWithoutEmail),
     ]);
 
     // when
-    await createProOrganizationsWithTagsAndTargetProfiles({
+    await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [organizationWithoutEmail],
       organizationRepository: organizationRepositoryStub,
@@ -388,8 +408,8 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       // given
 
       const organizations = [
-        { externalId: 'Ab1234', name: 'fake', email: 'fake@axample.net', createdBy: 4 },
-        { externalId: 'Cd456', name: 'fake', email: 'fake@axample.net', createdBy: 4 },
+        { externalId: 'Ab1234', name: 'fake', emailInvitations: 'fake@axample.net', createdBy: 4 },
+        { externalId: 'Cd456', name: 'fake', emailInvitations: 'fake@axample.net', createdBy: 4 },
       ];
       organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([
         { id: '1', externalId: 'Ab1234' },
@@ -397,7 +417,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags-and-target-profile
       ]);
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         organizations,
         organizationRepository: organizationRepositoryStub,
       });

@@ -15,7 +15,7 @@ const {
 const SEPARATOR = '_';
 const organizationInvitationService = require('../../domain/services/organization-invitation-service');
 
-module.exports = async function createProOrganizationsWithTagsAndTargetProfiles({
+module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   organizations,
   domainTransaction,
   organizationRepository,
@@ -45,7 +45,7 @@ module.exports = async function createProOrganizationsWithTagsAndTargetProfiles(
   await domainTransaction.execute(async (domainTransaction) => {
     const organizationsToCreate = Array.from(organizationsData.values()).map((data) => data.organization);
 
-    createdOrganizations = await organizationRepository.batchCreateProOrganizations(
+    createdOrganizations = await organizationRepository.batchCreateOrganizations(
       organizationsToCreate,
       domainTransaction
     );
@@ -85,28 +85,24 @@ module.exports = async function createProOrganizationsWithTagsAndTargetProfiles(
 
   const createdOrganizationsWithEmail = createdOrganizations
     .map(({ id, externalId, name }) => {
-      const { organization } = organizationsData.get(externalId);
+      const { emailInvitations, role, locale } = organizationsData.get(externalId);
       return {
-        email: organization?.email,
-        externalId,
-        id,
+        organizationId: id,
         name,
+        email: emailInvitations,
+        role,
+        locale,
       };
     })
     .filter((organization) => !!organization.email);
 
-  await bluebird.mapSeries(createdOrganizationsWithEmail, (organization) => {
-    const { locale, organizationInvitationRole } = organizationsData.get(organization.externalId);
-    return organizationInvitationService.createProOrganizationInvitation({
+  await bluebird.mapSeries(createdOrganizationsWithEmail, (organizationWithEmail) =>
+    organizationInvitationService.createProOrganizationInvitation({
       organizationRepository,
       organizationInvitationRepository,
-      organizationId: organization.id,
-      name: organization.name,
-      email: organization.email,
-      role: organizationInvitationRole?.toUpperCase(),
-      locale,
-    });
-  });
+      ...organizationWithEmail,
+    })
+  );
 
   return createdOrganizations;
 };
@@ -137,14 +133,16 @@ function _mapOrganizationsData(organizations) {
   const mapOrganizationByExternalId = new Map();
 
   for (const organization of organizations) {
+    const email = organization.type === Organization.types.SCO ? organization.emailForSCOActivation : undefined;
     mapOrganizationByExternalId.set(organization.externalId, {
       organization: new Organization({
         ...organization,
-        type: Organization.types.PRO,
+        email,
       }),
+      emailInvitations: organization.emailInvitations,
       tags: organization.tags.split(SEPARATOR),
       targetProfiles: organization.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
-      organizationInvitationRole: organization.organizationInvitationRole,
+      role: organization.organizationInvitationRole,
       locale: organization.locale,
     });
   }
