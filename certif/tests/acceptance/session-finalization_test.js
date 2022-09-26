@@ -399,5 +399,40 @@ module('Acceptance | Session Finalization', function (hooks) {
         });
       });
     });
+
+    module('When certificationPointOfContact tries to finalize a session that has not started yet', function () {
+      test('it should redirect to session details and show an error', async function (assert) {
+        // given
+        this.server.put(
+          `/sessions/${session.id}/finalization`,
+          () => ({
+            errors: [
+              {
+                detail:
+                  "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer.",
+              },
+            ],
+          }),
+          400
+        );
+        // when
+        const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+
+        await click(screen.getByText('Finaliser'));
+        await click(screen.getByText('Confirmer la finalisation'));
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
+            )
+          )
+          .exists();
+        assert.dom(screen.getByText('Numéro de session')).exists();
+        assert.dom(screen.getByText("Code d'accès")).exists();
+        assert.dom(screen.getByText('Nom du site')).exists();
+      });
+    });
   });
 });
