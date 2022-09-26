@@ -832,4 +832,42 @@ describe('Integration | Repository | Session', function () {
       });
     });
   });
+
+  describe('#hasNoStartedCertification', function () {
+    context('when session has at least one certification course', function () {
+      it('should return false', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession({}).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+
+        // then
+        expect(hasNoStartedCertification).to.be.false;
+      });
+    });
+
+    context('when session has no certification course', function () {
+      it('should return true', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession({}).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+
+        // then
+        expect(hasNoStartedCertification).to.be.true;
+      });
+    });
+  });
 });
