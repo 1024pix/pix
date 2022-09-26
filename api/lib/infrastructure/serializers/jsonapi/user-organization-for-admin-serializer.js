@@ -6,7 +6,7 @@ module.exports = {
       attributes: [
         'id',
         'updatedAt',
-        'role',
+        'organizationRole',
         'organizationId',
         'organizationName',
         'organizationType',

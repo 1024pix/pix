@@ -72,7 +72,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         });
       });
 
-      it('should return a JSON API membership', async function () {
+      it('should return a JSON API organization membership', async function () {
         // given
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
@@ -83,7 +83,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
         // then
-        expect(response.result.data.type).to.equal('memberships');
+        expect(response.result.data.type).to.equal('organization-memberships');
       });
     });
 

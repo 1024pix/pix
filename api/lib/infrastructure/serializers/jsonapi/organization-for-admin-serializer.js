@@ -24,11 +24,11 @@ module.exports = {
         'archivistFullName',
         'creatorFullName',
         'tags',
-        'memberships',
+        'organizationMemberships',
         'targetProfileSummaries',
         'identityProviderForCampaigns',
       ],
-      memberships: {
+      organizationMemberships: {
         ref: 'id',
         ignoreRelationshipData: true,
         nullIfMissing: true,

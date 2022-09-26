@@ -31,7 +31,7 @@ describe('Unit | Controller | membership-controller', function () {
         .withArgs({ userId: user.id, organizationId: organization.id })
         .resolves(membership);
       sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
-      sinon.stub(membershipSerializer, 'serialize').withArgs(membership).returns(serializedMembership);
+      sinon.stub(membershipSerializer, 'serializeForAdmin').withArgs(membership).returns(serializedMembership);
 
       // when
       const result = await membershipController.create(request, hFake);

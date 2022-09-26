@@ -11,7 +11,7 @@ module.exports = {
     const membership = await usecases.createMembership({ userId, organizationId });
     await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
-    return h.response(membershipSerializer.serialize(membership)).created();
+    return h.response(membershipSerializer.serializeForAdmin(membership)).created();
   },
 
   async update(request, h) {
