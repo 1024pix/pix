@@ -1,14 +1,14 @@
 {{page-title "Orga " @model.id " | Équipe"}}
 {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
   <Organizations::TeamActionsSection
-    @addMembership={{this.addMembership}}
+    @addOrganizationMembership={{this.addOrganizationMembership}}
     @userEmailToAdd={{this.userEmailToAdd}}
     @onChangeUserEmailToAdd={{this.onChangeUserEmailToAdd}}
   />
 {{/if}}
 
 <Organizations::TeamSection
-  @memberships={{@model.memberships}}
+  @organizationMemberships={{@model.organizationMemberships}}
   @updateMembership={{this.updateMembership}}
   @disableMembership={{this.disableMembership}}
   @isLoading={{this.isLoading}}

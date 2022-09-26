@@ -1,9 +1,9 @@
-<td><LinkTo @route="authenticated.users.get" @model={{@membership.user.id}}>
-    {{@membership.user.id}}
+<td><LinkTo @route="authenticated.users.get" @model={{@organizationMembership.user.id}}>
+    {{@organizationMembership.user.id}}
   </LinkTo></td>
-<td>{{@membership.user.firstName}}</td>
-<td>{{@membership.user.lastName}}</td>
-<td>{{@membership.user.email}}</td>
+<td>{{@organizationMembership.user.firstName}}</td>
+<td>{{@organizationMembership.user.lastName}}</td>
+<td>{{@organizationMembership.user.email}}</td>
 <td>
   {{#if this.isEditionMode}}
     <PixSelect
@@ -19,7 +19,7 @@
       {{role.label}}
     </PixSelect>
   {{else}}
-    {{@membership.displayedOrganizationRole}}
+    {{@organizationMembership.displayedOrganizationRole}}
   {{/if}}
 </td>
 {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
@@ -47,7 +47,7 @@
         </div>
       {{else}}
         <PixButton
-          @isDisabled={{@membership.isSaving}}
+          @isDisabled={{@organizationMembership.isSaving}}
           @size="small"
           class="member-item-actions__button"
           aria-label="Modifier le rôle"
@@ -59,7 +59,7 @@
       <PixButton
         @size="small"
         @backgroundColor="red"
-        @isDisabled={{@membership.isSaving}}
+        @isDisabled={{@organizationMembership.isSaving}}
         class="member-item-actions__button"
         aria-label="Désactiver l'agent"
         @triggerAction={{this.toggleDisplayConfirm}}

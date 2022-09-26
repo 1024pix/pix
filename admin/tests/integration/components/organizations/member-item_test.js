@@ -22,7 +22,7 @@ module('Integration | Component | member-item', function (hooks) {
 
   test('it should display a member', async function (assert) {
     // when
-    const screen = await render(hbs`<Organizations::MemberItem @membership={{this.membership}} />`);
+    const screen = await render(hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} />`);
 
     // then
     assert.dom(screen.getByText('123')).exists();
@@ -41,7 +41,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
       await clickByName('Modifier le rôle');
 
@@ -54,7 +54,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.updateMembership = sinon.spy();
       const screen = await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
 
       // when
@@ -69,7 +69,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.updateMembership = sinon.spy();
       const screen = await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
       await clickByName('Modifier le rôle');
 
@@ -87,7 +87,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.updateMembership = sinon.spy();
       const screen = await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
       await clickByName('Modifier le rôle');
 
@@ -107,7 +107,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.disableMembership = sinon.spy();
       const screen = await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
 
       // when
@@ -123,7 +123,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.disableMembership = sinon.spy();
       const screen = await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
       await clickByName("Désactiver l'agent");
 
@@ -139,7 +139,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.disableMembership = sinon.spy();
       await render(
-        hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+        hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
 
       await clickByName("Désactiver l'agent");
@@ -161,7 +161,7 @@ module('Integration | Component | member-item', function (hooks) {
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(hbs`<Organizations::MemberItem @membership={{this.membership}} />`);
+      const screen = await render(hbs`<Organizations::MemberItem @organizationMembership={{this.membership}} />`);
 
       // expect
       assert.dom(screen.queryByRole('button', { name: 'Modifier le rôle' })).doesNotExist();

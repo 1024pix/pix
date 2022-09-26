@@ -29,7 +29,7 @@ export default class OrganizationTeamRoute extends Route {
   async model(params) {
     const organization = this.modelFor('authenticated.organizations.get');
     try {
-      await organization.hasMany('memberships').reload({
+      await organization.hasMany('organizationMemberships').reload({
         adapterOptions: {
           'page[size]': params.pageSize,
           'page[number]': params.pageNumber,

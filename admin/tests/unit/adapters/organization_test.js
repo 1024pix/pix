@@ -16,18 +16,19 @@ module('Unit | Adapters | organization', function (hooks) {
   });
 
   module('#findHasMany', function () {
-    test('should build url with query params when type is membership', async function (assert) {
+    test('should build url with query params when type is organization-membership', async function (assert) {
       // given
       const snapshot = { modelName: 'organization', id: '1', adapterOptions: { 'page[size]': 2 } };
-      const relationship = { type: 'membership' };
+      const relationship = { type: 'organization-membership' };
       const url = '/api/organizations/1/memberships';
-      const expectedUrl = `${ENV.APP.API_HOST}/api/organizations/1/memberships?page%5Bsize%5D=2`;
 
       // when
       await adapter.findHasMany({}, snapshot, url, relationship);
 
       // then
-      assert.ok(ajaxStub.calledWith(expectedUrl, 'GET'));
+      assert.ok(
+        ajaxStub.calledWith(`${ENV.APP.API_HOST}/api/admin/organizations/1/memberships?page%5Bsize%5D=2`, 'GET')
+      );
     });
 
     test('should build url without query params when type is not membership', async function (assert) {
@@ -35,13 +36,12 @@ module('Unit | Adapters | organization', function (hooks) {
       const snapshot = { modelName: 'organization', id: '1', adapterOptions: { 'page[size]': 2 } };
       const relationship = { type: 'target-profile' };
       const url = '/api/organizations/1/target-profiles';
-      const expectedUrl = `${ENV.APP.API_HOST}/api/organizations/1/target-profiles`;
 
       // when
       await adapter.findHasMany({}, snapshot, url, relationship);
 
       // then
-      assert.ok(ajaxStub.calledWith(expectedUrl, 'GET'));
+      assert.ok(ajaxStub.calledWith(`${ENV.APP.API_HOST}/api/organizations/1/target-profiles`, 'GET'));
     });
   });
 });
