@@ -202,5 +202,34 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       sinon.assert.calledWithExactly(triggerFiltering, 'groups', ['L1']);
       assert.ok(true);
     });
+
+    test('it should display the certificability tooltip', async function (assert) {
+      // given
+      const students = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          isCertifiable: true,
+        },
+      ];
+
+      this.set('students', students);
+      this.triggerFiltering = sinon.spy();
+      this.set('groups', []);
+
+      // when
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label')
+          )
+        )
+        .exists();
+    });
   });
 });
