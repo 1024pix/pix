@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.260.0 (26/09/2022)
+
+
+### :rocket: Amélioration
+- [#4948](https://github.com/1024pix/pix/pull/4948) [FEATURE] Remplacer les modales dépréciées dans Pix-App (PIX-5711).
+- [#4931](https://github.com/1024pix/pix/pull/4931) [FEATURE] Avoir un menu mobile accessible sur Pix App(PIX-5682).
+- [#4935](https://github.com/1024pix/pix/pull/4935) [FEATURE] Ne pas afficher la modale GAR si l'utilisateur est déjà connecté à Pix App (PIX-5563)
+- [#4955](https://github.com/1024pix/pix/pull/4955) [FEATURE] Ajout d'un tooltip sur l'en-tête de la colonne certificabilité dans le tableau sur la page des participants (PIX-5560)
+
+### :building_construction: Tech
+- [#4954](https://github.com/1024pix/pix/pull/4954) [TECH] Rendre dynamique l'affichage des méthodes de connexions de type OIDC (PIX-5662)
+- [#4901](https://github.com/1024pix/pix/pull/4901) [TECH] Inclure le rattachement des profils cibles dans le script OGA (PIX-4993).
+
+### :bug: Correction
+- [#4972](https://github.com/1024pix/pix/pull/4972) [BUGFIX] La page de détails d'un profil cible sur PixAdmin montre un référentiel non trié selon domaine/compétence/thématique/sujet (PIX-5786)
+- [#4968](https://github.com/1024pix/pix/pull/4968) [BUGFIX] Permettre aux prescrits désactivés de participer à la campagne d'une orga passée en non isManagingStudents(Pix-5772)
+- [#4969](https://github.com/1024pix/pix/pull/4969) [BUGFIX] Corrige l'affichage du lien "Mes parcours" dans la navbar mobile (PIX-5682)
+- [#4962](https://github.com/1024pix/pix/pull/4962) [BUGFIX] Orga: permettre l'inscription d'une adresse e-mail en majuscules (PIX-5733)
+
 ## v3.259.0 (22/09/2022)
 
 
