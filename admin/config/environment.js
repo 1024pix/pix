@@ -69,17 +69,6 @@ module.exports = function (environment) {
 
     googleFonts: ['Roboto:300,400,500,600'],
 
-    // Set or update content security policies
-    contentSecurityPolicy: {
-      'default-src': "'none'",
-      'script-src': "'self' www.google-analytics.com",
-      'font-src': "'self' fonts.gstatic.com",
-      'connect-src': "'self' www.google-analytics.com",
-      'img-src': "'self'",
-      'style-src': "'self' fonts.googleapis.com",
-      'media-src': "'self'",
-    },
-
     'ember-cli-notifications': {
       autoClear: true,
       includeFontAwesome: true,
