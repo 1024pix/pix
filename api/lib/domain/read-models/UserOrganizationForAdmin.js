@@ -2,7 +2,7 @@ class UserOrganizationForAdmin {
   constructor({
     id,
     updatedAt,
-    role,
+    organizationRole,
     organizationId,
     organizationName,
     organizationType,
@@ -10,7 +10,7 @@ class UserOrganizationForAdmin {
   } = {}) {
     this.id = id;
     this.updatedAt = updatedAt;
-    this.role = role;
+    this.organizationRole = organizationRole;
     this.organizationId = organizationId;
     this.organizationName = organizationName;
     this.organizationType = organizationType;
