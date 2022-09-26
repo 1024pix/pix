@@ -680,7 +680,10 @@
           "participation-count": "Nombre de participations",
           "is-certifiable": {
             "label": "Certificabilité",
-            "tooltip":"L’information de certificabilité remonte des campagnes de collecte de profil réalisées par le participant. Si le participant a déjà envoyé son profil, on affiche la date d’envoi ainsi que le statut du dernier envoi."
+            "tooltip": {
+              "aria-label": "Explication sur la certificabilité",
+              "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si le participant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
+            }
           }
         },
         "empty": "Aucun participant",

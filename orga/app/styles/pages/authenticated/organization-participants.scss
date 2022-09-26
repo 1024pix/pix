@@ -15,15 +15,6 @@ $margin-right: 32px;
   &__certificability-header {
     display: flex;
     justify-content: center;
-
-    &__tooltip {
-      padding-left: 6px;
-      color: $pix-neutral-30;
-
-      [role="tooltip"] {
-        font-weight: $font-light;
-      }
-    }
   }
 
   &__certifiable-at {

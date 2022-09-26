@@ -203,4 +203,30 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.contains(this.intl.t('pages.organization-participants.table.empty'));
   });
+
+  test('it should display the certificability tooltip', async function (assert) {
+    // given
+    const participants = [
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        isCertifiable: true,
+      },
+    ];
+
+    this.set('participants', participants);
+    this.triggerFiltering = sinon.stub();
+
+    // when
+    const screen = await render(
+      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{triggerFiltering}}/>`
+    );
+    assert
+      .dom(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.aria-label')
+        )
+      )
+      .exists();
+  });
 });
