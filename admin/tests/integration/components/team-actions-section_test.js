@@ -8,15 +8,15 @@ import sinon from 'sinon';
 module('Integration | Component | organization-team-actions-section', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should call addMembership method', async function (assert) {
+  test('it should call addOrganizationMembership method', async function (assert) {
     // given
-    const addMembershipStub = sinon.stub();
-    this.set('addMembership', addMembershipStub);
+    const addOrganizationMembershipStub = sinon.stub();
+    this.set('addOrganizationMembership', addOrganizationMembershipStub);
     this.set('noop', () => {});
 
     // when
     await render(hbs`<Organizations::TeamActionsSection
-      @addMembership={{addMembership}}
+      @addOrganizationMembership={{addOrganizationMembership}}
       @createOrganizationInvitation={{noop}}
       @triggerFiltering={{noop}}
       @onChangeUserEmailToAdd={{noop}} />`);
@@ -25,7 +25,7 @@ module('Integration | Component | organization-team-actions-section', function (
     await clickByName('Ajouter un membre');
 
     // then
-    sinon.assert.called(addMembershipStub);
+    sinon.assert.called(addOrganizationMembershipStub);
     assert.ok(true);
   });
 });

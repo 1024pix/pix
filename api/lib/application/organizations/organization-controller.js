@@ -119,6 +119,18 @@ module.exports = {
     return campaignManagementSerializer.serialize(campaigns, meta);
   },
 
+  async findPaginatedFilteredMembershipsForAdmin(request) {
+    const organizationId = request.params.id;
+    const options = queryParamsUtils.extractParameters(request.query);
+
+    const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
+      organizationId,
+      filter: options.filter,
+      page: options.page,
+    });
+    return membershipSerializer.serializeForAdmin(memberships, pagination);
+  },
+
   async findPaginatedFilteredMemberships(request) {
     const organizationId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);

@@ -27,12 +27,12 @@ export default class Organization extends Model {
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
 
-  @hasMany('membership') memberships;
+  @hasMany('organizationMembership') organizationMemberships;
   @hasMany('targetProfileSummary') targetProfileSummaries;
   @hasMany('tag') tags;
 
   async hasMember(userId) {
-    const memberships = await this.memberships;
+    const memberships = await this.organizationMemberships;
     return !!memberships.findBy('user.id', userId);
   }
 

@@ -65,28 +65,24 @@
           </tr>
         </thead>
 
-        {{#if @memberships}}
+        {{#if @organizationMemberships}}
           <tbody>
-            {{#each @memberships as |membership|}}
+            {{#each @organizationMemberships as |organizationMembership|}}
               <tr aria-label="Membre">
-                <Organizations::MemberItem
-                  @membership={{membership}}
-                  @updateMembership={{@updateMembership}}
-                  @disableMembership={{@disableMembership}}
-                />
+                <Organizations::MemberItem @organizationMembership={{organizationMembership}} />
               </tr>
             {{/each}}
           </tbody>
         {{/if}}
       </table>
 
-      {{#unless @memberships}}
+      {{#unless @organizationMemberships}}
         <div class="table__empty">Aucun résultat</div>
       {{/unless}}
     </div>
 
-    {{#if @memberships}}
-      <PaginationControl @pagination={{@memberships.meta}} />
+    {{#if @organizationMemberships}}
+      <PaginationControl @pagination={{@organizationMemberships.meta}} />
     {{/if}}
   </div>
 </section>

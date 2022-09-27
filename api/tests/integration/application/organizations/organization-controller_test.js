@@ -111,10 +111,43 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#findPaginatedFilteredOrganizationMemberships', function () {
+  describe('#findPaginatedFilteredOrganizationMembershipsForAdmin', function () {
     context('Success cases', function () {
       beforeEach(function () {
         securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+      });
+
+      it('should return an HTTP response with status code 200', async function () {
+        // given
+        const membership = domainBuilder.buildMembership();
+        usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/1234/memberships');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return an HTTP response formatted as JSON:API', async function () {
+        // given
+        const membership = domainBuilder.buildMembership();
+        usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/1234/memberships');
+
+        // then
+        expect(response.result.data[0].type).to.equal('organization-memberships');
+        expect(response.result.data[0].id).to.equal(membership.id.toString());
+      });
+    });
+  });
+
+  describe('#findPaginatedFilteredOrganizationMemberships', function () {
+    context('Success cases', function () {
+      beforeEach(function () {
+        securityPreHandlers.checkUserBelongsToOrganization.returns(true);
       });
 
       it('should return an HTTP response with status code 200', async function () {

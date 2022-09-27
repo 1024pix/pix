@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 const ROLE_LABELS = {
   ADMIN: 'Administrateur',
@@ -7,14 +7,17 @@ const ROLE_LABELS = {
 
 export default class OrganizationMembership extends Model {
   @attr() updatedAt;
-  @attr() role;
   @attr() disabledAt;
+  @attr() organizationRole;
   @attr() organizationId;
   @attr() organizationName;
   @attr() organizationType;
   @attr() organizationExternalId;
 
+  @belongsTo('organization') organization;
+  @belongsTo('user') user;
+
   get roleLabel() {
-    return ROLE_LABELS[this.role];
+    return ROLE_LABELS[this.organizationRole];
   }
 }

@@ -47,14 +47,17 @@ function findPaginatedOrganizationMemberships(schema, request) {
     };
   }
 
-  const memberships = schema.memberships.where(filters).models;
+  const organizationMemberships = schema.organizationMemberships.where(filters).models;
 
-  const rowCount = memberships.length;
+  const rowCount = organizationMemberships.length;
 
   const pagination = _getPaginationFromQueryParams(queryParams);
-  const paginatedMemberships = _applyPagination(memberships, pagination);
+  const paginatedMemberships = _applyPagination(organizationMemberships, pagination);
 
-  const json = this.serialize({ modelName: 'membership', models: paginatedMemberships }, 'membership');
+  const json = this.serialize(
+    { modelName: 'organizationMembership', models: paginatedMemberships },
+    'organizationMembership'
+  );
   json.meta = {
     page: pagination.page,
     pageSize: pagination.pageSize,

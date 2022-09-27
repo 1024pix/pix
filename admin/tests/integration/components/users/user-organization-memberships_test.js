@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
 module('Integration | Component | users | organization-memberships', function (hooks) {
   setupRenderingTest(hooks);
@@ -10,6 +11,11 @@ module('Integration | Component | users | organization-memberships', function (h
   module('When user isn’t member of any organization', function () {
     test('it should display an empty table', async function (assert) {
       // given
+      class SessionStub extends Service {
+        hasAccessToOrganizationActionsScope = false;
+      }
+      this.owner.register('service:accessControl', SessionStub);
+
       const organizationMemberships = [];
       this.set('organizationMemberships', organizationMemberships);
 
@@ -26,6 +32,11 @@ module('Integration | Component | users | organization-memberships', function (h
   module('When user is member of some organizations', function () {
     test('it should display a table with the organizations the user is member of', async function (assert) {
       // given
+      class SessionStub extends Service {
+        hasAccessToOrganizationActionsScope = false;
+      }
+      this.owner.register('service:accessControl', SessionStub);
+
       const organizationMembership1 = EmberObject.create({
         role: 'MEMBER',
         organizationId: 100025,

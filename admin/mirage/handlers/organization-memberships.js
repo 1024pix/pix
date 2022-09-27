@@ -1,14 +1,14 @@
 import { Response } from 'ember-cli-mirage';
 
-export function createMembership(schema, request) {
+export function createOrganizationMembership(schema, request) {
   const params = JSON.parse(request.requestBody);
 
   const userId = params.data.relationships.user.data.id;
   const organizationId = params.data.relationships.organization.data.id;
 
-  const memberships = schema.memberships.where({ organizationId, userId });
+  const organizationMemberships = schema.organizationMemberships.where({ organizationId, userId });
 
-  if (memberships.length > 0) {
+  if (organizationMemberships.length > 0) {
     return new Response(
       400,
       {},
@@ -44,5 +44,5 @@ export function createMembership(schema, request) {
     );
   }
 
-  return schema.memberships.create({ user, organization });
+  return schema.organizationMemberships.create({ user, organization });
 }

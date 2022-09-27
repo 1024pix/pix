@@ -109,7 +109,7 @@ describe('Integration | Repository | user-organizations-for-admin', function () 
           .to.has.all.keys(
             'id',
             'updatedAt',
-            'role',
+            'organizationRole',
             'organizationId',
             'organizationName',
             'organizationType',
@@ -122,7 +122,7 @@ describe('Integration | Repository | user-organizations-for-admin', function () 
           .to.has.all.keys(
             'id',
             'updatedAt',
-            'role',
+            'organizationRole',
             'organizationId',
             'organizationName',
             'organizationType',

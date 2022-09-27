@@ -10,8 +10,8 @@ module('Unit | Model | organization-membership', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       // when
-      const model1 = store.createRecord('organization-membership', { role: 'MEMBER' });
-      const model2 = store.createRecord('organization-membership', { role: 'ADMIN' });
+      const model1 = store.createRecord('organization-membership', { organizationRole: 'MEMBER' });
+      const model2 = store.createRecord('organization-membership', { organizationRole: 'ADMIN' });
 
       // then
       assert.strictEqual(model1.roleLabel, 'Membre');
