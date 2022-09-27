@@ -23,7 +23,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
   beforeEach(async function () {
     server = await createServer();
     session = databaseBuilder.factory.buildSession();
-    const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({}).id;
+    const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
     const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id, certificationCourseId });
     const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id, certificationCourseId });
     databaseBuilder.factory.buildAssessment({ certificationCourseId });
@@ -100,24 +100,6 @@ describe('Acceptance | Controller | sessions-controller', function () {
         await knex('finalized-sessions').delete();
         await knex('competence-marks').delete();
         await knex('assessment-results').delete();
-      });
-
-      it('should respond OK', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({
-          userId,
-          certificationCenterId: session.certificationCenterId,
-        });
-
-        await databaseBuilder.commit();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
       });
 
       it('should update session', async function () {

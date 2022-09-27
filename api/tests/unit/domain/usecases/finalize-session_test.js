@@ -3,6 +3,7 @@ const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper
 const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
 const {
   SessionAlreadyFinalizedError,
+  SessionWithoutStartedCertificationError,
   InvalidCertificationReportForFinalization,
 } = require('../../../../lib/domain/errors');
 const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
@@ -29,6 +30,7 @@ describe('Unit | UseCase | finalize-session', function () {
     sessionRepository = {
       finalize: sinon.stub(),
       isFinalized: sinon.stub(),
+      hasNoStartedCertification: sinon.stub(),
     };
     certificationReportRepository = {
       finalizeAll: sinon.stub(),
@@ -52,6 +54,25 @@ describe('Unit | UseCase | finalize-session', function () {
 
       // then
       expect(err).to.be.instanceOf(SessionAlreadyFinalizedError);
+    });
+  });
+
+  context('When the session has not started yet', function () {
+    it('should throw a SessionWithoutStartedCertificationError error', async function () {
+      // given
+      sessionRepository.hasNoStartedCertification.withArgs(sessionId).resolves(true);
+
+      // when
+      const err = await catchErr(finalizeSession)({
+        sessionId,
+        examinerGlobalComment,
+        sessionRepository,
+        certificationReports: [],
+        certificationReportRepository,
+      });
+
+      // then
+      expect(err).to.be.instanceOf(SessionWithoutStartedCertificationError);
     });
   });
 
