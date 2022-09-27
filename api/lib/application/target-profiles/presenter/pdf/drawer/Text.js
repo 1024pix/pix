@@ -1,4 +1,5 @@
 const PositionManager = require('../manager/position-manager');
+const pdfLibUtils = require('pdf-lib/cjs/utils');
 
 module.exports = class Text {
   constructor({ text, positionX, positionY, fontSize, font, fontColor, maxWidth }) {
@@ -12,7 +13,6 @@ module.exports = class Text {
     this.fontColor = fontColor;
     this.maxWidth = maxWidth || PositionManager.maxWidth;
   }
-  DEFAULT_SPACE_UNDER_TEXT = 10;
 
   /**
    *
@@ -40,7 +40,7 @@ module.exports = class Text {
    * @returns {number}
    */
   get spaceUnderText() {
-    return this.DEFAULT_SPACE_UNDER_TEXT;
+    return this.font.heightAtSize(this.fontSize) / 2;
   }
 
   /**
@@ -53,17 +53,21 @@ module.exports = class Text {
    */
   static numberOfLines(text, font, fontSize, page = null, overrideMaxWidth = null) {
     const maxWidthForText = overrideMaxWidth || page.getWidth();
-    const widthInOneLine = font.widthOfTextAtSize(text, fontSize);
-    return Math.ceil(widthInOneLine / maxWidthForText);
+    const textWidth = function (t) {
+      return font.widthOfTextAtSize(t, fontSize);
+    };
+    const lines = pdfLibUtils.breakTextIntoLines(text, [' '], maxWidthForText, textWidth);
+    return lines.length;
   }
 
   /**
    * @param page{PDFPage}
+   * @param text{string}
    * @param overrideMaxWidth{number}
    * @returns {number}
    */
-  nextPositionY(page, overrideMaxWidth = null) {
-    const numberOfLines = Text.numberOfLines(this.text, this.font, this.fontSize, page, overrideMaxWidth);
+  nextPositionY(page, overrideMaxWidth = null, text = null) {
+    const numberOfLines = Text.numberOfLines(text || this.text, this.font, this.fontSize, page, overrideMaxWidth);
     return this.position.y - (numberOfLines * this.font.heightAtSize(this.fontSize) + this.spaceUnderText);
   }
 

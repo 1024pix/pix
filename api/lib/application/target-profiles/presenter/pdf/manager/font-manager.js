@@ -7,8 +7,8 @@ const COVER_PAGE_TITLE_TEXT_FONT_SIZE = 30;
 const LEGAL_MENTION_TEXT_FONT_SIZE = 5;
 const AREA_NAME_FONT_SIZE = 20;
 const COMPETENCE_TEXT_FONT_SIZE = 12;
-const TUBE_TEXT_FONT_SIZE = 8;
-const THEMATIC_TEXT_FONT_SIZE = 8;
+const TUBE_TEXT_FONT_SIZE = 7;
+const THEMATIC_TEXT_FONT_SIZE = 7;
 
 const fonts = {
   robotoCondensedBold: 'RobotoCondensed-Bold.ttf',
@@ -146,7 +146,7 @@ module.exports = {
    * @returns {PDFFont}
    */
   get thematicFont() {
-    return this.findFontByFontKey(this.key.robotoRegular);
+    return this.findFontByFontKey(this.key.robotoCondensedBold);
   },
   /**
    * @returns {number}

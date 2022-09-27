@@ -4,7 +4,7 @@ const CompetenceText = require('../drawer/CompetenceText');
 const PositionManager = require('../manager/position-manager');
 const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
-const LINE_JUMP = 5;
+
 module.exports = {
   /**
    * @param positionY{number}
@@ -15,7 +15,12 @@ module.exports = {
    * @returns {number}  next y position
    */
   build(positionY, page, competence, areaColor, dryRun) {
-    const competenceText = new CompetenceText({ text: competence.fullName, areaColor, positionY: positionY });
+    positionY = positionY - FontManager.competenceFontHeight;
+    const competenceText = new CompetenceText({
+      text: competence.fullName,
+      areaColor,
+      positionY: positionY,
+    });
     if (!dryRun) {
       const nextPositionY = competenceText.draw(page, true);
       page.drawRectangle({
@@ -31,15 +36,14 @@ module.exports = {
     } else {
       positionY = competenceText.draw(page, true);
     }
-    positionY = positionY - LINE_JUMP;
     for (const thematic of sortBy(competence.thematics, 'index')) {
       if (!dryRun) {
         const nextPositionY = thematicBuilder.build(positionY, page, thematic, true);
         page.drawRectangle({
           x: PositionManager.margin,
-          y: nextPositionY + FontManager.thematicFontHeight / 2,
+          y: nextPositionY + FontManager.thematicFontHeight,
           width: PositionManager.widthMaxWithoutMargin,
-          height: positionY - nextPositionY + FontManager.thematicFontHeight,
+          height: positionY - nextPositionY,
           color: ColorManager.thematicBackground,
           opacity: 0.5,
           borderWidth: 0,
@@ -47,7 +51,7 @@ module.exports = {
       }
 
       positionY = thematicBuilder.build(positionY, page, thematic, dryRun);
-      positionY = positionY - LINE_JUMP - FontManager.thematicFontHeight;
+      positionY = positionY - FontManager.thematicFontHeight / 2;
     }
     return positionY;
   },

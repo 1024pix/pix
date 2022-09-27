@@ -3,7 +3,8 @@ const competenceBuilder = require('./competence-builder');
 const AreaText = require('../drawer/AreaText');
 const LegalMentionText = require('../drawer/LegalMentionText');
 
-const MARGIN_TOP_WITHOUT_AREA = 30;
+const MARGIN_TOP_WITHOUT_AREA = 15;
+const MARGIN_BOTTOM_LIMIT = 5;
 
 module.exports = {
   /**
@@ -17,7 +18,7 @@ module.exports = {
     for (const competence of sortBy(area.competences, 'index')) {
       let currentYAfterDryRun = positionY;
       currentYAfterDryRun = competenceBuilder.build(currentYAfterDryRun, page, competence, area.color, true);
-      if (currentYAfterDryRun < 0) {
+      if (currentYAfterDryRun - MARGIN_BOTTOM_LIMIT < 0) {
         page = _addPage(pdfDocument, language);
         positionY = page.getSize().height - MARGIN_TOP_WITHOUT_AREA;
       }
