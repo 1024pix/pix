@@ -35,7 +35,7 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = request.params.id;
 
-    const event = await DomainTransaction.execute(async (domainTransaction) => {
+    await DomainTransaction.execute(async (domainTransaction) => {
       const event = await usecases.shareCampaignResult({
         userId,
         campaignParticipationId,
@@ -44,9 +44,7 @@ module.exports = {
       await events.eventBus.publish(event, domainTransaction);
       return event;
     });
-    events.eventDispatcher
-      .dispatch(event)
-      .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
+
     return null;
   },
 
