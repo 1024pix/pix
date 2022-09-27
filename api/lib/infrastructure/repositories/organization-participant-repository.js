@@ -25,6 +25,7 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
       'organization-learners.lastName',
       'organization-learners.firstName',
       'subquery.isCertifiable',
+      'subquery.certifiableAt',
       knex.raw(
         'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "organization-learners"."id") AS "participationCount"'
       ),
@@ -80,6 +81,9 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
       'organization-learners.id as organizationLearnerId',
       knex.raw(
         'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"'
+      ),
+      knex.raw(
+        'FIRST_VALUE("sharedAt") OVER(PARTITION BY "organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"'
       ),
     ])
     .from('organization-learners')
