@@ -7,22 +7,6 @@
   @onClearFilters={{@onResetFilter}}
 >
   <Ui::SearchInputFilter
-    @field="firstName"
-    @value={{@firstNameFilter}}
-    @placeholder={{t "pages.sco-organization-participants.filter.first-name.label"}}
-    @ariaLabel={{t "pages.sco-organization-participants.filter.first-name.aria-label"}}
-    @triggerFiltering={{@onFilter}}
-  />
-
-  <Ui::SearchInputFilter
-    @field="lastName"
-    @value={{@lastNameFilter}}
-    @placeholder={{t "pages.sco-organization-participants.filter.last-name.label"}}
-    @ariaLabel={{t "pages.sco-organization-participants.filter.last-name.aria-label"}}
-    @triggerFiltering={{@onFilter}}
-  />
-
-  <Ui::SearchInputFilter
     @field="search"
     @value={{@searchFilter}}
     @placeholder={{t "pages.sco-organization-participants.filter.search.label"}}

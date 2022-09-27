@@ -126,27 +126,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           });
         });
 
-        test('it should display the students list filtered by lastname', async function (assert) {
-          // when
-          await visit('/eleves');
-          await fillByLabel('Entrer un nom', 'ambo');
-          // then
-          assert.strictEqual(currentURL(), '/eleves?lastName=ambo');
-          assert.contains('Rambo');
-          assert.notContains('Norris');
-        });
-
-        test('it should display the students list filtered by firstname', async function (assert) {
-          // when
-          await visit('/eleves');
-          await fillByLabel('Entrer un prénom', 'Jo');
-
-          // then
-          assert.strictEqual(currentURL(), '/eleves?firstName=Jo');
-          assert.contains('Rambo');
-          assert.notContains('Norris');
-        });
-
         test('it filters by search', async function (assert) {
           // when
           await visit('/eleves');
