@@ -22,7 +22,6 @@ module.exports = {
     const coverPageLegalMentionText = new CoverPageLegalMentionText({ language });
     coverPageVersionText.draw(page);
     coverPageLegalMentionText.draw(page);
-    coverPageTitleText.draw(page);
-    return;
+    coverPageTitleText.drawAlignCenter(page);
   },
 };

@@ -36,6 +36,42 @@ module.exports = class Text {
   }
 
   /**
+   * @param page {PDFPage}
+   * @param dryRun {boolean}
+   * @returns {number}
+   */
+  drawAlignCenter(page, dryRun = false) {
+    const textParts = Text.splitLines(this.text, this.font, this.fontSize, page, this.maxWidth);
+    let positionY = this.position.y;
+    for (const line of textParts) {
+      positionY = this._drawLineCenter(page, line, positionY, dryRun);
+    }
+    return positionY - this.font.heightAtSize(this.fontSize) - this.spaceUnderText;
+  }
+
+  /**
+   * @param textLine {string}
+   * @param page {PDFPage}
+   * @param dryRun {boolean}
+   * @returns {number}
+   * @private
+   */
+  _drawLineCenter(page, textLine, positionY, dryRun = false) {
+    if (!dryRun) {
+      page.drawText(textLine, {
+        x: Text._positionXForHorizontalCentering(textLine, page, this.font, this.fontSize),
+        y: positionY,
+        size: this.fontSize,
+        font: this.font,
+        color: this.fontColor,
+        maxWidth: this.maxWidth,
+        lineHeight: this.font.heightAtSize(this.fontSize),
+      });
+    }
+    return positionY - this.font.heightAtSize(this.fontSize);
+  }
+
+  /**
    *
    * @returns {number}
    */
@@ -49,15 +85,27 @@ module.exports = class Text {
    * @param fontSize{number}
    * @param page{PDFPage}
    * @param overrideMaxWidth{number}
-   * @returns {number}
+   * @returns {string[]}
    */
-  static numberOfLines(text, font, fontSize, page = null, overrideMaxWidth = null) {
+  static splitLines(text, font, fontSize, page = null, overrideMaxWidth = null) {
     const maxWidthForText = overrideMaxWidth || page.getWidth();
     const textWidth = function (t) {
       return font.widthOfTextAtSize(t, fontSize);
     };
     const lines = pdfLibUtils.breakTextIntoLines(text, [' '], maxWidthForText, textWidth);
-    return lines.length;
+    return lines;
+  }
+
+  /**
+   * @param text{string}
+   * @param font{PDFFont}
+   * @param fontSize{number}
+   * @param page{PDFPage}
+   * @param overrideMaxWidth{number}
+   * @returns {number}
+   */
+  static numberOfLines(text, font, fontSize, page = null, overrideMaxWidth = null) {
+    return Text.splitLines(text, font, fontSize, page, overrideMaxWidth).length;
   }
 
   /**
