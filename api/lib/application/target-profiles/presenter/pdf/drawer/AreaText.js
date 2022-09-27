@@ -4,7 +4,7 @@ const FontManager = require('../manager/font-manager');
 const TemplatePageManager = require('../manager/template-page-manager');
 
 const MARGIN_TOP_AREA = 30;
-const MARGIN_BOTTOM_AREA = 30;
+const MARGIN_BOTTOM_AREA = 5;
 
 module.exports = class AreaText extends Text {
   /**

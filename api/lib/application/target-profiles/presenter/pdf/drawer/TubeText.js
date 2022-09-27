@@ -31,7 +31,11 @@ module.exports = class TubeText extends Text {
       });
     }
     const nextPositionYText = this.nextPositionY(page, PositionManager.tubeFirstPartWidth);
-    const nextPositionYText2 = this.nextPositionY(page, PositionManager.tubeSecondPartWidth);
+    const nextPositionYText2 = this.nextPositionY(page, PositionManager.tubeSecondPartWidth, this.text2);
     return Math.min(nextPositionYText, nextPositionYText2);
+  }
+
+  get spaceUnderText() {
+    return FontManager.tubeHeight / 2;
   }
 };
