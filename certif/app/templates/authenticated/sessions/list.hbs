@@ -2,18 +2,14 @@
   {{#if this.displayNoSessionPanel}}
     <NoSessionPanel />
   {{else}}
-    <div>
-      <h1 class="page__title page-title">Sessions de certification</h1>
+    <div class="session-list__header">
+      <h1 class="page-title">Sessions de certification</h1>
+      <PixButtonLink @route="authenticated.sessions.new">
+        Créer une session
+        <FaIcon @icon="plus" class="new-session-icon" />
+      </PixButtonLink>
     </div>
 
-    <div class="panel">
-      <div class="session-list__header">
-        <PixButtonLink @route="authenticated.sessions.new">
-          Créer une session
-          <FaIcon @icon="plus" class="new-session-icon" />
-        </PixButtonLink>
-      </div>
-    </div>
     <SessionSummaryList @sessionSummaries={{@model}} @goToSessionDetails={{this.goToSessionDetails}} />
   {{/if}}
 </div>
