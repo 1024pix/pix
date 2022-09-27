@@ -133,25 +133,6 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
     });
 
     describe('When organizationLearner is filtered', function () {
-      it('should return sco participants filtered by lastname', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, lastName: 'Grenier' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, lastName: 'Avatar' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, lastName: 'UvAtur' });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId: organization.id,
-          filter: { lastName: 'Vat' },
-        });
-
-        // then
-        expect(_.map(data, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
-      });
-
       it('should return sco participants filtered by search', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -183,37 +164,6 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         expect(_.map(data, 'firstName')).to.include.members(['Bar', 'Baz']);
       });
 
-      it('should return sco participants filtered by firstname', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Foo',
-          lastName: '1',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Bar',
-          lastName: '2',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Baz',
-          lastName: '3',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId: organization.id,
-          filter: { firstName: 'ba' },
-        });
-
-        // then
-        expect(_.map(data, 'firstName')).to.deep.equal(['Bar', 'Baz']);
-      });
-
       it('should return sco participants filtered by division', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -243,37 +193,6 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
 
         // then
         expect(_.map(data, 'division')).to.deep.equal(['3B', '3A']);
-      });
-
-      it('should return sco participants filtered by firstname AND lastname', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'John',
-          lastName: 'Rambo',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Jane',
-          lastName: 'Rambo',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Chuck',
-          lastName: 'Norris',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId: organization.id,
-          filter: { firstName: 'ja', lastName: 'ram' },
-        });
-
-        // then
-        expect(_.map(data, 'firstName')).to.deep.equal(['Jane']);
       });
 
       describe('When organizationLearner is filtered by user connexion type', function () {

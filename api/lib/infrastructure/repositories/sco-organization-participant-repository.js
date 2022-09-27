@@ -8,13 +8,7 @@ const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganiza
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-function _setFilters(qb, { lastName, firstName, search, divisions, connexionType, certificability } = {}) {
-  if (lastName) {
-    qb.whereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
-  }
-  if (firstName) {
-    qb.whereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
-  }
+function _setFilters(qb, { search, divisions, connexionType, certificability } = {}) {
   if (search) {
     filterByFullName(qb, search, 'organization-learners.firstName', 'organization-learners.lastName');
   }

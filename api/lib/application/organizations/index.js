@@ -773,8 +773,6 @@ exports.register = async (server) => {
             'page[size]': Joi.number().integer().empty(''),
             'page[number]': Joi.number().integer().empty(''),
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[firstName]': Joi.string().empty(''),
-            'filter[lastName]': Joi.string().empty(''),
             'filter[connexionType]': Joi.string().empty(''),
             'filter[search]': Joi.string().empty(''),
             'filter[certificability]': [Joi.string()],
