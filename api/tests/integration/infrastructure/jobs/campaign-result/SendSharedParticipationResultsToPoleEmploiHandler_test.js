@@ -5,22 +5,22 @@ const {
   mockLearningContent,
   learningContentBuilder,
   sinon,
-} = require('../../../test-helper');
-const handlePoleEmploiParticipationShared = require('../../../../lib/domain/events/handle-pole-emploi-participation-shared');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const CampaignParticipationResultsSharedEvent = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
+} = require('../../../../test-helper');
+const SendSharedParticipationResultsToPoleEmploiHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
+const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
+const campaignRepository = require('../../../../../lib/infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('../../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const campaignParticipationResultRepository = require('../../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
+const organizationRepository = require('../../../../../lib/infrastructure/repositories/organization-repository');
+const poleEmploiSendingRepository = require('../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
+const targetProfileRepository = require('../../../../../lib/infrastructure/repositories/target-profile-repository');
+const userRepository = require('../../../../../lib/infrastructure/repositories/user-repository');
+const CampaignParticipationResultsSharedEvent = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
 
-describe('Integration | Event | Handle Pole emploi participation shared', function () {
+describe('Integration | Jon | SendSharedParticipationResultsToPoleEmploi', function () {
   let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;
 
-  describe('#handlePoleEmploiParticipationShared', function () {
+  describe('#handle', function () {
     beforeEach(async function () {
       responseCode = Symbol('responseCode');
       poleEmploiNotifier = { notify: sinon.stub().resolves({ isSuccessful: true, code: responseCode }) };
@@ -50,9 +50,8 @@ describe('Integration | Event | Handle Pole emploi participation shared', functi
     });
 
     it('should notify pole emploi and save success of this notification', async function () {
-      // when
-      await handlePoleEmploiParticipationShared({
-        event,
+      //given
+      const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler({
         assessmentRepository,
         campaignRepository,
         campaignParticipationRepository,
@@ -63,6 +62,8 @@ describe('Integration | Event | Handle Pole emploi participation shared', functi
         userRepository,
         poleEmploiNotifier,
       });
+      // when
+      await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
 
       // then
       const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
