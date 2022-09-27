@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.261.1 (27/09/2022)
+
+
+### :bug: Correction
+- [#4984](https://github.com/1024pix/pix/pull/4984) [BUGFIX] Corriger la migration ajoutant la colonne stickerUrl dans la table complementary-certification-badges (PIX-5793)
+
 ## v3.261.0 (26/09/2022)
 
 
