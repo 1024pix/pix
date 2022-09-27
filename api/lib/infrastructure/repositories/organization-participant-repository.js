@@ -6,6 +6,18 @@ const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
 async function getParticipantsByOrganizationId({ organizationId, page, filters = {} }) {
+  const { count } = await knex
+    .select(knex.raw('COUNT(DISTINCT "organization-learners"."id")'))
+    .from('organization-learners')
+    .join('users', function () {
+      this.on('users.id', 'organization-learners.userId').andOn('users.isAnonymous', knex.raw('IS'), knex.raw('false'));
+    })
+    .join('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
+    .where({ organizationId: organizationId, isDisabled: false })
+    .where({ 'campaign-participations.deletedAt': null })
+    .first();
+  const totalParticipants = count ?? 0;
+
   const query = knex
     .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
     .select([
@@ -47,7 +59,7 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
 
   const { results, pagination } = await fetchPage(query, page);
   const organizationParticipants = results.map((rawParticipant) => new OrganizationParticipant(rawParticipant));
-  return { organizationParticipants, pagination };
+  return { organizationParticipants, meta: { ...pagination, participantCount: totalParticipants } };
 }
 
 function _filterBySearch(queryBuilder, filters) {
