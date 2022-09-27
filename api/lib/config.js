@@ -101,6 +101,7 @@ module.exports = (function () {
           accountRecoveryTemplateId: process.env.SENDINBLUE_ACCOUNT_RECOVERY_TEMPLATE_ID,
           emailVerificationCodeTemplateId: process.env.SENDINBLUE_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
           cpfEmailTemplateId: process.env.SENDINBLUE_CPF_TEMPLATE_ID,
+          acquiredCleaResultTemplateId: process.env.SENDINBLUE_CLEA_ACQUIRED_RESULT_TEMPLATE_ID,
         },
       },
     },
@@ -337,6 +338,7 @@ module.exports = (function () {
     config.mailing.sendinblue.templates.accountRecoveryTemplateId = 'test-account-recovery-template-id';
     config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
     config.mailing.sendinblue.templates.cpfEmailTemplateId = 'test-cpf-email-template-id';
+    config.mailing.sendinblue.templates.email = 'test-acquired-clea-result-template-id';
 
     config.bcryptNumberOfSaltRounds = 1;
 
