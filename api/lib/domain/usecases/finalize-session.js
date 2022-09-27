@@ -1,4 +1,4 @@
-const { SessionAlreadyFinalizedError } = require('../errors');
+const { SessionAlreadyFinalizedError, SessionWithoutStartedCertificationError } = require('../errors');
 const SessionFinalized = require('../events/SessionFinalized');
 
 module.exports = async function finalizeSession({
@@ -12,8 +12,14 @@ module.exports = async function finalizeSession({
 }) {
   const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
 
+  const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+
   if (isSessionAlreadyFinalized) {
     throw new SessionAlreadyFinalizedError('Cannot finalize session more than once');
+  }
+
+  if (hasNoStartedCertification) {
+    throw new SessionWithoutStartedCertificationError();
   }
 
   certificationReports.forEach((certifReport) => certifReport.validateForFinalization());

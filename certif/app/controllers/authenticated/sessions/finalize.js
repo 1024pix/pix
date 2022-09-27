@@ -69,9 +69,15 @@ export default class SessionsFinalizeController extends Controller {
       await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
-      err.errors && err.errors[0] && err.errors[0].status === '400'
-        ? this.showErrorNotification('Cette session a déjà été finalisée.')
-        : this.showErrorNotification('Erreur lors de la finalisation de session.');
+      if (_isSessionNotStartedError(err)) {
+        this.showErrorNotification(
+          "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
+        );
+      } else {
+        err.errors && err.errors[0] && err.errors[0].status === '400'
+          ? this.showErrorNotification('Cette session a déjà été finalisée.')
+          : this.showErrorNotification('Erreur lors de la finalisation de session.');
+      }
     }
     this.showConfirmModal = false;
     this.transitionToRoute('authenticated.sessions.details', this.session.id);
@@ -151,4 +157,11 @@ export default class SessionsFinalizeController extends Controller {
 
     return invalidCertificationReports.length === 0;
   }
+}
+
+function _isSessionNotStartedError(err) {
+  return (
+    err.errors?.[0]?.detail ===
+    "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
+  );
 }
