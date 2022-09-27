@@ -124,6 +124,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         documentationUrl: 'https://pix.fr/',
         showSkills: false,
         identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+        dataProtectionOfficerFirstName: 'Justin',
+        dataProtectionOfficerLastName: 'Ptipeu',
+        dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
       };
 
       // when
@@ -144,6 +147,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'documentation-url': organizationAttributes.documentationUrl,
             'show-skills': organizationAttributes.showSkills,
             'identity-provider-for-campaigns': organizationAttributes.identityProviderForCampaigns,
+            'data-protection-officer-first-name': organizationAttributes.dataProtectionOfficerFirstName,
+            'data-protection-officer-last-name': organizationAttributes.dataProtectionOfficerLastName,
+            'data-protection-officer-email': organizationAttributes.dataProtectionOfficerEmail,
           },
         },
       });
@@ -163,6 +169,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         documentationUrl: organizationAttributes.documentationUrl,
         showSkills: organizationAttributes.showSkills,
         identityProviderForCampaigns: organizationAttributes.identityProviderForCampaigns,
+        dataProtectionOfficerFirstName: organizationAttributes.dataProtectionOfficerFirstName,
+        dataProtectionOfficerLastName: organizationAttributes.dataProtectionOfficerLastName,
+        dataProtectionOfficerEmail: organizationAttributes.dataProtectionOfficerEmail,
       });
       expect(organization).to.be.instanceOf(OrganizationForAdmin);
       expect(organization).to.deep.equal(expectedOrganization);
