@@ -13,6 +13,7 @@ const {
   complementaryCertificationCourseResultsBuilder,
 } = require('./data/certification/complementary-certification-course-results-builder');
 const { certificationCentersBuilder } = require('./data/certification/certification-centers-builder');
+const { certificationCenterInvitationsBuilder } = require('./data/certification/certification-center-invitations-builder');
 const { certificationCoursesBuilder } = require('./data/certification/certification-courses-builder');
 const certificationScoresBuilder = require('./data/certification/certification-scores-builder');
 const { certificationSessionsBuilder } = require('./data/certification/certification-sessions-builder');
@@ -63,6 +64,7 @@ exports.seed = async (knex) => {
 
   // Certifications
   certificationCentersBuilder({ databaseBuilder });
+  certificationCenterInvitationsBuilder({ databaseBuilder });
   certificationUsersBuilder({ databaseBuilder });
   certificationCenterMembershipsBuilder({ databaseBuilder });
   await certificationUserProfilesBuilder({ databaseBuilder });
