@@ -83,6 +83,9 @@ module.exports = {
       documentationUrl: attributes['documentation-url'],
       showSkills: attributes['show-skills'],
       identityProviderForCampaigns: attributes['identity-provider-for-campaigns'],
+      dataProtectionOfficerFirstName: attributes['data-protection-officer-first-name'],
+      dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
+      dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
       tags,
     });
 
