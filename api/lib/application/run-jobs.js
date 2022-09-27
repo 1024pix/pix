@@ -2,7 +2,9 @@ require('dotenv').config();
 const config = require('../../lib/config');
 const JobQueue = require('../infrastructure/jobs/JobQueue');
 const ParticipationResultCalculationJob = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJob');
+const SendSharedParticipationResultsToPoleEmploiJob = require('../infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob');
 const ParticipationResultCalculationJobHandler = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
+const SendSharedParticipationResultsToPoleEmploiHandler = require('../infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
 const dependenciesBuilder = require('../infrastructure/jobs/JobDependenciesBuilder');
 const PgBoss = require('pg-boss');
 const scheduleCpfJobs = require('../infrastructure/jobs/cpf-export/schedule-cpf-jobs');
@@ -22,7 +24,11 @@ async function runJobs() {
     process.exit(0);
   });
 
-  await jobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
+  jobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
+  jobQueue.performJob(
+    SendSharedParticipationResultsToPoleEmploiJob.name,
+    SendSharedParticipationResultsToPoleEmploiHandler
+  );
 
   await scheduleCpfJobs(pgBoss);
 }
