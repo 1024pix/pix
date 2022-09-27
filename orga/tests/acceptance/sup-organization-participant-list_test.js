@@ -51,12 +51,15 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
     module('filters', function () {
       test('it should filter students by group', async function (assert) {
         // given
-        const { getByPlaceholderText } = await visit('/etudiants');
+        const { getByPlaceholderText, findByRole } = await visit('/etudiants');
 
         // when
 
         const select = await getByPlaceholderText('Rechercher par groupe');
         await click(select);
+
+        await findByRole('menu');
+
         await clickByName('L1');
 
         // then
@@ -68,13 +71,16 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
     module('And edit the student number', function () {
       test('it should update the student number', async function (assert) {
         // given
-        const { getAllByRole } = await visit('/etudiants');
+        const { getAllByRole, findByRole } = await visit('/etudiants');
 
         // when
         const actions = getAllByRole('button', { name: 'Afficher les actions' });
 
         await click(actions[0]);
         await clickByName('Éditer le numéro étudiant');
+
+        await findByRole('dialog');
+
         await fillByLabel('Nouveau numéro étudiant', '1234');
         await clickByName('Mettre à jour');
 
@@ -84,13 +90,16 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
 
       test('it should not update the student number if exists', async function (assert) {
         // given
-        const { getAllByRole } = await visit('/etudiants');
+        const { getAllByRole, findByRole } = await visit('/etudiants');
 
         // when
         const actions = getAllByRole('button', { name: 'Afficher les actions' });
 
         await click(actions[0]);
         await clickByName('Éditer le numéro étudiant');
+
+        await findByRole('dialog');
+
         await fillByLabel('Nouveau numéro étudiant', '321');
         await clickByName('Mettre à jour');
 

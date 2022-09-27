@@ -186,13 +186,16 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('students', []);
 
       // when
-      const { getByPlaceholderText } = await render(hbs`<SupOrganizationParticipant::List
+      const { getByPlaceholderText, findByRole } = await render(hbs`<SupOrganizationParticipant::List
         @students={{students}}
         @onFilter={{triggerFiltering}}
         @groups={{groups}}
       />`);
       const select = await getByPlaceholderText('Rechercher par groupe');
       await click(select);
+
+      await findByRole('menu');
+
       await clickByName('L1');
 
       // then

@@ -94,6 +94,9 @@ module('Acceptance | Campaign Activity', function (hooks) {
       // when
       const screen = await visit('/campagnes/1');
       await click(screen.getByLabelText('Supprimer la participation'));
+
+      await screen.findByRole('dialog');
+
       await clickByName('Oui, je supprime');
       // then
       assert.contains('Aucun participant');
@@ -112,6 +115,9 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       const screen = await visit('/campagnes/1');
       await click(screen.getByLabelText('Supprimer la participation'));
+
+      await screen.findByRole('dialog');
+
       await clickByName('Oui, je supprime');
 
       // then
