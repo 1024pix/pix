@@ -462,9 +462,61 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/organizations/{id}/memberships',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'belongsToOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.findPaginatedFilteredMembershipsForAdmin,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs de Pix Admin',
+          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
+        ],
+      },
+    },
   ];
 
   const orgaRoutes = [
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/memberships',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+            assign: 'belongsToOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.findPaginatedFilteredMemberships,
+        tags: ['api', 'organizations'],
+        notes: [
+          "Cette route est restreinte aux membres authentifiés d'une organisation",
+          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
+        ],
+      },
+    },
     {
       method: 'GET',
       path: '/api/organizations/{id}/campaigns',
@@ -892,36 +944,6 @@ exports.register = async (server) => {
   server.route([
     ...adminRoutes,
     ...orgaRoutes,
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/memberships',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserBelongsToOrganization,
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'belongsToOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findPaginatedFilteredMemberships,
-        tags: ['api', 'organizations'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
-        ],
-      },
-    },
     {
       method: 'GET',
       path: '/api/organizations/{id}/target-profiles',

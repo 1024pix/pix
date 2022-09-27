@@ -28,14 +28,14 @@ module('Integration | Component | organization-team-section', function (hooks) {
       save: () => {},
     });
     const membership2 = EmberObject.create({ id: 1, user: user2, displayedOrganizationRole: 'Membre', save: () => {} });
-    const memberships = [membership1, membership2];
-    this.set('memberships', memberships);
-    memberships.meta = { rowCount: 2 };
+    const organizationMemberships = [membership1, membership2];
+    this.set('organizationMemberships', organizationMemberships);
+    organizationMemberships.meta = { rowCount: 2 };
 
     // when
     const screen = await render(hbs`<Organizations::TeamSection
-      @memberships={{memberships}}
-      @addMembership={{noop}}
+      @organizationMemberships={{organizationMemberships}}
+      @addOrganizationMembership={{noop}}
       @createOrganizationInvitation={{noop}}
       @triggerFiltering={{noop}}
       @selectRoleForSearch={{noop}}/>`);

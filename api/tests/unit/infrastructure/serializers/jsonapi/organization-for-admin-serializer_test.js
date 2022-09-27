@@ -53,7 +53,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'identity-provider-for-campaigns': SamlIdentityProviders.GAR.code,
           },
           relationships: {
-            memberships: {
+            'organization-memberships': {
               links: {
                 related: `/api/organizations/${organization.id}/memberships`,
               },

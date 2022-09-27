@@ -57,10 +57,14 @@ describe('Acceptance | Controller | membership-controller', function () {
       });
 
       it('should return the created membership', async function () {
-        // given
-        const expectedMembership = {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(_.omit(response.result, ['included', 'data.id'])).to.deep.equal({
           data: {
-            type: 'memberships',
+            type: 'organization-memberships',
             attributes: {
               'organization-role': 'ADMIN',
             },
@@ -73,14 +77,7 @@ describe('Acceptance | Controller | membership-controller', function () {
               },
             },
           },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(_.omit(response.result, ['included', 'data.id'])).to.deep.equal(expectedMembership);
+        });
       });
 
       context('When a membership is disabled', function () {

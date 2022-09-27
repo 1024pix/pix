@@ -652,7 +652,7 @@ describe('Acceptance | Application | organization-controller', function () {
             },
             id: organization.id.toString(),
             relationships: {
-              memberships: {
+              'organization-memberships': {
                 links: {
                   related: `/api/organizations/${organization.id}/memberships`,
                 },
@@ -746,38 +746,51 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 
   describe('GET /api/organizations/{id}/memberships', function () {
-    let organization;
-    let options;
-
-    beforeEach(async function () {
-      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
-      organization = databaseBuilder.factory.buildOrganization();
-      options = {
-        method: 'GET',
-        url: `/api/organizations/${organization.id}/memberships`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
-      };
-    });
-
     context('Expected output', function () {
-      let user;
-      let membershipId;
+      it('should return the matching membership as JSON API', async function () {
+        // given
+        const adminOfTheOrganization = databaseBuilder.factory.buildUser();
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const adminMembershipId = databaseBuilder.factory.buildMembership({
+          organizationId,
+          userId: adminOfTheOrganization.id,
+          organizationRole: 'ADMIN',
+        }).id;
 
-      beforeEach(async function () {
-        user = databaseBuilder.factory.buildUser();
-
-        membershipId = databaseBuilder.factory.buildMembership({
-          userId: user.id,
-          organizationId: organization.id,
+        const userToUpdateMembership = databaseBuilder.factory.buildUser();
+        const membershipId = databaseBuilder.factory.buildMembership({
+          userId: userToUpdateMembership.id,
+          organizationId: organizationId,
         }).id;
 
         await databaseBuilder.commit();
-      });
 
-      it('should return the matching membership as JSON API', async function () {
-        // given
-        const expectedResult = {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/memberships`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(adminOfTheOrganization.id) },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal({
           data: [
+            {
+              attributes: {
+                'organization-role': 'ADMIN',
+              },
+              id: adminMembershipId.toString(),
+              relationships: {
+                user: {
+                  data: {
+                    id: adminOfTheOrganization.id.toString(),
+                    type: 'users',
+                  },
+                },
+              },
+              type: 'memberships',
+            },
             {
               attributes: {
                 'organization-role': 'MEMBER',
@@ -786,7 +799,7 @@ describe('Acceptance | Application | organization-controller', function () {
               relationships: {
                 user: {
                   data: {
-                    id: user.id.toString(),
+                    id: userToUpdateMembership.id.toString(),
                     type: 'users',
                   },
                 },
@@ -797,11 +810,20 @@ describe('Acceptance | Application | organization-controller', function () {
           included: [
             {
               attributes: {
-                email: user.email,
-                'first-name': user.firstName,
-                'last-name': user.lastName,
+                email: adminOfTheOrganization.email,
+                'first-name': adminOfTheOrganization.firstName,
+                'last-name': adminOfTheOrganization.lastName,
               },
-              id: user.id.toString(),
+              id: adminOfTheOrganization.id.toString(),
+              type: 'users',
+            },
+            {
+              attributes: {
+                email: userToUpdateMembership.email,
+                'first-name': userToUpdateMembership.firstName,
+                'last-name': userToUpdateMembership.lastName,
+              },
+              id: userToUpdateMembership.id.toString(),
               type: 'users',
             },
           ],
@@ -809,26 +831,24 @@ describe('Acceptance | Application | organization-controller', function () {
             page: 1,
             pageCount: 1,
             pageSize: 10,
-            rowCount: 1,
+            rowCount: 2,
           },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal(expectedResult);
+        });
       });
     });
 
     context('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
-        options.headers.authorization = 'invalid.access.token';
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const authorization = 'invalid.access.token';
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/memberships`,
+          headers: { authorization },
+        });
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -836,6 +856,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
       it('should respond with a 403 - forbidden access - if user is not in organization nor is SUPERADMIN', async function () {
         // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildMembership({
@@ -846,13 +867,76 @@ describe('Acceptance | Application | organization-controller', function () {
 
         await databaseBuilder.commit();
 
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/memberships`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+  describe('GET /api/admin/organizations/{id}/memberships', function () {
+    it('should return the matching membership as JSON API', async function () {
+      // given
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+      const membershipId = databaseBuilder.factory.buildMembership({
+        userId: user.id,
+        organizationId: organization.id,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/organizations/${organization.id}/memberships`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: [
+          {
+            attributes: {
+              'organization-role': 'MEMBER',
+            },
+            id: membershipId.toString(),
+            relationships: {
+              user: {
+                data: {
+                  id: user.id.toString(),
+                  type: 'users',
+                },
+              },
+            },
+            type: 'organization-memberships',
+          },
+        ],
+        included: [
+          {
+            attributes: {
+              email: user.email,
+              'first-name': user.firstName,
+              'last-name': user.lastName,
+            },
+            id: user.id.toString(),
+            type: 'users',
+          },
+        ],
+        meta: {
+          page: 1,
+          pageCount: 1,
+          pageSize: 10,
+          rowCount: 1,
+        },
       });
     });
   });

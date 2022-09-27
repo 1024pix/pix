@@ -7,7 +7,7 @@ module.exports = {
       .select({
         id: 'memberships.id',
         updatedAt: 'memberships.updatedAt',
-        role: 'memberships.organizationRole',
+        organizationRole: 'memberships.organizationRole',
         organizationId: 'memberships.organizationId',
         organizationName: 'organizations.name',
         organizationType: 'organizations.type',
