@@ -776,6 +776,7 @@ exports.register = async (server) => {
             'filter[firstName]': Joi.string().empty(''),
             'filter[lastName]': Joi.string().empty(''),
             'filter[connexionType]': Joi.string().empty(''),
+            'filter[search]': Joi.string().empty(''),
             'filter[certificability]': [Joi.string()],
           }),
         },
