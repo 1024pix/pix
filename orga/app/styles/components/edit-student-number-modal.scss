@@ -1,37 +1,11 @@
 .edit-student-number-modal {
-  .content-text {
-    color: $pix-neutral-90;
+  color: $pix-neutral-90;
+  font-size: 1rem;
 
-    &--info {
-      font-size: 0.875rem;
-      color: $pix-neutral-60;
-    }
-  }
-
-  &__content, &__actions {
-    background: $pix-neutral-10;
-  }
-
-  &__content{
-    padding-top: 37px;
-    padding-bottom: 10px;
-
-    .content-text:first-child {
-      margin-top: 0;
-      margin-bottom: 33px;
-    }
-    .content-text:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-
-    button:first-child {
-      margin-right: 25px;
-    }
+  &__student-number {
+    display: block;
+    font-size: 0.875rem;
+    color: $pix-neutral-60;
   }
 }
 
