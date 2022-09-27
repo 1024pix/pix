@@ -1,4 +1,4 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
 
 const tokenService = require('./token-service');
 const mailer = require('../../infrastructure/mailers/mailer');
@@ -83,7 +83,7 @@ function sendCertificationResultEmail({
   daysBeforeExpiration,
 }) {
   const pixName = PIX_NAME_FR;
-  const formattedSessionDate = moment(sessionDate).locale('fr').format('L');
+  const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
   const token = tokenService.createCertificationResultsByRecipientEmailLinkToken({
     sessionId,
     resultRecipientEmail,
@@ -342,6 +342,20 @@ function sendCpfEmail({ email, generatedFiles }) {
   return mailer.sendEmail(options);
 }
 
+function sendNotificationToCertificationCenterRefererForCleaResults({ email, sessionId, sessionDate }) {
+  const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
+
+  const options = {
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_NAME_FR,
+    to: email,
+    template: mailer.acquiredCleaResultTemplateId,
+    variables: { sessionId, sessionDate: formattedSessionDate },
+  };
+
+  return mailer.sendEmail(options);
+}
+
 module.exports = {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
@@ -351,4 +365,5 @@ module.exports = {
   sendResetPasswordDemandEmail,
   sendVerificationCodeEmail,
   sendCpfEmail,
+  sendNotificationToCertificationCenterRefererForCleaResults,
 };

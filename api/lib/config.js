@@ -338,7 +338,7 @@ module.exports = (function () {
     config.mailing.sendinblue.templates.accountRecoveryTemplateId = 'test-account-recovery-template-id';
     config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
     config.mailing.sendinblue.templates.cpfEmailTemplateId = 'test-cpf-email-template-id';
-    config.mailing.sendinblue.templates.email = 'test-acquired-clea-result-template-id';
+    config.mailing.sendinblue.templates.acquiredCleaResultTemplateId = 'test-acquired-clea-result-template-id';
 
     config.bcryptNumberOfSaltRounds = 1;
 
