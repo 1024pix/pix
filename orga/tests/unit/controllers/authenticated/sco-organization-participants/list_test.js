@@ -111,8 +111,6 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
   module('#resetFiltering', function () {
     test('resets every filters', async function (assert) {
       // given
-      controller.lastName = 'So';
-      controller.firstName = 'me';
       controller.search = 'th';
       controller.divisions = ['ing'];
       controller.connexionType = 'co';
@@ -124,8 +122,6 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
       controller.resetFiltering();
 
       // then
-      assert.strictEqual(controller.lastName, null);
-      assert.strictEqual(controller.firstName, null);
       assert.strictEqual(controller.search, null);
       assert.deepEqual(controller.divisions, []);
       assert.strictEqual(controller.connexionType, null);
