@@ -142,7 +142,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
   });
 
-  test('it should display participant as eligible for certification when the participant is certifiable', async function (assert) {
+  test('it should display participant as eligible for certification when the participant is certifiable and the certifiableAt', async function (assert) {
     // given
     const participants = [
       {
@@ -151,6 +151,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         id: 34,
         lastParticipationDate: new Date('2022-05-15'),
         isCertifiable: true,
+        certifiableAt: new Date('2022-01-02'),
       },
     ];
 
@@ -161,6 +162,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+    assert.contains('02/01/2022');
   });
 
   test('it filters participant when the input is filled', async function (assert) {
