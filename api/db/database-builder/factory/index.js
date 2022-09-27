@@ -21,6 +21,7 @@ module.exports = {
   buildCertifiableUser: require('./build-certifiable-user'),
   buildCertificationCandidate: require('./build-certification-candidate'),
   buildCertificationCenter: require('./build-certification-center'),
+  buildCertificationCenterInvitation: require('./build-certification-center-invitation'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
   buildComplementaryCertificationCourseResult: require('./build-complementary-certification-course-result'),
