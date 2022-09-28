@@ -59,17 +59,6 @@ module.exports = function (environment) {
       includeLocales: ['fr'],
     },
 
-    // Set or update content security policies
-    contentSecurityPolicy: {
-      'default-src': "'none'",
-      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
-      'font-src': "'self' fonts.gstatic.com",
-      'connect-src': "'self' www.google-analytics.com",
-      'img-src': "'self'",
-      'style-src': "'self' fonts.googleapis.com",
-      'media-src': "'self'",
-    },
-
     matomo: {},
 
     'ember-cli-notifications': {
