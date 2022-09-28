@@ -26,7 +26,8 @@ module.exports = {
       .select(
         'complementary-certification-course-results.*',
         'complementary-certification-courses.id',
-        'complementary-certification-badges.label'
+        'complementary-certification-badges.label',
+        'complementary-certifications.hasExternalJury'
       )
       .leftJoin(
         'complementary-certification-courses',
@@ -35,6 +36,11 @@ module.exports = {
       )
       .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
       .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certifications.id',
+        'complementary-certification-badges.complementaryCertificationId'
+      )
       .where({
         certificationCourseId: juryCertificationDTO.certificationCourseId,
       });
@@ -131,9 +137,7 @@ async function _toDomainWithComplementaryCertifications({
 
 function _toComplementaryCertificationCourseResultForJuryCertification(complementaryCertificationCourseResults) {
   const [complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults] =
-    _.partition(complementaryCertificationCourseResults, (ccr) => {
-      return ccr.partnerKey.startsWith('PIX_EDU');
-    });
+    _.partition(complementaryCertificationCourseResults, 'hasExternalJury');
 
   const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
     ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.from(
