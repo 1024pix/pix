@@ -2,7 +2,11 @@ const { domainBuilder, sinon, expect, catchErr } = require('../../../test-helper
 
 const { publishSession } = require('../../../../lib/domain/services/session-publication-service');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
-const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../../../lib/domain/errors');
+const {
+  SendingEmailToResultRecipientError,
+  SessionAlreadyPublishedError,
+  SendingEmailToRefererError,
+} = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
@@ -11,6 +15,7 @@ describe('Unit | UseCase | session-publication-service', function () {
   let certificationRepository;
   let sessionRepository;
   let finalizedSessionRepository;
+  let certificationCenterRepository;
   const now = new Date('2019-01-01T05:06:07Z');
   const sessionDate = '2020-05-08';
   let clock;
@@ -23,10 +28,15 @@ describe('Unit | UseCase | session-publication-service', function () {
     sessionRepository = {
       updatePublishedAt: sinon.stub(),
       getWithCertificationCandidates: sinon.stub(),
+      hasSomeCleaAcquired: sinon.stub(),
     };
     finalizedSessionRepository = {
       get: sinon.stub(),
       save: sinon.stub(),
+    };
+
+    certificationCenterRepository = {
+      getRefererEmails: sinon.stub(),
     };
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
     mailService.sendCertificationResultEmail = sinon.stub();
@@ -119,6 +129,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         // when
         await publishSession({
           sessionId,
+          certificationCenterRepository,
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
@@ -146,6 +157,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         // when
         await publishSession({
           sessionId,
+          certificationCenterRepository,
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
@@ -191,6 +203,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         // when
         await publishSession({
           sessionId,
+          certificationCenterRepository,
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
@@ -233,6 +246,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           // when
           await publishSession({
             sessionId,
+            certificationCenterRepository,
             certificationRepository,
             finalizedSessionRepository,
             sessionRepository,
@@ -275,6 +289,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           // when
           await publishSession({
             sessionId,
+            certificationCenterRepository,
             certificationRepository,
             finalizedSessionRepository,
             sessionRepository,
@@ -283,6 +298,125 @@ describe('Unit | UseCase | session-publication-service', function () {
 
           // then
           expect(sessionRepository.flagResultsAsSentToPrescriber).to.not.have.been.called;
+        });
+      });
+    });
+
+    context('when there is at least one acquired clea certification', function () {
+      context('when there is a referer', function () {
+        it('should send an email to the referer', async function () {
+          // given
+          mailService.sendNotificationToCertificationCenterRefererForCleaResults = sinon.stub();
+          const session = domainBuilder.buildSession({
+            certificationCenterId: 101,
+            finalizedAt: now,
+            publishedAt: null,
+          });
+          const updatedSessionWithPublishedAt = { ...session, publishedAt: now };
+          const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
+          const user = domainBuilder.buildUser({ email: 'referer@example.net' });
+
+          sessionRepository.getWithCertificationCandidates.withArgs(session.id).resolves(session);
+          certificationRepository.publishCertificationCoursesBySessionId.withArgs(session.id).resolves();
+          sessionRepository.updatePublishedAt
+            .withArgs({ id: session.id, publishedAt: now })
+            .resolves(updatedSessionWithPublishedAt);
+          sessionRepository.flagResultsAsSentToPrescriber
+            .withArgs({ id: session.id, resultsSentToPrescriberAt: now })
+            .resolves(updatedSessionWithResultSent);
+          const finalizedSession = new FinalizedSession({
+            sessionId: session.id,
+            publishedAt: null,
+          });
+          finalizedSessionRepository.get.withArgs({ sessionId: session.id }).resolves(finalizedSession);
+          mailService.sendNotificationToCertificationCenterRefererForCleaResults.resolves(
+            EmailingAttempt.success('referer@example.net')
+          );
+          mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success("'email1@example.net'"));
+          mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success("'email2@example.net'"));
+
+          sessionRepository.hasSomeCleaAcquired.withArgs(session.id).resolves(true);
+          certificationCenterRepository.getRefererEmails
+            .withArgs(session.certificationCenterId)
+            .resolves([{ email: user.email }]);
+
+          // when
+          await publishSession({
+            sessionId: session.id,
+            certificationCenterRepository,
+            certificationRepository,
+            finalizedSessionRepository,
+            sessionRepository,
+            publishedAt: now,
+          });
+
+          // then
+          expect(
+            mailService.sendNotificationToCertificationCenterRefererForCleaResults
+          ).to.have.been.calledOnceWithExactly({
+            sessionId: session.id,
+            sessionDate: session.date,
+            email: 'referer@example.net',
+          });
+        });
+
+        context('when an email sending attempt fails', function () {
+          it('should throw an error', async function () {
+            // given
+            mailService.sendNotificationToCertificationCenterRefererForCleaResults = sinon.stub();
+            const session = domainBuilder.buildSession({
+              certificationCenterId: 101,
+              finalizedAt: now,
+              publishedAt: null,
+            });
+            const updatedSessionWithPublishedAt = { ...session, publishedAt: now };
+            const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
+            const user = domainBuilder.buildUser({ email: 'referer@example.net' });
+
+            sessionRepository.getWithCertificationCandidates.withArgs(session.id).resolves(session);
+            certificationRepository.publishCertificationCoursesBySessionId.withArgs(session.id).resolves();
+            sessionRepository.updatePublishedAt
+              .withArgs({ id: session.id, publishedAt: now })
+              .resolves(updatedSessionWithPublishedAt);
+            sessionRepository.flagResultsAsSentToPrescriber
+              .withArgs({ id: session.id, resultsSentToPrescriberAt: now })
+              .resolves(updatedSessionWithResultSent);
+            const finalizedSession = new FinalizedSession({
+              sessionId: session.id,
+              publishedAt: null,
+            });
+            finalizedSessionRepository.get.withArgs({ sessionId: session.id }).resolves(finalizedSession);
+            mailService.sendNotificationToCertificationCenterRefererForCleaResults.resolves(
+              EmailingAttempt.failure('referer@example.net')
+            );
+            mailService.sendCertificationResultEmail
+              .onCall(0)
+              .resolves(EmailingAttempt.success("'email1@example.net'"));
+            mailService.sendCertificationResultEmail
+              .onCall(1)
+              .resolves(EmailingAttempt.success("'email2@example.net'"));
+
+            sessionRepository.hasSomeCleaAcquired.withArgs(session.id).resolves(true);
+            certificationCenterRepository.getRefererEmails
+              .withArgs(session.certificationCenterId)
+              .resolves([{ email: user.email }]);
+
+            // when
+            const error = await catchErr(publishSession)({
+              sessionId: session.id,
+              certificationCenterRepository,
+              certificationRepository,
+              finalizedSessionRepository,
+              sessionRepository,
+              publishedAt: now,
+            });
+
+            // then
+            expect(error).to.be.an.instanceOf(SendingEmailToRefererError);
+            expect(error.message).to.equal(
+              `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${user.email}`
+            );
+          });
         });
       });
     });
@@ -304,6 +438,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         // when
         const error = await catchErr(publishSession)({
           sessionId,
+          certificationCenterRepository,
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
