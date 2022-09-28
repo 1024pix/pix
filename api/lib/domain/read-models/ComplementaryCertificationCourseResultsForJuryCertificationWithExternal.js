@@ -29,6 +29,8 @@ const pixEdu2ndDegreeBadges = [
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 ];
 
+const { EXTERNAL, PIX } = require('../models/ComplementaryCertificationCourseResult').sources;
+
 class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
   constructor({
     complementaryCertificationCourseId,
@@ -53,10 +55,10 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       return;
     }
     const pixComplementaryCertificationCourseResult = complementaryCertificationCourseResultsWithExternal.find(
-      ({ source }) => source === 'PIX'
+      ({ source }) => source === PIX
     );
     const externalComplementaryCertificationCourseResult = complementaryCertificationCourseResultsWithExternal.find(
-      ({ source }) => source === 'EXTERNAL'
+      ({ source }) => source === EXTERNAL
     );
 
     return new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
