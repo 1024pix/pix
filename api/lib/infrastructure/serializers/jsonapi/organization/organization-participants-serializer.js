@@ -13,6 +13,7 @@ module.exports = {
         'campaignType',
         'participationStatus',
         'isCertifiable',
+        'certifiableAt',
       ],
       meta,
     }).serialize(organizationParticipants);
