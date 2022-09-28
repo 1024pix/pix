@@ -2,6 +2,7 @@ const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 const moduleUnderTest = require('../../../../lib/application/assessments');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Unit | Application | Router | assessment-router', function () {
   describe('POST /api/assessments', function () {
@@ -91,6 +92,31 @@ describe('Unit | Application | Router | assessment-router', function () {
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/admin/assessments/{id}/auto-validate-next-challenge', function () {
+    it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
+        h
+          .response({ errors: new Error('Unauthorized') })
+          .code(403)
+          .takeover()
+      );
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const { statusCode } = await httpTestServer.request(
+        'POST',
+        `/api/admin/assessments/123/auto-validate-next-challenge`
+      );
+
+      // then
+      expect(securityPreHandlers.adminMemberHasAtLeastOneAccessOf).to.have.be.called;
+      expect(statusCode).to.equal(403);
     });
   });
 });

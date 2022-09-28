@@ -101,6 +101,31 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/assessments/{id}/auto-validate-next-challenge',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.autoValidateNextChallenge,
+        tags: ['api'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/assessments/{id}/complete-assessment',
       config: {
