@@ -363,6 +363,14 @@ class DeprecatedCertificationIssueReportSubcategoryError extends DomainError {
   }
 }
 
+class SendingEmailToRefererError extends DomainError {
+  constructor(failedEmailReferers) {
+    super(
+      `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${failedEmailReferers.join(', ')}`
+    );
+  }
+}
+
 class SendingEmailToResultRecipientError extends DomainError {
   constructor(failedEmailsRecipients) {
     super(`Échec lors de l'envoi des résultats au(x) destinataire(s) : ${failedEmailsRecipients.join(', ')}`);
@@ -1286,6 +1294,7 @@ module.exports = {
   OrganizationLearnerDisabledError,
   OrganizationLearnerNotFound,
   OrganizationLearnersCouldNotBeSavedError,
+  SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,

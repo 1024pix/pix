@@ -890,5 +890,16 @@ describe('Integration | API | Controller Error', function () {
         "Échec lors de l'envoi des résultats au(x) destinataire(s) : toto@pix.fr, titi@pix.fr"
       );
     });
+
+    it('responds ServiceUnavailable when a SendingEmailToRefererError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.SendingEmailToRefererError(['toto@pix.fr', 'titi@pix.fr']));
+
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
+      expect(responseDetail(response)).to.equal(
+        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : toto@pix.fr, titi@pix.fr"
+      );
+    });
   });
 });
