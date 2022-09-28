@@ -14,10 +14,13 @@ module.exports = {
     return rowCount;
   },
 
-  async findByCertificationCourseIds({ certificationCourseIds }) {
+  async findByTimeRange({ startDate, endDate, offset, limit }) {
     const certificationCourses = await _selectCpfCertificationResults()
-      .whereIn('certification-courses.id', certificationCourseIds)
-      .orderBy(['sessions.publishedAt', 'certification-courses.lastName', 'certification-courses.firstName']);
+      .where('sessions.publishedAt', '>=', startDate)
+      .where('sessions.publishedAt', '<=', endDate)
+      .orderBy('certification-courses.id')
+      .offset(offset)
+      .limit(limit);
 
     return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
