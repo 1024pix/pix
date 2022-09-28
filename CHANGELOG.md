@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.262.0 (28/09/2022)
+
+
+### :rocket: Amélioration
+- [#4989](https://github.com/1024pix/pix/pull/4989) [FEATURE] Afficher la date de certificabilité dans la liste des élèves (PIX-5476)
+- [#4967](https://github.com/1024pix/pix/pull/4967) [FEATURE] Ajout d'une phrase de déconnexion écran FDT pour les certif à distance (PIX-5656)
+- [#4983](https://github.com/1024pix/pix/pull/4983) [FEATURE] Script de création de formations (PIX-5774).
+- [#4987](https://github.com/1024pix/pix/pull/4987) [FEATURE] Alignement du bouton de création de session dans certif (PIX-5737).
+- [#4986](https://github.com/1024pix/pix/pull/4986) [FEATURE] Changer la taille de police de la date et l'heure du détail d'une session (PIX-5789)
+- [#4942](https://github.com/1024pix/pix/pull/4942) [FEATURE] Gérer l'acquisition de paliers de type niveau (PIX-5689)
+- [#4976](https://github.com/1024pix/pix/pull/4976) [FEATURE] Bloquer la finalisation d'une session sans certification (PIX-5727)
+- [#4971](https://github.com/1024pix/pix/pull/4971) [FEATURE] Permettre de changer le rôle d'un utilisateur dans une organisation depuis la page de détail de cet utilisateur (PIX-5584)
+- [#4952](https://github.com/1024pix/pix/pull/4952) [FEATURE] Mettre à jour la librairie Pix-UI de 17.0.0 à 19.0.0 (Pix-5556)
+
+### :bug: Correction
+- [#4966](https://github.com/1024pix/pix/pull/4966) [BUGFIX] Corriger le total du nb de participant dans l'onglet Participants(PIX-5723)
+
+### :coffee: Autre
+- [#4977](https://github.com/1024pix/pix/pull/4977) [CLEANUP] Suppression de ember-cli-google-fonts de orga
+- [#4978](https://github.com/1024pix/pix/pull/4978) [CLEANUP] Supprime la configuration des CSP
+
 ## v3.261.1 (27/09/2022)
 
 
