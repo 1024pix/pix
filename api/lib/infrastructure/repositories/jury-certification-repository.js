@@ -145,10 +145,7 @@ function _toComplementaryCertificationCourseResultForJuryCertification(complemen
     );
 
   const commonComplementaryCertificationCourseResultsForJuryCertification =
-    commonComplementaryCertificationCourseResults.map(
-      ({ id, partnerKey, acquired, label }) =>
-        new ComplementaryCertificationCourseResultsForJuryCertification({ id, partnerKey, acquired, label })
-    );
+    commonComplementaryCertificationCourseResults.map(ComplementaryCertificationCourseResultsForJuryCertification.from);
 
   return [
     complementaryCertificationCourseResultsForJuryCertificationWithExternal,
