@@ -125,6 +125,28 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
   });
 
+  test('it should display since when the sup participant is certifiable', async function (assert) {
+    // given
+    const students = [
+      {
+        lastParticipationDate: new Date('2022-01-03'),
+        campaignName: 'SUP - Campagne de collecte de profils',
+        campaignType: 'PROFILES_COLLECTION',
+        participationStatus: 'SHARED',
+        isCertifiable: true,
+        certifiableAt: new Date('2022-01-03'),
+      },
+    ];
+
+    this.set('students', students);
+
+    // when
+    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+    // then
+    assert.contains('03/01/2022');
+  });
+
   module('when user is filtering some users', function () {
     test('it should trigger filtering with lastname', async function (assert) {
       const triggerFiltering = sinon.spy();
