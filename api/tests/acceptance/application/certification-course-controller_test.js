@@ -179,9 +179,11 @@ describe('Acceptance | API | Certification Course', function () {
       databaseBuilder.factory.buildBadge({ id: 456, key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE });
       const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         name: 'Pix+ Droit',
+        hasExternalJury: false,
       }).id;
       const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         name: 'Pix+ Édu 1er degré',
+        hasExternalJury: true,
       }).id;
       databaseBuilder.factory.buildCertificationCourse({
         id: 123,

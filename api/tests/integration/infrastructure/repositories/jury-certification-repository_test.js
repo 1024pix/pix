@@ -50,10 +50,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       const complementaryDroitCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         id: 23,
         name: 'Pix+ Droit',
+        hasExternalJury: false,
       }).id;
       const complementaryEduCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         id: 24,
         name: 'Pix+ Édu',
+        hasExternalJury: true,
       }).id;
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
