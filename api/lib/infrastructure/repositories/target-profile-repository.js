@@ -6,6 +6,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
+const Stage = require('../../domain/models/Stage');
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -62,14 +63,7 @@ module.exports = {
     })
       .where({ 'campaigns.id': campaignId })
       .fetch({
-        withRelated: [
-          {
-            stages: function (query) {
-              query.orderBy('threshold', 'ASC');
-            },
-          },
-          'badges',
-        ],
+        withRelated: ['badges'],
       });
     return targetProfileAdapter.fromDatasourceObjects({
       bookshelfTargetProfile,
@@ -159,5 +153,10 @@ module.exports = {
     }
 
     return true;
+  },
+
+  async findStages({ targetProfileId }) {
+    const stages = await knex('stages').where({ targetProfileId }).orderBy(['stages.threshold', 'stages.level']);
+    return stages.map((stage) => new Stage(stage));
   },
 };

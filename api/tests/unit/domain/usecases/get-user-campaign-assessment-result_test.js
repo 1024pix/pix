@@ -31,7 +31,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       const locale = 'FR';
       const results = Symbol();
       participantResultRepository.getByUserIdAndCampaignId
-        .withArgs({ userId, campaignId, locale, targetProfile, badges: [targetProfileBadge] })
+        .withArgs({ userId, campaignId, locale, badges: [targetProfileBadge] })
         .resolves(results);
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
       campaignRepository.findSkillIds.withArgs({ campaignId }).resolves(skillIds);
@@ -67,7 +67,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     const results = Symbol();
 
     participantResultRepository.getByUserIdAndCampaignId
-      .withArgs({ userId, campaignId, locale, targetProfile, badges: [] })
+      .withArgs({ userId, campaignId, locale, badges: [] })
       .resolves(results);
     targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
     campaignRepository.findSkillIds.withArgs({ campaignId }).resolves([]);
@@ -102,7 +102,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     badgeRepository.findByTargetProfileId.withArgs(targetProfile.id).resolves([]);
 
     participantResultRepository.getByUserIdAndCampaignId
-      .withArgs({ userId, campaignId, locale, targetProfile, badges: [] })
+      .withArgs({ userId, campaignId, locale, badges: [] })
       .rejects(new NotFoundError());
 
     const error = await catchErr(getUserCampaignAssessmentResult)({

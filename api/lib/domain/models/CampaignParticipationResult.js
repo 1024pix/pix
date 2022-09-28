@@ -28,7 +28,7 @@ class CampaignParticipationResult {
     this.stageCount = stageCount;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, skillIds, knowledgeElements }) {
+  static buildFrom({ campaignParticipationId, assessment, competences, stages, skillIds, knowledgeElements }) {
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
 
     const targetedCompetenceResults = _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements);
@@ -36,8 +36,6 @@ class CampaignParticipationResult {
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
     const testedSkillsCount = _.sumBy(targetedCompetenceResults, 'testedSkillsCount');
-
-    const stages = targetProfile.stages || null;
 
     return new CampaignParticipationResult({
       id: campaignParticipationId,

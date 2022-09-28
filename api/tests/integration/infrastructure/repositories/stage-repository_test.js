@@ -5,66 +5,6 @@ const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | StageRepository', function () {
-  describe('#findByCampaignId', function () {
-    it('should retrieve stage given campaignId', async function () {
-      // given
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const campaign = databaseBuilder.factory.buildCampaign();
-
-      databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 24 });
-      databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 55 });
-
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id });
-
-      await databaseBuilder.commit();
-
-      // when
-      const stages = await stageRepository.findByCampaignId(campaign.id);
-
-      // then
-      expect(stages.length).to.equal(2);
-
-      expect(stages[0].threshold).to.equal(24);
-      expect(stages[1].threshold).to.equal(55);
-    });
-  });
-
-  describe('#findByTargetProfileId', function () {
-    it('should retrieve stage given targetProfileId', async function () {
-      // given
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const anotherTargetProfile = databaseBuilder.factory.buildTargetProfile();
-
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 24 });
-      databaseBuilder.factory.buildStage({ targetProfileId: anotherTargetProfile.id, threshold: 56 });
-
-      await databaseBuilder.commit();
-
-      // when
-      const stages = await stageRepository.findByTargetProfileId(targetProfile.id);
-
-      // then
-      expect(stages.length).to.equal(1);
-    });
-
-    it('should retrieve stages sorted by threshold', async function () {
-      // given
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 24 });
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 0 });
-
-      await databaseBuilder.commit();
-
-      // when
-      const stages = await stageRepository.findByTargetProfileId(targetProfile.id);
-
-      // then
-      expect(stages.length).to.equal(2);
-      expect(stages[0].threshold).to.equal(0);
-    });
-  });
-
   describe('#create', function () {
     let targetProfileId;
 

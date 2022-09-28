@@ -1,3 +1,3 @@
-module.exports = async function findTargetProfileStages({ targetProfileId, stageRepository }) {
-  return stageRepository.findByTargetProfileId(targetProfileId);
+module.exports = async function findTargetProfileStages({ targetProfileId, targetProfileRepository }) {
+  return targetProfileRepository.findStages({ targetProfileId });
 };
