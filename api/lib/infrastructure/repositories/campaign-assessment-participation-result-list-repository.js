@@ -1,15 +1,18 @@
 const bluebird = require('bluebird');
 const { knex } = require('../../../db/knex-database-connection');
 const { fetchPage } = require('../utils/knex-utils');
-const targetProfileRepository = require('./target-profile-repository');
+const campaignRepository = require('./campaign-repository');
+const CampaignStages = require('../../domain/read-models/campaign/CampaignStages');
 const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
 const { SHARED } = CampaignParticipationStatuses;
 
 async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-  const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
-  const { results, pagination } = await _getResultListPaginated(campaignId, targetProfile, filters, page);
+  const stages = await campaignRepository.findStages({ campaignId });
+  const campaignStages = new CampaignStages({ stages });
+
+  const { results, pagination } = await _getResultListPaginated(campaignId, campaignStages, filters, page);
 
   const participations = await _buildCampaignAssessmentParticipationResultList(results);
   return {
@@ -17,21 +20,21 @@ async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }
     pagination,
   };
 }
-async function _getResultListPaginated(campaignId, targetProfile, filters, page) {
-  const query = _getParticipantsResultList(campaignId, targetProfile, filters);
+async function _getResultListPaginated(campaignId, campaignStages, filters, page) {
+  const query = _getParticipantsResultList(campaignId, campaignStages, filters);
   return fetchPage(query, page);
 }
 
-function _getParticipantsResultList(campaignId, targetProfile, filters) {
+function _getParticipantsResultList(campaignId, campaignStages, filters) {
   return knex
-    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, targetProfile, filters))
+    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, campaignStages, filters))
     .select('*')
     .from('campaign_participation_summaries')
     .modify(_filterByBadgeAcquisitionsOut, filters)
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 }
 
-function _getParticipations(qb, campaignId, targetProfile, filters) {
+function _getParticipations(qb, campaignId, campaignStages, filters) {
   qb.select(
     'organization-learners.firstName',
     'organization-learners.lastName',
@@ -49,7 +52,7 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     .modify(_filterByDivisions, filters)
     .modify(_filterByGroups, filters)
     .modify(_addAcquiredBadgeids, filters)
-    .modify(_filterByStage, targetProfile, filters)
+    .modify(_filterByStage, campaignStages, filters)
     .modify(_filterBySearch, filters);
 }
 
@@ -99,10 +102,10 @@ function _filterByBadgeAcquisitionsOut(queryBuilder, filters) {
   }
 }
 
-function _filterByStage(queryBuilder, targetProfile, filters) {
+function _filterByStage(queryBuilder, campaignStages, filters) {
   if (!filters.stages) return;
 
-  const thresholdRateBoundaries = targetProfile.stageThresholdBoundaries
+  const thresholdRateBoundaries = campaignStages.stageThresholdBoundaries
     .filter((boundary) => filters.stages.includes(boundary.id))
     .map((boundary) => ({
       id: boundary.id,

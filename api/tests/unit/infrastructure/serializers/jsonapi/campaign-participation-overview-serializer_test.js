@@ -3,25 +3,24 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const CampaignParticipationOverview = require('../../../../../lib/domain/read-models/CampaignParticipationOverview');
 const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 const Stage = require('../../../../../lib/domain/models/Stage');
-const Skill = require('../../../../../lib/domain/models/Skill');
-const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
+const CampaignStages = require('../../../../../lib/domain/read-models/campaign/CampaignStages');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializer', function () {
   describe('#serialize', function () {
-    const stage1 = new Stage({
-      threshold: 0,
-    });
-    const stage2 = new Stage({
-      threshold: 30,
-    });
-    const stage3 = new Stage({
-      threshold: 70,
-    });
-    const targetProfile = new TargetProfile({
-      stages: [stage1, stage2, stage3],
-      skills: [new Skill(), new Skill()],
+    const campaignStages = new CampaignStages({
+      stages: [
+        new Stage({
+          threshold: 0,
+        }),
+        new Stage({
+          threshold: 30,
+        }),
+        new Stage({
+          threshold: 70,
+        }),
+      ],
     });
     const campaignParticipationOverview = new CampaignParticipationOverview({
       id: 5,
@@ -32,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       campaignCode: '1234',
       campaignTitle: 'My campaign',
       campaignArchivedAt: new Date('2021-01-01'),
-      targetProfile,
+      campaignStages,
       masteryRate: 0.5,
     });
 
@@ -72,7 +71,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
   describe('#serializeForPaginatedList', function () {
     it('should call serialize method by destructuring passed parameter', function () {
       // given
-      const targetProfile = new TargetProfile({ skills: [new Skill(), new Skill()] });
       const campaignParticipationOverviews = [
         new CampaignParticipationOverview({
           id: 6,
@@ -83,7 +81,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignCode: '4567',
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
-          targetProfile,
           masteryRate: null,
         }),
         new CampaignParticipationOverview({
@@ -95,7 +92,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignCode: '4567',
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
-          targetProfile,
           masteryRate: null,
         }),
       ];

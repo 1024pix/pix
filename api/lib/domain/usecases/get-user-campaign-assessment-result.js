@@ -28,7 +28,6 @@ module.exports = async function getUserCampaignAssessmentResult({
       userId,
       campaignId,
       locale,
-      targetProfile,
       badges: stillValidBadges,
     });
 

@@ -6,6 +6,7 @@ const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const CampaignLearningContent = require('../models/CampaignLearningContent');
+const CampaignStages = require('../read-models/campaign/CampaignStages');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream({
   userId,
@@ -29,6 +30,8 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaign.id);
   const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
+  const stages = await campaignRepository.findStages({ campaignId });
+  const campaignStages = new CampaignStages({ stages });
   const campaignLearningContent = new CampaignLearningContent(learningContent);
 
   const organization = await organizationRepository.get(campaign.organizationId);
@@ -40,7 +43,8 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
     campaign.idPixLabel,
     organization,
     translate,
-    campaignLearningContent
+    campaignLearningContent,
+    campaignStages
   );
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
@@ -103,6 +107,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
             campaignParticipationInfo,
             targetProfile,
             learningContent: campaignLearningContent,
+            campaignStages,
             participantKnowledgeElementsByCompetenceId,
             acquiredBadges,
             translate,
@@ -140,7 +145,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, learningContent) {
+function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, learningContent, campaignStages) {
   const forSupStudents = organization.isSup && organization.isManagingStudents;
   const displayDivision = organization.isSco && organization.isManagingStudents;
 
@@ -160,8 +165,8 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, 
     translate('campaign-export.assessment.started-on'),
     translate('campaign-export.assessment.is-shared'),
     translate('campaign-export.assessment.shared-on'),
-    ...(targetProfile.hasReachableStages
-      ? [translate('campaign-export.assessment.success-rate', { value: targetProfile.reachableStages.length })]
+    ...(campaignStages.hasReachableStages
+      ? [translate('campaign-export.assessment.success-rate', { value: campaignStages.reachableStages.length })]
       : []),
 
     ..._.flatMap(targetProfile.badges, (badge) => [

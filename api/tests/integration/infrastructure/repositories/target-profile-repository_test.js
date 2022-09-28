@@ -227,18 +227,6 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.id).to.equal(targetProfileId);
       expect(targetProfile.skills).to.deep.equal([]);
     });
-
-    it('should return the target profile with the stages ordered by threshold ASC', async function () {
-      // when
-      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
-
-      // then
-      expect(targetProfile.stages).to.exist;
-      expect(targetProfile.stages).to.have.lengthOf(2);
-      expect(targetProfile.stages[0].threshold).to.equal(20);
-      expect(targetProfile.stages[1].threshold).to.equal(40);
-      expect(targetProfile.skills).to.deep.equal([]);
-    });
   });
 
   describe('#findByIds', function () {
@@ -495,6 +483,61 @@ describe('Integration | Repository | Target-profile', function () {
           'message',
           'Les acquis suivants ne font pas partie du profil cible : recSkill666'
         );
+      });
+    });
+  });
+
+  describe('#findStages', function () {
+    describe('Stage with threshold', function () {
+      it('should retrieve stage given targetProfileId', async function () {
+        // given
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const anotherTargetProfile = databaseBuilder.factory.buildTargetProfile();
+
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 24 });
+        databaseBuilder.factory.buildStage({ targetProfileId: anotherTargetProfile.id, threshold: 56 });
+
+        await databaseBuilder.commit();
+
+        // when
+        const stages = await targetProfileRepository.findStages({ targetProfileId: targetProfile.id });
+
+        // then
+        expect(stages.length).to.equal(1);
+      });
+
+      it('should retrieve stages sorted by threshold', async function () {
+        // given
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 24 });
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 0 });
+
+        await databaseBuilder.commit();
+
+        // when
+        const stages = await targetProfileRepository.findStages({ targetProfileId: targetProfile.id });
+
+        // then
+        expect(stages.length).to.equal(2);
+        expect(stages[0].threshold).to.equal(0);
+      });
+    });
+
+    describe('Stage with levels', function () {
+      it('should return stages sorted by levels', async function () {
+        // given
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const stage1 = databaseBuilder.factory.buildStage.withLevel({ targetProfileId: targetProfile.id, level: 3 });
+        const stage2 = databaseBuilder.factory.buildStage.withLevel({ targetProfileId: targetProfile.id, level: 2 });
+        await databaseBuilder.commit();
+
+        // when
+        const stages = await targetProfileRepository.findStages({ targetProfileId: targetProfile.id });
+
+        // then
+        expect(stages.length).to.be.equal(2);
+        expect(stages).to.deep.equal([stage2, stage1]);
       });
     });
   });

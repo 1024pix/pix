@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -25,21 +25,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
       { id: 3, name: 'Démocratie liquide', index: '8.6', skillIds: [5, 6], area: wildStrawberryArea },
     ];
 
-    const stages = [
-      { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0 },
-      { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20 },
-      { title: 'palier 3', message: 'Tu as le palier 3', threshold: 40 },
-      { title: 'palier 4', message: 'Tu as le palier 4', threshold: 60 },
-      { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
-    ];
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const targetProfile = domainBuilder.buildTargetProfile({
-      id: 1,
-      stages: null,
-    });
-
     const assessment = {
       id: assessmentId,
       userId,
@@ -55,7 +40,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           campaignParticipationId,
           assessment,
           competences,
-          targetProfile,
+          stages: [],
           skillIds,
           knowledgeElements,
         });
@@ -69,8 +54,10 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          reachedStage: null,
-          stageCount: null,
+          reachedStage: {
+            starCount: 0,
+          },
+          stageCount: 0,
           competenceResults: [
             {
               id: 1,
@@ -98,12 +85,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     });
 
     context('when stages', function () {
-      beforeEach(function () {
-        targetProfile.stages = stages;
-      });
-      afterEach(function () {
-        targetProfile.stages = null;
-      });
+      const stages = [
+        { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0 },
+        { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20 },
+        { title: 'palier 3', message: 'Tu as le palier 3', threshold: 40 },
+        { title: 'palier 4', message: 'Tu as le palier 4', threshold: 60 },
+        { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
+      ];
 
       it('when user has reached a stage', function () {
         // when
@@ -111,7 +99,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           campaignParticipationId,
           assessment,
           competences,
-          targetProfile,
+          stages,
           skillIds,
           knowledgeElements,
         });
@@ -164,7 +152,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           campaignParticipationId,
           assessment,
           competences,
-          targetProfile,
+          stages: [],
           skillIds,
           knowledgeElements,
         });
@@ -178,8 +166,10 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          reachedStage: null,
-          stageCount: null,
+          reachedStage: {
+            starCount: 0,
+          },
+          stageCount: 0,
           competenceResults: [
             {
               id: 1,

@@ -6,7 +6,7 @@ const campaignCsvExportService = require('../../../../lib/domain/services/campai
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
-  const campaignRepository = { get: () => undefined };
+  const campaignRepository = { get: () => undefined, findStages: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const targetProfileRepository = { getByCampaignId: () => undefined };
   const learningContentRepository = { findByCampaignId: () => undefined };
@@ -32,6 +32,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const campaign = domainBuilder.buildCampaign();
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
+    sinon.stub(campaignRepository, 'findStages').rejects();
     sinon.stub(targetProfileRepository, 'getByCampaignId').rejects();
     sinon.stub(learningContentRepository, 'findByCampaignId').rejects();
     sinon.stub(organizationRepository, 'get').rejects();
@@ -76,6 +77,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -139,6 +141,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -198,6 +201,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -256,6 +260,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -322,6 +327,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -376,13 +382,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
   it('should display stages header when link to target profile', async function () {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
-    const targetProfile = domainBuilder.buildTargetProfile({
-      stages: [
-        domainBuilder.buildStage({ threshold: 0 }),
-        domainBuilder.buildStage({ threshold: 10 }),
-        domainBuilder.buildStage({ threshold: 50 }),
-      ],
-    });
+    const stages = [
+      domainBuilder.buildStage({ threshold: 0 }),
+      domainBuilder.buildStage({ threshold: 10 }),
+      domainBuilder.buildStage({ threshold: 50 }),
+    ];
+    const targetProfile = domainBuilder.buildTargetProfile();
     const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
@@ -390,6 +395,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves(stages);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -449,6 +455,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
       sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
       sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+      sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
       sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
       sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -508,6 +515,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
       sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
       sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+      sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
       sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
       sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
@@ -577,6 +585,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
     sinon.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaign.id).resolves(targetProfile);
     sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(campaign.id, 'fr').resolves(learningContent);
+    sinon.stub(campaignRepository, 'findStages').withArgs({ campaignId: campaign.id }).resolves([]);
     sinon
       .stub(campaignParticipationInfoRepository, 'findByCampaignId')
       .withArgs(campaign.id)

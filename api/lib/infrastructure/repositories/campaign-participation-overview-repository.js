@@ -2,9 +2,10 @@ const { knex } = require('../../../db/knex-database-connection');
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
 const { fetchPage } = require('../utils/knex-utils');
-const targetProfileRepository = require('../../../lib/infrastructure/repositories/target-profile-repository.js');
 const bluebird = require('bluebird');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const campaignRepository = require('./campaign-repository');
+const CampaignStages = require('../../domain/read-models/campaign/CampaignStages');
 
 module.exports = {
   async findByUserIdWithFilters({ userId, states, page }) {
@@ -95,14 +96,12 @@ function _filterByStates(queryBuilder, states) {
 
 function _toReadModel(campaignParticipationOverviews) {
   return bluebird.mapSeries(campaignParticipationOverviews, async (data) => {
-    let targetProfile;
-    if (data.targetProfileId) {
-      targetProfile = await targetProfileRepository.getByCampaignId(data.campaignId);
-    }
+    const stages = await campaignRepository.findStages({ campaignId: data.campaignId });
+    const campaignStages = new CampaignStages({ stages });
 
     return new CampaignParticipationOverview({
       ...data,
-      targetProfile,
+      campaignStages,
     });
   });
 }
