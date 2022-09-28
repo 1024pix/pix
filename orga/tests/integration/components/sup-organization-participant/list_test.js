@@ -214,6 +214,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       ];
 
       this.set('students', students);
+
       this.triggerFiltering = sinon.spy();
       this.set('groups', []);
 
