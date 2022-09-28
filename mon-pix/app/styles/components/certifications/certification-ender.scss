@@ -49,6 +49,20 @@
     width: 272px;
   }
 
+  &__remote-certification {
+    margin-top: 16px;
+
+    .pix-message {
+
+      &__content {
+        margin-left: 16px;
+        font-size: 14px;
+        color: $pix-neutral-50;
+        line-height: 20px;
+      }
+    }
+  }
+
   .pix-button {
     display: inline-flex;
   }
