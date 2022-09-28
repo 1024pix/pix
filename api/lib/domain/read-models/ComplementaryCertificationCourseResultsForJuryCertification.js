@@ -11,6 +11,10 @@ class ComplementaryCertificationCourseResultsForJuryCertification {
     this.label = label;
   }
 
+  static from({ id, partnerKey, acquired, label }) {
+    return new ComplementaryCertificationCourseResultsForJuryCertification({ id, partnerKey, acquired, label });
+  }
+
   get status() {
     return this.acquired ? complementaryCertificationStatus.ACQUIRED : complementaryCertificationStatus.REJECTED;
   }
