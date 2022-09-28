@@ -1,6 +1,6 @@
 const { expect, catchErr } = require('../../../test-helper');
 const { FileValidationError, NotFoundError } = require('../../../../lib/domain/errors');
-const { checkCsvHeader, parseCsvWithHeaderAndRequiredFields } = require('../../../../scripts/helpers/csvHelpers');
+const { checkCsvHeader } = require('../../../../scripts/helpers/csvHelpers');
 
 describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
   const withValidHeaderFilePath = `${__dirname}/files/withValidHeader-test.csv`;
@@ -63,24 +63,6 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
           requiredFieldNames,
         })
       ).to.not.throw;
-    });
-  });
-
-  describe('parseCsvWithHeaderAndRequiredFields', function () {
-    it('should throw FileValidationError if required field value is empty', async function () {
-      // given
-      const requiredFieldNames = ['createdBy', 'provinceCode'];
-
-      // when
-      const error = await catchErr(parseCsvWithHeaderAndRequiredFields)({
-        filePath: withValidHeaderFilePath,
-        requiredFieldNames,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(FileValidationError);
-      expect(error.code).to.equal('MISSING_REQUIRED_FIELD_VALUES');
-      expect(error.meta).to.equal('Field values are required: createdBy,provinceCode');
     });
   });
 });
