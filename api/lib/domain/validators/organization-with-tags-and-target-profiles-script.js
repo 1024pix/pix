@@ -1,8 +1,19 @@
 const Joi = require('joi');
 const { EntityValidationError } = require('../errors');
+const Organization = require('../models/Organization');
 const Membership = require('../models/Membership');
+const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+
+const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.code);
 
 const schema = Joi.object({
+  type: Joi.string()
+    .valid(...Object.values(Organization.types))
+    .required()
+    .messages({
+      'string.empty': 'Le type n’est pas renseigné.',
+      'any.only': `Le type fourni doit avoir l'une des valeurs suivantes : ${Object.values(Organization.types)}`,
+    }),
   externalId: Joi.string().required().messages({
     'string.empty': "L'externalId n’est pas renseigné.",
   }),
@@ -19,11 +30,20 @@ const schema = Joi.object({
     'string.empty': "La locale n'est pas renseignée.",
     'any.only': "La locale doit avoir l'une des valeurs suivantes : fr-fr, fr ou en",
   }),
+  identityProviderForCampaigns: Joi.string()
+    .allow(null)
+    .valid('GAR', ...validProviders)
+    .messages({
+      'any.only': `L'organisme fourni doit avoir l'une des valeurs suivantes : GAR,${validProviders}`,
+    }),
   provinceCode: Joi.string().required().allow('', null),
   credit: Joi.number().required().messages({
     'number.base': 'Le crédit doit être un entier.',
   }),
-  email: Joi.string().email().messages({
+  emailInvitations: Joi.string().email().messages({
+    'string.email': "L'email fourni n'est pas valide.",
+  }),
+  emailForSCOActivation: Joi.string().email().allow('', null).messages({
     'string.email': "L'email fourni n'est pas valide.",
   }),
   organizationInvitationRole: Joi.string().valid(Membership.roles.ADMIN, Membership.roles.MEMBER).required().messages({

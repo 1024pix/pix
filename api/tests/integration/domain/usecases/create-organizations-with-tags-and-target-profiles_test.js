@@ -15,10 +15,10 @@ const {
   ObjectValidationError,
   TargetProfileInvalidError,
 } = require('../../../../lib/domain/errors');
-const createProOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags-and-target-profiles');
+const createOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Integration | UseCases | create-pro-organizations-with-tags-and-target-profiles', function () {
+describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
   let userId;
 
   beforeEach(async function () {
@@ -68,7 +68,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: tooManyOccurencesOfTheSameOrganizationWithTags,
         organizationRepository,
@@ -88,7 +88,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       const organizations = [];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations,
         organizationRepository,
@@ -118,11 +118,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       const organizationsToCreate = [
         {
+          type: 'PRO',
           externalId: existingOrganization.externalId,
           name: existingOrganization.name,
           provinceCode: existingOrganization.provinceCode,
           credit: existingOrganization.credit,
-          email: existingOrganization.email,
+          emailInvitations: existingOrganization.email,
           locale: 'en',
           tags: 'Tag1',
           documentationUrl: 'http://www.pix.fr',
@@ -135,7 +136,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           name: anotherExistingOrganization.name,
           provinceCode: anotherExistingOrganization.provinceCode,
           credit: anotherExistingOrganization.credit,
-          email: anotherExistingOrganization.email,
+          emailInvitations: anotherExistingOrganization.email,
           type: anotherExistingOrganization.type,
           createdBy: userId,
           organizationInvitationRole: 'ADMIN',
@@ -145,11 +146,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           targetProfiles: '1_2_3',
         },
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
           createdBy: userId,
@@ -160,7 +162,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsToCreate,
         organizationRepository,
@@ -181,6 +183,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       //given
       const organizationsWithEmptyValues = [
         {
+          type: '',
           externalId: '',
           name: '',
           provinceCode: '',
@@ -195,7 +198,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithEmptyValues,
         organizationRepository,
@@ -208,6 +211,14 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       // then
       expect(error).to.be.instanceOf(EntityValidationError);
       expect(error.invalidAttributes).to.eql([
+        {
+          attribute: 'type',
+          message: "Le type fourni doit avoir l'une des valeurs suivantes : SCO,SUP,PRO",
+        },
+        {
+          attribute: 'type',
+          message: 'Le type n’est pas renseigné.',
+        },
         {
           attribute: 'externalId',
           message: "L'externalId n’est pas renseigné.",
@@ -259,11 +270,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       //given
       const organizationsWithTagsWithOneMissingExternalId = [
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness',
+          emailInvitations: 'youness',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           createdBy: userId,
@@ -272,11 +284,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: '',
           name: 'Andreia & Co',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           createdBy: userId,
@@ -285,11 +298,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b201',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
           credit: 20,
-          email: 'mathieu@example.net',
+          emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           createdBy: userId,
@@ -300,7 +314,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithTagsWithOneMissingExternalId,
         organizationRepository,
@@ -314,7 +328,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       expect(error).to.be.instanceOf(EntityValidationError);
       expect(error.invalidAttributes).to.eql([
         {
-          attribute: 'email',
+          attribute: 'emailInvitations',
           message: "L'email fourni n'est pas valide.",
         },
       ]);
@@ -324,11 +338,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       // given
       const organizationsWithTagsWithOneMissingName = [
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           createdBy: userId,
@@ -337,11 +352,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'MEMBER',
         },
         {
+          type: 'PRO',
           externalId: 'b201',
           name: '',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           createdBy: userId,
@@ -350,11 +366,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'MEMBER',
         },
         {
+          type: 'PRO',
           externalId: 'b202',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
           credit: 20,
-          email: 'mathieu@example.net',
+          emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           createdBy: userId,
@@ -365,7 +382,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithTagsWithOneMissingName,
         organizationRepository,
@@ -394,11 +411,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       const organizationsWithTagsNotExists = [
         {
+          type: 'PRO',
           externalId: 'b400',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
           credit: 20,
-          email: 'mathieu@example.net',
+          emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound_AnotherTagNotFound',
           targetProfiles: '123',
@@ -407,11 +425,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'TagNotFound',
           targetProfiles: '123',
@@ -420,11 +439,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'MEMBER',
         },
         {
+          type: 'PRO',
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'AnotherTagNotFound',
           targetProfiles: '123',
@@ -435,7 +455,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithTagsNotExists,
         organizationRepository,
@@ -466,11 +486,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       const organizationsWithTagsAlreadyExist = [
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
           targetProfiles: '123',
@@ -479,11 +500,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
           targetProfiles: '123',
@@ -492,11 +514,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b400',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
           credit: 20,
-          email: 'mathieu@example.net',
+          emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag3',
           targetProfiles: '123',
@@ -507,7 +530,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      await createProOrganizationsWithTagsAndTargetProfiles({
+      await createOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations: organizationsWithTagsAlreadyExist,
         organizationRepository,
@@ -527,7 +550,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
         const organizationInDB = await knex('organizations')
           .first('id', 'externalId', 'name', 'provinceCode', 'credit')
           .where({ externalId: organization.externalId });
-        expect(omit(organizationInDB, 'id', 'email')).to.be.deep.equal(
+        expect(omit(organizationInDB, 'id', 'emailInvitations')).to.be.deep.equal(
           omit(
             organization,
             'locale',
@@ -536,7 +559,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
             'createdBy',
             'documentationUrl',
             'organizationInvitationRole',
-            'email',
+            'emailInvitations',
             'targetProfiles'
           )
         );
@@ -558,11 +581,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       const organizationsWithNonExistingTargetProfile = [
         {
+          type: 'PRO',
           externalId: 'b400',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
           credit: 20,
-          email: 'mathieu@example.net',
+          emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'TAG1',
           targetProfiles: '1',
@@ -571,11 +595,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'TAG1',
           targetProfiles: '123',
@@ -584,11 +609,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'MEMBER',
         },
         {
+          type: 'PRO',
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'TAG1',
           targetProfiles: '123',
@@ -599,7 +625,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      const error = await catchErr(createProOrganizationsWithTagsAndTargetProfiles)({
+      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
         domainTransaction,
         organizations: organizationsWithNonExistingTargetProfile,
         organizationRepository,
@@ -630,11 +656,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       const organizationsWithExistingTargetProfiles = [
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
           targetProfiles: '123',
@@ -643,11 +670,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
           targetProfiles: '123',
@@ -656,11 +684,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           organizationInvitationRole: 'ADMIN',
         },
         {
+          type: 'PRO',
           externalId: 'b400',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
           credit: 20,
-          email: 'mathieu@example.net',
+          emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag3',
           targetProfiles: '123',
@@ -671,7 +700,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      await createProOrganizationsWithTagsAndTargetProfiles({
+      await createOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations: organizationsWithExistingTargetProfiles,
         organizationRepository,
@@ -691,7 +720,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
         const organizationInDB = await knex('organizations')
           .first('id', 'externalId', 'name', 'provinceCode', 'credit')
           .where({ externalId: organization.externalId });
-        expect(omit(organizationInDB, 'id', 'email')).to.be.deep.equal(
+        expect(omit(organizationInDB, 'id', 'emailInvitations')).to.be.deep.equal(
           omit(
             organization,
             'locale',
@@ -700,7 +729,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
             'createdBy',
             'documentationUrl',
             'organizationInvitationRole',
-            'email',
+            'emailInvitations',
             'targetProfiles'
           )
         );
@@ -724,11 +753,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       const organizationsWithInvitationRole = [
         {
+          type: 'PRO',
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
           credit: 0,
-          email: 'youness@example.net',
+          emailInvitations: 'youness@example.net',
           organizationInvitationRole: Membership.roles.ADMIN,
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
@@ -737,11 +767,12 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
           documentationUrl: 'http://www.pix.fr',
         },
         {
+          type: 'PRO',
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
           credit: 10,
-          email: 'andreia@example.net',
+          emailInvitations: 'andreia@example.net',
           organizationInvitationRole: Membership.roles.MEMBER,
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
@@ -752,7 +783,7 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
       ];
 
       // when
-      await createProOrganizationsWithTagsAndTargetProfiles({
+      await createOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations: organizationsWithInvitationRole,
         organizationRepository,
@@ -764,11 +795,11 @@ describe('Integration | UseCases | create-pro-organizations-with-tags-and-target
 
       // then
       const firstOrganizationInvitation = await knex('organization-invitations')
-        .where({ email: organizationsWithInvitationRole[0].email })
+        .where({ email: organizationsWithInvitationRole[0].emailInvitations })
         .first();
       expect(firstOrganizationInvitation.role).to.be.equal(Membership.roles.ADMIN);
       const secondOrganizationInvitation = await knex('organization-invitations')
-        .where({ email: organizationsWithInvitationRole[1].email })
+        .where({ email: organizationsWithInvitationRole[1].emailInvitations })
         .first();
       expect(secondOrganizationInvitation.role).to.be.equal(Membership.roles.MEMBER);
     });

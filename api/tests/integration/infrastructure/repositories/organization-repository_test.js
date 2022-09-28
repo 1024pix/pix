@@ -957,7 +957,7 @@ describe('Integration | Repository | Organization', function () {
     });
   });
 
-  describe('#batchCreateProOrganizations', function () {
+  describe('#batchCreateOrganizations', function () {
     afterEach(async function () {
       await knex('organizations').delete();
     });
@@ -968,7 +968,7 @@ describe('Integration | Repository | Organization', function () {
       const organization2 = domainBuilder.buildOrganization();
 
       // when
-      await organizationRepository.batchCreateProOrganizations([organization1, organization2]);
+      await organizationRepository.batchCreateOrganizations([organization1, organization2]);
 
       // then
       const foundOrganizations = await knex('organizations').select();
@@ -991,7 +991,7 @@ describe('Integration | Repository | Organization', function () {
       });
 
       // when
-      await organizationRepository.batchCreateProOrganizations([organization]);
+      await organizationRepository.batchCreateOrganizations([organization]);
 
       // then
       const foundOrganizations = await knex('organizations').select();
