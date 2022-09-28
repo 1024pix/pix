@@ -2,10 +2,13 @@
 
   <table>
     <caption>
-      <div class="session-finalization-reports-information-step__title-uncompleted">
-        <FaIcon @icon="exclamation-triangle" class="session-finalization-reports-information-step__icon" />
+      <PixMessage
+        @type="warning"
+        @withIcon={{true}}
+        class="session-finalization-reports-information-step__title-uncompleted"
+      >
         Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test
-      </div>
+      </PixMessage>
       <span class="sr-only">
         {{t "pages.sessions.finalize.unfinished-test-list-description"}}
       </span>
