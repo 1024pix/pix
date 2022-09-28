@@ -20,10 +20,15 @@ describe('Unit | UseCase | publish-session', function () {
       publishSession: sinon.stub(),
     };
 
+    const certificationCenterRepository = {
+      getRefererEmails: sinon.stub(),
+    };
+
     // when
     const result = await publishSession({
       sessionId,
       certificationRepository,
+      certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
       sessionPublicationService,
@@ -34,6 +39,7 @@ describe('Unit | UseCase | publish-session', function () {
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
       sessionId,
       certificationRepository,
+      certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
       publishedAt,
