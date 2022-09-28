@@ -4,20 +4,14 @@ const AssessmentResult = require('../../domain/models/AssessmentResult');
 
 module.exports = {
   async countByTimeRange({ startDate, endDate }) {
-    const queryBuilder = _selectCpfCertificationResults()
-      .where('sessions.publishedAt', '>=', startDate)
-      .where('sessions.publishedAt', '<=', endDate)
-      .orderBy('certification-courses.id');
-
+    const queryBuilder = _selectCpfCertificationResults({ startDate, endDate });
     const clone = queryBuilder.clone();
     const { rowCount } = await knex.count('*', { as: 'rowCount' }).from(clone.as('query_all_results')).first();
     return rowCount;
   },
 
   async findByTimeRange({ startDate, endDate, offset, limit }) {
-    const certificationCourses = await _selectCpfCertificationResults()
-      .where('sessions.publishedAt', '>=', startDate)
-      .where('sessions.publishedAt', '<=', endDate)
+    const certificationCourses = await _selectCpfCertificationResults({ startDate, endDate })
       .orderBy('certification-courses.id')
       .offset(offset)
       .limit(limit);
@@ -30,7 +24,7 @@ module.exports = {
   },
 };
 
-function _selectCpfCertificationResults() {
+function _selectCpfCertificationResults({ startDate, endDate }) {
   return knex('certification-courses')
     .select('certification-courses.*', 'assessment-results.pixScore', 'sessions.publishedAt')
     .select(
@@ -58,5 +52,7 @@ function _selectCpfCertificationResults() {
     .whereNotNull('certification-courses.sex')
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('competence-marks.level', '>', -1)
+    .where('sessions.publishedAt', '>=', startDate)
+    .where('sessions.publishedAt', '<=', endDate)
     .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
 }
