@@ -12,7 +12,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
     clock = sinon.useFakeTimers(new Date('2022-01-01T10:43:27Z'));
 
     cpfCertificationResultRepository = {
-      findByCertificationCourseIds: sinon.stub(),
+      findByTimeRange: sinon.stub(),
       markCertificationCoursesAsExported: sinon.stub(),
     };
     cpfCertificationXmlExportService = {
@@ -29,7 +29,10 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
 
   it('should build an xml export file and upload it to an external storage', async function () {
     // given
-    const certificationCourseIds = [12, 20, 33, 98, 114];
+    const startDate = new Date('2022-01-01');
+    const endDate = new Date('2022-01-10');
+    const offset = 0;
+    const limit = 5;
 
     const cpfCertificationResults = [
       domainBuilder.buildCpfCertificationResult({ id: 12 }),
@@ -39,19 +42,22 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       domainBuilder.buildCpfCertificationResult({ id: 114 }),
     ];
 
-    cpfCertificationResultRepository.findByCertificationCourseIds.resolves(cpfCertificationResults);
+    cpfCertificationResultRepository.findByTimeRange.resolves(cpfCertificationResults);
 
     // when
     await createAndUpload({
-      data: { certificationCourseIds },
+      data: { startDate, endDate, limit, offset },
       cpfCertificationResultRepository,
       cpfCertificationXmlExportService,
       cpfExternalStorage,
     });
 
     // then
-    expect(cpfCertificationResultRepository.findByCertificationCourseIds).to.have.been.calledWith({
-      certificationCourseIds,
+    expect(cpfCertificationResultRepository.findByTimeRange).to.have.been.calledWith({
+      startDate,
+      endDate,
+      limit,
+      offset,
     });
     expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWith({
       cpfCertificationResults,
@@ -62,7 +68,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       writableStream: sinon.match(PassThrough),
     });
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
-      certificationCourseIds,
+      certificationCourseIds: [12, 20, 33, 98, 114],
       filename: 'pix-cpf-export-20220101-114327000.xml',
     });
   });

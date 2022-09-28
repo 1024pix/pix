@@ -1,4 +1,4 @@
-const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
+const { expect, sinon } = require('../../../../../test-helper');
 const planner = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner');
 const moment = require('moment');
 const { cpf } = require('../../../../../../lib/config');
@@ -9,7 +9,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
 
   beforeEach(function () {
     cpfCertificationResultRepository = {
-      findByTimeRange: sinon.stub(),
+      countByTimeRange: sinon.stub(),
     };
     pgBoss = {
       send: sinon.stub(),
@@ -25,23 +25,30 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     const startDate = moment().utc().subtract(3, 'months').startOf('month').toDate();
     const endDate = moment().utc().subtract(2, 'months').endOf('month').toDate();
 
-    const cpfCertificationResults = [
-      domainBuilder.buildCpfCertificationResult({ id: 1 }),
-      domainBuilder.buildCpfCertificationResult({ id: 2 }),
-      domainBuilder.buildCpfCertificationResult({ id: 3 }),
-      domainBuilder.buildCpfCertificationResult({ id: 4 }),
-      domainBuilder.buildCpfCertificationResult({ id: 5 }),
-    ];
-
-    cpfCertificationResultRepository.findByTimeRange.resolves(cpfCertificationResults);
+    cpfCertificationResultRepository.countByTimeRange.resolves(5);
 
     // when
     await planner({ pgBoss, cpfCertificationResultRepository });
 
     // then
-    expect(cpfCertificationResultRepository.findByTimeRange).to.have.been.calledWith({ startDate, endDate });
-    expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', { certificationCourseIds: [1, 2] });
-    expect(pgBoss.send.secondCall).to.have.been.calledWith('CpfExportBuilderJob', { certificationCourseIds: [3, 4] });
-    expect(pgBoss.send.thirdCall).to.have.been.calledWith('CpfExportBuilderJob', { certificationCourseIds: [5] });
+    expect(cpfCertificationResultRepository.countByTimeRange).to.have.been.calledWith({ startDate, endDate });
+    expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {
+      startDate,
+      endDate,
+      offset: 0,
+      limit: 2,
+    });
+    expect(pgBoss.send.secondCall).to.have.been.calledWith('CpfExportBuilderJob', {
+      startDate,
+      endDate,
+      offset: 2,
+      limit: 2,
+    });
+    expect(pgBoss.send.thirdCall).to.have.been.calledWith('CpfExportBuilderJob', {
+      startDate,
+      endDate,
+      offset: 4,
+      limit: 2,
+    });
   });
 });
