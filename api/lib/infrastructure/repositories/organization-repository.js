@@ -68,15 +68,16 @@ module.exports = {
       .then(([organization]) => _toDomain(organization));
   },
 
-  async batchCreateProOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
+  async batchCreateOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
     const organizationsRawData = organizations.map((organization) =>
       _.pick(organization, [
         'name',
         'type',
-        'logoUrl',
+        'email',
         'externalId',
         'provinceCode',
         'isManagingStudents',
+        'identityProviderForCampaigns',
         'credit',
         'createdBy',
         'documentationUrl',
