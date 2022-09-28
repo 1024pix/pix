@@ -7,9 +7,12 @@ module.exports = async function createAndUpload({
   cpfCertificationXmlExportService,
   cpfExternalStorage,
 }) {
-  const { certificationCourseIds } = data;
-  const cpfCertificationResults = await cpfCertificationResultRepository.findByCertificationCourseIds({
-    certificationCourseIds,
+  const { startDate, endDate, limit, offset } = data;
+  const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({
+    startDate,
+    endDate,
+    limit,
+    offset,
   });
 
   const writableStream = new PassThrough();
@@ -19,5 +22,6 @@ module.exports = async function createAndUpload({
   const filename = `pix-cpf-export-${now}.xml`;
   await cpfExternalStorage.upload({ filename, writableStream });
 
+  const certificationCourseIds = cpfCertificationResults.map(({ id }) => id);
   await cpfCertificationResultRepository.markCertificationCoursesAsExported({ certificationCourseIds, filename });
 };

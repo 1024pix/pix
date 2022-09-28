@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { plannerJob } = require('../../../../config').cpf;
-const chunk = require('lodash/chunk');
+const times = require('lodash/times');
 
 module.exports = async function planner({ pgBoss, cpfCertificationResultRepository }) {
   const startDate = moment()
@@ -9,10 +9,16 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
     .startOf('month')
     .toDate();
   const endDate = moment().utc().subtract(plannerJob.minimumReliabilityPeriod, 'months').endOf('month').toDate();
-  const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({ startDate, endDate });
 
-  chunk(cpfCertificationResults, plannerJob.chunkSize).forEach((chunk) => {
-    const certificationCourseIds = chunk.map(({ id }) => id);
-    pgBoss.send('CpfExportBuilderJob', { certificationCourseIds });
+  const certificationsCount = await cpfCertificationResultRepository.countByTimeRange({ startDate, endDate });
+  const jobCount = Math.ceil(certificationsCount / plannerJob.chunkSize);
+
+  times(jobCount, (index) => {
+    pgBoss.send('CpfExportBuilderJob', {
+      startDate,
+      endDate,
+      limit: plannerJob.chunkSize,
+      offset: index * plannerJob.chunkSize,
+    });
   });
 };
