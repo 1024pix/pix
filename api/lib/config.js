@@ -177,6 +177,8 @@ module.exports = (function () {
     },
     pgBoss: {
       connexionPoolMaxSize: parseInt(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 10) || 2,
+      teamSize: parseInt(process.env.PG_BOSS_TEAM_SIZE, 10) || 1,
+      teamConcurrency: parseInt(process.env.PG_BOSS_TEAM_CONCURRENCY, 10) || 1,
     },
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
