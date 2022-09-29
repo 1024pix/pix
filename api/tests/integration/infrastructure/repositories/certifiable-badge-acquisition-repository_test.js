@@ -6,7 +6,7 @@ const Badge = require('../../../../lib/domain/models/Badge');
 describe('Integration | Repository | Certifiable Badge Acquisition', function () {
   describe('#findHighestCertifiable', function () {
     describe('when the user has a certifiable acquired badge', function () {
-      it('should return the highest level certifiable acquired badge', async function () {
+      it('should return the certifiable acquired badge', async function () {
         //given
         const user = databaseBuilder.factory.buildUser();
         const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
@@ -181,25 +181,29 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
     });
 
     describe('when the user has the same certifiable acquired badge twice', function () {
-      it('should return the highest level certifiable acquired badge only once', async function () {
+      it('should return the latest certifiable acquired badge', async function () {
         //given
         const user = databaseBuilder.factory.buildUser();
         const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
           key: 'PIX_DROIT_MAITRE_CERTIF',
         });
 
-        const { id: campaignParticipationId, campaignId } = databaseBuilder.factory.buildCampaignParticipation();
+        const { id: latestCampaignParticipationId, campaignId: latestCampaignId } =
+          databaseBuilder.factory.buildCampaignParticipation();
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation();
 
         databaseBuilder.factory.buildBadgeAcquisition({
           badgeId: acquiredBadge.id,
           userId: user.id,
           campaignParticipationId,
+          createdAt: new Date('2022-01-01'),
         });
 
         databaseBuilder.factory.buildBadgeAcquisition({
           badgeId: acquiredBadge.id,
           userId: user.id,
-          campaignParticipationId,
+          campaignParticipationId: latestCampaignParticipationId,
+          createdAt: new Date('2022-01-02'),
         });
 
         databaseBuilder.factory.buildComplementaryCertification({
@@ -264,7 +268,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             badgeCriteria: expectedBadgeCriteria,
           }),
           userId: user.id,
-          campaignId,
+          campaignId: latestCampaignId,
           complementaryCertification: domainBuilder.buildComplementaryCertification({
             id: 123,
             label: 'Label Certif Complémentaire',
@@ -277,7 +281,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
       });
     });
 
-    describe('when the user has several acquired badges', function () {
+    describe('when the user has several acquired badges acquired at the same time', function () {
       it('should return the highest level certifiable badge acquired for each complementary certification', async function () {
         //given
         const user = databaseBuilder.factory.buildUser();
