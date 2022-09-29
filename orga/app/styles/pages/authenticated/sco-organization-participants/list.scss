@@ -7,15 +7,6 @@
   }
   &__certificability-header {
     display: flex;
-
-    &__tooltip {
-      padding-left: 6px;
-      color: $pix-neutral-30;
-
-      [role="tooltip"] {
-        font-weight: $font-light;
-      }
-    }
   }
 }
 

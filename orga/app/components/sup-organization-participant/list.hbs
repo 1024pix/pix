@@ -58,7 +58,13 @@
           {{t "pages.sup-organization-participants.table.column.last-participation-date"}}
         </Table::Header>
         <Table::Header @size="medium" @align="center">
-          {{t "pages.sup-organization-participants.table.column.is-certifiable.label"}}
+          <div class="sup-organization-participant-list-page__certificability-header">
+            {{t "pages.sup-organization-participants.table.column.is-certifiable.label"}}
+            <Ui::CertificabilityTooltip
+              @aria-label={{t "pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
+              @content={{t "pages.sup-organization-participants.table.column.is-certifiable.tooltip.content"}}
+            />
+          </div>
         </Table::Header>
         <Table::Header @size="medium" class="hide-on-mobile" />
       </tr>
