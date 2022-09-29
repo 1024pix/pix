@@ -15,6 +15,7 @@ const organizationTagRepository = require('../lib/infrastructure/repositories/or
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
 const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
 const { disconnect } = require('../db/knex-database-connection');
+const { isEmpty } = require('lodash');
 
 const REQUIRED_FIELD_NAMES = [
   'type',
@@ -34,6 +35,45 @@ const REQUIRED_FIELD_NAMES = [
   'isManagingStudents',
 ];
 
+const batchOrganizationOptionsWithHeader = {
+  skipEmptyLines: true,
+  header: true,
+  transform: (value, columnName) => {
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+    if (columnName === 'isManagingStudents') {
+      value = Boolean(value);
+    }
+    if (!isEmpty(value)) {
+      if (
+        columnName === 'type' ||
+        columnName === 'organizationInvitationRole' ||
+        columnName === 'identityProviderForCampaigns'
+      ) {
+        value = value.toUpperCase();
+      }
+      if (columnName === 'createdBy') {
+        value = parseInt(value, 10);
+      }
+      if (columnName === 'emailInvitations' || columnName === 'emailForSCOActivation') {
+        value = value.replaceAll(' ', '').toLowerCase();
+      }
+    } else {
+      if (columnName === 'credit') {
+        value = 0;
+      }
+      if (columnName === 'identityProviderForCampaigns') {
+        value = null;
+      }
+      if (columnName === 'locale') {
+        value = 'fr-fr';
+      }
+    }
+    return value;
+  },
+};
+
 async function createOrganizationWithTagsAndTargetProfiles(filePath) {
   await checkCsvHeader({
     filePath,
@@ -42,7 +82,7 @@ async function createOrganizationWithTagsAndTargetProfiles(filePath) {
 
   console.log('Reading and parsing csv data file... ');
 
-  const organizations = await parseCsvWithHeader(filePath);
+  const organizations = await parseCsvWithHeader(filePath, batchOrganizationOptionsWithHeader);
 
   console.log('Creating PRO organizations with tags and target profiles..');
   const createdOrganizations = await createOrganizationsWithTagsAndTargetProfiles({
@@ -88,4 +128,5 @@ async function main() {
 
 module.exports = {
   createOrganizationWithTagsAndTargetProfiles,
+  batchOrganizationOptionsWithHeader,
 };
