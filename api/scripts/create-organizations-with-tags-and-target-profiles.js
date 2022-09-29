@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const { checkCsvHeader, parseCsvWithHeader } = require('./helpers/csvHelpers');
 
+const temporaryStorage = require('../lib/infrastructure/temporary-storage');
 const createOrganizationsWithTagsAndTargetProfiles = require('../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
 const domainTransaction = require('../lib/infrastructure/DomainTransaction');
 const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
@@ -78,10 +79,9 @@ async function main() {
       process.exitCode = 1;
     } finally {
       await disconnect();
-      // l'import de OidcIdentityProviders démarre le service redis et donc le process ne finit pas et reste en suspend
-      // on force l'exit pour le moment en attendant de créer une fonction pour stopper le service redis
-      // eslint-disable-next-line node/no-process-exit
-      process.exit();
+      // l'import de OidcIdentityProviders dans les validateurs démarre le service redis
+      // il faut donc stopper le process pour que celui ci s'arrête, il suffit d'avoir l'import du storage pour y avoir accès
+      temporaryStorage.quit();
     }
   }
 })();
