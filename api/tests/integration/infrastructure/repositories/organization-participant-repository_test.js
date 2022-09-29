@@ -210,7 +210,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           organizationId,
           participationAttributes: { createdAt: '2022-03-14' },
         }).id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, type: 'PROFILES_COLLECTION' }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId,
           campaignId,
@@ -225,7 +228,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
 
         //then
-        expect(campaignType).to.equal('PROFILES_COLLECTION');
+        expect(campaignType).to.equal(CampaignTypes.PROFILES_COLLECTION);
       });
 
       it('should return the status of the most recent participation', async function () {
@@ -508,13 +511,13 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           // given
           buildLearnerWithParticipation({
             organizationId,
-            participationAttributes: { isCertifiable: true, status: 'SHARED' },
-            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+            participationAttributes: { isCertifiable: true, status: CampaignParticipationStatuses.SHARED },
+            campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
           });
           buildLearnerWithParticipation({
             organizationId,
-            participationAttributes: { isCertifiable: false, status: 'SHARED' },
-            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+            participationAttributes: { isCertifiable: false, status: CampaignParticipationStatuses.SHARED },
+            campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
           });
           await databaseBuilder.commit();
 
@@ -533,18 +536,18 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           // given
           buildLearnerWithParticipation({
             organizationId,
-            participationAttributes: { isCertifiable: false, status: 'SHARED' },
-            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+            participationAttributes: { isCertifiable: false, status: CampaignParticipationStatuses.SHARED },
+            campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
           });
           buildLearnerWithParticipation({
             organizationId,
-            participationAttributes: { isCertifiable: null, status: 'STARTED' },
-            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+            participationAttributes: { isCertifiable: null, status: CampaignParticipationStatuses.STARTED },
+            campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
           });
           buildLearnerWithParticipation({
             organizationId,
-            participationAttributes: { isCertifiable: true, status: 'SHARED' },
-            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+            participationAttributes: { isCertifiable: true, status: CampaignParticipationStatuses.SHARED },
+            campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
           });
           await databaseBuilder.commit();
 
