@@ -108,6 +108,29 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
     });
   });
 
+  module('#resetFiltering', function () {
+    test('resets every filters', async function (assert) {
+      // given
+      controller.search = 'th';
+      controller.divisions = ['ing'];
+      controller.connexionType = 'co';
+      controller.certificability = ['ool'];
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+
+      // when
+      controller.resetFiltering();
+
+      // then
+      assert.strictEqual(controller.search, null);
+      assert.deepEqual(controller.divisions, []);
+      assert.strictEqual(controller.connexionType, null);
+      assert.deepEqual(controller.certificability, []);
+      assert.strictEqual(controller.pageNumber, null);
+      assert.strictEqual(controller.pageSize, 10);
+    });
+  });
+
   module('#triggerFiltering', function () {
     module('when the filters contain a valued field', function () {
       test('updates the value', async function (assert) {
