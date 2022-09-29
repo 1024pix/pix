@@ -1,6 +1,6 @@
 module.exports = class EmailingAttempt {
-  constructor(recipientEmail, status) {
-    this.recipientEmail = recipientEmail;
+  constructor(email, status) {
+    this.email = email;
     this.status = status;
   }
 
@@ -12,12 +12,12 @@ module.exports = class EmailingAttempt {
     return this.status === AttemptStatus.SUCCESS;
   }
 
-  static success(recipientEmail) {
-    return new EmailingAttempt(recipientEmail, AttemptStatus.SUCCESS);
+  static success(email) {
+    return new EmailingAttempt(email, AttemptStatus.SUCCESS);
   }
 
-  static failure(recipientEmail) {
-    return new EmailingAttempt(recipientEmail, AttemptStatus.FAILURE);
+  static failure(email) {
+    return new EmailingAttempt(email, AttemptStatus.FAILURE);
   }
 };
 

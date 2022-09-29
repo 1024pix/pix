@@ -3,6 +3,7 @@ const { SessionPublicationBatchResult } = require('../models/SessionPublicationB
 
 module.exports = async function publishSessionsInBatch({
   sessionIds,
+  certificationCenterRepository,
   certificationRepository,
   finalizedSessionRepository,
   sessionPublicationService,
@@ -16,6 +17,7 @@ module.exports = async function publishSessionsInBatch({
       await sessionPublicationService.publishSession({
         sessionId,
         certificationRepository,
+        certificationCenterRepository,
         finalizedSessionRepository,
         sessionRepository,
         publishedAt,

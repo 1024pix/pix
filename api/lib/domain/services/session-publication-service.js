@@ -2,13 +2,15 @@ const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = req
 const mailService = require('../../domain/services/mail-service');
 const uniqBy = require('lodash/uniqBy');
 const some = require('lodash/some');
+const { SendingEmailToRefererError } = require('../errors');
 
 async function publishSession({
+  publishedAt = new Date(),
   sessionId,
+  certificationCenterRepository,
   certificationRepository,
   finalizedSessionRepository,
   sessionRepository,
-  publishedAt = new Date(),
 }) {
   const session = await sessionRepository.getWithCertificationCandidates(sessionId);
   if (session.isPublished()) {
@@ -20,6 +22,26 @@ async function publishSession({
   await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
 
   await _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt);
+
+  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
+  const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
+
+  if (hasSomeCleaAcquired && refererEmails.length) {
+    const refererEmailingAttempts = [];
+    for (const refererEmail of refererEmails) {
+      const refererEmailingAttempt = await mailService.sendNotificationToCertificationCenterRefererForCleaResults({
+        sessionId: session.id,
+        email: refererEmail.email,
+        sessionDate: session.date,
+      });
+      refererEmailingAttempts.push(refererEmailingAttempt);
+    }
+
+    if (_someHaveFailed(refererEmailingAttempts)) {
+      const failedEmailsReferer = _failedAttemptsReferer(refererEmailingAttempts);
+      throw new SendingEmailToRefererError(failedEmailsReferer);
+    }
+  }
 
   const emailingAttempts = await _sendPrescriberEmails(session);
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
@@ -74,6 +96,10 @@ function _failedAttemptsRecipients(emailingAttempts) {
   return emailingAttempts
     .filter((emailAttempt) => emailAttempt.hasFailed())
     .map((emailAttempt) => emailAttempt.recipientEmail);
+}
+
+function _failedAttemptsReferer(emailingAttempts) {
+  return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed()).map((emailAttempt) => emailAttempt.email);
 }
 
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt) {
