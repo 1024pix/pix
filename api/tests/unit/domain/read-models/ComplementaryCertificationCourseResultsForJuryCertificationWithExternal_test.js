@@ -1,7 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable mocha/no-setup-in-describe */
 const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
-const { getLabelByBadgeKey } = require('../../../../lib/domain/read-models/CertifiableBadgeLabels');
 const { expect, domainBuilder, catchErr } = require('../../../test-helper');
 const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -245,21 +244,32 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       const complementaryCertificationCourseResultsWithExternal = [
         domainBuilder.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 1234,
-          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          partnerKey: 'KEY_1',
           acquired: true,
           source: 'PIX',
         }),
         domainBuilder.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 1234,
-          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          partnerKey: 'KEY_2',
           acquired: false,
           source: 'EXTERNAL',
         }),
       ];
+      const badgeKeyAndLabelsGroupedByTargetProfile = [
+        [
+          { key: 'KEY_3', label: 'Key 3' },
+          { key: 'KEY_4', label: 'Key 4' },
+        ],
+        [
+          { key: 'KEY_1', label: 'Key 1' },
+          { key: 'KEY_2', label: 'Key 2' },
+        ],
+      ];
 
       // when
       const result = ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.from(
-        complementaryCertificationCourseResultsWithExternal
+        complementaryCertificationCourseResultsWithExternal,
+        badgeKeyAndLabelsGroupedByTargetProfile
       );
 
       // then
@@ -267,9 +277,13 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
           pixAcquired: true,
           externalAcquired: false,
-          pixPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-          externalPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          pixPartnerKey: 'KEY_1',
+          externalPartnerKey: 'KEY_2',
           complementaryCertificationCourseId: 1234,
+          allowedExternalLevels: [
+            { value: 'KEY_1', label: 'Key 1' },
+            { value: 'KEY_2', label: 'Key 2' },
+          ],
         })
       );
     });
@@ -470,176 +484,5 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         });
       });
     });
-  });
-
-  describe('#allowedExternalLevels', function () {
-    [
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE),
-          },
-          {
-            value: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE),
-          },
-          {
-            value: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE),
-          },
-          {
-            value: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE),
-          },
-          {
-            value: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT),
-          },
-        ],
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        expectedLevels: [
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE),
-          },
-          {
-            value: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-            label: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT),
-          },
-        ],
-      },
-    ].forEach(({ partnerKey, expectedLevels }) =>
-      context(`when partner key is ${partnerKey}`, function () {
-        it(`should return an array of allowed labels and statuses`, function () {
-          // when
-          const allowedExternalLevels = new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
-            pixPartnerKey: partnerKey,
-          }).allowedExternalLevels;
-
-          // then
-          expect(allowedExternalLevels).to.deep.equal(expectedLevels);
-        });
-      })
-    );
   });
 });

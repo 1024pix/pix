@@ -175,16 +175,6 @@ describe('Acceptance | API | Certification Course', function () {
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
-      databaseBuilder.factory.buildBadge({ id: 123, key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
-      databaseBuilder.factory.buildBadge({ id: 456, key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE });
-      const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Droit',
-        hasExternalJury: false,
-      }).id;
-      const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 1er degré',
-        hasExternalJury: true,
-      }).id;
       databaseBuilder.factory.buildCertificationCourse({
         id: 123,
         sessionId: 456,
@@ -201,6 +191,11 @@ describe('Acceptance | API | Certification Course', function () {
         createdAt: new Date('2020-01-01'),
         completedAt: new Date('2020-02-01'),
       });
+      const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Droit',
+        hasExternalJury: false,
+      }).id;
+      databaseBuilder.factory.buildBadge({ id: 123, key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 567,
         badgeId: 123,
@@ -221,11 +216,43 @@ describe('Acceptance | API | Certification Course', function () {
         complementaryCertificationCourseId: 456,
         source: 'PIX',
       });
+
+      const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Édu 1er degré',
+        hasExternalJury: true,
+      }).id;
+      databaseBuilder.factory.buildTargetProfile({ id: 1212 });
+      databaseBuilder.factory.buildBadge({
+        id: 456,
+        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+        targetProfileId: 1212,
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 457,
+        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        targetProfileId: 1212,
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 458,
+        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        targetProfileId: 1212,
+      });
+
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 789,
         badgeId: 456,
         complementaryCertificationId: pixEduComplementaryCertificationId,
+        label: 'Pix+ Édu 1er degré Confirmé',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 789,
+        badgeId: 457,
+        complementaryCertificationId: pixEduComplementaryCertificationId,
         label: 'Pix+ Édu 1er degré Avancé',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: 458,
+        complementaryCertificationId: pixEduComplementaryCertificationId,
+        label: 'Pix+ Édu 1er degré Expert',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 654,

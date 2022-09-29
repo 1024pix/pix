@@ -10,6 +10,7 @@ module.exports = function buildPixEduComplementaryCertificationCourseResultsForJ
   externalPartnerKey = PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
   externalLabel = 'Pix+ Édu 1er degré Expert',
   externalAcquired = true,
+  allowedExternalLevels = [],
 } = {}) {
   return new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
     complementaryCertificationCourseId,
@@ -19,5 +20,6 @@ module.exports = function buildPixEduComplementaryCertificationCourseResultsForJ
     externalPartnerKey,
     externalLabel,
     externalAcquired,
+    allowedExternalLevels,
   });
 };
