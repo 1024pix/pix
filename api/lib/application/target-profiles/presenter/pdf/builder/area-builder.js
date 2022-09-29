@@ -13,20 +13,45 @@ module.exports = {
    * @param language{string}
    */
   build(pdfDocument, area, language) {
-    let page = _addPage(pdfDocument, language);
-    let positionY = _drawAreaTitle(page, area.title, area.color);
+    const page = _addPage(pdfDocument, language);
+    let pageContext = {
+      page,
+      positionY: _drawAreaTitle(page, area.title, area.color),
+    };
     for (const competence of sortBy(area.competences, 'index')) {
-      let currentYAfterDryRun = positionY;
-      currentYAfterDryRun = competenceBuilder.build(currentYAfterDryRun, page, competence, area.color, true);
-      if (currentYAfterDryRun - MARGIN_BOTTOM_LIMIT < 0) {
-        page = _addPage(pdfDocument, language);
-        positionY = page.getSize().height - MARGIN_TOP_WITHOUT_AREA;
-      }
-      positionY = competenceBuilder.build(positionY, page, competence, area.color, false);
+      pageContext = _nextPage(pageContext.page, pageContext.positionY, competence, language);
+      pageContext.positionY = competenceBuilder.build(pageContext.positionY, pageContext.page, competence, area.color);
     }
   },
 };
+/**
+ * @param page{PDFPage}
+ * @param positionY{number}
+ * @param competence{Competence}
+ * @param language{string}
+ * @return {{positionY: number, page: PDFPage}}
+ *  - current page if it's possible or create another one
+ *  - next position y
+ * @private
+ */
+function _nextPage(page, positionY, competence, language) {
+  const currentYAfterDryRun = competenceBuilder.build(positionY, page, competence, competence.area.color, true);
+  if (currentYAfterDryRun - MARGIN_BOTTOM_LIMIT < 0) {
+    const newPage = _addPage(page.ref, language);
+    return {
+      page: newPage,
+      positionY: newPage.getSize().height - MARGIN_TOP_WITHOUT_AREA,
+    };
+  }
+  return { page, positionY };
+}
 
+/**
+ * @param page{PDFPage}
+ * @param areaTitle{string}
+ * @param areaColor{string}
+ * @return {number}
+ */
 function _drawAreaTitle(page, areaTitle, areaColor) {
   const areaText = new AreaText({
     text: areaTitle,
