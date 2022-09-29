@@ -507,7 +507,7 @@
           }
         },
         "information": {
-          "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.org/en-gb/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
+          "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.org/en-gb/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
           "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
         }
       },
