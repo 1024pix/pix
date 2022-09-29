@@ -54,6 +54,98 @@ module('Integration | Component | organizations/information-section-view', funct
       assert.dom(screen.getByText('SSO : super-sso')).exists();
     });
 
+    module('data protection officer information', function () {
+      test('it renders complete DPO information', async function (assert) {
+        // given
+        class OidcIdentityProvidersStub extends Service {
+          list = [{ organizationName: 'super-sso', code: 'IDP' }];
+        }
+        this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
+        this.set('organization', {
+          type: 'SUP',
+          isManagingStudents: false,
+          name: 'SUPer Orga',
+          credit: 350,
+          documentationUrl: 'https://pix.fr',
+          showSkills: true,
+          createdBy: 1,
+          createdAtFormattedDate: '02/09/2022',
+          creatorFullName: 'Gilles Parbal',
+          identityProviderForCampaigns: 'IDP',
+          dataProtectionOfficerFullName: 'Justin Ptipeu',
+          dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+        });
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.getByText('Nom du DPO : Justin Ptipeu')).exists();
+        assert.dom(screen.getByText('Adresse e-mail du DPO : justin.ptipeu@example.net')).exists();
+      });
+
+      test('it renders partial DPO information', async function (assert) {
+        // given
+        class OidcIdentityProvidersStub extends Service {
+          list = [{ organizationName: 'super-sso', code: 'IDP' }];
+        }
+        this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
+        this.set('organization', {
+          type: 'SUP',
+          isManagingStudents: false,
+          name: 'SUPer Orga',
+          credit: 350,
+          documentationUrl: 'https://pix.fr',
+          showSkills: true,
+          createdBy: 1,
+          createdAtFormattedDate: '02/09/2022',
+          creatorFullName: 'Gilles Parbal',
+          identityProviderForCampaigns: 'IDP',
+          dataProtectionOfficerFullName: 'Ptipeu',
+          dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+        });
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.getByText('Nom du DPO : Ptipeu')).exists();
+        assert.dom(screen.getByText('Adresse e-mail du DPO : justin.ptipeu@example.net')).exists();
+      });
+
+      test('it renders without DPO information', async function (assert) {
+        // given
+        class OidcIdentityProvidersStub extends Service {
+          list = [{ organizationName: 'super-sso', code: 'IDP' }];
+        }
+        this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
+        this.set('organization', {
+          type: 'SUP',
+          isManagingStudents: false,
+          name: 'SUPer Orga',
+          credit: 350,
+          documentationUrl: 'https://pix.fr',
+          showSkills: true,
+          createdBy: 1,
+          createdAtFormattedDate: '02/09/2022',
+          creatorFullName: 'Gilles Parbal',
+          identityProviderForCampaigns: 'IDP',
+          dataProtectionOfficerFullName: '',
+          dataProtectionOfficerEmail: '',
+        });
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.getByText('Nom du DPO :')).exists();
+        assert.dom(screen.getByText('Adresse e-mail du DPO :')).exists();
+      });
+    });
+
     test('it renders edit and archive button', async function (assert) {
       // given
       this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false, name: 'SUPer Orga' });
