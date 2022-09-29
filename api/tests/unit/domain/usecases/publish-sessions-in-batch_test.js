@@ -7,11 +7,13 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
   let certificationRepository;
   let finalizedSessionRepository;
   let sessionRepository;
+  let certificationCenterRepository;
 
   beforeEach(function () {
     certificationRepository = Symbol('certificationRepository');
     finalizedSessionRepository = Symbol('finalizedSessionRepository');
     sessionRepository = Symbol('sessionRepository');
+    certificationCenterRepository = {};
 
     sessionPublicationService = {
       publishSession: sinon.stub(),
@@ -28,6 +30,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     await publishSessionsInBatch({
       sessionIds: [sessionId1, sessionId2],
       certificationRepository,
+      certificationCenterRepository,
       finalizedSessionRepository,
       sessionPublicationService,
       sessionRepository,
@@ -39,6 +42,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
       sessionId: sessionId1,
       certificationRepository,
+      certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
       publishedAt,
@@ -46,6 +50,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
       sessionId: sessionId2,
       certificationRepository,
+      certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
       publishedAt,
@@ -74,6 +79,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       await publishSessionsInBatch({
         sessionIds: [sessionId1, sessionId2],
         certificationRepository,
+        certificationCenterRepository,
         finalizedSessionRepository,
         sessionPublicationService,
         sessionRepository,
@@ -84,6 +90,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
         sessionId: sessionId2,
         certificationRepository,
+        certificationCenterRepository,
         finalizedSessionRepository,
         sessionRepository,
         publishedAt,

@@ -74,6 +74,10 @@ class Mailer {
   get cpfEmailTemplateId() {
     return mailing[this._providerName].templates.cpfEmailTemplateId;
   }
+
+  get acquiredCleaResultTemplateId() {
+    return mailing[this._providerName].templates.acquiredCleaResultTemplateId;
+  }
 }
 
 module.exports = new Mailer();

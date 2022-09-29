@@ -778,6 +778,62 @@ describe('Integration | Repository | Certification Center', function () {
       });
     });
   });
+
+  describe('#getRefererEmails', function () {
+    context('when the certification center has no referer', function () {
+      it('should return null', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId, userId, isReferer: false });
+        await databaseBuilder.commit();
+
+        // when
+        const refererEmails = await certificationCenterRepository.getRefererEmails(certificationCenterId);
+
+        // then
+        expect(refererEmails).to.be.null;
+      });
+    });
+
+    context('when the certification center has at least one referer', function () {
+      it('should return an array of referer emails', async function () {
+        // given
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: databaseBuilder.factory.buildUser().id,
+          certificationCenterId: databaseBuilder.factory.buildCertificationCenter().id,
+          isReferer: true,
+        });
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const user1 = databaseBuilder.factory.buildUser({ email: 'toto@example.net' });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId,
+          userId: user1.id,
+          isReferer: true,
+        });
+        const user2 = databaseBuilder.factory.buildUser({ email: 'tutu@example.net' });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId,
+          userId: user2.id,
+          isReferer: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const refererEmails = await certificationCenterRepository.getRefererEmails(certificationCenterId);
+
+        // then
+        expect(refererEmails).to.deepEqualArray([
+          {
+            email: 'toto@example.net',
+          },
+          {
+            email: 'tutu@example.net',
+          },
+        ]);
+      });
+    });
+  });
 });
 
 function _buildThreeCertificationCenterMatchingNameTypeAndExternalId({ databaseBuilder }) {

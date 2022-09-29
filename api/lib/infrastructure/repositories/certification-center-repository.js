@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const BookshelfCertificationCenter = require('../orm-models/CertificationCenter');
+const { knex } = require('../../../db/knex-database-connection');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 const { NotFoundError } = require('../../domain/errors');
@@ -149,5 +150,24 @@ module.exports = {
     });
 
     return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
+  },
+
+  async getRefererEmails(certificationCenterId) {
+    const refererEmails = await knex('certification-centers')
+      .select('users.email')
+      .join(
+        'certification-center-memberships',
+        'certification-center-memberships.certificationCenterId',
+        'certification-centers.id'
+      )
+      .join('users', 'users.id', 'certification-center-memberships.userId')
+      .where('certification-centers.id', certificationCenterId)
+      .where('certification-center-memberships.isReferer', true);
+
+    if (!refererEmails.length) {
+      return null;
+    }
+
+    return refererEmails;
   },
 };
