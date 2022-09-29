@@ -1,5 +1,7 @@
-module.exports = async function getShareableCertificate({ verificationCode, shareableCertificateRepository, locale }) {
-  const shareableCertificate = await shareableCertificateRepository.getByVerificationCode(verificationCode, { locale });
+module.exports = async function getShareableCertificate({ verificationCode, certificateRepository, locale }) {
+  const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(verificationCode, {
+    locale,
+  });
 
   return shareableCertificate;
 };
