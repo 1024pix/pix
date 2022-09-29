@@ -1,6 +1,7 @@
 const bluebird = require('bluebird');
 const _ = require('lodash');
 const OrganizationTag = require('../models/OrganizationTag');
+const DataProtectionOfficer = require('../models/DataProtectionOfficer');
 
 async function _updateOrganizationTags({
   organization,
@@ -34,7 +35,23 @@ async function _updateOrganizationTags({
   }
 }
 
+async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionOfficerRepository }) {
+  const dataProtectionOfficer = new DataProtectionOfficer({
+    firstName: organization.dataProtectionOfficerFirstName ?? '',
+    lastName: organization.dataProtectionOfficerLastName ?? '',
+    email: organization.dataProtectionOfficerEmail ?? '',
+    organizationId: organization.id,
+  });
+
+  const dataProtectionOfficerFound = await dataProtectionOfficerRepository.get({ organizationId: organization.id });
+
+  if (dataProtectionOfficerFound) return dataProtectionOfficerRepository.update(dataProtectionOfficer);
+
+  return dataProtectionOfficerRepository.create(dataProtectionOfficer);
+}
+
 module.exports = async function updateOrganizationInformation({
+  dataProtectionOfficerRepository,
   organization,
   organizationForAdminRepository,
   organizationTagRepository,
@@ -60,5 +77,15 @@ module.exports = async function updateOrganizationInformation({
   existingOrganization.showSkills = organization.showSkills;
   existingOrganization.identityProviderForCampaigns = organization.identityProviderForCampaigns;
 
-  return organizationForAdminRepository.update(existingOrganization);
+  const updatedOrganization = await organizationForAdminRepository.update(existingOrganization);
+  const dataProtectionOfficer = await _addOrUpdateDataProtectionOfficer({
+    dataProtectionOfficerRepository,
+    organization,
+  });
+
+  updatedOrganization.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+  updatedOrganization.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+  updatedOrganization.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+
+  return updatedOrganization;
 };
