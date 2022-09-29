@@ -3,12 +3,17 @@ const organizationParticipantRepository = require('../../../../lib/infrastructur
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-function buildLearnerWithParticipation(organizationId, learnerAttributes = {}, participationAttributes = {}) {
+function buildLearnerWithParticipation(
+  organizationId,
+  learnerAttributes = {},
+  participationAttributes = {},
+  campaignAttributes = {}
+) {
   const learner = databaseBuilder.factory.buildOrganizationLearner({
     organizationId,
     ...learnerAttributes,
   });
-  const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+  const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId, ...campaignAttributes });
   databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     organizationLearnerId: learner.id,
@@ -352,98 +357,166 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
     });
 
-    context('fullName', function () {
-      it('returns the participants which match by first name', async function () {
-        // given
-        const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
-        const { id: id2 } = buildLearnerWithParticipation(organizationId, { firstName: 'anton' });
-        buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+    context('when we are filtering', function () {
+      context('fullName filter', function () {
+        it('returns the participants which match by first name', async function () {
+          // given
+          const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
+          const { id: id2 } = buildLearnerWithParticipation(organizationId, { firstName: 'anton' });
+          buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
 
-        await databaseBuilder.commit();
+          await databaseBuilder.commit();
 
-        // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-          organizationId,
-          filters: { fullName: ' Anton ' },
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { fullName: ' Anton ' },
+          });
+
+          const ids = organizationParticipants.map(({ id }) => id);
+
+          // then
+          expect(ids).to.exactlyContain([id1, id2]);
         });
 
-        const ids = organizationParticipants.map(({ id }) => id);
+        it('returns the participants which match by last name when fullName text is a part of first name', async function () {
+          // given
+          const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
+          buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
 
-        // then
-        expect(ids).to.exactlyContain([id1, id2]);
+          await databaseBuilder.commit();
+
+          // when
+          const {
+            organizationParticipants: [{ id }],
+          } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { fullName: 'nt' },
+          });
+
+          // then
+          expect(id).to.equal(id1);
+        });
+
+        it('returns the participants which match by last name', async function () {
+          // given
+          const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigurh' });
+          const { id: id2 } = buildLearnerWithParticipation(organizationId, { lastName: 'chigurh' });
+          buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
+
+          await databaseBuilder.commit();
+
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { fullName: ' chigurh ' },
+          });
+
+          const ids = organizationParticipants.map(({ id }) => id);
+
+          // then
+          expect(ids).to.exactlyContain([id1, id2]);
+        });
+
+        it('returns the participants which match by last name when fullName text is a part of last name', async function () {
+          // given
+          buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
+          const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigur' });
+
+          await databaseBuilder.commit();
+
+          // when
+          const {
+            organizationParticipants: [{ id }],
+          } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { fullName: 'gu' },
+          });
+
+          // then
+          expect(id).to.equal(id1);
+        });
+
+        it('returns the participants which match by full name', async function () {
+          const { id: id1 } = buildLearnerWithParticipation(organizationId, {
+            firstName: 'Anton',
+            lastName: 'Chigurh',
+          });
+
+          await databaseBuilder.commit();
+
+          const {
+            organizationParticipants: [{ id }],
+          } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { fullName: 'anton chur' },
+          });
+
+          expect(id).to.equal(id1);
+        });
       });
 
-      it('returns the participants which match by last name when fullName text is a part of first name', async function () {
-        // given
-        const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
-        buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+      context('certificability filter', function () {
+        it('should return participants that are eligible for certificability', async function () {
+          // given
+          buildLearnerWithParticipation(
+            organizationId,
+            {},
+            { isCertifiable: true, status: 'SHARED' },
+            { type: 'PROFILES_COLLECTION' }
+          );
+          buildLearnerWithParticipation(
+            organizationId,
+            {},
+            { isCertifiable: false, status: 'SHARED' },
+            { type: 'PROFILES_COLLECTION' }
+          );
+          await databaseBuilder.commit();
 
-        await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { certificability: [true] },
+          });
 
-        // when
-        const {
-          organizationParticipants: [{ id }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-          organizationId,
-          filters: { fullName: 'nt' },
+          //then
+          expect(organizationParticipants.length).to.equal(1);
+          expect(organizationParticipants[0].isCertifiable).to.equal(true);
         });
 
-        // then
-        expect(id).to.equal(id1);
-      });
+        it('should return participants that are not eligible for certificability or not communicated', async function () {
+          // given
+          buildLearnerWithParticipation(
+            organizationId,
+            {},
+            { isCertifiable: false, status: 'SHARED' },
+            { type: 'PROFILES_COLLECTION' }
+          );
+          buildLearnerWithParticipation(
+            organizationId,
+            {},
+            { isCertifiable: null, status: 'STARTED' },
+            { type: 'PROFILES_COLLECTION' }
+          );
+          buildLearnerWithParticipation(
+            organizationId,
+            {},
+            { isCertifiable: true, status: 'SHARED' },
+            { type: 'PROFILES_COLLECTION' }
+          );
+          await databaseBuilder.commit();
 
-      it('returns the participants which match by last name', async function () {
-        // given
-        const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigurh' });
-        const { id: id2 } = buildLearnerWithParticipation(organizationId, { lastName: 'chigurh' });
-        buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            filters: { certificability: [false, null] },
+          });
 
-        await databaseBuilder.commit();
-
-        // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-          organizationId,
-          filters: { fullName: ' chigurh ' },
+          //then
+          expect(organizationParticipants.length).to.equal(2);
+          expect(organizationParticipants[0].isCertifiable).to.equal(false);
+          expect(organizationParticipants[1].isCertifiable).to.equal(null);
         });
-
-        const ids = organizationParticipants.map(({ id }) => id);
-
-        // then
-        expect(ids).to.exactlyContain([id1, id2]);
-      });
-
-      it('returns the participants which match by last name when fullName text is a part of last name', async function () {
-        // given
-        buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
-        const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigur' });
-
-        await databaseBuilder.commit();
-
-        // when
-        const {
-          organizationParticipants: [{ id }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-          organizationId,
-          filters: { fullName: 'gu' },
-        });
-
-        // then
-        expect(id).to.equal(id1);
-      });
-
-      it('returns the participants which match by full name', async function () {
-        const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton', lastName: 'Chigurh' });
-
-        await databaseBuilder.commit();
-
-        const {
-          organizationParticipants: [{ id }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-          organizationId,
-          filters: { fullName: 'anton chur' },
-        });
-
-        expect(id).to.equal(id1);
       });
     });
 
