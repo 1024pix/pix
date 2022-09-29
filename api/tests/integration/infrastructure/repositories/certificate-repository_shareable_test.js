@@ -7,7 +7,7 @@ const {
   mockLearningContent,
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
+const certificateRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -24,10 +24,10 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
     },
   ];
 
-  describe('#getByVerificationCode', function () {
+  describe('#getShareableCertificateByVerificationCode', function () {
     it('should throw a NotFoundError when shareable certificate does not exist', async function () {
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
+      const error = await catchErr(certificateRepository.getShareableCertificateByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -74,7 +74,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
+      const error = await catchErr(certificateRepository.getShareableCertificateByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
+      const error = await catchErr(certificateRepository.getShareableCertificateByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -178,7 +178,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
+      const error = await catchErr(certificateRepository.getShareableCertificateByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -230,7 +230,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
+      const error = await catchErr(certificateRepository.getShareableCertificateByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -331,9 +331,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         mockLearningContent(learningContentObjects);
 
         // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE', {
-          locale: 'fr',
-        });
+        const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(
+          'P-SOMECODE',
+          {
+            locale: 'fr',
+          }
+        );
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
@@ -444,9 +447,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         mockLearningContent(learningContentObjects);
 
         // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE', {
-          locale: 'en',
-        });
+        const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(
+          'P-SOMECODE',
+          {
+            locale: 'en',
+          }
+        );
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
@@ -548,7 +554,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         await databaseBuilder.commit();
 
         // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
+        const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(
+          'P-SOMECODE'
+        );
 
         // then
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({

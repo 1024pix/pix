@@ -1,8 +1,8 @@
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const CertifiedBadges = require('../../../../lib/domain/read-models/CertifiedBadges');
+const CertifiedBadge = require('../../../../lib/domain/read-models/CertifiedBadge');
 const { expect } = require('../../../test-helper');
 
-describe('Unit | Domain | Read-models | CertifiedBadges', function () {
+describe('Unit | Domain | Read-models | CertifiedBadge', function () {
   describe('#getAcquiredCertifiedBadgesDTO', function () {
     context('when badge has no external jury', function () {
       context('when badge is not acquired', function () {
@@ -16,12 +16,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             },
           ];
           // when
-          const acquiredCertifiedBadgesDTO = new CertifiedBadges({
-            complementaryCertificationCourseResults,
-          }).getAcquiredCertifiedBadgesDTO();
+          const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+            complementaryCertificationCourseResults
+          );
 
           // then
-          expect(acquiredCertifiedBadgesDTO).to.be.empty;
+          expect(certifiedBadgesDTO).to.be.empty;
         });
       });
 
@@ -41,20 +41,20 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
           ];
 
           // when
-          const certifiedBadgesDTO = new CertifiedBadges({
-            complementaryCertificationCourseResults,
-          }).getAcquiredCertifiedBadgesDTO();
+          const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+            complementaryCertificationCourseResults
+          );
 
           // then
           expect(certifiedBadgesDTO).to.deepEqualArray([
-            {
+            new CertifiedBadge({
               partnerKey: 'PIX_TEST',
               isTemporaryBadge: false,
               label: 'Pix+ Test',
               imageUrl: 'https://wwww.pix-badge-image-url.com',
               stickerUrl: 'https://wwww.pix-sticker-url.com',
               message: undefined,
-            },
+            }),
           ]);
         });
       });
@@ -79,39 +79,39 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
           ];
 
           // when
-          const certifiedBadgesDTO = new CertifiedBadges({
-            complementaryCertificationCourseResults,
-          }).getAcquiredCertifiedBadgesDTO();
+          const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+            complementaryCertificationCourseResults
+          );
 
           // then
           expect(certifiedBadgesDTO).to.deepEqualArray([
-            {
+            new CertifiedBadge({
               partnerKey: 'PIX_TEST',
               isTemporaryBadge: true,
               label: 'Pix+ Test',
               imageUrl: 'https://wwww.pix-badge-image-url.com',
               stickerUrl: 'https://wwww.pix-sticker-url.com',
               message: 'You temporarily acquired this magnificent badge',
-            },
+            }),
           ]);
         });
 
         it(`returns an empty array for non acquired badge`, function () {
           // given
           const complementaryCertificationCourseResults = [
-            {
+            new CertifiedBadge({
               complementaryCertificationCourseId: 456,
               partnerKey: 'PIX_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
               hasExternalJury: true,
-            },
+            }),
           ];
 
           // when
-          const certifiedBadgesDTO = new CertifiedBadges({
-            complementaryCertificationCourseResults,
-          }).getAcquiredCertifiedBadgesDTO();
+          const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+            complementaryCertificationCourseResults
+          );
 
           // then
           expect(certifiedBadgesDTO).to.deepEqualArray([]);
@@ -148,20 +148,20 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             ];
 
             // when
-            const certifiedBadgesDTO = new CertifiedBadges({
-              complementaryCertificationCourseResults,
-            }).getAcquiredCertifiedBadgesDTO();
+            const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+              complementaryCertificationCourseResults
+            );
 
             // then
             expect(certifiedBadgesDTO).to.deepEqualArray([
-              {
+              new CertifiedBadge({
                 partnerKey: 'PIX_TEST',
                 isTemporaryBadge: false,
                 label: 'Pix+ Test',
                 imageUrl: 'https://wwww.pix-badge-image-url.com',
                 stickerUrl: 'https://wwww.pix-sticker-url.com',
                 message: 'Vous avez obtenu la certification, wunderbar',
-              },
+              }),
             ]);
           });
         });
@@ -191,9 +191,9 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             ];
 
             // when
-            const certifiedBadgesDTO = new CertifiedBadges({
-              complementaryCertificationCourseResults,
-            }).getAcquiredCertifiedBadgesDTO();
+            const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+              complementaryCertificationCourseResults
+            );
 
             // then
             expect(certifiedBadgesDTO).to.deepEqualArray([]);
@@ -232,20 +232,20 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
           ];
 
           // when
-          const certifiedBadgesDTO = new CertifiedBadges({
-            complementaryCertificationCourseResults,
-          }).getAcquiredCertifiedBadgesDTO();
+          const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
+            complementaryCertificationCourseResults
+          );
 
           // then
           expect(certifiedBadgesDTO).to.deepEqualArray([
-            {
+            new CertifiedBadge({
               partnerKey: 'PIX_TEST_1',
               label: 'Pix+ Test 1',
               isTemporaryBadge: false,
               imageUrl: 'https://wwww.pix-badge-image-url1.com',
               stickerUrl: 'https://wwww.pix-sticker-url1.com',
               message: 'Vous avez obtenu la certification, wunderbar',
-            },
+            }),
           ]);
         });
       });
