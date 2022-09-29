@@ -70,6 +70,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         complementaryCertificationId: 24,
         badgeId: 123,
         label: 'Badge for complementary certification with external jury',
+        level: 2,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 7678,
@@ -177,11 +178,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
             acquired: false,
             partnerKey: undefined,
             label: undefined,
+            level: undefined,
           },
           pixSection: {
             acquired: true,
             partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
             label: 'Badge for complementary certification with external jury',
+            level: 2,
           },
           allowedExternalLevels: [
             {
