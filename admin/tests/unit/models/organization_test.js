@@ -46,4 +46,19 @@ module('Unit | Model | organization', function (hooks) {
       assert.true(isOrganizationArchived);
     });
   });
+
+  module('#dataProtectionOfficerFullName', function () {
+    test('it return the data protection officer full name', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('organization', {
+        dataProtectionOfficerFirstName: 'Justin',
+        dataProtectionOfficerLastName: 'Ptipeu',
+        dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+      });
+
+      // when & then
+      assert.strictEqual(model.dataProtectionOfficerFullName, 'Justin Ptipeu');
+    });
+  });
 });

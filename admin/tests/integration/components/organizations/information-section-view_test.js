@@ -34,6 +34,8 @@ module('Integration | Component | organizations/information-section-view', funct
         createdAtFormattedDate: '02/09/2022',
         creatorFullName: 'Gilles Parbal',
         identityProviderForCampaigns: 'IDP',
+        dataProtectionOfficerFullName: 'Justin Ptipeu',
+        dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
       });
 
       // when
@@ -42,6 +44,8 @@ module('Integration | Component | organizations/information-section-view', funct
       // then
       assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
       assert.dom(screen.getByText('Type : SUP')).exists();
+      assert.dom(screen.getByText('Nom du DPO : Justin Ptipeu')).exists();
+      assert.dom(screen.getByText('Adresse e-mail du DPO : justin.ptipeu@example.net')).exists();
       assert.dom(screen.getByText('Créée par : Gilles Parbal (1)')).exists();
       assert.dom(screen.getByText('Créée le : 02/09/2022')).exists();
       assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
