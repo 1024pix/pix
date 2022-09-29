@@ -56,7 +56,8 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
     .where('campaign-participations.isImproved', '=', false)
     .orderBy(['organization-learners.lastName', 'organization-learners.firstName', 'organization-learners.id'])
     .distinct('organization-learners.id')
-    .modify(_filterBySearch, filters);
+    .modify(_filterBySearch, filters)
+    .modify(_filterByCertificability, filters);
 
   const { results, pagination } = await fetchPage(query, page);
   const organizationParticipants = results.map((rawParticipant) => new OrganizationParticipant(rawParticipant));
@@ -71,6 +72,17 @@ function _filterBySearch(queryBuilder, filters) {
       'organization-learners.firstName',
       'organization-learners.lastName'
     );
+  }
+}
+
+function _filterByCertificability(queryBuilder, filters) {
+  if (filters.certificability) {
+    queryBuilder.where(function (query) {
+      query.whereInArray('subquery.isCertifiable', filters.certificability);
+      if (filters.certificability.includes(null)) {
+        query.orWhereRaw('"subquery"."isCertifiable" IS NULL');
+      }
+    });
   }
 }
 
