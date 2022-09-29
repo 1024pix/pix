@@ -39,7 +39,13 @@ module.exports = {
         'badges.isCertifiable': true,
       })
       .whereRaw(
-        '"complementary-certification-badges".level = (select max(level) from "complementary-certification-badges" ccb join "badges" b on ccb."badgeId" = b.id join "badge-acquisitions" ba on ba."badgeId" = b.id where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId" and ba."userId" = ? and b."isCertifiable" = true)',
+        `"badge-acquisitions"."createdAt" = 
+            (select max(ba."createdAt") from "complementary-certification-badges" ccb 
+            join "badges" b on ccb."badgeId" = b.id 
+            join "badge-acquisitions" ba on ba."badgeId" = b.id 
+            where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId" 
+            and ba."userId" = ? and b."isCertifiable" = true)
+        `,
         userId
       );
 
