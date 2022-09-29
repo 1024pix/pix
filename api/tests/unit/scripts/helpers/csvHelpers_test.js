@@ -8,6 +8,9 @@ const {
   checkCsvHeader,
   parseCsvWithHeaderAndRequiredFields,
 } = require('../../../../scripts/helpers/csvHelpers');
+const {
+  batchOrganizationOptionsWithHeader,
+} = require('../../../../scripts/create-organizations-with-tags-and-target-profiles');
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';
@@ -95,66 +98,89 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       expect(items).to.have.deep.members(expectedItems);
     });
 
-    context('when email column exists', function () {
-      it('should remove spaces', async function () {
+    context('with custom transform', function () {
+      context('when email column exists', function () {
+        it('should remove spaces', async function () {
+          // given & when
+          const data = await parseCsvWithHeader(
+            organizationWithTagsAndTargetProfilesFilePath,
+            batchOrganizationOptionsWithHeader
+          );
+
+          // then
+          expect(data[0].emailInvitations).to.equal('team-acces@example.net');
+        });
+      });
+
+      context('when credits column exists and the value is empty', function () {
+        it('should return 0 by default', async function () {
+          // given & when
+          const data = await parseCsvWithHeader(
+            organizationWithTagsAndTargetProfilesFilePath,
+            batchOrganizationOptionsWithHeader
+          );
+
+          // then
+          expect(data[0].credit).to.equal(0);
+        });
+      });
+
+      context('when locale column exists and the value is empty', function () {
+        it('should return fr-fr by default', async function () {
+          // given & when
+          const data = await parseCsvWithHeader(
+            organizationWithTagsAndTargetProfilesFilePath,
+            batchOrganizationOptionsWithHeader
+          );
+
+          // then
+          expect(data[0].locale).to.equal('fr-fr');
+        });
+      });
+
+      it('should convert isManagingStudents to a boolean', async function () {
         // given & when
-        const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
+        const data = await parseCsvWithHeader(
+          organizationWithTagsAndTargetProfilesFilePath,
+          batchOrganizationOptionsWithHeader
+        );
 
         // then
-        expect(data[0].emailInvitations).to.equal('team-acces@example.net');
+        expect(data[0].isManagingStudents).to.equal(false);
       });
-    });
 
-    context('when credits column exists and the value is empty', function () {
-      it('should return 0 by default', async function () {
+      it('should convert identityProviderForCampaigns to uppercase', async function () {
         // given & when
-        const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
+        const data = await parseCsvWithHeader(
+          organizationWithTagsAndTargetProfilesFilePath,
+          batchOrganizationOptionsWithHeader
+        );
 
         // then
-        expect(data[0].credit).to.equal(0);
+        expect(data[0].identityProviderForCampaigns).to.equal('POLE_EMPLOI');
       });
-    });
 
-    context('when locale column exists and the value is empty', function () {
-      it('should return fr-fr by default', async function () {
+      it('should convert organizationInvitationRole to uppercase', async function () {
         // given & when
-        const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
+        const data = await parseCsvWithHeader(
+          organizationWithTagsAndTargetProfilesFilePath,
+          batchOrganizationOptionsWithHeader
+        );
 
         // then
-        expect(data[0].locale).to.equal('fr-fr');
+        expect(data[0].organizationInvitationRole).to.equal('ADMIN');
       });
-    });
 
-    it('should convert isManagingStudents to a boolean', async function () {
-      // given & when
-      const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
+      it('should convert type to uppercase', async function () {
+        // given & when
+        const data = await parseCsvWithHeader(
+          organizationWithTagsAndTargetProfilesFilePath,
+          batchOrganizationOptionsWithHeader
+        );
 
-      // then
-      expect(data[0].isManagingStudents).to.equal(false);
-    });
-
-    it('should convert identityProviderForCampaigns to uppercase', async function () {
-      // given & when
-      const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
-
-      // then
-      expect(data[0].identityProviderForCampaigns).to.equal('POLE_EMPLOI');
-    });
-
-    it('should convert organizationInvitationRole to uppercase', async function () {
-      // given & when
-      const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
-
-      // then
-      expect(data[0].organizationInvitationRole).to.equal('ADMIN');
-    });
-
-    it('should convert type to uppercase', async function () {
-      // given & when
-      const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath);
-
-      // then
-      expect(data[0].type).to.equal('PRO');
+        // then
+        expect(data[0].type).to.equal('PRO');
+      });
     });
   });
 
