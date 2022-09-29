@@ -3,7 +3,7 @@ const ParticipationResultCalculationJob = require('../../../../../lib/infrastruc
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculation', function () {
   afterEach(async function () {
-    await knex('pgboss.job').where({ name: 'ParticipationResultCalculationJob' }).delete();
+    await knex('pgboss.job').delete();
   });
 
   describe('#schedule', function () {

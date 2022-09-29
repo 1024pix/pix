@@ -16,6 +16,10 @@ const { SHARED, STARTED } = CampaignParticipationStatuses;
 describe('Acceptance | API | Campaign Participations', function () {
   let server, options, user;
 
+  afterEach(async function () {
+    await knex('pgboss.job').delete();
+  });
+
   beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
@@ -56,9 +60,6 @@ describe('Acceptance | API | Campaign Participations', function () {
         url: `/api/campaign-participations/${campaignParticipationId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
-    });
-    afterEach(async function () {
-      await knex('pgboss.job').where({ name: 'ParticipationResultCalculationJob' }).delete();
     });
 
     it('shares the campaign participation', async function () {

@@ -3,7 +3,7 @@ const SendSharedParticipationResultsToPoleEmploiJob = require('../../../../../li
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculation', function () {
   afterEach(async function () {
-    await knex('pgboss.job').where({ name: 'SendSharedParticipationResultsToPoleEmploi' }).delete();
+    await knex('pgboss.job').delete();
   });
 
   describe('#schedule', function () {
