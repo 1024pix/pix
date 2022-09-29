@@ -11,8 +11,6 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../models/Badge').keys;
 
-const { getLabelByBadgeKey } = require('../read-models/CertifiableBadgeLabels');
-
 const pixEdu1stDegreeBadges = [
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
@@ -40,6 +38,7 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     externalPartnerKey,
     externalLabel,
     externalAcquired,
+    allowedExternalLevels,
   }) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.pixSection = new PixEduSection({ partnerKey: pixPartnerKey, label: pixLabel, acquired: pixAcquired });
@@ -48,9 +47,10 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       label: externalLabel,
       acquired: externalAcquired,
     });
+    this.allowedExternalLevels = allowedExternalLevels;
   }
 
-  static from(complementaryCertificationCourseResultsWithExternal) {
+  static from(complementaryCertificationCourseResultsWithExternal, badgeKeyAndLabelsGroupedByTargetProfile) {
     if (!complementaryCertificationCourseResultsWithExternal.length) {
       return;
     }
@@ -61,6 +61,14 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       ({ source }) => source === EXTERNAL
     );
 
+    let allowedExternalLevels = [];
+    if (pixComplementaryCertificationCourseResult) {
+      const filteredBadges = badgeKeyAndLabelsGroupedByTargetProfile.find((badgeKeys) =>
+        badgeKeys.map(({ key }) => key).includes(pixComplementaryCertificationCourseResult.partnerKey)
+      );
+      allowedExternalLevels = filteredBadges.map(({ key, label }) => ({ label, value: key }));
+    }
+
     return new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
       complementaryCertificationCourseId:
         complementaryCertificationCourseResultsWithExternal[0].complementaryCertificationCourseId,
@@ -70,6 +78,7 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       externalPartnerKey: externalComplementaryCertificationCourseResult?.partnerKey,
       externalLabel: externalComplementaryCertificationCourseResult?.label,
       externalAcquired: externalComplementaryCertificationCourseResult?.acquired,
+      allowedExternalLevels,
     });
   }
 
@@ -95,47 +104,6 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     if (this.pixSection._isPixEdu2ndDegre() && this.externalSection._isPixEdu2ndDegre())
       return this._getLowestPartnerKeyLabelForPixEdu2ndDegreBadge();
     throw new Error(`Badges edu incoherent !!! ${this.pixSection.partnerKey} et ${this.externalSection.partnerKey}`);
-  }
-
-  get allowedExternalLevels() {
-    const partnerKey = this.pixSection.partnerKey;
-    let filteredBadges;
-    if (this._isInitial1stDegree(partnerKey)) {
-      filteredBadges = pixEdu1stDegreeBadges.filter(this._isInitial1stDegree);
-    }
-    if (this._isContinue1stDegree(partnerKey)) {
-      filteredBadges = pixEdu1stDegreeBadges.filter(this._isContinue1stDegree);
-    }
-    if (this._isInitial2ndDegree(partnerKey)) {
-      filteredBadges = pixEdu2ndDegreeBadges.filter(this._isInitial2ndDegree);
-    }
-    if (this._isContinue2ndDegree(partnerKey)) {
-      filteredBadges = pixEdu2ndDegreeBadges.filter(this._isContinue2ndDegree);
-    }
-
-    if (!filteredBadges.length) {
-      throw new Error('Unknown pix level');
-    }
-
-    return filteredBadges.map((badge) => {
-      return {
-        label: getLabelByBadgeKey(badge),
-        value: badge,
-      };
-    });
-  }
-
-  _isInitial1stDegree(partnerKey) {
-    return partnerKey.startsWith('PIX_EDU_FORMATION_INITIALE_1ER_DEGRE');
-  }
-  _isContinue1stDegree(partnerKey) {
-    return partnerKey.startsWith('PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE');
-  }
-  _isInitial2ndDegree(partnerKey) {
-    return partnerKey.startsWith('PIX_EDU_FORMATION_INITIALE_2ND_DEGRE');
-  }
-  _isContinue2ndDegree(partnerKey) {
-    return partnerKey.startsWith('PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE');
   }
 
   _getLowestPartnerKeyLabelForPixEdu2ndDegreBadge() {

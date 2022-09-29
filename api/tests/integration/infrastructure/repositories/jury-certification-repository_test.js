@@ -53,13 +53,16 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         hasExternalJury: true,
       });
 
+      databaseBuilder.factory.buildTargetProfile({ id: 5656 });
       databaseBuilder.factory.buildBadge({
         id: 123,
         key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
+        targetProfileId: 5656,
       });
       databaseBuilder.factory.buildBadge({
         id: 456,
         key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
+        targetProfileId: 5656,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -180,6 +183,16 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
             partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
             label: 'Badge for complementary certification with external jury',
           },
+          allowedExternalLevels: [
+            {
+              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
+              label: 'Badge for complementary certification with external jury',
+            },
+            {
+              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
+              label: 'Badge for complementary certification without external jury',
+            },
+          ],
         },
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
