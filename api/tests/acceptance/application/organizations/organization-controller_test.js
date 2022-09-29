@@ -1081,6 +1081,36 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedResult.data);
       });
+
+      it('should filter certificability with one value', async function () {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/sco-participants?filter[certificability][]=eligible`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should filter certificability with two values', async function () {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/sco-participants?filter[certificability][]=eligible&filter[certificability][]=not-available`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
     context('Resource access management', function () {
