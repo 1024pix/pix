@@ -41,7 +41,13 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       `);
 
     // then
-    assert.dom(screen.getByText("Ces candidats n'ont pas fini leur test de certification")).exists();
+    assert
+      .dom(
+        screen.getByText(
+          "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
+        )
+      )
+      .exists();
     assert.dom(screen.getByText('1 signalement')).exists();
   });
 
@@ -79,7 +85,13 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       `);
 
     // then
-    assert.dom(screen.getByText("Ces candidats n'ont pas fini leur test de certification")).exists();
+    assert
+      .dom(
+        screen.getByText(
+          "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
+        )
+      )
+      .exists();
     assert.dom(screen.getByText('2 signalements')).exists();
   });
 
@@ -208,7 +220,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     assert
       .dom(
         screen.getByRole('table', {
-          name: `Ces candidats n'ont pas fini leur test de certification ${this.intl.t(
+          name: `Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test ${this.intl.t(
             'pages.sessions.finalize.unfinished-test-list-description'
           )}`,
         })
