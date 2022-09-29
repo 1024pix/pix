@@ -21,6 +21,9 @@ function buildOrganizationForAdmin({
   archivedAt = null,
   archivistFirstName = null,
   archivistLastName = null,
+  dataProtectionOfficerFirstName = null,
+  dataProtectionOfficerLastName = null,
+  dataProtectionOfficerEmail = null,
   identityProviderForCampaigns = null,
 } = {}) {
   return new OrganizationForAdmin({
@@ -44,6 +47,9 @@ function buildOrganizationForAdmin({
     archivedAt,
     archivistFirstName,
     archivistLastName,
+    dataProtectionOfficerFirstName,
+    dataProtectionOfficerLastName,
+    dataProtectionOfficerEmail,
     identityProviderForCampaigns,
   });
 }

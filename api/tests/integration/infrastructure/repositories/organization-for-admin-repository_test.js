@@ -41,6 +41,13 @@ describe('Integration | Repository | Organization-for-admin', function () {
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
 
+      databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
+        firstName: 'Justin',
+        lastName: 'Ptipeu',
+        email: 'justin.ptipeu@example.net',
+        organizationId: insertedOrganization.id,
+      });
+
       await databaseBuilder.commit();
 
       // when
@@ -70,6 +77,9 @@ describe('Integration | Repository | Organization-for-admin', function () {
         archivedAt: null,
         archivistFirstName: null,
         archivistLastName: null,
+        dataProtectionOfficerFirstName: 'Justin',
+        dataProtectionOfficerLastName: 'Ptipeu',
+        dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
@@ -171,6 +181,9 @@ describe('Integration | Repository | Organization-for-admin', function () {
           archivedAt,
           archivistFirstName: archivist.firstName,
           archivistLastName: archivist.lastName,
+          dataProtectionOfficerFirstName: null,
+          dataProtectionOfficerLastName: null,
+          dataProtectionOfficerEmail: null,
           creatorFirstName: superAdminUser.firstName,
           creatorLastName: superAdminUser.lastName,
           identityProviderForCampaigns: null,
@@ -230,6 +243,9 @@ describe('Integration | Repository | Organization-for-admin', function () {
         createdAt: organization.createdAt,
         archivistFirstName: undefined,
         archivistLastName: undefined,
+        dataProtectionOfficerFirstName: undefined,
+        dataProtectionOfficerLastName: undefined,
+        dataProtectionOfficerEmail: undefined,
         creatorFirstName: undefined,
         creatorLastName: undefined,
         identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
