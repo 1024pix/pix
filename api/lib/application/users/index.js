@@ -871,6 +871,11 @@ exports.register = async function (server) {
       method: 'GET',
       path: '/api/users/{id}/authentication-methods',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         pre: [
           {
             method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
