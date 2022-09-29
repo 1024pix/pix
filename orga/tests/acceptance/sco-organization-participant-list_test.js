@@ -49,7 +49,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         await visit('/eleves');
 
         // then
-
         assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       });
     });
@@ -67,7 +66,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         await visit('/eleves');
 
         // then
-
         assert.strictEqual(currentURL(), '/eleves');
       });
 
@@ -128,25 +126,13 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           });
         });
 
-        test('it should display the students list filtered by lastname', async function (assert) {
+        test('it filters by search', async function (assert) {
           // when
           await visit('/eleves');
-          await fillByLabel('Entrer un nom', 'ambo');
-          // then
-          assert.strictEqual(currentURL(), '/eleves?lastName=ambo');
-          assert.contains('Rambo');
-          assert.notContains('Norris');
-        });
-
-        test('it should display the students list filtered by firstname', async function (assert) {
-          // when
-          await visit('/eleves');
-          await fillByLabel('Entrer un prénom', 'Jo');
+          await fillByLabel('Recherche sur le nom et prénom', 'Jo');
 
           // then
-          assert.strictEqual(currentURL(), '/eleves?firstName=Jo');
-          assert.contains('Rambo');
-          assert.notContains('Norris');
+          assert.strictEqual(currentURL(), '/eleves?search=Jo');
         });
 
         test('it should display the students list filtered by connection type', async function (assert) {

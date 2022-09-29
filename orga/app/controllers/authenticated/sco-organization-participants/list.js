@@ -13,8 +13,7 @@ export default class ListController extends Controller {
 
   @tracked isLoading = false;
 
-  @tracked lastName = null;
-  @tracked firstName = null;
+  @tracked search = null;
   @tracked divisions = [];
   @tracked connexionType = null;
   @tracked certificability = [];
@@ -32,8 +31,7 @@ export default class ListController extends Controller {
     this.pageNumber = null;
     this.divisions = [];
     this.connexionType = null;
-    this.firstName = null;
-    this.lastName = null;
+    this.search = null;
     this.certificability = [];
   }
 
