@@ -372,7 +372,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           });
         });
 
-        context('when one value are given', function () {
+        context('when two values are given', function () {
           it('should return sco participants which match with given values', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
             const campaignId = databaseBuilder.factory.buildCampaign({
