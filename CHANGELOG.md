@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.264.0 (29/09/2022)
+
+
+### :rocket: Amélioration
+- [#4993](https://github.com/1024pix/pix/pull/4993) [FEATURE] Changement du wording de la bannière de session non finalisée (PIX-5797).
+- [#4997](https://github.com/1024pix/pix/pull/4997) [FEATURE] Envoyer un mail au(x) référent(s) d'un centre de certification à la publication d'une session avec au moins un candidat certifié CléA numérique (PIX-5770)
+- [#4988](https://github.com/1024pix/pix/pull/4988) [FEATURE] Retirer le 'mailto' sur l'adresse e-mail du dpo sur les pages 'épreuves' dans les signalements (PIX-5792)
+- [#4979](https://github.com/1024pix/pix/pull/4979) [FEATURE] Ajout d'un filtre par nom et prénom dans l'onglet élèves (PIX-5566)
+- [#4994](https://github.com/1024pix/pix/pull/4994) [FEATURE] Créer la notion d'invitation à Pix Certif (PIX-5004)
+
+### :building_construction: Tech
+- [#4995](https://github.com/1024pix/pix/pull/4995) [TECH] Script de génération de résultats d'une session en CSV (PIX-5807).
+- [#4960](https://github.com/1024pix/pix/pull/4960) [TECH] Refacto des repos pour les certificats et attestations - Part II (PIX-5736).
+
+### :bug: Correction
+- [#4999](https://github.com/1024pix/pix/pull/4999) [BUGFIX] Valider le userId lors de la récupération des méthodes d'authentification
+
+### :coffee: Autre
+- [#5002](https://github.com/1024pix/pix/pull/5002) [BUG] Corrige le filtre de certificabilité sur la page élèves (PIX-5817)
+
 ## v3.263.0 (29/09/2022)
 
 
