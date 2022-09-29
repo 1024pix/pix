@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.263.0 (29/09/2022)
+
+
+### :rocket: Amélioration
+- [#4985](https://github.com/1024pix/pix/pull/4985) [FEATURE] Admin: Afficher les informations du DPO d'une organisation (PIX-4785)
+- [#4981](https://github.com/1024pix/pix/pull/4981) [FEATURE] Ajouter une tooltip pour expliquer la certificabilité dans l'onglet Étudiants(Pix-5564)
+- [#4996](https://github.com/1024pix/pix/pull/4996) [FEATURE] Optimiser les requête de récupération des certifications et améliorer le debugging (PIX-5804)
+- [#4980](https://github.com/1024pix/pix/pull/4980) [FEATURE] Rendre générique le script de création en masse des orgas (PIX-5705).
+
 ## v3.262.0 (28/09/2022)
 
 
