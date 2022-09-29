@@ -76,6 +76,28 @@ module('Integration | Component | organizations/information-section-edit', funct
       assert.dom(screen.getByText('La longueur du département ne doit pas excéder 255 caractères')).exists();
     });
 
+    test("it should show error message if organization's data protection officer email is longer than 255 characters", async function (assert) {
+      // given
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
+
+      // when
+      await fillByLabel('Adresse e-mail du DPO', 'a'.repeat(256));
+
+      // then
+      assert.dom(screen.getByText("La longueur de l'email ne doit pas excéder 255 caractères.")).exists();
+    });
+
+    test("it should show error message if organization's data protection officer email is not valid", async function (assert) {
+      // given
+      const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
+
+      // when
+      await fillByLabel('Adresse e-mail du DPO', 'not-valid-email-format');
+
+      // then
+      assert.dom(screen.getByText("L'e-mail n'a pas le bon format.")).exists();
+    });
+
     test("it should show error message if organization's email is longer than 255 characters", async function (assert) {
       // given
       const screen = await render(hbs`<Organizations::InformationSectionEdit @organization={{this.organization}} />`);
