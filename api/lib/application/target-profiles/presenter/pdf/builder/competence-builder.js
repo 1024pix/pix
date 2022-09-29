@@ -14,7 +14,7 @@ module.exports = {
    * @param dryRun {boolean}
    * @returns {number}  next y position
    */
-  build(positionY, page, competence, areaColor, dryRun) {
+  build(positionY, page, competence, areaColor, dryRun = false) {
     positionY = positionY - FontManager.competenceFontHeight;
     const competenceText = new CompetenceText({
       text: competence.fullName,
@@ -22,37 +22,32 @@ module.exports = {
       positionY: positionY,
     });
     if (!dryRun) {
-      const nextPositionY = competenceText.draw(page, true);
-      page.drawRectangle({
-        x: PositionManager.margin,
-        y: nextPositionY + FontManager.competenceFontHeight,
-        width: PositionManager.widthMaxWithoutMargin,
-        height: positionY - nextPositionY,
-        color: ColorManager.competenceBackground,
-        opacity: 0.5,
-        borderWidth: 0,
-      });
-      positionY = competenceText.draw(page, false);
-    } else {
-      positionY = competenceText.draw(page, true);
+      _drawCompetenceBackground(positionY, page, competenceText);
     }
-    for (const thematic of sortBy(competence.thematics, 'index')) {
-      if (!dryRun) {
-        const nextPositionY = thematicBuilder.build(positionY, page, thematic, true);
-        page.drawRectangle({
-          x: PositionManager.margin,
-          y: nextPositionY + FontManager.thematicFontHeight,
-          width: PositionManager.widthMaxWithoutMargin,
-          height: positionY - nextPositionY,
-          color: ColorManager.thematicBackground,
-          opacity: 0.5,
-          borderWidth: 0,
-        });
-      }
+    positionY = competenceText.draw(page, dryRun);
 
+    for (const thematic of sortBy(competence.thematics, 'index')) {
       positionY = thematicBuilder.build(positionY, page, thematic, dryRun);
       positionY = positionY - FontManager.thematicFontHeight / 2;
     }
     return positionY;
   },
 };
+/**
+ * @param positionY{number}
+ * @param page {PDFPage}
+ * @param competenceText {CompetenceText}
+ * @private
+ */
+function _drawCompetenceBackground(positionY, page, competenceText) {
+  const nextPositionY = competenceText.draw(page, true);
+  page.drawRectangle({
+    x: PositionManager.margin,
+    y: nextPositionY + FontManager.competenceFontHeight,
+    width: PositionManager.widthMaxWithoutMargin,
+    height: positionY - nextPositionY,
+    color: ColorManager.competenceBackground,
+    opacity: 0.5,
+    borderWidth: 0,
+  });
+}
