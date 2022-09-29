@@ -280,7 +280,13 @@ module('Acceptance | Session Finalization', function (hooks) {
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.dom(screen.queryByText("Ces candidats n'ont pas fini leur test de certification")).doesNotExist();
+          assert
+            .dom(
+              screen.queryByText(
+                "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
+              )
+            )
+            .doesNotExist();
         });
       });
 
@@ -355,7 +361,13 @@ module('Acceptance | Session Finalization', function (hooks) {
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.dom(screen.getByText("Ces candidats n'ont pas fini leur test de certification")).exists();
+          assert
+            .dom(
+              screen.getByText(
+                "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
+              )
+            )
+            .exists();
         });
 
         module('without any selected reason', function () {
