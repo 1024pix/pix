@@ -2,35 +2,6 @@ const bluebird = require('bluebird');
 const _ = require('lodash');
 const OrganizationTag = require('../models/OrganizationTag');
 
-module.exports = async function updateOrganizationInformation({
-  organization,
-  organizationForAdminRepository,
-  organizationTagRepository,
-  tagRepository,
-}) {
-  const existingOrganization = await organizationForAdminRepository.get(organization.id);
-  await _updateOrganizationTags({
-    organization,
-    existingOrganization,
-    organizationTagRepository,
-    tagRepository,
-  });
-
-  if (organization.name) existingOrganization.name = organization.name;
-  if (organization.type) existingOrganization.type = organization.type;
-  if (organization.logoUrl) existingOrganization.logoUrl = organization.logoUrl;
-  existingOrganization.email = organization.email;
-  existingOrganization.credit = organization.credit;
-  existingOrganization.externalId = organization.externalId;
-  existingOrganization.provinceCode = organization.provinceCode;
-  existingOrganization.isManagingStudents = organization.isManagingStudents;
-  existingOrganization.documentationUrl = organization.documentationUrl;
-  existingOrganization.showSkills = organization.showSkills;
-  existingOrganization.identityProviderForCampaigns = organization.identityProviderForCampaigns;
-
-  return organizationForAdminRepository.update(existingOrganization);
-};
-
 async function _updateOrganizationTags({
   organization,
   existingOrganization,
@@ -62,3 +33,32 @@ async function _updateOrganizationTags({
     });
   }
 }
+
+module.exports = async function updateOrganizationInformation({
+  organization,
+  organizationForAdminRepository,
+  organizationTagRepository,
+  tagRepository,
+}) {
+  const existingOrganization = await organizationForAdminRepository.get(organization.id);
+  await _updateOrganizationTags({
+    organization,
+    existingOrganization,
+    organizationTagRepository,
+    tagRepository,
+  });
+
+  if (organization.name) existingOrganization.name = organization.name;
+  if (organization.type) existingOrganization.type = organization.type;
+  if (organization.logoUrl) existingOrganization.logoUrl = organization.logoUrl;
+  existingOrganization.email = organization.email;
+  existingOrganization.credit = organization.credit;
+  existingOrganization.externalId = organization.externalId;
+  existingOrganization.provinceCode = organization.provinceCode;
+  existingOrganization.isManagingStudents = organization.isManagingStudents;
+  existingOrganization.documentationUrl = organization.documentationUrl;
+  existingOrganization.showSkills = organization.showSkills;
+  existingOrganization.identityProviderForCampaigns = organization.identityProviderForCampaigns;
+
+  return organizationForAdminRepository.update(existingOrganization);
+};
