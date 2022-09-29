@@ -3,12 +3,12 @@ const organizationParticipantRepository = require('../../../../lib/infrastructur
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-function buildLearnerWithParticipation(
+function buildLearnerWithParticipation({
   organizationId,
   learnerAttributes = {},
   participationAttributes = {},
-  campaignAttributes = {}
-) {
+  campaignAttributes = {},
+}) {
   const learner = databaseBuilder.factory.buildOrganizationLearner({
     organizationId,
     ...learnerAttributes,
@@ -42,7 +42,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return participants', async function () {
-        buildLearnerWithParticipation(organizationId);
+        buildLearnerWithParticipation({ organizationId });
         await databaseBuilder.commit();
 
         // when
@@ -57,7 +57,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should not return participants from other organization', async function () {
         // given
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        buildLearnerWithParticipation(otherOrganizationId);
+        buildLearnerWithParticipation({ organizationId: otherOrganizationId });
         await databaseBuilder.commit();
 
         // when
@@ -70,7 +70,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should not take into account deleted participations', async function () {
-        buildLearnerWithParticipation(organizationId, {}, { deletedAt: '2022-01-01' });
+        buildLearnerWithParticipation({ organizationId, participationAttributes: { deletedAt: '2022-01-01' } });
         await databaseBuilder.commit();
 
         // when
@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should not take into account anonymous users', async function () {
         // given
         const anonymousUserId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
-        buildLearnerWithParticipation(organizationId, { userId: anonymousUserId });
+        buildLearnerWithParticipation({ organizationId, learnerAttributes: { userId: anonymousUserId } });
 
         await databaseBuilder.commit();
 
@@ -101,7 +101,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
     context('display number of participations', function () {
       it('should return the count of participations for each participant', async function () {
-        const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
+        const organizationLearnerId = buildLearnerWithParticipation({ organizationId }).id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
         await databaseBuilder.commit();
@@ -134,7 +134,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return only 1 result even when the participant has participated to several campaigns of the organization', async function () {
-        const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
+        const organizationLearnerId = buildLearnerWithParticipation({ organizationId }).id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
         await databaseBuilder.commit();
@@ -165,7 +165,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should not take into account anonymous users', async function () {
         // given
         const anonymousUserId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
-        buildLearnerWithParticipation(organizationId, { userId: anonymousUserId });
+        buildLearnerWithParticipation({ organizationId, learnerAttributes: { userId: anonymousUserId } });
 
         await databaseBuilder.commit();
 
@@ -183,7 +183,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
     context('Display last participation informations', function () {
       it('should return the name of the campaign for the most recent participation', async function () {
-        const organizationLearnerId = buildLearnerWithParticipation(organizationId, {}, { createdAt: '2022-03-14' }).id;
+        const organizationLearnerId = buildLearnerWithParticipation({
+          organizationId,
+          participationAttributes: { createdAt: '2022-03-14' },
+        }).id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'King Arthur Campaign' }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId,
@@ -203,7 +206,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return the type of the campaign for the most recent participation', async function () {
-        const organizationLearnerId = buildLearnerWithParticipation(organizationId, {}, { createdAt: '2022-03-14' }).id;
+        const organizationLearnerId = buildLearnerWithParticipation({
+          organizationId,
+          participationAttributes: { createdAt: '2022-03-14' },
+        }).id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, type: 'PROFILES_COLLECTION' }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId,
@@ -223,7 +229,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return the status of the most recent participation', async function () {
-        const organizationLearnerId = buildLearnerWithParticipation(organizationId, {}, { createdAt: '2022-03-14' }).id;
+        const organizationLearnerId = buildLearnerWithParticipation({
+          organizationId,
+          participationAttributes: { createdAt: '2022-03-14' },
+        }).id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId,
@@ -244,11 +253,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return the date of the last participation', async function () {
-        const organizationLearnerId = buildLearnerWithParticipation(
+        const organizationLearnerId = buildLearnerWithParticipation({
           organizationId,
-          {},
-          { createdAt: new Date('2021-03-17') }
-        ).id;
+          participationAttributes: { createdAt: new Date('2021-03-17') },
+        }).id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId,
@@ -272,8 +280,8 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       context('when learners have the different last names', function () {
         it('should order participant by last name', async function () {
           // given
-          buildLearnerWithParticipation(organizationId, { lastName: 'Marsiac' });
-          buildLearnerWithParticipation(organizationId, { lastName: 'Frin' });
+          buildLearnerWithParticipation({ organizationId, learnerAttributes: { lastName: 'Marsiac' } });
+          buildLearnerWithParticipation({ organizationId, learnerAttributes: { lastName: 'Frin' } });
           await databaseBuilder.commit();
 
           // when
@@ -292,14 +300,20 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       context('when learners have the same last name', function () {
         it('should order participant by first name', async function () {
           // given
-          buildLearnerWithParticipation(organizationId, {
-            lastName: 'Frin',
-            firstName: 'Yvo',
+          buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: {
+              lastName: 'Frin',
+              firstName: 'Yvo',
+            },
           });
 
-          buildLearnerWithParticipation(organizationId, {
-            lastName: 'Frin',
-            firstName: 'Gwen',
+          buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: {
+              lastName: 'Frin',
+              firstName: 'Gwen',
+            },
           });
           await databaseBuilder.commit();
 
@@ -316,8 +330,14 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       context('when learners have the same last name and first name', function () {
         it('should order participant by id', async function () {
           //given
-          buildLearnerWithParticipation(organizationId, { id: 1, lastName: 'Frin', firstName: 'Yvo' });
-          buildLearnerWithParticipation(organizationId, { id: 2, lastName: 'Frin', firstName: 'Yvo' });
+          buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { id: 1, lastName: 'Frin', firstName: 'Yvo' },
+          });
+          buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { id: 2, lastName: 'Frin', firstName: 'Yvo' },
+          });
           await databaseBuilder.commit();
 
           // when
@@ -335,11 +355,17 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should return meta informations on campaign participations based on the given size, number and total in the list', async function () {
         // given
         const page = { size: 1, number: 2 };
-        const { id: otherOrganizationLearnerId } = buildLearnerWithParticipation(organizationId, {
-          lastName: 'Joanny',
-          firstName: 'Isaac',
+        const { id: otherOrganizationLearnerId } = buildLearnerWithParticipation({
+          organizationId,
+          learnerAttributes: {
+            lastName: 'Joanny',
+            firstName: 'Isaac',
+          },
         });
-        buildLearnerWithParticipation(organizationId, { lastName: 'Joanny', firstName: 'Arthur' });
+        buildLearnerWithParticipation({
+          organizationId,
+          learnerAttributes: { lastName: 'Joanny', firstName: 'Arthur' },
+        });
 
         await databaseBuilder.commit();
 
@@ -361,9 +387,15 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       context('fullName filter', function () {
         it('returns the participants which match by first name', async function () {
           // given
-          const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
-          const { id: id2 } = buildLearnerWithParticipation(organizationId, { firstName: 'anton' });
-          buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+          const { id: id1 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { firstName: 'Anton' },
+          });
+          const { id: id2 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { firstName: 'anton' },
+          });
+          buildLearnerWithParticipation({ organizationId, learnerAttributes: { firstName: 'Llewelyn' } });
 
           await databaseBuilder.commit();
 
@@ -381,8 +413,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         it('returns the participants which match by last name when fullName text is a part of first name', async function () {
           // given
-          const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
-          buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+          const { id: id1 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { firstName: 'Anton' },
+          });
+          buildLearnerWithParticipation({ organizationId, learnerAttributes: { firstName: 'Llewelyn' } });
 
           await databaseBuilder.commit();
 
@@ -400,9 +435,15 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         it('returns the participants which match by last name', async function () {
           // given
-          const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigurh' });
-          const { id: id2 } = buildLearnerWithParticipation(organizationId, { lastName: 'chigurh' });
-          buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
+          const { id: id1 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { lastName: 'Chigurh' },
+          });
+          const { id: id2 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { lastName: 'chigurh' },
+          });
+          buildLearnerWithParticipation({ organizationId, learnerAttributes: { lastName: 'Moss' } });
 
           await databaseBuilder.commit();
 
@@ -420,8 +461,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         it('returns the participants which match by last name when fullName text is a part of last name', async function () {
           // given
-          buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
-          const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigur' });
+          buildLearnerWithParticipation({ organizationId, learnerAttributes: { lastName: 'Moss' } });
+          const { id: id1 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: { lastName: 'Chigur' },
+          });
 
           await databaseBuilder.commit();
 
@@ -438,9 +482,12 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
 
         it('returns the participants which match by full name', async function () {
-          const { id: id1 } = buildLearnerWithParticipation(organizationId, {
-            firstName: 'Anton',
-            lastName: 'Chigurh',
+          const { id: id1 } = buildLearnerWithParticipation({
+            organizationId,
+            learnerAttributes: {
+              firstName: 'Anton',
+              lastName: 'Chigurh',
+            },
           });
 
           await databaseBuilder.commit();
@@ -459,18 +506,16 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       context('certificability filter', function () {
         it('should return participants that are eligible for certificability', async function () {
           // given
-          buildLearnerWithParticipation(
+          buildLearnerWithParticipation({
             organizationId,
-            {},
-            { isCertifiable: true, status: 'SHARED' },
-            { type: 'PROFILES_COLLECTION' }
-          );
-          buildLearnerWithParticipation(
+            participationAttributes: { isCertifiable: true, status: 'SHARED' },
+            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+          });
+          buildLearnerWithParticipation({
             organizationId,
-            {},
-            { isCertifiable: false, status: 'SHARED' },
-            { type: 'PROFILES_COLLECTION' }
-          );
+            participationAttributes: { isCertifiable: false, status: 'SHARED' },
+            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+          });
           await databaseBuilder.commit();
 
           // when
@@ -486,24 +531,21 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         it('should return participants that are not eligible for certificability or not communicated', async function () {
           // given
-          buildLearnerWithParticipation(
+          buildLearnerWithParticipation({
             organizationId,
-            {},
-            { isCertifiable: false, status: 'SHARED' },
-            { type: 'PROFILES_COLLECTION' }
-          );
-          buildLearnerWithParticipation(
+            participationAttributes: { isCertifiable: false, status: 'SHARED' },
+            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+          });
+          buildLearnerWithParticipation({
             organizationId,
-            {},
-            { isCertifiable: null, status: 'STARTED' },
-            { type: 'PROFILES_COLLECTION' }
-          );
-          buildLearnerWithParticipation(
+            participationAttributes: { isCertifiable: null, status: 'STARTED' },
+            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+          });
+          buildLearnerWithParticipation({
             organizationId,
-            {},
-            { isCertifiable: true, status: 'SHARED' },
-            { type: 'PROFILES_COLLECTION' }
-          );
+            participationAttributes: { isCertifiable: true, status: 'SHARED' },
+            campaignAttributes: { type: 'PROFILES_COLLECTION' },
+          });
           await databaseBuilder.commit();
 
           // when
@@ -565,16 +607,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should be null when participant has a not shared participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-        const campaignId = databaseBuilder.factory.buildCampaign({
+        buildLearnerWithParticipation({
           organizationId,
-          type: CampaignTypes.PROFILES_COLLECTION,
-        }).id;
-
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-          organizationLearnerId,
-          status: CampaignParticipationStatuses.STARTED,
+          participationAttributes: { status: CampaignParticipationStatuses.STARTED },
+          campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
         });
 
         await databaseBuilder.commit();
@@ -797,19 +833,16 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should return the date of the participation as certifiableAt property', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({
+        buildLearnerWithParticipation({
           organizationId,
-          type: CampaignTypes.PROFILES_COLLECTION,
-        }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-          organizationLearnerId,
-          status: CampaignParticipationStatuses.SHARED,
-          sharedAt: new Date('2021-01-01'),
-          isCertifiable: true,
+          participationAttributes: {
+            status: CampaignParticipationStatuses.SHARED,
+            sharedAt: new Date('2021-01-01'),
+            isCertifiable: true,
+          },
+          campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
         });
+
         await databaseBuilder.commit();
 
         // when
@@ -820,25 +853,22 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         });
 
         //then
-        expect(certifiableAt).to.deep.equal(campaignParticipation.sharedAt);
+        expect(certifiableAt).to.deep.equal(new Date('2021-01-01'));
       });
 
       it('should return null for certifiableAt property if the organization learner is not certifiable', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({
+        buildLearnerWithParticipation({
           organizationId,
-          type: CampaignTypes.PROFILES_COLLECTION,
-        }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-          organizationLearnerId,
-          status: CampaignParticipationStatuses.SHARED,
-          sharedAt: new Date('2021-01-01'),
-          isCertifiable: false,
+          participationAttributes: {
+            status: CampaignParticipationStatuses.SHARED,
+            sharedAt: new Date('2021-01-01'),
+            isCertifiable: false,
+          },
+          campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
         });
+
         await databaseBuilder.commit();
 
         // when
@@ -857,8 +887,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       it('should only count participants in currentOrganization', async function () {
         // given
         const otherOrganization = databaseBuilder.factory.buildOrganization();
-        buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
-        buildLearnerWithParticipation(otherOrganization.id, { firstName: 'Xavier' });
+        buildLearnerWithParticipation({ organizationId, learnerAttributes: { firstName: 'Llewelyn' } });
+        buildLearnerWithParticipation({
+          organizationId: otherOrganization.id,
+          learnerAttributes: { firstName: 'Xavier' },
+        });
 
         await databaseBuilder.commit();
 
@@ -873,7 +906,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
       it('should not count disabled participants', async function () {
         // given
-        buildLearnerWithParticipation(organizationId, { firstName: 'Xavier', isDisabled: true });
+        buildLearnerWithParticipation({ organizationId, learnerAttributes: { firstName: 'Xavier', isDisabled: true } });
         await databaseBuilder.commit();
 
         // when
@@ -887,12 +920,16 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
       it('should not count participants with deleted participations', async function () {
         // given
-        buildLearnerWithParticipation(
+        buildLearnerWithParticipation({
           organizationId,
-          { firstName: 'Xavier', isDisabled: false },
-          { deletedAt: '2022-01-01' }
-        );
-        buildLearnerWithParticipation(organizationId, { firstName: 'Arthur', isDisabled: false }, { deletedAt: null });
+          learnerAttributes: { firstName: 'Xavier', isDisabled: false },
+          participationAttributes: { deletedAt: '2022-01-01' },
+        });
+        buildLearnerWithParticipation({
+          organizationId,
+          learnerAttributes: { firstName: 'Arthur', isDisabled: false },
+          participationAttributes: { deletedAt: null },
+        });
         await databaseBuilder.commit();
 
         // when
@@ -906,9 +943,15 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
       it('should count all participants when several exist', async function () {
         // given
-        buildLearnerWithParticipation(organizationId, { firstName: 'Xavier', isDisabled: false });
-        buildLearnerWithParticipation(organizationId, { firstName: 'Yvo', isDisabled: false });
-        buildLearnerWithParticipation(organizationId, { firstName: 'Estelle', isDisabled: false });
+        buildLearnerWithParticipation({
+          organizationId,
+          learnerAttributes: { firstName: 'Xavier', isDisabled: false },
+        });
+        buildLearnerWithParticipation({ organizationId, learnerAttributes: { firstName: 'Yvo', isDisabled: false } });
+        buildLearnerWithParticipation({
+          organizationId,
+          learnerAttributes: { firstName: 'Estelle', isDisabled: false },
+        });
 
         await databaseBuilder.commit();
 
