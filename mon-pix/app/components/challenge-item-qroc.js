@@ -21,7 +21,12 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _hasError() {
-    return this._getAnswerValue().length < 1;
+    if (this._getAnswerValue().length < 1) {
+      return true;
+    } else if (this.args.challenge.format === 'nombre') {
+      return this._getAnswerValue() < 0;
+    }
+    return false;
   }
 
   _getAnswerValue() {
@@ -33,7 +38,7 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
     if (this.args.challenge.autoReply) {
       errorMessage = 'pages.challenge.skip-error-message.qroc-auto-reply';
     } else if (this.args.challenge.format === 'nombre') {
-      errorMessage = 'pages.challenge.skip-error-message.qroc-number';
+      errorMessage = 'pages.challenge.skip-error-message.qroc-positive-number';
     } else {
       errorMessage = 'pages.challenge.skip-error-message.qroc';
     }
