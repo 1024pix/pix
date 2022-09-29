@@ -46,6 +46,9 @@ const schema = Joi.object({
   emailForSCOActivation: Joi.string().email().allow('', null).messages({
     'string.email': "L'email fourni n'est pas valide.",
   }),
+  DPOEmail: Joi.string().email().allow('', null).messages({
+    'string.email': "L'email fourni n'est pas valide.",
+  }),
   organizationInvitationRole: Joi.string().valid(Membership.roles.ADMIN, Membership.roles.MEMBER).required().messages({
     'string.empty': 'Le rôle n’est pas renseigné.',
     'any.only': "Le rôle fourni doit avoir l'une des valeurs suivantes : ADMIN ou MEMBER",

@@ -1,5 +1,5 @@
 // Usage: node create-organizations-with-tags-and-target-profiles.js path/file.csv
-// To use on file with columns |externalId, name, provinceCode, credit, email, organizationInvitationRole, locale, tags, createdBy, targetProfiles|
+// To use on file with columns |type, externalId, name, provinceCode, credit, emailInvitations, emailForSCOActivation, organizationInvitationRole, locale, tags, createdBy, targetProfiles, isManagingStudents, identityProviderForCampaigns, DPOFirstName, DPOLastName, DPOEmail|
 
 'use strict';
 require('dotenv').config();
@@ -11,6 +11,7 @@ const createOrganizationsWithTagsAndTargetProfiles = require('../lib/domain/usec
 const domainTransaction = require('../lib/infrastructure/DomainTransaction');
 const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
+const dataProtectionOfficerRepository = require('../lib/infrastructure/repositories/data-protection-officer-repository');
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
 const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
@@ -33,6 +34,9 @@ const REQUIRED_FIELD_NAMES = [
   'documentationUrl',
   'targetProfiles',
   'isManagingStudents',
+  'DPOFirstName',
+  'DPOLastName',
+  'DPOEmail',
 ];
 
 const batchOrganizationOptionsWithHeader = {
@@ -56,14 +60,19 @@ const batchOrganizationOptionsWithHeader = {
       if (columnName === 'createdBy') {
         value = parseInt(value, 10);
       }
-      if (columnName === 'emailInvitations' || columnName === 'emailForSCOActivation') {
+      if (columnName === 'emailInvitations' || columnName === 'emailForSCOActivation' || columnName === 'DPOEmail') {
         value = value.replaceAll(' ', '').toLowerCase();
       }
     } else {
       if (columnName === 'credit') {
         value = 0;
       }
-      if (columnName === 'identityProviderForCampaigns') {
+      if (
+        columnName === 'identityProviderForCampaigns' ||
+        columnName === 'DPOFirstName' ||
+        columnName === 'DPOLastName' ||
+        columnName === 'DPOEmail'
+      ) {
         value = null;
       }
       if (columnName === 'locale') {
@@ -93,6 +102,7 @@ async function createOrganizationWithTagsAndTargetProfiles(filePath) {
     targetProfileShareRepository,
     organizationTagRepository,
     organizationInvitationRepository,
+    dataProtectionOfficerRepository,
   });
   console.log('Done.\n');
 

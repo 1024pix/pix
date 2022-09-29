@@ -109,6 +109,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
 
           // then
           expect(data[0].emailInvitations).to.equal('team-acces@example.net');
+          expect(data[0].DPOEmail).to.equal('superadmin@example.net');
         });
       });
 
