@@ -41,8 +41,8 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     allowedExternalLevels,
   }) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
-    this.pixSection = new PixEduSection({ partnerKey: pixPartnerKey, label: pixLabel, acquired: pixAcquired });
-    this.externalSection = new PixEduSection({
+    this.pixSection = new Section({ partnerKey: pixPartnerKey, label: pixLabel, acquired: pixAcquired });
+    this.externalSection = new Section({
       partnerKey: externalPartnerKey,
       label: externalLabel,
       acquired: externalAcquired,
@@ -121,7 +121,7 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
   }
 }
 
-class PixEduSection {
+class Section {
   constructor({ partnerKey, label, acquired }) {
     this.partnerKey = partnerKey;
     this.label = label;
