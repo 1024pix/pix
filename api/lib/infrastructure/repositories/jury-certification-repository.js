@@ -27,6 +27,7 @@ module.exports = {
         'complementary-certification-course-results.*',
         'complementary-certification-courses.id',
         'complementary-certification-badges.label',
+        'complementary-certification-badges.level',
         'complementary-certifications.hasExternalJury'
       )
       .leftJoin(

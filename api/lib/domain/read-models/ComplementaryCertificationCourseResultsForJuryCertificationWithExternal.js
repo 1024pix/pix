@@ -1,32 +1,4 @@
-const {
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../models/Badge').keys;
-
-const pixEdu1stDegreeBadges = [
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-];
-
-const pixEdu2ndDegreeBadges = [
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-];
-
+const minBy = require('lodash/minBy');
 const { EXTERNAL, PIX } = require('../models/ComplementaryCertificationCourseResult').sources;
 
 class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
@@ -35,17 +7,25 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     pixPartnerKey,
     pixLabel,
     pixAcquired,
+    pixLevel,
     externalPartnerKey,
     externalLabel,
     externalAcquired,
+    externalLevel,
     allowedExternalLevels,
   }) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
-    this.pixSection = new Section({ partnerKey: pixPartnerKey, label: pixLabel, acquired: pixAcquired });
+    this.pixSection = new Section({
+      partnerKey: pixPartnerKey,
+      label: pixLabel,
+      acquired: pixAcquired,
+      level: pixLevel,
+    });
     this.externalSection = new Section({
       partnerKey: externalPartnerKey,
       label: externalLabel,
       acquired: externalAcquired,
+      level: externalLevel,
     });
     this.allowedExternalLevels = allowedExternalLevels;
   }
@@ -75,9 +55,11 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       pixPartnerKey: pixComplementaryCertificationCourseResult?.partnerKey,
       pixLabel: pixComplementaryCertificationCourseResult?.label,
       pixAcquired: pixComplementaryCertificationCourseResult?.acquired,
+      pixLevel: pixComplementaryCertificationCourseResult?.level,
       externalPartnerKey: externalComplementaryCertificationCourseResult?.partnerKey,
       externalLabel: externalComplementaryCertificationCourseResult?.label,
       externalAcquired: externalComplementaryCertificationCourseResult?.acquired,
+      externalLevel: externalComplementaryCertificationCourseResult?.level,
       allowedExternalLevels,
     });
   }
@@ -99,45 +81,20 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     if (!this.pixSection.acquired) return 'Rejetée';
     if (!this.externalSection.isEvaluated) return 'En attente volet jury';
     if (!this.externalSection.acquired) return 'Rejetée';
-    if (this.pixSection._isPixEdu1erDegre() && this.externalSection._isPixEdu1erDegre())
-      return this._getLowestPartnerKeyLabelForPixEdu1erDegreBadge();
-    if (this.pixSection._isPixEdu2ndDegre() && this.externalSection._isPixEdu2ndDegre())
-      return this._getLowestPartnerKeyLabelForPixEdu2ndDegreBadge();
-    throw new Error(`Badges edu incoherent !!! ${this.pixSection.partnerKey} et ${this.externalSection.partnerKey}`);
-  }
-
-  _getLowestPartnerKeyLabelForPixEdu2ndDegreBadge() {
-    const firstIndexOf = pixEdu2ndDegreeBadges.indexOf(this.pixSection.partnerKey);
-    const secondIndexOf = pixEdu2ndDegreeBadges.indexOf(this.externalSection.partnerKey);
-
-    return firstIndexOf <= secondIndexOf ? this.pixSection.label : this.externalSection.label;
-  }
-
-  _getLowestPartnerKeyLabelForPixEdu1erDegreBadge() {
-    const firstIndexOf = pixEdu1stDegreeBadges.indexOf(this.pixSection.partnerKey);
-    const secondIndexOf = pixEdu1stDegreeBadges.indexOf(this.externalSection.partnerKey);
-
-    return firstIndexOf <= secondIndexOf ? this.pixSection.label : this.externalSection.label;
+    return minBy([this.pixSection, this.externalSection], ({ level }) => level).label;
   }
 }
 
 class Section {
-  constructor({ partnerKey, label, acquired }) {
+  constructor({ partnerKey, label, acquired, level }) {
     this.partnerKey = partnerKey;
     this.label = label;
     this.acquired = acquired ?? false;
+    this.level = level;
   }
 
   get isEvaluated() {
     return Boolean(this.partnerKey);
-  }
-
-  _isPixEdu2ndDegre() {
-    return pixEdu2ndDegreeBadges.includes(this.partnerKey);
-  }
-
-  _isPixEdu1erDegre() {
-    return pixEdu1stDegreeBadges.includes(this.partnerKey);
   }
 }
 

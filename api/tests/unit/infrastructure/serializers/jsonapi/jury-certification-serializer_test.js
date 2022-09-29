@@ -58,10 +58,12 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             complementaryCertificationCourseId: 1234,
             pixPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
             pixLabel: 'Pix+ Édu 1er degré Avancé',
+            pixLevel: 3,
             pixAcquired: true,
             externalPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
             externalLabel: 'Pix+ Édu 1er degré Avancé',
             externalAcquired: true,
+            externalLevel: 4,
             allowedExternalLevels: [
               {
                 label: 'Pix+ Édu 1er degré Confirmé',
