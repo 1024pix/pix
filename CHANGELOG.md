@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.266.0 (30/09/2022)
+
+
+### :rocket: Amélioration
+- [#5011](https://github.com/1024pix/pix/pull/5011) [FEATURE] Rendre certains champs facultatifs dans le script OGA (PIX-5825).
+
 ## v3.265.0 (30/09/2022)
 
 
