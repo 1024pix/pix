@@ -19,7 +19,6 @@ const lighterColorToRgb = {
 
 const DEFAULT_COLOR = 'jaffa';
 const DEFAULT_BACKGROUND = rgb(0.93, 0.93, 0.93);
-const DEBUG_COLOR = colorToRgb.cerulean;
 
 module.exports = {
   /**
