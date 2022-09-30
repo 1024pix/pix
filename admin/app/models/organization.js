@@ -56,7 +56,12 @@ export default class Organization extends Model {
   }
 
   get dataProtectionOfficerFullName() {
-    return `${this.dataProtectionOfficerFirstName} ${this.dataProtectionOfficerLastName}`;
+    const fullName = [];
+
+    if (this.dataProtectionOfficerFirstName) fullName.push(this.dataProtectionOfficerFirstName);
+    if (this.dataProtectionOfficerLastName) fullName.push(this.dataProtectionOfficerLastName);
+
+    return fullName.join(' ');
   }
 
   attachTargetProfiles = memberAction({
