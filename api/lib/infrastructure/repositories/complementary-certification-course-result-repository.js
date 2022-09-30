@@ -14,6 +14,12 @@ module.exports = {
     return ComplementaryCertificationCourseResult.from(result);
   },
 
+  async getAllowedJuryLevelByBadgeKey({ key }) {
+    return knex('badges')
+      .pluck('key')
+      .where('targetProfileId', '=', knex('badges').select('targetProfileId').where({ key }));
+  },
+
   async save({ complementaryCertificationCourseId, partnerKey, acquired, source }) {
     return knex('complementary-certification-course-results')
       .insert({ partnerKey, acquired, complementaryCertificationCourseId, source })
