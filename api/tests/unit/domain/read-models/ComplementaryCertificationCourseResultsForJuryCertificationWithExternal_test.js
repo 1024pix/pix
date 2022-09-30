@@ -1,19 +1,5 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable mocha/no-setup-in-describe */
 const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
 const { expect, domainBuilder } = require('../../../test-helper');
-const {
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJuryCertificationWithExternal', function () {
   describe('#finalResult', function () {
@@ -22,7 +8,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+            pixPartnerKey: 'KEY',
             pixAcquired: true,
             externalPartnerKey: null,
           });
@@ -39,7 +25,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       // given
       const complementaryCertificationCourseResultForJuryCertificationWithExternal =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-          pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          pixPartnerKey: 'KEY',
           pixAcquired: false,
         });
 
@@ -55,9 +41,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+            pixPartnerKey: 'KEY_1',
             pixAcquired: true,
-            externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+            externalPartnerKey: 'KEY_2',
             externalAcquired: false,
           });
 
@@ -158,74 +144,20 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
     });
 
     context('when pix section is evaluated', function () {
-      [
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          acquired: true,
-          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-          acquired: true,
-          label: 'Pix+ Édu 2nd degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-          acquired: true,
-          label: 'Pix+ Édu 2nd degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-          acquired: true,
-          label: 'Pix+ Édu 2nd degré Avancé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-          acquired: true,
-          label: 'Pix+ Édu 2nd degré Expert',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-          acquired: true,
-          label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-          acquired: true,
-          label: 'Pix+ Édu 1er degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-          acquired: true,
-          label: 'Pix+ Édu 1er degré Confirmé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-          acquired: true,
-          label: 'Pix+ Édu 1er degré Avancé',
-        },
-        {
-          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-          acquired: true,
-          label: 'Pix+ Édu 1er degré Expert',
-        },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, acquired: false, label: 'Rejetée' },
-      ].forEach(({ partnerKey, acquired, label }) => {
-        it(`should return ${label} when pix section partner key is ${partnerKey} and acquired is ${acquired}`, function () {
-          // given
-          const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-            new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
-              pixPartnerKey: partnerKey,
-              pixLabel: label,
-              pixAcquired: acquired,
-            });
+      it(`should return the pix label`, function () {
+        // given
+        const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
+          new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+            pixPartnerKey: 'KEY',
+            pixLabel: 'Key label',
+            pixAcquired: true,
+          });
 
-          // when
-          const pixResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.pixResult;
+        // when
+        const pixResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.pixResult;
 
-          // then
-          expect(pixResult).to.equal(label);
-        });
+        // then
+        expect(pixResult).to.equal('Key label');
       });
     });
   });
@@ -236,7 +168,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         // given
         const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
           new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
-            pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+            pixPartnerKey: 'KEY',
             pixAcquired: false,
           });
 
@@ -253,7 +185,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         // given
         const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
           new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
-            pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+            pixPartnerKey: 'KEY',
             pixAcquired: true,
           });
 
@@ -267,54 +199,22 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
 
     context('when pix section is acquired and external section is evaluated', function () {
       context('when acquired is true', function () {
-        [
-          {
-            partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-            label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-          },
-          {
-            partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-            label: 'Pix+ Édu 2nd degré Confirmé',
-          },
-          {
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-            label: 'Pix+ Édu 2nd degré Confirmé',
-          },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, label: 'Pix+ Édu 2nd degré Avancé' },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, label: 'Pix+ Édu 2nd degré Expert' },
-          {
-            partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-            label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
-          },
-          {
-            partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-            label: 'Pix+ Édu 1er degré Confirmé',
-          },
-          {
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-            label: 'Pix+ Édu 1er degré Confirmé',
-          },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, label: 'Pix+ Édu 1er degré Avancé' },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, label: 'Pix+ Édu 1er degré Expert' },
-        ].forEach(({ partnerKey, label }) => {
-          it(`should return ${label} when external section partner key is ${partnerKey}`, function () {
-            // given
-            const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-              new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
-                pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-                pixAcquired: true,
-                externalPartnerKey: partnerKey,
-                externalLabel: label,
-                externalAcquired: true,
-              });
+        it(`should return the external label`, function () {
+          // given
+          const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
+            new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+              pixPartnerKey: 'KEY_1',
+              pixAcquired: true,
+              externalPartnerKey: 'KEY_2',
+              externalLabel: 'Key 2 label',
+              externalAcquired: true,
+            });
 
-            // when
-            const externalResult =
-              complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
+          // when
+          const externalResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
 
-            // then
-            expect(externalResult).to.equal(label);
-          });
+          // then
+          expect(externalResult).to.equal('Key 2 label');
         });
       });
 
@@ -323,9 +223,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
           // given
           const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
             new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
-              pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+              pixPartnerKey: 'KEY_1',
               pixAcquired: true,
-              externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+              externalPartnerKey: 'KEY_2',
               externalAcquired: false,
             });
 
