@@ -11,7 +11,6 @@ const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const Badge = require('../../../lib/domain/models/Badge');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -192,15 +191,15 @@ describe('Acceptance | API | Certification Course', function () {
         completedAt: new Date('2020-02-01'),
       });
       const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Droit',
+        name: 'Pix+ Foot',
         hasExternalJury: false,
       }).id;
-      databaseBuilder.factory.buildBadge({ id: 123, key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
+      databaseBuilder.factory.buildBadge({ id: 123, key: 'PIX_FOOT_1' });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 567,
         badgeId: 123,
         complementaryCertificationId: pixDroitComplementaryCertificationId,
-        label: 'Pix+ Droit Expert',
+        label: 'PIX_FOOT_1',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 456,
@@ -211,48 +210,48 @@ describe('Acceptance | API | Certification Course', function () {
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 789,
-        partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
+        partnerKey: 'PIX_FOOT_1',
         acquired: true,
         complementaryCertificationCourseId: 456,
         source: 'PIX',
       });
 
       const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 1er degré',
+        name: 'Pix+ Boxe',
         hasExternalJury: true,
       }).id;
       databaseBuilder.factory.buildTargetProfile({ id: 1212 });
       databaseBuilder.factory.buildBadge({
         id: 456,
-        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+        key: 'PIX_BOXE_1',
         targetProfileId: 1212,
       });
       databaseBuilder.factory.buildBadge({
         id: 457,
-        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        key: 'PIX_BOXE_2',
         targetProfileId: 1212,
       });
       databaseBuilder.factory.buildBadge({
         id: 458,
-        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        key: 'PIX_BOXE_3',
         targetProfileId: 1212,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: 456,
         complementaryCertificationId: pixEduComplementaryCertificationId,
-        label: 'Pix+ Édu 1er degré Confirmé',
+        label: 'Pix Boxe 1',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 789,
         badgeId: 457,
         complementaryCertificationId: pixEduComplementaryCertificationId,
-        label: 'Pix+ Édu 1er degré Avancé',
+        label: 'Pix Boxe 2',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: 458,
         complementaryCertificationId: pixEduComplementaryCertificationId,
-        label: 'Pix+ Édu 1er degré Expert',
+        label: 'Pix Boxe 3',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 654,
@@ -263,14 +262,14 @@ describe('Acceptance | API | Certification Course', function () {
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 987,
-        partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        partnerKey: 'PIX_BOXE_2',
         acquired: true,
         complementaryCertificationCourseId: 654,
         source: 'PIX',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 986,
-        partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        partnerKey: 'PIX_BOXE_2',
         acquired: false,
         complementaryCertificationCourseId: 654,
         source: 'EXTERNAL',
@@ -372,7 +371,7 @@ describe('Acceptance | API | Certification Course', function () {
           id: '456',
           type: 'commonComplementaryCertificationCourseResults',
           attributes: {
-            label: 'Pix+ Droit Expert',
+            label: 'PIX_FOOT_1',
             status: 'Validée',
           },
         },
@@ -382,22 +381,22 @@ describe('Acceptance | API | Certification Course', function () {
           attributes: {
             'allowed-external-levels': [
               {
-                label: 'Pix+ Édu 1er degré Confirmé',
-                value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME',
+                label: 'Pix Boxe 1',
+                value: 'PIX_BOXE_1',
               },
               {
-                label: 'Pix+ Édu 1er degré Avancé',
-                value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
+                label: 'Pix Boxe 2',
+                value: 'PIX_BOXE_2',
               },
               {
-                label: 'Pix+ Édu 1er degré Expert',
-                value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
+                label: 'Pix Boxe 3',
+                value: 'PIX_BOXE_3',
               },
             ],
             'complementary-certification-course-id': 654,
             'external-result': 'Rejetée',
             'final-result': 'Rejetée',
-            'pix-result': 'Pix+ Édu 1er degré Avancé',
+            'pix-result': 'Pix Boxe 2',
           },
         },
       ]);
