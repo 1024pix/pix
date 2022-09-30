@@ -70,6 +70,7 @@ const dependencies = {
   countryRepository: require('../../infrastructure/repositories/country-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   cpfCertificationResultRepository: require('../../infrastructure/repositories/cpf-certification-result-repository'),
+  dataProtectionOfficerRepository: require('../../infrastructure/repositories/data-protection-officer-repository'),
   divisionRepository: require('../../infrastructure/repositories/division-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
   endTestScreenRemovalService: require('../services/end-test-screen-removal-service'),

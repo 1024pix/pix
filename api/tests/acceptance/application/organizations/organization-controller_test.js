@@ -154,6 +154,7 @@ describe('Acceptance | Application | organization-controller', function () {
   describe('PATCH /api/admin/organizations/{id}', function () {
     afterEach(async function () {
       await knex('organization-tags').delete();
+      await knex('data-protection-officers').delete();
     });
 
     it('should return the updated organization and status code 200', async function () {

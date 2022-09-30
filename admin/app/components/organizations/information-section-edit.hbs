@@ -57,6 +57,59 @@
     </div>
 
     <div class="form-field">
+      <label for="dataProtectionOfficerFirstName" class="form-field__label">Prénom du DPO</label>
+      {{#if (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "dataProtectionOfficerFirstName" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="dataProtectionOfficerFirstName"
+        @type="text"
+        class={{if
+          (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")
+          "form-control is-invalid"
+          "form-control"
+        }}
+        @value={{this.form.dataProtectionOfficerFirstName}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="dataProtectionOfficerLastName" class="form-field__label">Nom du DPO</label>
+      {{#if (v-get this.form "dataProtectionOfficerLastName" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "dataProtectionOfficerLastName" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="dataProtectionOfficerLastName"
+        @type="text"
+        class={{if
+          (v-get this.form "dataProtectionOfficerLastName" "isInvalid")
+          "form-control is-invalid"
+          "form-control"
+        }}
+        @value={{this.form.dataProtectionOfficerLastName}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="dataProtectionOfficerEmail" class="form-field__label">Adresse e-mail du DPO</label>
+      {{#if (v-get this.form "dataProtectionOfficerEmail" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "dataProtectionOfficerEmail" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="dataProtectionOfficerEmail"
+        @type="text"
+        class={{if (v-get this.form "dataProtectionOfficerEmail" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.dataProtectionOfficerEmail}}
+      />
+    </div>
+
+    <div class="form-field">
       <label for="credits" class="form-field__label">Crédits</label>
       {{#if (v-get this.form "credit" "isInvalid")}}
         <div class="form-field__error">
