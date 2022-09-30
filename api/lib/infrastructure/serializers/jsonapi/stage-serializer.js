@@ -5,7 +5,7 @@ module.exports = {
   serialize(stage = {}) {
     return new Serializer('stage', {
       ref: 'id',
-      attributes: ['message', 'threshold', 'title', 'prescriberTitle', 'prescriberDescription'],
+      attributes: ['message', 'threshold', 'level', 'title', 'prescriberTitle', 'prescriberDescription'],
     }).serialize(stage);
   },
   deserialize(json) {
