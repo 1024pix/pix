@@ -237,10 +237,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           message: 'Les tags ne sont pas renseignés.',
         },
         {
-          attribute: 'documentationUrl',
-          message: "L'url de documentation n'est pas renseignée.",
-        },
-        {
           attribute: 'locale',
           message: "La locale doit avoir l'une des valeurs suivantes : fr-fr, fr ou en",
         },
@@ -251,14 +247,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         {
           attribute: 'credit',
           message: 'Le crédit doit être un entier.',
-        },
-        {
-          attribute: 'organizationInvitationRole',
-          message: "Le rôle fourni doit avoir l'une des valeurs suivantes : ADMIN ou MEMBER",
-        },
-        {
-          attribute: 'organizationInvitationRole',
-          message: 'Le rôle n’est pas renseigné.',
         },
         {
           attribute: 'createdBy',
