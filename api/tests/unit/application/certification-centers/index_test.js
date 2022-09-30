@@ -164,9 +164,9 @@ describe('Unit | Router | certification-center-router', function () {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
+  describe('GET /api/admin/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
     const method = 'GET';
-    const url = '/api/certification-centers/1/certification-center-memberships';
+    const url = '/api/admin/certification-centers/1/certification-center-memberships';
 
     it('should exist', async function () {
       //given
@@ -191,7 +191,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         method,
-        '/api/certification-centers/invalid/certification-center-memberships'
+        '/api/admin/certification-centers/invalid/certification-center-memberships'
       );
 
       // then
@@ -199,9 +199,9 @@ describe('Unit | Router | certification-center-router', function () {
     });
   });
 
-  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
+  describe('POST /api/admin/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
     const method = 'POST';
-    const url = '/api/certification-centers/1/certification-center-memberships';
+    const url = '/api/admin/certification-centers/1/certification-center-memberships';
     const email = 'user@example.net';
     const payload = { email };
 
@@ -227,7 +227,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         method,
-        '/api/certification-centers/invalid/certification-center-memberships'
+        '/api/admin/certification-centers/invalid/certification-center-memberships'
       );
 
       // then

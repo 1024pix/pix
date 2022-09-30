@@ -4,58 +4,10 @@ const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
-  server.route([
-    {
-      method: 'POST',
-      path: '/api/certification-centers',
-      config: {
-        handler: certificationCenterController.create,
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            '- Création d‘un nouveau centre de certification\n',
-        ],
-        tags: ['api', 'certification-center'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/certification-centers/{id}',
-      config: {
-        handler: certificationCenterController.update,
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            '- Création d‘un nouveau centre de certification\n',
-        ],
-        tags: ['api', 'certification-center'],
-      },
-    },
+  const adminRoutes = [
     {
       method: 'GET',
-      path: '/api/certification-centers',
+      path: '/api/admin/certification-centers',
       config: {
         handler: certificationCenterController.findPaginatedFilteredCertificationCenters,
         pre: [
@@ -79,7 +31,7 @@ exports.register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/certification-centers/{id}',
+      path: '/api/admin/certification-centers/{id}',
       config: {
         pre: [
           {
@@ -102,6 +54,122 @@ exports.register = async function (server) {
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
             "- Récupération d'un centre de certification\n",
+        ],
+        tags: ['api', 'certification-center'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-centers/{certificationCenterId}/certification-center-memberships',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: certificationCenterController.findCertificationCenterMembershipsByCertificationCenter,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Récupération de tous les membres d'un centre de certification.\n",
+        ],
+        tags: ['api', 'admin', 'certification-center-membership'],
+      },
+    },
+
+    {
+      method: 'POST',
+      path: '/api/admin/certification-centers/{certificationCenterId}/certification-center-memberships',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+          payload: Joi.object().required().keys({
+            email: Joi.string().email().required(),
+          }),
+        },
+        handler: certificationCenterController.createCertificationCenterMembershipByEmail,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Création d‘un nouveau membre d'un centre de certification,\n" +
+            "à partir de l'adresse e-mail d'un utilisateur.",
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
+
+    {
+      method: 'PATCH',
+      path: '/api/admin/certification-centers/{id}',
+      config: {
+        handler: certificationCenterController.update,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Création d‘un nouveau centre de certification\n',
+        ],
+        tags: ['api', 'certification-center'],
+      },
+    },
+  ];
+
+  server.route([
+    ...adminRoutes,
+    {
+      method: 'POST',
+      path: '/api/certification-centers',
+      config: {
+        handler: certificationCenterController.create,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Création d‘un nouveau centre de certification\n',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -165,35 +233,6 @@ exports.register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/certification-centers/{certificationCenterId}/certification-center-memberships',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            certificationCenterId: identifiersType.certificationCenterId,
-          }),
-        },
-        handler: certificationCenterController.findCertificationCenterMembershipsByCertificationCenter,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            "- Récupération de tous les membres d'un centre de certification.\n",
-        ],
-        tags: ['api', 'admin', 'certification-center-membership'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/members',
       config: {
         pre: [
@@ -213,39 +252,6 @@ exports.register = async function (server) {
             "- Récupération de tous les membres d'un centre de certification.\n",
         ],
         tags: ['api', 'certification-center', 'members'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/certification-centers/{certificationCenterId}/certification-center-memberships',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            certificationCenterId: identifiersType.certificationCenterId,
-          }),
-          payload: Joi.object().required().keys({
-            email: Joi.string().email().required(),
-          }),
-        },
-        handler: certificationCenterController.createCertificationCenterMembershipByEmail,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            "- Création d‘un nouveau membre d'un centre de certification,\n" +
-            "à partir de l'adresse e-mail d'un utilisateur.",
-        ],
-        tags: ['api', 'certification-center-membership'],
       },
     },
   ]);
