@@ -19,6 +19,7 @@ export function findFilteredPaginatedOrganizationParticipants(schema, request) {
     pageSize: pagination.pageSize,
     rowCount,
     pageCount: Math.ceil(rowCount / pagination.pageSize),
+    participantCount: rowCount,
   };
   return json;
 }
