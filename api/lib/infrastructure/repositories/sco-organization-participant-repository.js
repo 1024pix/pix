@@ -104,7 +104,11 @@ module.exports = {
       ])
       .from('organization-learners')
       .leftJoin('subquery', 'subquery.organizationLearnerId', 'organization-learners.id')
-      .leftJoin('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
+      .leftJoin('campaign-participations', function () {
+        this.on('campaign-participations.organizationLearnerId', 'organization-learners.id')
+          .andOn('campaign-participations.isImproved', '=', knex.raw('false'))
+          .andOn('campaign-participations.deletedAt', knex.raw('is'), knex.raw('null'));
+      })
       .leftJoin('users', 'users.id', 'organization-learners.userId')
       .leftJoin('authentication-methods', function () {
         this.on('users.id', 'authentication-methods.userId').andOnVal(
@@ -117,13 +121,6 @@ module.exports = {
           'campaigns.organizationId',
           'organization-learners.organizationId'
         );
-      })
-      .where(function (qb) {
-        qb.where({ 'campaign-participations.id': null });
-        qb.orWhere({
-          'campaign-participations.isImproved': false,
-          'campaign-participations.deletedAt': null,
-        });
       })
       .where('organization-learners.isDisabled', false)
       .where('organization-learners.organizationId', organizationId)
