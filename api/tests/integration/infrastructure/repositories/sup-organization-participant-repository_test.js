@@ -95,6 +95,31 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
       expect(data[0].id).to.equal(organizationLearner.id);
     });
 
+    it('should return sup participants with deleted participations', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+      }).id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        isDisabled: false,
+        organizationId: organization.id,
+      }).id;
+
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, deletedAt: new Date() });
+
+      await databaseBuilder.commit();
+
+      // when
+      const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(data).to.have.lengthOf(1);
+      expect(data[0].id).to.equal(organizationLearnerId);
+    });
+
     it('should order organizationLearners by lastName and then by firstName with no sensitive case', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
