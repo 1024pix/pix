@@ -2,7 +2,7 @@
 
 <div class="organization-participant-list-page">
   <OrganizationParticipant::Header @participantCount={{@model.meta.participantCount}} />
-  {{#if this.currentUser.prescriber.hasParticipants}}
+  {{#if @model.meta.participantCount}}
     <OrganizationParticipant::List
       @participants={{@model}}
       @triggerFiltering={{this.triggerFiltering}}
