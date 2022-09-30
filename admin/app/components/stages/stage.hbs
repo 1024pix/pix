@@ -17,8 +17,13 @@
       <div class="page-section__details">
         ID :
         {{@model.id}}<br />
-        Seuil :
-        {{@model.threshold}}<br />
+        {{this.stageTypeName}}
+        :
+        {{#if this.isTypeLevel}}
+          {{@model.level}}
+        {{else}}
+          {{@model.threshold}}
+        {{/if}}<br />
         Titre :
         {{@model.title}}<br />
         Message :
@@ -29,12 +34,14 @@
         {{@model.prescriberDescription}}<br />
       </div>
       <br />
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{@toggleEditMode}}
-      >Editer</PixButton>
+      {{#unless this.isTypeLevel}}
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{@toggleEditMode}}
+        >Éditer</PixButton>
+      {{/unless}}
     </section>
   {{/if}}
 </main>
