@@ -23,7 +23,17 @@ async function getByName(name) {
   return _toDomain(framework);
 }
 
+async function getById(id) {
+  const framework = await frameworkDatasource.getById(id);
+
+  if (framework === undefined) {
+    throw new NotFoundError(`Framework not found for id ${id}`);
+  }
+  return _toDomain(framework);
+}
+
 module.exports = {
   list,
   getByName,
+  getById,
 };

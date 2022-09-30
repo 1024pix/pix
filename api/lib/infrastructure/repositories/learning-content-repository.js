@@ -5,6 +5,7 @@ const tubeRepository = require('./tube-repository');
 const thematicRepository = require('./thematic-repository');
 const campaignRepository = require('./campaign-repository');
 const competenceRepository = require('./competence-repository');
+const frameworkRepository = require('./framework-repository');
 const LearningContent = require('../../domain/models/LearningContent');
 // TODO pas satisfaisant comme dépendance
 const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service');
@@ -89,11 +90,12 @@ async function _getLearningContentByTubes(tubes, locale) {
     'id'
   );
 
-  areas.forEach((area) => {
+  for (const area of areas) {
+    area.framework = await frameworkRepository.getById(area.frameworkId);
     area.competences = competences.filter((competence) => {
       return competence.area.id === area.id;
     });
-  });
+  }
 
   return areas;
 }

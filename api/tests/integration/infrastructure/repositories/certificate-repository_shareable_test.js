@@ -301,6 +301,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           code: '1',
           competences: [competence1, competence2],
           title: 'titre test',
+          framework: null,
         });
 
         const learningContentObjects = learningContentBuilder.buildLearningContent([
@@ -417,6 +418,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           code: '1',
           competences: [competence1, competence2],
           title: 'titre test',
+          framework: null,
         });
 
         const learningContentObjects = learningContentBuilder.buildLearningContent([

@@ -420,10 +420,11 @@ describe('Integration | Repository | learning-content', function () {
   });
 });
 
-function _buildDomainAreasFromLearningContent({ areas }, locale) {
+function _buildDomainAreasFromLearningContent({ areas, frameworks }, locale) {
   return areas.map((area) =>
     domainBuilder.buildArea({
       ...area,
+      framework: frameworks.find((framework) => framework.id === area.frameworkId),
       title: area[locale === 'en' ? 'titleEnUs' : 'titleFrFr'],
     })
   );

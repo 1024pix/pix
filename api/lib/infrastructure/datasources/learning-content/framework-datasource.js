@@ -7,4 +7,8 @@ module.exports = datasource.extend({
     const framework = await this.list();
     return framework.find((frameworkData) => frameworkName === frameworkData.name);
   },
+  async getById(frameworkId) {
+    const framework = await this.list();
+    return framework.find((frameworkData) => frameworkId === frameworkData.id);
+  },
 });

@@ -15,11 +15,13 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
 
         const learningContent = {
+          frameworks: [{ id: 'frameworkId', name: 'frameworkName' }],
           areas: [
             {
               id: 'recArea0',
               competenceIds: ['rec1', 'rec2'],
               color: 'orange',
+              frameworkId: 'frameworkId',
             },
           ],
           competences: [
@@ -264,11 +266,13 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'skill2' });
 
         const learningContent = {
+          frameworks: [{ id: 'frameworkId', name: 'frameworkName' }],
           areas: [
             {
               id: 'recArea0',
               competenceIds: ['rec1', 'rec2'],
               color: 'orange',
+              frameworkId: 'frameworkId',
             },
           ],
           competences: [
