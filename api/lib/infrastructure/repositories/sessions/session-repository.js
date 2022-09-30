@@ -200,6 +200,15 @@ module.exports = {
     const result = await knex.select(1).from('certification-courses').where('sessionId', sessionId).first();
     return !result;
   },
+
+  async countUncompletedCertifications(sessionId) {
+    const { count } = await knex
+      .count('id')
+      .from('certification-courses')
+      .where({ sessionId, completedAt: null })
+      .first();
+    return count;
+  },
 };
 
 function _toDomain(results) {
