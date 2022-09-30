@@ -38,6 +38,35 @@ const Validations = buildValidations({
       }),
     ],
   },
+  dataProtectionOfficerFirstName: {
+    validators: [
+      validator('length', {
+        max: 255,
+        message: 'La longueur du prénom ne doit pas excéder 255 caractères.',
+      }),
+    ],
+  },
+  dataProtectionOfficerLastName: {
+    validators: [
+      validator('length', {
+        max: 255,
+        message: 'La longueur du nom ne doit pas excéder 255 caractères.',
+      }),
+    ],
+  },
+  dataProtectionOfficerEmail: {
+    validators: [
+      validator('length', {
+        max: 255,
+        message: "La longueur de l'email ne doit pas excéder 255 caractères.",
+      }),
+      validator('format', {
+        allowBlank: true,
+        type: 'email',
+        message: "L'e-mail n'a pas le bon format.",
+      }),
+    ],
+  },
   email: {
     validators: [
       validator('length', {
@@ -89,6 +118,9 @@ class Form extends Object.extend(Validations) {
   @tracked name;
   @tracked externalId;
   @tracked provinceCode;
+  @tracked dataProtectionOfficerFirstName;
+  @tracked dataProtectionOfficerLastName;
+  @tracked dataProtectionOfficerEmail;
   @tracked email;
   @tracked credit;
   @tracked isManagingStudents;
@@ -155,6 +187,9 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('name', this.form.name);
     this.args.organization.set('externalId', this.form.externalId);
     this.args.organization.set('provinceCode', this.form.provinceCode);
+    this.args.organization.set('dataProtectionOfficerFirstName', this.form.dataProtectionOfficerFirstName);
+    this.args.organization.set('dataProtectionOfficerLastName', this.form.dataProtectionOfficerLastName);
+    this.args.organization.set('dataProtectionOfficerEmail', this.form.dataProtectionOfficerEmail);
     this.args.organization.set('email', this.form.email);
     this.args.organization.set('credit', this.form.credit);
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
@@ -170,6 +205,9 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.form.name = this.args.organization.name;
     this.form.externalId = this.args.organization.externalId;
     this.form.provinceCode = this.args.organization.provinceCode;
+    this.form.dataProtectionOfficerFirstName = this.args.organization.dataProtectionOfficerFirstName;
+    this.form.dataProtectionOfficerLastName = this.args.organization.dataProtectionOfficerLastName;
+    this.form.dataProtectionOfficerEmail = this.args.organization.dataProtectionOfficerEmail;
     this.form.email = this.args.organization.email;
     this.form.credit = this.args.organization.credit;
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
