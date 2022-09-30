@@ -264,10 +264,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           attribute: 'createdBy',
           message: "L'id du créateur doit être un nombre",
         },
-        {
-          attribute: 'targetProfiles',
-          message: 'Les profiles cibles ne sont pas renseignés.',
-        },
       ]);
     });
 
