@@ -8,12 +8,12 @@
       @errorMessage={{this.errorMessage}}
       {{focus}}
     />
-    <PixInput
+    <PixSelect
       @id="pdfParameterLanguage"
-      value={{this.language}}
-      {{on "change" this.onChangeLanguage}}
+      @selectedOption={{this.language}}
+      @onChange={{this.onChangeLanguage}}
+      @options={{this.options}}
       @label="Langue du référentiel (fr ou en) :"
-      @errorMessage={{this.errorMessage}}
     />
   </:content>
 
