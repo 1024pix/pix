@@ -258,6 +258,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         code: '1',
         competences: [competence1, competence2],
         title: 'titre test',
+        framework: null,
       });
 
       const learningContentObjects = learningContentBuilder.buildLearningContent([{ ...area1, titleFr: area1.title }]);

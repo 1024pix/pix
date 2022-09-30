@@ -3,8 +3,8 @@ const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
 const TemplatePageManager = require('../manager/template-page-manager');
 
-const MARGIN_TOP_AREA = 30;
-const MARGIN_BOTTOM_AREA = 5;
+const MARGIN_TOP_AREA = 5;
+const MARGIN_BOTTOM_AREA = 50;
 
 module.exports = class AreaText extends Text {
   /**
@@ -14,28 +14,38 @@ module.exports = class AreaText extends Text {
    * @param page {PDFPage}
    */
   constructor({ text, areaColor, page }) {
-    const positionY = page.getSize().height - MARGIN_TOP_AREA;
-    const font = FontManager.areaFont;
-    const fontSize = FontManager.areaHeight;
-    const positionX = Text._positionXForHorizontalCentering(text, page, font, fontSize);
+    let positionY;
+    const numberOfLine = Text.numberOfLines(text, FontManager.areaFont, FontManager.areaHeight, page);
+    if (numberOfLine === 1) {
+      positionY = page.getHeight() - FontManager.areaFontHeight - MARGIN_TOP_AREA;
+    } else {
+      positionY = page.getHeight() - FontManager.areaFontHeight / 2 - MARGIN_TOP_AREA;
+    }
     super({
       text,
-      positionX,
+      positionX: 0,
       positionY,
-      fontSize,
-      font,
+      fontSize: FontManager.areaHeight,
+      font: FontManager.areaFont,
       fontColor: ColorManager.findRGBColor('white'),
+      maxWidth: page.getWidth(),
     });
     this.areaColor = areaColor;
+    this.positionYAfter = page.getHeight() - MARGIN_BOTTOM_AREA;
   }
   draw(page, dryRun = false) {
     if (!dryRun) {
       page.drawPage(TemplatePageManager.findTemplatePage(this.areaColor));
     }
-    return super.draw(page);
+    super.draw(page);
+    return this.positionYAfter;
   }
 
-  get spaceUnderText() {
-    return MARGIN_BOTTOM_AREA;
+  drawAlignCenter(page, dryRun = false) {
+    if (!dryRun) {
+      page.drawPage(TemplatePageManager.findTemplatePage(this.areaColor));
+    }
+    super.drawAlignCenter(page, dryRun);
+    return this.positionYAfter;
   }
 };

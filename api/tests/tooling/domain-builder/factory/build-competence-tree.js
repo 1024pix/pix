@@ -13,6 +13,10 @@ module.exports = function buildCompetenceTree({
       name: '1. Information et données',
       color: 'jaffa',
       frameworkId: 'recAi12kj43h23jrh3',
+      framework: {
+        id: 'recAi12kj43h23jrh3',
+        name: 'PIX',
+      },
       competences: [
         buildCompetence({
           name: 'Mener une recherche et une veille d’information',

@@ -14,9 +14,10 @@ module.exports = {
    */
   build(pdfDocument, area, language) {
     const page = _addPage(pdfDocument, language);
+    const areaTitle = area.frameworkName + ' : ' + area.title;
     let pageContext = {
       page,
-      positionY: _drawAreaTitle(page, area.title, area.color),
+      positionY: _drawAreaTitle(page, areaTitle, area.color),
     };
     for (const competence of sortBy(area.competences, 'index')) {
       pageContext = _nextPage(pageContext.page, pageContext.positionY, competence, language);
@@ -37,7 +38,7 @@ module.exports = {
 function _nextPage(page, positionY, competence, language) {
   const currentYAfterDryRun = competenceBuilder.build(positionY, page, competence, competence.area.color, true);
   if (currentYAfterDryRun - MARGIN_BOTTOM_LIMIT < 0) {
-    const newPage = _addPage(page.ref, language);
+    const newPage = _addPage(page.doc, language);
     return {
       page: newPage,
       positionY: newPage.getSize().height - MARGIN_TOP_WITHOUT_AREA,
@@ -58,9 +59,14 @@ function _drawAreaTitle(page, areaTitle, areaColor) {
     areaColor,
     page,
   });
-  return areaText.draw(page);
+  return areaText.drawAlignCenter(page);
 }
 
+/**
+ * @param pdfDocument{PDFDocument}
+ * @param language{string}
+ * @return {PDFPage}
+ */
 function _addPage(pdfDocument, language) {
   const page = pdfDocument.addPage();
   const legalMentionText = new LegalMentionText({ language });

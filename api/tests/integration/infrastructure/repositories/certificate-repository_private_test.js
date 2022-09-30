@@ -342,6 +342,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           code: '1',
           title: 'titre test',
           competences: [competence1, competence2],
+          framework: null,
         });
 
         const learningContentObjects = learningContentBuilder.buildLearningContent([
@@ -456,6 +457,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           code: '1',
           title: 'titre test',
           competences: [competence1, competence2],
+          framework: null,
         });
 
         const learningContentObjects = learningContentBuilder.buildLearningContent([
