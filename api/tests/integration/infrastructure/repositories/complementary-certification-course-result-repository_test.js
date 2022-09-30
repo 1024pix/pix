@@ -89,6 +89,28 @@ describe('Integration | Repository | complementary-certification-courses-result-
     );
   });
 
+  describe('#getAllowedJuryLevelByBadgeKey', function () {
+    it('should return the allowed jury level for a partner key', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfile({ id: 123 });
+      databaseBuilder.factory.buildBadge({ id: 1212, key: 'KEY_1', targetProfileId: 123 });
+
+      databaseBuilder.factory.buildTargetProfile({ id: 456 });
+      databaseBuilder.factory.buildBadge({ id: 1213, key: 'KEY_2', targetProfileId: 456 });
+      databaseBuilder.factory.buildBadge({ id: 1214, key: 'KEY_3', targetProfileId: 456 });
+
+      await databaseBuilder.commit();
+
+      // when
+      const allowedBadgeKeys = await complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey({
+        key: 'KEY_2',
+      });
+
+      // then
+      expect(allowedBadgeKeys).to.deep.equal(['KEY_2', 'KEY_3']);
+    });
+  });
+
   describe('#save', function () {
     afterEach(function () {
       return knex('complementary-certification-course-results').delete();
