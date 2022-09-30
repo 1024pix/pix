@@ -2,25 +2,9 @@ const ComplementaryCertificationCourseResult = require('../../domain/models/Comp
 const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
-  async getFromComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
-    const complementaryCertificationCourseResults = await knex
-      .select('complementary-certification-course-results.*')
-      .from('complementary-certification-course-results')
-      .where({ complementaryCertificationCourseId });
-
-    return complementaryCertificationCourseResults.map((complementaryCertificationCourseResult) =>
-      ComplementaryCertificationCourseResult.from({
-        complementaryCertificationCourseId: complementaryCertificationCourseResult.complementaryCertificationCourseId,
-        partnerKey: complementaryCertificationCourseResult.partnerKey,
-        acquired: complementaryCertificationCourseResult.acquired,
-        source: complementaryCertificationCourseResult.source,
-      })
-    );
-  },
-
   async getPixSourceResultByComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
     const result = await knex
-      .select('complementary-certification-course-results.*')
+      .select('*')
       .from('complementary-certification-course-results')
       .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.PIX })
       .first();
