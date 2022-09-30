@@ -15,6 +15,16 @@
     @updateCertificationCenter={{this.updateCertificationCenter}}
   />
 
+  <nav class="navbar">
+    <LinkTo @route="authenticated.certification-centers.get.team" class="navbar-item">
+      Équipe
+    </LinkTo>
+
+    <LinkTo @route="authenticated.certification-centers.get.invitations" class="navbar-item">
+      Invitations
+    </LinkTo>
+  </nav>
+
   {{outlet}}
 
 </main>
