@@ -60,7 +60,9 @@ Router.map(function () {
     });
 
     this.route('certification-centers', function () {
-      this.route('get', { path: '/:certification_center_id' });
+      this.route('get', { path: '/:certification_center_id' }, function () {
+        this.route('team', { path: '/' });
+      });
       this.route('list');
       this.route('new');
     });

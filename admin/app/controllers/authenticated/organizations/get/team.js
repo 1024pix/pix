@@ -81,7 +81,6 @@ export default class GetTeamController extends Controller {
       this.userEmailToAdd = null;
       this.notifications.success('Accès attribué avec succès.');
     } catch (e) {
-      console.log(e);
       this.notifications.error('Une erreur est survenue.');
     }
   }

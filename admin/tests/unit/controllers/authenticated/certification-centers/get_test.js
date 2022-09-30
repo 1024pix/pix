@@ -1,216 +1,74 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/certification-centers/get', function (hooks) {
   setupTest(hooks);
 
-  let certificationCenter;
-  let createRecordStub;
-  let saveStub;
-
-  let controller;
-
-  hooks.beforeEach(function () {
-    sinon.restore();
-
-    controller = this.owner.lookup('controller:authenticated/certification-centers/get');
-    const store = this.owner.lookup('service:store');
-
-    createRecordStub = sinon.stub();
-    saveStub = sinon.stub();
-
-    saveStub.resolves();
-    createRecordStub.returns({
-      save: saveStub,
-    });
-
-    const testHabilitation = store.createRecord('habilitation', { name: 'Habilitation test' });
-
-    certificationCenter = store.createRecord('certification-center', {
-      id: 1,
-      name: 'Centre des Anne-Etoiles',
-      type: 'PRO',
-      externalId: 'ex123',
-      habilitations: [testHabilitation],
-    });
-
-    store.createRecord = createRecordStub;
-
-    controller.model = {
-      certificationCenter,
-    };
-
-    controller.notifications = {
-      success: sinon.stub(),
-      error: sinon.stub(),
-    };
-    controller.notifications.success.resolves();
-    controller.notifications.error.resolves();
-  });
-
-  module('#updateEmailErrorMessage', function () {
-    test('should set email error message if email syntax is invalid', function (assert) {
+  module('#updateCertificationCenter', function () {
+    test('should update certificationCenter model and show a success notification', async function (assert) {
       // given
-      controller.userEmailToAdd = 'an invalid email';
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/get');
+      const initialCertificationCenter = {
+        name: 'Certification center one',
+        externalId: 'BBBBBBB',
+        type: 'SCO',
+        isSupervisorAccessEnabled: false,
+        habilitations: ['an habilitation'],
+        save: sinon.stub(),
+      };
+      controller.model = { certificationCenter: initialCertificationCenter };
+
+      class NotificationsStub extends Service {
+        success = sinon.stub();
+      }
+      this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      controller.send('updateEmailErrorMessage');
+      await controller.updateCertificationCenter({
+        name: 'New Ton',
+        externalId: '123456ABC',
+        type: 'PRO',
+        isSupervisorAccessEnabled: true,
+        habilitations: [],
+      });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.errorMessage, controller.EMAIL_INVALID_ERROR_MESSAGE);
+      sinon.assert.calledOnce(controller.model.certificationCenter.save);
+      assert.strictEqual(controller.model.certificationCenter.name, 'New Ton');
+      assert.strictEqual(controller.model.certificationCenter.externalId, '123456ABC');
+      assert.strictEqual(controller.model.certificationCenter.type, 'PRO');
+      assert.true(controller.model.certificationCenter.isSupervisorAccessEnabled);
+      assert.deepEqual(controller.model.certificationCenter.habilitations, []);
+      sinon.assert.calledWith(controller.notifications.success, 'Centre de certification mis à jour avec succès.');
     });
 
-    test('should set email error message to null if email is empty', function (assert) {
+    test('should show an error notification if save failed', async function (assert) {
       // given
-      controller.errorMessage = 'error message';
-      controller.userEmailToAdd = '';
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/get');
+      controller.model = {
+        certificationCenter: {
+          save: sinon.stub().rejects(),
+        },
+      };
+
+      class NotificationsStub extends Service {
+        error = sinon.stub();
+      }
+      this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      controller.send('updateEmailErrorMessage');
+      await controller.updateCertificationCenter({
+        name: 'New Ton',
+      });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.errorMessage, null);
-    });
-  });
-
-  module('#addCertificationCenterMembership', function (hooks) {
-    let event;
-
-    hooks.beforeEach(function () {
-      event = { preventDefault() {} };
-      controller.send = sinon.stub();
-    });
-
-    module('when email is valid', function () {
-      const emailWithSpaces = ' test@example.net ';
-
-      test('should create a certificationCenterMembership', async function (assert) {
-        // given
-        controller.userEmailToAdd = emailWithSpaces;
-        const expectedArguments = {
-          adapterOptions: {
-            createByEmail: true,
-            certificationCenterId: certificationCenter.id,
-            email: emailWithSpaces.trim(),
-          },
-        };
-
-        // when
-        await controller.addCertificationCenterMembership(event);
-
-        // then
-        sinon.assert.calledWith(createRecordStub, 'certification-center-membership');
-        sinon.assert.calledWith(saveStub, expectedArguments);
-        sinon.assert.calledWith(controller.send, 'refreshModel');
-        assert.ok(true);
-      });
-
-      test('should not set any error message', async function (assert) {
-        // given
-        controller.userEmailToAdd = emailWithSpaces;
-
-        // when
-        await controller.addCertificationCenterMembership(event);
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.errorMessage, null);
-      });
-
-      test('should send success notification', async function (assert) {
-        // given
-        controller.userEmailToAdd = emailWithSpaces;
-
-        // when
-        await controller.addCertificationCenterMembership(event);
-
-        // then
-        sinon.assert.called(controller.notifications.success);
-        assert.ok(true);
-      });
-    });
-
-    module('when email is not valid', function () {
-      test('should be disabled if the email is empty', async function (assert) {
-        // given
-        controller.userEmailToAdd = '';
-
-        // when
-        await controller.addCertificationCenterMembership(event);
-
-        // then
-        assert.true(controller.isDisabled);
-      });
-
-      test('should set error message if the email is empty', async function (assert) {
-        // given
-        controller.userEmailToAdd = '';
-
-        // when
-        await controller.addCertificationCenterMembership(event);
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.errorMessage, controller.EMAIL_REQUIRED_ERROR_MESSAGE);
-      });
-
-      test('should set error message if the email syntax is invalid', async function (assert) {
-        // given
-        controller.userEmailToAdd = 'an invalid email';
-
-        // when
-        await controller.addCertificationCenterMembership(event);
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.errorMessage, controller.EMAIL_INVALID_ERROR_MESSAGE);
-      });
-    });
-
-    module('when API response is not OK (201)', function () {
-      module('when the response error does not contains any errors property', function () {
-        test('should send default error notification', async function (assert) {
-          // given
-          controller.userEmailToAdd = 'test@example.net';
-          saveStub.rejects({});
-
-          // when
-          await controller.addCertificationCenterMembership(event);
-
-          // then
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.DEFAULT);
-          assert.ok(true);
-        });
-      });
-
-      module('when the response error contains an errors property', () => {
-        test('should send a specific error notification for http error 400, 404 and 412', async function (assert) {
-          // given
-          const responseError = {
-            errors: [{ status: '400' }, { status: '404' }, { status: '412' }],
-          };
-
-          controller.userEmailToAdd = 'test@example.net';
-          saveStub.throws(responseError);
-
-          // when
-          await controller.addCertificationCenterMembership(event);
-
-          // then
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.STATUS_400);
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.STATUS_404);
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.STATUS_412);
-          assert.ok(true);
-        });
-      });
+      sinon.assert.calledWith(
+        controller.notifications.error,
+        "Une erreur est survenue, le centre de certification n'a pas été mis à jour."
+      );
+      assert.ok(true);
     });
   });
 });
