@@ -38,7 +38,7 @@ module('Acceptance | Organization Participant List', function (hooks) {
 
         // when
         server.create('organization-participant', { organizationId, firstName: 'Xavier', lastName: 'Charles' });
-        createPrescriberByUser(user, 1);
+
         await authenticateSession(user.id);
         await visit('/participants');
 
