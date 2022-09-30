@@ -19,34 +19,20 @@ const optionsWithHeader = {
     if (typeof value === 'string') {
       value = value.trim();
     }
-    if (columnName === 'isManagingStudents') {
-      value = Boolean(value);
+    if (columnName === 'uai') {
+      value = value.toUpperCase();
     }
-    if (!isEmpty(value)) {
-      if (
-        columnName === 'uai' ||
-        columnName === 'type' ||
-        columnName === 'organizationInvitationRole' ||
-        columnName === 'identityProviderForCampaigns'
-      ) {
-        value = value.toUpperCase();
-      }
-      if (columnName === 'createdBy') {
-        value = parseInt(value, 10);
-      }
-      if (columnName === 'emailInvitations' || columnName === 'emailForSCOActivation') {
-        value = value.replaceAll(' ', '').toLowerCase();
-      }
-    } else {
-      if (columnName === 'credit') {
-        value = 0;
-      }
-      if (columnName === 'identityProviderForCampaigns') {
-        value = null;
-      }
-      if (columnName === 'locale') {
-        value = 'fr-fr';
-      }
+    if (columnName === 'createdBy') {
+      value = !isEmpty(value) && parseInt(value, 10);
+    }
+    if (columnName === 'credit' && isEmpty(value)) {
+      value = 0;
+    }
+    if (columnName === 'locale' && isEmpty(value)) {
+      value = 'fr-fr';
+    }
+    if (columnName === 'email' && !isEmpty(value)) {
+      value = value.replaceAll(' ', '').toLowerCase();
     }
     return value;
   },
@@ -102,8 +88,8 @@ async function parseCsvData(cleanedData, options) {
   return data;
 }
 
-function parseCsvWithHeader(filePath) {
-  return parseCsv(filePath, optionsWithHeader);
+function parseCsvWithHeader(filePath, options = optionsWithHeader) {
+  return parseCsv(filePath, options);
 }
 
 async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldNames }) {

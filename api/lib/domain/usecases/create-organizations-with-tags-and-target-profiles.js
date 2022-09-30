@@ -23,6 +23,7 @@ module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   targetProfileShareRepository,
   organizationTagRepository,
   organizationInvitationRepository,
+  dataProtectionOfficerRepository,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
@@ -47,6 +48,20 @@ module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
 
     createdOrganizations = await organizationRepository.batchCreateOrganizations(
       organizationsToCreate,
+      domainTransaction
+    );
+
+    const dataProtectionOfficers = createdOrganizations
+      .map(({ id, externalId }) => {
+        const { dataProtectionOfficer } = organizationsData.get(externalId);
+        const hasDataProtectionOfficer =
+          dataProtectionOfficer.firstName || dataProtectionOfficer.lastName || dataProtectionOfficer.email;
+        return hasDataProtectionOfficer ? { organizationId: id, ...dataProtectionOfficer } : undefined;
+      })
+      .filter(Boolean);
+
+    await dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization(
+      dataProtectionOfficers,
       domainTransaction
     );
 
@@ -139,6 +154,11 @@ function _mapOrganizationsData(organizations) {
         ...organization,
         email,
       }),
+      dataProtectionOfficer: {
+        firstName: organization.DPOFirstName,
+        lastName: organization.DPOLastName,
+        email: organization.DPOEmail,
+      },
       emailInvitations: organization.emailInvitations,
       tags: organization.tags.split(SEPARATOR),
       targetProfiles: organization.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
