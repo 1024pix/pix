@@ -6,67 +6,6 @@ const Badge = require('../../../../lib/domain/models/Badge');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Integration | Repository | complementary-certification-courses-result-repository', function () {
-  describe('#getFromComplementaryCertificationCourseId', function () {
-    describe('when a ComplementaryCertificationCourseResult matches the complementaryCertificationCourseId', function () {
-      it('returns ComplementaryCertificationCourseResult as an array', async function () {
-        // given
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 1,
-          name: 'Pix+Edu',
-        });
-        databaseBuilder.factory.buildCertificationCourse({ id: 99 });
-        databaseBuilder.factory.buildComplementaryCertificationCourse({
-          id: 999,
-          certificationCourseId: 99,
-          complementaryCertificationId: 1,
-        });
-
-        databaseBuilder.factory.buildBadge({
-          key: Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        });
-
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          complementaryCertificationCourseId: 999,
-          partnerKey: Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-          acquired: true,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const [result] =
-          await complementaryCertificationCourseResultRepository.getFromComplementaryCertificationCourseId({
-            complementaryCertificationCourseId: 999,
-          });
-
-        // then
-        expect(result).to.deepEqualInstance(
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            acquired: true,
-            complementaryCertificationCourseId: 999,
-            partnerKey: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
-            source: ComplementaryCertificationCourseResult.sources.PIX,
-          })
-        );
-      });
-    });
-
-    describe('when no ComplementaryCertificationCourseResult matches the complementaryCertificationCourseId', function () {
-      it('returns an empty array', async function () {
-        // when
-        const result = await complementaryCertificationCourseResultRepository.getFromComplementaryCertificationCourseId(
-          {
-            complementaryCertificationCourseId: 99,
-          }
-        );
-
-        // then
-        expect(result).to.deep.equal([]);
-      });
-    });
-  });
-
   describe('#getPixSourceResultByComplementaryCertificationCourseId', function () {
     context(
       'when there is a Pix source ComplementaryCertificationCourseResult for the complementary certification course',
