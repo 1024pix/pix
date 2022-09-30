@@ -186,4 +186,23 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         .exists();
     });
   });
+
+  module('tab navigation', function () {
+    test('should show Equipe and Invitations tab', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const certificationCenter = server.create('certification-center', {
+        name: 'Pokemon Center',
+        externalId: 'ABCDEF',
+        type: 'PRO',
+      });
+
+      // when
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Équipe' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Invitations' })).exists();
+    });
+  });
 });
