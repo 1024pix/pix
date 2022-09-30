@@ -23,9 +23,6 @@ const schema = Joi.object({
   tags: Joi.string().required().messages({
     'string.empty': 'Les tags ne sont pas renseignés.',
   }),
-  documentationUrl: Joi.string().uri().required().messages({
-    'string.empty': "L'url de documentation n'est pas renseignée.",
-  }),
   locale: Joi.string().required().valid('fr-fr', 'fr', 'en').default('fr-fr').messages({
     'string.empty': "La locale n'est pas renseignée.",
     'any.only': "La locale doit avoir l'une des valeurs suivantes : fr-fr, fr ou en",
@@ -40,7 +37,7 @@ const schema = Joi.object({
   credit: Joi.number().required().messages({
     'number.base': 'Le crédit doit être un entier.',
   }),
-  emailInvitations: Joi.string().email().messages({
+  emailInvitations: Joi.string().email().allow('', null).messages({
     'string.email': "L'email fourni n'est pas valide.",
   }),
   emailForSCOActivation: Joi.string().email().allow('', null).messages({
@@ -49,10 +46,12 @@ const schema = Joi.object({
   DPOEmail: Joi.string().email().allow('', null).messages({
     'string.email': "L'email fourni n'est pas valide.",
   }),
-  organizationInvitationRole: Joi.string().valid(Membership.roles.ADMIN, Membership.roles.MEMBER).required().messages({
-    'string.empty': 'Le rôle n’est pas renseigné.',
-    'any.only': "Le rôle fourni doit avoir l'une des valeurs suivantes : ADMIN ou MEMBER",
-  }),
+  organizationInvitationRole: Joi.string()
+    .allow('', null)
+    .valid(Membership.roles.ADMIN, Membership.roles.MEMBER)
+    .messages({
+      'any.only': "Le rôle fourni doit avoir l'une des valeurs suivantes : ADMIN ou MEMBER",
+    }),
   createdBy: Joi.number().required().messages({
     'number.base': "L'id du créateur doit être un nombre",
   }),
