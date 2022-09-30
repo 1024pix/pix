@@ -446,5 +446,35 @@ module('Acceptance | Session Finalization', function (hooks) {
         assert.dom(screen.getByText('Nom du site')).exists();
       });
     });
+
+    module(
+      'When certificationPointOfContact tries to finalize a session with abort reason on completed certification',
+      function () {
+        test('it should close confirmation modal and show an error', async function (assert) {
+          // given
+          this.server.put(
+            `/sessions/${session.id}/finalization`,
+            () => ({
+              errors: [
+                {
+                  detail: 'Perdu, essaie encore',
+                  status: '409',
+                },
+              ],
+            }),
+            409
+          );
+          // when
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+
+          await click(screen.getByRole('button', { name: 'Finaliser' }));
+          await click(screen.getByText('Confirmer la finalisation'));
+
+          // then
+          assert.dom(screen.getByText('Perdu, essaie encore')).exists();
+          assert.dom(screen.queryByText('Confirmer la finalisation')).doesNotExist();
+        });
+      }
+    );
   });
 });
