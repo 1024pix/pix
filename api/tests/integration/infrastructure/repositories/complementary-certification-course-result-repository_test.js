@@ -67,6 +67,90 @@ describe('Integration | Repository | complementary-certification-courses-result-
     });
   });
 
+  describe('#getPixSourceResultByComplementaryCertificationCourseId', function () {
+    context(
+      'when there is a Pix source ComplementaryCertificationCourseResult for the complementary certification course',
+      function () {
+        it('returns the ComplementaryCertificationCourseResult', async function () {
+          // given
+          databaseBuilder.factory.buildComplementaryCertification({
+            id: 1,
+            name: 'Pix+ Test',
+          });
+          databaseBuilder.factory.buildCertificationCourse({ id: 99 });
+          databaseBuilder.factory.buildComplementaryCertificationCourse({
+            id: 999,
+            certificationCourseId: 99,
+            complementaryCertificationId: 1,
+          });
+          databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' });
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId: 999,
+            partnerKey: 'PIX_TEST_1',
+            source: ComplementaryCertificationCourseResult.sources.PIX,
+            acquired: true,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const result =
+            await complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId(
+              {
+                complementaryCertificationCourseId: 999,
+              }
+            );
+
+          // then
+          expect(result).to.deepEqualInstance(
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              acquired: true,
+              complementaryCertificationCourseId: 999,
+              partnerKey: 'PIX_TEST_1',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+            })
+          );
+        });
+      }
+    );
+
+    context(
+      'when there is no Pix source ComplementaryCertificationCourseResult for the complementary certification course',
+      function () {
+        it('returns null', async function () {
+          // given
+          databaseBuilder.factory.buildComplementaryCertification({
+            id: 1,
+            name: 'Pix+ Test',
+          });
+          databaseBuilder.factory.buildCertificationCourse({ id: 99 });
+          databaseBuilder.factory.buildComplementaryCertificationCourse({
+            id: 999,
+            certificationCourseId: 99,
+            complementaryCertificationId: 1,
+          });
+          databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' });
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId: 999,
+            partnerKey: 'PIX_TEST_1',
+            source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+            acquired: true,
+          });
+          await databaseBuilder.commit();
+          // when
+          const result =
+            await complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId(
+              {
+                complementaryCertificationCourseId: 99,
+              }
+            );
+
+          // then
+          expect(result).to.be.null;
+        });
+      }
+    );
+  });
+
   describe('#save', function () {
     afterEach(function () {
       return knex('complementary-certification-course-results').delete();
