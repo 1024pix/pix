@@ -17,4 +17,8 @@ export default class Stage extends Model {
   get hasPrescriberDescription() {
     return Boolean(this.prescriberDescription);
   }
+
+  get isTypeLevel() {
+    return this.level != null;
+  }
 }
