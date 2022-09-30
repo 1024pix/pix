@@ -309,6 +309,16 @@ describe('Integration | API | Controller Error', function () {
         "L'invitation à rejoindre l'organisation a déjà été acceptée ou annulée."
       );
     });
+
+    it('responds Bad Request when a SessionWithAbortReasonOnCompletedCertificationCourseError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.SessionWithAbortReasonOnCompletedCertificationCourseError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal(
+        'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.'
+      );
+    });
   });
 
   context('403 Forbidden', function () {
