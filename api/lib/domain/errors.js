@@ -867,6 +867,14 @@ class SessionWithoutStartedCertificationError extends DomainError {
   }
 }
 
+class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainError {
+  constructor(
+    message = 'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.'
+  ) {
+    super(message);
+  }
+}
+
 class SessionAlreadyPublishedError extends DomainError {
   constructor(message = 'La session est déjà publiée.') {
     super(message);
@@ -1308,6 +1316,7 @@ module.exports = {
   SessionNotAccessible,
   SessionStartedDeletionError,
   SessionWithoutStartedCertificationError,
+  SessionWithAbortReasonOnCompletedCertificationCourseError,
   SiecleXmlImportError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileInvalidError,
