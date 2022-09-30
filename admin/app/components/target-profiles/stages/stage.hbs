@@ -3,7 +3,13 @@
   <td class="stages-table__image">
     <img src={{@imageUrl}} alt="" role="presentation" />
   </td>
-  <td>{{@threshold}}</td>
+  <td>
+    {{#if @isTypeLevel}}
+      {{@level}}
+    {{else}}
+      {{@threshold}}
+    {{/if}}
+  </td>
   <td>{{@title}}</td>
   <td>{{@message}}</td>
   <td>
