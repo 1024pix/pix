@@ -720,7 +720,6 @@ describe('Acceptance | Route | target-profiles', function () {
     });
   });
 
-  // TODO le test dure 7 secondes sur mon poste :sad:
   describe('GET /api/admin/target-profiles/{id}/learning-content-pdf?language={language}&title={title}', function () {
     let user;
     let targetProfileId;
