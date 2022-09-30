@@ -4,6 +4,7 @@ const finalizeSession = require('../../../../lib/domain/usecases/finalize-sessio
 const {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
+  SessionWithAbortReasonOnCompletedCertificationCourseError,
   InvalidCertificationReportForFinalization,
 } = require('../../../../lib/domain/errors');
 const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
@@ -14,6 +15,7 @@ describe('Unit | UseCase | finalize-session', function () {
   let examinerGlobalComment;
   let sessionRepository;
   let certificationReportRepository;
+  let certificationCourseRepository;
   let hasIncident;
   let hasJoiningIssue;
 
@@ -31,9 +33,15 @@ describe('Unit | UseCase | finalize-session', function () {
       finalize: sinon.stub(),
       isFinalized: sinon.stub(),
       hasNoStartedCertification: sinon.stub(),
+      countUncompletedCertifications: sinon.stub(),
     };
     certificationReportRepository = {
       finalizeAll: sinon.stub(),
+    };
+
+    certificationCourseRepository = {
+      findCertificationCoursesBySessionId: sinon.stub(),
+      update: sinon.stub(),
     };
   });
 
@@ -93,10 +101,49 @@ describe('Unit | UseCase | finalize-session', function () {
           sessionRepository,
           certificationReports,
           certificationReportRepository,
+          certificationCourseRepository,
         });
 
         // then
         expect(err).to.be.instanceOf(InvalidCertificationReportForFinalization);
+      });
+    });
+
+    context('When there is an abort reason for completed certification course', function () {
+      it('should throw an SessionWithAbortReasonOnCompletedCertificationCourseError error', async function () {
+        // given
+        const reportWithAbortReason = domainBuilder.buildCertificationReport({
+          abortReason: 'candidate',
+          certificationCourseId: 1234,
+        });
+        const certificationReports = [reportWithAbortReason];
+        const completedCertificationCourse = domainBuilder.buildCertificationCourse({
+          id: 1234,
+          abortReason: 'candidate',
+          completedAt: '2022-01-01',
+        });
+        sessionRepository.countUncompletedCertifications.withArgs(sessionId).resolves(0);
+        certificationCourseRepository.findCertificationCoursesBySessionId
+          .withArgs({ sessionId })
+          .resolves([completedCertificationCourse]);
+
+        certificationCourseRepository.update.resolves(
+          domainBuilder.buildCertificationCourse({ ...completedCertificationCourse, abortReason: null })
+        );
+
+        // when
+        const err = await catchErr(finalizeSession)({
+          sessionId,
+          examinerGlobalComment,
+          sessionRepository,
+          certificationReports,
+          certificationReportRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(certificationCourseRepository.update).to.have.been.calledOnce;
+        expect(err).to.be.instanceOf(SessionWithAbortReasonOnCompletedCertificationCourseError);
       });
     });
 
@@ -155,6 +202,7 @@ describe('Unit | UseCase | finalize-session', function () {
           sessionRepository,
           certificationReports,
           certificationReportRepository,
+          certificationCourseRepository,
         });
 
         // then
@@ -206,6 +254,7 @@ describe('Unit | UseCase | finalize-session', function () {
           sessionRepository,
           certificationReports,
           certificationReportRepository,
+          certificationCourseRepository,
         });
 
         // then
