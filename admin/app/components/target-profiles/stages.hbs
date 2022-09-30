@@ -13,7 +13,7 @@
             <tr>
               <th class="table__column table__column--id">ID</th>
               <th class="stages-table__image">Image</th>
-              <th class="stages-table__threshold">Seuil</th>
+              <th class="stages-table__type">{{this.columnNameByStageType}}</th>
               <th class="stages-table__title">Titre</th>
               <th>Message</th>
               <th>Titre prescripteur</th>
@@ -37,7 +37,9 @@
                   @imageUrl={{@targetProfile.imageUrl}}
                   @id={{stage.id}}
                   @title={{stage.title}}
+                  @isTypeLevel={{stage.isTypeLevel}}
                   @threshold={{stage.threshold}}
+                  @level={{stage.level}}
                   @message={{stage.message}}
                   @hasPrescriberTitle={{stage.hasPrescriberTitle}}
                   @hasPrescriberDescription={{stage.hasPrescriberDescription}}
@@ -50,16 +52,16 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
-
-    <PixButton
-      class="stages-new-stage pix-button__secondary"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.addStage}}
-    >
-      <FaIcon @icon="plus" />Nouveau palier
-    </PixButton>
-
+    {{#unless this.isTypeLevel}}
+      <PixButton
+        class="stages-new-stage pix-button__secondary"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.addStage}}
+      >
+        <FaIcon @icon="plus" />Nouveau palier
+      </PixButton>
+    {{/unless}}
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
         <PixButton
