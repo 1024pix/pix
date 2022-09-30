@@ -121,8 +121,10 @@ module.exports = {
       try {
         result = await trx('answers').insert(answerForDB).returning(COLUMNS);
       } catch (error) {
-        const errorMessage = `INSERT INTO answers failed with values ${JSON.stringify(answerForDB)}`;
-        monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
+        if (config.featureToggles.logAnswers) {
+          const errorMessage = `INSERT INTO answers failed with values ${JSON.stringify(answerForDB)}`;
+          monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
+        }
         throw error;
       }
       const [savedAnswerDTO] = result;
