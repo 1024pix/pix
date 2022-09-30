@@ -18,6 +18,18 @@ module.exports = {
     );
   },
 
+  async getPixSourceResultByComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
+    const result = await knex
+      .select('complementary-certification-course-results.*')
+      .from('complementary-certification-course-results')
+      .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.PIX })
+      .first();
+
+    if (!result) return null;
+
+    return ComplementaryCertificationCourseResult.from(result);
+  },
+
   async save({ complementaryCertificationCourseId, partnerKey, acquired, source }) {
     return knex('complementary-certification-course-results')
       .insert({ partnerKey, acquired, complementaryCertificationCourseId, source })
