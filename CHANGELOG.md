@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.265.0 (30/09/2022)
+
+
+### :rocket: Amélioration
+- [#5008](https://github.com/1024pix/pix/pull/5008) [FEATURE] Rendre les profils cibles facultatif dans le script OGA (PIX-5821).
+- [#5003](https://github.com/1024pix/pix/pull/5003) [FEATURE] Admin: Ajouter la possibilité de modifier les informations du DPO d'une organisation (PIX-4469)
+- [#5000](https://github.com/1024pix/pix/pull/5000) [FEATURE] Ajouter le DPO au script de création des organisations en masse (PIX-5264).
+
+### :bug: Correction
+- [#5005](https://github.com/1024pix/pix/pull/5005) [BUGFIX] Admin: Ne pas afficher NULL lorsque les champs du DPO ne sont fournis (PIX-5814)
+
 ## v3.264.0 (29/09/2022)
 
 
