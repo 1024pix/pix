@@ -56,9 +56,6 @@ const schema = Joi.object({
   createdBy: Joi.number().required().messages({
     'number.base': "L'id du créateur doit être un nombre",
   }),
-  targetProfiles: Joi.string().required().messages({
-    'string.empty': 'Les profiles cibles ne sont pas renseignés.',
-  }),
 });
 
 module.exports = {
