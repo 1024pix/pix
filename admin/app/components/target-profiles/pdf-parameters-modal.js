@@ -6,6 +6,14 @@ export default class PdfParametersModal extends Component {
   @tracked language = null;
   @tracked title = null;
   @tracked errorMessage = null;
+  constructor() {
+    super(...arguments);
+    this.options = [
+      { value: 'fr', label: 'fr' },
+      { value: 'en', label: 'en' },
+    ];
+    this.language = 'fr';
+  }
 
   @action
   submit() {
