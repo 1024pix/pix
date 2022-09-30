@@ -6,6 +6,7 @@ const organizationInvitationRepository = require('../../../../lib/infrastructure
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
 const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
+const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
 const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
 const {
   OrganizationTagNotFound,
@@ -76,6 +77,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -96,6 +98,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -170,6 +173,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -206,6 +210,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -322,6 +327,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -390,6 +396,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -463,6 +470,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -538,6 +546,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -633,6 +642,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -708,6 +718,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -791,6 +802,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         targetProfileShareRepository,
         organizationTagRepository,
         organizationInvitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then

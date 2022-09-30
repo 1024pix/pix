@@ -20,6 +20,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
   let organizationTagRepositoryStub;
   let organizationInvitationRepositoryStub;
   let targetProfileShareRepository;
+  let dataProtectionOfficerRepository;
 
   const allTags = [
     { id: 1, name: 'TAG1' },
@@ -43,6 +44,9 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationInvitationRepositoryStub = {};
     targetProfileShareRepository = {
       batchAddTargetProfilesToOrganization: sinon.stub(),
+    };
+    dataProtectionOfficerRepository = {
+      batchAddDataProtectionOfficerToOrganization: sinon.stub(),
     };
 
     domainTransaction.execute = (lambda) => {
@@ -101,6 +105,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
     });
 
     // then
@@ -144,6 +149,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       organizationRepository: organizationRepositoryStub,
       tagRepository: tagRepositoryStub,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
     });
 
     // then
@@ -197,6 +203,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
     });
 
     // then
@@ -250,6 +257,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
     });
 
     // then
@@ -294,6 +302,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
     });
 
     // then
@@ -301,6 +310,56 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       { organizationId: 1, targetProfileId: '123' },
       { organizationId: 1, targetProfileId: '765' },
       { organizationId: 2, targetProfileId: '765' },
+    ]);
+  });
+
+  it('should add existing data protection officer', async function () {
+    // given
+    const firstOrganization = {
+      id: 1,
+      name: 'organization A',
+      externalId: 'externalId A',
+      tags: 'Tag1',
+      targetProfiles: '123_765',
+      type: 'PRO',
+      emailInvitations: 'fake@axample.net',
+      createdBy: 4,
+      DPOFirstName: 'Djamal',
+      DPOLastName: 'Dormi',
+      DPOEmail: 'test@example.net',
+    };
+    const secondOrganization = {
+      id: 2,
+      name: 'organization B',
+      externalId: 'externalId B',
+      tags: 'Tag1_Tag2',
+      targetProfiles: '765',
+      type: 'PRO',
+      emailInvitations: 'fake@axample.net',
+      createdBy: 4,
+    };
+
+    organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
+    tagRepositoryStub.findAll.resolves(allTags);
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
+      domainBuilder.buildOrganization(firstOrganization),
+      domainBuilder.buildOrganization(secondOrganization),
+    ]);
+
+    // when
+    await createOrganizationsWithTagsAndTargetProfiles({
+      domainTransaction,
+      organizations: [firstOrganization, secondOrganization],
+      organizationRepository: organizationRepositoryStub,
+      tagRepository: tagRepositoryStub,
+      targetProfileShareRepository,
+      organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
+    });
+
+    // then
+    expect(dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization).to.be.calledWith([
+      { organizationId: 1, firstName: 'Djamal', lastName: 'Dormi', email: 'test@example.net' },
     ]);
   });
 
@@ -345,6 +404,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
       organizationInvitationRepository: organizationInvitationRepositoryStub,
     });
 
@@ -396,6 +456,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
+      dataProtectionOfficerRepository,
       organizationInvitationRepository: organizationInvitationRepositoryStub,
     });
 
