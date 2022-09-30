@@ -17,16 +17,14 @@ module('Unit | Adapter | certificationCenterMembership', function (hooks) {
       const query = { filter: { certificationCenterId: '1' } };
       const url = await adapter.urlForQuery(query);
 
-      assert.ok(url.endsWith('/api/certification-centers/1/certification-center-memberships'));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(query.filter.certificationCenterId, undefined);
+      assert.ok(url.endsWith('/api/admin/certification-centers/1/certification-center-memberships'));
+      assert.strictEqual(query.filter.certificationCenterId, undefined);
     });
   });
 
   module('#createRecord', function () {
     module('when createByEmail is true', function () {
-      test('should call /api/certification-centers/id/certification-center-memberships', async function (assert) {
+      test('should call /api/admin/certification-centers/id/certification-center-memberships', async function (assert) {
         // given
         const certificationCenterId = 1;
         const email = 'user@example.net';
@@ -38,7 +36,7 @@ module('Unit | Adapter | certificationCenterMembership', function (hooks) {
             email,
           },
         };
-        const expectedUrl = `http://localhost:3000/api/certification-centers/${certificationCenterId}/certification-center-memberships`;
+        const expectedUrl = `http://localhost:3000/api/admin/certification-centers/${certificationCenterId}/certification-center-memberships`;
         const expectedMethod = 'POST';
         const expectedPayload = { data: { email } };
 
