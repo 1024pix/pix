@@ -26,7 +26,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
     const externalId = 'externalId';
-    this.server.post('/certification-centers', (schema, request) => {
+    this.server.post('/admin/certification-centers', (schema, request) => {
       const { name, type, externalId, isSupervisorAccessEnabled } = JSON.parse(request.requestBody).data.attributes;
       return schema.certificationCenters.create({ id: 99, name, type, externalId, isSupervisorAccessEnabled });
     });
