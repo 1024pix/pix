@@ -6,7 +6,7 @@ class EuropeanNumericLevelFactory {
   static buildFromCompetenceMarks(competenceMarks) {
     const europeanNumericLevels = [];
     competenceMarks.forEach(({ competenceCode, level }) => {
-      if (['3.4', '4.1', '4.2', '5.1', '5.2'].includes(competenceCode)) {
+      if (['2.2', '3.4', '4.1', '4.2', '5.1', '5.2'].includes(competenceCode)) {
         europeanNumericLevels.push(EuropeanNumericLevel.from({ competenceCode, level }));
       }
 
