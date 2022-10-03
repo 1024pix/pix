@@ -543,7 +543,7 @@
         "qcu": "To validate, select an answer. Otherwise, click Skip.",
         "qroc": "To validate, please fill in the text field. Otherwise, click Skip.",
         "qroc-auto-reply": "You did not answer correctly. Try again or skip to the next question.",
-        "qroc-number": "Please enter a number, or skip the question.",
+        "qroc-positive-number": "Please enter a number greater than or equal to 0, or skip the question.",
         "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
       },
       "statement": {
