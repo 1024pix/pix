@@ -82,7 +82,7 @@ describe('Integration | Component | Challenge item QROC', function () {
       );
 
       // then
-      expect(find('.challenge-response__proposal').getAttribute('type')).to.equal('number');
+      expect(find('[id="qroc_input"]').getAttribute('type')).to.equal('number');
     });
   });
 

@@ -63,10 +63,6 @@
       width: 100%;
     }
 
-    &--number {
-      width: 100px;
-    }
-
     &--selector {
       display: inline-block;
     }
@@ -110,6 +106,9 @@ form .challenge-response {
   }
 
   .qroc-proposal {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
 
     .qroc_input-label {
       display: inline;
