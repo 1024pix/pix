@@ -249,4 +249,38 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByText('Modifier le rôle')).exists();
     });
   });
+
+  module('when administrator clicks on certification centers tab', function () {
+    test('should display user’s certification centers', async function (assert) {
+      // given
+      const certificationCenter = this.server.create('certification-center', {
+        name: 'Centre Kaede',
+        externalId: 'ABCDEF12345',
+        type: 'SCO',
+      });
+      const certificationCenterMembership = this.server.create('certification-center-membership', {
+        certificationCenter,
+      });
+      const user = this.server.create('user', {
+        email: 'john.harry@example.net',
+        certificationCenterMemberships: [certificationCenterMembership],
+      });
+
+      const adminUser = this.server.create('user');
+      this.server.create('admin-member', {
+        userId: adminUser.id,
+        isSuperAdmin: true,
+      });
+      await createAuthenticateSession({ userId: adminUser.id });
+
+      const screen = await visit(`/users/${user.id}`);
+
+      // when
+      await click(screen.getByLabelText('Centres de certification auxquels appartient l´utilisateur'));
+
+      // then
+      assert.deepEqual(currentURL(), `/users/${user.id}/certification-center-memberships`);
+      assert.dom(screen.getByText('Centre Kaede')).exists();
+    });
+  });
 });
