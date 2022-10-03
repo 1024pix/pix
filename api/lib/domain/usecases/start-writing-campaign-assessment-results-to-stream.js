@@ -3,7 +3,7 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const constants = require('../../infrastructure/constants');
-const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
+const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const CampaignLearningContent = require('../models/CampaignLearningContent');
 const CampaignStages = require('../read-models/campaign/CampaignStages');
@@ -27,6 +27,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
   const translate = i18n.__;
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
+
+  if (!campaign.isAssessment()) {
+    throw new CampaignTypeError();
+  }
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaign.id);
   const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
