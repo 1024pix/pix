@@ -25,6 +25,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-pix-app-tuto-filters-enabled': false,
             'is-sso-account-reconciliation-enabled': false,
             'is-clea-results-retrieval-by-habilitated-certification-centers-enabled': false,
+            'log-answers': false,
           },
         },
       };
