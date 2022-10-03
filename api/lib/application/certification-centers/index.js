@@ -50,7 +50,7 @@ exports.register = async function (server) {
             id: identifiersType.certificationCenterId,
           }),
         },
-        handler: certificationCenterController.getById,
+        handler: certificationCenterController.getCertificationCenterDetails,
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
             "- Récupération d'un centre de certification\n",

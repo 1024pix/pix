@@ -30,9 +30,11 @@ module.exports = {
     return certificationCenterSerializer.serialize(updatedCertificationCenter);
   },
 
-  getById(request) {
+  async getCertificationCenterDetails(request) {
     const certificationCenterId = request.params.id;
-    return usecases.getCertificationCenter({ id: certificationCenterId }).then(certificationCenterSerializer.serialize);
+
+    const certificationCenterDetails = await usecases.getCertificationCenter({ id: certificationCenterId });
+    return certificationCenterSerializer.serialize(certificationCenterDetails);
   },
 
   async findPaginatedFilteredCertificationCenters(request) {
