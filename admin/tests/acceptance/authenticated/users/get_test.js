@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -50,10 +50,14 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     assert.dom(screen.getByRole('heading', { name: "Informations de l'utilisateur" })).exists();
     assert.dom(screen.getByRole('heading', { name: 'Méthodes de connexion' })).exists();
     assert.dom(screen.getByRole('heading', { name: 'Informations prescrit' })).exists();
-    assert.dom(screen.getByLabelText("Navigation de la section détails d'un utilisateur")).exists();
-    assert.dom(screen.getByRole('link', { name: 'Informations' })).exists();
-    assert.dom(screen.getByRole('link', { name: 'Profil' })).exists();
-    assert.dom(screen.getByRole('link', { name: 'Participations' })).exists();
+
+    const userNavigation = within(screen.getByLabelText("Navigation de la section détails d'un utilisateur"));
+    assert.dom(userNavigation.getByRole('link', { name: 'Détails' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: 'Profil' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: 'Participations' })).exists();
+    assert
+      .dom(userNavigation.getByRole('link', { name: 'Centres de certification auxquels appartient l´utilisateur' }))
+      .exists();
   });
 
   test('should redirect to list users page when click page title', async function (assert) {
