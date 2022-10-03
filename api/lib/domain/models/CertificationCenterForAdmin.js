@@ -1,6 +1,6 @@
 const { CERTIFICATION_CENTER_TYPES } = require('../constants');
 
-class CertificationCenter {
+class CertificationCenterForAdmin {
   constructor({
     id,
     name,
@@ -10,6 +10,9 @@ class CertificationCenter {
     updatedAt,
     habilitations = [],
     isSupervisorAccessEnabled = false,
+    dataProtectionOfficerFirstName,
+    dataProtectionOfficerLastName,
+    dataProtectionOfficerEmail,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -19,6 +22,9 @@ class CertificationCenter {
     this.updatedAt = updatedAt;
     this.habilitations = habilitations;
     this.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
+    this.dataProtectionOfficerFirstName = dataProtectionOfficerFirstName;
+    this.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
+    this.dataProtectionOfficerEmail = dataProtectionOfficerEmail;
   }
 
   get isSco() {
@@ -30,5 +36,5 @@ class CertificationCenter {
   }
 }
 
-module.exports = CertificationCenter;
+module.exports = CertificationCenterForAdmin;
 module.exports.types = CERTIFICATION_CENTER_TYPES;
