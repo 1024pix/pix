@@ -42,17 +42,27 @@ function _toDomain(certificationCenterMembershipDTO) {
 
 module.exports = {
   async findByUserId(userId) {
-    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({
-      userId,
-      disabledAt: null,
-    }).fetchAll({
-      withRelated: ['certificationCenter'],
-    });
+    const certificationCenterMemberships = await knex
+      .select(
+        'certification-center-memberships.*',
+        'certification-centers.name',
+        'certification-centers.type',
+        'certification-centers.externalId',
+        'certification-centers.createdAt AS certificationCenterCreatedAt',
+        'certification-centers.updatedAt AS certificationCenterUpdatedAt'
+      )
+      .from('certification-center-memberships')
+      .leftJoin(
+        'certification-centers',
+        'certification-centers.id',
+        'certification-center-memberships.certificationCenterId'
+      )
+      .where({
+        userId,
+        disabledAt: null,
+      });
 
-    return bookshelfToDomainConverter.buildDomainObjects(
-      BookshelfCertificationCenterMembership,
-      certificationCenterMemberships
-    );
+    return certificationCenterMemberships.map(_toDomain);
   },
 
   async findActiveByCertificationCenterIdSortedByNames({ certificationCenterId }) {
