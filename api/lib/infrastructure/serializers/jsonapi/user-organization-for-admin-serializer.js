@@ -4,7 +4,6 @@ module.exports = {
   serialize(organization) {
     return new Serializer('organization-membership', {
       attributes: [
-        'id',
         'updatedAt',
         'organizationRole',
         'organizationId',
