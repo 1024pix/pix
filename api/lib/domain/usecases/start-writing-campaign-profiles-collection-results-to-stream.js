@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
+const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
 const CampaignProfilesCollectionExport = require('../../infrastructure/serializers/csv/campaign-profiles-collection-export');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -28,6 +28,10 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   const translate = i18n.__;
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
+
+  if (!campaign.isProfilesCollection()) {
+    throw new CampaignTypeError();
+  }
 
   const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
     competenceRepository.listPixCompetencesOnly({ locale: i18n.getLocale() }),

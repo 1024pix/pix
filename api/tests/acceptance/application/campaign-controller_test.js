@@ -294,10 +294,9 @@ describe('Acceptance | API | Campaign Controller', function () {
     beforeEach(async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
-      targetProfile = databaseBuilder.factory.buildTargetProfile();
       campaign = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
-        targetProfileId: targetProfile.id,
+        type: 'PROFILES_COLLECTION',
       });
       accessToken = _createTokenWithAccessId(userId);
 
