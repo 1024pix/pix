@@ -9,24 +9,15 @@ const {
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-get-user-details-for-admin', function () {
-  let options;
-  let server;
-  let user;
   let clock;
+  let server;
 
   beforeEach(async function () {
     clock = sinon.useFakeTimers({
       now: Date.now(),
       toFake: ['Date'],
     });
-    user = databaseBuilder.factory.buildUser({});
-    await databaseBuilder.commit();
-    options = {
-      method: 'GET',
-      url: `/api/admin/users/${user.id}`,
-      payload: {},
-      headers: {},
-    };
+
     server = await createServer();
   });
 
@@ -38,11 +29,20 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
     describe('Resource access management', function () {
       it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
         // given
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
         const otherUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/admin/users/${user.id}`,
+          payload: {},
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(otherUserId),
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -50,25 +50,25 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
     });
 
     describe('Success case', function () {
-      beforeEach(async function () {
+      it('should return 200 and user serialized', async function () {
+        // given
         const superAdmin = await insertUserWithRoleSuperAdmin();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(superAdmin.id);
+
+        const user = databaseBuilder.factory.buildUser({ username: 'brice.glace0712' });
 
         await databaseBuilder.commit();
-      });
 
-      it('should return 200', async function () {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/admin/users/${user.id}`,
+          payload: {},
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+          },
+        });
 
         // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return user serialized', async function () {
-        // when
-        const response = await server.inject(options);
-
         const expectedScorecardJSONApi = {
           data: {
             attributes: {
@@ -91,6 +91,11 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
             relationships: {
               'authentication-methods': {
                 data: [],
+              },
+              'certification-center-memberships': {
+                links: {
+                  related: `/api/admin/users/${user.id}/certification-center-memberships`,
+                },
               },
               'organization-learners': {
                 data: [],
@@ -116,7 +121,7 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
           included: undefined,
         };
 
-        // then
+        expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
         expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
       });
