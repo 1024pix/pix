@@ -932,6 +932,11 @@ exports.register = async (server) => {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
+          query: Joi.object({
+            'page[size]': Joi.number().integer().empty(''),
+            'page[number]': Joi.number().integer().empty(''),
+            'filter[fullName]': Joi.string().empty(''),
+          }),
         },
         handler: organizationController.getPaginatedParticipantsForAnOrganization,
         tags: ['api', 'organization-participants'],
