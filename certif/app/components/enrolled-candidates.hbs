@@ -1,8 +1,8 @@
 <div class="panel">
   <div class="panel-header">
-    <div class="panel-header__title">
+    <h3 class="panel-header__title">
       Liste des candidats ({{@certificationCandidates.length}})
-    </div>
+    </h3>
     {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
       <PixButtonLink
         @route="authenticated.sessions.add-student"
