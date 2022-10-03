@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
+const certificationCenterForAdminSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
@@ -34,7 +35,7 @@ module.exports = {
     const certificationCenterId = request.params.id;
 
     const certificationCenterDetails = await usecases.getCertificationCenter({ id: certificationCenterId });
-    return certificationCenterSerializer.serialize(certificationCenterDetails);
+    return certificationCenterForAdminSerializer.serialize(certificationCenterDetails);
   },
 
   async findPaginatedFilteredCertificationCenters(request) {
