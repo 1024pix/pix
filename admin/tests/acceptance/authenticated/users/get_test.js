@@ -41,6 +41,21 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     assert.deepEqual(currentURL(), `/users/${user.id}`);
   });
 
+  test('should display user detail information page', async function (assert) {
+    // when
+    const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+    const screen = await visit(`/users/${user.id}`);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: "Informations de l'utilisateur" })).exists();
+    assert.dom(screen.getByRole('heading', { name: 'Méthodes de connexion' })).exists();
+    assert.dom(screen.getByRole('heading', { name: 'Informations prescrit' })).exists();
+    assert.dom(screen.getByLabelText("Navigation de la section détails d'un utilisateur")).exists();
+    assert.dom(screen.getByRole('link', { name: 'Informations' })).exists();
+    assert.dom(screen.getByRole('link', { name: 'Profil' })).exists();
+    assert.dom(screen.getByRole('link', { name: 'Participations' })).exists();
+  });
+
   test('should redirect to list users page when click page title', async function (assert) {
     // given
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });

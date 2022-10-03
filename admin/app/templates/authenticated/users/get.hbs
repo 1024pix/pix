@@ -9,12 +9,13 @@
 
 <main class="page-body">
   <section class="page-section">
+    <h1 class="page-section__title">Informations de l'utilisateur</h1>
     <Users::UserOverview @user={{@model}} />
   </section>
 
-  <nav class="navbar">
+  <nav class="navbar" aria-label="Navigation de la section détails d'un utilisateur">
     <LinkTo @route="authenticated.users.get.information" @model={{@model}} class="navbar-item">
-      Informations
+      Détails
     </LinkTo>
 
     <LinkTo @route="authenticated.users.get.profile" @model={{@model}} class="navbar-item">
