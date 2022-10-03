@@ -80,4 +80,10 @@ module.exports = {
       },
     },
   },
+
+  CERTIFICATION_CENTER_TYPES: {
+    SUP: 'SUP',
+    SCO: 'SCO',
+    PRO: 'PRO',
+  },
 };
