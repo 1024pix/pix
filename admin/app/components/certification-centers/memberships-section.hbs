@@ -30,7 +30,11 @@
                 "
               >
                 <td>{{certificationCenterMembership.id}}</td>
-                <td>{{certificationCenterMembership.user.id}}</td>
+                <td>
+                  <LinkTo @route="authenticated.users.get" @model={{certificationCenterMembership.user.id}}>
+                    {{certificationCenterMembership.user.id}}
+                  </LinkTo>
+                </td>
                 <td>{{certificationCenterMembership.user.firstName}}</td>
                 <td>{{certificationCenterMembership.user.lastName}}</td>
                 <td>{{certificationCenterMembership.user.email}}</td>
