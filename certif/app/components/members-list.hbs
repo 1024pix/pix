@@ -6,6 +6,7 @@
           <tr>
             <th class="table__column table__column--small">Nom</th>
             <th class="table__column table__column--small">Prénom</th>
+            <th class="table__column table__column--small">Référent</th>
           </tr>
         </thead>
 
@@ -14,6 +15,26 @@
             <tr aria-label="Membres du centre de certification">
               <td>{{member.lastName}}</td>
               <td>{{member.firstName}}</td>
+              {{#if member.isReferer}}
+                <td>
+                  <div class="members-list__is-referer">
+                    <PixTag class="members-list__tag" @color="blue-light">
+                      Référent Pix
+                    </PixTag>
+                    <PixTooltip class="members-list__tool-tip" @isWide="true" @position="bottom">
+                      <:triggerElement>
+                        <span tabindex="0">
+                          <FaIcon @icon="info-circle" />
+                        </span>
+                      </:triggerElement>
+                      <:tooltip>
+                        Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon
+                        déroulement des sessions de certification.
+                      </:tooltip>
+                    </PixTooltip>
+                  </div>
+                </td>
+              {{/if}}
             </tr>
           {{/each}}
         </tbody>
