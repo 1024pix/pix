@@ -51,6 +51,7 @@ Router.map(function () {
         this.route('profile');
         this.route('campaign-participations', { path: '/participations' });
         this.route('organizations');
+        this.route('certification-center-memberships');
       });
     });
 
