@@ -241,6 +241,12 @@ class UserNotAuthorizedToGetCampaignResultsError extends DomainError {
   }
 }
 
+class CampaignTypeError extends DomainError {
+  constructor(message = "Ce type de campagne n'est pas autorisé.") {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
   constructor(message = "Cet utilisateur n'est pas autorisé à récupérer ces certification courses.") {
     super(message);
@@ -1203,6 +1209,7 @@ module.exports = {
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
   CampaignParticipationDeletedError,
+  CampaignTypeError,
   CancelledOrganizationInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
