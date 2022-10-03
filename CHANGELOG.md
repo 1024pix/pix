@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.267.0 (03/10/2022)
+
+
+### :rocket: Amélioration
+- [#5004](https://github.com/1024pix/pix/pull/5004) [FEATURE] Repositionnement du header de page de détails d'une session (PIX-5748).
+
+### :building_construction: Tech
+- [#5013](https://github.com/1024pix/pix/pull/5013) [TECH] Tracer les réponses ne pouvant être insérées en BDD à cause d'un encodage incorrect
+
+### :bug: Correction
+- [#5014](https://github.com/1024pix/pix/pull/5014) [BUGFIX] Corriger le calcul de la date de début et ajouter la compétence 2.2 dans les exports CPF (PIX-5827)
+- [#5009](https://github.com/1024pix/pix/pull/5009) [BUGFIX] Utiliser le nombre de participants remonté par la pagination des participants (PIX-5650)
+
 ## v3.266.0 (30/09/2022)
 
 
