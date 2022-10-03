@@ -28,6 +28,7 @@ const {
   CertificationEndedByFinalizationError,
   SessionStartedDeletionError,
   CertificationAttestationGenerationError,
+  CampaignTypeError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -492,6 +493,19 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate PreconditionFailedError when CampaignTypeError', async function () {
+      // given
+      const error = new CampaignTypeError();
+      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PreconditionFailedError).to.have.been.calledWithExactly(error.message);
     });
   });
 });

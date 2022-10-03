@@ -90,6 +90,10 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.AuthenticationMethodAlreadyExistsError).to.exist;
   });
 
+  it('should export a CampaignTypeError', function () {
+    expect(errors.CampaignTypeError).to.exist;
+  });
+
   it('should export a SessionNotAccessible error', function () {
     expect(errors.SessionNotAccessible).to.exist;
   });

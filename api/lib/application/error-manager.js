@@ -373,6 +373,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SessionNotAccessible) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.CampaignTypeError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.InvalidVerificationCodeError) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
