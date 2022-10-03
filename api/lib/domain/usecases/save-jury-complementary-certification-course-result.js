@@ -1,4 +1,4 @@
-const { NotFoundError } = require('../errors');
+const { NotFoundError, InvalidJuryLevelError } = require('../errors');
 const ComplementaryCertificationCourseResult = require('../models/ComplementaryCertificationCourseResult');
 
 module.exports = async function saveJuryComplementaryCertificationCourseResult({
@@ -18,6 +18,14 @@ module.exports = async function saveJuryComplementaryCertificationCourseResult({
   }
 
   const { partnerKey: pixPartnerKey } = pixSourceComplementaryCertificationCourseResult;
+
+  const allowedJuryLevels = await complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey({
+    key: pixPartnerKey,
+  });
+
+  if (![...allowedJuryLevels, 'REJECTED'].includes(juryLevel)) {
+    throw new InvalidJuryLevelError();
+  }
 
   const externalComplementaryCertificationCourseResult = ComplementaryCertificationCourseResult.buildFromJuryLevel({
     juryLevel,
