@@ -34,10 +34,10 @@ module.exports = {
     return new Serializer('members', {
       transform: function (record) {
         const { id, firstName, lastName } = record.user;
-        return { id, firstName, lastName };
+        return { id, firstName, lastName, isReferer: record.isReferer };
       },
       ref: 'id',
-      attributes: ['firstName', 'lastName'],
+      attributes: ['firstName', 'lastName', 'isReferer'],
     }).serialize(certificationCenterMemberships);
   },
 
