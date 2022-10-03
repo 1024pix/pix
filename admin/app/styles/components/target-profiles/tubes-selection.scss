@@ -85,6 +85,10 @@
   thead {
     background: $pix-neutral-10;
   }
+
+  tr:not(:first-child) {
+    border-top: solid 1px $pix-neutral-20;
+  }
 }
 
 .area-border-container {
