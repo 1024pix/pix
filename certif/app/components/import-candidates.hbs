@@ -4,19 +4,20 @@
       <div class="panel-actions__header-icon">
         <FaIcon @icon="info" />
       </div>
-      <div class="panel-actions__header-title">Inscrire des candidats</div>
+      <h3 class="panel-actions__header-title">Inscrire des candidats</h3>
     </div>
     <div class="panel-actions__action-row">
       <div class="panel-actions__action-icon">
         <FaIcon @icon="file-download" />
       </div>
       <div class="panel-actions__description">
-        <div class="panel-actions__title">Télécharger le modèle de liste des candidats</div>
-        <div>Pour inscrire des candidats à la session, renseignez leurs informations (Nom, Prénom, …) dans ce document.
+        <h4 class="panel-actions__title">Télécharger le modèle de liste des candidats</h4>
+        <p class="panel-actions-description__information">Pour inscrire des candidats à la session, renseignez leurs
+          informations (Nom, Prénom, …) dans ce document.
           <br />
           Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les
           informations des candidats inscrits à la session.
-        </div>
+        </p>
       </div>
       <div class="panel-actions__button">
         <PixButtonLink
@@ -36,14 +37,14 @@
           <FaIcon @icon="cloud-upload-alt" />
         </div>
         <div class="panel-actions__description">
-          <div class="panel-actions__title">Importer la liste des candidats</div>
-          <div>
+          <h4 class="panel-actions__title">Importer la liste des candidats</h4>
+          <p class="panel-actions-description__information">
             Sélectionnez la liste des candidats préalablement remplie.
             <br />
             <strong>
               Attention, tout nouvel import efface la liste des candidats existante.
             </strong>
-          </div>
+          </p>
         </div>
         <div class="panel-actions__button">
           <FileUpload
