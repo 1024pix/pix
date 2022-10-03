@@ -6,7 +6,6 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Acceptance | API | Certifications', function () {
   describe('POST /api/admin/complementary-certification-course-results', function () {
@@ -14,11 +13,11 @@ describe('Acceptance | API | Certifications', function () {
       // given
       const server = await createServer();
       const badge = databaseBuilder.factory.buildBadge({
-        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+        key: 'BADGE_KEY',
       });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
-        name: 'Pix+Edu',
+        name: 'Pix+ Test',
       });
       databaseBuilder.factory.buildCertificationCourse({
         id: 456,
