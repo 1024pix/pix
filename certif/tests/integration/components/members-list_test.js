@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 
@@ -15,14 +15,14 @@ module('Integration | Component | members-list', function (hooks) {
     this.set('members', members);
 
     // when
-    await render(hbs`<MembersList @members={{this.members}} />`);
+    const screen = await renderScreen(hbs`<MembersList @members={{this.members}} />`);
 
     // then
-    assert.contains('Nom');
-    assert.contains('Prénom');
-    assert.contains('Maria');
-    assert.contains('Carré');
-    assert.contains('John');
-    assert.contains('Williams');
+    assert.dom(screen.getByText('Nom')).exists();
+    assert.dom(screen.getByText('Prénom')).exists();
+    assert.dom(screen.getByText('Maria')).exists();
+    assert.dom(screen.getByText('Carré')).exists();
+    assert.dom(screen.getByText('John')).exists();
+    assert.dom(screen.getByText('Williams')).exists();
   });
 });
