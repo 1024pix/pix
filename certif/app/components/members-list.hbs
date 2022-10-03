@@ -6,7 +6,9 @@
           <tr>
             <th class="table__column table__column--small">Nom</th>
             <th class="table__column table__column--small">Prénom</th>
-            <th class="table__column table__column--small">Référent</th>
+            {{#if this.shouldDisplayRefererColumn}}
+              <th class="table__column table__column--small">Référent</th>
+            {{/if}}
           </tr>
         </thead>
 
@@ -15,7 +17,7 @@
             <tr aria-label="Membres du centre de certification">
               <td>{{member.lastName}}</td>
               <td>{{member.firstName}}</td>
-              {{#if member.isReferer}}
+              {{#if (and this.shouldDisplayRefererColumn member.isReferer)}}
                 <td>
                   <div class="members-list__is-referer">
                     <PixTag class="members-list__tag" @color="blue-light">
