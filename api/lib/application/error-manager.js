@@ -462,6 +462,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
 
+  if (error instanceof DomainErrors.InvalidJuryLevelError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
