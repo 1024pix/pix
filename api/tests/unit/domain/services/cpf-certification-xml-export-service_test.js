@@ -1,7 +1,7 @@
 const { expect, domainBuilder, sinon, streamToPromise } = require('../../../test-helper');
 const { PassThrough } = require('stream');
 const proxyquire = require('proxyquire');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const cpfCertificationXmlExportService = proxyquire(
   '../../../../lib/domain/services/cpf-certification-xml-export-service',
   {
@@ -17,7 +17,8 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers();
+    const now = dayjs('2022-02-01T10:43:27').toDate();
+    clock = sinon.useFakeTimers(now);
   });
 
   afterEach(function () {
@@ -25,7 +26,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
   });
 
   describe('getXmlExport', function () {
-    it('should return an writable stream with cpf certification results', async function () {
+    it('should return a writable stream with cpf certification results', async function () {
       // given
       const firstCpfCertificationResult = domainBuilder.buildCpfCertificationResult({
         id: 1234,
@@ -68,13 +69,12 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
       cpfCertificationXmlExportService.buildXmlExport({
         cpfCertificationResults: [firstCpfCertificationResult, secondCpfCertificationResult],
         writableStream,
-        opts: { prettyPrint: true },
       });
 
       //then
       const expectedXmlExport = _getExpectedXmlExport();
       const xmlExport = await streamToPromise(writableStream);
-      expect(xmlExport).to.equal(expectedXmlExport);
+      expect(xmlExport).to.equal(expectedXmlExport.replace(/\n| {2}/g, ''));
     });
   });
 });
@@ -86,7 +86,7 @@ function _getExpectedXmlExport() {
     5d079a5d-0a4d-45ac-854d-256b01cacdfe
   </cpf:idFlux>
   <cpf:horodatage>
-    ${moment(new Date()).format('YYYY-MM-DDThh:mm:ssZ')}
+    2022-02-01T10:43:27+01:00
   </cpf:horodatage>
   <cpf:emetteur>
     <cpf:idClient>
