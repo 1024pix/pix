@@ -26,7 +26,33 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           expect(targetProfileForSpecifier.tubeCount).to.equal(2);
         });
       });
+      // TODO remove it after target profile tube migration to target-profile_tubes
+      context('when target profile has skills and tubes', function () {
+        it('returns the count of tube', async function () {
+          const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
+          const skill2 = domainBuilder.buildSkill({ id: 'skill2', tubeId: 'tube2' });
+          const skill3 = domainBuilder.buildSkill({ id: 'skill3', tubeId: 'tube2' });
+          const tube1 = domainBuilder.buildTube({ id: 'tube1', skills: [skill1] });
+          const tube2 = domainBuilder.buildTube({ id: 'tube2', skills: [skill2, skill3] });
+          const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
+          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
+          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill1.id });
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill2.id });
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill3.id });
 
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+
+          mockLearningContent({ skills: [skill1, skill2, skill3], tubes: [tube1, tube2] });
+          await databaseBuilder.commit();
+
+          const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+            organizationId
+          );
+
+          expect(targetProfileForSpecifier.tubeCount).to.equal(2);
+        });
+      });
       context('when target profile has tubes', function () {
         it('returns the count of tube', async function () {
           const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
