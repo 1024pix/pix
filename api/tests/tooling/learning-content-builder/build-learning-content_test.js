@@ -78,7 +78,6 @@ describe('Integration | buildLearningContent', function () {
     // then
     const areas = await areaDatasource.list();
     const competences = await competenceDatasource.list();
-    const frameworks = await frameworkDatasource.list();
     expect(areas[0].competenceIds).to.deep.equal(['recArea1_Competence1', 'recArea1_Competence2']);
     expect(areas[1].competenceIds).to.deep.equal(['recArea2_Competence1', 'recArea2_Competence2']);
     expect(competences[0].id).to.deep.equal('recArea1_Competence1');

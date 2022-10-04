@@ -139,7 +139,11 @@ module.exports = {
     const learningContent = await usecases.getLearningContentByTargetProfile({ targetProfileId, language });
     const pdfBuffer = await learningContentPDFPresenter.present(learningContent, title, language);
 
-    const fileName = 'referentiel-du-profil-cible.pdf';
+    const date = new Date();
+    const dateString = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    const timeString = date.getHours() + '-' + date.getMinutes();
+    const fileName = `${title}_${dateString}_${timeString}.pdf`;
+
     return h
       .response(pdfBuffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)

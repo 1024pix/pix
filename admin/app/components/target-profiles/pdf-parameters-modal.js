@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class PdfParametersModal extends Component {
   @tracked language = null;
-  @tracked title = null;
   @tracked errorMessage = null;
   constructor() {
     super(...arguments);
@@ -23,12 +22,7 @@ export default class PdfParametersModal extends Component {
     }
 
     this.errorMessage = null;
-    this.args.onDownloadButtonClicked(this.language, this.title);
-  }
-
-  @action
-  onChangeTitle(event) {
-    this.title = event.target.value;
+    this.args.onDownloadButtonClicked(this.language, this.args.name);
   }
 
   @action
@@ -37,6 +31,6 @@ export default class PdfParametersModal extends Component {
   }
 
   _isInvalid() {
-    return !this.language?.trim() && !this.title?.trim();
+    return !this.language?.trim();
   }
 }

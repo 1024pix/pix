@@ -768,7 +768,7 @@ describe('Acceptance | Route | target-profiles', function () {
     it('should return 200 and the pdf file', async function () {
       const options = {
         method: 'GET',
-        url: `/api/admin/target-profiles/${targetProfileId}/learning-content-pdf?language=fr&title='un titre'`,
+        url: `/api/admin/target-profiles/${targetProfileId}/learning-content-pdf?language=fr&title=targetProfileName`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
 
@@ -777,7 +777,8 @@ describe('Acceptance | Route | target-profiles', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.headers['content-disposition']).to.equal('attachment; filename=referentiel-du-profil-cible.pdf');
+      expect(response.headers['content-disposition'].startsWith('attachment; filename=targetProfileName_')).to.be.true;
+      expect(response.headers['content-disposition'].endsWith('.pdf')).to.be.true;
       expect(response.headers['content-type']).to.equal('application/pdf');
     });
   });

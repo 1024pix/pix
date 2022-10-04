@@ -274,7 +274,8 @@ describe('Unit | Controller | target-profile-controller', function () {
       const response = await targetProfileController.getLearningContentAsPdf(request, hFake);
 
       // then
-      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=referentiel-du-profil-cible.pdf');
+      expect(response.headers['Content-Disposition'].startsWith('attachment; filename=titre du doc_')).to.be.true;
+      expect(response.headers['Content-Disposition'].endsWith('.pdf')).to.be.true;
       expect(response.headers['Content-Type']).to.equal('application/pdf');
       expect(response.source).to.equal(pdfBuffer);
     });

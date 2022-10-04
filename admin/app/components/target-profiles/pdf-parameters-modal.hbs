@@ -1,13 +1,5 @@
 <PixModal @title="Paramètres du PDF" @onCloseButtonClick={{@onCloseButtonClicked}}>
   <:content>
-    <PixInput
-      @id="pdfParameterTitle"
-      value={{this.title}}
-      {{on "change" this.onChangeTitle}}
-      @label="Titre dans le document :"
-      @errorMessage={{this.errorMessage}}
-      {{focus}}
-    />
     <PixSelect
       @id="pdfParameterLanguage"
       @selectedOption={{this.language}}
@@ -16,7 +8,6 @@
       @label="Langue du référentiel (fr ou en) :"
     />
   </:content>
-
   <:footer>
     <PixButton
       @type="submit"
