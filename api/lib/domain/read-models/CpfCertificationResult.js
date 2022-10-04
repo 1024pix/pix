@@ -9,6 +9,7 @@ class CpfCertificationResult {
     sex,
     birthINSEECode,
     birthPostalCode,
+    birthplace,
     publishedAt,
     pixScore,
     competenceMarks,
@@ -20,6 +21,7 @@ class CpfCertificationResult {
     this.sex = sex;
     this.birthINSEECode = birthINSEECode;
     this.birthPostalCode = birthPostalCode;
+    this.birthplace = birthplace;
     this.publishedAt = publishedAt;
     this.pixScore = pixScore;
     this.competenceMarks = competenceMarks;

@@ -35,6 +35,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         sex: 'M',
         birthINSEECode: null,
         birthPostalCode: '75002',
+        birthplace: 'PARIS',
         publishedAt: '2022-01-03',
         pixScore: 324,
         competenceMarks: [
@@ -51,6 +52,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         sex: 'F',
         birthINSEECode: '75114',
         birthPostalCode: null,
+        birthplace: 'PARIS 14',
         publishedAt: '2022-01-07',
         pixScore: 512,
         competenceMarks: [
@@ -192,6 +194,9 @@ function _getExpectedXmlExport() {
                         </cpf:codePostal>
                       </cpf:codePostalNaissance>
                     </cpf:codeCommuneNaissance>
+                    <cpf:libelleCommuneNaissance>
+                      PARIS
+                    </cpf:libelleCommuneNaissance>
                   </cpf:titulaire>
                 </cpf:identificationTitulaire>
               </cpf:passageCertification>
@@ -290,6 +295,9 @@ function _getExpectedXmlExport() {
                         </cpf:codeInsee>
                       </cpf:codeInseeNaissance>
                     </cpf:codeCommuneNaissance>
+                    <cpf:libelleCommuneNaissance>
+                      PARIS 14
+                    </cpf:libelleCommuneNaissance>
                   </cpf:titulaire>
                 </cpf:identificationTitulaire>
               </cpf:passageCertification>
