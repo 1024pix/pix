@@ -36,6 +36,12 @@ class CpfCertificationResult {
     if (this.birthINSEECode === 'NULL' || this.birthINSEECode.length !== 5) return null;
     return this.birthINSEECode;
   }
+
+  get countryCode() {
+    if (!this.birthINSEECode) return null;
+    if (!this.birthINSEECode.startsWith('99')) return null;
+    return this.birthINSEECode.slice(2);
+  }
 }
 
 module.exports = CpfCertificationResult;

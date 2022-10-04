@@ -67,4 +67,45 @@ describe('Unit | Domain | Read-Models | CpfCertificationResult', function () {
       });
     });
   });
+
+  context('#countryCode', function () {
+    context('when birth insee code is null', function () {
+      it('should return null', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthINSEECode: null });
+
+        // when
+        const countryCode = cpfCertificationResult.countryCode;
+
+        // then
+        expect(countryCode).to.be.null;
+      });
+    });
+
+    context('when birth insee code does not start by "99"', function () {
+      it('should return null', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthINSEECode: '75115' });
+
+        // when
+        const countryCode = cpfCertificationResult.countryCode;
+
+        // then
+        expect(countryCode).to.be.null;
+      });
+    });
+
+    context('when birth insee code starts by "99"', function () {
+      it('should return the 3 last characters', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthINSEECode: '99250' });
+
+        // when
+        const countryCode = cpfCertificationResult.countryCode;
+
+        // then
+        expect(countryCode).to.equal('250');
+      });
+    });
+  });
 });
