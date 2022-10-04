@@ -1,5 +1,6 @@
 const { isObject, values } = require('lodash');
 const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
+const { logErrorWithCorrelationIds } = require('../../monitoring-tools');
 const fs = require('fs');
 const fsPromises = fs.promises;
 const Path = require('path');
@@ -19,7 +20,6 @@ const _ = require('lodash');
   puis un nom de fichier ne commençant pas par un point et se terminant par .xml.
  */
 const VALID_FILE_NAME_REGEX = /^([^.][^/]*\/)*[^./][^/]*\.xml$/;
-const logger = require('../../logger');
 const ERRORS = {
   INVALID_FILE: 'INVALID_FILE',
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
@@ -28,7 +28,7 @@ const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
 
 class SiecleFileStreamer {
-  static async create(path, injectedLogger = logger) {
+  static async create(path, logError = logErrorWithCorrelationIds) {
     let filePath = path;
     let directory = undefined;
     if (await _isFileZipped(path)) {
@@ -36,15 +36,15 @@ class SiecleFileStreamer {
       filePath = await _unzipFile(directory, path);
     }
     const encoding = await _detectEncoding(filePath);
-    const stream = new SiecleFileStreamer(filePath, encoding, directory, injectedLogger);
+    const stream = new SiecleFileStreamer(filePath, encoding, directory, logError);
     return stream;
   }
 
-  constructor(path, encoding, directory, logger) {
+  constructor(path, encoding, directory, logError) {
     this.path = path;
     this.encoding = encoding;
     this.directory = directory;
-    this.logger = logger;
+    this.logError = logError;
   }
 
   async perform(callback) {
@@ -53,7 +53,7 @@ class SiecleFileStreamer {
 
   async _callbackAsPromise(callback) {
     return new Promise((resolve, reject) => {
-      const saxStream = _getSaxStream(this.path, this.encoding, reject, this.logger);
+      const saxStream = _getSaxStream(this.path, this.encoding, reject, this.logError);
       callback(saxStream, resolve, reject);
     });
   }
@@ -93,7 +93,7 @@ async function _getFileToExtractName(zipStream) {
   const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
   if (validFiles.length != 1) {
     zipStream.close();
-    logger.error({ ERROR: ERRORS.INVALID_FILE, entries });
+    logErrorWithCorrelationIds({ ERROR: ERRORS.INVALID_FILE, entries });
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
   return validFiles[0];
@@ -112,14 +112,14 @@ async function _readFirstLine(path) {
     await file.read(buffer, 0, 128, 0);
     file.close();
   } catch (err) {
-    logger.error(err);
+    logErrorWithCorrelationIds(err);
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
 
   return buffer;
 }
 
-function _getSaxStream(path, encoding, reject, logger) {
+function _getSaxStream(path, encoding, reject, logError) {
   let inputStream;
   try {
     inputStream = fs.createReadStream(path);
@@ -128,13 +128,13 @@ function _getSaxStream(path, encoding, reject, logger) {
   }
 
   inputStream.on('error', (err) => {
-    logger.error(err);
+    logError(err);
     return reject(new FileValidationError(ERRORS.INVALID_FILE));
   });
 
   const decodeStream = getDecodingStream(encoding);
   decodeStream.on('error', (err) => {
-    logger.error(err);
+    logError(err);
     return reject(new FileValidationError(ERRORS.ENCODING_NOT_SUPPORTED));
   });
 
@@ -142,11 +142,10 @@ function _getSaxStream(path, encoding, reject, logger) {
   saxParser.on(
     'error',
     _.once((err) => {
-      logger.error(err);
+      logError(err);
       reject(new FileValidationError(ERRORS.INVALID_FILE));
     })
   );
-
   return inputStream.pipe(decodeStream).pipe(saxParser);
 }
 
@@ -154,7 +153,7 @@ function getDecodingStream(encoding) {
   try {
     return iconv.decodeStream(encoding);
   } catch (err) {
-    logger.error(err);
+    logErrorWithCorrelationIds(err);
     throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
   }
 }
