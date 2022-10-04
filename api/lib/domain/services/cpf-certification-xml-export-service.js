@@ -52,6 +52,7 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
         sex,
         inseeCode,
         birthPostalCode,
+        birthplace,
         europeanNumericLevels,
       }) {
         const [yearOfBirth, monthOfBirth, dayOfBirth] = birthdate.split('-');
@@ -108,7 +109,9 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
                       .ele('cpf:codePostal', { 'xsi:nil': true }).up()
                     .up();
         }
-        xmlBuilder.up().up().up().up();
+        xmlBuilder.up()
+          .ele('cpf:libelleCommuneNaissance').txt(birthplace).up();
+        xmlBuilder.up().up().up();
       }
     )
     .then(() => {
