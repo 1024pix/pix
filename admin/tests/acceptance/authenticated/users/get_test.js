@@ -42,8 +42,10 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   test('should display user detail information page', async function (assert) {
-    // when
+    // given
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+
+    // when
     const screen = await visit(`/users/${user.id}`);
 
     // then
