@@ -1,5 +1,6 @@
 const monitoringTools = require('../../infrastructure/monitoring-tools');
 const ParticipationResultCalculationJob = require('../jobs/campaign-result/ParticipationResultCalculationJob');
+const SendSharedParticipationResultsToPoleEmploiJob = require('../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob');
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);
@@ -12,6 +13,9 @@ function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
+    sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
+      domainTransaction.knexTransaction
+    ),
   };
 }
 

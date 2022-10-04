@@ -1,9 +1,9 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
-const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-const { handlePoleEmploiParticipationShared } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const { expect, sinon, domainBuilder } = require('../../../../test-helper');
+const CampaignParticipationResultsShared = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
+const PoleEmploiSending = require('../../../../../lib/domain/models/PoleEmploiSending');
+const SendSharedParticipationResultsToPoleEmploiHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
 
-describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', function () {
+describe('Unit | Infrastructure | Jobs | SendSharedParticipationResultsToPoleEmploiHandler', function () {
   let event, dependencies, expectedResults;
   let campaignRepository,
     campaignParticipationRepository,
@@ -94,17 +94,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
     sinon.restore();
   });
 
-  it('fails when event is not of correct type', async function () {
-    // given
-    const event = 'not an event of the correct type';
-    // when / then
-    const error = await catchErr(handlePoleEmploiParticipationShared)({ event, ...dependencies });
-
-    // then
-    expect(error).not.to.be.null;
-  });
-
-  context('#handlePoleEmploiParticipationShared', function () {
+  context('#handle', function () {
     let campaignId, campaignParticipationId, userId, organizationId;
 
     beforeEach(function () {
@@ -182,11 +172,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
           })
           .returns(poleEmploiSending);
 
+        //given
+        const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler(
+          dependencies
+        );
+
         // when
-        await handlePoleEmploiParticipationShared({
-          event,
-          ...dependencies,
-        });
+        await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
 
         // then
         expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
@@ -215,11 +207,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
       });
 
       it('should not notify to Pole Emploi', async function () {
+        //given
+        const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler(
+          dependencies
+        );
+
         // when
-        await handlePoleEmploiParticipationShared({
-          event,
-          ...dependencies,
-        });
+        await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
 
         // then
         sinon.assert.notCalled(poleEmploiNotifier.notify);
@@ -246,11 +240,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
       });
 
       it('should not notify to Pole Emploi', async function () {
+        //given
+        const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler(
+          dependencies
+        );
+
         // when
-        await handlePoleEmploiParticipationShared({
-          event,
-          ...dependencies,
-        });
+        await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
 
         // then
         sinon.assert.notCalled(poleEmploiNotifier.notify);
