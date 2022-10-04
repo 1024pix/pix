@@ -53,6 +53,7 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
         inseeCode,
         birthPostalCode,
         birthplace,
+        countryCode,
         europeanNumericLevels,
       }) {
         const [yearOfBirth, monthOfBirth, dayOfBirth] = birthdate.split('-');
@@ -111,6 +112,10 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
         }
         xmlBuilder.up()
           .ele('cpf:libelleCommuneNaissance').txt(birthplace).up();
+        if (countryCode) {
+          xmlBuilder.ele('cpf:codePaysNaissance').txt(countryCode).up();
+        }
+
         xmlBuilder.up().up().up();
       }
     )
