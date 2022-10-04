@@ -23,4 +23,14 @@ const logger = pino(
   prettyPrint
 );
 
+if (logSettings.enabled) {
+  // we use console.log because the logger itself will not log any message
+  // eslint-disable-next-line no-console
+  console.log(`Logging level: ${logSettings.logLevel}`);
+} else {
+  // we use console.log because the logger itself will not log any message is loggingLevel is below INFO
+  // eslint-disable-next-line no-console
+  console.log(`Logging is disabled`);
+}
+
 module.exports = logger;
