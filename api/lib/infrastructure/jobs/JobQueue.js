@@ -1,3 +1,4 @@
+const { teamSize, teamConcurrency } = require('../../config').pgBoss;
 class JobQueue {
   constructor(pgBoss, dependenciesBuilder) {
     this.pgBoss = pgBoss;
@@ -5,7 +6,7 @@ class JobQueue {
   }
 
   performJob(name, handlerClass) {
-    this.pgBoss.work(name, async (job) => {
+    this.pgBoss.work(name, { teamSize, teamConcurrency }, async (job) => {
       const handler = this.dependenciesBuilder.build(handlerClass);
       const promise = handler
         .handle(job.data)

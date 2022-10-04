@@ -53,7 +53,6 @@ const handlersToBeInjected = {
   handleCertificationRescoring: require('./handle-certification-rescoring'),
   handleComplementaryCertificationsScoring: require('./handle-complementary-certifications-scoring'),
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
-  handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
   handleSessionFinalized: require('./handle-session-finalized'),
 };
