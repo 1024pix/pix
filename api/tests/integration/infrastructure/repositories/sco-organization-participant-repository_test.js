@@ -132,6 +132,31 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
       ]);
     });
 
+    it('should return sco participants with deleted participations', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+      }).id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        isDisabled: false,
+        organizationId: organization.id,
+      }).id;
+
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, deletedAt: new Date() });
+
+      await databaseBuilder.commit();
+
+      // when
+      const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(data).to.have.lengthOf(1);
+      expect(data[0].id).to.equal(organizationLearnerId);
+    });
+
     describe('When organizationLearner is filtered', function () {
       it('should return sco participants filtered by search', async function () {
         // given
