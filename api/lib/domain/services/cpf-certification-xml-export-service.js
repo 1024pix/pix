@@ -50,7 +50,7 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
         lastName,
         birthdate,
         sex,
-        birthINSEECode,
+        inseeCode,
         birthPostalCode,
         europeanNumericLevels,
       }) {
@@ -95,9 +95,9 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
               .ele('cpf:sexe').txt(sex).up()
               .ele('cpf:codeCommuneNaissance')
 
-        if (birthINSEECode) {
+        if (inseeCode) {
           xmlBuilder.ele('cpf:codeInseeNaissance')
-                      .ele('cpf:codeInsee').txt(birthINSEECode).up()
+                      .ele('cpf:codeInsee').txt(inseeCode).up()
                     .up();
         } else if (birthPostalCode) {
           xmlBuilder.ele('cpf:codePostalNaissance')
