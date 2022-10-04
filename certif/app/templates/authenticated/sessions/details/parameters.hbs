@@ -127,7 +127,11 @@
       </div>
     {{else}}
       <div class="session-details-buttons">
-        <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}}>
+        <PixButtonLink
+          @route="authenticated.sessions.update"
+          @model={{this.session.id}}
+          aria-label="Modifier les informations de la session {{this.session.id}}"
+        >
           Modifier
         </PixButtonLink>
       </div>
