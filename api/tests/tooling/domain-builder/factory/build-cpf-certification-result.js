@@ -9,6 +9,7 @@ module.exports = function buildCpfCertificationResult({
   birthINSEECode = '75115',
   birthPostalCode = '75015',
   birthplace = 'PARIS',
+  birthCountry = 'FRANCE',
   publishedAt = new Date(),
   pixScore = 100,
   competenceMarks = [
@@ -25,6 +26,7 @@ module.exports = function buildCpfCertificationResult({
     birthINSEECode,
     birthPostalCode,
     birthplace,
+    birthCountry,
     publishedAt,
     pixScore,
     competenceMarks,
