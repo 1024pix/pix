@@ -3,7 +3,7 @@ const skillDataSource = require('../../datasources/learning-content/skill-dataso
 const TargetProfileForSpecifier = require('../../../domain/read-models/campaign/TargetProfileForSpecifier');
 const bluebird = require('bluebird');
 const _ = require('lodash');
-const { uniqBy } = require('lodash');
+const { uniq, uniqBy } = require('lodash');
 
 async function availableForOrganization(organizationId) {
   const targetProfileRows = await _fetchTargetProfiles(organizationId);
@@ -46,7 +46,7 @@ function _fetchTargetProfiles(organizationId) {
 async function _buildTargetProfileForSpecifier(row) {
   let tubeCount;
   if (row.tubeIds?.[0] != null) {
-    tubeCount = row.tubeIds.length;
+    tubeCount = uniq(row.tubeIds).length;
   } else {
     // TODO remove it after target profile tube migration to target-profile_tubes
     const skills = await skillDataSource.findByRecordIds(row.skillIds);
