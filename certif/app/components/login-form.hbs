@@ -1,60 +1,55 @@
-<div class="login-form">
+<div class="login">
 
-  <div>
+  <header class="login__header">
     <img src="/pix-certif-logo.svg" alt="Pix Certif" />
-  </div>
 
-  <div>
+    <h1 class="login-header__title">Connectez-vous</h1>
 
-    <h1 class="login-form__title">Connectez-vous</h1>
-
-    <p class="login-form__information paragraph">
+    <p class="login-header__information paragraph">
       L'accès à Pix Certif est limité aux centres de certification Pix.
     </p>
+  </header>
 
-    {{#if this.isErrorMessagePresent}}
-      <div id="login-form-error-message" class="login-form__error-message error-message">
-        {{this.errorMessage}}
-      </div>
-    {{/if}}
+  <main class="login__main">
 
-    <form {{on "submit" this.authenticate}}>
+    <form class="login-main__form" {{on "submit" this.authenticate}}>
 
-      <div class="login-form__input-container">
-        <PixInput
-          @id="login-email"
-          name="login"
-          @label="Adresse e-mail"
-          autocomplete="email"
-          type="email"
-          required="true"
-          {{on "input" this.setEmail}}
-        />
-      </div>
+      <p class="login-main-form__mandatory-information paragraph">
+        Tous les champs sont obligatoires.
+      </p>
 
-      <div class="login-form__input-container">
-        <PixInputPassword
-          @id="login-password"
-          name="password"
-          @label="Mot de passe"
-          autocomplete="current-password"
-          required="true"
-          {{on "input" this.setPassword}}
-        />
-      </div>
+      <PixInput
+        @id="login-email"
+        name="login"
+        @label="Adresse e-mail"
+        autocomplete="email"
+        type="email"
+        required="true"
+        {{on "input" this.setEmail}}
+      />
 
-      <div class="login-form__input-container">
-        <PixButton @type="submit">
-          Je me connecte
-        </PixButton>
-      </div>
+      <PixInputPassword
+        @id="login-password"
+        name="password"
+        @label="Mot de passe"
+        autocomplete="current-password"
+        required="true"
+        {{on "input" this.setPassword}}
+      />
 
-      <div class="login-form__forgotten-password one-line-text">
+      {{#if this.isErrorMessagePresent}}
+        <div class="error-message">
+          <p>{{this.errorMessage}}</p>
+        </div>
+      {{/if}}
+
+      <PixButton @type="submit">
+        Je me connecte
+      </PixButton>
+
+      <div class="login-main-form__forgotten-password">
         <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer">Mot de passe oublié ?</a>
       </div>
-
     </form>
-
-  </div>
-
+  </main>
 </div>

@@ -1,8 +1,5 @@
-.login-form {
-  display: flex;
-  flex-direction: column;
+.login {
   margin: auto;
-  align-items: center;
   background-color: $pix-neutral-0;
   border-radius: 10px;
   padding: 20px 30px;
@@ -12,8 +9,18 @@
     padding: 40px 60px;
   }
 
-  &__title {
+  &__header {
     text-align: center;
+  }
+
+  &__main {
+    width: 100%;
+  }
+}
+
+.login-header {
+
+  &__title {
     font-family: $font-open-sans;
     font-weight: 400;
     font-size: 2rem;
@@ -24,32 +31,32 @@
 
   &__information {
     margin-bottom: 32px;
-    text-align: center;
     font-family: $font-roboto;
     max-width: 400px;
     width: 100%;
   }
+}
 
-  &__error-message {
-    margin-bottom: 10px;
-    text-align: center;
-    font-size: 0.875rem;
-  }
+.login-main {
 
-  &__input-container {
+  &__form {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 16px;
+    gap: $spacing-s;
+  }
+}
+
+.login-main-form {
+
+  &__mandatory-information {
+    text-align: center;
+    font-family: $font-roboto;
+    color: $pix-neutral-80;
   }
 
   &__button {
     margin-top: 8px;
     font-size: 0.875rem;
-  }
-
-  form {
-    margin: auto;
   }
 
   &__forgotten-password {
@@ -66,63 +73,6 @@
       &:visited {
         text-decoration: underline;
         color: $pix-communication-dark;
-      }
-    }
-  }
-
-  &__input-field {
-    display: flex;
-    height: 42px;
-    border-radius: 3px;
-    align-items: center;
-    background-color: $pix-neutral-0;
-    border: 2px solid $pix-neutral-20;
-
-    &:focus-within {
-      border: 2px solid $pix-communication-dark;
-    }
-
-    input {
-      height: 40px;
-      flex-grow: 1;
-      border: none;
-      border-radius: 3px;
-      outline: none;
-      padding: 0 10px;
-      font-size: 1rem;
-
-      &:focus {
-        outline: 0;
-        border: none;
-      }
-
-      &::-ms-clear,
-      &::-ms-reveal {
-        display: none;
-      }
-    }
-  }
-
-  &__icon {
-    height: 20px;
-    width: 38px;
-    display: flex;
-    border: none;
-    background: none;
-    padding: 0;
-  }
-
-  &-icon {
-
-    &__eye {
-      color: $pix-neutral-45;
-      transition: 0.5s;
-      font-size: 1.1rem;
-      margin-top: 2px;
-
-      &:hover {
-        color: $pix-neutral-80;
-        cursor: pointer;
       }
     }
   }
