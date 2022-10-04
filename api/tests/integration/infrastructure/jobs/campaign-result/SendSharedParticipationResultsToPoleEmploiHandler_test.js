@@ -6,24 +6,20 @@ const {
   learningContentBuilder,
   sinon,
 } = require('../../../../test-helper');
+
+const poleEmploiNotifier = require('../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
+const dependenciesBuilder = require('../../../../../lib/infrastructure/jobs/JobDependenciesBuilder');
 const SendSharedParticipationResultsToPoleEmploiHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
-const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignRepository = require('../../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const campaignParticipationResultRepository = require('../../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
-const organizationRepository = require('../../../../../lib/infrastructure/repositories/organization-repository');
-const poleEmploiSendingRepository = require('../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
-const targetProfileRepository = require('../../../../../lib/infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../../../../lib/infrastructure/repositories/user-repository');
 const CampaignParticipationResultsSharedEvent = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
 
-describe('Integration | Jon | SendSharedParticipationResultsToPoleEmploi', function () {
-  let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;
+describe('Integration | Job | SendSharedParticipationResultsToPoleEmploi', function () {
+  let campaignParticipationId, userId, event, responseCode;
 
   describe('#handle', function () {
     beforeEach(async function () {
       responseCode = Symbol('responseCode');
-      poleEmploiNotifier = { notify: sinon.stub().resolves({ isSuccessful: true, code: responseCode }) };
+      sinon.stub(poleEmploiNotifier, 'notify');
+      poleEmploiNotifier.notify.resolves({ isSuccessful: true, code: responseCode });
 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId });
@@ -41,7 +37,6 @@ describe('Integration | Jon | SendSharedParticipationResultsToPoleEmploi', funct
 
       const learningContentObjects = learningContentBuilder.buildLearningContent([]);
       mockLearningContent(learningContentObjects);
-
       return databaseBuilder.commit();
     });
 
@@ -50,22 +45,10 @@ describe('Integration | Jon | SendSharedParticipationResultsToPoleEmploi', funct
     });
 
     it('should notify pole emploi and save success of this notification', async function () {
-      //given
-      const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler({
-        assessmentRepository,
-        campaignRepository,
-        campaignParticipationRepository,
-        campaignParticipationResultRepository,
-        organizationRepository,
-        poleEmploiSendingRepository,
-        targetProfileRepository,
-        userRepository,
-        poleEmploiNotifier,
-      });
-      // when
-      await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
+      const handler = dependenciesBuilder.build(SendSharedParticipationResultsToPoleEmploiHandler);
 
-      // then
+      await handler.handle({ campaignParticipationId });
+
       const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
       expect(poleEmploiSendings.length).to.equal(1);
       expect(poleEmploiSendings[0].responseCode).to.equal(responseCode.toString());
