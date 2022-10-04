@@ -32,14 +32,14 @@ module.exports = async function updateUserForAccountRecovery({
         shouldChangePassword: false,
       }),
     });
-    authenticationMethodRepository.create(
+    await authenticationMethodRepository.create(
       {
         authenticationMethod: authenticationMethodFromPix,
       },
       domainTransaction
     );
   } else {
-    authenticationMethodRepository.updateChangedPassword(
+    await authenticationMethodRepository.updateChangedPassword(
       {
         userId,
         hashedPassword,
