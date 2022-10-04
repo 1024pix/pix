@@ -5,4 +5,4 @@ postdeploy: npm run postdeploy
 # and https://github.com/npm/npm/issues/4603
 # for more information
 web: ./scripts/start.sh
-worker: exec node lib/application/run-jobs.js
+worker: exec node worker.js
