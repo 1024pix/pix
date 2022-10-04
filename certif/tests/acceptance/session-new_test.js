@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 
@@ -15,9 +16,7 @@ module('Acceptance | Session creation', function (hooks) {
     await visit('/sessions/creation');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/connexion');
+    assert.strictEqual(currentURL(), '/connexion');
   });
 
   module('when the user is authenticated', (hooks) => {
@@ -49,9 +48,7 @@ module('Acceptance | Session creation', function (hooks) {
         await visit('/sessions/creation');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -61,23 +58,23 @@ module('Acceptance | Session creation', function (hooks) {
       const sessionFormattedTime = '02/02/2019 13:45';
       const sessionTime = new Date(sessionFormattedTime);
 
-      await visit('/sessions/creation');
-      assert.dom('#session-address').exists();
-      assert.dom('#session-room').exists();
-      assert.dom('#session-date').exists();
-      assert.dom('#session-time').exists();
-      assert.dom('#session-examiner').exists();
-      assert.dom('#session-description').exists();
-      assert.dom('[data-test-id="session-form__submit-button"]').exists();
-      assert.dom('#session-description').hasAttribute('maxLength', '350');
+      const screen = await visit('/sessions/creation');
+      assert.dom(screen.getByRole('textbox', { name: 'Nom de la salle' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Surveillant(s)' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Nom du site' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Observations' })).hasAttribute('maxLength', '350');
+      assert.dom(screen.getByRole('textbox', { name: 'Heure de début (heure locale)' })).exists();
+      assert.dom(screen.getByText('Date de début')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Créer la session' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
 
-      await fillIn('#session-address', 'My address');
-      await fillIn('#session-room', 'My room');
-      await fillIn('#session-examiner', 'My examiner');
-      await fillIn('#session-description', 'My description');
+      await fillIn(screen.getByRole('textbox', { name: 'Nom du site' }), 'My address');
+      await fillIn(screen.getByRole('textbox', { name: 'Nom de la salle' }), 'My room');
+      await fillIn(screen.getByRole('textbox', { name: 'Surveillant(s)' }), 'My examiner');
+      await fillIn(screen.getByRole('textbox', { name: 'Observations' }), 'My description');
       await setFlatpickrDate('#session-date', sessionDate);
-      await setFlatpickrDate('#session-time', sessionTime);
-      await click('[data-test-id="session-form__submit-button"]');
+      await setFlatpickrDate(screen.getByRole('textbox', { name: 'Heure de début (heure locale)' }), sessionTime);
+      await click(screen.getByRole('button', { name: 'Créer la session' }));
 
       // then
       const session = server.schema.sessions.findBy({ date: sessionDate });
@@ -93,10 +90,10 @@ module('Acceptance | Session creation', function (hooks) {
     test('it should go back to sessions list on cancel without creating any sessions', async function (assert) {
       // given
       const previousSessionsCount = server.schema.sessions.all().length;
-      await visit('/sessions/creation');
+      const screen = await visit('/sessions/creation');
 
       // when
-      await click('[data-test-id="session-form__cancel-button"]');
+      await click(screen.getByRole('button', { name: 'Annuler' }));
 
       // then
       const actualSessionsCount = server.schema.sessions.all().length;
