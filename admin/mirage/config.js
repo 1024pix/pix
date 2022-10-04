@@ -99,13 +99,13 @@ export default function () {
 
   this.get('/admin/users');
 
-  this.get('/certification-centers');
-  this.get('/certification-centers/:id');
-  this.get('/certification-centers/:id/certification-center-memberships', (schema, request) => {
+  this.get('/admin/certification-centers');
+  this.get('/admin/certification-centers/:id');
+  this.get('/admin/certification-centers/:id/certification-center-memberships', (schema, request) => {
     const certificationCenterId = request.params.id;
     return schema.certificationCenterMemberships.where({ certificationCenterId });
   });
-  this.post('/certification-centers', (schema, request) => {
+  this.post('/admin/certification-centers', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const name = params.data.attributes.name;
     const type = params.data.attributes.type;
@@ -113,7 +113,7 @@ export default function () {
 
     return schema.certificationCenters.create({ name, type, externalId });
   });
-  this.post('/certification-centers/:id/certification-center-memberships', (schema, request) => {
+  this.post('/admin/certification-centers/:id/certification-center-memberships', (schema, request) => {
     const certificationCenterId = request.params.id;
     const params = JSON.parse(request.requestBody);
     const { email } = params;
@@ -127,7 +127,7 @@ export default function () {
     });
   });
 
-  this.delete('/certification-center-memberships/:id', (schema, request) => {
+  this.delete('/admin/certification-center-memberships/:id', (schema, request) => {
     const certificationCenterMembershipId = request.params.id;
     schema.db.certificationCenterMemberships.remove(certificationCenterMembershipId);
     return new Response(204);

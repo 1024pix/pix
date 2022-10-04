@@ -269,7 +269,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer les informations');
-      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
+      this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
       await fillByLabel('Nom du centre', 'nouveau nom');
@@ -299,7 +299,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer les informations');
-      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
+      this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
       await fillByLabel('Nom du centre', 'Centre des réussites');
@@ -322,7 +322,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
+      this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer les informations');
 

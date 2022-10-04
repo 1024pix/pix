@@ -111,7 +111,7 @@ describe('Acceptance | API | Certification Center Membership', function () {
     });
   });
 
-  describe('DELETE /api/certification-center-memberships/{id}', function () {
+  describe('DELETE /api/admin/certification-center-memberships/{id}', function () {
     it('should return 200 HTTP status', async function () {
       // given
       const now = new Date();
@@ -129,7 +129,7 @@ describe('Acceptance | API | Certification Center Membership', function () {
 
       const options = {
         method: 'DELETE',
-        url: `/api/certification-center-memberships/${certificationCenterMembershipId}`,
+        url: `/api/admin/certification-center-memberships/${certificationCenterMembershipId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
 
