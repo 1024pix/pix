@@ -28,6 +28,12 @@ class CpfCertificationResult {
   get europeanNumericLevels() {
     return EuropeanNumericLevelFactory.buildFromCompetenceMarks(this.competenceMarks);
   }
+
+  get inseeCode() {
+    if (!this.birthINSEECode) return null;
+    if (this.birthINSEECode === 'NULL' || this.birthINSEECode.length !== 5) return null;
+    return this.birthINSEECode;
+  }
 }
 
 module.exports = CpfCertificationResult;
