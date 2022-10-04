@@ -30,6 +30,9 @@ module('Integration | Component | certification-centers/information', function (
       type: 'SCO',
       externalId: 'AX129',
       isSupervisorAccessEnabled: false,
+      dataProtectionOfficerFirstName: 'Lucky',
+      dataProtectionOfficerLastName: 'Number',
+      dataProtectionOfficerEmail: 'lucky@example.net',
       habilitations: [availableHabilitations.firstObject],
     });
     this.certificationCenter = certificationCenter;
@@ -47,6 +50,8 @@ module('Integration | Component | certification-centers/information', function (
     assert.dom(screen.getByText('Centre SCO')).exists();
     assert.dom(screen.getByText('AX129')).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'non');
+    assert.dom(screen.getByText('Nom du DPO : Lucky Number')).exists();
+    assert.dom(screen.getByText('Adresse e-mail du DPO : lucky@example.net')).exists();
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
   });

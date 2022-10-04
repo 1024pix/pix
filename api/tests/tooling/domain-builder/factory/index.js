@@ -37,6 +37,7 @@ module.exports = {
   buildSCOCertificationCandidate: require('./build-sco-certification-candidate'),
   buildCertificationAttestation: require('./build-certification-attestation'),
   buildCertificationCenter: require('./build-certification-center'),
+  buildCertificationCenterForAdmin: require('./build-certification-center-for-admin'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
   buildCertificationChallengeWithType: require('./build-certification-challenge-with-type'),

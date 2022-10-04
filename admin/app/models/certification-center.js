@@ -11,6 +11,9 @@ export default class CertificationCenter extends Model {
   @attr() type;
   @attr() externalId;
   @attr('boolean') isSupervisorAccessEnabled;
+  @attr() dataProtectionOfficerFirstName;
+  @attr() dataProtectionOfficerLastName;
+  @attr() dataProtectionOfficerEmail;
 
   @hasMany('habilitation') habilitations;
 
@@ -20,5 +23,14 @@ export default class CertificationCenter extends Model {
 
   get supervisorAccessLabel() {
     return this.isSupervisorAccessEnabled ? 'oui' : 'non';
+  }
+
+  get dataProtectionOfficerFullName() {
+    const fullName = [];
+
+    if (this.dataProtectionOfficerFirstName) fullName.push(this.dataProtectionOfficerFirstName);
+    if (this.dataProtectionOfficerLastName) fullName.push(this.dataProtectionOfficerLastName);
+
+    return fullName.join(' ');
   }
 }

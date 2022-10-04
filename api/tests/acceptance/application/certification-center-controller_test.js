@@ -22,7 +22,7 @@ describe('Acceptance | API | Certification Center', function () {
     beforeEach(async function () {
       request = {
         method: 'GET',
-        url: '/api/certification-centers',
+        url: '/api/admin/certification-centers',
       };
     });
 
@@ -245,7 +245,7 @@ describe('Acceptance | API | Certification Center', function () {
     });
   });
 
-  describe('GET /api/certification-centers/{id}', function () {
+  describe('GET /api/admin/certification-centers/{id}', function () {
     let expectedCertificationCenter;
     beforeEach(async function () {
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({});
@@ -253,7 +253,7 @@ describe('Acceptance | API | Certification Center', function () {
       await databaseBuilder.commit();
       request = {
         method: 'GET',
-        url: '/api/certification-centers/' + expectedCertificationCenter.id,
+        url: '/api/admin/certification-centers/' + expectedCertificationCenter.id,
       };
     });
 
@@ -281,7 +281,7 @@ describe('Acceptance | API | Certification Center', function () {
 
       it('should return notFoundError when the certificationCenter not exist', async function () {
         // given
-        request.url = '/api/certification-centers/112334';
+        request.url = '/api/admin/certification-centers/112334';
 
         // when
         const response = await server.inject(request);
@@ -448,7 +448,7 @@ describe('Acceptance | API | Certification Center', function () {
     });
   });
 
-  describe('GET /api/certification-centers/{id}/certification-center-memberships', function () {
+  describe('GET /api/admin/certification-centers/{id}/certification-center-memberships', function () {
     context('when certification center membership is linked to the certification center', function () {
       it('should return 200 HTTP status', async function () {
         // given
@@ -466,7 +466,7 @@ describe('Acceptance | API | Certification Center', function () {
             authorization: generateValidRequestAuthorizationHeader(),
           },
           method: 'GET',
-          url: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+          url: `/api/admin/certification-centers/${certificationCenter.id}/certification-center-memberships`,
         });
 
         // then
@@ -494,7 +494,7 @@ describe('Acceptance | API | Certification Center', function () {
             authorization: generateValidRequestAuthorizationHeader(),
           },
           method: 'GET',
-          url: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+          url: `/api/admin/certification-centers/${certificationCenter.id}/certification-center-memberships`,
         });
 
         // then
@@ -599,7 +599,7 @@ describe('Acceptance | API | Certification Center', function () {
     });
   });
 
-  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
+  describe('POST /api/admin/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
     let certificationCenterId;
     let email;
 
@@ -614,7 +614,7 @@ describe('Acceptance | API | Certification Center', function () {
           authorization: generateValidRequestAuthorizationHeader(),
         },
         method: 'POST',
-        url: `/api/certification-centers/${certificationCenterId}/certification-center-memberships`,
+        url: `/api/admin/certification-centers/${certificationCenterId}/certification-center-memberships`,
         payload: { email },
       };
 
@@ -662,7 +662,7 @@ describe('Acceptance | API | Certification Center', function () {
     context('when certification center does not exist', function () {
       it('should return 404 HTTP status code', async function () {
         // given
-        request.url = '/api/certification-centers/1/certification-center-memberships';
+        request.url = '/api/admin/certification-centers/1/certification-center-memberships';
 
         // when
         const response = await server.inject(request);
