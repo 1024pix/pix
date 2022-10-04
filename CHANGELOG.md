@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.268.0 (04/10/2022)
+
+
+### :rocket: Amélioration
+- [#4907](https://github.com/1024pix/pix/pull/4907) [FEATURE] Ajout de logs associé a la requête lors de l'import siecle
+- [#5001](https://github.com/1024pix/pix/pull/5001) [FEATURE] Script de création de lien entre les formations et les profils cibles (PIX-5774)
+- [#5018](https://github.com/1024pix/pix/pull/5018) [FEATURE] Permettre de ne pas saisir de nombres négatifs dans un champ dans une épreuve sur Pix App (PIX-5815)
+
+### :building_construction: Tech
+- [#4990](https://github.com/1024pix/pix/pull/4990) [TECH] Envoyer les résultats de campagne à Pôle Emploi via PgBoss (PIX-5660).
+- [#4992](https://github.com/1024pix/pix/pull/4992) [TECH] Ajout d'une ligne de séparation entre les thématiques lors de la création d'un profil cible (PIX-5786).
+
+### :bug: Correction
+- [#5022](https://github.com/1024pix/pix/pull/5022) [BUGFIX] Empêcher le crash de l'API lors de l'appel /api/account-recovery (PIX-5830).
+- [#5021](https://github.com/1024pix/pix/pull/5021) [BUGFIX] Corriger l'affichage du nombre de sujets pour un profil-cible lors de la création d'une campagne (PIX-5829).
+- [#5012](https://github.com/1024pix/pix/pull/5012) [BUGFIX] Ne plus retirer un prescrit importé de l'onglet "élèves/étudiants" si on supprime toutes ses participations (PIX-5811)
+
 ## v3.267.0 (03/10/2022)
 
 
