@@ -50,9 +50,9 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         lastName: 'Porée',
         birthdate: '1992-11-03',
         sex: 'F',
-        birthINSEECode: '75114',
+        birthINSEECode: '99109',
         birthPostalCode: null,
-        birthplace: 'PARIS 14',
+        birthplace: 'BERLIN',
         publishedAt: '2022-01-07',
         pixScore: 512,
         competenceMarks: [
@@ -291,13 +291,16 @@ function _getExpectedXmlExport() {
                     <cpf:codeCommuneNaissance>
                       <cpf:codeInseeNaissance>
                         <cpf:codeInsee>
-                          75114
+                          99109
                         </cpf:codeInsee>
                       </cpf:codeInseeNaissance>
                     </cpf:codeCommuneNaissance>
                     <cpf:libelleCommuneNaissance>
-                      PARIS 14
+                      BERLIN
                     </cpf:libelleCommuneNaissance>
+                    <cpf:codePaysNaissance>
+                      109
+                    </cpf:codePaysNaissance>
                   </cpf:titulaire>
                 </cpf:identificationTitulaire>
               </cpf:passageCertification>
