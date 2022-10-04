@@ -1,6 +1,7 @@
 require('dotenv').config();
 const PgBoss = require('pg-boss');
 const config = require('./lib/config');
+const logger = require('./lib/infrastructure/logger');
 const JobQueue = require('./lib/infrastructure/jobs/JobQueue');
 const ParticipationResultCalculationJob = require('./lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob');
 const SendSharedParticipationResultsToPoleEmploiJob = require('./lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob');
@@ -32,4 +33,14 @@ async function runJobs() {
   await scheduleCpfJobs(pgBoss);
 }
 
-runJobs();
+const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
+const isEntryPointFromOtherFile = require.main.filename !== __filename;
+if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
+  runJobs();
+} else {
+  logger.error(
+    'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.'
+  );
+  // eslint-disable-next-line node/no-process-exit
+  process.exit(1);
+}
