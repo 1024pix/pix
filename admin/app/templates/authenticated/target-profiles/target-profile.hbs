@@ -154,6 +154,7 @@
     <TargetProfiles::PdfParametersModal
       @onDownloadButtonClicked={{this.downloadPDF}}
       @onCloseButtonClicked={{this.toggleDisplayPdfParametersModal}}
+      @name={{@model.name}}
     />
   {{/if}}
 </main>
