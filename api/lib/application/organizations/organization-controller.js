@@ -383,12 +383,21 @@ module.exports = {
 
   async getPaginatedParticipantsForAnOrganization(request) {
     const organizationId = request.params.id;
-    const options = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+
+    if (filters.certificability) {
+      if (!Array.isArray(filters.certificability)) {
+        filters.certificability = [filters.certificability];
+      }
+      filters.certificability = filters.certificability.map((value) => certificabilityByLabel[value]);
+    }
+
     const results = await usecases.getPaginatedParticipantsForAnOrganization({
       organizationId,
-      page: options.page,
-      filters: options.filter,
+      page,
+      filters,
     });
+
     return organizationParticipantsSerializer.serialize(results);
   },
 
