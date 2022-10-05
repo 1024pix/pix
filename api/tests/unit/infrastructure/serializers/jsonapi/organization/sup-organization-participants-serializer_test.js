@@ -21,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | sup-organization-participants-serializer
           campaignType: 'ASSESSMENT',
           participationStatus: campaignParticipationsStatuses.TO_SHARE,
           isCertifiable: true,
+          certifiableAt: new Date('2021-03-07'),
         }),
         new SupOrganizationParticipant({
           id: 778,
@@ -35,6 +36,7 @@ describe('Unit | Serializer | JSONAPI | sup-organization-participants-serializer
           campaignType: 'PROFILES_COLLECTION',
           participationStatus: campaignParticipationsStatuses.SHARED,
           isCertifiable: false,
+          certifiableAt: null,
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -58,6 +60,7 @@ describe('Unit | Serializer | JSONAPI | sup-organization-participants-serializer
               'campaign-type': supOrganizationParticipants[0].campaignType,
               'participation-status': supOrganizationParticipants[0].participationStatus,
               'is-certifiable': supOrganizationParticipants[0].isCertifiable,
+              'certifiable-at': supOrganizationParticipants[0].certifiableAt,
             },
           },
           {
@@ -75,6 +78,7 @@ describe('Unit | Serializer | JSONAPI | sup-organization-participants-serializer
               'campaign-type': supOrganizationParticipants[1].campaignType,
               'participation-status': supOrganizationParticipants[1].participationStatus,
               'is-certifiable': supOrganizationParticipants[1].isCertifiable,
+              'certifiable-at': supOrganizationParticipants[1].certifiableAt,
             },
           },
         ],

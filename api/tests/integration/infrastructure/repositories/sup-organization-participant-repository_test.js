@@ -1004,6 +1004,66 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         // then
         expect(isCertifiable).to.equal(campaignParticipation.isCertifiable);
       });
+
+      context('#certifiableAt', function () {
+        it('should return the date of the participation as certifiableAt property', async function () {
+          // given
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({
+            organizationId,
+            type: CampaignTypes.PROFILES_COLLECTION,
+          }).id;
+          const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            organizationLearnerId,
+            status: CampaignParticipationStatuses.SHARED,
+            sharedAt: new Date('2021-01-01'),
+            isCertifiable: true,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const {
+            data: [{ certifiableAt }],
+          } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+            organizationId,
+          });
+
+          // then
+          expect(certifiableAt).to.deep.equal(campaignParticipation.sharedAt);
+        });
+
+        it('should return null for certifiableAt property if the organization learner is not certifiable', async function () {
+          // given
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({
+            organizationId,
+            type: CampaignTypes.PROFILES_COLLECTION,
+          }).id;
+          const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            organizationLearnerId,
+            status: CampaignParticipationStatuses.SHARED,
+            sharedAt: new Date('2021-01-01'),
+            isCertifiable: false,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const {
+            data: [{ certifiableAt }],
+          } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+            organizationId,
+          });
+
+          // then
+          expect(certifiableAt).to.equal(null);
+        });
+      });
     });
   });
 });
