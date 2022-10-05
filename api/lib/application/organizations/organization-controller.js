@@ -30,11 +30,7 @@ const certificationResultUtils = require('../../infrastructure/utils/csv/certifi
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 
-const certificabilityByLabel = {
-  'not-available': null,
-  eligible: true,
-  'non-eligible': false,
-};
+const { mapCertificabilityByLabel } = require('./helpers');
 
 module.exports = {
   async getOrganizationDetails(request) {
@@ -255,10 +251,7 @@ module.exports = {
       filter.divisions = [filter.divisions];
     }
     if (filter.certificability) {
-      if (!Array.isArray(filter.certificability)) {
-        filter.certificability = [filter.certificability];
-      }
-      filter.certificability = filter.certificability.map((value) => certificabilityByLabel[value]);
+      filter.certificability = mapCertificabilityByLabel(filter.certificability);
     }
     const { data: scoOrganizationParticipants, meta } = await usecases.findPaginatedFilteredScoParticipants({
       organizationId,
@@ -386,10 +379,7 @@ module.exports = {
     const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
 
     if (filters.certificability) {
-      if (!Array.isArray(filters.certificability)) {
-        filters.certificability = [filters.certificability];
-      }
-      filters.certificability = filters.certificability.map((value) => certificabilityByLabel[value]);
+      filters.certificability = mapCertificabilityByLabel(filters.certificability);
     }
 
     const results = await usecases.getPaginatedParticipantsForAnOrganization({

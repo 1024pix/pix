@@ -803,13 +803,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response).to.deep.equal(serializedScoOrganizationParticipant);
     });
 
-    it('map the certificability eligible value', async function () {
+    it('map all certificability values', async function () {
       // given
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
         query: {
-          'filter[certificability][]': 'eligible',
+          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
         },
       };
       usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
@@ -821,76 +821,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
         organizationId,
-        filter: { certificability: [true] },
-        page: {},
-      });
-    });
-
-    it('map the certificability non-eligible value', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': 'non-eligible',
-        },
-      };
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
-      scoOrganizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
-        organizationId,
-        filter: { certificability: [false] },
-        page: {},
-      });
-    });
-
-    it('map the certificability not-available value', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': 'not-available',
-        },
-      };
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
-      scoOrganizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
-        organizationId,
-        filter: { certificability: [null] },
-        page: {},
-      });
-    });
-
-    it('map the all certificability values', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': ['eligible', 'not-available'],
-        },
-      };
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
-      scoOrganizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
-        organizationId,
-        filter: { certificability: [true, null] },
+        filter: { certificability: [true, false, null] },
         page: {},
       });
     });
@@ -1415,13 +1346,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response).to.deep.equal(expectedResponse);
     });
 
-    it('map the certificability eligible value', async function () {
+    it('map all certificability values', async function () {
       // given
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
         query: {
-          'filter[certificability][]': 'eligible',
+          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
         },
       };
       usecases.getPaginatedParticipantsForAnOrganization.resolves({ data: [] });
@@ -1433,76 +1364,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
         organizationId,
-        filters: { certificability: [true] },
-        page: {},
-      });
-    });
-
-    it('map the certificability non-eligible value', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': 'non-eligible',
-        },
-      };
-      usecases.getPaginatedParticipantsForAnOrganization.resolves({ data: [] });
-      organizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
-
-      // then
-      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
-        organizationId,
-        filters: { certificability: [false] },
-        page: {},
-      });
-    });
-
-    it('map the certificability not-available value', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': 'not-available',
-        },
-      };
-      usecases.getPaginatedParticipantsForAnOrganization.resolves({ data: [] });
-      organizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
-
-      // then
-      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
-        organizationId,
-        filters: { certificability: [null] },
-        page: {},
-      });
-    });
-
-    it('map the all certificability values', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': ['eligible', 'not-available'],
-        },
-      };
-      usecases.getPaginatedParticipantsForAnOrganization.resolves({ data: [] });
-      organizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
-
-      // then
-      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
-        organizationId,
-        filters: { certificability: [true, null] },
+        filters: { certificability: [true, false, null] },
         page: {},
       });
     });
