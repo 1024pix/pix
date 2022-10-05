@@ -666,6 +666,11 @@
         "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
         "title": "Filtres",
         "type": {
+        "certificability": {
+          "aria-label": "Enter un statut de certification",
+          "empty": "Pas de status",
+          "label": "Rechercher par certificabilité"
+        },
           "fullName": {
             "title": "Recherche sur le nom et prénom",
             "placeholder": "Nom, prénom"
