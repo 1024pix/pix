@@ -95,6 +95,13 @@
             </td>
             <td class="table__column--center">
               <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
+              {{#if student.certifiableAt}}
+                <span class="organization-participant-list-page__certifiable-at">{{moment-format
+                    student.certifiableAt
+                    "DD/MM/YYYY"
+                    allow-empty=true
+                  }}</span>
+              {{/if}}
             </td>
             <td class="organization-participant-list-page__actions hide-on-mobile">
               {{#if this.currentUser.isAdminInOrganization}}
