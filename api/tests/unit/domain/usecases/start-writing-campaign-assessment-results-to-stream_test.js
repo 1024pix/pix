@@ -1,7 +1,7 @@
 const { PassThrough } = require('stream');
 const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../../../test-helper');
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
-const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../../../../lib/domain/errors');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
@@ -32,12 +32,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const campaign = domainBuilder.buildCampaign();
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
-    sinon.stub(campaignRepository, 'findStages').rejects();
-    sinon.stub(targetProfileRepository, 'getByCampaignId').rejects();
-    sinon.stub(learningContentRepository, 'findByCampaignId').rejects();
-    sinon.stub(organizationRepository, 'get').rejects();
-    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').rejects();
-    sinon.stub(knowledgeElementRepository, 'findGroupedByCompetencesForUsersWithinLearningContent').rejects();
 
     // when
     const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
@@ -58,6 +52,34 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     // then
     expect(err).to.be.instanceOf(UserNotAuthorizedToGetCampaignResultsError);
     expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
+  });
+
+  it('should throw a CampaignTypeError when campaign is not ASSESSMENT type', async function () {
+    // given
+    const { user, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
+    const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ organization });
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
+
+    // when
+    const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      i18n,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      learningContentRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+
+    // then
+    expect(err).to.be.instanceOf(CampaignTypeError);
+    expect(err.message).to.equal(`Ce type de campagne n'est pas autorisé.`);
   });
 
   it('should return common parts of header with appropriate info', async function () {

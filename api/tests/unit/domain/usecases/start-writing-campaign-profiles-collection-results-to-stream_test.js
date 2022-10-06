@@ -1,7 +1,7 @@
 const { PassThrough } = require('stream');
 const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../../../test-helper');
 const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
-const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../../../../lib/domain/errors');
 const CampaignProfilesCollectionExport = require('../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
@@ -63,6 +63,34 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
+  it('should throw a CampaignTypeError when campaign is not PROFILES_COLLECTION type', async function () {
+    // given
+    const organization = domainBuilder.buildOrganization();
+    const user = domainBuilder.buildUser();
+    domainBuilder.buildMembership({ user, organization });
+    const campaign = domainBuilder.buildCampaign.ofTypeAssessment({ organization });
+    campaignRepository.get.withArgs(campaign.id).resolves(campaign);
+    userRepository.getWithMemberships.withArgs(user.id).resolves(user);
+
+    // when
+    const err = await catchErr(startWritingCampaignProfilesCollectionResultsToStream)({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      i18n,
+      campaignRepository,
+      userRepository,
+      competenceRepository,
+      campaignParticipationRepository,
+      organizationRepository,
+      placementProfileService,
+    });
+
+    // then
+    expect(err).to.be.instanceOf(CampaignTypeError);
+    expect(err.message).to.equal(`Ce type de campagne n'est pas autorisé.`);
+  });
+
   it('should process result for each participation and add it to csv', async function () {
     // given
     const competences = Symbol('competences');
@@ -70,7 +98,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     const organization = domainBuilder.buildOrganization();
     const user = domainBuilder.buildUser();
     domainBuilder.buildMembership({ user, organization });
-    const campaign = domainBuilder.buildCampaign();
+    const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
     campaignRepository.get.withArgs(campaign.id).resolves(campaign);
     userRepository.getWithMemberships.withArgs(user.id).resolves(user);
     organizationRepository.get.withArgs(organization.id).resolves(organization);
