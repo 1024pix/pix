@@ -106,4 +106,72 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
       expect(serializedMember).to.deep.equal(expectedSerializedMember);
     });
   });
+
+  describe('#serializeForAdmin', function () {
+    it('should convert into JSON API data', function () {
+      // given
+      const user = domainBuilder.buildUser();
+      const certificationCenter = domainBuilder.buildCertificationCenter({
+        name: 'Centre Shigeru',
+        type: 'SCO',
+        externalId: '12345ABC',
+      });
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+        certificationCenter,
+        user,
+      });
+
+      // when
+      const serializedCertificationCenterMembership = certificationCenterMembershipSerializer.serializeForAdmin([
+        certificationCenterMembership,
+      ]);
+
+      // then
+      expect(serializedCertificationCenterMembership).to.deep.equal({
+        data: [
+          {
+            id: certificationCenterMembership.id.toString(),
+            type: 'certification-center-memberships',
+            attributes: {
+              'created-at': certificationCenterMembership.createdAt,
+            },
+            relationships: {
+              'certification-center': {
+                data: {
+                  id: certificationCenter.id.toString(),
+                  type: 'certificationCenters',
+                },
+              },
+              user: {
+                data: {
+                  id: user.id.toString(),
+                  type: 'users',
+                },
+              },
+            },
+          },
+        ],
+        included: [
+          {
+            id: certificationCenter.id.toString(),
+            type: 'certificationCenters',
+            attributes: {
+              'external-id': certificationCenter.externalId,
+              name: certificationCenter.name,
+              type: certificationCenter.type,
+            },
+          },
+          {
+            id: user.id.toString(),
+            type: 'users',
+            attributes: {
+              'first-name': user.firstName,
+              'last-name': user.lastName,
+              email: user.email,
+            },
+          },
+        ],
+      });
+    });
+  });
 });

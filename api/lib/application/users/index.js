@@ -66,7 +66,6 @@ exports.register = async function (server) {
         tags: ['api', 'admin', 'user'],
       },
     },
-
     {
       method: 'POST',
       path: '/api/admin/users/{id}/anonymize',
@@ -318,6 +317,34 @@ exports.register = async function (server) {
             '- Elle permet à un administrateur de lister les organisations auxquelles appartient l´utilisateur',
         ],
         tags: ['api', 'admin', 'user', 'organizations'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/users/{id}/certification-center-memberships',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        handler: userController.findCertificationCenterMembershipsByUser,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet à un administrateur de lister les centres de certification auxquels appartient l´utilisateur',
+        ],
+        tags: ['api', 'admin', 'user', 'certification-centers'],
       },
     },
   ];

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -39,6 +39,27 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
     // then
     assert.deepEqual(currentURL(), `/users/${user.id}`);
+  });
+
+  test('should display user detail information page', async function (assert) {
+    // given
+    const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+
+    // when
+    const screen = await visit(`/users/${user.id}`);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: "Informations de l'utilisateur" })).exists();
+    assert.dom(screen.getByRole('heading', { name: 'Méthodes de connexion' })).exists();
+    assert.dom(screen.getByRole('heading', { name: 'Informations prescrit' })).exists();
+
+    const userNavigation = within(screen.getByLabelText("Navigation de la section détails d'un utilisateur"));
+    assert.dom(userNavigation.getByRole('link', { name: 'Détails' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: 'Profil' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: 'Participations' })).exists();
+    assert
+      .dom(userNavigation.getByRole('link', { name: 'Centres de certification auxquels appartient l´utilisateur' }))
+      .exists();
   });
 
   test('should redirect to list users page when click page title', async function (assert) {
@@ -228,6 +249,40 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByText('Dragon & Co')).exists();
       assert.dom(screen.getByText('Actions')).exists();
       assert.dom(screen.getByText('Modifier le rôle')).exists();
+    });
+  });
+
+  module('when administrator clicks on certification centers tab', function () {
+    test('should display user’s certification centers', async function (assert) {
+      // given
+      const certificationCenter = this.server.create('certification-center', {
+        name: 'Centre Kaede',
+        externalId: 'ABCDEF12345',
+        type: 'SCO',
+      });
+      const certificationCenterMembership = this.server.create('certification-center-membership', {
+        certificationCenter,
+      });
+      const user = this.server.create('user', {
+        email: 'john.harry@example.net',
+        certificationCenterMemberships: [certificationCenterMembership],
+      });
+
+      const adminUser = this.server.create('user');
+      this.server.create('admin-member', {
+        userId: adminUser.id,
+        isSuperAdmin: true,
+      });
+      await createAuthenticateSession({ userId: adminUser.id });
+
+      const screen = await visit(`/users/${user.id}`);
+
+      // when
+      await click(screen.getByLabelText('Centres de certification auxquels appartient l´utilisateur'));
+
+      // then
+      assert.deepEqual(currentURL(), `/users/${user.id}/certification-center-memberships`);
+      assert.dom(screen.getByText('Centre Kaede')).exists();
     });
   });
 });

@@ -8,6 +8,7 @@ module.exports = {
         record.profile = null;
         record.participations = null;
         record.organizationMemberships = null;
+        record.certificationCenterMemberships = null;
         return record;
       },
       attributes: [
@@ -30,6 +31,7 @@ module.exports = {
         'profile',
         'participations',
         'organizationMemberships',
+        'certificationCenterMemberships',
       ],
       organizationLearners: {
         ref: 'id',
@@ -77,6 +79,15 @@ module.exports = {
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/admin/users/${parent.id}/organizations`;
+          },
+        },
+      },
+      certificationCenterMemberships: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function (record, current, parent) {
+            return `/api/admin/users/${parent.id}/certification-center-memberships`;
           },
         },
       },
