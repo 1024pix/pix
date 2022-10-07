@@ -15,6 +15,10 @@ export default class ApplicationRoute extends Route {
   }
 
   async beforeModel(transition) {
+    // Set the locale to en otherwise ember-intl will use en-us
+    // There is no translation file en-us.json
+    this.intl.setLocale('en');
+
     this.headData.description = this.intl.t('application.description');
 
     await this.featureToggles.load().catch();
