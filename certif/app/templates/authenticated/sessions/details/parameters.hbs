@@ -111,7 +111,7 @@
     {{#if this.sessionHasStarted}}
       <div class="session-details-buttons">
         <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
-          Modifier
+          {{t "pages.sessions.details.action.edit"}}
         </PixButtonLink>
       </div>
       <div class="session-details-buttons session-details-buttons--push-right">
@@ -128,7 +128,7 @@
     {{else}}
       <div class="session-details-buttons">
         <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
-          Modifier
+          {{t "pages.sessions.details.action.edit"}}
         </PixButtonLink>
       </div>
     {{/if}}
