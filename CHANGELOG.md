@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.270.0 (07/10/2022)
+
+
+### :bug: Correction
+- [#5032](https://github.com/1024pix/pix/pull/5032) [BUGFIX] Corrige la récupération des profils cible d'une organisation (PIX-5961)
+
 ## v3.269.0 (07/10/2022)
 
 
