@@ -1,17 +1,15 @@
-const { expect, domainBuilder } = require('../../../../../test-helper');
+const { expect } = require('../../../../../test-helper');
 const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const TargetProfileForSpecifier = require('../../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer', function () {
   describe('#serialize', function () {
     it('should serialize target profile to JSONAPI', function () {
-      const thematicResults = [domainBuilder.buildBadge()];
-
       const targetProfile = new TargetProfileForSpecifier({
         id: 132,
         name: 'name',
         tubeCount: 2,
-        thematicResults,
+        thematicResultCount: 1,
         hasStage: true,
         description: 'description',
         category: 'SUBJECT',

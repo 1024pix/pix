@@ -142,7 +142,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile({ name: 'name2' });
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileId1, skillId: skill1.id });
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId2, tubeId: 'tube2' });
-        const badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfileId1 });
+        databaseBuilder.factory.buildBadge({ targetProfileId: targetProfileId1 });
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfileId2 });
         mockLearningContent({ skills: [skill1] });
 
@@ -152,7 +152,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           id: targetProfileId1,
           name: 'name1',
           tubeCount: 1,
-          thematicResults: [badge],
+          thematicResultCount: 1,
           hasStage: false,
           description: null,
           category: 'OTHER',
@@ -161,7 +161,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           id: targetProfileId2,
           name: 'name2',
           tubeCount: 1,
-          thematicResults: [],
+          thematicResultCount: 0,
           hasStage: true,
           description: null,
           category: 'OTHER',
