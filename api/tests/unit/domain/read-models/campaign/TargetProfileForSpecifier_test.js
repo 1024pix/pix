@@ -1,98 +1,26 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const TargetProfileForSpecifier = require('../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
 
 describe('TargetProfileForSpecifier', function () {
-  describe('#thematicResultCount', function () {
-    it('returns the number of thematic result', function () {
-      const thematicResults = [domainBuilder.buildBadge(), domainBuilder.buildBadge()];
+  describe('#constructor', function () {
+    it('returns the properties', function () {
       const targetProfile = new TargetProfileForSpecifier({
         id: 1,
         name: 'name',
         tubeCount: 0,
-        thematicResults,
+        thematicResultCount: 2,
         hasStage: true,
-        description: null,
-      });
-
-      expect(targetProfile.thematicResultCount).to.equal(2);
-    });
-  });
-
-  describe('#hasStage', function () {
-    context('when hasStage is true', function () {
-      it('returns true', function () {
-        const targetProfile = new TargetProfileForSpecifier({
-          id: 1,
-          name: 'name',
-          tubeCount: 0,
-          thematicResults: [],
-          hasStage: true,
-          description: null,
-        });
-
-        expect(targetProfile.hasStage).to.equal(true);
-      });
-    });
-
-    context('when hasStage is false', function () {
-      it('returns false', function () {
-        const targetProfile = new TargetProfileForSpecifier({
-          id: 1,
-          name: 'name',
-          tubeCount: 0,
-          thematicResults: [],
-          hasStage: false,
-          description: null,
-        });
-
-        expect(targetProfile.hasStage).to.equal(false);
-      });
-    });
-  });
-
-  describe('#name', function () {
-    it('returns the name', function () {
-      const targetProfile = new TargetProfileForSpecifier({
-        id: 1,
-        name: 'name',
-        tubeCount: 0,
-        thematicResults: [],
-        hasStage: false,
         description: 'description',
+        category: 'category',
       });
 
+      expect(targetProfile.id).to.equal(1);
       expect(targetProfile.name).to.equal('name');
-    });
-  });
-
-  describe('#description', function () {
-    it('returns the description', function () {
-      const targetProfile = new TargetProfileForSpecifier({
-        id: 1,
-        name: 'name',
-        tubeCount: 0,
-        thematicResults: [],
-        hasStage: false,
-        description: 'description',
-      });
-
-      expect(targetProfile.description).to.equal('description');
-    });
-  });
-
-  describe('#category', function () {
-    it('returns the category', function () {
-      const targetProfile = new TargetProfileForSpecifier({
-        id: 1,
-        name: 'name',
-        tubeCount: 0,
-        thematicResults: [],
-        hasStage: false,
-        description: 'description',
-        category: 'SUBJECT',
-      });
-
-      expect(targetProfile.category).to.equal('SUBJECT');
+      expect(targetProfile.tubeCount).to.equal(0);
+      expect(targetProfile.thematicResultCount).to.equal(2);
+      expect(targetProfile.hasStage).to.eql(true);
+      expect(targetProfile.description).to.eql('description');
+      expect(targetProfile.category).to.eql('category');
     });
   });
 });
