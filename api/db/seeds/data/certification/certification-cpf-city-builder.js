@@ -1,5 +1,4 @@
 function certificationCpfCityBuilder({ databaseBuilder }) {
-
   databaseBuilder.factory.buildCertificationCpfCity({
     name: 'PARIS 1',
     postalCode: '75001',
@@ -58,6 +57,12 @@ function certificationCpfCityBuilder({ databaseBuilder }) {
     name: 'BUELLAS',
     postalCode: '01310',
     INSEECode: '01065',
+  });
+
+  databaseBuilder.factory.buildCertificationCpfCity({
+    name: 'LES ABYMES',
+    postalCode: '97139',
+    INSEECode: '97101',
   });
 }
 

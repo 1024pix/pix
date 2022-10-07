@@ -2,6 +2,7 @@ const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const sessionForSupervisingController = require('./session-for-supervising-controller');
+const sessionWithCleaCertifiedCandidateController = require('./session-with-clea-certified-candidate-controller');
 const finalizedSessionController = require('./finalized-session-controller');
 const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
@@ -772,6 +773,29 @@ exports.register = async (server) => {
             '- Dans le cadre du SCO, inscrit un élève à une session de certification',
         ],
         tags: ['api', 'sessions', 'certification-candidates'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/certified-clea-candidate-data',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: sessionWithCleaCertifiedCandidateController.getCleaCertifiedCandidateDataCsv,
+        tags: ['api', 'sessions', 'export-csv'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle retourne toutes les infos des candidats d'une session ayant obtenu la certification Clea, sous format CSV",
+        ],
       },
     },
   ]);
