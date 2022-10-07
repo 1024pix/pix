@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render, fillByLabel } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -165,7 +166,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     assert.contains('02/01/2022');
   });
 
-  test('it filters participant when the input is filled', async function (assert) {
+  test('it should trigger filtering with fullName search', async function (assert) {
     // given
     const participants = [
       {
@@ -184,6 +185,31 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
     // then
     sinon.assert.calledWith(this.triggerFiltering, 'fullName', 'Karam');
+    assert.ok(true);
+  });
+
+  test('it should trigger filtering with certificability', async function (assert) {
+    // given
+    const triggerFiltering = sinon.spy();
+    this.set('triggerFiltering', triggerFiltering);
+    this.set('participants', []);
+    this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+    this.set('certificability', []);
+
+    const { getByPlaceholderText, findByRole } = await render(
+      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{triggerFiltering}} @certificabilityOptions={{certificabilityOptions}} @certificability={{certificability}} />`
+    );
+
+    // when
+    const select = await getByPlaceholderText(
+      this.intl.t('pages.organization-participants.filters.type.certificability.label')
+    );
+    await click(select);
+    await findByRole('menu');
+    await clickByName(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+
+    // then
+    sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
     assert.ok(true);
   });
 

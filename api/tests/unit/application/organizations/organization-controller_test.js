@@ -803,13 +803,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response).to.deep.equal(serializedScoOrganizationParticipant);
     });
 
-    it('map the certificability eligible value', async function () {
+    it('map all certificability values', async function () {
       // given
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
         query: {
-          'filter[certificability][]': 'eligible',
+          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
         },
       };
       usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
@@ -821,76 +821,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
         organizationId,
-        filter: { certificability: [true] },
-        page: {},
-      });
-    });
-
-    it('map the certificability non-eligible value', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': 'non-eligible',
-        },
-      };
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
-      scoOrganizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
-        organizationId,
-        filter: { certificability: [false] },
-        page: {},
-      });
-    });
-
-    it('map the certificability not-available value', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': 'not-available',
-        },
-      };
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
-      scoOrganizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
-        organizationId,
-        filter: { certificability: [null] },
-        page: {},
-      });
-    });
-
-    it('map the all certificability values', async function () {
-      // given
-      request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: {
-          'filter[certificability][]': ['eligible', 'not-available'],
-        },
-      };
-      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [] });
-      scoOrganizationParticipantsSerializer.serialize.returns({});
-
-      // when
-      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
-
-      // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
-        organizationId,
-        filter: { certificability: [true, null] },
+        filter: { certificability: [true, false, null] },
         page: {},
       });
     });
@@ -1355,21 +1286,27 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#getPaginatedParticipantsForAnOrganization', function () {
+    const connectedUserId = 1;
+    const organizationId = 145;
+
+    let request;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+      };
+
+      sinon.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
+      sinon.stub(organizationParticipantsSerializer, 'serialize');
+    });
+
     it('should call the usecase to get the participants of the organization', async function () {
-      const organizationId = 1;
       const parameters = { page: 2, filter: { fullName: 'name' } };
       const organizationLearner = domainBuilder.buildOrganizationLearner();
       domainBuilder.buildCampaignParticipation({ organizationLearnerId: organizationLearner.id });
 
-      const request = {
-        params: { id: organizationId },
-        auth: {
-          credentials: {
-            userId: 1,
-          },
-        },
-        query: parameters,
-      };
+      request.query = parameters;
 
       const participant = {
         id: organizationLearner.id,
@@ -1388,15 +1325,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const expectedResponse = { data: serializedOrganizationParticipants, meta: {} };
 
       sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(parameters);
-      sinon
-        .stub(usecases, 'getPaginatedParticipantsForAnOrganization')
+
+      usecases.getPaginatedParticipantsForAnOrganization
         .withArgs({ organizationId, page: 2, filters: parameters.filter })
         .returns({
           organizationParticipants: [participant],
           pagination: expectedPagination,
         });
-      sinon
-        .stub(organizationParticipantsSerializer, 'serialize')
+      organizationParticipantsSerializer.serialize
         .withArgs({
           organizationParticipants: [participant],
           pagination: expectedPagination,
@@ -1408,6 +1344,29 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(response).to.deep.equal(expectedResponse);
+    });
+
+    it('map all certificability values', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
+        },
+      };
+      usecases.getPaginatedParticipantsForAnOrganization.resolves({ data: [] });
+      organizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
+
+      // then
+      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
+        organizationId,
+        filters: { certificability: [true, false, null] },
+        page: {},
+      });
     });
   });
 });
