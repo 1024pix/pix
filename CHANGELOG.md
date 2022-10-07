@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.269.0 (07/10/2022)
+
+
+### :rocket: Amélioration
+- [#4957](https://github.com/1024pix/pix/pull/4957) [FEATURE] Génération du fichier des résultats Cléa numérique (PIX-5375)
+- [#4998](https://github.com/1024pix/pix/pull/4998) [FEATURE] Ajouter la date de certification pour les étudiants certifiables (Pix-5565)
+- [#5016](https://github.com/1024pix/pix/pull/5016) [FEATURE] Admin: Afficher les informations du DPO sur la page de détails d'un centre de certification (PIX-5266)
+
+### :building_construction: Tech
+- [#4991](https://github.com/1024pix/pix/pull/4991) [TECH] Script de génération d'attestations de certifications (PIX-5799).
+- [#5029](https://github.com/1024pix/pix/pull/5029) [TECH] Ajout du thème Halloween pour le template de pull request.
+
+### :bug: Correction
+- [#5028](https://github.com/1024pix/pix/pull/5028) [BUGFIX] Supprimer la hauteur fixe pour les boutons de la bannière des tutos.
+- [#5017](https://github.com/1024pix/pix/pull/5017) [BUGFIX] Retourner une erreur lorsque le téléchargement des résultats n'est pas sur le bon type de campagne (PIX-5822)
+
 ## v3.268.0 (04/10/2022)
 
 
