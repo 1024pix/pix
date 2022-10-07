@@ -40,4 +40,20 @@ module.exports = {
       attributes: ['firstName', 'lastName'],
     }).serialize(certificationCenterMemberships);
   },
+
+  serializeForAdmin(certificationCenterMemberships) {
+    return new Serializer('certification-center-memberships', {
+      attributes: ['createdAt', 'certificationCenter', 'user'],
+      certificationCenter: {
+        ref: 'id',
+        included: true,
+        attributes: ['name', 'type', 'externalId'],
+      },
+      user: {
+        ref: 'id',
+        included: true,
+        attributes: ['firstName', 'lastName', 'email'],
+      },
+    }).serialize(certificationCenterMemberships);
+  },
 };

@@ -41,6 +41,11 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'email-confirmed-at': now,
           },
           relationships: {
+            'certification-center-memberships': {
+              links: {
+                related: '/api/admin/users/123/certification-center-memberships',
+              },
+            },
             'organization-learners': {
               data: [
                 {

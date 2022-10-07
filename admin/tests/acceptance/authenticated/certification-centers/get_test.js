@@ -97,13 +97,15 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       externalId: 'ABCDEF',
       type: 'SCO',
     });
+    const user1 = server.create('user', { firstName: 'Eric', lastName: 'Hochet' });
     server.create('certification-center-membership', {
       certificationCenter,
-      user: server.create('user', { firstName: 'Eric', lastName: 'Hochet' }),
+      user: user1,
     });
+    const user2 = server.create('user', { firstName: 'Gilles', lastName: 'Parbal' });
     server.create('certification-center-membership', {
       certificationCenter,
-      user: server.create('user', { firstName: 'Gilles', lastName: 'Parbal' }),
+      user: user2,
     });
 
     // when
@@ -111,7 +113,10 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     // then
     assert.dom(screen.getByLabelText('Informations du membre Gilles Parbal')).exists();
+    assert.dom(screen.getByRole('link', { name: user1.id })).exists();
+
     assert.dom(screen.getByLabelText('Informations du membre Eric Hochet')).exists();
+    assert.dom(screen.getByRole('link', { name: user2.id })).exists();
   });
 
   test('should be possible to desactive a certification center membership', async function (assert) {

@@ -23,6 +23,7 @@ const validationErrorSerializer = require('../../../../lib/infrastructure/serial
 const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
 const authenticationMethodsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
 const userOrganizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
+const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
@@ -1143,6 +1144,37 @@ describe('Unit | Controller | user-controller', function () {
 
       // then
       expect(usecases.findUserOrganizationsForAdmin).to.have.been.calledWith({ userId: 1 });
+    });
+  });
+
+  describe('#findCertificationCenterMembershipsByUser', function () {
+    it("should return user's certification centers", async function () {
+      // given
+      const certificationCenterMemberships = Symbol("a list of user's certification center memberships");
+      const certificationCenterMembershipsSerialized = Symbol(
+        "a list of user's certification center memberships serialized"
+      );
+
+      sinon
+        .stub(certificationCenterMembershipSerializer, 'serializeForAdmin')
+        .withArgs(certificationCenterMemberships)
+        .returns(certificationCenterMembershipsSerialized);
+
+      sinon
+        .stub(usecases, 'findCertificationCenterMembershipsByUser')
+        .withArgs({ userId: 12345 })
+        .resolves(certificationCenterMemberships);
+
+      // when
+      const request = {
+        params: {
+          id: 12345,
+        },
+      };
+      const result = await userController.findCertificationCenterMembershipsByUser(request, hFake);
+
+      // then
+      expect(result.source).to.equal(certificationCenterMembershipsSerialized);
     });
   });
 });

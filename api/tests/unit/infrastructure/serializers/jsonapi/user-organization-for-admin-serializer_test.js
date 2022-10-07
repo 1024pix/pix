@@ -34,7 +34,6 @@ describe('Unit | Serializer | JSONAPI | user-organization-for-admin-serializer',
         data: [
           {
             attributes: {
-              id: 42,
               'organization-external-id': '1234',
               'organization-id': 52,
               'organization-name': 'Organization 1',
@@ -47,7 +46,6 @@ describe('Unit | Serializer | JSONAPI | user-organization-for-admin-serializer',
           },
           {
             attributes: {
-              id: 43,
               'organization-external-id': '5678',
               'organization-id': 53,
               'organization-name': 'Organization 2',

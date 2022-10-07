@@ -16,6 +16,8 @@ const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/
 const authenticationMethodsSerializer = require('../../infrastructure/serializers/jsonapi/authentication-methods-serializer');
 const campaignParticipationForUserManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer');
 const userOrganizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
+const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -331,5 +333,13 @@ module.exports = {
       userId,
     });
     return h.response(userOrganizationForAdminSerializer.serialize(organizations));
+  },
+
+  async findCertificationCenterMembershipsByUser(request, h) {
+    const userId = request.params.id;
+    const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByUser({
+      userId,
+    });
+    return h.response(certificationCenterMembershipSerializer.serializeForAdmin(certificationCenterMemberships));
   },
 };
