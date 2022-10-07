@@ -83,7 +83,9 @@ export default class CurrentSessionService extends SessionService {
 
   async _checkForURLAuthentication(transition) {
     if (transition.to.queryParams && transition.to.queryParams.externalUser) {
-      // Logout user when a new external user is authenticated.
+      // Logout user when a new external user is authenticated
+      // without redirecting the use to the login page.
+      this.skipRedirectAfterSessionInvalidation = true;
       await this._logoutUser();
     }
 
