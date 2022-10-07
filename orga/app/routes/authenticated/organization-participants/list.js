@@ -6,6 +6,7 @@ export default class ListRoute extends Route {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
     fullName: { refreshModel: true },
+    certificability: { refreshModel: true },
   };
 
   @service currentUser;
@@ -15,6 +16,7 @@ export default class ListRoute extends Route {
       filter: {
         organizationId: this.currentUser.organization.id,
         fullName: params.fullName,
+        certificability: params.certificability,
       },
       page: {
         number: params.pageNumber,
@@ -28,6 +30,7 @@ export default class ListRoute extends Route {
       controller.pageNumber = 1;
       controller.pageSize = 25;
       controller.fullName = null;
+      controller.certificability = null;
     }
   }
 }

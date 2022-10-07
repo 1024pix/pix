@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit, clickByText } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import setupIntl from '../helpers/setup-intl';
 import authenticateSession from '../helpers/authenticate-session';
@@ -45,6 +46,26 @@ module('Acceptance | Organization Participant List', function (hooks) {
         // then
         assert.notContains(this.intl.t('pages.organization-participants.empty-state.message'));
         assert.contains('Charles');
+      });
+
+      test('it should filter by certificability', async function (assert) {
+        // given
+        const organizationId = user.memberships.models.firstObject.organizationId;
+
+        server.create('organization-participant', { organizationId, firstName: 'Jean', lastName: 'Charles' });
+
+        await authenticateSession(user.id);
+        const { getByPlaceholderText } = await visit('/participants');
+
+        // when
+        const select = getByPlaceholderText(
+          this.intl.t('pages.organization-participants.filters.type.certificability.label')
+        );
+        await click(select);
+        await clickByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+
+        // then
+        assert.strictEqual(decodeURI(currentURL()), '/participants?certificability=["eligible"]');
       });
     });
   });
