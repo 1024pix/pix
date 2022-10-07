@@ -9,6 +9,7 @@ const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const sessionForSupervisingController = require('../../../../lib/application/sessions/session-for-supervising-controller');
+const sessionWithCleaCertifiedCandidateController = require('../../../../lib/application/sessions/session-with-clea-certified-candidate-controller');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const authorization = require('../../../../lib/application/preHandlers/authorization');
 const moduleUnderTest = require('../../../../lib/application/sessions');
@@ -352,6 +353,14 @@ describe('Unit | Application | Sessions | Routes', function () {
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'GET', url: '/api/sessions/hello/certified-clea-candidate-data' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'GET', url: '/api/sessions/9999999999/certified-clea-candidate-data' },
       },
     ].forEach(({ condition, request }) => {
       it(`should return 400 when ${condition}`, async function () {
@@ -1015,6 +1024,22 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(404);
+    });
+  });
+
+  describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
+    it('should exist', async function () {
+      // given
+      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
+      sinon.stub(sessionWithCleaCertifiedCandidateController, 'getCleaCertifiedCandidateDataCsv').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/3/certified-clea-candidate-data');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
