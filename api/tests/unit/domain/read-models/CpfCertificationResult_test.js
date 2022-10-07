@@ -108,4 +108,71 @@ describe('Unit | Domain | Read-Models | CpfCertificationResult', function () {
       });
     });
   });
+
+  context('#postalCode', function () {
+    context('when birth postal code is null', function () {
+      it('should return null', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthPostalCode: null });
+
+        // when
+        const postalCode = cpfCertificationResult.postalCode;
+
+        // then
+        expect(postalCode).to.be.null;
+      });
+    });
+
+    context('when birth postal code equals "NULL"', function () {
+      it('should return null', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthPostalCode: 'NULL' });
+
+        // when
+        const postalCode = cpfCertificationResult.postalCode;
+
+        // then
+        expect(postalCode).to.be.null;
+      });
+    });
+
+    context('when birth postal code length is greater than 5', function () {
+      it('should return null', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthPostalCode: '154640' });
+
+        // when
+        const postalCode = cpfCertificationResult.postalCode;
+
+        // then
+        expect(postalCode).to.be.null;
+      });
+    });
+
+    context('when birth postal code length is lower than 5', function () {
+      it('should return null', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthPostalCode: '99' });
+
+        // when
+        const postalCode = cpfCertificationResult.postalCode;
+
+        // then
+        expect(postalCode).to.be.null;
+      });
+    });
+
+    context('when birth postal code is not "NULL" and has the right length', function () {
+      it('should return the birth postal code', function () {
+        // given
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({ birthPostalCode: '75115' });
+
+        // when
+        const postalCode = cpfCertificationResult.postalCode;
+
+        // then
+        expect(postalCode).to.equal('75115');
+      });
+    });
+  });
 });
