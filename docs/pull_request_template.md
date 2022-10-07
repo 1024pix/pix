@@ -1,7 +1,7 @@
 ## :jack_o_lantern: Problème
 > _Décrivez ici le besoin ou l'intention couvert par cette Pull Request._
 
-## :bat: Solution proposée
+## :bat: Proposition
 > _Ajoutez à cet endroit, si nécessaire, des détails concernant la solution technique retenue et mise en oeuvre, des difficultés ou problèmes rencontrés._
 
 ## :spider_web: Remarques
