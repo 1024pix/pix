@@ -11,10 +11,14 @@ module.exports = {
       region,
     });
   },
-  startUpload({ client, filename, bucket, writableStream }) {
+  startUpload({ client, filename, bucket, readableStream }) {
     return new Upload({
       client,
-      params: { Key: filename, Bucket: bucket, ContentType: 'text/xml', Body: writableStream },
+      params: {
+        Key: filename,
+        Bucket: bucket,
+        Body: readableStream,
+      },
     });
   },
   async listFiles({ client, bucket }) {
