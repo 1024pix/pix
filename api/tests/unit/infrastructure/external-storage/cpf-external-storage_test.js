@@ -18,10 +18,10 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         endpoint: 'endpoint',
         region: 'region',
       });
-      const writableStream = Symbol('writableStream');
+      const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: '', writableStream });
+      await cpfExternalStorage.upload({ filename: '', readableStream });
 
       // then
       expect(s3Utils.getS3Client).to.have.been.calledWith({
@@ -47,17 +47,17 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         region: 'region',
         bucket: 'bucket',
       });
-      const writableStream = Symbol('writableStream');
+      const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: 'filename.xml', writableStream });
+      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream });
 
       // then
       expect(s3Utils.startUpload).to.have.been.calledWith({
         client: s3ClientMock,
         filename: 'filename.xml',
         bucket: 'bucket',
-        writableStream,
+        readableStream,
       });
     });
 
@@ -74,10 +74,10 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         endpoint: 'endpoint',
         region: 'region',
       });
-      const writableStream = Symbol('writableStream');
+      const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: 'filename.xml', writableStream });
+      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream });
 
       // then
       expect(doneStub).to.have.been.called;
