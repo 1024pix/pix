@@ -10,7 +10,7 @@ export default class Stages extends Component {
   @service notifications;
 
   get isTypeLevel() {
-    return this.args.firstObject?.isTypeLevel ?? false;
+    return this.args.stages?.firstObject?.isTypeLevel ?? false;
   }
 
   get hasStages() {
@@ -26,8 +26,12 @@ export default class Stages extends Component {
     return this.args.stages.filter((stage) => stage.isNew);
   }
 
-  get displayNoThresholdZero() {
-    return this.hasStages && !this.args.stages.any((stage) => stage.threshold === 0);
+  get displayNoZeroStage() {
+    if (!this.hasStages) return false;
+    if (this.isTypeLevel) {
+      return !this.args.stages.any((stage) => stage.level === 0);
+    }
+    return !this.args.stages.any((stage) => stage.threshold === 0);
   }
 
   get columnNameByStageType() {
