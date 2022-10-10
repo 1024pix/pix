@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.271.0 (10/10/2022)
+
+
+### :rocket: Amélioration
+- [#5024](https://github.com/1024pix/pix/pull/5024) [FEATURE] Ne permet pas de lancer de container worker si on veut le démarrer dans le process web
+- [#5027](https://github.com/1024pix/pix/pull/5027) [FEATURE] Ajouter les informations de lieu de naissance dans l'export XML (PIX-5876)
+- [#5019](https://github.com/1024pix/pix/pull/5019) [FEATURE] Refactorer la sélection du niveau jury d'une certification complémentaire (PIX-5800).
+- [#5007](https://github.com/1024pix/pix/pull/5007) [FEATURE] Rejeter la finalisation de la session si un motif d'abandon a été saisi pour un candidat qui a fini son test (PIX-5149)
+- [#5020](https://github.com/1024pix/pix/pull/5020) [FEATURE] Pouvoir identifier qui est le référent Pix d'un centre de certification (PIX-5795)
+- [#5025](https://github.com/1024pix/pix/pull/5025) [FEATURE] Réajuster l'affichage des détails de session à la maquette (PIX-5788)
+- [#4949](https://github.com/1024pix/pix/pull/4949) [FEATURE] Dans pix-admin ajouter un onglet Centres de certification dans la fiche des utilisateurs (PIX-5583)
+- [#5031](https://github.com/1024pix/pix/pull/5031) [FEATURE] Ajouter le filtre de certificabilité pour les organisations Pro (PIX-5559)
+
+### :bug: Correction
+- [#5036](https://github.com/1024pix/pix/pull/5036) [BUGFIX] App: Ne pas rediriger un utilisateur GAR sur la page de connexion (PIX-5950)
+
 ## v3.270.0 (07/10/2022)
 
 
