@@ -749,6 +749,7 @@ exports.register = async (server) => {
             'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
             'filter[firstName]': Joi.string().empty(''),
             'filter[lastName]': Joi.string().empty(''),
+            'filter[search]': Joi.string().empty(''),
             'filter[studentNumber]': Joi.string().empty(''),
           }),
         },
