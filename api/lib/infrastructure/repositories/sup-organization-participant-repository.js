@@ -4,7 +4,7 @@ const SupOrganizationParticipant = require('../../domain/read-models/SupOrganiza
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-function _setFilters(qb, { lastName, firstName, studentNumber, groups } = {}) {
+function _setFilters(qb, { lastName, firstName, studentNumber, groups, certificability } = {}) {
   if (lastName) {
     qb.whereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
@@ -19,6 +19,14 @@ function _setFilters(qb, { lastName, firstName, studentNumber, groups } = {}) {
       knex.raw('LOWER("organization-learners"."group")'),
       groups.map((group) => group.toLowerCase())
     );
+  }
+  if (certificability) {
+    qb.where(function (query) {
+      query.whereInArray('subquery.isCertifiable', certificability);
+      if (certificability.includes(null)) {
+        query.orWhereRaw('"subquery"."isCertifiable" IS NULL');
+      }
+    });
   }
 }
 
