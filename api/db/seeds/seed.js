@@ -13,7 +13,9 @@ const {
   complementaryCertificationCourseResultsBuilder,
 } = require('./data/certification/complementary-certification-course-results-builder');
 const { certificationCentersBuilder } = require('./data/certification/certification-centers-builder');
-const { certificationCenterInvitationsBuilder } = require('./data/certification/certification-center-invitations-builder');
+const {
+  certificationCenterInvitationsBuilder,
+} = require('./data/certification/certification-center-invitations-builder');
 const { certificationCoursesBuilder } = require('./data/certification/certification-courses-builder');
 const certificationScoresBuilder = require('./data/certification/certification-scores-builder');
 const { certificationSessionsBuilder } = require('./data/certification/certification-sessions-builder');
@@ -39,6 +41,7 @@ const {
 const computeParticipationsResults = require('../../scripts/prod/compute-participation-results');
 
 const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder');
+const { trainingBuilder } = require('./data/trainings-builder');
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
@@ -61,6 +64,9 @@ exports.seed = async (knex) => {
   targetProfilesBuilder({ databaseBuilder });
   badgesBuilder({ databaseBuilder });
   stagesBuilder({ databaseBuilder });
+
+  // Trainings
+  trainingBuilder({ databaseBuilder });
 
   // Certifications
   certificationCentersBuilder({ databaseBuilder });
