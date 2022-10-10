@@ -11,6 +11,7 @@ const dependenciesBuilder = require('./lib/infrastructure/jobs/JobDependenciesBu
 const scheduleCpfJobs = require('./lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs');
 
 async function runJobs() {
+  logger.info('Starting pg-boss');
   const pgBoss = new PgBoss({
     connectionString: process.env.DATABASE_URL,
     max: config.pgBoss.connexionPoolMaxSize,
