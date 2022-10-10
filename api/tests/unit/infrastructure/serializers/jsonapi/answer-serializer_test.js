@@ -80,7 +80,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
         data: {
           type: 'answers',
           attributes: {
-            value: 'test\u0000',
+            value: 'test\u0000\u0000',
             result: null,
             'result-details': null,
             timeout: null,
