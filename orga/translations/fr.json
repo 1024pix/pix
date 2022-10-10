@@ -827,6 +827,8 @@
           }
         }
       },
+      "no-participants": "Aucun élève pour l’instant !",
+      "no-participants-action": "L’administrateur doit importer la base élèves en cliquant sur le bouton importer.",
       "filter": {
         "certificability": {
           "aria-label": "Enter un statut de certification",
