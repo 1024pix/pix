@@ -29,7 +29,8 @@ describe('Unit | Route | application', function () {
   });
 
   describe('#beforeModel', function () {
-    let featureTogglesServiceStub, sessionServiceStub;
+    let featureTogglesServiceStub, sessionServiceStub, oidcIdentityProvidersStub;
+
     beforeEach(function () {
       const catchStub = sinon.stub();
       featureTogglesServiceStub = Service.create({
@@ -38,6 +39,9 @@ describe('Unit | Route | application', function () {
       sessionServiceStub = Service.create({
         handleUserLanguageAndLocale: sinon.stub().resolves(),
       });
+      oidcIdentityProvidersStub = Service.create({
+        load: sinon.stub().resolves(),
+      });
     });
 
     it('should set the head description', async function () {
@@ -45,6 +49,7 @@ describe('Unit | Route | application', function () {
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
 
       // when
       await route.beforeModel();
@@ -58,6 +63,7 @@ describe('Unit | Route | application', function () {
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
 
       // when
       await route.beforeModel();
@@ -71,6 +77,7 @@ describe('Unit | Route | application', function () {
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
       const transition = { from: 'inscription' };
       // when
       await route.beforeModel(transition);
