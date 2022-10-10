@@ -10,12 +10,12 @@ describe('Unit | UseCase | create-stage', function () {
     stubStageRepository.create.resolves();
 
     const stageToCreate = {
-        title: 'titre2',
-        message: 'message2',
-        level: 1,
-        threshold: null,
-        targetProfileId: 1,
-      };
+      title: 'titre2',
+      message: 'message2',
+      level: 1,
+      threshold: null,
+      targetProfileId: 1,
+    };
 
     // when
     await createStage({
