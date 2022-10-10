@@ -4,7 +4,7 @@ const logger = require('../logger');
 
 module.exports = {
   upload: async function ({ filename, readableStream }) {
-    logger.info('cpfExternalStorage: start upload');
+    logger.trace('cpfExternalStorage: start upload');
 
     const { accessKeyId, secretAccessKey, endpoint, region, bucket } = cpf.storage;
     const s3Client = s3Utils.getS3Client({
@@ -24,6 +24,7 @@ module.exports = {
     upload.on('httpUploadProgress', (progress) => logger.trace(progress));
 
     await upload.done();
+    logger.trace(`cpfExternalStorage: ${filename} upload done`);
   },
 
   getPreSignUrlsOfFilesModifiedAfter: async function ({ date }) {

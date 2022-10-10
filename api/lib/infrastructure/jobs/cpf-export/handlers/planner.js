@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 const { plannerJob } = require('../../../../config').cpf;
 const times = require('lodash/times');
+const logger = require('../../../logger');
 
 module.exports = async function planner({ pgBoss, cpfCertificationResultRepository }) {
   const startDate = dayjs()
@@ -12,7 +13,9 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
 
   const certificationsCount = await cpfCertificationResultRepository.countByTimeRange({ startDate, endDate });
   const jobCount = Math.ceil(certificationsCount / plannerJob.chunkSize);
-
+  logger.info(
+    `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${jobCount} job(s) for ${certificationsCount} certifications`
+  );
   times(jobCount, (index) => {
     pgBoss.send('CpfExportBuilderJob', {
       startDate,

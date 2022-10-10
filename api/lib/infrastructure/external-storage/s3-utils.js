@@ -17,7 +17,9 @@ module.exports = {
       params: {
         Key: filename,
         Bucket: bucket,
+        ContentType: 'gzip',
         Body: readableStream,
+        partSize: 1024 * 1024 * 5,
       },
     });
   },
