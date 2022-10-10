@@ -35,6 +35,8 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         sex: 'M',
         birthINSEECode: null,
         birthPostalCode: '75002',
+        birthplace: 'PARIS',
+        birthCountry: 'FRANCE',
         publishedAt: '2022-01-03',
         pixScore: 324,
         competenceMarks: [
@@ -49,8 +51,10 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         lastName: 'Porée',
         birthdate: '1992-11-03',
         sex: 'F',
-        birthINSEECode: '75114',
+        birthINSEECode: '99109',
         birthPostalCode: null,
+        birthplace: 'BERLIN',
+        birthCountry: 'ALLEMAGNE',
         publishedAt: '2022-01-07',
         pixScore: 512,
         competenceMarks: [
@@ -192,6 +196,12 @@ function _getExpectedXmlExport() {
                         </cpf:codePostal>
                       </cpf:codePostalNaissance>
                     </cpf:codeCommuneNaissance>
+                    <cpf:libelleCommuneNaissance>
+                      PARIS
+                    </cpf:libelleCommuneNaissance>
+                    <cpf:libellePaysNaissance>
+                      FRANCE
+                    </cpf:libellePaysNaissance>
                   </cpf:titulaire>
                 </cpf:identificationTitulaire>
               </cpf:passageCertification>
@@ -286,10 +296,19 @@ function _getExpectedXmlExport() {
                     <cpf:codeCommuneNaissance>
                       <cpf:codeInseeNaissance>
                         <cpf:codeInsee>
-                          75114
+                          99109
                         </cpf:codeInsee>
                       </cpf:codeInseeNaissance>
                     </cpf:codeCommuneNaissance>
+                    <cpf:libelleCommuneNaissance>
+                      BERLIN
+                    </cpf:libelleCommuneNaissance>
+                    <cpf:codePaysNaissance>
+                      109
+                    </cpf:codePaysNaissance>
+                    <cpf:libellePaysNaissance>
+                      ALLEMAGNE
+                    </cpf:libellePaysNaissance>
                   </cpf:titulaire>
                 </cpf:identificationTitulaire>
               </cpf:passageCertification>
