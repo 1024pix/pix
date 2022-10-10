@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { click } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { visit } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit, clickByText, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
+import setupIntl from '../helpers/setup-intl';
 
 import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
 
@@ -12,6 +12,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 module('Acceptance | Sup Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   let user;
 
@@ -65,6 +66,26 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
         // then
         assert.notContains('toto');
         assert.contains('tata');
+      });
+
+      test('it should filter by certificability', async function (assert) {
+        // given
+        const organizationId = user.memberships.models.firstObject.organizationId;
+
+        server.create('organization-participant', { organizationId, firstName: 'Jean', lastName: 'Charles' });
+
+        await authenticateSession(user.id);
+        const { getByPlaceholderText } = await visit('/etudiants');
+
+        // when
+        const select = getByPlaceholderText(
+          this.intl.t('pages.sup-organization-participants.filter.certificability.label')
+        );
+        await click(select);
+        await clickByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+
+        // then
+        assert.strictEqual(decodeURI(currentURL()), '/etudiants?certificability=["eligible"]');
       });
     });
 
