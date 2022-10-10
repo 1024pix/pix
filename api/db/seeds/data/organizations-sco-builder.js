@@ -68,10 +68,27 @@ function _buildMiddleSchools({ databaseBuilder }) {
     identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
     createdBy: middleSchoolsCreator.id,
   });
+  databaseBuilder.factory.buildOrganization({
+    id: 31,
+    type: 'SCO',
+    name: 'Collège de la vie',
+    isManagingStudents: true,
+    email: 'sco.generic.account@example.net',
+    externalId: SCO_COLLEGE_EXTERNAL_ID,
+    documentationUrl: 'https://pix.fr/',
+    provinceCode: '12',
+    identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+    createdBy: middleSchoolsCreator.id,
+  });
 
   databaseBuilder.factory.buildMembership({
     userId: SCO_ADMIN_ID,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_ADMIN_ID,
+    organizationId: 31,
     organizationRole: Membership.roles.ADMIN,
   });
 
