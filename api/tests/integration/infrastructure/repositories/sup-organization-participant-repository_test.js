@@ -211,6 +211,40 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         expect(_.map(data, 'firstName')).to.deep.equal(['Bar', 'Baz']);
       });
 
+      it('should return sup participants filtered by fullname search', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Foo',
+          lastName: '1',
+        });
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Bar',
+          lastName: 'Dupont',
+        });
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Baz',
+          lastName: 'Dupond',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+          filter: { search: 'b dupon' },
+        });
+
+        // then
+        expect(_.map(data, 'firstName')).to.include.members(['Bar', 'Baz']);
+      });
+
       it('should return sup participants filtered by student number', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
