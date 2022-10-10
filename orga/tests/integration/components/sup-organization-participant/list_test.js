@@ -119,7 +119,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
@@ -141,7 +141,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('03/01/2022');
