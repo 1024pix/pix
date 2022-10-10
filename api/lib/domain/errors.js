@@ -1186,6 +1186,12 @@ class CertificationAttestationGenerationError extends DomainError {
   }
 }
 
+class InvalidJuryLevelError extends DomainError {
+  constructor(message = 'Le niveau jury renseigné est invalide.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1267,6 +1273,7 @@ module.exports = {
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
   InvalidExternalAPIResponseError,
+  InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,

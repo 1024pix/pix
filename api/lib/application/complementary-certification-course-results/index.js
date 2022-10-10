@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const Badge = require('../../domain/models/Badge');
 const identifiersType = require('../../domain/types/identifiers-type');
 const securityPreHandlers = require('../security-pre-handlers');
 const complementaryCertificationCourseResultsController = require('./complementary-certification-course-results-controller');
@@ -14,21 +13,7 @@ exports.register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                juryLevel: Joi.string()
-                  .valid(
-                    Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-                    Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-                    Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-                    Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-                    Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-                    Badge.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-                    Badge.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-                    Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-                    Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-                    Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-                    'REJECTED'
-                  )
-                  .required(),
+                juryLevel: Joi.string().required(),
                 complementaryCertificationCourseId: identifiersType.complementaryCertificationCourseId,
               },
             },

@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const ComplementaryCertificationCourseResultsForJuryCertification = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification');
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJuryCertification', function () {
@@ -29,6 +29,34 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         // then
         expect(status).to.equal('Rejetée');
       });
+    });
+  });
+
+  describe('#from', function () {
+    it('should return an instance of ComplementaryCertificationCourseResultsForJuryCertification', function () {
+      // given
+      const id = 121;
+      const partnerKey = 'KEY';
+      const acquired = true;
+      const label = 'label';
+
+      // when
+      const result = ComplementaryCertificationCourseResultsForJuryCertification.from({
+        id,
+        partnerKey,
+        acquired,
+        label,
+      });
+
+      // then
+      expect(result).to.deepEqualInstance(
+        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
+          id,
+          partnerKey,
+          acquired,
+          label,
+        })
+      );
     });
   });
 });

@@ -1,6 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
-const Badge = require('../../../../../lib/domain/models/Badge');
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
   describe('#serialize', function () {
@@ -42,26 +41,38 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commonComplementaryCertificationCourseResults: [
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
             id: 12,
-            partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
+            partnerKey: 'BADGE_KEY_1',
             acquired: true,
-            label: 'Pix+ Droit Expert',
+            label: 'Badge Key 1',
           }),
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
             id: 14,
-            partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
+            partnerKey: 'BADGE_KEY_2',
             acquired: true,
-            label: 'CléA Numérique',
+            label: 'Badge Key 2',
           }),
         ],
         complementaryCertificationCourseResultsWithExternal:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             complementaryCertificationCourseId: 1234,
-            pixPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-            pixLabel: 'Pix+ Édu 1er degré Avancé',
+            pixPartnerKey: 'BADGE_KEY_3',
+            pixLabel: 'Badge Key 3',
             pixAcquired: true,
-            externalPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-            externalLabel: 'Pix+ Édu 1er degré Avancé',
+            pixLevel: 2,
+            externalPartnerKey: 'BADGE_KEY_4',
+            externalLabel: 'Badge Key 4',
             externalAcquired: true,
+            externalLevel: 4,
+            allowedExternalLevels: [
+              {
+                label: 'Badge Key 3',
+                value: 'BADGE_KEY_3',
+              },
+              {
+                label: 'Badge Key 4',
+                value: 'BADGE_KEY_4',
+              },
+            ],
           }),
       });
 
@@ -130,7 +141,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             type: 'commonComplementaryCertificationCourseResults',
             id: '12',
             attributes: {
-              label: 'Pix+ Droit Expert',
+              label: 'Badge Key 1',
               status: 'Validée',
             },
           },
@@ -138,7 +149,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             type: 'commonComplementaryCertificationCourseResults',
             id: '14',
             attributes: {
-              label: 'CléA Numérique',
+              label: 'Badge Key 2',
               status: 'Validée',
             },
           },
@@ -148,22 +159,18 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             attributes: {
               'allowed-external-levels': [
                 {
-                  label: 'Pix+ Édu 1er degré Confirmé',
-                  value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME',
+                  label: 'Badge Key 3',
+                  value: 'BADGE_KEY_3',
                 },
                 {
-                  label: 'Pix+ Édu 1er degré Avancé',
-                  value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
-                },
-                {
-                  label: 'Pix+ Édu 1er degré Expert',
-                  value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
+                  label: 'Badge Key 4',
+                  value: 'BADGE_KEY_4',
                 },
               ],
               'complementary-certification-course-id': 1234,
-              'pix-result': 'Pix+ Édu 1er degré Avancé',
-              'external-result': 'Pix+ Édu 1er degré Avancé',
-              'final-result': 'Pix+ Édu 1er degré Avancé',
+              'pix-result': 'Badge Key 3',
+              'external-result': 'Badge Key 4',
+              'final-result': 'Badge Key 3',
             },
           },
           {
