@@ -1,7 +1,6 @@
 const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
-const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {
@@ -23,11 +22,6 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
-      const pixEduBadgeId = databaseBuilder.factory.buildBadge({
-        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-      }).id;
-      const pixDroitBadgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF }).id;
-
       databaseBuilder.factory.buildCertificationCourse({ id: 2, sessionId: 456 });
       databaseBuilder.factory.buildAssessment({ certificationCourseId: 2 });
       databaseBuilder.factory.buildCertificationCourse({
@@ -47,27 +41,42 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         isPublished: false,
         isCancelled: false,
       });
-      const complementaryDroitCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        id: 23,
-        name: 'Pix+ Droit',
-      }).id;
-      const complementaryEduCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        id: 24,
-        name: 'Pix+ Édu',
-      }).id;
 
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 3454,
-        complementaryCertificationId: complementaryEduCertificationId,
-        badgeId: pixEduBadgeId,
-        label: 'Pix+ Edu label',
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 23,
+        name: 'Complementary certification without external jury',
+        hasExternalJury: false,
+      });
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 24,
+        name: 'Complementary certification with external jury',
+        hasExternalJury: true,
+      });
+
+      databaseBuilder.factory.buildTargetProfile({ id: 5656 });
+      databaseBuilder.factory.buildBadge({
+        id: 123,
+        key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
+        targetProfileId: 5656,
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 456,
+        key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
+        targetProfileId: 5656,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 3454,
+        complementaryCertificationId: 24,
+        badgeId: 123,
+        label: 'Badge for complementary certification with external jury',
+        level: 2,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 7678,
-        complementaryCertificationId: complementaryDroitCertificationId,
-        badgeId: pixDroitBadgeId,
-        label: 'Pix+ Droit label',
+        complementaryCertificationId: 23,
+        badgeId: 456,
+        label: 'Badge for complementary certification without external jury',
       });
 
       databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -86,14 +95,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 123,
         source: 'PIX',
-        partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
+        partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
         acquired: true,
       });
-
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 456,
         source: 'PIX',
-        partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
         acquired: true,
       });
 
@@ -160,8 +168,8 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           {
             acquired: true,
             id: 123,
-            partnerKey: 'PIX_DROIT_EXPERT_CERTIF',
-            label: 'Pix+ Droit label',
+            partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
+            label: 'Badge for complementary certification without external jury',
           },
         ],
         complementaryCertificationCourseResultsWithExternal: {
@@ -170,12 +178,24 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
             acquired: false,
             partnerKey: undefined,
             label: undefined,
+            level: undefined,
           },
           pixSection: {
             acquired: true,
-            partnerKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
-            label: 'Pix+ Edu label',
+            partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
+            label: 'Badge for complementary certification with external jury',
+            level: 2,
           },
+          allowedExternalLevels: [
+            {
+              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
+              label: 'Badge for complementary certification with external jury',
+            },
+            {
+              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
+              label: 'Badge for complementary certification without external jury',
+            },
+          ],
         },
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);

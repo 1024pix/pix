@@ -2,20 +2,22 @@ const ComplementaryCertificationCourseResult = require('../../domain/models/Comp
 const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
-  async getFromComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
-    const complementaryCertificationCourseResults = await knex
-      .select('complementary-certification-course-results.*')
+  async getPixSourceResultByComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
+    const result = await knex
+      .select('*')
       .from('complementary-certification-course-results')
-      .where({ complementaryCertificationCourseId });
+      .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.PIX })
+      .first();
 
-    return complementaryCertificationCourseResults.map((complementaryCertificationCourseResult) =>
-      ComplementaryCertificationCourseResult.from({
-        complementaryCertificationCourseId: complementaryCertificationCourseResult.complementaryCertificationCourseId,
-        partnerKey: complementaryCertificationCourseResult.partnerKey,
-        acquired: complementaryCertificationCourseResult.acquired,
-        source: complementaryCertificationCourseResult.source,
-      })
-    );
+    if (!result) return null;
+
+    return ComplementaryCertificationCourseResult.from(result);
+  },
+
+  async getAllowedJuryLevelByBadgeKey({ key }) {
+    return knex('badges')
+      .pluck('key')
+      .where('targetProfileId', '=', knex('badges').select('targetProfileId').where({ key }));
   },
 
   async save({ complementaryCertificationCourseId, partnerKey, acquired, source }) {

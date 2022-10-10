@@ -1,6 +1,7 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
+const { InvalidJuryLevelError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/complementary-certification-course-results');
 
 describe('Integration | Application | complementary-certification-course-results | complementary-certification-course-results-controller', function () {
@@ -23,43 +24,28 @@ describe('Integration | Application | complementary-certification-course-results
 
   describe('#saveJuryComplementaryCertificationCourseResult', function () {
     context('Success cases', function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
-        'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
-        'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME',
-        'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE',
-        'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT',
-        'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
-        'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
-        'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME',
-        'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
-        'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
-        'REJECTED',
-      ].forEach((juryLevel) => {
-        it(`should resolve a 200 HTTP response for ${juryLevel} juryLevel`, async function () {
-          // given
-          const payload = {
-            data: {
-              attributes: {
-                juryLevel,
-                complementaryCertificationCourseId: 123456,
-              },
+      it(`should resolve a 200 HTTP response`, async function () {
+        // given
+        const payload = {
+          data: {
+            attributes: {
+              juryLevel: 'JURY_LEVEL',
+              complementaryCertificationCourseId: 123456,
             },
-          };
-          usecases.saveJuryComplementaryCertificationCourseResult.resolves();
-          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+          },
+        };
+        usecases.saveJuryComplementaryCertificationCourseResult.resolves();
+        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
-          // when
-          const response = await httpTestServer.request(
-            'POST',
-            '/api/admin/complementary-certification-course-results',
-            payload
-          );
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/admin/complementary-certification-course-results',
+          payload
+        );
 
-          // then
-          expect(response.statusCode).to.equal(200);
-        });
+        // then
+        expect(response.statusCode).to.equal(200);
       });
     });
 
@@ -70,12 +56,12 @@ describe('Integration | Application | complementary-certification-course-results
           const payload = {
             data: {
               attributes: {
-                juryLevel: 'INVALID_JURY_LEVEL',
+                juryLevel: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
                 complementaryCertificationCourseId: 123456,
               },
             },
           };
-          usecases.saveJuryComplementaryCertificationCourseResult.resolves();
+          usecases.saveJuryComplementaryCertificationCourseResult.rejects(new InvalidJuryLevelError());
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
           // when
@@ -87,6 +73,7 @@ describe('Integration | Application | complementary-certification-course-results
 
           // then
           expect(response.statusCode).to.equal(400);
+          expect(response.result.errors[0].detail).to.equal('Le niveau jury renseigné est invalide.');
         });
       });
 
