@@ -20,9 +20,9 @@ function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
   return environmentVariable === 'true' ? true : defaultValue;
 }
 
-function _getNumber(numberAsString, defaultIntNumber) {
+function _getNumber(numberAsString, defaultValue) {
   const number = parseInt(numberAsString, 10);
-  return isNaN(number) ? defaultIntNumber : number;
+  return isNaN(number) ? defaultValue : number;
 }
 
 function _getDate(dateAsString) {
@@ -176,9 +176,10 @@ module.exports = (function () {
       redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
     },
     pgBoss: {
-      connexionPoolMaxSize: parseInt(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 10) || 2,
-      teamSize: parseInt(process.env.PG_BOSS_TEAM_SIZE, 10) || 1,
-      teamConcurrency: parseInt(process.env.PG_BOSS_TEAM_CONCURRENCY, 10) || 1,
+      connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
+      teamSize: _getNumber(process.env.PG_BOSS_TEAM_SIZE, 1),
+      teamConcurrency: _getNumber(process.env.PG_BOSS_TEAM_CONCURRENCY, 1),
+      monitorStateIntervalSeconds: _getNumber(process.env.PGBOSS_MONITOR_STATE_INTERVAL_SECONDS, undefined),
     },
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
