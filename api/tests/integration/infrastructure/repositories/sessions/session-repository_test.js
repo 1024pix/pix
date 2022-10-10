@@ -870,4 +870,35 @@ describe('Integration | Repository | Session', function () {
       });
     });
   });
+
+  describe('#countUncompletedCertifications', function () {
+    context('when session has at least one uncompleted certification course', function () {
+      it('should return the count of uncompleted certification courses', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession({}).id;
+        const userId1 = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
+        databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId: userId1,
+          completedAt: null,
+        });
+        const userId2 = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId2 });
+        databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId: userId2,
+          completedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const unfinishedCertificationsCount = await sessionRepository.countUncompletedCertifications(sessionId);
+
+        // then
+        expect(unfinishedCertificationsCount).to.equal(2);
+      });
+    });
+  });
 });
