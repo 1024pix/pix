@@ -64,9 +64,6 @@
   }
 }
 
-$details-content-padding: 8px;
-$details-content-margin: 8px;
-
 .session-details-content {
   display: flex;
   flex-direction: column;
@@ -74,14 +71,19 @@ $details-content-margin: 8px;
 
   &--multiple {
     border-right: 1px solid $pix-neutral-20;
-    padding: $details-content-padding + $details-content-margin;
+    padding: 0 24px;
+    margin: 16px 0;
     white-space: nowrap;
+
+    &:last-child {
+      border-right: 0;
+    }
   }
 
   &--copyable {
     background: $pix-neutral-5;
-    margin: $details-content-margin;
-    padding: $details-content-padding 16px;
+    margin: 16px 0 16px 8px;
+    padding: 8px 16px;
     border-radius: 4px;
     border: 0;
   }
