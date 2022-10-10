@@ -146,12 +146,16 @@
       </tbody>
     {{/if}}
   </table>
-
-  {{#unless @students}}
+  {{#if (eq @students.meta.participantCount 0)}}
+    <Ui::EmptyState
+      @infoText={{t "pages.sco-organization-participants.no-participants"}}
+      @actionText={{t "pages.sco-organization-participants.no-participants-action"}}
+    />
+  {{else if (not @students)}}
     <div class="table__empty content-text">
       {{t "pages.sco-organization-participants.table.empty"}}
     </div>
-  {{/unless}}
+  {{/if}}
 </div>
 
 <ScoOrganizationParticipant::ManageAuthenticationMethodModal

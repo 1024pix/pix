@@ -385,4 +385,32 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         .exists();
     });
   });
+
+  module('when there is participants but no results with filters', function () {
+    test('it should display a message telling if there is no rows display', async function (assert) {
+      // given
+      const students = [];
+      students.meta = { participantCount: 1 };
+      this.set('students', students);
+      // when
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+      // then
+      assert.contains('Aucun élève.');
+    });
+  });
+
+  module('when there is no participants in the organization', function () {
+    test('it should display a message telling to use import', async function (assert) {
+      // given
+      const students = [];
+      students.meta = { participantCount: 0 };
+      this.set('students', students);
+      // when
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+      // then
+      assert.contains('L’administrateur doit importer la base élèves en cliquant sur le bouton importer.');
+    });
+  });
 });
