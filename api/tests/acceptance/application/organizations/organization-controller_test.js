@@ -1243,6 +1243,115 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(403);
       });
     });
+
+    context('Filters', function () {
+      context('groups', function () {
+        it('should filter with one value', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sup-participants?filter[groups][]=L5`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
+
+          // when
+          const response = await server.inject(options);
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+
+        it('should filter with two values', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sup-participants?filter[groups][]=L5&filter[groups][]=D3`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      it('should filter studentNumber', async function () {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/sup-participants?filter[studentNumber]=L5645745`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should filter lastName', async function () {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/sup-participants?filter[lastName]=Bruce`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should filter firstName', async function () {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/sup-participants?filter[firstName]=Wayne`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      context('certificability', function () {
+        it('should filter certificability with one value', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sup-participants?filter[certificability][]=eligible`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
+
+          // when
+          const response = await server.inject(options);
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+
+        it('should filter certificability with two values', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sup-participants?filter[certificability][]=eligible&filter[certificability][]=not-available`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+    });
   });
 
   describe('GET /api/organizations/{organizationId}/participants', function () {

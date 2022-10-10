@@ -271,6 +271,10 @@ module.exports = {
       filter.groups = [filter.groups];
     }
 
+    if (filter.certificability) {
+      filter.certificability = mapCertificabilityByLabel(filter.certificability);
+    }
+
     const { data: supOrganizationParticipants, meta } = await usecases.findPaginatedFilteredSupParticipants({
       organizationId,
       filter,
