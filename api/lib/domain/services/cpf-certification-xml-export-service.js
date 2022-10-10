@@ -50,8 +50,11 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
         lastName,
         birthdate,
         sex,
-        birthINSEECode,
-        birthPostalCode,
+        inseeCode,
+        postalCode,
+        birthplace,
+        countryCode,
+        birthCountry,
         europeanNumericLevels,
       }) {
         const [yearOfBirth, monthOfBirth, dayOfBirth] = birthdate.split('-');
@@ -95,20 +98,27 @@ function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) 
               .ele('cpf:sexe').txt(sex).up()
               .ele('cpf:codeCommuneNaissance')
 
-        if (birthINSEECode) {
+        if (inseeCode) {
           xmlBuilder.ele('cpf:codeInseeNaissance')
-                      .ele('cpf:codeInsee').txt(birthINSEECode).up()
+                      .ele('cpf:codeInsee').txt(inseeCode).up()
                     .up();
-        } else if (birthPostalCode) {
+        } else if (postalCode) {
           xmlBuilder.ele('cpf:codePostalNaissance')
-                      .ele('cpf:codePostal').txt(birthPostalCode).up()
+                      .ele('cpf:codePostal').txt(postalCode).up()
                     .up();
         } else {
           xmlBuilder.ele('cpf:codePostalNaissance')
                       .ele('cpf:codePostal', { 'xsi:nil': true }).up()
                     .up();
         }
-        xmlBuilder.up().up().up().up();
+        xmlBuilder.up()
+          .ele('cpf:libelleCommuneNaissance').txt(birthplace).up();
+        if (countryCode) {
+          xmlBuilder.ele('cpf:codePaysNaissance').txt(countryCode).up();
+        }
+        xmlBuilder.ele('cpf:libellePaysNaissance').txt(birthCountry).up();
+
+        xmlBuilder.up().up().up();
       }
     )
     .then(() => {

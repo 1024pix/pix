@@ -18,6 +18,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: '75116',
         birthPostalCode: null,
+        birthplace: 'PARIS',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: firstPublishedSessionId,
       });
@@ -49,6 +51,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: null,
         birthPostalCode: '75008',
+        birthplace: 'PARIS',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: firstPublishedSessionId,
       });
@@ -80,7 +84,9 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         birthdate: '2004-03-04',
         sex: 'F',
         birthINSEECode: '75114',
+        birthplace: 'PARIS 14',
         birthPostalCode: null,
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: secondPublishedSessionId,
       });
@@ -256,6 +262,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: '75116',
         birthPostalCode: null,
+        birthplace: 'PARIS 16',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: firstPublishedSessionId,
       }).id;
@@ -287,6 +295,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: null,
         birthPostalCode: '75008',
+        birthplace: 'PARIS',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: firstPublishedSessionId,
       });
@@ -319,6 +329,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'F',
         birthINSEECode: '75114',
         birthPostalCode: null,
+        birthplace: 'PARIS 14',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: secondPublishedSessionId,
       });
@@ -361,6 +373,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           sex: 'M',
           birthINSEECode: null,
           birthPostalCode: '75008',
+          birthplace: 'PARIS',
+          birthCountry: 'FRANCE',
           pixScore: 112,
           publishedAt: new Date('2022-01-04'),
           competenceMarks: [
@@ -384,6 +398,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           sex: 'F',
           birthINSEECode: '75114',
           birthPostalCode: null,
+          birthplace: 'PARIS 14',
+          birthCountry: 'FRANCE',
           pixScore: 268,
           publishedAt: new Date('2022-01-10'),
           competenceMarks: [
@@ -407,6 +423,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           sex: 'M',
           birthINSEECode: '75116',
           birthPostalCode: null,
+          birthplace: 'PARIS 16',
+          birthCountry: 'FRANCE',
           pixScore: 132,
           publishedAt: new Date('2022-01-04'),
           competenceMarks: [
@@ -441,6 +459,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: '75116',
         birthPostalCode: null,
+        birthplace: 'PARIS 16',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: firstPublishedSessionId,
       }).id;
@@ -472,6 +492,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: null,
         birthPostalCode: '75008',
+        birthplace: 'PARIS',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: firstPublishedSessionId,
       });
@@ -504,6 +526,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'F',
         birthINSEECode: '75114',
         birthPostalCode: null,
+        birthplace: 'PARIS 14',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId: secondPublishedSessionId,
       });
@@ -546,6 +570,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           sex: 'M',
           birthINSEECode: '75116',
           birthPostalCode: null,
+          birthplace: 'PARIS 16',
+          birthCountry: 'FRANCE',
           pixScore: 132,
           publishedAt: new Date('2022-01-04'),
           competenceMarks: [
@@ -580,6 +606,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         sex: 'M',
         birthINSEECode: '75116',
         birthPostalCode: null,
+        birthplace: 'PARIS 16',
+        birthCountry: 'FRANCE',
         isPublished: true,
         sessionId,
       });
@@ -827,6 +855,8 @@ function createCertificationCourseWithCompetenceMarks({
     sex,
     birthINSEECode: '75116',
     birthPostalCode: null,
+    birthplace: 'PARIS 16',
+    birthCountry: 'FRANCE',
     isPublished: isPublished,
     sessionId: publishedSessionId,
     isCancelled: certificationCourseCancelled,
