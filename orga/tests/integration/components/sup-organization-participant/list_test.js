@@ -26,7 +26,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('groups', []);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
+    await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+    );
 
     // then
     assert.contains('Numéro étudiant');
@@ -46,7 +48,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('groups', []);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
+    await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+    );
 
     // then
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
@@ -70,7 +74,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('groups', []);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
+    await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+    );
 
     // then
     assert.contains('LATERREURGIGI123');
@@ -96,7 +102,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} />`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} />`);
 
     // then
     assert.contains('SUP - Campagne de collecte de profils');
@@ -119,7 +125,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
 
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
@@ -141,32 +147,40 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
 
     // then
     assert.contains('03/01/2022');
   });
 
-  test('[A11Y] it should have a description for screen-readers', async function (assert) {
+  test('it should display the certificability tooltip', async function (assert) {
     // given
     const students = [
       {
-        lastParticipationDate: new Date('2022-01-03'),
-        campaignName: 'SUP - Campagne de collecte de profils',
-        campaignType: 'PROFILES_COLLECTION',
-        participationStatus: 'SHARED',
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
         isCertifiable: true,
-        certifiableAt: new Date('2022-01-03'),
       },
     ];
 
     this.set('students', students);
 
+    this.triggerFiltering = sinon.spy();
+    this.set('groups', []);
+
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+    const screen = await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
+    );
 
     // then
-    assert.contains(this.intl.t('pages.sup-organization-participants.table.description'));
+    assert
+      .dom(
+        screen.getByLabelText(
+          this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label')
+        )
+      )
+      .exists();
   });
 
   module('when user is filtering some users', function () {
@@ -178,7 +192,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
       );
 
       await fillByLabel('Entrer un nom', 'bob');
@@ -196,7 +210,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
       );
 
       await fillByLabel('Entrer un prénom', 'bob');
@@ -214,7 +228,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
       );
 
       await fillByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
@@ -231,10 +245,10 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       const { getByPlaceholderText, findByRole } = await render(hbs`<SupOrganizationParticipant::List
-        @students={{students}}
-        @onFilter={{triggerFiltering}}
-        @groups={{groups}}
-      />`);
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @groups={{this.groups}}
+/>`);
       const select = await getByPlaceholderText('Rechercher par groupe');
       await click(select);
 
@@ -247,34 +261,28 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       assert.ok(true);
     });
 
-    test('it should display the certificability tooltip', async function (assert) {
+    test('it should trigger filtering with certificability', async function (assert) {
       // given
-      const students = [
-        {
-          lastName: 'La Terreur',
-          firstName: 'Gigi',
-          isCertifiable: true,
-        },
-      ];
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+      this.set('certificability', []);
 
-      this.set('students', students);
-
-      this.triggerFiltering = sinon.spy();
-      this.set('groups', []);
-
-      // when
-      const screen = await render(
-        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`
+      const { getByPlaceholderText, findByRole } = await render(
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @certificability={{this.certificability}} />`
       );
 
+      // when
+      const select = await getByPlaceholderText('Rechercher par certificabilité');
+      await click(select);
+
+      await findByRole('menu');
+
+      await clickByName('Certifiable');
+
       // then
-      assert
-        .dom(
-          screen.getByLabelText(
-            this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label')
-          )
-        )
-        .exists();
+      sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
+      assert.ok(true);
     });
   });
 });

@@ -1,30 +1,30 @@
 <PixFilterBanner
-  @title={{t "pages.sup-organization-participants.table.filter.title"}}
+  @title={{t "pages.sup-organization-participants.filter.title"}}
   class="participant-filter-banner hide-on-mobile"
-  aria-label={{t "pages.sup-organization-participants.table.filter.aria-label"}}
-  @details={{t "pages.sup-organization-participants.table.filter.students-count" count=@students.meta.rowCount}}
-  @clearFiltersLabel={{t "pages.sup-organization-participants.table.filter.actions.clear"}}
+  aria-label={{t "pages.sup-organization-participants.filter.aria-label"}}
+  @details={{t "pages.sup-organization-participants.filter.students-count" count=@students.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.sup-organization-participants.filter.actions.clear"}}
   @onClearFilters={{@onResetFilter}}
 >
   <Ui::SearchInputFilter
     @field="studentNumber"
     @value={{@studentNumberFilter}}
-    @placeholder={{t "pages.sup-organization-participants.table.filter.student-number.label"}}
-    @ariaLabel={{t "pages.sup-organization-participants.table.filter.student-number.aria-label"}}
+    @placeholder={{t "pages.sup-organization-participants.filter.student-number.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.student-number.aria-label"}}
     @triggerFiltering={{@onFilter}}
   />
   <Ui::SearchInputFilter
     @field="lastName"
     @value={{@lastNameFilter}}
-    @placeholder={{t "pages.sup-organization-participants.table.filter.last-name.label"}}
-    @ariaLabel={{t "pages.sup-organization-participants.table.filter.last-name.aria-label"}}
+    @placeholder={{t "pages.sup-organization-participants.filter.last-name.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.last-name.aria-label"}}
     @triggerFiltering={{@onFilter}}
   />
   <Ui::SearchInputFilter
     @field="firstName"
     @value={{@firstNameFilter}}
-    @placeholder={{t "pages.sup-organization-participants.table.filter.first-name.label"}}
-    @ariaLabel={{t "pages.sup-organization-participants.table.filter.first-name.aria-label"}}
+    @placeholder={{t "pages.sup-organization-participants.filter.first-name.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.first-name.aria-label"}}
     @triggerFiltering={{@onFilter}}
   />
   <Ui::MultiSelectFilter
@@ -33,9 +33,20 @@
     @onSelect={{@onFilter}}
     @selectedOption={{@groupsFilter}}
     @onLoadOptions={{this.loadGroups}}
-    @placeholder={{t "pages.sup-organization-participants.table.filter.group.label"}}
-    @ariaLabel={{t "pages.sup-organization-participants.table.filter.group.aria-label"}}
-    @emptyMessage={{t "pages.sup-organization-participants.table.filter.group.empty"}}
+    @placeholder={{t "pages.sup-organization-participants.filter.group.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.group.aria-label"}}
+    @emptyMessage={{t "pages.sup-organization-participants.filter.group.empty"}}
+  />
+
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.sup-organization-participants.filter.certificability.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{this.certificabilityOptions}}
+    @placeholder={{t "pages.sup-organization-participants.filter.certificability.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.certificability.aria-label"}}
+    @emptyMessage={{t "pages.sup-organization-participants.filter.certificability.empty"}}
   />
 </PixFilterBanner>
 <div class="panel">

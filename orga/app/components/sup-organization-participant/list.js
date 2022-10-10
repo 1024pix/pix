@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ListItems extends Component {
   @service currentUser;
+  @service intl;
   @tracked selectedStudent = null;
   @tracked isShowingEditStudentNumberModal = false;
 
@@ -17,6 +18,23 @@ export default class ListItems extends Component {
       };
     });
   };
+
+  get certificabilityOptions() {
+    return [
+      {
+        value: 'not-available',
+        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.not-available'),
+      },
+      {
+        value: 'eligible',
+        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
+      },
+      {
+        value: 'non-eligible',
+        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.non-eligible'),
+      },
+    ];
+  }
 
   @action
   async onSaveStudentNumber(newStudentNumber) {
