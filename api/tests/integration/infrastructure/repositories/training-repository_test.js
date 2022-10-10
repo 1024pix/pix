@@ -1,5 +1,6 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const Training = require('../../../../lib/domain/models/Training');
 
 describe('Integration | Repository | training-repository', function () {
@@ -70,6 +71,49 @@ describe('Integration | Repository | training-repository', function () {
       expect(trainings).to.have.lengthOf(2);
       expect(trainings[0]).to.be.instanceOf(Training);
       expect(trainings[0]).to.deep.equal(training1);
+    });
+  });
+
+  describe('#get', function () {
+    context('when training exist', function () {
+      it('should return training', async function () {
+        // given
+        const targetProfile1 = databaseBuilder.factory.buildTargetProfile();
+        const targetProfile2 = databaseBuilder.factory.buildTargetProfile();
+        const expectedTraining = domainBuilder.buildTraining({
+          id: 1,
+          title: 'training 1',
+          targetProfileIds: [targetProfile1.id, targetProfile2.id],
+          locale: 'fr-fr',
+        });
+        databaseBuilder.factory.buildTraining({ ...expectedTraining, duration: '5h' });
+        databaseBuilder.factory.buildTargetProfileTraining({
+          trainingId: expectedTraining.id,
+          targetProfileId: expectedTraining.targetProfileIds[0],
+        });
+        databaseBuilder.factory.buildTargetProfileTraining({
+          trainingId: expectedTraining.id,
+          targetProfileId: expectedTraining.targetProfileIds[1],
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const training = await trainingRepository.get(expectedTraining.id);
+
+        // then
+        expect(training).to.deep.equal(expectedTraining);
+      });
+    });
+
+    context('when training does not exist', function () {
+      it('should throw a NotFoundError', async function () {
+        // when
+        const error = await catchErr(trainingRepository.get)(134);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.be.equal('Not found training for ID 134');
+      });
     });
   });
 });

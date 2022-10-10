@@ -25,7 +25,10 @@ module.exports = {
     if (!training) {
       throw new NotFoundError(`Not found training for ID ${id}`);
     }
-    return _toDomain(training);
+
+    const targetProfileTrainings = await knex('target-profile-trainings').where('trainingId', training.id);
+
+    return _toDomain(training, targetProfileTrainings);
   },
 };
 
