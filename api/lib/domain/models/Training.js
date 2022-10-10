@@ -4,7 +4,7 @@ class Training {
     this.title = title;
     this.link = link;
     this.type = type;
-    this.duration = duration;
+    this.duration = { ...duration }; // Prevent use of PostgresInterval object
     this.locale = locale;
     this.targetProfileIds = targetProfileIds;
   }

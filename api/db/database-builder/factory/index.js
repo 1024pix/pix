@@ -60,6 +60,7 @@ module.exports = {
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileSkill: require('./build-target-profile-skill'),
   buildTargetProfileShare: require('./build-target-profile-share'),
+  buildTargetProfileTraining: require('./build-target-profile-training'),
   buildTargetProfileTube: require('./build-target-profile-tube'),
   buildTraining: require('./build-training'),
   buildTutorialEvaluation: require('./build-tutorial-evaluation'),
