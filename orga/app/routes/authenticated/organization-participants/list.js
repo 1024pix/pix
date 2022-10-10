@@ -30,7 +30,7 @@ export default class ListRoute extends Route {
       controller.pageNumber = 1;
       controller.pageSize = 25;
       controller.fullName = null;
-      controller.certificability = null;
+      controller.certificability = [];
     }
   }
 }
