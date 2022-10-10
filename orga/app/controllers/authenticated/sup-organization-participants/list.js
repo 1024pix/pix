@@ -7,6 +7,7 @@ export default class ListController extends Controller {
   @tracked firstName = null;
   @tracked studentNumber = null;
   @tracked groups = [];
+  @tracked certificability = [];
   @tracked pageNumber = null;
   @tracked pageSize = null;
 
@@ -22,5 +23,7 @@ export default class ListController extends Controller {
     this.firstName = null;
     this.studentNumber = null;
     this.groups = [];
+    this.certificability = [];
+    this.pageNumber = null;
   }
 }
