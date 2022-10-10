@@ -399,11 +399,11 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data[0].type).to.equal('trainings');
       expect(response.result.data[0].attributes).to.deep.equal({
-        duration: { hours: 2 },
-        link: 'https://example.net',
-        locale: 'fr-fr',
-        title: 'Training 1',
-        type: 'webinaire',
+        duration: { hours: 6 },
+        link: training.link,
+        locale: training.locale,
+        title: training.title,
+        type: training.type,
       });
     });
   });
