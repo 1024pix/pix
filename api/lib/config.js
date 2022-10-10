@@ -20,9 +20,9 @@ function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
   return environmentVariable === 'true' ? true : defaultValue;
 }
 
-function _getNumber(numberAsString, defaultIntNumber) {
+function _getNumber(numberAsString, defaultValue) {
   const number = parseInt(numberAsString, 10);
-  return isNaN(number) ? defaultIntNumber : number;
+  return isNaN(number) ? defaultValue : number;
 }
 
 function _getDate(dateAsString) {
