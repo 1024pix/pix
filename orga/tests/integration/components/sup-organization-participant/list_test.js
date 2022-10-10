@@ -147,6 +147,28 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     assert.contains('03/01/2022');
   });
 
+  test('[A11Y] it should have a description for screen-readers', async function (assert) {
+    // given
+    const students = [
+      {
+        lastParticipationDate: new Date('2022-01-03'),
+        campaignName: 'SUP - Campagne de collecte de profils',
+        campaignType: 'PROFILES_COLLECTION',
+        participationStatus: 'SHARED',
+        isCertifiable: true,
+        certifiableAt: new Date('2022-01-03'),
+      },
+    ];
+
+    this.set('students', students);
+
+    // when
+    await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+    // then
+    assert.contains(this.intl.t('pages.sup-organization-participants.table.description'));
+  });
+
   module('when user is filtering some users', function () {
     test('it should trigger filtering with lastname', async function (assert) {
       const triggerFiltering = sinon.spy();

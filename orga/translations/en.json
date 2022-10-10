@@ -924,6 +924,7 @@
             }
           }
         },
+        "description": "Table of students, sorted by name.You can edit the student's number through a menu in an additional column",
         "empty": "No students.",
         "filter": {
           "actions": {
