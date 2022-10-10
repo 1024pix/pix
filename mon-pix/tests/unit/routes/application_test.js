@@ -28,7 +28,7 @@ describe('Unit | Route | application', function () {
     expect(SplashServiceStub.hideCount).to.equal(1);
   });
 
-  describe('#beforeEach', function () {
+  describe('#beforeModel', function () {
     let featureTogglesServiceStub, sessionServiceStub;
     beforeEach(function () {
       const catchStub = sinon.stub();
