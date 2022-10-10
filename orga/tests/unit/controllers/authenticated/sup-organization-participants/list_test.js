@@ -36,4 +36,29 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       });
     });
   });
+
+  module('#onResetFilter', function () {
+    test('resets every filters', async function (assert) {
+      // given
+      controller.firstName = 'hey';
+      controller.lastName = 'th';
+      controller.groups = ['ing'];
+      controller.studentNumber = 'co';
+      controller.certificability = ['ool'];
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+
+      // when
+      controller.onResetFilter();
+
+      // then
+      assert.strictEqual(controller.firstName, null);
+      assert.strictEqual(controller.lastName, null);
+      assert.deepEqual(controller.groups, []);
+      assert.strictEqual(controller.studentNumber, null);
+      assert.deepEqual(controller.certificability, []);
+      assert.strictEqual(controller.pageNumber, null);
+      assert.strictEqual(controller.pageSize, 10);
+    });
+  });
 });
