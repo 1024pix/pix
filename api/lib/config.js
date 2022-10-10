@@ -179,6 +179,7 @@ module.exports = (function () {
       connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
       teamSize: _getNumber(process.env.PG_BOSS_TEAM_SIZE, 1),
       teamConcurrency: _getNumber(process.env.PG_BOSS_TEAM_CONCURRENCY, 1),
+      monitorStateIntervalSeconds: _getNumber(process.env.PGBOSS_MONITOR_STATE_INTERVAL_SECONDS, undefined),
     },
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
