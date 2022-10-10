@@ -307,6 +307,111 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         expect(_.map(data, 'firstName')).to.deep.equal(['Jane']);
       });
 
+      it('should return sup participants that are eligible for certificability', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.PROFILES_COLLECTION,
+          organizationId: organization.id,
+        });
+
+        const expectedOrganizationLeaner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'John',
+          lastName: 'Rambo',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: expectedOrganizationLeaner.id,
+          status: CampaignParticipationStatuses.SHARED,
+          isCertifiable: true,
+        });
+
+        const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Jane',
+          lastName: 'Rambo',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: otherOrganizationLearner.id,
+          status: CampaignParticipationStatuses.SHARED,
+          isCertifiable: false,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+          filter: { certificability: [true] },
+        });
+
+        // then
+        expect(data.length).to.equal(1);
+        expect(data[0].id).to.equal(expectedOrganizationLeaner.id);
+      });
+
+      it('should return sup participants that are not eligible for certificability or not communicate', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.PROFILES_COLLECTION,
+          organizationId: organization.id,
+        });
+
+        const eligibleOrganizationLeaner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'John',
+          lastName: 'Rambo',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: eligibleOrganizationLeaner.id,
+          status: CampaignParticipationStatuses.SHARED,
+          isCertifiable: true,
+        });
+
+        const notEligibleOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Jane',
+          lastName: 'Rambo',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: notEligibleOrganizationLearner.id,
+          status: CampaignParticipationStatuses.SHARED,
+          isCertifiable: false,
+        });
+
+        const notCommunicatedOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'June',
+          lastName: 'Rambo',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: notCommunicatedOrganizationLearner.id,
+          status: CampaignParticipationStatuses.STARTED,
+          isCertifiable: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+          filter: { certificability: [false, null] },
+        });
+
+        // then
+        expect(data.length).to.equal(2);
+        expect(_.map(data, 'id')).to.have.members([
+          notCommunicatedOrganizationLearner.id,
+          notEligibleOrganizationLearner.id,
+        ]);
+      });
+
       it('should return sup participants paginated', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
