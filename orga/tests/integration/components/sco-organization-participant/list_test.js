@@ -93,6 +93,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       .exists();
   });
 
+  test('[A11Y] it should have a description for screen-readers', async function (assert) {
+    // given
+    this.set('students', []);
+
+    // when
+    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+
+    // then
+    assert.contains(this.intl.t('pages.sco-organization-participants.table.description'));
+  });
+
   test('it should display participant as eligible for certification when the participant is certifiable', async function (assert) {
     // given
     this.set('students', [
