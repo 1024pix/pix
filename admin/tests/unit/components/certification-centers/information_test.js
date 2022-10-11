@@ -43,13 +43,4 @@ module('Unit | Component | certification-center informations', function (hooks) 
       assert.false(component.form.habilitations.includes(habilitation));
     });
   });
-
-  test('it should generate link based on environment and object', async function (assert) {
-    // given
-    ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL = 'https://superdashboard?id=';
-    component.args = { certificationCenter: { id: 7 } };
-
-    // when & then
-    assert.strictEqual(component.externalURL, 'https://superdashboard?id=7');
-  });
 });
