@@ -1,6 +1,7 @@
 .send-profile-header {
   padding: 30px 10px;
   margin-top: -160px;
+  margin-bottom: 32px;
 
   @include device-is('tablet') {
     padding: 32px 24px;
