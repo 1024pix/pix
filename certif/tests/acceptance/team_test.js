@@ -16,6 +16,25 @@ module('Acceptance | authenticated | team', function (hooks) {
   setupMirage(hooks);
 
   module('when user go to members list', function () {
+    module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function () {
+      module('when there is no referer', function () {
+        test('it should be possible to see the "no referer" section', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+          server.create('featureToggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
+          server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visitScreen('/equipe');
+
+          // then
+          assert.dom(screen.getByText('Aucun référent Pix désigné')).exists();
+          assert.dom(screen.getByRole('button', { name: 'Désigner un référent' })).exists();
+        });
+      });
+    });
+
     test('it should be possible to see members list', async function (assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();

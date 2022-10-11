@@ -1,4 +1,26 @@
 {{page-title "Équipe"}}
 
 <h1 class="page__title page-title">Équipe</h1>
+{{#if this.shouldDisplayNoRefererSection}}
+  <div class="panel team__no-referer-container">
+    <div class="team__no-referer-container-grey">
+      <div class="team__no-referer-bell-icon">
+        <FaIcon @icon="bell" />
+      </div>
+      <div>
+        <h1 class="team__no-referer-title">
+          Aucun référent Pix désigné
+        </h1>
+        <p class="team__no-referer-description">
+          Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des
+          sessions de certification.
+        </p>
+
+        <PixButton class="team__referer-add-button">
+          Désigner un référent
+        </PixButton>
+      </div>
+    </div>
+  </div>
+{{/if}}
 <MembersList @members={{@model}} />
