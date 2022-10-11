@@ -667,8 +667,7 @@
         "title": "Filtres",
         "type": {
           "certificability": {
-            "aria-label": "Enter un statut de certification",
-            "empty": "",
+            "aria-label": "Enter un statut de certification",            
             "label": "Rechercher par certificabilité"
           },
           "fullName": {
@@ -830,8 +829,7 @@
       },
       "filter": {
         "certificability": {
-          "aria-label": "Enter un statut de certification",
-          "empty": "",
+          "aria-label": "Enter un statut de certification",          
           "label": "Rechercher par certificabilité"
         },
         "division": {
@@ -945,7 +943,6 @@
         },
         "certificability": {
           "aria-label": "Enter un statut de certification",
-          "empty": "",
           "label": "Rechercher par certificabilité"
         },
         "last-name": {
