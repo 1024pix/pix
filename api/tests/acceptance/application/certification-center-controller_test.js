@@ -160,12 +160,12 @@ describe('Acceptance | API | Certification Center', function () {
     });
   });
 
-  describe('POST /api/certification-centers', function () {
+  describe('POST /api/admin/certification-centers', function () {
     beforeEach(async function () {
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
       request = {
         method: 'POST',
-        url: '/api/certification-centers',
+        url: '/api/admin/certification-centers',
         payload: {
           data: {
             type: 'certification-center',
