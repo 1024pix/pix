@@ -1,5 +1,14 @@
 .user-certifications-page-get__header {
   display: flex;
+  margin-bottom: 32px;
+  padding: 14px 24px;
+
+  @include device-is('mobile') {
+
+    .pix-block {
+      padding: 16px;
+    }
+  }
 }
 
 .user-certifications-detail-header {

@@ -29,7 +29,6 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 40px;
 
     .pix-block {
       width: auto;
@@ -37,10 +36,11 @@
   }
 
   &__menu-block {
-    padding: 0;
+    margin: 32px;
     height: max-content;
 
     .user-account-menu {
+
       ul {
         margin: 0;
         padding-left: 0;
@@ -89,11 +89,14 @@
     flex-grow: 1;
     height: max-content;
     padding: 14px 24px;
+    margin: 32px;
+    margin-left: 0;
 
     @include device-is('mobile') {
-      margin-left: 0;
+      padding: 16px;
       min-width: 100%;
       max-width: 100%;
+      margin: 0;
     }
   }
 
