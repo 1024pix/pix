@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class AuthenticatedCertificationCentersGetTeamController extends Controller {
   @service notifications;
+  @service errorResponseHandler;
 
   @tracked userEmailToAdd;
   @tracked errorMessage;
@@ -50,7 +51,7 @@ export default class AuthenticatedCertificationCentersGetTeamController extends 
         this.send('refreshModel');
         this.notifications.success('Membre ajouté avec succès.');
       } catch (responseError) {
-        this._handleResponseError(responseError);
+        this.errorResponseHandler.notify(responseError, this.ERROR_MESSAGES);
       }
     }
   }
@@ -68,29 +69,5 @@ export default class AuthenticatedCertificationCentersGetTeamController extends 
 
   _getEmailErrorMessage(email) {
     return email && !isEmailValid(email) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
-  }
-
-  _handleResponseError({ errors }) {
-    let errorMessages = [];
-
-    if (errors) {
-      errorMessages = errors.map((error) => {
-        switch (error.status) {
-          case '400':
-            return this.ERROR_MESSAGES.STATUS_400;
-          case '404':
-            return this.ERROR_MESSAGES.STATUS_404;
-          case '412':
-            return this.ERROR_MESSAGES.STATUS_412;
-          default:
-            return this.ERROR_MESSAGES.DEFAULT;
-        }
-      });
-    } else {
-      errorMessages.push(this.ERROR_MESSAGES.DEFAULT);
-    }
-
-    const uniqueErrorMessages = new Set(errorMessages);
-    uniqueErrorMessages.forEach((errorMessage) => this.notifications.error(errorMessage));
   }
 }

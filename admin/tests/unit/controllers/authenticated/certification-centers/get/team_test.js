@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/certification-centers/get/team', function (hooks) {
   setupTest(hooks);
@@ -163,9 +164,7 @@ module('Unit | Controller | authenticated/certification-centers/get/team', funct
           // given
           const controller = this.owner.lookup('controller:authenticated/certification-centers/get/team');
           controller.userEmailToAdd = 'test@example.net';
-          controller.notifications = {
-            error: sinon.stub(),
-          };
+
           controller.model = {
             certificationCenterId: 666,
           };
@@ -173,14 +172,20 @@ module('Unit | Controller | authenticated/certification-centers/get/team', funct
           const store = this.owner.lookup('service:store');
           const saveStub = sinon.stub();
           store.createRecord = sinon.stub();
-          store.createRecord.returns({ save: saveStub.rejects() });
+          store.createRecord.returns({ save: saveStub.rejects({ errors: [{ title: 'une erreur' }] }) });
+
+          const notificationErrorStub = sinon.stub();
+          class NotificationsStub extends Service {
+            error = notificationErrorStub;
+          }
+          this.owner.register('service:notifications', NotificationsStub);
 
           // when
           const event = { preventDefault() {} };
           await controller.addCertificationCenterMembership(event);
 
           // then
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.DEFAULT);
+          sinon.assert.calledWith(notificationErrorStub, controller.ERROR_MESSAGES.DEFAULT);
           assert.ok(true);
         });
       });
@@ -189,9 +194,7 @@ module('Unit | Controller | authenticated/certification-centers/get/team', funct
         test('should send a specific error notification for http error 400, 404 and 412', async function (assert) {
           // given
           const controller = this.owner.lookup('controller:authenticated/certification-centers/get/team');
-          const responseError = {
-            errors: [{ status: '400' }, { status: '404' }, { status: '412' }],
-          };
+
           controller.notifications = {
             error: sinon.stub(),
           };
@@ -201,8 +204,21 @@ module('Unit | Controller | authenticated/certification-centers/get/team', funct
 
           const store = this.owner.lookup('service:store');
           const saveStub = sinon.stub();
+          const responseError = {
+            errors: [
+              { title: 'a title', status: '400' },
+              { title: 'a title', status: '404' },
+              { title: 'a title', status: '412' },
+            ],
+          };
           store.createRecord = sinon.stub();
           store.createRecord.returns({ save: saveStub.throws(responseError) });
+
+          const notificationErrorStub = sinon.stub();
+          class NotificationsStub extends Service {
+            error = notificationErrorStub;
+          }
+          this.owner.register('service:notifications', NotificationsStub);
 
           controller.userEmailToAdd = 'test@example.net';
 
@@ -211,9 +227,9 @@ module('Unit | Controller | authenticated/certification-centers/get/team', funct
           await controller.addCertificationCenterMembership(event);
 
           // then
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.STATUS_400);
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.STATUS_404);
-          sinon.assert.calledWith(controller.notifications.error, controller.ERROR_MESSAGES.STATUS_412);
+          sinon.assert.calledWith(notificationErrorStub, controller.ERROR_MESSAGES.STATUS_400);
+          sinon.assert.calledWith(notificationErrorStub, controller.ERROR_MESSAGES.STATUS_404);
+          sinon.assert.calledWith(notificationErrorStub, controller.ERROR_MESSAGES.STATUS_412);
           assert.ok(true);
         });
       });
