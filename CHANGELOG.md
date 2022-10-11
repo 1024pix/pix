@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.272.0 (11/10/2022)
+
+
+### :rocket: Amélioration
+- [#5038](https://github.com/1024pix/pix/pull/5038) [FEATURE] Ajouter le filtre de certificabilité pour les organisations Sup (PIX-5563)
+- [#5010](https://github.com/1024pix/pix/pull/5010) [FEATURE] Pouvoir afficher tout type de palier (seuil et niveau) (PIX-5690).
+
+### :building_construction: Tech
+- [#5045](https://github.com/1024pix/pix/pull/5045) [TECH] Supprime les caractères null dans les réponses envoyées
+- [#5039](https://github.com/1024pix/pix/pull/5039) [TECH] Ajout du monitoring de pg-boss 
+- [#5042](https://github.com/1024pix/pix/pull/5042) [TECH] Connecter la nouvelle table trainings (PIX-5776)
+
+### :bug: Correction
+- [#5047](https://github.com/1024pix/pix/pull/5047) [BUGFIX] Réparer la céation d'un nouveau centre de certification dans Pix Admin (PIX-5976)
+- [#5043](https://github.com/1024pix/pix/pull/5043) [BUGFIX] Réparer l'alignement de l'intitulé de champ et de son input dans une épreuve QROC de type phrase (PIX-5970)
+
+### :coffee: Autre
+- [#5044](https://github.com/1024pix/pix/pull/5044) [A11Y] Ajouter une description au tableau complexe de la liste des élèves (Pix-4253) 
+- [#5046](https://github.com/1024pix/pix/pull/5046) [A11Y] Ajouter une description au tableau de la liste des étudiants (Pix-5973)
+
 ## v3.271.0 (10/10/2022)
 
 
