@@ -2,7 +2,6 @@
 
   &__title {
     margin: 0 0 8px;
-    padding-top: 55px;
     padding-bottom: 26px;
     font-family: $font-open-sans;
     font-size: 3rem;
@@ -10,6 +9,7 @@
     color: $pix-neutral-0;
     position: relative;
     right: 0;
+    text-align: center;
   }
 
   &__validation-title {
@@ -29,7 +29,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 100%;
+    gap: 40px;
 
     .pix-block {
       width: auto;
@@ -41,8 +41,11 @@
     height: max-content;
 
     .user-account-menu {
-      display: flex;
-      flex-direction: column;
+      ul {
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+      }
 
       ul li {
         border-bottom: 1.5px solid $pix-neutral-10;
@@ -83,9 +86,9 @@
   }
 
   &__content.pix-block {
-    margin-left: 40px;
-    width: 645px;
+    flex-grow: 1;
     height: max-content;
+    padding: 14px 24px;
 
     @include device-is('mobile') {
       margin-left: 0;
