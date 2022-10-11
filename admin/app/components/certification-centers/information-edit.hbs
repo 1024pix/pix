@@ -1,0 +1,85 @@
+<h1>Modifier un centre de certification</h1>
+<div class="certification-center-information__edit-form">
+  <form class="form" onsubmit={{this.updateCertificationCenter}}>
+
+    <div class="form-field">
+      <label for="name" class="field__label">Nom du centre</label>
+      {{#if (v-get this.form "name" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+          {{v-get this.form "name" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="name"
+        @type="text"
+        class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.name}}
+        required={{true}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="certification-center-type" class="field__label">Type</label>
+      {{#if (v-get this.form "type" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ type">
+          {{v-get this.form "type" "message"}}
+        </div>
+      {{/if}}
+      <PixSelect
+        id="certification-center-type"
+        @options={{this.certificationCenterTypes}}
+        @isSearchable={{false}}
+        @emptyOptionNotSelectable={{true}}
+        @emptyOptionLabel={{"-- Choisissez --"}}
+        @selectedOption={{this.form.type}}
+        @onChange={{this.selectCertificationCenterType}}
+        class={{if (v-get this.form "type" "isInvalid") "form-control is-invalid" "form-control"}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="external-id" class="field__label">Identifiant externe</label>
+      {{#if (v-get this.form "externalId" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ ID externe">
+          {{v-get this.form "externalId" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="external-id"
+        @type="text"
+        class={{if (v-get this.form "externalId" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.externalId}}
+      />
+    </div>
+    <div class="form-field form-field__checkbox">
+      <Input id="supervisor-portal" @type="checkbox" @checked={{this.form.isSupervisorAccessEnabled}} />
+      <label for="supervisor-portal" class="field__label">Espace surveillant</label>
+    </div>
+    <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
+    <ul class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
+      {{#each this.availableHabilitations as |habilitation|}}
+        <li class="habilitation-entry">
+          <Input
+            id="habilitation-checkbox__{{habilitation.id}}"
+            @type="checkbox"
+            @checked={{contains habilitation @certificationCenter.habilitations}}
+            {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
+          />
+          <label class="field__label" for="habilitation-checkbox__{{habilitation.id}}">
+            {{habilitation.label}}
+          </label>
+        </li>
+      {{/each}}
+    </ul>
+
+    <div class="form-actions">
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{false}}
+        @triggerAction={{@toggleEditMode}}
+      >Annuler</PixButton>
+      <PixButton @type="submit" @size="small" @backgroundColor="blue">Enregistrer</PixButton>
+    </div>
+  </form>
+</div>
