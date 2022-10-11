@@ -745,7 +745,12 @@ exports.register = async (server) => {
           query: Joi.object({
             'page[size]': Joi.number().integer().empty(''),
             'page[number]': Joi.number().integer().empty(''),
-          }).options({ allowUnknown: true }),
+            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[firstName]': Joi.string().empty(''),
+            'filter[lastName]': Joi.string().empty(''),
+            'filter[studentNumber]': Joi.string().empty(''),
+          }),
         },
         handler: organizationController.findPaginatedFilteredSupParticipants,
         tags: ['api', 'organization', 'sup-participants'],

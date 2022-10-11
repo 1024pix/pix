@@ -667,8 +667,7 @@
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
           "certificability": {
-            "aria-label": "Enter a status for certificability",
-            "empty": "No status",
+            "aria-label": "Enter a status for certificability",           
             "label": "Search by certificability"
           },
           "fullName": {
@@ -830,8 +829,7 @@
       },
       "filter": {
         "certificability": {
-          "aria-label": "Enter a status for certificability",
-          "empty": "No status",
+          "aria-label": "Enter a status for certificability",         
           "label": "Search by certificability"
         },
         "division": {
@@ -927,32 +925,36 @@
         },
         "description": "Table of students, sorted by name.You can edit the student's number through a menu in an additional column",
         "empty": "No students.",
-        "filter": {
-          "actions": {
-            "clear": "Clear filters"
-          },
-          "aria-label":"Filters on students",
-          "first-name": {
-            "aria-label": "Enter a first name",
-            "label": "Search by first name"
-          },
-          "group": {
-            "aria-label": "Enter a group",
-            "empty": "No group",
-            "label": "Search by group"
-          },
-          "last-name": {
-            "aria-label": "Enter a last name",
-            "label": "Search by last name"
-          },
-          "student-number": {
-            "aria-label": "Enter a student number",
-            "label": "Search by student number"
-          },
-          "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
-          "title": "Filters"
-        },
         "row-title": "Student"
+      },
+      "filter": {
+        "actions": {
+          "clear": "Clear filters"
+        },
+        "aria-label":"Filters on students",
+        "first-name": {
+          "aria-label": "Enter a first name",
+          "label": "Search by first name"
+        },
+        "group": {
+          "aria-label": "Enter a group",
+          "empty": "No group",
+          "label": "Search by group"
+        },
+        "last-name": {
+          "aria-label": "Enter a last name",
+          "label": "Search by last name"
+        },
+        "student-number": {
+          "aria-label": "Enter a student number",
+          "label": "Search by student number"
+        },
+        "certificability": {
+          "aria-label": "Enter a status for certificability",          
+          "label": "Search by certificability"
+        },  
+        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
+        "title": "Filters"
       }
     },
     "sup-organization-participants-import": {

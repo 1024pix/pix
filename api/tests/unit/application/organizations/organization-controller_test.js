@@ -924,6 +924,29 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(response).to.deep.equal(serializedSupOrganizationParticipant);
     });
+
+    it('map all certificability values', async function () {
+      // given
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        query: {
+          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
+        },
+      };
+      usecases.findPaginatedFilteredSupParticipants.resolves({ data: [] });
+      supOrganizationParticipantsSerializer.serialize.returns({});
+
+      // when
+      await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { certificability: [true, false, null] },
+        page: {},
+      });
+    });
   });
 
   describe('#importorganizationLearnersFromSIECLE', function () {
