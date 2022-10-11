@@ -2,7 +2,7 @@
 <div class="content-text content-text--small">
   <form class="form" {{on "submit" this.createStages}}>
     {{#if this.hasStages}}
-      {{#if this.displayNoThresholdZero}}
+      {{#if this.displayNoZeroStage}}
         <PixMessage type="warning">
           Attention ! Il n'y a pas de palier à 0
         </PixMessage>
@@ -13,7 +13,7 @@
             <tr>
               <th class="table__column table__column--id">ID</th>
               <th class="stages-table__image">Image</th>
-              <th class="stages-table__threshold">Seuil</th>
+              <th class="stages-table__type">{{this.columnNameByStageType}}</th>
               <th class="stages-table__title">Titre</th>
               <th>Message</th>
               <th>Titre prescripteur</th>
@@ -23,97 +23,28 @@
           </thead>
           <tbody>
             {{#each @stages as |stage|}}
-              <tr aria-label="Informations sur le palier {{stage.title}}">
-                <td class="table__column table__column--id">{{stage.id}}</td>
-                <td class="stages-table__image">
-                  <img src={{@targetProfile.imageUrl}} alt="" role="presentation" />
-                </td>
-                <td>
-                  {{#if stage.isNew}}
-                    <div class="form-field">
-                      <Input
-                        class={{if stage.errors.threshold "form-control is-invalid" "form-control"}}
-                        @type="number"
-                        required="true"
-                        @value={{stage.threshold}}
-                        aria-label="Seuil du palier"
-                      />
-                      {{#if stage.errors.threshold}}
-                        <div class="form-field__error">
-                          {{stage.errors.threshold.0.message}}
-                        </div>
-                      {{/if}}
-                    </div>
-                  {{else}}
-                    {{stage.threshold}}
-                  {{/if}}
-                </td>
-                <td>
-                  {{#if stage.isNew}}
-                    <div class="form-field">
-                      <Input
-                        class={{if
-                          stage.errors.title
-                          "form-field__text form-control is-invalid"
-                          "form-field__text form-control"
-                        }}
-                        required="true"
-                        @value={{stage.title}}
-                        aria-label="Titre du palier"
-                      />
-                      {{#if stage.errors.title}}
-                        <div class="form-field__error">
-                          {{stage.errors.title.0.message}}
-                        </div>
-                      {{/if}}
-                    </div>
-                  {{else}}
-                    {{stage.title}}
-                  {{/if}}
-                </td>
-                <td>
-                  {{#if stage.isNew}}
-                    <div class="form-field">
-                      <Input
-                        class="form-control"
-                        required="true"
-                        @value={{stage.message}}
-                        aria-label="Message du palier"
-                      />
-                    </div>
-                  {{else}}
-                    {{stage.message}}
-                  {{/if}}
-                </td>
-                <td>
-                  <Common::TickOrCross @isTrue={{stage.hasPrescriberTitle}} />
-                </td>
-                <td>
-                  <Common::TickOrCross @isTrue={{stage.hasPrescriberDescription}} />
-                </td>
-                <td>
-                  {{#if stage.isNew}}
-                    <PixButton
-                      @backgroundColor="transparent-light"
-                      @size="small"
-                      @isBorderVisible={{true}}
-                      aria-label="Supprimer palier"
-                      @triggerAction={{fn this.removeNewStage stage}}
-                    >
-                      <FaIcon @icon="minus" />
-                    </PixButton>
-                  {{else}}
-                    <PixButtonLink
-                      @backgroundColor="transparent-light"
-                      @isBorderVisible={{true}}
-                      @route="authenticated.stages.stage"
-                      @size="small"
-                      @model={{stage}}
-                      class="pix-button__secondary"
-                    >Voir détail</PixButtonLink>
-                  {{/if}}
-                </td>
-              </tr>
+              {{#if stage.isNew}}
+                <TargetProfiles::Stages::NewStage
+                  @imageUrl={{@targetProfile.imageUrl}}
+                  @title={{stage.title}}
+                  @threshold={{stage.threshold}}
+                  @message={{stage.message}}
+                  @errors={{stage.errors}}
+                  @remove={{fn this.removeStage stage}}
+                />
+              {{else}}
+                <TargetProfiles::Stages::Stage
+                  @imageUrl={{@targetProfile.imageUrl}}
+                  @id={{stage.id}}
+                  @title={{stage.title}}
+                  @isTypeLevel={{stage.isTypeLevel}}
+                  @threshold={{stage.threshold}}
+                  @level={{stage.level}}
+                  @message={{stage.message}}
+                  @hasPrescriberTitle={{stage.hasPrescriberTitle}}
+                  @hasPrescriberDescription={{stage.hasPrescriberDescription}}
+                />
+              {{/if}}
             {{/each}}
           </tbody>
         </table>
@@ -121,16 +52,16 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
-
-    <PixButton
-      class="stages-new-stage pix-button__secondary"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.addStage}}
-    >
-      <FaIcon @icon="plus" />Nouveau palier
-    </PixButton>
-
+    {{#unless this.isTypeLevel}}
+      <PixButton
+        class="stages-new-stage pix-button__secondary"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.addStage}}
+      >
+        <FaIcon @icon="plus" />Nouveau palier
+      </PixButton>
+    {{/unless}}
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
         <PixButton

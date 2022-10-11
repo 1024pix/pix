@@ -165,11 +165,13 @@ const TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE = 10;
 const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE = 11;
 const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3 = 12;
 const TARGET_PROFILE_CNAV_ID = 13;
+const TARGET_PROFILE_STAGES_LEVEL_ID = 14;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
   _buildTargetProfileOneCompetence(databaseBuilder);
   _buildTargetProfileWithStagesAndBadges(databaseBuilder);
+  _buildTargetProfileWithStagesLevel(databaseBuilder);
   _buildTargetProfileWithSimplifiedAccess(databaseBuilder);
   _buildTargetProfilePixEmploiCleaV1(databaseBuilder);
   _buildTargetProfilePixEmploiCleaV2(databaseBuilder);
@@ -333,6 +335,53 @@ function _buildTargetProfileWithStagesAndBadges(databaseBuilder) {
     'recmB2623CruGvA1b',
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID, skillId });
+  });
+}
+
+function _buildTargetProfileWithStagesLevel(databaseBuilder) {
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_STAGES_LEVEL_ID,
+    name: 'Parcours avec paliers par niveau',
+    isPublic: true,
+    category: 'COMPETENCES',
+    ownerOrganizationId: null,
+    imageUrl: 'https://images.pix.fr/profil-cible/Illu_classe2.svg',
+  });
+
+  [
+    'rectL2ZZeWPc7yezp',
+    'recndXqXiv4pv2Ukp',
+    'recMOy4S8XnaWblYI',
+    'recagUd44RPEWti0X',
+    'recrvTvLTUXEcUIV1',
+    'recX7RyCsdNV2p168',
+    'recxtb5aLs6OAAKIg',
+    'receRbbt9Lb661wFB',
+    'rec71e3PSct2zLEMj',
+    'recFwJlpllhWzuLom',
+    'rec0J9OXaAj5v7w3r',
+    'reclY3njuk6EySJuU',
+    'rec5V9gp65a58nnco',
+    'recPrXhP0X07OdHXe',
+    'recPG9ftlGZLiF0O6',
+    'rectLj7NPg5JcSIqN',
+    'rec9qal2FLjWysrfu',
+    'rechRPFlSryfY3UnG',
+    'recL0AotZshb9quhR',
+    'recrOwaV2PTt1N0i5',
+    'recpdpemRXuzV9r10',
+    'recWXtN5cNP1JQUVx',
+    'recTIddrkopID28Ep',
+    'recBrDIfDDW2IPpZV',
+    'recgOc2OreHCosoRp',
+    'recGd7oJ2wVEyKmPS',
+    'recVv1eoSLW7yFgXv',
+    'recVywppdS4hGEekR',
+    'recOyQOjUhDKTO7UN',
+    'recKFUQ2CzcYHrxPR',
+    'recmB2623CruGvA1b',
+  ].forEach((skillId) => {
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_STAGES_LEVEL_ID, skillId });
   });
 }
 
@@ -842,6 +891,7 @@ module.exports = {
   TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,
   TARGET_PROFILE_STAGES_BADGES_ID,
+  TARGET_PROFILE_STAGES_LEVEL_ID,
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,

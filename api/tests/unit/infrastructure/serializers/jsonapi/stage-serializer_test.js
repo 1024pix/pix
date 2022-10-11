@@ -21,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
           attributes: {
             message: 'Congrats, you won a banana stage',
             threshold: 42,
+            level: null,
             title: 'Banana',
             'prescriber-title': stage.prescriberTitle,
             'prescriber-description': stage.prescriberDescription,

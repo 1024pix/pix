@@ -2,9 +2,16 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 
+const LEVEL_COLUMN_NAME = 'Niveau';
+const THRESHOLD_COLUMN_NAME = 'Seuil';
+
 export default class Stages extends Component {
   @service store;
   @service notifications;
+
+  get isTypeLevel() {
+    return this.args.stages?.firstObject?.isTypeLevel ?? false;
+  }
 
   get hasStages() {
     const stages = this.args.stages;
@@ -19,8 +26,16 @@ export default class Stages extends Component {
     return this.args.stages.filter((stage) => stage.isNew);
   }
 
-  get displayNoThresholdZero() {
-    return this.hasStages && !this.args.stages.any((stage) => stage.threshold === 0);
+  get displayNoZeroStage() {
+    if (!this.hasStages) return false;
+    if (this.isTypeLevel) {
+      return !this.args.stages.any((stage) => stage.level === 0);
+    }
+    return !this.args.stages.any((stage) => stage.threshold === 0);
+  }
+
+  get columnNameByStageType() {
+    return this.isTypeLevel ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
   }
 
   @action
@@ -40,7 +55,7 @@ export default class Stages extends Component {
   }
 
   @action
-  removeNewStage(stage) {
+  removeStage(stage) {
     stage.deleteRecord();
   }
 
