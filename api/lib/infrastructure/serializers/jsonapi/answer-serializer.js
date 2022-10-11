@@ -52,5 +52,5 @@ module.exports = {
 };
 
 function _cleanValue(value) {
-  return value.replace('\u0000', '');
+  return value.replaceAll('\u0000', '');
 }
