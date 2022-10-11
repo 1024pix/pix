@@ -19,13 +19,7 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   }
 
   @action
-  async updateCertificationCenter(certificationCenterData) {
-    this.model.certificationCenter.name = certificationCenterData.name;
-    this.model.certificationCenter.externalId = certificationCenterData.externalId;
-    this.model.certificationCenter.type = certificationCenterData.type;
-    this.model.certificationCenter.isSupervisorAccessEnabled = certificationCenterData.isSupervisorAccessEnabled;
-    this.model.certificationCenter.habilitations = certificationCenterData.habilitations;
-
+  async updateCertificationCenter() {
     try {
       await this.model.certificationCenter.save();
       this.notifications.success('Centre de certification mis à jour avec succès.');
