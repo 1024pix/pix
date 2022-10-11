@@ -40,12 +40,9 @@
     </li>
   </ul>
 
-  <PixCheckbox
-    @id="pix-certify"
-    @label={{t "pages.account-recovery.find-sco-record.confirmation-step.certify-account"}}
-    {{on "change" this.onChange}}
-    @labelSize="small"
-  />
+  <PixCheckbox @id="pix-certify" {{on "change" this.onChange}} @labelSize="small">
+    {{t "pages.account-recovery.find-sco-record.confirmation-step.certify-account"}}
+  </PixCheckbox>
 
   <div class="account-recovery__content--actions">
     <PixButton @isBorderVisible={{true}} @triggerAction={{@cancelAccountRecovery}} @backgroundColor="transparent-light">
