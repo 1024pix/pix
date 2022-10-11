@@ -15,7 +15,10 @@
       {{t "pages.terms-of-service.message"}}
     </div>
 
-    <PixCheckbox @id="pix-cgu" @label={{t "pages.terms-of-service.cgu" htmlSafe=true}} {{on "change" this.onChange}} />
+    <PixCheckbox @id="pix-cgu" {{on "change" this.onChange}}>
+      {{t "pages.terms-of-service.cgu" htmlSafe=true}}
+    </PixCheckbox>
+
     {{#if this.showErrorTermsOfServiceNotSelected}}
       <div class="terms-of-service-form-conditions__validation-error">
         {{t "pages.terms-of-service.form.error-message"}}

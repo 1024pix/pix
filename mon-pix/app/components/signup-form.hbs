@@ -108,11 +108,12 @@
         </p>
         <PixCheckbox
           @id="checkbox"
-          @label={{t "common.cgu.label"}}
           @screenReaderOnly="true"
           {{on "change" this.onChange}}
           aria-describedby="sign-up-cgu-error-message"
-        />
+        >
+          {{t "common.cgu.label"}}
+        </PixCheckbox>
       </div>
       {{#if @user.errors.cgu}}
         <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
