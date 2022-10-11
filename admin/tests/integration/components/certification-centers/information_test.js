@@ -19,61 +19,6 @@ function _createEmberDataHabilitations(store) {
 module('Integration | Component | certification-centers/information', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display label and values in read mode', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const availableHabilitations = _createEmberDataHabilitations(store);
-    this.availableHabilitations = availableHabilitations;
-
-    const certificationCenter = store.createRecord('certification-center', {
-      name: 'Centre SCO',
-      type: 'SCO',
-      externalId: 'AX129',
-      isSupervisorAccessEnabled: false,
-      dataProtectionOfficerFirstName: 'Lucky',
-      dataProtectionOfficerLastName: 'Number',
-      dataProtectionOfficerEmail: 'lucky@example.net',
-      habilitations: [availableHabilitations.firstObject],
-    });
-    this.certificationCenter = certificationCenter;
-
-    // when
-    const screen = await render(
-      hbs`<CertificationCenters::Information
-      @availableHabilitations={{this.availableHabilitations}}
-      @certificationCenter={{this.certificationCenter}} />`
-    );
-
-    // then
-    assert.dom(screen.getByText('Type :')).exists();
-    assert.dom(screen.getByText('Identifiant externe :')).exists();
-    assert.dom(screen.getByText('Centre SCO')).exists();
-    assert.dom(screen.getByText('AX129')).exists();
-    assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'non');
-    assert.dom(screen.getByText('Nom du DPO : Lucky Number')).exists();
-    assert.dom(screen.getByText('Adresse e-mail du DPO : lucky@example.net')).exists();
-    assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
-    assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
-  });
-
-  test('it should show button to direct user to metabase dashboard', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    this.certificationCenter = store.createRecord('certification-center', {
-      name: 'Centre SCO',
-      type: 'SCO',
-      externalId: 'AX129',
-    });
-
-    // when
-    const screen = await render(
-      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
-    );
-
-    // then
-    assert.dom(screen.getByText('Tableau de bord')).exists();
-  });
-
   test('it enters edition mode when click on Edit button', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');

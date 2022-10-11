@@ -35,12 +35,15 @@ input:invalid {
   box-shadow: none;
 }
 
-abbr.mandatory-mark {
+abbr {
   cursor: help;
-  color: $pix-error-70;
-  display: contents;
-  margin: 1.25rem;
-  text-decoration: none;
+
+  &.mandatory-mark {
+    color: $pix-error-70;
+    display: contents;
+    margin: 1.25rem;
+    text-decoration: none;
+  }
 }
 
 a {

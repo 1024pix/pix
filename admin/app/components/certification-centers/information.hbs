@@ -88,60 +88,11 @@
         </form>
       </div>
     {{else}}
-      <div class="certification-center-information__display">
-        <h1 class="certification-center-information__display__name">{{@certificationCenter.name}}</h1>
-        <div class="property">
-          <label class="field__label">Type :</label>
-          <span>{{@certificationCenter.typeLabel}}</span><br />
-        </div>
-        <div class="property">
-          <label class="field__label">Identifiant externe :</label>
-          <span>{{@certificationCenter.externalId}}</span><br />
-        </div>
-        <div class="property">
-          <ul>
-            <li>Nom du DPO : {{@certificationCenter.dataProtectionOfficerFullName}}</li>
-            <li>Adresse e-mail du DPO : {{@certificationCenter.dataProtectionOfficerEmail}}</li>
-          </ul>
-        </div>
-        <div class="property">
-          <label class="field__label">Espace surveillant :</label>
-          <span aria-label="Espace surveillant">{{@certificationCenter.supervisorAccessLabel}}</span><br />
-        </div>
-        <div class="property">
-          <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
-          <ul class="certification-center-information__display__habilitations-list">
-            {{#each this.availableHabilitations as |habilitation|}}
-              {{#if (contains habilitation @certificationCenter.habilitations)}}
-                <li aria-label={{concat "Habilité pour " habilitation.label}}>
-                  <FaIcon class="granted-habilitation-icon" @icon="check-circle" />
-                  {{habilitation.label}}
-                </li>
-              {{else}}
-                <li aria-label={{concat "Non-habilité pour " habilitation.label}}>
-                  <FaIcon class="not-granted-habilitation-icon" @icon="times-circle" />
-                  {{habilitation.label}}
-                </li>
-              {{/if}}
-            {{/each}}
-          </ul>
-          <div class="certification-center-information__button-section">
-            <PixButton @size="small" @triggerAction={{this.enterEditMode}}>
-              Editer les informations
-            </PixButton>
-
-            <PixButtonLink
-              @backgroundColor="transparent-light"
-              @isBorderVisible={{true}}
-              @href={{this.externalURL}}
-              @size="small"
-              class="pix-button__secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >Tableau de bord</PixButtonLink>
-          </div>
-        </div>
-      </div>
+      <CertificationCenters::InformationView
+        @certificationCenter={{@certificationCenter}}
+        @availableHabilitations={{@availableHabilitations}}
+        @toggleEditMode={{this.enterEditMode}}
+      />
     {{/if}}
   </div>
 </section>
