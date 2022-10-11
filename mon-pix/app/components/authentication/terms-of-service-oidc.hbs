@@ -18,12 +18,9 @@
       </p>
     </div>
 
-    <PixCheckbox
-      @id="pix-cgu"
-      @label={{t "pages.terms-of-service-oidc.cgu" htmlSafe=true}}
-      {{on "change" this.onChange}}
-      aria-label={{t "common.cgu.label"}}
-    />
+    <PixCheckbox @id="pix-cgu" {{on "change" this.onChange}} aria-label={{t "common.cgu.label"}}>
+      {{t "pages.terms-of-service-oidc.cgu" htmlSafe=true}}
+    </PixCheckbox>
 
     {{#if this.errorMessage}}
       <PixMessage @type="error">

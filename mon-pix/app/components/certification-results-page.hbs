@@ -14,12 +14,9 @@
 
     <div class="result-content__warning-container">
       <div class="result-content__checked-supervisor">
-        <PixCheckbox
-          @id="checkbox"
-          @label={{t "pages.certification-results.not-finished.checkbox-label"}}
-          @screenReaderOnly="true"
-          {{on "change" this.onChange}}
-        />
+        <PixCheckbox @id="checkbox" @screenReaderOnly="true" {{on "change" this.onChange}}>
+          {{t "pages.certification-results.not-finished.checkbox-label"}}
+        </PixCheckbox>
 
         <span class="result-content__warning-text">
           {{t "pages.certification-results.not-finished.warning-text"}}
