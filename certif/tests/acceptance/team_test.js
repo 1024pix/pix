@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
+
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
@@ -21,18 +23,16 @@ module('Acceptance | authenticated | team', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/equipe');
+      const screen = await visitScreen('/equipe');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/equipe');
-      assert.contains('Lili');
-      assert.contains('Dupont');
+      assert.strictEqual(currentURL(), '/equipe');
+      assert.dom(screen.getByRole('cell', { name: 'Lili' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
     });
 
     module('when user switch to see another certification center', function () {
-      test('it should be possible to the other members list', async function (assert) {
+      test('it should be possible to see the other members list', async function (assert) {
         // given
         const certificationCenterName = 'Centre de certif des Anne-atole';
         const otherCertificationCenterName = 'Centre de certif de 7 Anne-néla';
@@ -53,17 +53,19 @@ module('Acceptance | authenticated | team', function (hooks) {
         server.create('member', { firstName: 'Lili', lastName: 'Dupont' });
         const memberOfTheFirstCertificationCenter = server.create('member', { firstName: 'Jack', lastName: 'Adit' });
         await authenticateSession(certificationPointOfContact.id);
-        await visit('/equipe');
+        const screen = await visitScreen('/equipe');
 
         // when
-        await click('.logged-user-summary__link');
-        await click(`li[title="${otherCertificationCenterName}"] div[role="button"]`);
+        await click(screen.getByText(`${certificationCenterName} (${certificationPointOfContact.externalId})`));
+        await click(screen.getByText(`${otherCertificationCenterName}`));
         memberOfTheFirstCertificationCenter.destroy();
-        await visit('/equipe');
+        await visitScreen('/equipe');
 
         // then
-        assert.notContains('Jack');
-        assert.contains('Lili');
+        assert.dom(screen.getByRole('cell', { name: 'Lili' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
+        assert.dom(screen.queryByRole('cell', { name: 'Jack' })).doesNotExist();
+        assert.dom(screen.queryByRole('cell', { name: 'Adit' })).doesNotExist();
       });
     });
   });
