@@ -36,7 +36,7 @@ export default class ListRoute extends Route {
       controller.search = null;
       controller.divisions = [];
       controller.connexionType = null;
-      controller.certificability = null;
+      controller.certificability = [];
       controller.pageNumber = null;
       controller.pageSize = null;
     }
