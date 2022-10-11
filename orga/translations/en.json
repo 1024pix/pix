@@ -667,8 +667,7 @@
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
           "certificability": {
-            "aria-label": "Enter a status for certificability",
-            "empty": "",
+            "aria-label": "Enter a status for certificability",           
             "label": "Search by certificability"
           },
           "fullName": {
@@ -830,8 +829,7 @@
       },
       "filter": {
         "certificability": {
-          "aria-label": "Enter a status for certificability",
-          "empty": "",
+          "aria-label": "Enter a status for certificability",         
           "label": "Search by certificability"
         },
         "division": {
@@ -952,8 +950,7 @@
           "label": "Search by student number"
         },
         "certificability": {
-          "aria-label": "Enter a status for certificability",
-          "empty": "",
+          "aria-label": "Enter a status for certificability",          
           "label": "Search by certificability"
         },  
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
