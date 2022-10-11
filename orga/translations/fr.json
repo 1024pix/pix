@@ -924,6 +924,7 @@
             }
           }
         },
+        "description": "Tableau des étudiants trié par nom. Vous pouvez, via un menu situé dans une colonne supplémentaire, modifier le numéro étudiant.",
         "empty": "Aucun étudiant.",
         "filter": {
           "aria-label":"Filtrer les étudiants",
