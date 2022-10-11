@@ -662,6 +662,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
             message: stage.message,
             title: stage.title,
             threshold: stage.threshold,
+            level: stage.level,
             'prescriber-title': stage.prescriberTitle,
             'prescriber-description': stage.prescriberDescription,
           },

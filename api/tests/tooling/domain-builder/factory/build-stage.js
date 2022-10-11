@@ -5,6 +5,7 @@ module.exports = function buildStage({
   title = 'Courage',
   message = 'Insister',
   threshold = 1,
+  level = null,
   prescriberTitle = null,
   prescriberDescription = null,
 } = {}) {
@@ -13,6 +14,7 @@ module.exports = function buildStage({
     title,
     message,
     threshold,
+    level,
     prescriberTitle,
     prescriberDescription,
   });
