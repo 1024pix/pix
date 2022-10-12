@@ -667,7 +667,7 @@
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
           "certificability": {
-            "aria-label": "Enter a status for certificability",           
+            "aria-label": "Enter a status for certificability",
             "label": "Search by certificability"
           },
           "fullName": {
@@ -829,7 +829,7 @@
       },
       "filter": {
         "certificability": {
-          "aria-label": "Enter a status for certificability",         
+          "aria-label": "Enter a status for certificability",
           "label": "Search by certificability"
         },
         "division": {
@@ -906,6 +906,10 @@
           "success": "{firstName} {lastName}'s student number has been successfully edited."
         }
       },
+      "empty-state": {
+        "no-participants": "No students yet!",
+        "no-participants-action": "The administrator must import the students database by clicking on the import button."
+      },
       "table": {
         "column": {
           "date-of-birth": "Date of birth",
@@ -950,9 +954,9 @@
           "label": "Search by student number"
         },
         "certificability": {
-          "aria-label": "Enter a status for certificability",          
+          "aria-label": "Enter a status for certificability",
           "label": "Search by certificability"
-        },  
+        },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
         "title": "Filters"
       }
