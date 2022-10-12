@@ -24,12 +24,12 @@ async function getByName(name) {
 }
 
 async function getById(id) {
-  const framework = await frameworkDatasource.getById(id);
-
-  if (framework === undefined) {
+  try {
+    const framework = await frameworkDatasource.get(id);
+    return _toDomain(framework);
+  } catch (_e) {
     throw new NotFoundError(`Framework not found for id ${id}`);
   }
-  return _toDomain(framework);
 }
 
 module.exports = {
