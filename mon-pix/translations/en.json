@@ -950,7 +950,11 @@
         "button": "Log in"
       },
       "register-form": {
-        "description": "Un compte va être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}",
+        "description": "Un compte va être créé à partir des éléments transmis par l'organisme",
+        "information": {
+          "given-name": "Prénom : {givenName}",
+          "family-name": "Nom : {familyName}"
+        },
         "title": "Je n’ai pas de compte Pix",
         "button": "Je créé mon compte"
       },
