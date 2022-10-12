@@ -196,6 +196,7 @@ module.exports = (function () {
     },
 
     featureToggles: {
+      isPixAppTrainingsPageEnabled: isFeatureEnabled(process.env.FT_TRAININGS_PAGE),
       isPixAppTutoFiltersEnabled: isFeatureEnabled(process.env.FT_TUTOS_V2_1_FILTERS),
       isSsoAccountReconciliationEnabled: isFeatureEnabled(process.env.FT_SSO_ACCOUNT_RECONCILIATION),
       isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
