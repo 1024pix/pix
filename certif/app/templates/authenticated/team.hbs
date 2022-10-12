@@ -16,11 +16,14 @@
           sessions de certification.
         </p>
 
-        <PixButton class="team__referer-add-button">
+        <PixButton class="team__referer-add-button" @triggerAction={{this.toggleRefererModal}}>
           Désigner un référent
         </PixButton>
       </div>
     </div>
   </div>
+{{/if}}
+{{#if this.shouldShowRefererSelectionModal}}
+  <SelectRefererModal @toggleRefererModal={{this.toggleRefererModal}} @members={{@model}} />
 {{/if}}
 <MembersList @members={{@model}} />
