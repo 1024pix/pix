@@ -89,6 +89,12 @@
           "enrolled-candidates": "<span>{enrolledCandidatesCount} candidats</span> sont inscrits à cette session",
           "disclaimer": "Attention, cette action est irréversible."
         }
+      },
+      "detail": {
+        "panel-clea": {
+          "title": "Des candidats ont obtenu le certificat CléA numérique",
+          "download-button": "Télécharger la liste des candidats"
+        }
       }
     },
     "session-supervising": {

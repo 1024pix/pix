@@ -5,10 +5,12 @@ import { authenticateSession } from '../helpers/test-init';
 import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Session Details', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
@@ -191,8 +193,12 @@ module('Acceptance | Session Details', function (hooks) {
             const screen = await visit(`/sessions/${session.id}`);
 
             // then
-            assert.dom(screen.getByText('Des candidats ont obtenu le certificat CléA numérique')).exists();
-            assert.dom(screen.getByRole('link', { name: 'Télécharger la liste des candidats' })).exists();
+            assert.dom(screen.getByText(this.intl.t('pages.sessions.detail.panel-clea.title'))).exists();
+            assert
+              .dom(
+                screen.getByRole('button', { name: this.intl.t('pages.sessions.detail.panel-clea.download-button') })
+              )
+              .exists();
           });
         });
       });
