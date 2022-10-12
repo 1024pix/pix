@@ -936,6 +936,10 @@
         "actions": {
           "clear": "Effacer les filtres"
         },
+        "certificability": {
+          "aria-label": "Enter un statut de certification",
+          "label": "Rechercher par certificabilité"
+        },
         "first-name": {
           "aria-label": "Entrer un prénom",
           "label": "Rechercher par prénom"
@@ -945,13 +949,13 @@
           "empty": "Aucun groupe",
           "label": "Rechercher par groupe"
         },
-        "certificability": {
-          "aria-label": "Enter un statut de certification",
-          "label": "Rechercher par certificabilité"
-        },
         "last-name": {
           "aria-label": "Entrer un nom",
           "label": "Rechercher par nom"
+        },
+        "search": {
+          "aria-label": "Recherche sur le nom et prénom",
+          "label": "Nom, prénom"
         },
         "student-number": {
           "aria-label": "Entrer un numéro étudiant",

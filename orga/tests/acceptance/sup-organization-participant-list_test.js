@@ -50,7 +50,7 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
     });
 
     module('filters', function () {
-      test('it should filter students by group', async function (assert) {
+      test('it filters students by group', async function (assert) {
         // given
         const { getByPlaceholderText, findByRole } = await visit('/etudiants');
 
@@ -68,7 +68,7 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
         assert.contains('tata');
       });
 
-      test('it should filter by certificability', async function (assert) {
+      test('it filters by certificability', async function (assert) {
         // given
         const organizationId = user.memberships.models.firstObject.organizationId;
 
@@ -86,6 +86,15 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
 
         // then
         assert.strictEqual(decodeURI(currentURL()), '/etudiants?certificability=["eligible"]');
+      });
+
+      test('it filters by search', async function (assert) {
+        // when
+        await visit('/etudiants');
+        await fillByLabel('Recherche sur le nom et prénom', 'Jo');
+
+        // then
+        assert.strictEqual(currentURL(), '/etudiants?search=Jo');
       });
     });
 

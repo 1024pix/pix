@@ -220,6 +220,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       assert.ok(true);
     });
 
+    test('it should trigger filtering with search', async function (assert) {
+      // given
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+
+      await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+
+      // when
+      await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.aria-label'), 'Bob M');
+
+      // then
+      sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');
+      assert.ok(true);
+    });
+
     test('it should trigger filtering with student number', async function (assert) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
