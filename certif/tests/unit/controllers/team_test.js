@@ -13,37 +13,40 @@ module('Unit | Controller | authenticated/team', function (hooks) {
         }
         this.owner.register('service:featureToggles', FeatureTogglesStub);
       });
-      module('when there is a referer', function () {
-        test('should return false', function (assert) {
-          // given
-          const controller = this.owner.lookup('controller:authenticated/team');
-          const store = this.owner.lookup('service:store');
-          const referer = store.createRecord('member', {
-            isReferer: true,
-          });
-          const notReferer = store.createRecord('member', {
-            isReferer: false,
-          });
-          controller.model = [referer, notReferer];
 
-          // when then
-          assert.false(controller.shouldDisplayNoRefererSection);
+      module('when certification center has CLEA habilitation', function () {
+        module('when there is a referer', function () {
+          test('should return false', function (assert) {
+            // given
+            const controller = this.owner.lookup('controller:authenticated/team');
+            const store = this.owner.lookup('service:store');
+            const referer = store.createRecord('member', {
+              isReferer: true,
+            });
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model = { members: [referer, notReferer], hasCleaHabilitation: true };
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
         });
-      });
 
-      module('when there is no referer', function () {
-        test('should return true', function (assert) {
-          // given
-          const controller = this.owner.lookup('controller:authenticated/team');
-          const store = this.owner.lookup('service:store');
+        module('when there is no referer', function () {
+          test('should return true', function (assert) {
+            // given
+            const controller = this.owner.lookup('controller:authenticated/team');
+            const store = this.owner.lookup('service:store');
 
-          const notReferer = store.createRecord('member', {
-            isReferer: false,
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model = { members: [notReferer], hasCleaHabilitation: true };
+
+            // when then
+            assert.true(controller.shouldDisplayNoRefererSection);
           });
-          controller.model = [notReferer];
-
-          // when then
-          assert.true(controller.shouldDisplayNoRefererSection);
         });
       });
     });
@@ -66,7 +69,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
           const notReferer = store.createRecord('member', {
             isReferer: false,
           });
-          controller.model = [referer, notReferer];
+          controller.model = { members: [referer, notReferer], hasCleaHabilitation: true };
 
           // when then
           assert.false(controller.shouldDisplayNoRefererSection);
@@ -82,7 +85,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
           const notReferer = store.createRecord('member', {
             isReferer: false,
           });
-          controller.model = [notReferer];
+          controller.model = { members: [notReferer], hasCleaHabilitation: true };
 
           // when then
           assert.false(controller.shouldDisplayNoRefererSection);
