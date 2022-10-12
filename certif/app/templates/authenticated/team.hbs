@@ -24,6 +24,9 @@
   </div>
 {{/if}}
 {{#if this.shouldShowRefererSelectionModal}}
-  <SelectRefererModal @toggleRefererModal={{this.toggleRefererModal}} @members={{@model.members}} />
+  <SelectRefererModal
+    @toggleRefererModal={{this.toggleRefererModal}}
+    @options={{this.membersSelectOptionsSortedByLastName}}
+  />
 {{/if}}
 <MembersList @members={{@model.members}} />
