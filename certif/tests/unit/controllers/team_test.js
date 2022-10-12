@@ -90,4 +90,36 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       });
     });
   });
+
+  module('#toggleRefererModal', function () {
+    module('when shouldShowRefererSelectionModal is true', function () {
+      test('should set the value to false', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/team');
+
+        controller.shouldShowRefererSelectionModal = true;
+
+        // when
+        controller.toggleRefererModal();
+
+        // then
+        assert.false(controller.shouldShowRefererSelectionModal);
+      });
+    });
+
+    module('when shouldShowRefererSelectionModal is false', function () {
+      test('should set the value to true', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/team');
+
+        controller.shouldShowRefererSelectionModal = false;
+
+        // when
+        controller.toggleRefererModal();
+
+        // then
+        assert.true(controller.shouldShowRefererSelectionModal);
+      });
+    });
+  });
 });
