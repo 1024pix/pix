@@ -285,4 +285,38 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       assert.ok(true);
     });
   });
+
+  module('when filter result does not match current participant information', function () {
+    test('it should display a no student message', async function (assert) {
+      // given
+      const students = [];
+      students.meta = { participantCount: 1 };
+      this.set('students', students);
+      this.set('groups', []);
+      // when
+      await render(
+        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`
+      );
+
+      // then
+      assert.contains('Aucun étudiant.');
+    });
+  });
+
+  module('when there is no participants in the organization', function () {
+    test('it should display an import students message', async function (assert) {
+      // given
+      const students = [];
+      students.meta = { participantCount: 0 };
+      this.set('students', students);
+      this.set('groups', []);
+      // when
+      await render(
+        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`
+      );
+
+      // then
+      assert.contains('L’administrateur doit importer les étudiants en cliquant sur le bouton importer.');
+    });
+  });
 });
