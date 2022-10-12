@@ -43,7 +43,7 @@ export default class LoginOidcRoute extends Route {
     }
   }
 
-  afterModel({ shouldValidateCgu, authenticationKey, identityProviderSlug } = {}) {
+  afterModel({ shouldValidateCgu, authenticationKey, identityProviderSlug, givenName, familyName } = {}) {
     const shouldCreateAnAccountForUser = shouldValidateCgu && authenticationKey;
 
     if (!shouldCreateAnAccountForUser) return;
@@ -53,6 +53,8 @@ export default class LoginOidcRoute extends Route {
         queryParams: {
           authenticationKey,
           identityProviderSlug,
+          givenName,
+          familyName,
         },
       });
     }
@@ -76,10 +78,11 @@ export default class LoginOidcRoute extends Route {
         hostSlug: 'token',
       });
     } catch (response) {
-      const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';
-      const authenticationKey = get(response, 'errors[0].meta.authenticationKey');
+      const apiError = get(response, 'errors[0]');
+      const shouldValidateCgu = apiError.code === 'SHOULD_VALIDATE_CGU';
+      const { authenticationKey, givenName, familyName } = apiError.meta ?? {};
       if (shouldValidateCgu && authenticationKey) {
-        return { shouldValidateCgu, authenticationKey, identityProviderSlug };
+        return { shouldValidateCgu, authenticationKey, identityProviderSlug, givenName, familyName };
       }
       throw new Error(JSON.stringify(response.errors));
     } finally {

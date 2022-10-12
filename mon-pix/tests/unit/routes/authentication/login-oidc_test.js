@@ -152,7 +152,12 @@ describe('Unit | Route | login-oidc', function () {
 
           // then
           sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-or-register-oidc', {
-            queryParams: { authenticationKey: '123', identityProviderSlug },
+            queryParams: {
+              authenticationKey: '123',
+              identityProviderSlug,
+              givenName: undefined,
+              familyName: undefined,
+            },
           });
         });
       });
@@ -221,9 +226,14 @@ describe('Unit | Route | login-oidc', function () {
 
     it('should return values to be received by after model to validate CGUs', async function () {
       // given
-      const authenticateStub = sinon
-        .stub()
-        .rejects({ errors: [{ code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key' } }] });
+      const authenticateStub = sinon.stub().rejects({
+        errors: [
+          {
+            code: 'SHOULD_VALIDATE_CGU',
+            meta: { authenticationKey: 'key', givenName: 'Mélusine', familyName: 'TITEGOUTTE' },
+          },
+        ],
+      });
       const sessionStub = Service.create({
         authenticate: authenticateStub,
         data: {},
@@ -244,6 +254,8 @@ describe('Unit | Route | login-oidc', function () {
         shouldValidateCgu: true,
         authenticationKey: 'key',
         identityProviderSlug: 'oidc-partner',
+        givenName: 'Mélusine',
+        familyName: 'TITEGOUTTE',
       });
     });
 
