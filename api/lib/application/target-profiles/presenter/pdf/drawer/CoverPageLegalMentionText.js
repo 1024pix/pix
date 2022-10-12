@@ -11,7 +11,7 @@ const textByLang = {
   fr: "Ceci est un document de travail. Il évolue régulièrement. Sa diffusion est restreinte et son usage limité aux utilisateurs de Pix Orga dans le cadre de la mise en oeuvre de l'accompagnement de leurs publics.",
 };
 
-module.exports = class CoverPageLegaMentionText extends Text {
+module.exports = class CoverPageLegaLMentionText extends Text {
   constructor({ language }) {
     const text = textByLang[language];
     super({
