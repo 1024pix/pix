@@ -7,7 +7,7 @@ module.exports = class CompetenceText extends Text {
   constructor({ text, positionY, areaColor }) {
     super({
       text,
-      positionX: PositionManager.competenceStart,
+      positionX: PositionManager.competenceHorizontalStart,
       positionY,
       fontSize: FontManager.competenceHeight,
       font: FontManager.competenceFont,

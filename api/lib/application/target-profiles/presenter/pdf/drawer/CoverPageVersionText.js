@@ -2,8 +2,7 @@ const dayjs = require('dayjs');
 const Text = require('./Text');
 const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
-
-const COVER_PAGE_VERSION_TEXT_Y_POSITION = 120;
+const PositionManager = require('../manager/position-manager');
 
 const textByLang = {
   en: 'Version {date}',
@@ -21,7 +20,7 @@ module.exports = class CoverPageVersionText extends Text {
     super({
       text,
       positionX,
-      positionY: COVER_PAGE_VERSION_TEXT_Y_POSITION,
+      positionY: PositionManager.coverPageVersionVerticalStart,
       fontSize,
       font,
       fontColor: ColorManager.coverPageVersionColor,
