@@ -125,4 +125,35 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       });
     });
   });
+
+  module('#membersSelectOptionsSortedByLastName', function () {
+    test('should return an array of members select options ordered by last name', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/team');
+      const store = this.owner.lookup('service:store');
+      const member1 = store.createRecord('member', {
+        id: 102,
+        firstName: 'Abe',
+        lastName: 'Sapiens',
+      });
+      const member2 = store.createRecord('member', {
+        id: 100,
+        firstName: 'Trevor',
+        lastName: 'Bruttenholm',
+      });
+      controller.model = { members: [member1, member2], hasCleaHabilitation: true };
+
+      // when then
+      assert.deepEqual(controller.membersSelectOptionsSortedByLastName, [
+        {
+          label: 'Trevor Bruttenholm',
+          value: '100',
+        },
+        {
+          label: 'Abe Sapiens',
+          value: '102',
+        },
+      ]);
+    });
+  });
 });
