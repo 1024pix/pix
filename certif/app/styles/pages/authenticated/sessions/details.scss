@@ -185,6 +185,12 @@
     width: 30%;
   }
 
+  &__error-message {
+    color: $error;
+    max-width: 250px;
+    margin-top: 15px;
+  }
+
   &__controls {
     display: flex;
     justify-content: space-between;

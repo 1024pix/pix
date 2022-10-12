@@ -5,7 +5,7 @@
     </div>
     <div>
       <h1 class="session-details__clea-results-download-title">
-        Des candidats ont obtenu le certificat CléA numérique
+        {{t "pages.sessions.detail.panel-clea.title"}}
       </h1>
       <p class="&__clea-results-download-description">
         Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au
@@ -14,9 +14,16 @@
           <FaIcon @icon="link" /></a>
       </p>
 
-      <PixButtonLink @href="#" class="session-details__clea-results-download-button">
-        Télécharger la liste des candidats
-      </PixButtonLink>
+      <PixButton
+        @triggerAction={{this.downloadCleaCertifiedCandidateData}}
+        class="session-details__clea-results-download-button"
+      >
+        {{t "pages.sessions.detail.panel-clea.download-button"}}
+      </PixButton>
+      {{#if this.cleaCandidateDataDownloadErrorMessage}}
+        <p class="session-details__error-message">{{this.cleaCandidateDataDownloadErrorMessage}}</p>
+      {{/if}}
+
     </div>
   </div>
 </div>
