@@ -7,21 +7,24 @@
     max-width: 500px;
   }
 
+  &__mandatory-information {
+    padding-bottom: $spacing-m;
+    color: $pix-neutral-70;
+  }
+
   &__field {
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
   }
 
-  &__validation {
-    margin-top: 32px;
+  &__actions {
+    margin-top: $spacing-l;
+    margin-bottom: 0;
     display: flex;
-    align-items: center;
     justify-content: flex-end;
-
-    .pix-button {
-      margin-left: 16px;
-    }
+    gap: $spacing-m;
+    list-style: none;
   }
 
   &__error {

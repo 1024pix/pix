@@ -66,7 +66,11 @@ module('Acceptance | Session creation', function (hooks) {
       assert.dom(screen.getByRole('textbox', { name: 'Heure de début (heure locale)' })).exists();
       assert.dom(screen.getByText('Date de début')).exists();
       assert.dom(screen.getByRole('button', { name: 'Créer la session' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+      assert
+        .dom(
+          screen.getByRole('button', { name: 'Annuler la création de session et retourner vers la page précédente' })
+        )
+        .exists();
 
       await fillIn(screen.getByRole('textbox', { name: 'Nom du site' }), 'My address');
       await fillIn(screen.getByRole('textbox', { name: 'Nom de la salle' }), 'My room');
@@ -93,7 +97,9 @@ module('Acceptance | Session creation', function (hooks) {
       const screen = await visit('/sessions/creation');
 
       // when
-      await click(screen.getByRole('button', { name: 'Annuler' }));
+      await click(
+        screen.getByRole('button', { name: 'Annuler la création de session et retourner vers la page précédente' })
+      );
 
       // then
       const actualSessionsCount = server.schema.sessions.all().length;

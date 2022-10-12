@@ -3,9 +3,17 @@
   <h1 class="page__title page-title">Modification d'une session de certification</h1>
 
   <form {{on "submit" this.updateSession}} class="session-form">
+    <p class="session-form__mandatory-information">
+      Les champs marqués de
+      <abbr title="obligatoire" class="mandatory-mark">*</abbr>
+      sont obligatoires.
+    </p>
 
     <div class="session-form__field">
-      <label for="session-address" class="label">Nom du site</label>
+      <label for="session-address" class="label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Nom du site
+      </label>
       <Input
         id="session-address"
         name="session-address"
@@ -22,7 +30,10 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-room" class="label">Nom de la salle</label>
+      <label for="session-room" class="label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Nom de la salle
+      </label>
       <Input
         id="session-room"
         name="session-room"
@@ -39,7 +50,10 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-date" class="label">Date de début</label>
+      <label for="session-date" class="label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Date de début
+      </label>
       <EmberFlatpickr
         @id="session-date"
         @altFormat="d/m/Y"
@@ -59,7 +73,10 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-time" class="label">Heure de début (heure locale)</label>
+      <label for="session-time" class="label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Heure de début (heure locale)
+      </label>
       <EmberFlatpickr
         @id="session-time"
         @onChange={{this.onTimePicked}}
@@ -81,7 +98,10 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-examiner" class="label">Surveillant(s)</label>
+      <label for="session-examiner" class="label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Surveillant(s)
+      </label>
       <Input
         id="session-examiner"
         name="session-examiner"
@@ -98,7 +118,7 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-description" class="label">Observations (optionnel)</label>
+      <label for="session-description" class="label">Observations</label>
       <Textarea
         id="session-description"
         name="session-description"
@@ -109,18 +129,23 @@
       />
     </div>
 
-    <div class="session-form__validation">
-      <PixButton
-        data-test-id="session-form__cancel-button"
-        @triggerAction={{this.cancel}}
-        @backgroundColor="transparent-light"
-      >
-        Annuler
-      </PixButton>
-      <PixButton data-test-id="session-form__submit-button" @type="submit">
-        Modifier la session
-      </PixButton>
-    </div>
+    <ul class="session-form__actions">
+      <li>
+        <PixButton
+          data-test-id="session-form__cancel-button"
+          @triggerAction={{this.cancel}}
+          @backgroundColor="transparent-light"
+          aria-label="Annuler la modification de la session et retourner vers la page précédente"
+        >
+          Annuler
+        </PixButton>
+      </li>
+      <li>
+        <PixButton @type="submit">
+          Modifier la session
+        </PixButton>
+      </li>
+    </ul>
 
   </form>
 </div>

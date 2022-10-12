@@ -91,7 +91,9 @@ module('Acceptance | Session Update', function (hooks) {
     await fillIn(screen.getByRole('textbox', { name: 'Surveillant(s)' }), newExaminer);
 
     // when
-    await click(screen.getByRole('button', { name: 'Annuler' }));
+    await click(
+      screen.getByRole('button', { name: 'Annuler la modification de la session et retourner vers la page précédente' })
+    );
 
     // then
     session.reload();
