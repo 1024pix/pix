@@ -1,6 +1,7 @@
 const LearningContent = require('../../../../lib/domain/models/LearningContent');
 const buildSkill = require('./build-skill');
 const buildTube = require('./build-tube');
+const buildThematic = require('./build-thematic');
 const buildCompetence = require('./build-competence');
 const buildArea = require('./build-area');
 
@@ -13,6 +14,8 @@ buildLearningContent.withSimpleContent = () => {
   const tube = buildTube({ id: 'tubeId', competenceId: 'competenceId', skills: [skill] });
   const area = buildArea({ id: 'areaId' });
   const competence = buildCompetence({ id: 'competenceId', area, tubes: [tube] });
+  const thematic = buildThematic({ id: 'thematicId', competenceId: 'competenceId', tubeIds: ['tubeId'] });
+  competence.thematics = [thematic];
   area.competences = [competence];
   return buildLearningContent([area]);
 };

@@ -11,7 +11,7 @@ const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-
 const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
-const learningContentPDFPresenter = require('./presenter/pdf/learningContentPDFPresenter');
+const learningContentPDFPresenter = require('./presenter/pdf/learning-content-pdf-presenter');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {

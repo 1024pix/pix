@@ -3,7 +3,7 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const usecases = require('../../../../lib/domain/usecases');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
-const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learningContentPDFPresenter');
+const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | target-profile-controller', function () {
