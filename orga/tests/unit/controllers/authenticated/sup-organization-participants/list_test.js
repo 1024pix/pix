@@ -40,21 +40,17 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
   module('#onResetFilter', function () {
     test('resets every filters', async function (assert) {
       // given
-      controller.firstName = 'hey';
-      controller.lastName = 'th';
+      controller.search = 'th';
       controller.groups = ['ing'];
       controller.studentNumber = 'co';
       controller.certificability = ['ool'];
       controller.pageNumber = 1;
       controller.pageSize = 10;
-      controller.search = 'th';
 
       // when
       controller.onResetFilter();
 
       // then
-      assert.strictEqual(controller.firstName, null);
-      assert.strictEqual(controller.lastName, null);
       assert.strictEqual(controller.search, null);
       assert.deepEqual(controller.groups, []);
       assert.strictEqual(controller.studentNumber, null);
