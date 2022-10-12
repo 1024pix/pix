@@ -1291,36 +1291,6 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should filter lastName', async function () {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/sup-participants?filter[lastName]=Bruce`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should filter firstName', async function () {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/sup-participants?filter[firstName]=Wayne`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
       context('certificability', function () {
         it('should filter certificability with one value', async function () {
           // given

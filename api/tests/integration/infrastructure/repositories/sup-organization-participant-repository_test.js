@@ -161,56 +161,6 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
     });
 
     describe('When sup participant is filtered', function () {
-      it('should return sup participants filtered by lastname', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, lastName: 'Grenier' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, lastName: 'Avatar' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, lastName: 'UvAtur' });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId: organization.id,
-          filter: { lastName: 'Vat' },
-        });
-
-        // then
-        expect(_.map(data, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
-      });
-
-      it('should return sup participants filtered by firstname', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Foo',
-          lastName: '1',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Bar',
-          lastName: '2',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Baz',
-          lastName: '3',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId: organization.id,
-          filter: { firstName: 'ba' },
-        });
-
-        // then
-        expect(_.map(data, 'firstName')).to.deep.equal(['Bar', 'Baz']);
-      });
-
       it('should return sup participants filtered by fullname search', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -243,102 +193,6 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
 
         // then
         expect(_.map(data, 'firstName')).to.include.members(['Bar', 'Baz']);
-      });
-
-      it('should return sup participants filtered by student number', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Foo',
-          lastName: '1',
-          studentNumber: 'FOO123',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Bar',
-          lastName: '2',
-          studentNumber: 'BAR123',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Baz',
-          lastName: '3',
-          studentNumber: 'BAZ123',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId: organization.id,
-          filter: { studentNumber: 'ba' },
-        });
-
-        // then
-        expect(_.map(data, 'studentNumber')).to.deep.equal(['BAR123', 'BAZ123']);
-      });
-
-      it('should return sup participants filtered by group', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          lastName: '1',
-          group: '4A',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          lastName: '2',
-          group: '3B',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          lastName: '3',
-          group: '3A',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId: organization.id,
-          filter: { groups: ['3A', '3B'] },
-        });
-
-        // then
-        expect(_.map(data, 'group')).to.deep.equal(['3B', '3A']);
-      });
-
-      it('should return sup participants filtered by firstname AND lastname', async function () {
-        // given
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'John',
-          lastName: 'Rambo',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Jane',
-          lastName: 'Rambo',
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'Chuck',
-          lastName: 'Norris',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId: organization.id,
-          filter: { firstName: 'ja', lastName: 'ram' },
-        });
-
-        // then
-        expect(_.map(data, 'firstName')).to.deep.equal(['Jane']);
       });
 
       it('should return sup participants that are eligible for certificability', async function () {
@@ -444,6 +298,71 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           notCommunicatedOrganizationLearner.id,
           notEligibleOrganizationLearner.id,
         ]);
+      });
+
+      it('should return sup participants filtered by student number', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Foo',
+          lastName: '1',
+          studentNumber: 'FOO123',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Bar',
+          lastName: '2',
+          studentNumber: 'BAR123',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Baz',
+          lastName: '3',
+          studentNumber: 'BAZ123',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+          filter: { studentNumber: 'ba' },
+        });
+
+        // then
+        expect(_.map(data, 'studentNumber')).to.deep.equal(['BAR123', 'BAZ123']);
+      });
+
+      it('should return sup participants filtered by group', async function () {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          lastName: '1',
+          group: '4A',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          lastName: '2',
+          group: '3B',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          lastName: '3',
+          group: '3A',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId: organization.id,
+          filter: { groups: ['3A', '3B'] },
+        });
+
+        // then
+        expect(_.map(data, 'group')).to.deep.equal(['3B', '3A']);
       });
 
       it('should return sup participants paginated', async function () {
