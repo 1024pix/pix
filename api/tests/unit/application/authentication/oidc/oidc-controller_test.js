@@ -167,7 +167,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
       const authenticationKey = 'aaa-bbb-ccc';
-      usecases.authenticateOidcUser.resolves({ authenticationKey });
+      const givenName = 'Mélusine';
+      const familyName = 'TITEGOUTTE';
+      usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName });
 
       // when
       const error = await catchErr(oidcController.authenticateUser)(request, hFake);
@@ -176,7 +178,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(error).to.be.an.instanceOf(UnauthorizedError);
       expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
       expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
-      expect(error.meta).to.deep.equal({ authenticationKey });
+      expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName });
     });
 
     context('when isSsoAccountReconciliationEnabled is false', function () {

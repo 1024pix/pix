@@ -33,7 +33,8 @@ module.exports = async function authenticateOidcUser({
 
   if (!userId) {
     const authenticationKey = await authenticationSessionService.save({ userInfo, sessionContent });
-    return { authenticationKey, isAuthenticationComplete: false };
+    const { firstName: givenName, lastName: familyName } = userInfo;
+    return { authenticationKey, givenName, familyName, isAuthenticationComplete: false };
   }
 
   if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
