@@ -76,6 +76,7 @@ exports.register = async function (server) {
             data: {
               attributes: {
                 threshold: Joi.number().required().allow(null),
+                level: Joi.number().required().allow(null),
                 title: Joi.string().required().allow(null),
                 message: Joi.string().required().allow(null),
                 'prescriber-title': Joi.string().required().allow(null),

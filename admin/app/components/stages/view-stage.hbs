@@ -22,12 +22,12 @@
     {{@model.prescriberDescription}}<br />
   </div>
   <br />
-  {{#unless @isTypeLevel}}
-    <PixButton
-      @size="small"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{@toggleEditMode}}
-    >Éditer</PixButton>
-  {{/unless}}
+  <PixButton
+    @size="small"
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    @triggerAction={{@toggleEditMode}}
+  >
+    Éditer
+  </PixButton>
 </section>

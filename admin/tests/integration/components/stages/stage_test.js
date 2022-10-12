@@ -34,7 +34,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     test('should render all details about the stage when the isEditMode is false', async function (assert) {
       //when
       const screen = await render(
-        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
+        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
       );
 
       //then
@@ -48,7 +48,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     test('should call toggleEditMode function when the edit button is clicked', async function (assert) {
       //when
       await render(
-        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
+        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
       );
 
       await click('button');
@@ -63,7 +63,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
 
       //when
       const screen = await render(
-        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
+        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
       );
 
       //then
@@ -94,7 +94,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     test('it should render all details about the stage', async function (assert) {
       //when
       const screen = await render(
-        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
+        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
       );
 
       //then
@@ -104,13 +104,13 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       assert.dom(screen.getByText('Message : mon message', { exact: false })).exists();
     });
 
-    test('it should not render the edit button action', async function (assert) {
+    test('it should render the edit button action', async function (assert) {
       // when
       const screen = await render(
-        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
+        hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
       );
       // then
-      assert.dom(screen.queryByText('Éditer')).doesNotExist();
+      assert.dom(screen.queryByText('Éditer')).exists();
     });
   });
 });

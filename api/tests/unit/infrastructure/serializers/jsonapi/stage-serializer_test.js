@@ -50,6 +50,7 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
             title: 'My stage title',
             message: 'My stage message',
             threshold: 42,
+            level: 6,
             'prescriber-title': 'Palier intermédiaire',
             'prescriber-description': 'Le participant a un niveau moyen',
           },
@@ -71,6 +72,7 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
       expect(stage.title).to.equal('My stage title');
       expect(stage.message).to.equal('My stage message');
       expect(stage.threshold).to.equal(42);
+      expect(stage.level).to.equal(6);
       expect(stage.targetProfileId).to.equal(targetProfileId);
       expect(stage.prescriberTitle).to.equal('Palier intermédiaire');
       expect(stage.prescriberDescription).to.equal('Le participant a un niveau moyen');
