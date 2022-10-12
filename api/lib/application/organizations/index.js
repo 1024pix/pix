@@ -747,8 +747,6 @@ exports.register = async (server) => {
             'page[number]': Joi.number().integer().empty(''),
             'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
             'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[firstName]': Joi.string().empty(''),
-            'filter[lastName]': Joi.string().empty(''),
             'filter[search]': Joi.string().empty(''),
             'filter[studentNumber]': Joi.string().empty(''),
           }),
