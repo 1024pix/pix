@@ -13,11 +13,13 @@ class HttpResponse {
 
 module.exports = {
   async post({ url, payload, headers }) {
+    const TIMEOUT_MILLISECONDS = 5;
     const startTime = performance.now();
     let responseTime = null;
     try {
       const httpResponse = await axios.post(url, payload, {
         headers,
+        timeout: TIMEOUT_MILLISECONDS,
       });
       responseTime = performance.now() - startTime;
       logInfoWithCorrelationIds({
