@@ -939,19 +939,11 @@
         "certificability": {
           "aria-label": "Enter a status for certificability",          
           "label": "Search by certificability"
-        }, 
-        "first-name": {
-          "aria-label": "Enter a first name",
-          "label": "Search by first name"
         },
         "group": {
           "aria-label": "Enter a group",
           "empty": "No group",
           "label": "Search by group"
-        },
-        "last-name": {
-          "aria-label": "Enter a last name",
-          "label": "Search by last name"
         },
         "search": {
           "aria-label": "Search by lastname and firstname",

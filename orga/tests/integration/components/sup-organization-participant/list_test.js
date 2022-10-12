@@ -184,42 +184,6 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   });
 
   module('when user is filtering some users', function () {
-    test('it should trigger filtering with lastname', async function (assert) {
-      const triggerFiltering = sinon.spy();
-      this.set('triggerFiltering', triggerFiltering);
-      this.set('students', []);
-      this.set('groups', []);
-
-      // when
-      await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
-      );
-
-      await fillByLabel('Entrer un nom', 'bob');
-
-      // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'lastName', 'bob');
-      assert.ok(true);
-    });
-
-    test('it should trigger filtering with firstname', async function (assert) {
-      const triggerFiltering = sinon.spy();
-      this.set('triggerFiltering', triggerFiltering);
-      this.set('students', []);
-      this.set('groups', []);
-
-      // when
-      await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
-      );
-
-      await fillByLabel('Entrer un prénom', 'bob');
-
-      // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'firstName', 'bob');
-      assert.ok(true);
-    });
-
     test('it should trigger filtering with search', async function (assert) {
       // given
       const triggerFiltering = sinon.spy();

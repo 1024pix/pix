@@ -940,18 +940,10 @@
           "aria-label": "Enter un statut de certification",
           "label": "Rechercher par certificabilité"
         },
-        "first-name": {
-          "aria-label": "Entrer un prénom",
-          "label": "Rechercher par prénom"
-        },
         "group": {
           "aria-label": "Entrer un groupe",
           "empty": "Aucun groupe",
           "label": "Rechercher par groupe"
-        },
-        "last-name": {
-          "aria-label": "Entrer un nom",
-          "label": "Rechercher par nom"
         },
         "search": {
           "aria-label": "Recherche sur le nom et prénom",

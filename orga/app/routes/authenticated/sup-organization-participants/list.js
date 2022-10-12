@@ -5,8 +5,6 @@ import Route from '@ember/routing/route';
 
 export default class ListRoute extends Route {
   queryParams = {
-    lastName: { refreshModel: true },
-    firstName: { refreshModel: true },
     search: { refreshModel: true },
     studentNumber: { refreshModel: true },
     groups: { refreshModel: true },
@@ -23,8 +21,6 @@ export default class ListRoute extends Route {
     return this.store.query('sup-organization-participant', {
       filter: {
         organizationId,
-        lastName: params.lastName,
-        firstName: params.firstName,
         search: params.search,
         studentNumber: params.studentNumber,
         groups: params.groups,
@@ -39,8 +35,6 @@ export default class ListRoute extends Route {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.lastName = null;
-      controller.firstName = null;
       controller.search = null;
       controller.studentNumber = null;
       controller.groups = [];
