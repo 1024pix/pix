@@ -1,10 +1,9 @@
 const databaseBuffer = require('../database-buffer');
-const { buildTargetProfile, buildTraining } = require('./index');
 
 module.exports = function buildTargetProfileTraining({
   id = databaseBuffer.getNextId(),
-  trainingId = buildTraining().id,
-  targetProfileId = buildTargetProfile().id,
+  trainingId,
+  targetProfileId,
 } = {}) {
   const values = {
     id,
