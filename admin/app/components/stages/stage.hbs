@@ -6,42 +6,18 @@
 
 <main class="page-body">
   {{#if @isEditMode}}
-
-    <Stages::update-stage @model={{@model}} @toggleEditMode={{@toggleEditMode}} />
-
+    <Stages::UpdateStage
+      @model={{@model}}
+      @isTypeLevel={{this.isTypeLevel}}
+      @stageTypeName={{this.stageTypeName}}
+      @toggleEditMode={{@toggleEditMode}}
+    />
   {{else}}
-    <section class="page-section">
-      <div class="page-section__header">
-        <h1 class="page-section__title">{{@model.name}}</h1>
-      </div>
-      <div class="page-section__details">
-        ID :
-        {{@model.id}}<br />
-        {{this.stageTypeName}}
-        :
-        {{#if this.isTypeLevel}}
-          {{@model.level}}
-        {{else}}
-          {{@model.threshold}}
-        {{/if}}<br />
-        Titre :
-        {{@model.title}}<br />
-        Message :
-        {{@model.message}}<br />
-        Titre pour le prescripteur :
-        {{@model.prescriberTitle}}<br />
-        Description pour le prescripteur :
-        {{@model.prescriberDescription}}<br />
-      </div>
-      <br />
-      {{#unless this.isTypeLevel}}
-        <PixButton
-          @size="small"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{@toggleEditMode}}
-        >Éditer</PixButton>
-      {{/unless}}
-    </section>
+    <Stages::ViewStage
+      @model={{@model}}
+      @isTypeLevel={{this.isTypeLevel}}
+      @stageTypeName={{this.stageTypeName}}
+      @toggleEditMode={{@toggleEditMode}}
+    />
   {{/if}}
 </main>
