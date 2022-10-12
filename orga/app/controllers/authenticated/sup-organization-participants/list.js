@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 export default class ListController extends Controller {
   @tracked lastName = null;
   @tracked firstName = null;
+  @tracked search = null;
   @tracked studentNumber = null;
   @tracked groups = [];
   @tracked certificability = [];
@@ -21,6 +22,7 @@ export default class ListController extends Controller {
   onResetFilter() {
     this.lastName = null;
     this.firstName = null;
+    this.search = null;
     this.studentNumber = null;
     this.groups = [];
     this.certificability = [];

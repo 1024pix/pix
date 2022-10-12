@@ -47,6 +47,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       controller.certificability = ['ool'];
       controller.pageNumber = 1;
       controller.pageSize = 10;
+      controller.search = 'th';
 
       // when
       controller.onResetFilter();
@@ -54,6 +55,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       // then
       assert.strictEqual(controller.firstName, null);
       assert.strictEqual(controller.lastName, null);
+      assert.strictEqual(controller.search, null);
       assert.deepEqual(controller.groups, []);
       assert.strictEqual(controller.studentNumber, null);
       assert.deepEqual(controller.certificability, []);

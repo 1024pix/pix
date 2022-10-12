@@ -27,6 +27,13 @@
     @ariaLabel={{t "pages.sup-organization-participants.filter.first-name.aria-label"}}
     @triggerFiltering={{@onFilter}}
   />
+  <Ui::SearchInputFilter
+    @field="search"
+    @value={{@searchFilter}}
+    @placeholder={{t "pages.sup-organization-participants.filter.search.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.search.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
   <Ui::MultiSelectFilter
     @field="groups"
     @title={{t "pages.sup-organization-participants.table.column.group"}}
