@@ -116,6 +116,7 @@ describe('Unit | Application | Stages | Routes', function () {
               'prescriber-description': null,
               'prescriber-title': null,
               threshold: null,
+              level: null,
               title: null,
             },
           },
@@ -137,6 +138,7 @@ describe('Unit | Application | Stages | Routes', function () {
           data: {
             attributes: {
               threshold: 42,
+              level: null,
               title: 'titre',
               message: 'message',
               'prescriber-title': 'test',
@@ -165,6 +167,7 @@ describe('Unit | Application | Stages | Routes', function () {
           data: {
             attributes: {
               threshold: 42,
+              level: null,
               title: 'titre',
               message: null,
               'prescriber-title': null,
@@ -286,6 +289,7 @@ describe('Unit | Application | Stages | Routes', function () {
               'prescriber-description': null,
               'prescriber-title': null,
               threshold: null,
+              level: null,
               title: null,
             },
           },

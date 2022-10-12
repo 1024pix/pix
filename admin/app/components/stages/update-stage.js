@@ -36,6 +36,7 @@ export default class UpdateStage extends Component {
     super(...arguments);
     this.form = Form.create(getOwner(this).ownerInjection());
     this.form.threshold = this.args.model.threshold;
+    this.form.level = this.args.model.level;
     this.form.title = this.args.model.title;
     this.form.message = this.args.model.message;
     this.form.prescriberTitle = this.args.model.prescriberTitle;
@@ -50,6 +51,7 @@ export default class UpdateStage extends Component {
   async _updateStage() {
     const model = this.args.model;
     model.threshold = this.form.threshold ?? null;
+    model.level = this.form.level ?? null;
     model.title = this.form.title ? this.form.title.trim() : null;
     model.message = this.form.message ? this.form.message.trim() : null;
     model.prescriberTitle = this.form.prescriberTitle ? this.form.prescriberTitle.trim() : null;
