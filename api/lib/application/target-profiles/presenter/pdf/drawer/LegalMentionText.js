@@ -2,9 +2,7 @@ const dayjs = require('dayjs');
 const Text = require('./Text');
 const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
-
-const LEGAL_MENTION_TEXT_X_POSITION = 20;
-const LEGAL_MENTION_TEXT_Y_POSITION = 5;
+const PositionManager = require('../manager/position-manager');
 
 const textByLang = {
   en: 'This is a working document, updated regularly. Its distribution is restricted and its use limited to Pix Orga members in the context of the implementation of the support of their users. - Version {date}',
@@ -20,8 +18,8 @@ module.exports = class LegalMentionText extends Text {
     const fontSize = FontManager.legalMentionHeight;
     super({
       text,
-      positionX: LEGAL_MENTION_TEXT_X_POSITION,
-      positionY: LEGAL_MENTION_TEXT_Y_POSITION,
+      positionX: PositionManager.legalMentionHorizontalStart,
+      positionY: PositionManager.legalMentionVerticalStart,
       fontSize,
       font,
       fontColor: ColorManager.legalMentionColor,

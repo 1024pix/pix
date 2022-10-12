@@ -1,10 +1,7 @@
 const Text = require('./Text');
 const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
-
-const COVER_PAGE_LEGAL_MENTION_TEXT_X_POSITION = 40;
-const COVER_PAGE_LEGAL_MENTION_TEXT_Y_POSITION = 45;
-const COVER_PAGE_LEGAL_MENTION_TEXT_MAX_WIDTH = 540;
+const PositionManager = require('../manager/position-manager');
 
 const textByLang = {
   en: 'This is a working document, updated regularly. Its distribution is restricted and its use limited to Pix Orga members in the context of the implementation of the support of their users.',
@@ -16,12 +13,12 @@ module.exports = class CoverPageLegaLMentionText extends Text {
     const text = textByLang[language];
     super({
       text,
-      positionX: COVER_PAGE_LEGAL_MENTION_TEXT_X_POSITION,
-      positionY: COVER_PAGE_LEGAL_MENTION_TEXT_Y_POSITION,
+      positionX: PositionManager.coverPageLegalMentionHorizontalStart,
+      positionY: PositionManager.coverPageLegalMentionVerticalStart,
       fontSize: FontManager.coverPageLegalMentionHeight,
       font: FontManager.coverPageLegalMentionFont,
       fontColor: ColorManager.coverPageLegalMentionColor,
-      maxWidth: COVER_PAGE_LEGAL_MENTION_TEXT_MAX_WIDTH,
+      maxWidth: PositionManager.coverPageLegalMentionWidth,
     });
   }
 };

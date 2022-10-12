@@ -9,7 +9,7 @@ class ThematicText extends Text {
     const positionYOfThematic = positionY - _computeMarginTopThematic(thematicText, positionY, positionYAfterTubes);
     super({
       text: thematicText,
-      positionX: PositionManager.thematicStart,
+      positionX: PositionManager.thematicHorizontalStart,
       positionY: positionYOfThematic,
       fontSize: FontManager.thematicHeight,
       font: FontManager.thematicFont,

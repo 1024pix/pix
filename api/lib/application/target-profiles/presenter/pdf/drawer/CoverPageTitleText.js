@@ -3,8 +3,6 @@ const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
 const PositionManager = require('../manager/position-manager');
 
-const COVER_PAGE_TITLE_TEXT_Y_POSITION = 400;
-
 module.exports = class CoverPageTitleText extends Text {
   constructor({ title, page }) {
     const text = title;
@@ -14,7 +12,7 @@ module.exports = class CoverPageTitleText extends Text {
     super({
       text,
       positionX,
-      positionY: COVER_PAGE_TITLE_TEXT_Y_POSITION,
+      positionY: PositionManager.coverPageTitleVerticalStart,
       fontSize,
       font,
       fontColor: ColorManager.coverPageTitleColor,
