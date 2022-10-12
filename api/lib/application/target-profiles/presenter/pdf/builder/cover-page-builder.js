@@ -20,8 +20,8 @@ module.exports = {
     });
     const coverPageVersionText = new CoverPageVersionText({ language, page });
     const coverPageLegalMentionText = new CoverPageLegalMentionText({ language });
+    coverPageTitleText.drawAlignCenter(page);
     coverPageVersionText.draw(page);
     coverPageLegalMentionText.draw(page);
-    coverPageTitleText.drawAlignCenter(page);
   },
 };
