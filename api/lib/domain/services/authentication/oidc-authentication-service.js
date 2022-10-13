@@ -140,6 +140,7 @@ class OidcAuthenticationService {
       const dataToLog = {
         message,
         typeOfUserInfoContent: typeof userInfoContent,
+        userInfoContent,
       };
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
       throw new InvalidExternalAPIResponseError(message);
