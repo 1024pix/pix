@@ -284,6 +284,24 @@ exports.register = async function (server) {
         tags: ['api', 'certification-center', 'invitations', 'admin'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/certif/certification-centers/{certificationCenterId}/update-referer',
+      config: {
+        handler: certificationCenterController.updateReferer,
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Mise à jour du status de référent d'un membre d'un espace pix-certif\n",
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
   ]);
 };
 
