@@ -47,6 +47,7 @@ describe('Integration | Repository | area-repository', function () {
           title: area0.titleFrFr,
           color: area0.color,
           frameworkId: area0.frameworkId,
+          framework: null,
           competences: [],
         },
         {
@@ -56,6 +57,7 @@ describe('Integration | Repository | area-repository', function () {
           title: area1.titleFrFr,
           color: area1.color,
           frameworkId: area1.frameworkId,
+          framework: null,
           competences: [],
         },
       ]);
@@ -171,6 +173,7 @@ describe('Integration | Repository | area-repository', function () {
           title: area0.titleFrFr,
           color: area0.color,
           frameworkId: area0.frameworkId,
+          framework: null,
         });
         expect(areas[0].competences).to.have.lengthOf(1);
         expect(areas[0].competences[0].id).to.equal('recCompetence1');
@@ -181,6 +184,7 @@ describe('Integration | Repository | area-repository', function () {
           title: area1.titleFrFr,
           color: area1.color,
           frameworkId: area1.frameworkId,
+          framework: null,
         });
         expect(areas[1].competences).to.have.lengthOf(1);
         expect(areas[1].competences[0].id).to.equal('recCompetence3');
@@ -197,6 +201,7 @@ describe('Integration | Repository | area-repository', function () {
       titleEnUs: 'area0titleEn',
       color: 'area0color',
       frameworkId: 'framework1',
+      framework: null,
       competenceIds: ['recCompetence0', 'recCompetence1'],
     };
 
@@ -208,6 +213,7 @@ describe('Integration | Repository | area-repository', function () {
       titleEnUs: 'area1titleEn',
       color: 'area1color',
       frameworkId: 'framework2',
+      framework: null,
       competenceIds: ['recCompetence2', 'recCompetence3'],
     };
 
@@ -266,6 +272,7 @@ describe('Integration | Repository | area-repository', function () {
         title: area0.titleFrFr,
         color: area0.color,
         frameworkId: area0.frameworkId,
+        framework: null,
       });
       expect(areas[0].competences).to.have.lengthOf(2);
       expect(areas[0].competences[0].id).to.equal('recCompetence0');
@@ -290,6 +297,7 @@ describe('Integration | Repository | area-repository', function () {
         title: area0.titleEnUs,
         color: area0.color,
         frameworkId: area0.frameworkId,
+        framework: null,
       });
       expect(areas[0].competences).to.have.lengthOf(2);
       expect(areas[0].competences[0].id).to.equal('recCompetence0');
@@ -311,6 +319,7 @@ describe('Integration | Repository | area-repository', function () {
         title: 'area_title1FR',
         color: 'blue1',
         frameworkId: 'recFwkId1',
+        framework: null,
       });
       const area2 = domainBuilder.buildArea({
         id: 'recArea2',
@@ -319,6 +328,7 @@ describe('Integration | Repository | area-repository', function () {
         title: 'area_title2FR',
         color: 'blue2',
         frameworkId: 'recFwkId2',
+        framework: null,
       });
 
       const learningContentArea0 = {
@@ -369,6 +379,7 @@ describe('Integration | Repository | area-repository', function () {
         title: 'area_title1EN',
         color: 'blue1',
         frameworkId: 'recFwkId1',
+        framework: null,
       });
       const area2 = domainBuilder.buildArea({
         id: 'recArea2',
@@ -377,6 +388,7 @@ describe('Integration | Repository | area-repository', function () {
         title: 'area_title2EN',
         color: 'blue2',
         frameworkId: 'recFwkId2',
+        framework: null,
       });
 
       const learningContentArea0 = {

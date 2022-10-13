@@ -9,7 +9,7 @@ describe('Integration | Repository | framework-repository', function () {
     name: 'mon framework 0',
   };
   const framework1 = {
-    id: 'recId0',
+    id: 'recId1',
     name: 'mon framework 1',
   };
 
@@ -40,7 +40,7 @@ describe('Integration | Repository | framework-repository', function () {
       expect(framework).to.deep.equal(framework1);
     });
 
-    describe('when framework is not found', function () {
+    context('when framework is not found', function () {
       it('should return a rejection', async function () {
         //given
         const frameworkName = 'framework123';
@@ -51,6 +51,31 @@ describe('Integration | Repository | framework-repository', function () {
         // then
         expect(error).to.be.an.instanceof(NotFoundError);
         expect(error.message).to.equal('Framework not found for name framework123');
+      });
+    });
+  });
+
+  describe('#getById', function () {
+    it('should return a framework', async function () {
+      // when
+      const framework = await frameworkRepository.getById('recId1');
+
+      // then
+      expect(framework).to.be.instanceof(Framework);
+      expect(framework).to.deep.equal(framework1);
+    });
+
+    context('when framework is not found', function () {
+      it('should return a rejection', async function () {
+        //given
+        const unknownFrameworkId = 'recUnknownFmk';
+
+        // when
+        const error = await catchErr(frameworkRepository.getById)(unknownFrameworkId);
+
+        // then
+        expect(error).to.be.an.instanceof(NotFoundError);
+        expect(error.message).to.equal('Framework not found for id recUnknownFmk');
       });
     });
   });

@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
+const DEFAULT_FRAMEWORK_ID = '-1';
+
 const buildLearningContent = function (learningContent) {
   const allCompetences = [];
   const allTubes = [];
@@ -10,6 +12,7 @@ const buildLearningContent = function (learningContent) {
   const allTutorials = [];
   const allThematics = [];
   const allTrainings = [];
+  const allFrameworkIds = [];
 
   const areas = learningContent.map((area) => {
     const competences = area.competences.map((competence) => {
@@ -87,9 +90,11 @@ const buildLearningContent = function (learningContent) {
           allTubes.push(tubes);
           return {
             id: thematic.id,
-            name: thematic.name,
+            name: thematic.nameFr || thematic.name,
+            nameEnUs: thematic.nameEn || thematic.name,
             index: thematic.index,
-            tubeIds: [],
+            tubeIds: tubes.map((tube) => tube.id),
+            competenceId: competence.id,
           };
         }) ?? [];
       allThematics.push(thematics);
@@ -119,6 +124,11 @@ const buildLearningContent = function (learningContent) {
       });
     allCourses.push(courses);
     allTrainings.push(area.trainings);
+
+    const frameworkId = area.frameworkId || DEFAULT_FRAMEWORK_ID;
+    if (!allFrameworkIds.includes(frameworkId)) {
+      allFrameworkIds.push(frameworkId);
+    }
     return {
       id: area.id,
       code: area.code,
@@ -126,7 +136,7 @@ const buildLearningContent = function (learningContent) {
       titleFrFr: area.titleFr,
       titleEnUs: area.titleEn,
       color: area.color,
-      frameworkId: area.frameworkId,
+      frameworkId,
       competenceIds: competences.map((competence) => competence.id),
     };
   });
@@ -140,6 +150,9 @@ const buildLearningContent = function (learningContent) {
     tutorials: _.compact(allTutorials.flat()),
     thematics: allThematics.flat(),
     trainings: allTrainings.flat(),
+    frameworks: _.uniq(allFrameworkIds).map((id) => {
+      return { id, name: `framework#${id}` };
+    }),
   };
 };
 

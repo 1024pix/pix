@@ -95,7 +95,8 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       await databaseBuilder.commit();
 
       const learningContent = {
-        areas: [{ id: 'recArea1', competenceIds: ['recCompetence1'] }],
+        frameworks: [{ id: 'frameworkId', name: 'frameworkName' }],
+        areas: [{ id: 'recArea1', frameworkId: 'frameworkId', competenceIds: ['recCompetence1'] }],
         competences: [
           {
             id: 'recCompetence1',

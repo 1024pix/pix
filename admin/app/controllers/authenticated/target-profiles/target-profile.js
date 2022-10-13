@@ -4,10 +4,13 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 export default class TargetProfileController extends Controller {
   @service notifications;
+  @service fileSaver;
+  @service session;
 
   @tracked isEditMode = false;
   @tracked displayConfirm = false;
   @tracked displaySimplifiedAccessPopupConfirm = false;
+  @tracked displayPdfParametersModal = false;
 
   get isPublic() {
     return this.model.isPublic ? 'Oui' : 'Non';
@@ -38,6 +41,11 @@ export default class TargetProfileController extends Controller {
   @action
   toggleDisplaySimplifiedAccessPopupConfirm() {
     this.displaySimplifiedAccessPopupConfirm = !this.displaySimplifiedAccessPopupConfirm;
+  }
+
+  @action
+  toggleDisplayPdfParametersModal() {
+    this.displayPdfParametersModal = !this.displayPdfParametersModal;
   }
 
   @action
@@ -81,5 +89,19 @@ export default class TargetProfileController extends Controller {
 
   reset() {
     this.isEditMode = false;
+  }
+
+  @action
+  async downloadPDF(language, title) {
+    try {
+      this.toggleDisplayPdfParametersModal();
+      const targetProfileId = this.model.id;
+      const url = `/api/admin/target-profiles/${targetProfileId}/learning-content-pdf?language=${language}&title=${title}`;
+      const fileName = 'whatever.pdf';
+      const token = this.session.data.authenticated.access_token;
+      await this.fileSaver.save({ url, fileName, token });
+    } catch (error) {
+      this.notifications.error(error.message, { autoClear: false });
+    }
   }
 }

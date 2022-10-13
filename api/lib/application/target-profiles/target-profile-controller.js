@@ -11,6 +11,7 @@ const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-
 const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+const learningContentPDFPresenter = require('./presenter/pdf/learning-content-pdf-presenter');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
@@ -129,5 +130,23 @@ module.exports = {
 
     const targetProfile = await usecases.markTargetProfileAsSimplifiedAccess({ id });
     return h.response(targetProfileSerializer.serialize(targetProfile));
+  },
+
+  async getLearningContentAsPdf(request, h) {
+    const targetProfileId = request.params.id;
+    const { title, language } = request.query;
+
+    const learningContent = await usecases.getLearningContentByTargetProfile({ targetProfileId, language });
+    const pdfBuffer = await learningContentPDFPresenter.present(learningContent, title, language);
+
+    const date = new Date();
+    const dateString = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    const timeString = date.getHours() + '-' + date.getMinutes();
+    const fileName = `${title}_${dateString}_${timeString}.pdf`;
+
+    return h
+      .response(pdfBuffer)
+      .header('Content-Disposition', `attachment; filename=${fileName}`)
+      .header('Content-Type', 'application/pdf');
   },
 };
