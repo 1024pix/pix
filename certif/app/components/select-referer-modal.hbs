@@ -11,8 +11,9 @@
       <PixSelect
         id="referer"
         @options={{@options}}
-        @onChange={{this.selectBirthCountry}}
-        @selectedOption={{this.defaultCountryOption}}
+        @onChange={{@onSelectReferer}}
+        @emptyOptionLabel={{"--Sélectionner--"}}
+        @emptyOptionNotSelectable={{true}}
       />
     </div>
     <div class="select-referer-modal__actions">
