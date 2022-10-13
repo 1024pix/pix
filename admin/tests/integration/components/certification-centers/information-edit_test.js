@@ -15,6 +15,9 @@ module('Integration | Component | certification-centers/information-edit', funct
       type: 'SCO',
       externalId: 'AX129',
       isSupervisorAccessEnabled: false,
+      dataProtectionOfficerFirstName: 'Justin',
+      dataProtectionOfficerLastName: 'Ptipeu',
+      dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
     });
 
     this.set('certificationCenter', certificationCenter);
@@ -73,6 +76,60 @@ module('Integration | Component | certification-centers/information-edit', funct
 
       // then
       assert.dom(screen.getByText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères")).exists();
+    });
+
+    test("it should show an error message if certification center's data protection officer first name is longer than 255 characters", async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`
+      );
+
+      // when
+      await fillByLabel('Prénom du DPO', 'a'.repeat(256));
+
+      // then
+      assert.dom(screen.getByText('La longueur du prénom du DPO ne doit pas excéder 255 caractères')).exists();
+    });
+
+    test("it should show an error message if certification center's data protection officer last name is longer than 255 characters", async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`
+      );
+
+      // when
+      await fillByLabel('Nom du DPO', 'a'.repeat(256));
+
+      // then
+      assert.dom(screen.getByText('La longueur du nom du DPO ne doit pas excéder 255 caractères')).exists();
+    });
+
+    test("it should show an error message if certification center's data protection officer email is longer than 255 characters", async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`
+      );
+
+      // when
+      await fillByLabel('Adresse e-mail du DPO', 'a'.repeat(256));
+
+      // then
+      assert
+        .dom(screen.getByText("La longueur de l'adresse e-mail du DPO ne doit pas excéder 255 caractères."))
+        .exists();
+    });
+
+    test("it should show an error message if certification center's dataProtectionOfficerEmail is not valid", async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`
+      );
+
+      // when
+      await fillByLabel('Adresse e-mail du DPO', 'invalid-email-format');
+
+      // then
+      assert.dom(screen.getByText("L'adresse e-mail du DPO n'a pas le bon format.")).exists();
     });
   });
 

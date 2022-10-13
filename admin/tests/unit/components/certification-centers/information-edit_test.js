@@ -84,12 +84,18 @@ module('Unit | Component | certification-centers/information-edit', function (ho
       // given
       component.form.name = '67W';
       component.form.type = 'My Type';
+      component.form.dataProtectionOfficerFirstName = 'Justin';
+      component.form.dataProtectionOfficerLastName = 'Ptipeu';
+      component.form.dataProtectionOfficerEmail = 'justin.ptipeu@example.net';
 
       // when
       await component.updateCertificationCenter({ preventDefault: sinon.stub() });
 
       // then
       assert.strictEqual(component.args.certificationCenter.name, '67W');
+      assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerFirstName, 'Justin');
+      assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerLastName, 'Ptipeu');
+      assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
     });
   });
 });
