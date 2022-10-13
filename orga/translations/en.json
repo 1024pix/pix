@@ -936,27 +936,23 @@
           "clear": "Clear filters"
         },
         "aria-label":"Filters on students",
-        "first-name": {
-          "aria-label": "Enter a first name",
-          "label": "Search by first name"
+        "certificability": {
+          "aria-label": "Enter a status for certificability",          
+          "label": "Search by certificability"
         },
         "group": {
           "aria-label": "Enter a group",
           "empty": "No group",
           "label": "Search by group"
         },
-        "last-name": {
-          "aria-label": "Enter a last name",
-          "label": "Search by last name"
+        "search": {
+          "aria-label": "Search by lastname and firstname",
+          "label": "Lastname, firstname"
         },
         "student-number": {
           "aria-label": "Enter a student number",
           "label": "Search by student number"
-        },
-        "certificability": {
-          "aria-label": "Enter a status for certificability",
-          "label": "Search by certificability"
-        },
+        }, 
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
         "title": "Filters"
       }

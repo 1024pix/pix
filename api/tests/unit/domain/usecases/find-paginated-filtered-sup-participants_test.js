@@ -19,14 +19,14 @@ describe('Unit | UseCase | findPaginatedFilteredSupParticipants', function () {
   it('should fetch sup participants matching organization', async function () {
     foundSupParticipants = await findPaginatedFilteredSupParticipants({
       organizationId,
-      filter: { lastName: 'A', group: 'L1' },
+      filter: { search: 'Arm', group: 'L1' },
       page: { size: 10, number: 1 },
       supOrganizationParticipantRepository,
     });
 
     expect(supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
       organizationId,
-      filter: { lastName: 'A', group: 'L1' },
+      filter: { search: 'Arm', group: 'L1' },
       page: { size: 10, number: 1 },
     });
     expect(foundSupParticipants).to.deep.equal(expectedSupParticipants);
