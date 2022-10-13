@@ -14,17 +14,10 @@
     @triggerFiltering={{@onFilter}}
   />
   <Ui::SearchInputFilter
-    @field="lastName"
-    @value={{@lastNameFilter}}
-    @placeholder={{t "pages.sup-organization-participants.filter.last-name.label"}}
-    @ariaLabel={{t "pages.sup-organization-participants.filter.last-name.aria-label"}}
-    @triggerFiltering={{@onFilter}}
-  />
-  <Ui::SearchInputFilter
-    @field="firstName"
-    @value={{@firstNameFilter}}
-    @placeholder={{t "pages.sup-organization-participants.filter.first-name.label"}}
-    @ariaLabel={{t "pages.sup-organization-participants.filter.first-name.aria-label"}}
+    @field="search"
+    @value={{@searchFilter}}
+    @placeholder={{t "pages.sup-organization-participants.filter.search.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.search.aria-label"}}
     @triggerFiltering={{@onFilter}}
   />
   <Ui::MultiSelectFilter

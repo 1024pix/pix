@@ -3,13 +3,11 @@ const { fetchPage } = require('../utils/knex-utils');
 const SupOrganizationParticipant = require('../../domain/read-models/SupOrganizationParticipant');
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const { filterByFullName } = require('../utils/filter-utils');
 
-function _setFilters(qb, { lastName, firstName, studentNumber, groups, certificability } = {}) {
-  if (lastName) {
-    qb.whereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
-  }
-  if (firstName) {
-    qb.whereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+function _setFilters(qb, { search, studentNumber, groups, certificability } = {}) {
+  if (search) {
+    filterByFullName(qb, search, 'organization-learners.firstName', 'organization-learners.lastName');
   }
   if (studentNumber) {
     qb.whereRaw('LOWER("organization-learners"."studentNumber") LIKE ?', `%${studentNumber.toLowerCase()}%`);
