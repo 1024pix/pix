@@ -125,6 +125,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await fillByLabel('Nom du centre', 'nouveau nom');
       await fillByLabel('Type', 'SUP');
       await fillByLabel('Identifiant externe', 'nouvel identifiant externe');
+      await fillByLabel('Prénom du DPO', 'Justin');
+      await fillByLabel('Nom du DPO', 'Ptipeu');
+      await fillByLabel('Adresse e-mail du DPO', 'justin.ptipeu@example.net');
       await clickByName('Espace surveillant');
       await clickByName('Enregistrer');
 
@@ -133,6 +136,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByRole('heading', { name: 'nouveau nom' })).exists();
       assert.dom(screen.getByText('Établissement supérieur')).exists();
       assert.dom(screen.getByText('nouvel identifiant externe')).exists();
+      assert.dom(screen.getByText('Nom du : Justin Ptipeu')).exists();
+      assert.dom(screen.getByText('Adresse e-mail du : justin.ptipeu@example.net')).exists();
+      assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
       assert.dom(screen.getByLabelText('Espace surveillant')).hasText('oui');
     });
 

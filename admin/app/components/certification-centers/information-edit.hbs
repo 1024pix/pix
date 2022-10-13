@@ -33,7 +33,7 @@
         @emptyOptionLabel={{"-- Choisissez --"}}
         @selectedOption={{this.form.type}}
         @onChange={{this.selectCertificationCenterType}}
-        class={{if (v-get this.form "type" "isInvalid") "form-control is-invalid" "form-control"}}
+        class={{if (v-get this.form "type" "isInvalid") "is-invalid"}}
       />
     </div>
 
@@ -51,10 +51,68 @@
         @value={{this.form.externalId}}
       />
     </div>
+
+    <div class="form-field">
+      <label for="data-protection-officer-first-name" class="field__label">Prénom du
+        <abbr title="Délégué à la protection des données">DPO</abbr></label>
+      {{#if (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ Prénom du DPO">
+          {{v-get this.form "dataProtectionOfficerFirstName" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="data-protection-officer-first-name"
+        @type="text"
+        class={{if
+          (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")
+          "form-control is-invalid"
+          "form-control"
+        }}
+        @value={{this.form.dataProtectionOfficerFirstName}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="data-protection-officer-last-name" class="field__label">Nom du
+        <abbr title="Délégué à la protection des données">DPO</abbr></label>
+      {{#if (v-get this.form "dataProtectionOfficerLastName" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ Nom du DPO">
+          {{v-get this.form "dataProtectionOfficerLastName" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="data-protection-officer-last-name"
+        @type="text"
+        class={{if
+          (v-get this.form "dataProtectionOfficerLastName" "isInvalid")
+          "form-control is-invalid"
+          "form-control"
+        }}
+        @value={{this.form.dataProtectionOfficerLastName}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="data-protection-officer-email" class="field__label">Adresse e-mail du
+        <abbr title="Délégué à la protection des données">DPO</abbr></label>
+      {{#if (v-get this.form "dataProtectionOfficerEmail" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ Adresse e-mail du DPO">
+          {{v-get this.form "dataProtectionOfficerEmail" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="data-protection-officer-email"
+        @type="text"
+        class={{if (v-get this.form "dataProtectionOfficerEmail" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.dataProtectionOfficerEmail}}
+      />
+    </div>
+
     <div class="form-field form-field__checkbox">
       <Input id="supervisor-portal" @type="checkbox" @checked={{this.form.isSupervisorAccessEnabled}} />
       <label for="supervisor-portal" class="field__label">Espace surveillant</label>
     </div>
+
     <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
     <ul class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
       {{#each this.availableHabilitations as |habilitation|}}
