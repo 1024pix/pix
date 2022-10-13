@@ -6,6 +6,7 @@ const certificationCenterMembershipSerializer = require('../../infrastructure/se
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
 const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer');
+const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const map = require('lodash/map');
@@ -116,5 +117,14 @@ module.exports = {
       email,
     });
     return h.response(certificationCenterMembershipSerializer.serialize(certificationCenterMembership)).created();
+  },
+
+  async findPendingInvitationsForAdmin(request, h) {
+    const certificationCenterId = request.params.certificationCenterId;
+
+    const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
+      certificationCenterId,
+    });
+    return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
   },
 };
