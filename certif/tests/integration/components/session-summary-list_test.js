@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { render, click } from '@ember/test-helpers';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -19,7 +19,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
     this.sessionSummaries = sessionSummaries;
 
     // when
-    const screen = await renderScreen(hbs`<SessionSummaryList
+    const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
@@ -32,6 +32,8 @@ module('Integration | Component | session-summary-list', function (hooks) {
     assert.dom(screen.getByRole('columnheader', { name: 'Surveillant(s)' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Candidats inscrits' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Certifications passées' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Statut' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Actions' })).exists();
   });
 
   module('When there are no sessions to display', function () {
@@ -42,12 +44,12 @@ module('Integration | Component | session-summary-list', function (hooks) {
       this.sessionSummaries = sessionSummaries;
 
       // when
-      await render(hbs`<SessionSummaryList
+      const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // then
-      assert.contains('Aucune session trouvée');
+      assert.dom(screen.getByText('Aucune session trouvée')).exists();
     });
   });
 
@@ -68,13 +70,14 @@ module('Integration | Component | session-summary-list', function (hooks) {
       this.sessionSummaries = sessionSummaries;
 
       // when
-      const screen = await renderScreen(hbs`<SessionSummaryList
+      const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // then
-      assert.notContains('Aucune session trouvée');
-      assert.strictEqual(screen.getAllByRole('row', { name: 'Session de certification' }).length, 2);
+      assert.dom(screen.queryByText('Aucune session trouvée')).doesNotExist();
+      assert.dom(screen.getByRole('link', { name: 'Session 123' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Session 456' })).exists();
     });
 
     test('it should display all the attributes of the session summary in the row', async function (assert) {
@@ -98,20 +101,19 @@ module('Integration | Component | session-summary-list', function (hooks) {
       this.sessionSummaries = sessionSummaries;
 
       // when
-      await render(hbs`<SessionSummaryList
+      const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // then
-      assert.contains('123');
-      assert.contains('TicTac');
-      assert.contains('Jambon');
-      assert.contains('01/12/2020');
-      assert.contains('15:00');
-      assert.contains('Bibiche');
-      assert.contains('3');
-      assert.contains('2');
-      assert.contains('Finalisée');
+      assert.dom(screen.getByRole('cell', { name: 'TicTac' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Jambon' })).exists();
+      assert.dom(screen.getByRole('cell', { name: '01/12/2020' })).exists();
+      assert.dom(screen.getByRole('cell', { name: '15:00' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Bibiche' })).exists();
+      assert.dom(screen.getByRole('cell', { name: '3' })).exists();
+      assert.dom(screen.getByRole('cell', { name: '2' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Finalisée' })).exists();
     });
 
     test('it should call goToSessionDetails function with session Id when clicking on a row', async function (assert) {
@@ -126,7 +128,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         rowCount: 1,
       };
       this.sessionSummaries = sessionSummaries;
-      const screen = await renderScreen(hbs`<SessionSummaryList
+      const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
@@ -152,7 +154,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       this.sessionSummaries = sessionSummaries;
 
       // when
-      const screen = await renderScreen(hbs`<SessionSummaryList
+      const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
@@ -177,7 +179,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         this.sessionSummaries = sessionSummaries;
 
         // when
-        const screen = await renderScreen(hbs`<SessionSummaryList
+        const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
@@ -201,7 +203,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         this.sessionSummaries = sessionSummaries;
 
         // when
-        const screen = await renderScreen(hbs`<SessionSummaryList
+        const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
@@ -222,9 +224,10 @@ module('Integration | Component | session-summary-list', function (hooks) {
           });
           this.sessionSummaries = [sessionSummary];
 
-          const screen = await renderScreen(hbs`<SessionSummaryList
+          const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
-                  @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}}
+                  />`);
 
           // when
           await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
@@ -252,7 +255,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             });
             this.sessionSummaries = [sessionSummary];
 
-            const screen = await renderScreen(hbs`<SessionSummaryList
+            const screen = await render(hbs`<SessionSummaryList
                     @sessionSummaries={{this.sessionSummaries}}
                     @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
 
@@ -281,7 +284,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             });
             this.sessionSummaries = [sessionSummary];
 
-            const screen = await renderScreen(hbs`<SessionSummaryList
+            const screen = await render(hbs`<SessionSummaryList
                     @sessionSummaries={{this.sessionSummaries}}
                     @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
 
@@ -312,7 +315,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             });
             this.sessionSummaries = [sessionSummary];
 
-            const screen = await renderScreen(hbs`<SessionSummaryList
+            const screen = await render(hbs`<SessionSummaryList
                       @sessionSummaries={{this.sessionSummaries}}
                       @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
 
@@ -341,7 +344,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             };
             this.sessionSummaries = sessionSummaries;
 
-            const screen = await renderScreen(hbs`<SessionSummaryList
+            const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
             await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));

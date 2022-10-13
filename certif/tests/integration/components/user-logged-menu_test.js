@@ -69,6 +69,16 @@ module('Integration | Component | user-logged-menu', function (hooks) {
   });
 
   module('when menu is closed', function () {
+    test('([a11y] should indicate that the menu is not displayed', async function (assert) {
+      // when
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' })).hasAria('expanded', 'false');
+    });
+
     test('should hide the disconnect link', async function (assert) {
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
@@ -81,14 +91,13 @@ module('Integration | Component | user-logged-menu', function (hooks) {
   });
 
   module('when menu is open', function () {
-    test('should display the chevron-up icon', async function (assert) {
+    test('([a11y] should indicate that the menu is displayed', async function (assert) {
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
       await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
 
       // then
-      assert.dom('.fa-chevron-up').exists();
-      assert.dom('.fa-chevron-down').doesNotExist();
+      assert.dom(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' })).hasAria('expanded', 'true');
     });
 
     test('should display the disconnect link', async function (assert) {
@@ -127,10 +136,8 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
 
       // then
-      assert.dom(screen.getByText('Torreilles')).exists();
-      assert.dom(screen.getByText('(externalId1)')).exists();
-      assert.dom(screen.getByText('Paris')).exists();
-      assert.dom(screen.getByText('(ILPlEUT)')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Torreilles (externalId1)' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Paris (ILPlEUT)' })).exists();
     });
   });
 

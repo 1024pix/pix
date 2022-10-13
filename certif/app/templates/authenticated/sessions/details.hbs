@@ -10,14 +10,14 @@
 
     <div class="session-details-header__datetime">
       <div class="session-details-header-datetime__date">
-        <h4 class="label-text session-details-content__label">Date</h4>
+        <h2 class="label-text session-details-content__label">Date</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
           {{moment-format this.session.date "dddd DD MMM YYYY" allow-empty=true locale="fr"}}
         </span>
       </div>
 
       <div>
-        <h4 class="label-text session-details-content__label">Heure de début (heure locale)</h4>
+        <h2 class="label-text session-details-content__label">Heure de début (heure locale)</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
           {{moment-format this.session.time "HH:mm" "HH:mm:ss" allow-empty=true}}
         </span>

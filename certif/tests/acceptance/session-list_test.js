@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithCustomCenters,
@@ -104,10 +104,10 @@ module('Acceptance | Session List', function (hooks) {
           date: '2020-01-01',
           time: '14:00',
         });
-        await visit('/sessions/liste');
+        const screen = await visit('/sessions/liste');
 
         // when
-        await click('[aria-label="Session de certification"]');
+        await click(screen.getByRole('link', { name: 'Session 123' }));
 
         // then
         assert.strictEqual(currentURL(), '/sessions/123');
@@ -157,7 +157,7 @@ module('Acceptance | Session List', function (hooks) {
           date: '2020-02-02',
           time: '16:00',
         });
-        const screen = await visitScreen('/sessions/liste');
+        const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
 
         // when
@@ -191,7 +191,7 @@ module('Acceptance | Session List', function (hooks) {
           }),
           400
         );
-        const screen = await visitScreen('/sessions/liste');
+        const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
 
         // when
@@ -224,7 +224,7 @@ module('Acceptance | Session List', function (hooks) {
           }),
           422
         );
-        const screen = await visitScreen('/sessions/liste');
+        const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
 
         // when
@@ -257,7 +257,7 @@ module('Acceptance | Session List', function (hooks) {
           }),
           422
         );
-        const screen = await visitScreen('/sessions/liste');
+        const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
 
         // when
@@ -285,7 +285,7 @@ module('Acceptance | Session List', function (hooks) {
           time: '14:00',
         });
 
-        const screen = await visitScreen('/sessions/liste');
+        const screen = await visit('/sessions/liste');
         await click(screen.getByRole('link', { name: 'Aller à la page suivante' }));
         await click(screen.getByRole('link', { name: 'Session 26' }));
 
