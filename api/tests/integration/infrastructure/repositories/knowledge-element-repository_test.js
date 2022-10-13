@@ -982,7 +982,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const competence1 = domainBuilder.buildCompetence({ id: 'competence1', tubes: [tube1] });
       const competence2 = domainBuilder.buildCompetence({ id: 'competence2', tubes: [tube2] });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence1, competence2] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const userId = databaseBuilder.factory.buildUser().id;
       const limitDate = new Date('2020-01-03');
       // relevant kes
@@ -1218,7 +1219,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const competence1 = domainBuilder.buildCompetence({ id: 'competence1', tubes: [tube1] });
       const competence2 = domainBuilder.buildCompetence({ id: 'competence2', tubes: [tube2] });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence1, competence2] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const userId1 = databaseBuilder.factory.buildUser().id;
       const userId2 = databaseBuilder.factory.buildUser().id;
       const dateUserId1 = new Date('2020-01-03');
@@ -1444,7 +1446,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const competence1 = domainBuilder.buildCompetence({ id: 'competence1', tubes: [tube1] });
       const competence2 = domainBuilder.buildCompetence({ id: 'competence2', tubes: [tube2] });
       const area = domainBuilder.buildArea({ id: 'area1', competences: [competence1, competence2] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const userId1 = databaseBuilder.factory.buildUser().id;
       const userId2 = databaseBuilder.factory.buildUser().id;
       const dateUserId1 = new Date('2020-01-03');
@@ -1731,7 +1734,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         tubes: [tube1, tube2],
       });
       const area = domainBuilder.buildArea({ id: 'areaId', competences: [competence] });
-      const targetProfile = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const targetProfile = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const userId1 = databaseBuilder.factory.buildUser().id;
       const userId2 = databaseBuilder.factory.buildUser().id;
       const dateUserId1 = new Date('2020-01-03');

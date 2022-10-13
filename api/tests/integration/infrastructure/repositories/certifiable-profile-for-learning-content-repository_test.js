@@ -30,8 +30,9 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         id: 'area1_id',
         competences: [competence],
       });
+      const framework = domainBuilder.buildFramework({ areas: [area] });
 
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const learningContent = domainBuilder.buildLearningContent([framework]);
 
       const userId = databaseBuilder.factory.buildUser().id;
       const profileDate = new Date('2021-01-01');
@@ -103,8 +104,9 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         id: 'area1_id',
         competences: [competence],
       });
+      const framework = domainBuilder.buildFramework({ areas: [area] });
 
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const learningContent = domainBuilder.buildLearningContent([framework]);
 
       const userId = databaseBuilder.factory.buildUser().id;
       const profileDate = new Date('2021-01-01');
@@ -178,8 +180,9 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         id: 'area1_id',
         competences: [competence],
       });
+      const framework = domainBuilder.buildFramework({ areas: [area] });
 
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const learningContent = domainBuilder.buildLearningContent([framework]);
 
       const userId = databaseBuilder.factory.buildUser().id;
       const profileDate = new Date('2021-01-01');

@@ -14,7 +14,8 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
         answerId: 123,
         skillId: 'recSkill1',
@@ -115,7 +116,8 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         id: 'a2_id',
         competences: [competence1Area2],
       });
-      learningContent = domainBuilder.buildLearningContent([area1, area2]);
+      const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
+      learningContent = domainBuilder.buildLearningContent([framework]);
     });
 
     it('should return directly validated skills ordered by decreasing difficulty by area id', function () {
@@ -314,7 +316,8 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         id: 'area1',
         competences: [competence1],
       });
-      const learningContent = domainBuilder.buildLearningContent([area1]);
+      const framework = domainBuilder.buildFramework({ areas: [area1] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
 
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 1,

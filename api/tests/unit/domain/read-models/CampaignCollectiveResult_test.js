@@ -12,7 +12,8 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
           domainBuilder.buildCompetence({ id: 'recCompetence2' }),
         ],
       });
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
@@ -35,7 +36,8 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
         ],
       });
 
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
@@ -54,7 +56,8 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
           }),
         ],
       });
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
@@ -72,7 +75,8 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
           }),
         ],
       });
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
 
       // then
@@ -97,7 +101,8 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
         ],
       });
 
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence1: 5, recCompetence2: 3 });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence2: 6 });
@@ -128,7 +133,8 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
         ],
       });
 
-      const learningContent = domainBuilder.buildLearningContent([area]);
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
       const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, learningContent });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence1: 5, recCompetence2: 3 });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ recCompetence2: 6 });

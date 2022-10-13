@@ -91,8 +91,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const area1 = domainBuilder.buildArea({ id: 'area1', competences: [competence1_1] });
     const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2] });
     const area2 = domainBuilder.buildArea({ id: 'area2', competences: [competence2_1] });
+    const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
     const targetProfile = domainBuilder.buildTargetProfile();
-    const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+    const learningContent = domainBuilder.buildLearningContent([framework]);
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
@@ -339,9 +340,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const competence2_1 = domainBuilder.buildCompetence({ id: 'comp2_1', tubes: [tube2] });
     const area1 = domainBuilder.buildArea({ id: 'area1', competences: [competence1_1] });
     const area2 = domainBuilder.buildArea({ id: 'area2', competences: [competence2_1] });
+    const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
     const targetProfile = domainBuilder.buildTargetProfile();
 
-    const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+    const learningContent = domainBuilder.buildLearningContent([framework]);
 
     campaign.targetProfile = targetProfile;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);

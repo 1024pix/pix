@@ -1,7 +1,10 @@
 module.exports = class LearningContent {
-  constructor(areas, frameworks) {
-    this.areas = areas;
+  constructor(frameworks) {
     this.frameworks = frameworks;
+  }
+
+  get areas() {
+    return this.frameworks.flatMap((framework) => framework.areas);
   }
 
   get competences() {

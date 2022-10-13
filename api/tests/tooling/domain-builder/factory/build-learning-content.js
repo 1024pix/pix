@@ -6,10 +6,9 @@ const buildCompetence = require('./build-competence');
 const buildArea = require('./build-area');
 const buildFramework = require('./build-framework');
 
-function buildLearningContent(areas, frameworks) {
+function buildLearningContent(frameworks) {
   frameworks = frameworks || [buildFramework({ id: 'frameworkId', name: 'someFramework' })];
-  areas = areas || buildArea({ id: 'areaId', frameworkId: frameworks[0].id, framework: frameworks[0] });
-  return new LearningContent(areas, frameworks);
+  return new LearningContent(frameworks);
 }
 
 buildLearningContent.withSimpleContent = () => {
@@ -22,7 +21,7 @@ buildLearningContent.withSimpleContent = () => {
   competence.thematics = [thematic];
   area.competences = [competence];
   framework.areas = [area];
-  return buildLearningContent([area], [framework]);
+  return buildLearningContent([framework]);
 };
 
 module.exports = buildLearningContent;
