@@ -214,10 +214,10 @@ describe('Integration | Repository | learning-content', function () {
       },
     ]);
 
+    [framework1Fr] = _buildDomainFrameworksFromLearningContent(learningContent);
+    [framework1En] = _buildDomainFrameworksFromLearningContent(learningContent);
     [area1Fr] = _buildDomainAreasFromLearningContent(learningContent, 'fr');
     [area1En] = _buildDomainAreasFromLearningContent(learningContent, 'en');
-    [framework1Fr] = _buildDomainFrameworksFromLearningContent(learningContent, [area1Fr]);
-    [framework1En] = _buildDomainFrameworksFromLearningContent(learningContent, [area1En]);
     [, competence2Fr] = _buildDomainCompetencesFromLearningContent(learningContent, 'fr');
     [, competence2En] = _buildDomainCompetencesFromLearningContent(learningContent, 'en');
     [, thematic2Fr] = _buildDomainThematicsFromLearningContent(learningContent, 'fr');
@@ -250,10 +250,10 @@ describe('Integration | Repository | learning-content', function () {
         await databaseBuilder.commit();
 
         // when
-        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+        const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId);
 
         // then
-        expect(campaignLearningContent.skills).to.deep.equal([skill2, skill3]);
+        expect(learningContentFromCampaign.skills).to.deep.equal([skill2, skill3]);
       });
 
       it('should return frameworks, areas, competences, thematics and tubes of the skills hierarchy', async function () {
@@ -265,20 +265,20 @@ describe('Integration | Repository | learning-content', function () {
         );
         await databaseBuilder.commit();
 
+        framework1Fr.areas = [area1Fr];
         area1Fr.competences = [competence2Fr];
         competence2Fr.area = area1Fr;
         competence2Fr.thematics = [thematic2Fr];
         competence2Fr.tubes = [tube2Fr];
         thematic2Fr.tubes = [tube2Fr];
         tube2Fr.skills = [skill2, skill3];
-        area1Fr.framework = framework1Fr;
 
         // when
-        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+        const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId);
 
         // then
-        expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);
-        expect(campaignLearningContent.frameworks).to.deep.equal([framework1Fr]);
+        expect(learningContentFromCampaign.areas).to.deep.equal([area1Fr]);
+        expect(learningContentFromCampaign.frameworks).to.deep.equal([framework1Fr]);
       });
     });
 
@@ -298,10 +298,10 @@ describe('Integration | Repository | learning-content', function () {
         await databaseBuilder.commit();
 
         // when
-        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+        const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId);
 
         // then
-        expect(campaignLearningContent.skills).to.deep.equal([skill3]);
+        expect(learningContentFromCampaign.skills).to.deep.equal([skill3]);
       });
     });
 
@@ -314,20 +314,20 @@ describe('Integration | Repository | learning-content', function () {
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       await databaseBuilder.commit();
 
+      framework1Fr.areas = [area1Fr];
       area1Fr.competences = [competence2Fr];
       competence2Fr.area = area1Fr;
       competence2Fr.thematics = [thematic2Fr];
       competence2Fr.tubes = [tube2Fr];
       thematic2Fr.tubes = [tube2Fr];
       tube2Fr.skills = [skill2, skill3];
-      area1Fr.framework = framework1Fr;
 
       // when
-      const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId);
+      const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId);
 
       // then
-      expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);
-      expect(campaignLearningContent.frameworks).to.deep.equal([framework1Fr]);
+      expect(learningContentFromCampaign.areas).to.deep.equal([area1Fr]);
+      expect(learningContentFromCampaign.frameworks).to.deep.equal([framework1Fr]);
     });
 
     describe('when using a specific locale', function () {
@@ -340,20 +340,19 @@ describe('Integration | Repository | learning-content', function () {
         campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
         await databaseBuilder.commit();
 
+        framework1En.areas = [area1En];
         area1En.competences = [competence2En];
         competence2En.area = area1En;
         competence2En.thematics = [thematic2En];
         competence2En.tubes = [tube2En];
         thematic2En.tubes = [tube2En];
         tube2En.skills = [skill2, skill3];
-        area1En.framework = framework1En;
 
         // when
-        const campaignLearningContent = await learningContentRepository.findByCampaignId(campaignId, 'en');
+        const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId, 'en');
 
         // then
-        expect(campaignLearningContent.areas).to.deep.equal([area1En]);
-        expect(campaignLearningContent.frameworks).to.deep.equal([framework1En]);
+        expect(learningContentFromCampaign.frameworks).to.deep.equal([framework1En]);
       });
     });
 
@@ -399,19 +398,18 @@ describe('Integration | Repository | learning-content', function () {
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 2 });
         await databaseBuilder.commit();
 
+        framework1Fr.areas = [area1Fr];
         area1Fr.competences = [competence2Fr];
         competence2Fr.area = area1Fr;
         competence2Fr.thematics = [thematic2Fr];
         competence2Fr.tubes = [tube2Fr];
         thematic2Fr.tubes = [tube2Fr];
         tube2Fr.skills = [skill2];
-        area1Fr.framework = framework1Fr;
 
         // when
         const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(targetProfileId);
 
         // then
-        expect(targetProfileLearningContent.areas).to.deep.equal([area1Fr]);
         expect(targetProfileLearningContent.frameworks).to.deep.equal([framework1Fr]);
       });
 
@@ -422,13 +420,13 @@ describe('Integration | Repository | learning-content', function () {
           databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 2 });
           await databaseBuilder.commit();
 
+          framework1En.areas = [area1En];
           area1En.competences = [competence2En];
           competence2En.area = area1En;
           competence2En.thematics = [thematic2En];
           competence2En.tubes = [tube2En];
           thematic2En.tubes = [tube2En];
           tube2En.skills = [skill2];
-          area1En.framework = framework1En;
 
           // when
           const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(
@@ -437,7 +435,6 @@ describe('Integration | Repository | learning-content', function () {
           );
 
           // then
-          expect(targetProfileLearningContent.areas).to.deep.equal([area1En]);
           expect(targetProfileLearningContent.frameworks).to.deep.equal([framework1En]);
         });
       });
@@ -445,12 +442,12 @@ describe('Integration | Repository | learning-content', function () {
   });
 });
 
-function _buildDomainFrameworksFromLearningContent({ frameworks }, areas) {
+function _buildDomainFrameworksFromLearningContent({ frameworks }) {
   return frameworks.map((framework) =>
     domainBuilder.buildFramework({
       id: framework.id,
       name: framework.name,
-      areas: areas.filter((area) => area.frameworkId === framework.id),
+      areas: [],
     })
   );
 }

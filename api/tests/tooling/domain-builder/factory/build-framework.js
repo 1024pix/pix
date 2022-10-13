@@ -10,7 +10,6 @@ module.exports = function buildFramework({ id = 'recFramework123', name = 'Mon s
   });
 
   areas.forEach((area) => {
-    area.framework = framework;
     area.frameworkId = id;
   });
   return framework;

@@ -89,16 +89,17 @@ async function _getLearningContentByTubes(tubes, locale) {
     competences.map(({ area }) => area),
     'id'
   );
+  for (const area of areas) {
+    area.competences = competences.filter((competence) => {
+      return competence.area.id === area.id;
+    });
+  }
 
   const frameworkIds = _.uniq(areas.map((area) => area.frameworkId));
   const frameworks = await frameworkRepository.findByRecordIds(frameworkIds);
-
-  for (const area of areas) {
-    area.framework = frameworks.find((framework) => framework.id === area.frameworkId);
-    // TODO I know, right...
-    area.framework.areas.push(area);
-    area.competences = competences.filter((competence) => {
-      return competence.area.id === area.id;
+  for (const framework of frameworks) {
+    framework.areas = areas.filter((area) => {
+      return area.frameworkId === framework.id;
     });
   }
 
