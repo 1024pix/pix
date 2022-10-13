@@ -41,7 +41,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       test('it could click on user to go to details', async function (assert) {
         // when
         await visit('/campagnes/1');
-        await clickByName('Bacri');
+        await clickByName('Voir les résultats de Bacri');
 
         // then
         assert.strictEqual(currentURL(), '/campagnes/1/evaluations/1/resultats');
@@ -59,7 +59,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       test('it could click on profile to go to details', async function (assert) {
         // when
         await visit('/campagnes/2');
-        await clickByName('Bacri');
+        await clickByName('Voir les résultats de Bacri');
 
         // then
         assert.strictEqual(currentURL(), '/campagnes/2/profils/1');
