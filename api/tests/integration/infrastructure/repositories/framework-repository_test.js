@@ -11,8 +11,12 @@ describe('Integration | Repository | framework-repository', function () {
     id: 'recId1',
     name: 'mon framework 1',
   };
+  const framework2 = {
+    id: 'recId2',
+    name: 'mon framework 2',
+  };
 
-  const learningContent = { frameworks: [framework0, framework1] };
+  const learningContent = { frameworks: [framework0, framework1, framework2] };
 
   beforeEach(function () {
     mockLearningContent(learningContent);
@@ -26,7 +30,8 @@ describe('Integration | Repository | framework-repository', function () {
       // then
       const expectedFramework0 = domainBuilder.buildFramework({ ...framework0, areas: [] });
       const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
-      expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework1]);
+      const expectedFramework2 = domainBuilder.buildFramework({ ...framework2, areas: [] });
+      expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework1, expectedFramework2]);
     });
   });
 
@@ -77,6 +82,26 @@ describe('Integration | Repository | framework-repository', function () {
         expect(error).to.be.an.instanceof(NotFoundError);
         expect(error.message).to.equal('Framework not found for id recUnknownFmk');
       });
+    });
+  });
+
+  describe('#findByRecordIds', function () {
+    it('should return frameworks for ids ordered by name', async function () {
+      // when
+      const frameworks = await frameworkRepository.findByRecordIds(['recId2', 'recId0']);
+
+      // then
+      const expectedFramework0 = domainBuilder.buildFramework({ ...framework0, areas: [] });
+      const expectedFramework2 = domainBuilder.buildFramework({ ...framework2, areas: [] });
+      expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework2]);
+    });
+
+    it('should return an empty array when no frameworks found for ids', async function () {
+      // when
+      const frameworks = await frameworkRepository.findByRecordIds(['recIdCOUCOU', 'recIdCAVA']);
+
+      // then
+      expect(frameworks).to.deepEqualArray([]);
     });
   });
 });

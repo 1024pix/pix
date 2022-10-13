@@ -1,6 +1,7 @@
 const Framework = require('../../domain/models/Framework');
 const frameworkDatasource = require('../datasources/learning-content/framework-datasource');
 const { NotFoundError } = require('../../domain/errors');
+const _ = require('lodash');
 
 async function list() {
   const frameworkDataObjects = await frameworkDatasource.list();
@@ -33,8 +34,15 @@ async function getById(id) {
   }
 }
 
+async function findByRecordIds(frameworkIds) {
+  const frameworkDatas = await frameworkDatasource.findByRecordIds(frameworkIds);
+  const frameworks = _.map(frameworkDatas, (frameworkData) => _toDomain(frameworkData));
+  return _.orderBy(frameworks, (framework) => framework.name.toLowerCase());
+}
+
 module.exports = {
   list,
   getByName,
   getById,
+  findByRecordIds,
 };
