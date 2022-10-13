@@ -136,9 +136,16 @@
     {{/if}}
   </table>
 
-  {{#unless @students}}
-    <div class="table__empty content-text">{{t "pages.sup-organization-participants.table.empty"}}</div>
-  {{/unless}}
+  {{#if (eq @students.meta.participantCount 0)}}
+    <Ui::EmptyState
+      @infoText={{t "pages.sup-organization-participants.empty-state.no-participants"}}
+      @actionText={{t "pages.sup-organization-participants.empty-state.no-participants-action"}}
+    />
+  {{else if (not @students)}}
+    <div class="table__empty content-text">
+      {{t "pages.sup-organization-participants.table.empty"}}
+    </div>
+  {{/if}}
 </div>
 
 <SupOrganizationParticipant::EditStudentNumberModal
