@@ -827,6 +827,8 @@
           }
         }
       },
+      "no-participants": "No students yet!",
+      "no-participants-action": "The administrator must import the students database by clicking on the import button.",
       "filter": {
         "certificability": {
           "aria-label": "Enter a status for certificability",
