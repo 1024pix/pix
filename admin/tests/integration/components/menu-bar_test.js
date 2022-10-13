@@ -7,6 +7,18 @@ import Service from '@ember/service';
 module('Integration | Component | menu-bar', function (hooks) {
   setupRenderingTest(hooks);
 
+  test('should display principal navigation', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
+    // when
+    const screen = await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom(screen.getByRole('navigation', { name: 'Navigation principale' })).exists();
+  });
+
   test('should contain link to "organizations" management page', async function (assert) {
     // given
     const currentUser = this.owner.lookup('service:currentUser');
@@ -16,7 +28,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom(screen.getByTitle('Organisations')).exists();
+    assert.dom(screen.getByRole('link', { name: 'Organisations' })).exists();
   });
 
   module('Target Profiles tab', function () {
@@ -30,7 +42,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         const screen = await render(hbs`{{menu-bar}}`);
 
         // then
-        assert.dom(screen.getByTitle('Profils cibles')).exists();
+        assert.dom(screen.getByRole('link', { name: 'Profils cibles' })).exists();
       });
     });
 
@@ -44,7 +56,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         const screen = await render(hbs`{{menu-bar}}`);
 
         // then
-        assert.dom(screen.queryByTitle('Profils cibles')).doesNotExist();
+        assert.dom(screen.queryByRole('link', { name: 'Profils cibles' })).doesNotExist();
       });
     });
   });
@@ -59,7 +71,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(hbs`{{menu-bar}}`);
 
       // then
-      assert.dom(screen.getByTitle('Équipe')).exists();
+      assert.dom(screen.getByRole('link', { name: 'Équipe' })).exists();
     });
 
     test('should not contain link to "team" management page when admin member have "SUPPORT", "CERTIF" or "METIER" as role', async function (assert) {
@@ -71,7 +83,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(hbs`{{menu-bar}}`);
 
       // then
-      assert.throws(() => screen.getByTitle('Équipe'), 'HTMLElement not found');
+      assert.dom(screen.queryByRole('link', { name: 'Équipe' })).doesNotExist();
     });
   });
 
@@ -84,7 +96,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom(screen.getByTitle('Utilisateurs')).exists();
+    assert.dom(screen.getByRole('link', { name: 'Utilisateurs' })).exists();
   });
 
   test('should contain link to "sessions" management page', async function (assert) {
@@ -96,7 +108,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom(screen.getByTitle('Sessions de certifications')).exists();
+    assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).exists();
   });
 
   module('Certifications tab', function () {
@@ -111,7 +123,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(hbs`{{menu-bar}}`);
 
       // then
-      assert.dom(screen.getByTitle('Certifications')).exists();
+      assert.dom(screen.getByRole('link', { name: 'Certifications' })).exists();
     });
 
     test('should not contain link to "certifications" management page when admin member does not have access to certification actions scope', async function (assert) {
@@ -125,7 +137,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(hbs`{{menu-bar}}`);
 
       // then
-      assert.dom(screen.queryByText('Certifications')).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: 'Certifications' })).doesNotExist();
     });
   });
 
@@ -138,7 +150,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom(screen.getByTitle('Centres de certification')).exists();
+    assert.dom(screen.getByRole('link', { name: 'Centres de certification' })).exists();
   });
 
   module('Tools tab', function () {
@@ -152,7 +164,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         const screen = await render(hbs`{{menu-bar}}`);
 
         // then
-        assert.dom(screen.getByTitle('Outils')).exists();
+        assert.dom(screen.getByRole('link', { name: 'Outils' })).exists();
       });
     });
 
@@ -166,7 +178,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         const screen = await render(hbs`{{menu-bar}}`);
 
         // then
-        assert.dom(screen.queryByText('Outils')).doesNotExist();
+        assert.dom(screen.queryByRole('link', { name: 'Outils' })).doesNotExist();
       });
     });
   });
@@ -180,6 +192,6 @@ module('Integration | Component | menu-bar', function (hooks) {
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom(screen.getByTitle('Se déconnecter')).exists();
+    assert.dom(screen.getByRole('link', { name: 'Se déconnecter' })).exists();
   });
 });
