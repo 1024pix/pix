@@ -51,4 +51,30 @@ describe('Unit | Infrastructure | Datasource | Learning Content | FrameworkDatas
       });
     });
   });
+
+  describe('#findByRecordIds', function () {
+    it('should return an array of learning content frameworks data objects by ids', async function () {
+      // given
+      const records = [{ id: 'recFramework0' }, { id: 'recFramework1' }, { id: 'recFramework2' }];
+      sinon.stub(lcms, 'getLatestRelease').resolves({ frameworks: records });
+
+      // when
+      const foundFrameworks = await frameworkDatasource.findByRecordIds(['recFramework0', 'recFramework2']);
+
+      // then
+      expect(foundFrameworks).to.deep.equal([{ id: 'recFramework0' }, { id: 'recFramework2' }]);
+    });
+
+    it('should return an empty array when no frameworks data objects found for ids', async function () {
+      // given
+      const records = [{ id: 'recFramework0' }, { id: 'recFramework1' }, { id: 'recFramework2' }];
+      sinon.stub(lcms, 'getLatestRelease').resolves({ frameworks: records });
+
+      // when
+      const foundFrameworks = await frameworkDatasource.findByRecordIds(['recFrameworkCOUCOU']);
+
+      // then
+      expect(foundFrameworks).to.deep.equal([]);
+    });
+  });
 });
