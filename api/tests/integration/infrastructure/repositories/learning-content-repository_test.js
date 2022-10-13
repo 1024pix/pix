@@ -596,6 +596,44 @@ describe('Integration | Repository | learning-content', function () {
       });
     });
   });
+
+  describe('#buildFromSkillIds', function () {
+    it('should return frameworks, areas, competences, thematics and tubes of the active skills hierarchy with FR language', async function () {
+      // given
+      framework1Fr.areas = [area1Fr];
+      area1Fr.competences = [competence2Fr];
+      competence2Fr.area = area1Fr;
+      competence2Fr.thematics = [thematic2Fr];
+      competence2Fr.tubes = [tube2Fr];
+      thematic2Fr.tubes = [tube2Fr];
+      tube2Fr.skills = [skill2];
+
+      // when
+      const learningContent = await learningContentRepository.buildFromSkillIds([skill2.id]);
+
+      // then
+      expect(learningContent.frameworks).to.deep.equal([framework1Fr]);
+    });
+
+    context('when using a specific locale', function () {
+      it('should translate names and descriptions', async function () {
+        // given
+        framework1En.areas = [area1En];
+        area1En.competences = [competence2En];
+        competence2En.area = area1En;
+        competence2En.thematics = [thematic2En];
+        competence2En.tubes = [tube2En];
+        thematic2En.tubes = [tube2En];
+        tube2En.skills = [skill2];
+
+        // when
+        const learningContent = await learningContentRepository.buildFromSkillIds([skill2.id], 'en');
+
+        // then
+        expect(learningContent.frameworks).to.deep.equal([framework1En]);
+      });
+    });
+  });
 });
 
 function _buildDomainFrameworksFromLearningContent({ frameworks }) {

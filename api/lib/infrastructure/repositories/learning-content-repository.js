@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const { NoSkillsInCampaignError, NotFoundError } = require('../../domain/errors');
+const skillRepository = require('./skill-repository');
 const tubeRepository = require('./tube-repository');
 const thematicRepository = require('./thematic-repository');
 const campaignRepository = require('./campaign-repository');
@@ -13,7 +14,7 @@ const learningContentConversionService = require('../../domain/services/learning
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
 
-  const frameworks = await _getLearningContentBySkillIds(skills, locale);
+  const frameworks = await _getLearningContentBySkills(skills, locale);
 
   return new LearningContent(frameworks);
 }
@@ -22,7 +23,7 @@ async function findByCampaignParticipationId(campaignParticipationId, locale) {
   const [campaignId] = await knex('campaign-participations').pluck('campaignId').where({ id: campaignParticipationId });
   const skills = await campaignRepository.findSkills({ campaignId });
 
-  const areas = await _getLearningContentBySkillIds(skills, locale);
+  const areas = await _getLearningContentBySkills(skills, locale);
 
   return new LearningContent(areas);
 }
@@ -43,7 +44,13 @@ async function findByTargetProfileId(targetProfileId, locale) {
   return new LearningContent(frameworks);
 }
 
-async function _getLearningContentBySkillIds(skills, locale) {
+async function buildFromSkillIds(skillIds, locale) {
+  const skills = await skillRepository.findByRecordIds(skillIds);
+  const frameworks = await _getLearningContentBySkills(skills, locale);
+  return new LearningContent(frameworks);
+}
+
+async function _getLearningContentBySkills(skills, locale) {
   if (_.isEmpty(skills)) {
     throw new NoSkillsInCampaignError();
   }
@@ -119,4 +126,5 @@ module.exports = {
   findByCampaignId,
   findByTargetProfileId,
   findByCampaignParticipationId,
+  buildFromSkillIds,
 };
