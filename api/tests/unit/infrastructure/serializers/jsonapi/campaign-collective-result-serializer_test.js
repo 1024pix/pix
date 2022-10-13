@@ -38,7 +38,8 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
         ],
       });
 
-      const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+      const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
+      const learningContent = domainBuilder.buildLearningContent([framework]);
 
       const campaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult({
         id: campaignId,

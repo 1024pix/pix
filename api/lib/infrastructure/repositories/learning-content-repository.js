@@ -13,9 +13,9 @@ const learningContentConversionService = require('../../domain/services/learning
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
 
-  const { areas, frameworks } = await _getLearningContentBySkillIds(skills, locale);
+  const frameworks = await _getLearningContentBySkillIds(skills, locale);
 
-  return new LearningContent(areas, frameworks);
+  return new LearningContent(frameworks);
 }
 
 async function findByTargetProfileId(targetProfileId, locale) {
@@ -30,8 +30,8 @@ async function findByTargetProfileId(targetProfileId, locale) {
     throw new NotFoundError("Le profil cible n'existe pas");
   }
 
-  const { areas, frameworks } = await _getLearningContentByCappedTubes(cappedTubesDTO, locale);
-  return new LearningContent(areas, frameworks);
+  const frameworks = await _getLearningContentByCappedTubes(cappedTubesDTO, locale);
+  return new LearningContent(frameworks);
 }
 
 async function _getLearningContentBySkillIds(skills, locale) {
@@ -102,7 +102,7 @@ async function _getLearningContentByTubes(tubes, locale) {
     });
   }
 
-  return { areas, frameworks };
+  return frameworks;
 }
 
 module.exports = {

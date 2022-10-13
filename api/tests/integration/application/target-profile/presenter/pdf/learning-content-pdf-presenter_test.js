@@ -89,19 +89,19 @@ function _restorePdfLib() {
 }
 
 function _buildRichLearningContent() {
-  const area_ref1_0 = _buildRichArea({
+  const ref1 = domainBuilder.buildFramework({ id: 'recRef1', name: 'Réf 1 Jambon', areas: [] });
+  const ref2 = domainBuilder.buildFramework({ id: 'recRef2', name: 'Réf 2 Fromage', areas: [] });
+  _buildRichArea({
     color: 'jaffa',
-    frameworkId: 'recRef1',
-    frameworkName: 'Réf 1 Jambon',
+    framework: ref1,
     areaIndex: '0',
     competenceCount: 5,
     thematicCountPerCompetence: [2, 1, 4, 3, 4],
     tubeCountPerCompetencePerThematic: [[2, 4], [1], [6, 3, 1, 4], [1, 2, 3], [2, 1, 3, 1]],
   });
-  const area_ref1_1 = _buildRichArea({
+  _buildRichArea({
     color: 'emerald',
-    frameworkId: 'recRef1',
-    frameworkName: 'Réf 1 Jambon',
+    framework: ref1,
     areaIndex: '1',
     competenceCount: 2,
     thematicCountPerCompetence: [3, 2],
@@ -110,69 +110,57 @@ function _buildRichLearningContent() {
       [4, 1],
     ],
   });
-  const area_ref2_0 = _buildRichArea({
+  _buildRichArea({
     color: 'cerulean',
-    frameworkId: 'recRef2',
-    frameworkName: 'Réf 2 Fromage',
+    framework: ref2,
     areaIndex: '0',
     competenceCount: 1,
     thematicCountPerCompetence: [1],
     tubeCountPerCompetencePerThematic: [[1]],
   });
-  const area_ref2_1 = _buildRichArea({
+  _buildRichArea({
     color: 'wild-strawberry',
-    frameworkId: 'recRef2',
-    frameworkName: 'Réf 2 Fromage',
+    framework: ref2,
     areaIndex: '1',
     competenceCount: 1,
     thematicCountPerCompetence: [2],
     tubeCountPerCompetencePerThematic: [[2, 1]],
   });
-  const area_ref2_2 = _buildRichArea({
+  _buildRichArea({
     color: 'butterfly-bush',
-    frameworkId: 'recRef2',
-    frameworkName: 'Réf 2 Fromage',
+    framework: ref2,
     areaIndex: '2',
     competenceCount: 1,
     thematicCountPerCompetence: [1],
     tubeCountPerCompetencePerThematic: [[6]],
   });
-  const area_ref1_2 = _buildRichArea({
+  _buildRichArea({
     color: 'unknown-color',
-    frameworkId: 'recRef1',
-    frameworkName: 'Réf 1 Jambon',
+    framework: ref1,
     areaIndex: '2',
     competenceCount: 1,
     thematicCountPerCompetence: [2],
     tubeCountPerCompetencePerThematic: [[1, 1]],
   });
-  return domainBuilder.buildLearningContent([
-    area_ref1_0,
-    area_ref1_1,
-    area_ref2_0,
-    area_ref2_1,
-    area_ref2_2,
-    area_ref1_2,
-  ]);
+  return domainBuilder.buildLearningContent([ref1, ref2]);
 }
 
 function _buildPoorLearningContent() {
-  const area = _buildRichArea({
+  const ref1 = domainBuilder.buildFramework({ id: 'recRef1', name: 'Réf 1 Jambon', areas: [] });
+  _buildRichArea({
     color: 'jaffa',
-    frameworkId: 'recRef1',
-    frameworkName: 'Réf 1 Jambon',
+    framework: ref1,
     areaIndex: '0',
     competenceCount: 2,
     thematicCountPerCompetence: [2, 1],
     tubeCountPerCompetencePerThematic: [[2, 4], [1]],
   });
-  return domainBuilder.buildLearningContent([area]);
+  return domainBuilder.buildLearningContent([ref1]);
 }
 
 function _buildRichArea({
   color,
-  frameworkId,
-  frameworkName,
+  framework,
   areaIndex,
   competenceCount,
   thematicCountPerCompetence,
@@ -188,8 +176,8 @@ function _buildRichArea({
     id: `recArea_${areaIndex}`,
     title: longText.replace('{placeholder}', `Domaine_${areaIndex}`),
     color,
-    frameworkId,
-    framework: { id: frameworkId, name: frameworkName },
+    frameworkId: framework.id,
+    framework,
   });
   area.competences = [];
   for (let competenceIndex = 0; competenceIndex < competenceCount; ++competenceIndex) {
@@ -226,5 +214,5 @@ function _buildRichArea({
     }
     area.competences.push(competence);
   }
-  return area;
+  framework.areas.push(area);
 }

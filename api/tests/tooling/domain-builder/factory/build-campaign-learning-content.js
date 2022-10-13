@@ -5,8 +5,8 @@ function buildCampaignLearningContent(learningContent = buildLearningContent()) 
   return new CampaignLearningContent(learningContent);
 }
 
-buildCampaignLearningContent.fromAreas = (areas) => {
-  const learningContent = buildLearningContent(areas);
+buildCampaignLearningContent.fromFrameworks = (frameworks) => {
+  const learningContent = buildLearningContent(frameworks);
   return buildCampaignLearningContent(learningContent);
 };
 
