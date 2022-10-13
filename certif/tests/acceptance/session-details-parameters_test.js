@@ -57,14 +57,14 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         module('when the session is CREATED', function () {
           test('it should not display the finalize button if no candidate has joined the session', async function (assert) {
             // given
-            const sessionCreated = server.create('session', { status: CREATED });
+            const sessionCreated = server.create('session', { id: 123, status: CREATED });
             server.createList('certification-candidate', 2, { isLinked: false, sessionId: sessionCreated.id });
 
             // when
             const screen = await visit(`/sessions/${sessionCreated.id}`);
 
             // then
-            assert.dom(screen.getByRole('link', { name: 'Modifier' })).exists();
+            assert.dom(screen.getByRole('link', { name: 'Modifier les informations de la session 123' })).exists();
             assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
           });
 

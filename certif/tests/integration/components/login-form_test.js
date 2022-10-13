@@ -26,22 +26,16 @@ module('Integration | Component | login-form', function (hooks) {
     sessionStub = this.owner.lookup('service:session');
   });
 
-  test('it should ask for email and password', async function (assert) {
+  test('it should display login form', async function (assert) {
     // when
     const screen = await renderScreen(hbs`{{login-form}}`);
 
     // then
+    assert.dom(screen.getByRole('img', { name: 'Pix Certif' })).exists();
     assert.dom(screen.getByRole('heading', { name: 'Connectez-vous' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
-    assert.dom(screen.getByText('Adresse e-mail')).exists();
-  });
-
-  test('it should not display error message', async function (assert) {
-    // when
-    await renderScreen(hbs`{{login-form}}`);
-
-    // then
-    assert.dom('#login-form-error-message').doesNotExist();
+    assert.dom(screen.getByRole('button', { name: 'Je me connecte' })).exists();
+    assert.dom(screen.getByLabelText('Mot de passe')).exists();
   });
 
   test('it should call authentication service with appropriate parameters', async function (assert) {
@@ -56,7 +50,7 @@ module('Integration | Component | login-form', function (hooks) {
     const sessionServiceObserver = this.owner.lookup('service:session');
     const screen = await renderScreen(hbs`{{login-form}}`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
-    await fillIn('#login-password', 'JeMeLoggue1024');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
     //  when
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
@@ -84,14 +78,13 @@ module('Integration | Component | login-form', function (hooks) {
 
     sessionStub.authenticate.callsFake(() => reject(invalidCredentialsErrorMessage));
     const screen = await renderScreen(hbs`{{login-form}}`);
-    await fillIn('#login-email', 'pix@example.net');
-    await fillIn('#login-password', 'Mauvais mot de passe');
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
 
     //  when
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom('#login-form-error-message').exists();
     assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE)).exists();
   });
 
@@ -105,14 +98,13 @@ module('Integration | Component | login-form', function (hooks) {
 
     sessionStub.authenticate.callsFake(() => reject(notLinkedToOrganizationErrorMessage));
     const screen = await renderScreen(hbs`{{login-form}}`);
-    await fillIn('#login-email', 'pix@example.net');
-    await fillIn('#login-password', 'JeMeLoggue1024');
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
     //  when
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom('#login-form-error-message').exists();
     assert.dom(screen.getByText(errorMessages.NOT_LINKED_CERTIFICATION_MSG)).exists();
   });
 
@@ -132,14 +124,13 @@ module('Integration | Component | login-form', function (hooks) {
 
     sessionStub.authenticate.callsFake(() => reject(gatewayTimeoutErrorMessage));
     const screen = await renderScreen(hbs`{{login-form}}`);
-    await fillIn('#login-email', 'pix@example.net');
-    await fillIn('#login-password', 'JeMeLoggue1024');
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
     //  when
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom('#login-form-error-message').exists();
     assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE)).exists();
   });
 
@@ -152,13 +143,12 @@ module('Integration | Component | login-form', function (hooks) {
     sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));
     const screen = await renderScreen(hbs`{{login-form}}`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
-    await fillIn('#login-password', 'JeMeLoggue1024');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
     //  when
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom('#login-form-error-message').exists();
     assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE)).exists();
   });
 });

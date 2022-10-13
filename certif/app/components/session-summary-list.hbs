@@ -4,34 +4,38 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Numéro de session
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Nom du site
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Salle
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Date
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Heure
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Surveillant(s)
             </th>
-            <th class="table__column table__column">
+            <th class="table__column table__column" scope="col">
               Candidats inscrits
             </th>
-            <th class="table__column table__column">
+            <th class="table__column table__column" scope="col">
               Certifications passées
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small" scope="col">
               Statut
             </th>
-            <th class="table__column table__column--small"></th>
+            <th class="table__column table__column--small" scope="col">
+              <span class="sr-only">
+                Actions
+              </span>
+            </th>
           </tr>
         </thead>
 
@@ -81,7 +85,6 @@
                       @icon="trash-alt"
                       aria-label="Supprimer la session {{sessionSummary.id}}"
                       disabled={{false}}
-                      aria-describedby="tooltip-delete-session-button"
                       @withBackground={{true}}
                       @triggerAction={{fn
                         this.openSessionDeletionConfirmModal

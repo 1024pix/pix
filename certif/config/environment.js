@@ -50,7 +50,7 @@ module.exports = function (environment) {
         },
         GATEWAY_TIMEOUT: {
           CODE: '504',
-          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.',
+          MESSAGE: 'Le service subit des ralentissements. Veuillez réessayer ultérieurement.',
         },
         UNAUTHORIZED: { CODE: '401', MESSAGE: "L'adresse e-mail et/ou le mot de passe saisis sont incorrects." },
         FORBIDDEN: '403',
