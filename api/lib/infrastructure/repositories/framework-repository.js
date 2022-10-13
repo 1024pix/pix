@@ -11,6 +11,7 @@ function _toDomain(frameworkData) {
   return new Framework({
     id: frameworkData.id,
     name: frameworkData.name,
+    areas: [],
   });
 }
 
