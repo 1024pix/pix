@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const {
   CertifiedProfile,
@@ -8,10 +7,8 @@ const {
   CertifiedSkill,
 } = require('../../domain/read-models/CertifiedProfile');
 const { NotFoundError } = require('../../domain/errors');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
-const tubeDatasource = require('../datasources/learning-content/tube-datasource');
-const competenceDatasource = require('../datasources/learning-content/competence-datasource');
-const areaDatasource = require('../datasources/learning-content/area-datasource');
+const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const learningContentRepository = require('./learning-content-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 
 module.exports = {
@@ -31,7 +28,7 @@ module.exports = {
     }
     const userId = certificationDatas[0].userId;
     const createdAt = certificationDatas[0].createdAt;
-    const askedSkillIds = certificationDatas.map((data) => data.skillId);
+    const askedInCertificationSkillIds = certificationDatas.map((data) => data.skillId);
 
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
       userId,
@@ -39,14 +36,15 @@ module.exports = {
     });
 
     const isKnowledgeElementValidated = (knowledgeElement) => knowledgeElement.status === 'validated';
-    const skillIds = knowledgeElements
+    const allUserProfileSkillIds = knowledgeElements
       .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement))
       .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
 
-    const certifiedSkills = await _createCertifiedSkills(skillIds, askedSkillIds);
-    const certifiedTubes = await _createCertifiedTubes(certifiedSkills);
-    const certifiedCompetences = await _createCertifiedCompetences(certifiedTubes);
-    const certifiedAreas = await _createCertifiedAreas(certifiedCompetences);
+    const learningContent = await learningContentRepository.buildFromSkillIds(allUserProfileSkillIds, FRENCH_FRANCE);
+    const certifiedSkills = await _createCertifiedSkills(learningContent, askedInCertificationSkillIds);
+    const certifiedTubes = await _createCertifiedTubes(learningContent);
+    const certifiedCompetences = await _createCertifiedCompetences(learningContent);
+    const certifiedAreas = await _createCertifiedAreas(learningContent);
 
     return new CertifiedProfile({
       id: certificationCourseId,
@@ -59,56 +57,44 @@ module.exports = {
   },
 };
 
-async function _createCertifiedSkills(skillIds, askedSkillIds) {
-  const learningContentSkills = await skillDatasource.findByRecordIds(skillIds);
-  return learningContentSkills.map((learningContentSkill) => {
+async function _createCertifiedSkills(learningContent, askedInCertificationSkillIds) {
+  return learningContent.skills.map((learningContentSkill) => {
     return new CertifiedSkill({
       id: learningContentSkill.id,
       name: learningContentSkill.name,
-      hasBeenAskedInCertif: askedSkillIds.includes(learningContentSkill.id),
+      hasBeenAskedInCertif: askedInCertificationSkillIds.includes(learningContentSkill.id),
       tubeId: learningContentSkill.tubeId,
-      difficulty: learningContentSkill.level,
+      difficulty: learningContentSkill.difficulty,
     });
   });
 }
 
-async function _createCertifiedTubes(certifiedSkills) {
-  const certifiedSkillsByTube = _.groupBy(certifiedSkills, 'tubeId');
-  const learningContentTubes = await tubeDatasource.findByRecordIds(Object.keys(certifiedSkillsByTube));
-  return learningContentTubes.map((learningContentTube) => {
-    const name = learningContentTube.practicalTitleFrFr;
+async function _createCertifiedTubes(learningContent) {
+  return learningContent.tubes.map((learningContentTube) => {
     return new CertifiedTube({
       id: learningContentTube.id,
-      name,
+      name: learningContentTube.practicalTitle,
       competenceId: learningContentTube.competenceId,
     });
   });
 }
 
-async function _createCertifiedCompetences(certifiedTubes) {
-  const certifiedTubesByCompetence = _.groupBy(certifiedTubes, 'competenceId');
-  const learningContentCompetences = await competenceDatasource.findByRecordIds(
-    Object.keys(certifiedTubesByCompetence)
-  );
-  return learningContentCompetences.map((learningContentCompetence) => {
-    const name = learningContentCompetence.nameFrFr;
+async function _createCertifiedCompetences(learningContent) {
+  return learningContent.competences.map((learningContentCompetence) => {
     return new CertifiedCompetence({
       id: learningContentCompetence.id,
-      name,
+      name: learningContentCompetence.name,
       areaId: learningContentCompetence.areaId,
       origin: learningContentCompetence.origin,
     });
   });
 }
 
-async function _createCertifiedAreas(certifiedCompetences) {
-  const certifiedCompetencesByArea = _.groupBy(certifiedCompetences, 'areaId');
-  const learningContentAreas = await areaDatasource.findByRecordIds(Object.keys(certifiedCompetencesByArea));
-  return learningContentAreas.map((learningContentArea) => {
-    const name = learningContentArea.titleFrFr;
+async function _createCertifiedAreas(learningContent) {
+  return learningContent.areas.map((learningContentArea) => {
     return new CertifiedArea({
       id: learningContentArea.id,
-      name,
+      name: learningContentArea.title,
       color: learningContentArea.color,
     });
   });
