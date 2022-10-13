@@ -25,15 +25,6 @@ async function getByName(name) {
   return _toDomain(framework);
 }
 
-async function getById(id) {
-  try {
-    const framework = await frameworkDatasource.get(id);
-    return _toDomain(framework);
-  } catch (_e) {
-    throw new NotFoundError(`Framework not found for id ${id}`);
-  }
-}
-
 async function findByRecordIds(frameworkIds) {
   const frameworkDatas = await frameworkDatasource.findByRecordIds(frameworkIds);
   const frameworks = _.map(frameworkDatas, (frameworkData) => _toDomain(frameworkData));
@@ -43,6 +34,5 @@ async function findByRecordIds(frameworkIds) {
 module.exports = {
   list,
   getByName,
-  getById,
   findByRecordIds,
 };
