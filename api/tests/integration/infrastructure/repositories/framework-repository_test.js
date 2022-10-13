@@ -1,6 +1,5 @@
-const { expect, mockLearningContent, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
 const frameworkRepository = require('../../../../lib/infrastructure/repositories/framework-repository');
-const Framework = require('../../../../lib/domain/models/Framework');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | framework-repository', function () {
@@ -25,8 +24,9 @@ describe('Integration | Repository | framework-repository', function () {
       const frameworks = await frameworkRepository.list();
 
       // then
-      expect(frameworks).to.have.lengthOf(2);
-      expect(frameworks[0]).to.be.instanceof(Framework);
+      const expectedFramework0 = domainBuilder.buildFramework({ ...framework0, areas: [] });
+      const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
+      expect(frameworks).to.deepEqualArray([expectedFramework0, expectedFramework1]);
     });
   });
 
@@ -36,8 +36,8 @@ describe('Integration | Repository | framework-repository', function () {
       const framework = await frameworkRepository.getByName('mon framework 1');
 
       // then
-      expect(framework).to.be.instanceof(Framework);
-      expect(framework).to.deep.equal(framework1);
+      const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
+      expect(framework).to.deepEqualInstance(expectedFramework1);
     });
 
     context('when framework is not found', function () {
@@ -61,8 +61,8 @@ describe('Integration | Repository | framework-repository', function () {
       const framework = await frameworkRepository.getById('recId1');
 
       // then
-      expect(framework).to.be.instanceof(Framework);
-      expect(framework).to.deep.equal(framework1);
+      const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
+      expect(framework).to.deepEqualInstance(expectedFramework1);
     });
 
     context('when framework is not found', function () {
