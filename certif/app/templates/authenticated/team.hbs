@@ -26,6 +26,7 @@
 {{#if this.shouldShowRefererSelectionModal}}
   <SelectRefererModal
     @toggleRefererModal={{this.toggleRefererModal}}
+    @onSelectReferer={{this.onSelectReferer}}
     @options={{this.membersSelectOptionsSortedByLastName}}
   />
 {{/if}}
