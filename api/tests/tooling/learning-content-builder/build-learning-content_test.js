@@ -5,6 +5,7 @@ const tubeDatasource = require('../../../lib/infrastructure/datasources/learning
 const skillDatasource = require('../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const challengeDatasource = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const courseDatasource = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
+const frameworkDatasource = require('../../../lib/infrastructure/datasources/learning-content/framework-datasource');
 
 describe('Integration | buildLearningContent', function () {
   it('builds areas', async function () {
@@ -17,6 +18,7 @@ describe('Integration | buildLearningContent', function () {
       {
         id: 'recArea2',
         competences: [],
+        frameworkId: 'test',
       },
     ];
 
@@ -26,8 +28,14 @@ describe('Integration | buildLearningContent', function () {
 
     // then
     const areas = await areaDatasource.list();
+    const frameworks = await frameworkDatasource.list();
     expect(areas[0].id).to.equal('recArea1');
     expect(areas[1].id).to.equal('recArea2');
+    expect(frameworks.length).to.equal(2);
+    expect(frameworks[0].id).to.deep.equal('-1');
+    expect(frameworks[0].name).to.deep.equal('framework#-1');
+    expect(frameworks[1].id).to.deep.equal('test');
+    expect(frameworks[1].name).to.deep.equal('framework#test');
   });
 
   it('builds competences', async function () {

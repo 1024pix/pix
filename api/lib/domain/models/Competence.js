@@ -12,6 +12,10 @@ class Competence {
     this.tubes = tubes;
   }
 
+  get fullName() {
+    return this.index + ' ' + this.name;
+  }
+
   get skills() {
     return this.tubes.flatMap((tube) => tube.skills);
   }

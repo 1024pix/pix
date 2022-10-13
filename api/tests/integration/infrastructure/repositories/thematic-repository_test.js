@@ -4,9 +4,9 @@ const Thematic = require('../../../../lib/domain/models/Thematic');
 
 describe('Integration | Repository | thematic-repository', function () {
   describe('#list', function () {
-    it('should return thematics', async function () {
+    it('should return thematics with FR default language', async function () {
       // given
-      const thematic = domainBuilder.buildThematic({ id: 'recThematic1' });
+      const thematic = domainBuilder.buildThematic({ id: 'recThematic1', name: 'frName' });
 
       const learningContent = {
         thematics: [thematic],
@@ -16,6 +16,24 @@ describe('Integration | Repository | thematic-repository', function () {
 
       // when
       const actualThematics = await thematicRepository.list();
+
+      // then
+      expect(actualThematics).to.deepEqualArray([thematic]);
+    });
+
+    it('should return thematics translated in given language', async function () {
+      // given
+      const locale = 'en';
+      const thematic = domainBuilder.buildThematic({ id: 'recThematic1', name: 'enName' });
+
+      const learningContent = {
+        thematics: [{ ...thematic, name: 'frName', nameEnUs: 'enName' }],
+      };
+
+      mockLearningContent(learningContent);
+
+      // when
+      const actualThematics = await thematicRepository.list({ locale });
 
       // then
       expect(actualThematics).to.deepEqualArray([thematic]);

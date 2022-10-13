@@ -6,11 +6,11 @@ const {
   mockLearningContent,
   learningContentBuilder,
   MockDate,
-} = require('../../test-helper');
-const createServer = require('../../../server');
+} = require('../../../test-helper');
+const createServer = require('../../../../server');
 const omit = require('lodash/omit');
 
-describe('Acceptance | Controller | target-profile-controller', function () {
+describe('Acceptance | Route | target-profiles', function () {
   let server;
 
   const skillId = 'recArea1_Competence1_Tube1_Skill1';
