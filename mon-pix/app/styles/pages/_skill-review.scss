@@ -48,6 +48,8 @@
   &__result-abstract-container,
   &__organization-message,
   &__net-promoter-score {
+    max-width: 980px;
+    margin-bottom: 32px;
     padding: 40px 10px;
     box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 0.1), 0 3px 6px 0 rgba(black, 0.1);
 

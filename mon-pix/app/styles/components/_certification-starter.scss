@@ -12,6 +12,12 @@
 
   &__block {
     padding: 12px;
+    max-width: 980px;
+    margin-bottom: 32px;
+
+    @include device-is('mobile') {
+      padding: 16px;
+    }
   }
 
   &__errors {
