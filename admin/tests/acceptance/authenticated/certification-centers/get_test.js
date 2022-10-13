@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { visit, fillByLabel, clickByName, within } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | authenticated/certification-centers/get', function (hooks) {
@@ -188,7 +188,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   });
 
   module('tab navigation', function () {
-    test('should show Equipe and Invitations tab', async function (assert) {
+    test('should show Équipe and Invitations tab', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
@@ -199,10 +199,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-
       // then
-      assert.dom(screen.getByRole('link', { name: 'Équipe' })).exists();
-      assert.dom(screen.getByRole('link', { name: 'Invitations' })).exists();
+      const certificationCenterNavigation = within(
+        screen.getByRole('navigation', {
+          name: 'Navigation de la section centre de certification',
+        })
+      );
+      assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Équipe' })).exists();
+      assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Invitations' })).exists();
     });
   });
 });
