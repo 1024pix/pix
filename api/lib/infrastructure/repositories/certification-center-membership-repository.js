@@ -164,4 +164,8 @@ module.exports = {
       throw new CertificationCenterMembershipDisableError();
     }
   },
+
+  async updateRefererStatusByUserIdAndCertificationCenterId({ userId, certificationCenterId, isReferer }) {
+    await knex('certification-center-memberships').where({ userId, certificationCenterId }).update({ isReferer });
+  },
 };

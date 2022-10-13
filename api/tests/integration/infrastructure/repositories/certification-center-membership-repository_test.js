@@ -514,4 +514,37 @@ describe('Integration | Repository | Certification Center Membership', function 
       });
     });
   });
+
+  describe('#updateRefererStatusByUserIdAndCertificationCenterId', function () {
+    it('should update isReferer on certification center membership', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        disabledAt: null,
+        isReferer: false,
+      });
+
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId({
+        userId,
+        certificationCenterId,
+        isReferer: true,
+      });
+
+      // then
+      const updatedCertificationCenterMembership = await knex('certification-center-memberships')
+        .where({
+          userId,
+          certificationCenterId,
+        })
+        .first();
+      expect(updatedCertificationCenterMembership.isReferer).to.be.true;
+    });
+  });
 });
