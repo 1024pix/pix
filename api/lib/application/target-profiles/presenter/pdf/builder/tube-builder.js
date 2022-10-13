@@ -39,7 +39,7 @@ function _drawTubeBackground(positionY, page, tubeText) {
   const positionYAfterTubes = tubeText.draw(page, true);
   page.drawRectangle({
     x: PositionManager.tubeFirstPartStart - START_BORDER,
-    y: positionYAfterTubes + FontManager.tubeFontHeight,
+    y: positionYAfterTubes + Math.max(FontManager.tubeTitleFontHeight, FontManager.tubeDescriptionFontHeight),
     width: PositionManager.tubeWidth + START_BORDER,
     height: positionY - positionYAfterTubes,
     color: ColorManager.tubeBackground,

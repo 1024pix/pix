@@ -7,7 +7,8 @@ const COVER_PAGE_TITLE_TEXT_FONT_SIZE = 30;
 const LEGAL_MENTION_TEXT_FONT_SIZE = 5;
 const AREA_NAME_FONT_SIZE = 20;
 const COMPETENCE_TEXT_FONT_SIZE = 12;
-const TUBE_TEXT_FONT_SIZE = 7;
+const TUBE_TITLE_TEXT_FONT_SIZE = 7;
+const TUBE_DESCRIPTION_TEXT_FONT_SIZE = 7.5;
 const THEMATIC_TEXT_FONT_SIZE = 7;
 
 const fonts = {
@@ -43,12 +44,6 @@ module.exports = {
   /**
    * @returns {number}
    */
-  get legalMentionFontHeight() {
-    return this.legalMentionFont.heightAtSize(this.legalMentionHeight);
-  },
-  /**
-   * @returns {number}
-   */
   get legalMentionHeight() {
     return LEGAL_MENTION_TEXT_FONT_SIZE;
   },
@@ -79,12 +74,6 @@ module.exports = {
   /**
    * @returns {number}
    */
-  get coverPageLegalMentionFontHeight() {
-    return this.coverPageLegalMentionFont.heightAtSize(this.coverPageLegalMentionHeight);
-  },
-  /**
-   * @returns {number}
-   */
   get coverPageLegalMentionHeight() {
     return COVER_PAGE_LEGAL_MENTION_TEXT_FONT_SIZE;
   },
@@ -97,12 +86,6 @@ module.exports = {
   /**
    * @returns {number}
    */
-  get coverPageTitleFontHeight() {
-    return this.coverPageTitleFont.heightAtSize(this.coverPageTitleHeight);
-  },
-  /**
-   * @returns {number}
-   */
   get coverPageTitleHeight() {
     return COVER_PAGE_TITLE_TEXT_FONT_SIZE;
   },
@@ -111,12 +94,6 @@ module.exports = {
    */
   get coverPageVersionFont() {
     return this.findFontByFontKey(this.key.robotoCondensedBold);
-  },
-  /**
-   * @returns {number}
-   */
-  get coverPageVersionFontHeight() {
-    return this.coverPageVersionFont.heightAtSize(this.coverPageVersionHeight);
   },
   /**
    * @returns {number}
@@ -163,21 +140,39 @@ module.exports = {
   /**
    * @returns {PDFFont}
    */
-  get tubeFont() {
+
+  get tubeTitleFont() {
     return this.findFontByFontKey(this.key.robotoRegular);
   },
   /**
    * @returns {number}
    */
-  get tubeFontHeight() {
-    return this.tubeFont.heightAtSize(this.tubeHeight);
+  get tubeTitleFontHeight() {
+    return this.tubeTitleFont.heightAtSize(this.tubeTitleHeight);
   },
   /**
    * @returns {number}
    */
-  get tubeHeight() {
-    return TUBE_TEXT_FONT_SIZE;
+  get tubeTitleHeight() {
+    return TUBE_TITLE_TEXT_FONT_SIZE;
   },
+
+  get tubeDescriptionFont() {
+    return this.findFontByFontKey(this.key.robotoCondensedLight);
+  },
+  /**
+   * @returns {number}
+   */
+  get tubeDescriptionFontHeight() {
+    return this.tubeDescriptionFont.heightAtSize(this.tubeDescriptionHeight);
+  },
+  /**
+   * @returns {number}
+   */
+  get tubeDescriptionHeight() {
+    return TUBE_DESCRIPTION_TEXT_FONT_SIZE;
+  },
+
   /**
    * @param pdfDocument {PDFDocument}
    * @param dirname {string}

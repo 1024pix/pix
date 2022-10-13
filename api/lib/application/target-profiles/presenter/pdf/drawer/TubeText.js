@@ -9,8 +9,8 @@ module.exports = class TubeText extends Text {
       text: practicalTitle || 'error on practicalTitle',
       positionX: PositionManager.tubeFirstPartStart,
       positionY,
-      fontSize: FontManager.tubeHeight,
-      font: FontManager.tubeFont,
+      fontSize: FontManager.tubeTitleHeight,
+      font: FontManager.tubeTitleFont,
       fontColor: ColorManager.findRGBColor('black'),
       maxWidth: PositionManager.tubeFirstPartWidth,
     });
@@ -23,8 +23,8 @@ module.exports = class TubeText extends Text {
       page.drawText(this.text2, {
         x: PositionManager.tubeSecondPartStart,
         y: this.position.y,
-        size: this.fontSize,
-        font: this.font,
+        size: FontManager.tubeDescriptionHeight,
+        font: FontManager.tubeDescriptionFont,
         color: this.fontColor,
         maxWidth: PositionManager.tubeSecondPartWidth,
         lineHeight: this.font.heightAtSize(this.fontSize),
@@ -36,6 +36,6 @@ module.exports = class TubeText extends Text {
   }
 
   get spaceUnderText() {
-    return FontManager.tubeHeight / 2;
+    return Math.max(FontManager.tubeTitleFontHeight, FontManager.tubeDescriptionFontHeight) / 2;
   }
 };
