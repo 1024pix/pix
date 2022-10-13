@@ -667,7 +667,7 @@
         "title": "Filtres",
         "type": {
           "certificability": {
-            "aria-label": "Enter un statut de certification",            
+            "aria-label": "Enter un statut de certification",
             "label": "Rechercher par certificabilité"
           },
           "fullName": {
@@ -829,7 +829,7 @@
       },
       "filter": {
         "certificability": {
-          "aria-label": "Enter un statut de certification",          
+          "aria-label": "Enter un statut de certification",
           "label": "Rechercher par certificabilité"
         },
         "division": {
@@ -905,6 +905,10 @@
           "student-number": "Numéro étudiant actuel de {firstName} {lastName} est : ",
           "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectué."
         }
+      },
+      "empty-state": {
+        "no-participants": "Aucun étudiants pour l’instant !",
+        "no-participants-action": "L’administrateur doit importer les étudiants en cliquant sur le bouton importer."
       },
       "table": {
         "column": {
