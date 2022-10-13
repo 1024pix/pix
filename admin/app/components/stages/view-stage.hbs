@@ -1,25 +1,25 @@
 <section class="page-section">
   <div class="page-section__header">
-    <h1 class="page-section__title">{{@model.name}}</h1>
+    <h1 class="page-section__title">{{@stage.name}}</h1>
   </div>
   <div class="page-section__details">
     ID :
-    {{@model.id}}<br />
+    {{@stage.id}}<br />
     {{@stageTypeName}}
     :
     {{#if @isTypeLevel}}
-      {{@model.level}}
+      {{@stage.level}}
     {{else}}
-      {{@model.threshold}}
+      {{@stage.threshold}}
     {{/if}}<br />
     Titre :
-    {{@model.title}}<br />
+    {{@stage.title}}<br />
     Message :
-    {{@model.message}}<br />
+    {{@stage.message}}<br />
     Titre pour le prescripteur :
-    {{@model.prescriberTitle}}<br />
+    {{@stage.prescriberTitle}}<br />
     Description pour le prescripteur :
-    {{@model.prescriberDescription}}<br />
+    {{@stage.prescriberDescription}}<br />
   </div>
   <br />
   <PixButton
