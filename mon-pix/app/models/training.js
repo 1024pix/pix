@@ -9,4 +9,8 @@ export default class Training extends Model {
   @attr() duration;
 
   @belongsTo('campaign-participation') campaignParticpation;
+
+  get isAutoformation() {
+    return this.type === 'autoformation';
+  }
 }

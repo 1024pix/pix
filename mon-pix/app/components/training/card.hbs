@@ -1,18 +1,17 @@
-<a class="training-card" href={{@training.link}} target="_blank" rel="noopener noreferrer">
-  <picture class="training-card__visual">
-    <img
-      src="/images/logo/logo-ministere-education-nationale-et-jeunesse.svg"
-      alt="{{t 'common.french-education-ministry'}}"
-    />
-  </picture>
-  <div class="training-card__content">
-    <h3 class="training-card__title">{{@training.title}}</h3>
-    <ul class="training-card__infos">
-      <li class="training-card__type">{{this.type}}</li>
-      <li class="training-card__duration">
-        <FaIcon @icon="clock" @prefix="far" aria-hidden="true" />
-        <time>{{this.durationFormatted}}</time>
-      </li>
-    </ul>
-  </div>
-</a>
+<PixBlock class="training-card" @shadow="light">
+  <a class="training-card__content" href={{@training.link}} target="_blank" rel="noopener noreferrer">
+    <h3 class="training-card-content__title">{{@training.title}}</h3>
+    <PixTag @color={{this.tagColor}} class="training-card-content__infos">
+      <ul class="training-card-content-infos__list">
+        <li class="training-card-content-infos-list__type">
+          {{this.type}}
+        </li>
+        <li class="training-card-content-infos-list__duration">
+          <time>{{this.durationFormatted}}</time>
+        </li>
+      </ul>
+    </PixTag>
+    {{! template-lint-disable require-valid-alt-text }}
+    <img class="training-card-content__image" src={{this.imageSrc}} alt="" />
+  </a>
+</PixBlock>
