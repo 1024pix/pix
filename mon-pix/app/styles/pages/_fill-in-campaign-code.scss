@@ -1,7 +1,8 @@
 .fill-in-campaign-code {
 
   &__container {
-    padding-bottom: $spacing-s;
+    padding: 16px 16px $spacing-s;
+    margin-bottom: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;

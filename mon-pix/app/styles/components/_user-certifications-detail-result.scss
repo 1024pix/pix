@@ -43,6 +43,8 @@
   }
 
   &__jury {
+    padding: 14px 24px;
+    margin-bottom: 32px;
 
     &__info {
       font-size: 0.75rem;
@@ -61,6 +63,7 @@
 
   @include device-is('mobile') {
     min-width: 100%;
+    padding: 16px;
   }
 
   @include device-is('tablet') {
@@ -70,5 +73,14 @@
   @include device-is('desktop') {
     min-width: 30%;
     margin-left: 20px;
+  }
+
+  &__container {
+    margin-bottom: 32px;
+    padding: 14px 24px;
+
+    @include device-is('mobile') {
+      padding: 16px;
+    }
   }
 }
