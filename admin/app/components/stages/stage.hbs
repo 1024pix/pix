@@ -1,20 +1,25 @@
 <header class="page-header">
   <div class="page-title">
-    <p>Palier<span class="wire">&nbsp;>&nbsp;</span>{{@model.id}}</p>
+    <p>
+      <LinkTo @route="authenticated.target-profiles.target-profile.insights">{{@targetProfile.name}}</LinkTo>
+      <span class="wire">&nbsp;>&nbsp;</span>
+      Palier
+      {{@stage.id}}
+    </p>
   </div>
 </header>
 
 <main class="page-body">
   {{#if @isEditMode}}
     <Stages::UpdateStage
-      @model={{@model}}
+      @stage={{@stage}}
       @isTypeLevel={{this.isTypeLevel}}
       @stageTypeName={{this.stageTypeName}}
       @toggleEditMode={{@toggleEditMode}}
     />
   {{else}}
     <Stages::ViewStage
-      @model={{@model}}
+      @stage={{@stage}}
       @isTypeLevel={{this.isTypeLevel}}
       @stageTypeName={{this.stageTypeName}}
       @toggleEditMode={{@toggleEditMode}}

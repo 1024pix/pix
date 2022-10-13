@@ -5,14 +5,14 @@ import { visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Stages | Stage', function (hooks) {
+module('Acceptance | Target profiles | Target Profile | Stages | Stage', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   module('When admin member is not logged in', function () {
     test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
-      await visit('/stages/1');
+      await visit('/target-profiles/1/stages/1');
 
       // then
       assert.strictEqual(currentURL(), '/login');
@@ -24,13 +24,14 @@ module('Acceptance | Stages | Stage', function (hooks) {
       test('it should be accessible for an authenticated user', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        server.create('target-profile', { id: 1 });
         server.create('stage', { id: 1 });
 
         // when
-        await visit('/stages/1');
+        await visit('/target-profiles/1/stages/1');
 
         // then
-        assert.strictEqual(currentURL(), '/stages/1');
+        assert.strictEqual(currentURL(), '/target-profiles/1/stages/1');
       });
     });
 
@@ -38,10 +39,11 @@ module('Acceptance | Stages | Stage', function (hooks) {
       test('it should be redirect to Organizations page', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isCertif: true })(server);
+        server.create('target-profile', { id: 1 });
         server.create('stage', { id: 2 });
 
         // when
-        await visit('/stages/2');
+        await visit('/target-profiles/1/stages/2');
 
         // then
         assert.strictEqual(currentURL(), '/organizations/list');
