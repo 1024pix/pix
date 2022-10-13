@@ -11,7 +11,8 @@ module.exports = {
    */
   build(pdfDocument, learningContent, language) {
     for (const area of sortBy(learningContent.areas, ['frameworkId', 'code'])) {
-      areaBuilder.build(pdfDocument, area, language);
+      const frameworkName = learningContent.findFrameworkNameOfArea(area.id);
+      areaBuilder.build(pdfDocument, area, frameworkName, language);
     }
     return pdfDocument;
   },
