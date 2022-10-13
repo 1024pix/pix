@@ -60,31 +60,6 @@ describe('Integration | Repository | framework-repository', function () {
     });
   });
 
-  describe('#getById', function () {
-    it('should return a framework', async function () {
-      // when
-      const framework = await frameworkRepository.getById('recId1');
-
-      // then
-      const expectedFramework1 = domainBuilder.buildFramework({ ...framework1, areas: [] });
-      expect(framework).to.deepEqualInstance(expectedFramework1);
-    });
-
-    context('when framework is not found', function () {
-      it('should return a rejection', async function () {
-        //given
-        const unknownFrameworkId = 'recUnknownFmk';
-
-        // when
-        const error = await catchErr(frameworkRepository.getById)(unknownFrameworkId);
-
-        // then
-        expect(error).to.be.an.instanceof(NotFoundError);
-        expect(error.message).to.equal('Framework not found for id recUnknownFmk');
-      });
-    });
-  });
-
   describe('#findByRecordIds', function () {
     it('should return frameworks for ids ordered by name', async function () {
       // when
