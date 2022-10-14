@@ -34,7 +34,7 @@
   }
 
   &__trainings {
-    padding: 2.5rem 4rem 3rem;
+    padding: 2.5rem 2rem 3rem;
     background-color: $pix-neutral-10;
     border-radius: 10px;
   }
@@ -157,6 +157,36 @@
     color: $pix-neutral-45;
     line-height: 1.8rem;
     text-align: center;
+  }
+
+  &__list {
+    display: grid;
+    padding: 0;
+    grid-template-columns: 1fr;
+    column-gap: 24px;
+    row-gap: 24px;
+    list-style: none;
+
+    @include device-is('tablet') {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include device-is('desktop') {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+
+.skill-review-trainings-list {
+
+  &__item {
+    width: 100%;
+    padding: 0;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: $box-shadow-competence-cards-hover;
+    }
   }
 }
 
