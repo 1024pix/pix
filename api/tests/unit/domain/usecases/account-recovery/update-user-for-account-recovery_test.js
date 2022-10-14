@@ -21,7 +21,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       updateWithEmailConfirmed: sinon.stub(),
     };
     authenticationMethodRepository = {
-      findByUserId: sinon.stub(),
+      hasIdentityProviderPIX: sinon.stub(),
       create: sinon.stub(),
       updateChangedPassword: sinon.stub(),
     };
@@ -44,21 +44,18 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     clock.restore();
   });
 
-  context('when user has only GAR authentication method', function () {
-    it('should add PIX authentication method', async function () {
+  context('when user has no Pix authentication method', function () {
+    it('should add Pix authentication method', async function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
       const domainTransaction = Symbol();
 
       const user = domainBuilder.buildUser({ id: 1234, email: null });
-      const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
-        userId: user.id,
-      });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
-      authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
+      authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(false);
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
       };
@@ -75,7 +72,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       });
 
       // then
-      const expectedAuthenticationMethodFromPIX = new AuthenticationMethod({
+      const expectedAuthenticationMethodFromPix = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.PIX,
         authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
           password: hashedPassword,
@@ -85,15 +82,15 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       });
       expect(authenticationMethodRepository.create).to.have.been.calledWith(
         {
-          authenticationMethod: expectedAuthenticationMethodFromPIX,
+          authenticationMethod: expectedAuthenticationMethodFromPix,
         },
         domainTransaction
       );
     });
   });
 
-  context('when user has either Pix authentication method or both GAR and Pix Authentication method', function () {
-    it('should change password', async function () {
+  context('when user has Pix authentication method', function () {
+    it('should only update password', async function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -104,12 +101,10 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
         email: null,
         username: 'manuella.philippe0702',
       });
-      const authenticationMethodFromGAR =
-        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: user.id });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
-      authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
+      authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
       };
@@ -150,8 +145,6 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       email: null,
       username: 'manuella.philippe0702',
     });
-    const authenticationMethodFromGAR =
-      domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: user.id });
 
     scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand
       .withArgs({
@@ -161,7 +154,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       })
       .resolves({ userId: user.id, newEmail });
     encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
-    authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
+    authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
     const userUpdate = new User({
       ...user,
       cgu: true,
@@ -214,12 +207,10 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       email: newEmail,
       emailConfirmedAt,
     });
-    const authenticationMethodFromGAR =
-      domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: user.id });
 
     scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id, newEmail });
     encryptionService.hashPassword.resolves(hashedPassword);
-    authenticationMethodRepository.findByUserId.resolves([authenticationMethodFromGAR]);
+    authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     userRepository.updateWithEmailConfirmed.resolves(userUpdate);
 
     DomainTransaction.execute = (lambda) => {
