@@ -9,6 +9,17 @@ const badgeForCalculationRepository = require('../../../../lib/infrastructure/re
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 
 describe('Integration | Repository | BadgeForCalculation', function () {
+  const campaignSkillsId = [
+    'recSkillA_1',
+    'recSkillA_3',
+    'recSkillA_4',
+    'recSkillA_6',
+    'recSkillB_2',
+    'recSkillB_3',
+    'recSkillB_4',
+    'recSkillB_5',
+  ];
+  let targetProfileId, campaignId;
   beforeEach(function () {
     const learningContent = [
       {
@@ -90,32 +101,18 @@ describe('Integration | Repository | BadgeForCalculation', function () {
     ];
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
+    targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+    campaignSkillsId.map((skillId) => {
+      databaseBuilder.factory.buildCampaignSkill({
+        campaignId,
+        skillId,
+      });
+    });
+    return databaseBuilder.commit();
   });
 
   describe('#findByCampaignParticipationId', function () {
-    let targetProfileId, campaignId;
-    const campaignSkillsId = [
-      'recSkillA_1',
-      'recSkillA_3',
-      'recSkillA_4',
-      'recSkillA_6',
-      'recSkillB_2',
-      'recSkillB_3',
-      'recSkillB_4',
-      'recSkillB_5',
-    ];
-    beforeEach(function () {
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      campaignSkillsId.map((skillId) => {
-        databaseBuilder.factory.buildCampaignSkill({
-          campaignId,
-          skillId,
-        });
-      });
-      return databaseBuilder.commit();
-    });
-
     it('should return a BadgeForCalculation with criteria', async function () {
       // given
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
@@ -132,6 +129,31 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       // when
       const actualBadgesForCalculation = await badgeForCalculationRepository.findByCampaignParticipationId({
         campaignParticipationId,
+      });
+
+      // then
+      expect(actualBadgesForCalculation).to.deepEqualArray([
+        expectedBadgeForCalculation1,
+        expectedBadgeForCalculation2,
+      ]);
+    });
+  });
+  describe('#findByCampaignId', function () {
+    it('should return a BadgeForCalculation with criteria', async function () {
+      // given
+      const expectedBadgeForCalculation1 = _buildBadgeWithCampaignParticipationAndCappedTubes(
+        targetProfileId,
+        campaignSkillsId
+      );
+      const expectedBadgeForCalculation2 = _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(
+        targetProfileId,
+        campaignSkillsId
+      );
+      await databaseBuilder.commit();
+
+      // when
+      const actualBadgesForCalculation = await badgeForCalculationRepository.findByCampaignId({
+        campaignId,
       });
 
       // then
