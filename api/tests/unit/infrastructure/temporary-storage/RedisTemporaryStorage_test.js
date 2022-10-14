@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
   });
 
   describe('#get', function () {
-    it('should call client set to retrieve value', async function () {
+    it('should call client get to retrieve value', async function () {
       // given
       const key = 'valueKey';
       const value = { name: 'name' };
