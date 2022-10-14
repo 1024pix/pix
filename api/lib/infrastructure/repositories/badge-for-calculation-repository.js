@@ -46,6 +46,43 @@ module.exports = {
     }
     return badges;
   },
+
+  async findByCampaignId({ campaignId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const badgesDTO = await knexConn('badges')
+      .select('badges.id')
+      .join('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
+      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+      .where('campaigns.id', campaignId)
+      .orderBy('badges.id');
+
+    const badgeIds = badgesDTO.map(({ id }) => id);
+    const badgeCriteriaDTO = await knexConn('badge-criteria')
+      .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+      .whereIn('badgeId', badgeIds)
+      .orderBy('badge-criteria.id');
+    const badgeCriteriaDTOByBadge = _.groupBy(badgeCriteriaDTO, 'badgeId');
+
+    const campaignSkills = await campaignRepository.findSkills({
+      campaignId,
+      domainTransaction,
+    });
+    const campaignSkillIds = campaignSkills.map(({ id }) => id);
+    const campaignSkillsByTube = _.groupBy(campaignSkills, 'tubeId');
+
+    const badges = [];
+    for (const badgeDTO of badgesDTO) {
+      const badge = await _buildBadge(
+        knexConn,
+        campaignSkillsByTube,
+        campaignSkillIds,
+        badgeCriteriaDTOByBadge[badgeDTO.id],
+        badgeDTO
+      );
+      badges.push(badge);
+    }
+    return badges;
+  },
 };
 
 async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCriteriaDTO, badgeDTO) {
