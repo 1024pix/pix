@@ -29,15 +29,6 @@ exports.register = async function (server) {
         tags: ['api'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/healthcheck/crash',
-      config: {
-        auth: false,
-        handler: healthcheckController.crashTest,
-        tags: ['api'],
-      },
-    },
   ]);
 };
 

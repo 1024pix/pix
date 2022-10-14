@@ -9,7 +9,6 @@ describe('Integration | Application | Route | healthcheckRouter', function () {
     sinon.stub(healthCheckController, 'get').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkDbStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkRedisStatus').callsFake((request, h) => h.response(true));
-    sinon.stub(healthCheckController, 'crashTest').callsFake((request, h) => h.response(true));
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -56,21 +55,6 @@ describe('Integration | Application | Route | healthcheckRouter', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(healthCheckController.checkRedisStatus).to.have.been.calledOnce;
-    });
-  });
-
-  describe('GET /api/healthcheck/crash', function () {
-    it('should exist', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/healthcheck/crash';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(healthCheckController.crashTest).to.have.been.calledOnce;
     });
   });
 });
