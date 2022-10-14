@@ -1058,6 +1058,13 @@ class UnexpectedOidcStateError extends DomainError {
   }
 }
 
+class InvalidIdentityProviderError extends DomainError {
+  constructor(identityProvider) {
+    const message = `Identity provider ${identityProvider} is not supported.`;
+    super(message);
+  }
+}
+
 class YamlParsingError extends DomainError {
   constructor(message = "Une erreur s'est produite lors de l'interprétation des réponses.") {
     super(message);
@@ -1273,6 +1280,7 @@ module.exports = {
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
   InvalidExternalAPIResponseError,
+  InvalidIdentityProviderError,
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
