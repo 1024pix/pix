@@ -11,6 +11,7 @@ class BadgeCriterion {
 BadgeCriterion.SCOPES = {
   CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
   SKILL_SET: 'SkillSet',
+  CAPPED_TUBES: 'CappedTubes',
 };
 
 module.exports = BadgeCriterion;

@@ -7,6 +7,7 @@ module.exports = function buildBadgeCriterion({
   threshold = 50,
   badgeId,
   skillSetIds = [],
+  cappedTubes,
 } = {}) {
   const values = {
     id,
@@ -14,6 +15,7 @@ module.exports = function buildBadgeCriterion({
     threshold,
     badgeId,
     skillSetIds,
+    cappedTubes,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'badge-criteria',
