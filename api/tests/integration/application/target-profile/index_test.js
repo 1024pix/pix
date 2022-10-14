@@ -93,6 +93,7 @@ describe('Integration | Application | Route | target-profile-router', function (
             'image-url': 'some/image/url',
             category: 'OTHER',
             'is-simplified-access': true,
+            'max-level': 8,
           },
           relationships: {
             badges: {

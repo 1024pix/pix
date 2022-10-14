@@ -30,6 +30,7 @@ export default class TargetProfile extends Model {
   @attr('string') ownerOrganizationId;
   @attr('string') category;
   @attr('boolean') isSimplifiedAccess;
+  @attr('number') maxLevel;
 
   @hasMany('badge') badges;
   @hasMany('stage') stages;
