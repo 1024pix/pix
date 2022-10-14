@@ -12,6 +12,7 @@ const dependencies = {
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
   badgeCriteriaRepository: require('../../infrastructure/repositories/badge-criteria-repository'),
+  badgeForCalculationRepository: require('../../infrastructure/repositories/badge-for-calculation-repository'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignAnalysisRepository: require('../../infrastructure/repositories/campaign-analysis-repository'),
   campaignAssessmentParticipationRepository: require('../../infrastructure/repositories/campaign-assessment-participation-repository'),
