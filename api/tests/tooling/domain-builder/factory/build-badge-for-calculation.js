@@ -11,4 +11,16 @@ const buildBadgeForCalculation = function buildBadgeForCalculation({
   });
 };
 
+buildBadgeForCalculation.mockObtainable = function buildObtainable({ id, badgeCriteriaForCalculation }) {
+  const badgeForCalculation = buildBadgeForCalculation({ id, badgeCriteria: badgeCriteriaForCalculation });
+  badgeForCalculation.shouldBeObtained = () => true;
+  return badgeForCalculation;
+};
+
+buildBadgeForCalculation.mockNotObtainable = function buildObtainable({ id, badgeCriteriaForCalculation }) {
+  const badgeForCalculation = buildBadgeForCalculation({ id, badgeCriteria: badgeCriteriaForCalculation });
+  badgeForCalculation.shouldBeObtained = () => false;
+  return badgeForCalculation;
+};
+
 module.exports = buildBadgeForCalculation;

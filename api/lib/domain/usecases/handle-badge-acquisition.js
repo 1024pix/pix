@@ -3,35 +3,28 @@ const _ = require('lodash');
 const handleBadgeAcquisition = async function ({
   assessment,
   domainTransaction,
-  badgeCriteriaService,
+  badgeForCalculationRepository,
   badgeAcquisitionRepository,
-  badgeRepository,
   knowledgeElementRepository,
-  campaignRepository,
 }) {
   if (assessment.isForCampaign()) {
+    const campaignParticipationId = assessment.campaignParticipationId;
     const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(
-      assessment.campaignParticipationId,
-      badgeRepository,
+      campaignParticipationId,
+      badgeForCalculationRepository,
       domainTransaction
     );
     if (_.isEmpty(associatedBadges)) {
       return;
     }
-    const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
-      campaignParticipationId: assessment.campaignParticipationId,
-      domainTransaction,
-    });
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
       userId: assessment.userId,
       domainTransaction,
     });
 
-    const validatedBadgesByUser = associatedBadges.filter((badge) =>
-      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, skillIds, badge })
-    );
+    const obtainedBadgesByUser = associatedBadges.filter((badge) => badge.shouldBeObtained(knowledgeElements));
 
-    const badgeAcquisitionsToCreate = validatedBadgesByUser.map((badge) => {
+    const badgeAcquisitionsToCreate = obtainedBadgesByUser.map((badge) => {
       return {
         badgeId: badge.id,
         userId: assessment.userId,
@@ -45,8 +38,12 @@ const handleBadgeAcquisition = async function ({
   }
 };
 
-function _fetchPossibleCampaignAssociatedBadges(campaignParticipationId, badgeRepository, domainTransaction) {
-  return badgeRepository.findByCampaignParticipationId({ campaignParticipationId, domainTransaction });
+function _fetchPossibleCampaignAssociatedBadges(
+  campaignParticipationId,
+  badgeForCalculationRepository,
+  domainTransaction
+) {
+  return badgeForCalculationRepository.findByCampaignParticipationId({ campaignParticipationId, domainTransaction });
 }
 
 module.exports = handleBadgeAcquisition;
