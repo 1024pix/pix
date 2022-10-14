@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v3.273.0 (14/10/2022)
+
+
+### :rocket: Amélioration
+- [#4973](https://github.com/1024pix/pix/pull/4973) [FEATURE] Permettre à un utilisateur de télécharger la version PDF du contenu d'un profil-cible sur PixAdmin (PIX-5598)
+- [#5041](https://github.com/1024pix/pix/pull/5041) [FEATURE] Afficher un message dans le tableau des élèves quand l'organisation n'a aucun élève (PIX-5569).
+- [#5052](https://github.com/1024pix/pix/pull/5052) [FEATURE] Ajout d'un filtre par nom et prénom dans l'onglet étudiants (PIX-5567)
+- [#5054](https://github.com/1024pix/pix/pull/5054) [FEATURE] Afficher un empty state visuel plus text dans l'onglet Etudiants (PIX-5570).
+- [#5049](https://github.com/1024pix/pix/pull/5049) [FEATURE] Permettre de cacher la page "Mes formations" lors de son développement (PIX-5981).
+
+### :building_construction: Tech
+- [#5055](https://github.com/1024pix/pix/pull/5055) [TECH] Supprimer la gestion spécifique de UNAUTHORIZED
+- [#5015](https://github.com/1024pix/pix/pull/5015) [TECH] Rendre des pages de Pix Certif plus accessible (+ testing library dans les tests) (PIX-5546).
+- [#5059](https://github.com/1024pix/pix/pull/5059) [TECH] Position du titre et des infos "date" et "heure de début" (PIX-5752)
+- [#5062](https://github.com/1024pix/pix/pull/5062) [TECH] En cas d'erreur sur le format de userInfoContent, ajouter userInfoContent dans les logs
+- [#5056](https://github.com/1024pix/pix/pull/5056) [TECH] Corriger le lancement des tests artillery
+- [#5030](https://github.com/1024pix/pix/pull/5030) [TECH] Expliciter le choix du formatage de code.
+- [#5048](https://github.com/1024pix/pix/pull/5048) [TECH] Passage à la version 19.0.1 de Pix UI (PIX-5978)
+
+### :bug: Correction
+- [#5063](https://github.com/1024pix/pix/pull/5063) [BUGFIX] Correction du bug de la modale (PIX-5979)
+
+### :coffee: Autre
+- [#5033](https://github.com/1024pix/pix/pull/5033) [DOCUMENTATION] Clarifier le contexte du projet pour les contributions externes
+- [#5034](https://github.com/1024pix/pix/pull/5034) [DX] Abaisse le niveau d'assurance du wording dans le template de PR
+
 ## v3.272.0 (11/10/2022)
 
 
