@@ -1,6 +1,8 @@
 .user-account-panel__item {
   display: flex;
-  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $spacing-m;
   border-top: $pix-neutral-15 1px solid;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -25,11 +27,8 @@
 
 .user-account-panel-item__text {
   display: flex;
-
-  @include device-is('mobile') {
-    flex-direction: column;
-    padding-left: 10px;
-  }
+  flex-wrap: wrap;
+  gap: $spacing-xs;
 }
 
 .user-account-panel-item__label {
@@ -37,10 +36,6 @@
   display: flex;
   align-items: center;
   margin: 0;
-
-  @include device-is('mobile') {
-    padding-bottom: 10px;
-  }
 }
 
 .user-account-panel-item__value {
@@ -50,7 +45,6 @@
   align-items: center;
 }
 
-.user-account-panel-item__button,
 .user-account-panel-item__edit-button {
   margin-left: auto;
 }
