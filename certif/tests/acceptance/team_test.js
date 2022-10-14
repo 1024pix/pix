@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
+import { currentURL, click, fillIn } from '@ember/test-helpers';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 import { setupApplicationTest } from 'ember-qunit';
@@ -31,6 +31,33 @@ module('Acceptance | authenticated | team', function (hooks) {
           // then
           assert.dom(screen.getByText('Aucun référent Pix désigné')).exists();
           assert.dom(screen.getByRole('button', { name: 'Désigner un référent' })).exists();
+        });
+
+        test('it should be possible to select a referer', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+          server.create('featureToggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
+          server.create('member', {
+            id: 102,
+            firstName: 'Lili',
+            lastName: 'Dupont',
+            isReferer: false,
+          });
+          server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visitScreen('/equipe');
+
+          assert.dom(screen.queryByRole('cell', { name: 'Référent Pix' })).doesNotExist();
+
+          await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+          await fillIn(screen.getByRole('combobox', { name: 'Sélectionner le référent Pix' }), '102');
+          await click(screen.getByRole('button', { name: 'Valider la sélection de référent' }));
+
+          // then
+          assert.dom(screen.queryByRole('dialog', { name: 'Sélectionner le référent Pix' })).doesNotExist();
+          assert.dom(screen.getByRole('cell', { name: 'Référent Pix' })).exists();
         });
       });
     });

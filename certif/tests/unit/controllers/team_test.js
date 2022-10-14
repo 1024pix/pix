@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/team', function (hooks) {
   setupTest(hooks);
@@ -172,6 +173,60 @@ module('Unit | Controller | authenticated/team', function (hooks) {
 
       // then
       assert.strictEqual(controller.selectedReferer, 102);
+    });
+  });
+
+  module('#onValidateReferer', function () {
+    module('when a referer is selected', function () {
+      test('should call updateReferer model method', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/team');
+        const store = this.owner.lookup('service:store');
+        const updateRefererStub = sinon.stub();
+        const sendStub = sinon.stub();
+        const member = store.createRecord('member', {
+          id: 102,
+          firstName: 'Abe',
+          lastName: 'Sapiens',
+          updateReferer: updateRefererStub,
+        });
+        controller.selectedReferer = '102';
+        controller.model = { members: [member], hasCleaHabilitation: true };
+        controller.send = sendStub;
+
+        // when
+        controller.onValidateReferer();
+
+        // then
+        sinon.assert.calledWith(updateRefererStub, { userId: '102', isReferer: true });
+        assert.true(true);
+      });
+    });
+
+    module('when there is no referer selected', function () {
+      test('should not call updateReferer model method', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/team');
+        const store = this.owner.lookup('service:store');
+        const updateRefererStub = sinon.stub();
+        const sendStub = sinon.stub();
+        const member = store.createRecord('member', {
+          id: 102,
+          firstName: 'Abe',
+          lastName: 'Sapiens',
+          updateReferer: updateRefererStub,
+        });
+        controller.selectedReferer = '';
+        controller.model = { members: [member], hasCleaHabilitation: true };
+        controller.send = sendStub;
+
+        // when
+        controller.onValidateReferer();
+
+        // then
+        sinon.assert.notCalled(updateRefererStub);
+        assert.true(true);
+      });
     });
   });
 });
