@@ -15,15 +15,19 @@ module.exports = async function updateUserForAccountRecovery({
     accountRecoveryDemandRepository,
     userRepository,
   });
-
-  const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
-  const isAuthenticatedFromGarOnly =
-    authenticationMethods.length === 1 &&
-    authenticationMethods[0].identityProvider === AuthenticationMethod.identityProviders.GAR;
-
   const hashedPassword = await encryptionService.hashPassword(password);
 
-  if (isAuthenticatedFromGarOnly) {
+  const hasAnAuthenticationMethodFromPix = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });
+
+  if (hasAnAuthenticationMethodFromPix) {
+    await authenticationMethodRepository.updateChangedPassword(
+      {
+        userId,
+        hashedPassword,
+      },
+      domainTransaction
+    );
+  } else {
     const authenticationMethodFromPix = new AuthenticationMethod({
       userId,
       identityProvider: AuthenticationMethod.identityProviders.PIX,
@@ -35,14 +39,6 @@ module.exports = async function updateUserForAccountRecovery({
     await authenticationMethodRepository.create(
       {
         authenticationMethod: authenticationMethodFromPix,
-      },
-      domainTransaction
-    );
-  } else {
-    await authenticationMethodRepository.updateChangedPassword(
-      {
-        userId,
-        hashedPassword,
       },
       domainTransaction
     );
