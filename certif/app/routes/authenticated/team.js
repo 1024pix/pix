@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class AuthenticatedTeamRoute extends Route {
   @service currentUser;
@@ -15,5 +16,10 @@ export default class AuthenticatedTeamRoute extends Route {
       members,
       hasCleaHabilitation,
     };
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

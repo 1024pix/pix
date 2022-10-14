@@ -6,7 +6,7 @@
   <:content>
     <div class="select-referer-modal__referer-selector">
       <label for="referer" class="label">
-        Séléctionner le référent Pix
+        Sélectionner le référent Pix
       </label>
       <PixSelect
         id="referer"
@@ -28,7 +28,7 @@
       <PixButton
         class="select-referer-modal__validation-button"
         aria-label="Valider la sélection de référent"
-        @triggerAction={{@confirm}}
+        @triggerAction={{@onValidateReferer}}
         @loadingColor="white"
         @backgroundColor="blue"
       >

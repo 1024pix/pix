@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class Team extends Controller {
   @service featureToggles;
+  @service router;
   @tracked shouldShowRefererSelectionModal = false;
   @tracked selectedReferer = '';
 
@@ -26,6 +27,17 @@ export default class Team extends Controller {
   @action
   onSelectReferer(event) {
     this.selectedReferer = event.target.value;
+  }
+
+  @action
+  async onValidateReferer() {
+    if (this.selectedReferer !== '') {
+      const userId = this.selectedReferer;
+      const member = this.model.members.toArray().find((member) => member.id === userId);
+      await member.updateReferer({ userId: member.id, isReferer: true });
+      this.shouldShowRefererSelectionModal = !this.shouldShowRefererSelectionModal;
+      this.send('refreshModel');
+    }
   }
 
   @action
