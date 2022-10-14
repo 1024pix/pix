@@ -5,7 +5,12 @@
         {{@stageTypeName}}
       </label>
       {{#if @isTypeLevel}}
-        <Input id="threshold-or-level" @type="number" class="form-control" @value={{this.form.level}} min="0" max="7" />
+        <PixSelect
+          id="threshold-or-level"
+          @options={{this.levelOptions}}
+          @onChange={{this.setLevel}}
+          @selectedOption={{this.form.level}}
+        />
       {{else}}
         <Input
           id="threshold-or-level"

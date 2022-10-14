@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+import range from 'lodash/range';
 
 const Validations = buildValidations({
   prescriberTitle: {
@@ -72,5 +73,17 @@ export default class UpdateStage extends Component {
     if (await this._checkFormValidation()) {
       await this._updateStage();
     }
+  }
+
+  get levelOptions() {
+    return range(this.args.maxLevel + 1).map((index, level) => ({
+      value: index,
+      label: level,
+    }));
+  }
+
+  @action
+  setLevel(event) {
+    this.form.level = event.target.value;
   }
 }

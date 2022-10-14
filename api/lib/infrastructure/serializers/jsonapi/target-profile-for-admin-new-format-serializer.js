@@ -22,6 +22,7 @@ module.exports = {
         'newAreas',
         'badges',
         'stages',
+        'maxLevel',
       ],
       newAreas: {
         ref: 'id',
