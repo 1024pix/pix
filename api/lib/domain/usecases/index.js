@@ -10,7 +10,6 @@ const dependencies = {
   authenticationServiceRegistry: require('../services/authentication/authentication-service-registry'),
   authenticationSessionService: require('../../domain/services/authentication/authentication-session-service'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
-  badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
   badgeCriteriaRepository: require('../../infrastructure/repositories/badge-criteria-repository'),
   badgeForCalculationRepository: require('../../infrastructure/repositories/badge-for-calculation-repository'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
