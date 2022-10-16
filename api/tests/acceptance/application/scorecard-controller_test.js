@@ -3,7 +3,7 @@ const {
   expect,
   knex,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
+  LearningContentMock,
 } = require('../../test-helper');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
@@ -14,85 +14,14 @@ describe('Acceptance | Controller | scorecard-controller', function () {
   let options;
   let server;
   const userId = 42;
-
-  const competenceId = 'recCompetence';
-  const skillWeb1Id = 'recAcquisWeb1';
-  const skillWeb1Name = '@web1';
-  const tutorialWebId = 'recTutorial1';
-
-  const competence = {
-    id: competenceId,
-    nameFrFr: 'Mener une recherche et une veille d’information',
-    index: '1.1',
-    origin: 'Pix',
-    areaId: 'recvoGdo7z2z7pXWa',
-  };
-
-  const area = {
-    id: 'recvoGdo7z2z7pXWa',
-    titleFrFr: 'Information et données',
-    color: 'jaffa',
-    code: '1',
-    competenceIds: [competenceId],
-  };
-
-  const learningContent = {
-    areas: [area],
-    competences: [competence],
-    tubes: [
-      {
-        id: 'recArea1_Competence1_Tube1',
-        name: '@web',
-        practicalDescriptionFrFr: 'Ceci est une description pratique',
-        practicalTitleFrFr: 'Ceci est un titre pratique',
-        competenceId: competenceId,
-      },
-    ],
-    skills: [
-      {
-        id: skillWeb1Id,
-        name: skillWeb1Name,
-        status: 'actif',
-        competenceId: competenceId,
-        tutorialIds: ['recTutorial0', tutorialWebId, 'recTutorial2'],
-      },
-    ],
-    tutorials: [
-      {
-        id: 'recTutorial0',
-        locale: 'en-us',
-        duration: '00:00:54',
-        format: 'video',
-        link: 'https://tuto.com',
-        source: 'tuto.com',
-        title: 'tuto1',
-      },
-      {
-        id: tutorialWebId,
-        locale: 'fr-fr',
-        duration: '00:03:31',
-        format: 'vidéo',
-        link: 'http://www.example.com/this-is-an-example.html',
-        source: 'Source Example, Example',
-        title: 'Communiquer',
-      },
-      {
-        id: 'recTutorial2',
-        locale: 'fr-fr',
-        duration: '00:03:31',
-        format: 'vidéo',
-        link: 'http://www.example.com/this-is-an-example.html',
-        source: 'Source Example, Example',
-        title: 'Communiquer',
-      },
-    ],
-  };
+  const areaId = 'areaPixA1';
+  const competenceId = 'competencePixA1C1';
 
   beforeEach(async function () {
     server = await createServer();
     databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
-    mockLearningContent(learningContent);
+    LearningContentMock.mockCommon();
   });
 
   afterEach(async function () {
@@ -116,62 +45,60 @@ describe('Acceptance | Controller | scorecard-controller', function () {
     });
 
     context('Resource access management', function () {
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
 
     context('Success case', function () {
-      beforeEach(async function () {
+      beforeEach(function () {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          competenceId: competenceId,
+          competenceId,
         });
 
         const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competenceId,
+          competenceId,
         });
 
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
-      it('should return 200', function () {
+      it('should return 200', async function () {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it("should return user's serialized scorecards", function () {
+      it("should return user's serialized scorecards", async function () {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
+        const competenceData = LearningContentMock.getCompetenceDTO(competenceId);
+        const areaData = LearningContentMock.getAreaDTO(areaId);
         const expectedScorecardJSONApi = {
           data: {
             type: 'scorecards',
             id: `${userId}_${competenceId}`,
             attributes: {
-              name: competence.nameFrFr,
-              description: competence.descriptionFrFr,
+              name: competenceData.nameFr,
+              description: competenceData.descriptionFr,
               'competence-id': competenceId,
-              index: competence.index,
+              index: competenceData.index,
               'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
@@ -182,7 +109,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             relationships: {
               area: {
                 data: {
-                  id: area.id,
+                  id: areaId,
                   type: 'areas',
                 },
               },
@@ -196,27 +123,29 @@ describe('Acceptance | Controller | scorecard-controller', function () {
           included: [
             {
               attributes: {
-                code: area.code,
-                title: area.titleFrFr,
-                color: area.color,
+                code: areaData.code,
+                title: areaData.titleFr,
+                color: areaData.color,
               },
-              id: area.id,
+              id: areaId,
               type: 'areas',
             },
           ],
         };
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
-          expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
-        });
+        expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
+        expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
       });
     });
   });
 
   describe('GET /scorecards/{id}/tutorials', function () {
-    beforeEach(async function () {
+    const tutorial1Id = 'tutorialPixA1C1Th1Tu1S1Tuto1FR';
+    const tutorial2Id = 'tutorialPixA1C1Th1Tu1S1Tuto2FR';
+    const skillId = 'skillPixA1C1Th1Tu1S1';
+
+    beforeEach(function () {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}/tutorials`,
@@ -240,7 +169,11 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
     context('Success case', function () {
       beforeEach(async function () {
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 10500,
+          userId,
+          tutorialId: tutorial1Id,
+        });
         await databaseBuilder.commit();
 
         options.headers = {
@@ -250,9 +183,9 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          competenceId: competence.id,
+          competenceId,
           status: KnowledgeElement.StatusType.INVALIDATED,
-          skillId: skillWeb1Id,
+          skillId,
           createdAt: new Date('2018-01-01'),
         });
 
@@ -260,7 +193,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competence.id,
+          competenceId,
         });
 
         await databaseBuilder.commit();
@@ -278,21 +211,24 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
       it("should return user's serialized tutorials", async function () {
         // given
+        const tutorial1Data = LearningContentMock.getTutorialDTO(tutorial1Id);
+        const tutorial2Data = LearningContentMock.getTutorialDTO(tutorial2Id);
+        const tubeData = LearningContentMock.getTubeDTO('tubePixA1C1Th1Tu1');
         const expectedTutorialsJSONApi = {
           data: [
             {
               type: 'tutorials',
-              id: 'recTutorial1',
+              id: tutorial1Id,
               attributes: {
-                duration: '00:03:31',
-                format: 'vidéo',
-                link: 'http://www.example.com/this-is-an-example.html',
-                source: 'Source Example, Example',
-                title: 'Communiquer',
-                'tube-name': '@web',
-                'tube-practical-description': 'Ceci est une description pratique',
-                'tube-practical-title': 'Ceci est un titre pratique',
-                'skill-id': 'recAcquisWeb1',
+                title: tutorial1Data.title,
+                format: tutorial1Data.format,
+                source: tutorial1Data.source,
+                link: tutorial1Data.link,
+                duration: tutorial1Data.duration,
+                'tube-name': tubeData.name,
+                'tube-practical-description': tubeData.practicalDescriptionFr,
+                'tube-practical-title': tubeData.practicalTitleFr,
+                'skill-id': skillId,
               },
               relationships: {
                 'tutorial-evaluation': {
@@ -314,17 +250,17 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             },
             {
               type: 'tutorials',
-              id: 'recTutorial2',
+              id: tutorial2Id,
               attributes: {
-                duration: '00:03:31',
-                format: 'vidéo',
-                link: 'http://www.example.com/this-is-an-example.html',
-                source: 'Source Example, Example',
-                title: 'Communiquer',
-                'tube-name': '@web',
-                'tube-practical-description': 'Ceci est une description pratique',
-                'tube-practical-title': 'Ceci est un titre pratique',
-                'skill-id': 'recAcquisWeb1',
+                title: tutorial2Data.title,
+                format: tutorial2Data.format,
+                source: tutorial2Data.source,
+                link: tutorial2Data.link,
+                duration: tutorial2Data.duration,
+                'tube-name': tubeData.name,
+                'tube-practical-description': tubeData.practicalDescriptionFr,
+                'tube-practical-title': tubeData.practicalTitleFr,
+                'skill-id': skillId,
               },
               relationships: {
                 'tutorial-evaluation': {
@@ -343,7 +279,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             {
               attributes: {
                 id: 10500,
-                'tutorial-id': 'recTutorial1',
+                'tutorial-id': tutorial1Id,
                 'user-id': 42,
               },
               id: '10500',
@@ -352,7 +288,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             {
               attributes: {
                 id: 10500,
-                'tutorial-id': 'recTutorial1',
+                'tutorial-id': tutorial1Id,
                 'user-id': 42,
               },
               id: '10500',
