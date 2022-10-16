@@ -25,6 +25,7 @@ const learningContentBuilder = require('./tooling/learning-content-builder');
 const tokenService = require('../lib/domain/services/token-service');
 const Membership = require('../lib/domain/models/Membership');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
+const LearningContentMock = require('./tooling/learning-content-builder/mock-common-learning-content');
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
@@ -231,5 +232,6 @@ module.exports = {
   catchErr,
   testErr: new Error('Fake Error'),
   mockLearningContent,
+  LearningContentMock,
   learningContentBuilder,
 };
