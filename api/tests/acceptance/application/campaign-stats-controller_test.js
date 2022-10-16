@@ -2,8 +2,7 @@ const {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  learningContentBuilder,
-  mockLearningContent,
+  LearningContentMock,
 } = require('../../test-helper');
 
 const createServer = require('../../../server');
@@ -13,39 +12,18 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
 
   beforeEach(async function () {
     server = await createServer();
+    LearningContentMock.mockCommon();
   });
 
   describe('GET /api/campaigns/{id}/stats/participations-by-stage', function () {
+    const skill1Id = 'skillPixA1C1Th1Tu1S1';
+    const skill2Id = 'skillPixA1C1Th1Tu1S2';
+
     it('should return the campaign by id', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
-        {
-          id: 'recArea1',
-          titleFrFr: 'area1_Title',
-          color: 'specialColor',
-          competences: [
-            {
-              id: 'recCompetence1',
-              name: 'Fabriquer un meuble',
-              index: '1.1',
-              tubes: [
-                {
-                  id: 'recTube1',
-                  skills: [
-                    { id: 'recSkillId1', nom: '@web1', challenges: [] },
-                    { id: 'recSkillId2', nom: '@web2', challenges: [] },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ]);
-      mockLearningContent(learningContentObjects);
-
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId2' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill1Id });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill2Id });
       const stage1 = databaseBuilder.factory.buildStage({
         targetProfileId,
         threshold: 0,
