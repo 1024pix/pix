@@ -2,106 +2,32 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
+  LearningContentMock,
   knex,
   sinon,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-
-const competenceId = 'recCompetence';
-const skillWeb1Id = 'recAcquisWeb1';
-const skillWeb2Id = 'recAcquisWeb2';
-const skillWeb3Id = 'recAcquisWeb3';
-
-const firstChallengeId = 'recFirstChallenge';
-const secondChallengeId = 'recSecondChallenge';
-const thirdChallengeId = 'recThirdChallenge';
-const otherChallengeId = 'recOtherChallenge';
-
-const learningContent = [
-  {
-    id: 'recArea1',
-    titleFrFr: 'area1_Title',
-    color: 'someColor',
-    competences: [
-      {
-        id: competenceId,
-        nameFrFr: 'Mener une recherche et une veille d’information',
-        index: '1.1',
-        tubes: [
-          {
-            id: 'recTube0_0',
-            skills: [
-              {
-                id: skillWeb2Id,
-                nom: '@web2',
-                challenges: [{ id: firstChallengeId }],
-                level: 2,
-              },
-              {
-                id: skillWeb3Id,
-                nom: '@web3',
-                challenges: [{ id: secondChallengeId, langues: ['Franco Français'] }],
-                level: 3,
-              },
-              {
-                id: skillWeb1Id,
-                nom: '@web1',
-                challenges: [{ id: thirdChallengeId }, { id: otherChallengeId }],
-                level: 1,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+const { types } = require('../../../../lib/domain/models/Assessment');
+const { SourceType, StatusType } = require('../../../../lib/domain/models/KnowledgeElement');
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-competence-evaluation', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
-    mockLearningContent(learningContentObjects);
+    LearningContentMock.mockCommon();
   });
 
   describe('GET /api/assessments/:assessment_id/next', function () {
     const assessmentId = 1;
     const userId = 1234;
 
-    context('When there is still challenges to answer', function () {
+    context('When there are still challenges to answer', function () {
       let clock;
+      const nextChallengeId = 'challengePixA1C1Th1Tu1S3Ch1';
 
       beforeEach(async function () {
-        databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
-          type: Assessment.types.COMPETENCE_EVALUATION,
-          userId,
-          competenceId,
-          lastQuestionDate: new Date('2020-01-20'),
-          state: 'started',
-        });
-        const { id: answerId } = databaseBuilder.factory.buildAnswer({
-          challengeId: firstChallengeId,
-          assessmentId,
-          value: 'any good answer',
-          result: 'ok',
-        });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-        databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId: skillWeb2Id,
-          assessmentId,
-          answerId,
-          userId,
-          competenceId,
-        });
+        _buildAssessmentWithFirstTwoSkillsAnswered(assessmentId, userId);
         await databaseBuilder.commit();
 
         clock = sinon.useFakeTimers({
@@ -114,14 +40,13 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         clock.restore();
       });
 
-      it('should return the second challenge if the first answer is correct', async function () {
+      it('should return next challenge for a higher level skill if the first answer is correct', async function () {
         // given
         const options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/next`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
-
         const lastQuestionDate = new Date();
 
         // when
@@ -130,7 +55,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         // then
         const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
         expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-        expect(response.result.data.id).to.equal(secondChallengeId);
+        expect(response.result.data.id).to.equal(nextChallengeId);
       });
 
       it('should save the asked challenge', async function () {
@@ -146,64 +71,19 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
         // then
         const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastChallengeId');
-        expect(assessmentsInDb.lastChallengeId).to.deep.equal(secondChallengeId);
-        expect(response.result.data.id).to.equal(secondChallengeId);
+        expect(assessmentsInDb.lastChallengeId).to.deep.equal(nextChallengeId);
+        expect(response.result.data.id).to.equal(nextChallengeId);
       });
     });
 
     context('When there is no more challenges to answer', function () {
-      const lastChallengeId = 'lastChallengeId';
+      const latestChallengeAnsweredId = 'challengePixA1C1Th1Tu1S3Ch1';
       beforeEach(async function () {
-        databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
-          type: Assessment.types.COMPETENCE_EVALUATION,
-          userId,
-          competenceId,
-          lastChallengeId,
-        });
-        const { id: answerId1 } = databaseBuilder.factory.buildAnswer({
-          challengeId: firstChallengeId,
-          assessmentId,
-          value: 'any good answer',
-          result: 'ok',
-        });
-        const { id: answerId2 } = databaseBuilder.factory.buildAnswer({
-          challengeId: secondChallengeId,
-          assessmentId,
-          value: 'any bad answer',
-          result: 'ko',
-        });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-        databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId: skillWeb2Id,
-          assessmentId,
-          answerId1,
-          userId,
-          competenceId,
-        });
-        databaseBuilder.factory.buildKnowledgeElement({
-          source: KnowledgeElement.SourceType.INFERRED,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId: skillWeb1Id,
-          assessmentId,
-          answerId1,
-          userId,
-          competenceId,
-        });
-        databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          skillId: skillWeb3Id,
-          assessmentId,
-          answerId2,
-          userId,
-          competenceId,
-        });
+        _buildAssessmentWithAllSkillsAnswered(assessmentId, userId, latestChallengeAnsweredId);
         await databaseBuilder.commit();
       });
 
-      it('should finish the test if there is no next challenge', async function () {
+      it('should finish the test', async function () {
         // given
         const options = {
           method: 'GET',
@@ -221,7 +101,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
       });
 
-      it('should not save a null challenge for the lastChallengeId', async function () {
+      it('should not overwrite the lastChallengeId saved in assessment', async function () {
         // given
         const options = {
           method: 'GET',
@@ -234,8 +114,98 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
         // then
         const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastChallengeId');
-        expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
+        expect(assessmentsInDb.lastChallengeId).to.deep.equal(latestChallengeAnsweredId);
       });
     });
   });
 });
+
+function _buildAssessmentWithFirstTwoSkillsAnswered(assessmentId, userId) {
+  const competenceId = 'competencePixA1C1';
+  databaseBuilder.factory.buildUser({ id: userId });
+  databaseBuilder.factory.buildAssessment({
+    id: assessmentId,
+    type: types.COMPETENCE_EVALUATION,
+    userId,
+    competenceId,
+    lastQuestionDate: new Date('2020-01-20'),
+    state: 'started',
+    lastChallengeId: 'challengePixA1C1Th1Tu1S2Ch1',
+  });
+  databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+  const { id: answerId } = databaseBuilder.factory.buildAnswer({
+    challengeId: 'challengePixA1C1Th1Tu1S2Ch1',
+    assessmentId,
+    value: 'any good answer',
+    result: 'ok',
+  });
+  databaseBuilder.factory.buildKnowledgeElement({
+    status: StatusType.VALIDATED,
+    skillId: 'skillPixA1C1Th1Tu1S2',
+    assessmentId,
+    answerId,
+    userId,
+    competenceId,
+  });
+  databaseBuilder.factory.buildKnowledgeElement({
+    source: SourceType.INFERRED,
+    status: StatusType.VALIDATED,
+    skillId: 'skillPixA1C1Th1Tu1S1',
+    assessmentId,
+    answerId,
+    userId,
+    competenceId,
+  });
+}
+
+function _buildAssessmentWithAllSkillsAnswered(assessmentId, userId, latestChallengeAnsweredId) {
+  const competenceId = 'competencePixA1C1';
+  databaseBuilder.factory.buildUser({ id: userId });
+  databaseBuilder.factory.buildAssessment({
+    id: assessmentId,
+    type: types.COMPETENCE_EVALUATION,
+    userId,
+    competenceId,
+    lastQuestionDate: new Date('2020-01-20'),
+    state: 'started',
+    lastChallengeId: latestChallengeAnsweredId,
+  });
+  databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+  const { id: answerId } = databaseBuilder.factory.buildAnswer({
+    challengeId: 'challengePixA1C1Th1Tu1S2Ch1',
+    assessmentId,
+    value: 'any good answer',
+    result: 'ok',
+  });
+  databaseBuilder.factory.buildKnowledgeElement({
+    status: StatusType.VALIDATED,
+    skillId: 'skillPixA1C1Th1Tu1S2',
+    assessmentId,
+    answerId,
+    userId,
+    competenceId,
+  });
+  databaseBuilder.factory.buildKnowledgeElement({
+    source: SourceType.INFERRED,
+    status: StatusType.VALIDATED,
+    skillId: 'skillPixA1C1Th1Tu1S1',
+    assessmentId,
+    answerId,
+    userId,
+    competenceId,
+  });
+  const { id: answerId2 } = databaseBuilder.factory.buildAnswer({
+    challengeId: 'challengePixA1C1Th1Tu1S3Ch1',
+    assessmentId,
+    value: 'any bad answer',
+    result: 'ko',
+  });
+  databaseBuilder.factory.buildKnowledgeElement({
+    status: StatusType.INVALIDATED,
+    skillId: 'skillPixA1C1Th1Tu1S3',
+    assessmentId,
+    answerId: answerId2,
+    userId,
+    competenceId,
+  });
+}
