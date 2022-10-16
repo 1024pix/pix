@@ -649,19 +649,19 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill0_0',
-                      nom: '@recSkill0_0',
+                      name: '@recSkill0_0',
                       challenges: [{ id: 'recChallenge0_0_0' }],
                       level: 0,
                     },
                     {
                       id: 'recSkill0_1',
-                      nom: '@recSkill0_1',
+                      name: '@recSkill0_1',
                       challenges: [{ id: 'recChallenge0_1_0' }],
                       level: 1,
                     },
                     {
                       id: 'recSkill0_2',
-                      nom: '@recSkill0_2',
+                      name: '@recSkill0_2',
                       challenges: [{ id: 'recChallenge0_2_0' }],
                       level: 2,
                     },
@@ -677,19 +677,19 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill1_0',
-                      nom: '@recSkill1_0',
+                      name: '@recSkill1_0',
                       challenges: [{ id: 'recChallenge1_0_0' }],
                       level: 0,
                     },
                     {
                       id: 'recSkill1_1',
-                      nom: '@recSkill1_1',
+                      name: '@recSkill1_1',
                       challenges: [{ id: 'recChallenge1_1_0' }],
                       level: 1,
                     },
                     {
                       id: 'recSkill1_2',
-                      nom: '@recSkill1_2',
+                      name: '@recSkill1_2',
                       challenges: [{ id: 'recChallenge1_2_0' }],
                       level: 2,
                     },
@@ -705,19 +705,19 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill2_0',
-                      nom: '@recSkill2_0',
+                      name: '@recSkill2_0',
                       challenges: [{ id: 'recChallenge2_0_0' }],
                       level: 0,
                     },
                     {
                       id: 'recSkill2_1',
-                      nom: '@recSkill2_1',
+                      name: '@recSkill2_1',
                       challenges: [{ id: 'recChallenge2_1_0' }],
                       level: 1,
                     },
                     {
                       id: 'recSkill2_2',
-                      nom: '@recSkill2_2',
+                      name: '@recSkill2_2',
                       challenges: [{ id: 'recChallenge2_2_0' }],
                       level: 2,
                     },
@@ -733,19 +733,19 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill3_0',
-                      nom: '@recSkill3_0',
+                      name: '@recSkill3_0',
                       challenges: [{ id: 'recChallenge3_0_0' }],
                       level: 0,
                     },
                     {
                       id: 'recSkill3_1',
-                      nom: '@recSkill3_1',
+                      name: '@recSkill3_1',
                       challenges: [{ id: 'recChallenge3_1_0' }],
                       level: 1,
                     },
                     {
                       id: 'recSkill3_2',
-                      nom: '@recSkill3_2',
+                      name: '@recSkill3_2',
                       challenges: [{ id: 'recChallenge3_2_0' }],
                       level: 2,
                     },
@@ -761,19 +761,19 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill4_0',
-                      nom: '@recSkill4_0',
+                      name: '@recSkill4_0',
                       challenges: [{ id: 'recChallenge4_0_0' }],
                       level: 0,
                     },
                     {
                       id: 'recSkill4_1',
-                      nom: '@recSkill4_1',
+                      name: '@recSkill4_1',
                       challenges: [{ id: 'recChallenge4_1_0' }],
                       level: 1,
                     },
                     {
                       id: 'recSkill4_2',
-                      nom: '@recSkill4_2',
+                      name: '@recSkill4_2',
                       challenges: [{ id: 'recChallenge4_2_0' }],
                       level: 2,
                     },
@@ -789,7 +789,7 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill5_0',
-                      nom: '@recSkill5_0',
+                      name: '@recSkill5_0',
                       challenges: [
                         { id: 'recChallenge5_0_0', langues: ['Franco Français'] },
                         { id: 'recChallenge5_0_1' },
@@ -798,7 +798,7 @@ describe('Acceptance | API | Certification Course', function () {
                     },
                     {
                       id: 'recSkill5_1',
-                      nom: '@recSkill5_1',
+                      name: '@recSkill5_1',
                       challenges: [{ id: 'recChallenge5_1_1', langues: ['Franco Français'] }],
                       level: 1,
                     },
@@ -814,13 +814,13 @@ describe('Acceptance | API | Certification Course', function () {
                   skills: [
                     {
                       id: 'recSkill6_0',
-                      nom: '@recSkill6_0',
+                      name: '@recSkill6_0',
                       challenges: [{ id: 'recChallenge6_0_0', langues: ['Anglais'] }],
                       level: 0,
                     },
                     {
                       id: 'recSkill6_1',
-                      nom: '@recSkill6_1',
+                      name: '@recSkill6_1',
                       challenges: [{ id: 'recChallenge6_1_0', langues: ['Anglais'] }],
                       level: 1,
                     },

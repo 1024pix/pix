@@ -20,7 +20,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
                 skills: [
                   {
                     id: '@web1',
-                    nom: '@web1',
+                    name: '@web1',
                     challenges: [{ id: 'first_challenge' }, { id: 'second_challenge' }, { id: 'third_challenge' }],
                   },
                 ],

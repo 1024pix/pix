@@ -173,13 +173,13 @@ describe('Integration | buildLearningContent', function () {
                     skills: [
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1',
-                        nom: '@accesDonnées1',
+                        name: '@accesDonnées1',
                         status: 'actif',
                         challenges: [],
                       },
                       {
                         id: 'recArea1_Competence1_Tube1_Skill2',
-                        nom: '@accesDonnées2',
+                        name: '@accesDonnées2',
                         status: 'archivé',
                         challenges: [],
                       },

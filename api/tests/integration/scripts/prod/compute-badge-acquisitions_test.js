@@ -93,25 +93,25 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
                   skills: [
                     {
                       id: listSkill[0],
-                      nom: '@web1',
+                      name: '@web1',
                       status: 'actif',
                       challenges: [],
                     },
                     {
                       id: listSkill[1],
-                      nom: '@web2',
+                      name: '@web2',
                       status: 'actif',
                       challenges: [],
                     },
                     {
                       id: listSkill[2],
-                      nom: 'web3',
+                      name: 'web3',
                       status: 'actif',
                       challenges: [],
                     },
                     {
                       id: listSkill[3],
-                      nom: 'web4',
+                      name: 'web4',
                       status: 'actif',
                       challenges: [],
                     },

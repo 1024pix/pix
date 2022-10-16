@@ -28,13 +28,13 @@ const learningContent = [
             skills: [
               {
                 id: 'skillWeb1',
-                nom: '@skillWeb1',
+                name: '@skillWeb1',
                 challenges: [],
                 level: 1,
               },
               {
                 id: 'skillWeb2',
-                nom: '@skillWeb2',
+                name: '@skillWeb2',
                 challenges: [
                   { id: frenchChallengeId, langues: ['Franco Français'] },
                   { id: frenchSpokenChallengeId, langues: ['Francophone'] },
@@ -43,7 +43,7 @@ const learningContent = [
               },
               {
                 id: 'skillWeb3',
-                nom: '@skillWeb3',
+                name: '@skillWeb3',
                 challenges: [],
                 level: 3,
               },

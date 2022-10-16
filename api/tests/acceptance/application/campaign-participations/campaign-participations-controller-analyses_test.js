@@ -54,7 +54,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
                   skills: [
                     {
                       id: 'recSkillId1',
-                      nom: '@skill1',
+                      name: '@skill1',
                       level: 1,
                       challenges: [],
                       tutorials: [
@@ -71,7 +71,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
                     },
                     {
                       id: 'recSkillId2',
-                      nom: '@skill2',
+                      name: '@skill2',
                       level: 2,
                       challenges: [],
                     },

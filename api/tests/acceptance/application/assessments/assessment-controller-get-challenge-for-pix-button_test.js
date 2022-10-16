@@ -28,7 +28,7 @@ const learningContent = [
             skills: [
               {
                 id: 'skillWeb2Id',
-                nom: '@web2',
+                name: '@web2',
                 challenges: [{ id: lastChallengeId, solution: lastChallengeAnswer, type: 'QROC', autoReply: false }],
               },
             ],

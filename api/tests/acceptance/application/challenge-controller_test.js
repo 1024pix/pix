@@ -34,7 +34,7 @@ describe('Acceptance | API | ChallengeController', function () {
                   skills: [
                     {
                       id: 'skillWeb1',
-                      nom: '@skillWeb1',
+                      name: '@skillWeb1',
                       challenges: [
                         {
                           id: challengeId,

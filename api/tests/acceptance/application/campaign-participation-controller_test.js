@@ -43,7 +43,7 @@ describe('Acceptance | API | Campaign Participations', function () {
                   skills: [
                     {
                       id: 'recAcquisWeb1',
-                      nom: '@web1',
+                      name: '@web1',
                     },
                   ],
                 },

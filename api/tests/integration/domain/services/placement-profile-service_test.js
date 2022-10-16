@@ -28,7 +28,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 skills: [
                   {
                     id: 'recCitation4',
-                    nom: '@citation4',
+                    name: '@citation4',
                     pixValue: 1,
                     challenges: ['challengeRecordIdOne', 'challengeRecordIdTwo', 'challengeRecordIdTen'],
                     version: 1,
@@ -49,7 +49,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 skills: [
                   {
                     id: 'recRemplir2',
-                    nom: '@remplir2',
+                    name: '@remplir2',
                     pixValue: 1,
                     challenges: ['challengeRecordIdOne', 'challengeRecordIdFive'],
                     version: 1,
@@ -57,7 +57,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                   },
                   {
                     id: 'recRemplir4',
-                    nom: '@remplir4',
+                    name: '@remplir4',
                     pixValue: 1,
                     challenges: ['challengeRecordIdSix'],
                     version: 1,
@@ -78,7 +78,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 skills: [
                   {
                     id: 'recRequin5',
-                    nom: '@requin5',
+                    name: '@requin5',
                     pixValue: 1,
                     challenges: ['challengeRecordIdNine'],
                     version: 1,

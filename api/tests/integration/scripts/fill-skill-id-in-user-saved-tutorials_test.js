@@ -43,7 +43,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
                     skills: [
                       {
                         id: 'recSkill1',
-                        nom: '@web1',
+                        name: '@web1',
                         challenges: [],
                         tutorialIds: ['tuto1', 'tuto2'],
                         tutorials: [
@@ -69,7 +69,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
                       },
                       {
                         id: 'recSkill2',
-                        nom: '@web2',
+                        name: '@web2',
                         challenges: [],
                         tutorialIds: ['tuto1'],
                         tutorials: [
@@ -86,7 +86,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
                       },
                       {
                         id: 'recSkill3',
-                        nom: '@web3',
+                        name: '@web3',
                         challenges: [],
                         tutorialIds: ['tuto4', 'tuto5'],
                         tutorials: [

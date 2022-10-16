@@ -138,7 +138,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
                     skills: [
                       {
                         id: 'recSkill0_0',
-                        nom: '@recSkill0_0',
+                        name: '@recSkill0_0',
                         challenges: [{ id: 'recChallenge0_0_0' }],
                       },
                     ],
@@ -254,7 +254,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
                     skills: [
                       {
                         id: 'recSkill0_0',
-                        nom: '@recSkill0_0',
+                        name: '@recSkill0_0',
                         challenges: [{ id: 'recChallenge0_0_0' }],
                       },
                     ],
@@ -360,7 +360,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
                     skills: [
                       {
                         id: 'recSkill0_0',
-                        nom: '@recSkill0_0',
+                        name: '@recSkill0_0',
                         challenges: [{ id: 'recChallenge0_0_0' }],
                       },
                     ],

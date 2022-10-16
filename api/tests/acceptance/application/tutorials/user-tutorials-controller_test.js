@@ -176,7 +176,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   skills: [
                     {
                       id: 'recSkill1',
-                      nom: '@web1',
+                      name: '@web1',
                       challenges: [],
                       tutorialIds: ['tuto1', 'tuto2'],
                       tutorials: [
@@ -202,7 +202,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                     },
                     {
                       id: 'recSkill2',
-                      nom: '@web2',
+                      name: '@web2',
                       challenges: [],
                       tutorialIds: ['tuto3'],
                       tutorials: [
@@ -219,7 +219,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                     },
                     {
                       id: 'recSkill3',
-                      nom: '@web3',
+                      name: '@web3',
                       challenges: [],
                       tutorialIds: ['tuto4'],
                       tutorials: [
@@ -257,7 +257,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   skills: [
                     {
                       id: 'recSkill4',
-                      nom: '@table2',
+                      name: '@table2',
                       challenges: [],
                       tutorialIds: ['tuto6', 'tuto7'],
                       tutorials: [
@@ -557,7 +557,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   skills: [
                     {
                       id: 'recSkill1',
-                      nom: '@web1',
+                      name: '@web1',
                       challenges: [],
                       tutorialIds: ['tuto1', 'tuto2'],
                       tutorials: [
@@ -583,7 +583,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                     },
                     {
                       id: 'recSkill2',
-                      nom: '@web2',
+                      name: '@web2',
                       challenges: [],
                       tutorialIds: ['tuto3'],
                       tutorials: [
@@ -600,7 +600,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                     },
                     {
                       id: 'recSkill3',
-                      nom: '@web3',
+                      name: '@web3',
                       challenges: [],
                       tutorialIds: ['tuto4'],
                       tutorials: [
@@ -629,7 +629,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   skills: [
                     {
                       id: 'recSkill4',
-                      nom: '@table2',
+                      name: '@table2',
                       challenges: [],
                       tutorialIds: ['tuto6', 'tuto7'],
                       tutorials: [

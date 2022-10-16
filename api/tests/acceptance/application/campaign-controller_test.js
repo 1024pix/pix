@@ -130,12 +130,12 @@ describe('Acceptance | API | Campaign Controller', function () {
                   skills: [
                     {
                       id: 'recSkillId1',
-                      nom: '@web2',
+                      name: '@web2',
                       challenges: [],
                     },
                     {
                       id: 'recSkillId2',
-                      nom: '@web3',
+                      name: '@web3',
                       challenges: [],
                     },
                   ],
@@ -247,7 +247,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                   skills: [
                     {
                       id: skillId,
-                      nom: '@web2',
+                      name: '@web2',
                       challenges: [],
                     },
                   ],
@@ -324,7 +324,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                   skills: [
                     {
                       id: 'recSkill1',
-                      nom: '@web2',
+                      name: '@web2',
                       challenges: [],
                     },
                   ],
@@ -396,7 +396,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                     skills: [
                       {
                         id: 'recSkillId1',
-                        nom: '@skill1',
+                        name: '@skill1',
                         level: 1,
                         challenges: [],
                         tutorials: [
@@ -413,7 +413,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                       },
                       {
                         id: 'recSkillId2',
-                        nom: '@skill2',
+                        name: '@skill2',
                         challenges: [],
                       },
                     ],
@@ -547,7 +547,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                     skills: [
                       {
                         id: 'recSkillId1',
-                        nom: '@skill1',
+                        name: '@skill1',
                         level: 1,
                         challenges: [],
                         tutorials: [
@@ -564,7 +564,7 @@ describe('Acceptance | API | Campaign Controller', function () {
                       },
                       {
                         id: 'recSkillId2',
-                        nom: '@skill2',
+                        name: '@skill2',
                         challenges: [],
                       },
                     ],

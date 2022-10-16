@@ -71,7 +71,7 @@ const buildLearningContent = function (learningContent) {
                 tubeId: tube.id,
                 status: skill.status || 'actif',
                 competenceId: competence.id,
-                name: skill.name ?? skill.nom, // FIXME delete usages of nom
+                name: skill.name,
                 pixValue: skill.pixValue,
                 tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
                 version: skill.version,

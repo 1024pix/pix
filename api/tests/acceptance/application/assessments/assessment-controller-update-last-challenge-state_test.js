@@ -32,7 +32,7 @@ const learningContent = [
             skills: [
               {
                 id: skillWeb2Id,
-                nom: '@web2',
+                name: '@web2',
                 challenges: [
                   { id: nonFocusedChallengeId, alpha: 2.8, delta: 1.1, focusable: false, langues: ['Franco Français'] },
                   { id: focusedChallengeId, alpha: 2.8, delta: 1.1, focusable: true, langues: ['Franco Français'] },
