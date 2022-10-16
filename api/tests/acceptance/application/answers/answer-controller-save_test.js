@@ -2,7 +2,7 @@ const {
   expect,
   knex,
   databaseBuilder,
-  mockLearningContent,
+  LearningContentMock,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -20,14 +20,14 @@ describe('Acceptance | Controller | answer-controller-save', function () {
     let insertedAssessmentId;
     let postAnswersOptions;
     let promise;
-    const correctAnswer = 'correct';
-    const challengeId = 'a_challenge_id';
-    const competenceId = 'recCompetence';
+    const competenceId = 'competencePixA1C1';
+    const challengeId = 'challengePixA1C1Th1Tu1S3Ch1';
+    let competenceData;
 
     beforeEach(async function () {
       const assessment = databaseBuilder.factory.buildAssessment({
         type: 'COMPETENCE_EVALUATION',
-        competenceId: competenceId,
+        competenceId,
       });
       insertedAssessmentId = assessment.id;
       userId = assessment.userId;
@@ -43,43 +43,9 @@ describe('Acceptance | Controller | answer-controller-save', function () {
     context('when the user is linked to the assessment', function () {
       beforeEach(async function () {
         // given
-        const learningContent = {
-          areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
-          competences: [
-            {
-              id: competenceId,
-              areaId: 'recArea1',
-              skillIds: ['recSkill1'],
-              origin: 'Pix',
-              nameFrFr: 'Nom de la competence FR',
-              nameEnUs: 'Nom de la competence EN',
-              statue: 'active',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              name: '@recArea1_Competence1_Tube1_Skill1',
-              status: 'actif',
-              competenceId: competenceId,
-              pixValue: '5',
-            },
-          ],
-          challenges: [
-            {
-              id: challengeId,
-              competenceId: competenceId,
-              skillId: 'recSkill1',
-              status: 'validé',
-              solution: correctAnswer,
-              proposals: '${a}',
-              locales: ['fr-fr'],
-              type: 'QROC',
-            },
-          ],
-        };
-        mockLearningContent(learningContent);
-
+        LearningContentMock.mockCommon();
+        competenceData = LearningContentMock.getCompetenceDTO(competenceId);
+        const challengeData = LearningContentMock.getChallengeDTO(challengeId);
         postAnswersOptions = {
           method: 'POST',
           url: '/api/answers',
@@ -88,7 +54,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
             data: {
               type: 'answers',
               attributes: {
-                value: correctAnswer,
+                value: challengeData.solution,
               },
               relationships: {
                 assessment: {
@@ -168,30 +134,46 @@ describe('Acceptance | Controller | answer-controller-save', function () {
         expect(answer.relationships.challenge.data.id).to.equal(answerDB.challengeId);
       });
 
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        { locale: FRENCH_FRANCE, expectedCompetenceName: 'Nom de la competence FR' },
-        { locale: ENGLISH_SPOKEN, expectedCompetenceName: 'Nom de la competence EN' },
-      ].forEach((testCase) => {
-        it(`should return competence name in locale=${testCase.locale} when user levelup`, async function () {
-          // given
-          databaseBuilder.factory.buildKnowledgeElement({
-            earnedPix: 7,
-            skillId: 'recSkill2',
-            userId,
-            competenceId: competenceId,
-          });
-          await databaseBuilder.commit();
-          postAnswersOptions.headers['accept-language'] = testCase.locale;
-
-          // when
-          const response = await server.inject(postAnswersOptions);
-
-          // then
-          const levelup = response.result.included[0].attributes;
-
-          expect(levelup['competence-name']).to.equal(testCase.expectedCompetenceName);
+      it(`should return competence name in locale=${FRENCH_FRANCE} when user levelup`, async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          earnedPix: 7,
+          skillId: 'skillPixA1C1Th1Tu1S2',
+          userId,
+          competenceId: 'competencePixA1C1',
+          assessmentId: insertedAssessmentId,
         });
+        await databaseBuilder.commit();
+        postAnswersOptions.headers['accept-language'] = FRENCH_FRANCE;
+
+        // when
+        const response = await server.inject(postAnswersOptions);
+
+        // then
+        const levelup = response.result.included[0].attributes;
+
+        expect(levelup['competence-name']).to.equal(competenceData.nameFr);
+      });
+
+      it(`should return competence name in locale=${ENGLISH_SPOKEN} when user levelup`, async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          earnedPix: 7,
+          skillId: 'skillPixA1C1Th1Tu1S2',
+          userId,
+          competenceId: 'competencePixA1C1',
+          assessmentId: insertedAssessmentId,
+        });
+        await databaseBuilder.commit();
+        postAnswersOptions.headers['accept-language'] = ENGLISH_SPOKEN;
+
+        // when
+        const response = await server.inject(postAnswersOptions);
+
+        // then
+        const levelup = response.result.included[0].attributes;
+
+        expect(levelup['competence-name']).to.equal(competenceData.nameEn);
       });
     });
 
@@ -218,7 +200,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
                 challenge: {
                   data: {
                     type: 'challenges',
-                    id: challengeId,
+                    id: 'challengePixA1C1Th1Tu1S3Ch1',
                   },
                 },
               },
@@ -262,39 +244,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
     context('when the answer is empty and timeout', function () {
       beforeEach(function () {
         // given
-        const learningContent = {
-          areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
-          competences: [
-            {
-              id: 'recCompetence',
-              areaId: 'recArea1',
-              skillIds: ['recSkill1'],
-              origin: 'Pix',
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              name: '@recArea1_Competence1_Tube1_Skill1',
-              status: 'actif',
-              competenceId: 'recCompetence',
-            },
-          ],
-          challenges: [
-            {
-              id: challengeId,
-              competenceId: 'recCompetence',
-              skillId: 'recSkill1',
-              status: 'validé',
-              solution: correctAnswer,
-              locales: ['fr-fr'],
-              proposals: '${a}',
-              type: 'QROC',
-            },
-          ],
-        };
-        mockLearningContent(learningContent);
-
+        LearningContentMock.mockCommon();
         postAnswersOptions = {
           method: 'POST',
           url: '/api/answers',
