@@ -43,14 +43,26 @@ const buildLearningContent = function (learningContent) {
                     skillId: skill.id,
                     status: challenge.statut || 'validé',
                     solution: challenge.solution,
+                    solutionToDisplay: challenge.solutionToDisplay,
                     locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
                     type: challenge.type,
                     focusable: challenge.focusable,
                     instruction: challenge.instruction,
+                    alternativeInstruction: challenge.alternativeInstruction,
                     proposals: challenge.proposals,
                     autoReply: challenge.autoReply,
                     alpha: challenge.alpha,
                     delta: challenge.delta,
+                    timer: challenge.timer,
+                    illustrationUrl: challenge.illustrationUrl,
+                    illustrationAlt: challenge.illustrationAlt,
+                    attachments: challenge.attachments,
+                    embedUrl: challenge.embedUrl,
+                    embedTitle: challenge.embedTitle,
+                    embedHeight: challenge.embedHeight,
+                    format: challenge.format,
+                    responsive: challenge.responsive,
+                    genealogy: challenge.genealogy,
                   };
                 });
               allChallenges.push(challenges);
@@ -64,6 +76,9 @@ const buildLearningContent = function (learningContent) {
                 tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
                 version: skill.version,
                 level: skill.level,
+                hintStatus: skill.hintStatus,
+                hintFrFr: skill.hintFr,
+                hintEnUs: skill.hintEn,
               };
             });
             competenceSkills.push(skills);
