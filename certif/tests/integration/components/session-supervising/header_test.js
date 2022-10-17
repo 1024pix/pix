@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | SessionSupervising::Header', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
 
