@@ -137,8 +137,10 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     it('should save the authentication session and return the authentication key', async function () {
       // given
       const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-      const key = 'aaa-bbb-ccc';
-      authenticationSessionService.save.resolves(key);
+      const authenticationKey = 'aaa-bbb-ccc';
+      const givenName = 'Mélusine';
+      const familyName = 'TITEGOUTTE';
+      authenticationSessionService.save.resolves(authenticationKey);
       userRepository.findByExternalIdentifier.resolves(null);
 
       // when
@@ -153,7 +155,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       // then
       expect(authenticationSessionService.save).to.have.been.calledWith(sessionContent);
-      expect(result).to.deep.equal({ authenticationKey: key, isAuthenticationComplete: false });
+      expect(result).to.deep.equal({ authenticationKey, givenName, familyName, isAuthenticationComplete: false });
     });
 
     it('should not create an access token, save the id token in storage, or update the last logged date', async function () {
@@ -453,8 +455,8 @@ function _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId }) {
     refreshToken: 'refreshToken',
   });
   const userInfo = {
-    family_name: 'Morris',
-    given_name: 'Tuck',
+    firstName: 'Mélusine',
+    lastName: 'TITEGOUTTE',
     externalIdentityId,
   };
 

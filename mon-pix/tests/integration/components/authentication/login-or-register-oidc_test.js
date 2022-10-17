@@ -10,6 +10,7 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
 
   beforeEach(function () {
     this.set('identityProviderSlug', 'oidc-partner');
+
     const oidcPartner = {
       id: 'oidc-partner',
       code: 'OIDC_PARTNER',
@@ -22,6 +23,9 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
       list = [oidcPartner];
     }
     this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+
+    this.set('givenName', 'Mélusine');
+    this.set('familyName', 'TITEGOUTTE');
   });
 
   it('should display heading', async function () {
@@ -43,7 +47,7 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
     it('should display elements for OIDC identity provider', async function () {
       // given & when
       const screen = await render(
-        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} />`
+        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @givenName={{this.givenName}} @familyName={{this.familyName}}/>`
       );
 
       // then
@@ -53,19 +57,27 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
           level: 2,
         })
       ).to.exist;
-      expect(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
       expect(
         screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.register-form.button') })
       ).to.exist;
+      expect(screen.getByText('Partenaire OIDC')).to.exist;
       expect(
         screen.getByText(
-          this.intl.t('pages.login-or-register-oidc.register-form.description', {
-            identityProviderOrganizationName: 'Partenaire OIDC',
+          this.intl.t('pages.login-or-register-oidc.register-form.information.given-name', {
+            givenName: 'Mélusine',
           })
         )
       ).to.exist;
+      expect(
+        screen.getByText(
+          this.intl.t('pages.login-or-register-oidc.register-form.information.family-name', {
+            familyName: 'TITEGOUTTE',
+          })
+        )
+      ).to.exist;
+      expect(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
     });
   });
 
@@ -73,7 +85,7 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
     it('should display elements for OIDC identity provider', async function () {
       // given & when
       const screen = await render(
-        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} />`
+        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @givenName={{this.givenName}} @familyName={{this.familyName}}/>`
       );
 
       // then
@@ -89,6 +101,20 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
       expect(screen.getByRole('link', { name: this.intl.t('pages.sign-in.forgotten-password') })).to.exist;
       expect(
         screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.login-form.button') })
+      ).to.exist;
+      expect(
+        screen.getByText(
+          this.intl.t('pages.login-or-register-oidc.register-form.information.given-name', {
+            givenName: 'Mélusine',
+          })
+        )
+      ).to.exist;
+      expect(
+        screen.getByText(
+          this.intl.t('pages.login-or-register-oidc.register-form.information.family-name', {
+            familyName: 'TITEGOUTTE',
+          })
+        )
       ).to.exist;
     });
   });

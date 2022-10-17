@@ -35,6 +35,14 @@ export default class LoginOrRegisterOidcComponent extends Component {
     return this.oidcIdentityProviders[this.args.identityProviderSlug]?.organizationName;
   }
 
+  get givenName() {
+    return this.args.givenName;
+  }
+
+  get familyName() {
+    return this.args.familyName;
+  }
+
   get currentLanguage() {
     return this.intl.t('current-lang');
   }
