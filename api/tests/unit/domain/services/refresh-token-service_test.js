@@ -3,7 +3,7 @@ const settings = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
-const temporaryStorage = refreshTokenService.temporaryStorageForTests;
+const refreshTokenTemporaryStorage = refreshTokenService.refreshTokenTemporaryStorageForTests;
 const userRefreshTokensTemporaryStorage = refreshTokenService.userRefreshTokensTemporaryStorageForTests;
 
 describe('Unit | Domain | Service | Refresh Token Service', function () {
@@ -21,7 +21,7 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       const uuid = 'aaaabbbb-1111-ffff-8888-7777dddd0000';
       const uuidGenerator = sinon.stub().returns(uuid);
       sinon
-        .stub(temporaryStorage, 'save')
+        .stub(refreshTokenTemporaryStorage, 'save')
         .withArgs(sinon.match({ key: `${userId}:${uuid}`, value, expirationDelaySeconds }))
         .resolves(`${userId}:${uuid}`);
       sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves();
@@ -47,7 +47,7 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
         const refreshToken = 'valid-refresh-token';
         const accessToken = 'valid-access-token';
         const expirationDelaySeconds = 1;
-        sinon.stub(temporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
+        sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
         sinon
           .stub(tokenService, 'createAccessTokenFromUser')
           .withArgs(userId, source)
@@ -65,7 +65,7 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       it('should throw an UnauthorizedError with specific code and message', async function () {
         // given
         const revokedRefreshToken = 'revoked-refresh-token';
-        sinon.stub(temporaryStorage, 'get').withArgs(revokedRefreshToken).resolves();
+        sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(revokedRefreshToken).resolves();
 
         // when
         const error = await catchErr(refreshTokenService.createAccessTokenFromRefreshToken)({
@@ -84,26 +84,26 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
     it('should remove refresh token from temporary storage', async function () {
       // given
       const refreshToken = 'valid-refresh-token';
-      sinon.stub(temporaryStorage, 'delete');
+      sinon.stub(refreshTokenTemporaryStorage, 'delete');
 
       // when
       await refreshTokenService.revokeRefreshToken({ refreshToken });
 
       // then
-      expect(temporaryStorage.delete).to.have.been.calledWith(refreshToken);
+      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith(refreshToken);
     });
   });
 
   describe('#revokeRefreshTokensForUserId', function () {
     it('should remove refresh tokens for given userId from temporary storage', async function () {
       // given
-      sinon.stub(temporaryStorage, 'deleteByPrefix');
+      sinon.stub(refreshTokenTemporaryStorage, 'deleteByPrefix');
 
       // when
       await refreshTokenService.revokeRefreshTokensForUserId({ userId: 123 });
 
       // then
-      expect(temporaryStorage.deleteByPrefix).to.have.been.calledWith('123:');
+      expect(refreshTokenTemporaryStorage.deleteByPrefix).to.have.been.calledWith('123:');
     });
   });
 });

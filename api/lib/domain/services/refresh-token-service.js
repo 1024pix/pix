@@ -1,7 +1,7 @@
 const settings = require('../../config');
 const tokenService = require('./token-service');
 const { UnauthorizedError } = require('../../application/http-errors');
-const temporaryStorage = require('../../infrastructure/temporary-storage').withPrefix('refresh-tokens:');
+const refreshTokenTemporaryStorage = require('../../infrastructure/temporary-storage').withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = require('../../infrastructure/temporary-storage').withPrefix(
   'user-refresh-tokens:'
 );
@@ -15,7 +15,7 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uu
   const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
   const refreshToken = `${_prefixForUser(userId)}${uuidGenerator()}`;
 
-  await temporaryStorage.save({
+  await refreshTokenTemporaryStorage.save({
     key: refreshToken,
     value: { type: 'refresh_token', userId, source },
     expirationDelaySeconds,
@@ -26,17 +26,17 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uu
 }
 
 async function createAccessTokenFromRefreshToken({ refreshToken }) {
-  const { userId, source } = (await temporaryStorage.get(refreshToken)) || {};
+  const { userId, source } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
   return tokenService.createAccessTokenFromUser(userId, source);
 }
 
 async function revokeRefreshToken({ refreshToken }) {
-  await temporaryStorage.delete(refreshToken);
+  await refreshTokenTemporaryStorage.delete(refreshToken);
 }
 
 async function revokeRefreshTokensForUserId({ userId }) {
-  await temporaryStorage.deleteByPrefix(_prefixForUser(userId));
+  await refreshTokenTemporaryStorage.deleteByPrefix(_prefixForUser(userId));
 }
 
 module.exports = {
@@ -45,6 +45,6 @@ module.exports = {
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
 
-  temporaryStorageForTests: temporaryStorage,
+  refreshTokenTemporaryStorageForTests: refreshTokenTemporaryStorage,
   userRefreshTokensTemporaryStorageForTests: userRefreshTokensTemporaryStorage,
 };
