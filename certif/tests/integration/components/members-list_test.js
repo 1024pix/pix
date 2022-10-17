@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import setupIntl from '../../helpers/setup-intl';
 import Service from '@ember/service';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
@@ -7,6 +8,7 @@ import EmberObject from '@ember/object';
 
 module('Integration | Component | members-list', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it should show members firstName and lastName', async function (assert) {
     // given
@@ -48,7 +50,7 @@ module('Integration | Component | members-list', function (hooks) {
         const screen = await renderScreen(hbs`<MembersList @members={{this.members}} />`);
 
         // then
-        assert.dom(screen.getByRole('cell', { name: 'Référent Pix' })).exists();
+        assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).exists();
       });
     });
 
@@ -67,7 +69,7 @@ module('Integration | Component | members-list', function (hooks) {
         const screen = await renderScreen(hbs`<MembersList @members={{this.members}} />`);
 
         // then
-        assert.dom(screen.queryByRole('cell', { name: 'Référent Pix' })).doesNotExist();
+        assert.dom(screen.queryByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).doesNotExist();
       });
     });
   });
@@ -87,7 +89,7 @@ module('Integration | Component | members-list', function (hooks) {
       const screen = await renderScreen(hbs`<MembersList @members={{this.members}} />`);
 
       // then
-      assert.dom(screen.queryByRole('cell', { name: 'Référent Pix' })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).doesNotExist();
     });
   });
 });
