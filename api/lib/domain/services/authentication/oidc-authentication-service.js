@@ -70,8 +70,15 @@ class OidcAuthenticationService {
     });
 
     if (!response.isSuccessful) {
-      const errorMessage = JSON.stringify(response.data);
-      throw new InvalidExternalAPIResponseError(errorMessage, response.code);
+      const errorResponse = JSON.stringify(response.data);
+      const message = 'Erreur lors de la récupération des tokens du partenaire.';
+      const dataToLog = {
+        message,
+        errorDescription: errorResponse.error_description,
+        errorType: errorResponse.error,
+      };
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      throw new InvalidExternalAPIResponseError(message);
     }
 
     return new AuthenticationSessionContent({
