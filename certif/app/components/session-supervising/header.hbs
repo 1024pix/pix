@@ -29,6 +29,10 @@
       <span class="session-supervising-header__label">Surveillant</span>
       {{@session.examiner}}
     </p>
+    <p class="session-supervising-header__line">
+      <span class="session-supervising-header__label">Code d'accès (candidats)</span>
+      {{@session.accessCode}}
+    </p>
   </div>
 
   {{#if this.isConfirmationModalDisplayed}}
