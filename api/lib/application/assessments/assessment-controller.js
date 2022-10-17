@@ -79,11 +79,13 @@ module.exports = {
 
   async completeAssessment(request) {
     const assessmentId = request.params.id;
+    const locale = extractLocaleFromRequest(request);
 
     let event;
     await DomainTransaction.execute(async (domainTransaction) => {
       const result = await usecases.completeAssessment({ assessmentId, domainTransaction });
       await usecases.handleBadgeAcquisition({ assessment: result.assessment, domainTransaction });
+      await usecases.handleTrainingRecommendation({ assessment: result.assessment, locale, domainTransaction });
       event = result.event;
     });
 
