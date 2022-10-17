@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         data: {
           attributes: {
             'certification-center-name': 'Toto',
+            'access-code': 'CODE12',
             date: '2017-01-20',
             examiner: 'Antoine Toutvenant',
             room: '28D',
@@ -50,6 +51,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
+        accessCode: 'CODE12',
         date: '2017-01-20',
         time: '14:30',
         certificationCenterName: 'Toto',
