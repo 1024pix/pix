@@ -6,5 +6,6 @@ export default class SessionForSupervising extends Model {
   @attr('string') examiner;
   @attr('string') room;
   @attr('string') certificationCenterName;
+  @attr('string') accessCode;
   @hasMany('certification-candidate-for-supervising') certificationCandidates;
 }
