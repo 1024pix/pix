@@ -10,6 +10,7 @@ const DomainTransaction = require('../../../../../lib/infrastructure/DomainTrans
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+const monitoringTools = require('../../../../../lib/infrastructure/monitoring-tools');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
@@ -116,6 +117,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const tokenUrl = 'http://oidc.net/api/token';
         const clientSecret = 'OIDC_CLIENT_SECRET';
 
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         sinon.stub(httpAgent, 'post');
         httpAgent.post.resolves({
           isSuccessful: false,
@@ -139,9 +141,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // then
         expect(error).to.be.an.instanceOf(InvalidExternalAPIResponseError);
-        expect(error.message).to.equal(
-          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
-        );
+        expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledOnce;
       });
     });
   });
