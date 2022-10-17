@@ -1,5 +1,6 @@
 const PoleEmploiPayload = require('../../externals/pole-emploi/PoleEmploiPayload');
 const PoleEmploiSending = require('../../../domain/models/PoleEmploiSending');
+const Job = require('./SendSharedParticipationResultsToPoleEmploiJob');
 
 class SendSharedParticipationResultsToPoleEmploiHandler {
   constructor({
@@ -58,7 +59,7 @@ class SendSharedParticipationResultsToPoleEmploiHandler {
   }
 
   get name() {
-    return 'SendSharedParticipationResultsToPoleEmploi';
+    return Job.name;
   }
 }
 
