@@ -26,13 +26,12 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      await controller.updateCertificationCenter({
-        name: 'New Ton',
-        externalId: '123456ABC',
-        type: 'PRO',
-        isSupervisorAccessEnabled: true,
-        habilitations: [],
-      });
+      controller.model.certificationCenter.name = 'New Ton';
+      controller.model.certificationCenter.externalId = '123456ABC';
+      controller.model.certificationCenter.type = 'PRO';
+      controller.model.certificationCenter.isSupervisorAccessEnabled = true;
+      controller.model.certificationCenter.habilitations = [];
+      await controller.updateCertificationCenter();
 
       // then
       sinon.assert.calledOnce(controller.model.certificationCenter.save);
@@ -59,9 +58,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      await controller.updateCertificationCenter({
-        name: 'New Ton',
-      });
+      await controller.updateCertificationCenter();
 
       // then
       sinon.assert.calledWith(

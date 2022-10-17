@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationCenterForAdmin = require('../../domain/models/CertificationCenterForAdmin');
 const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
@@ -64,6 +66,24 @@ module.exports = {
       dataProtectionOfficerEmail: certificationCenter.dataProtectionOfficerEmail,
       createdAt: certificationCenter.createdAt,
       updatedAt: certificationCenter.updatedAt,
+    });
+  },
+
+  async update(certificationCenter) {
+    const data = _.pick(certificationCenter, ['name', 'type', 'externalId', 'isSupervisorAccessEnabled']);
+
+    const [certificationCenterRow] = await knex('certification-centers')
+      .update(data)
+      .where({ id: certificationCenter.id })
+      .returning('*');
+
+    return new CertificationCenterForAdmin({
+      id: certificationCenterRow.id,
+      name: certificationCenterRow.name,
+      type: certificationCenterRow.type,
+      isSupervisorAccessEnabled: certificationCenterRow.isSupervisorAccessEnabled,
+      createdAt: certificationCenterRow.createdAt,
+      updatedAt: certificationCenterRow.updatedAt,
     });
   },
 };

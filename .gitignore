@@ -24,6 +24,7 @@
 **/*.log.*
 
 # IDE
+**/.fleet
 **/.idea
 !.idea/runConfigurations/*.xml
 *.iml
