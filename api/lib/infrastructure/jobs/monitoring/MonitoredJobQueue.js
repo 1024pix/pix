@@ -1,6 +1,7 @@
 const MonitoringJobHandler = require('./MonitoringJobExecutionTimeHandler');
 const logger = require('../../logger');
 const _ = require('lodash');
+const { teamSize, teamConcurrency } = require('../../../config').pgBoss;
 
 class MonitoredJobQueue {
   constructor(jobQueue) {
@@ -11,7 +12,7 @@ class MonitoredJobQueue {
     this.jobQueue.performJob(name, handlerClass);
 
     const monitoringJobHandler = new MonitoringJobHandler({ logger });
-    this.jobQueue.pgBoss.onComplete(name, (job) => {
+    this.jobQueue.pgBoss.onComplete(name, { teamSize, teamConcurrency }, (job) => {
       monitoringJobHandler.handle(job);
     });
 
