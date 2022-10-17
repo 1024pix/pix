@@ -58,7 +58,7 @@ class EventErrorHandler {
         event,
         handlerName: this.handler.name,
         error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
-        type: 'EVENT_LOG',
+        type: 'EVENT_LOG_ERROR',
         info: 'EventBus : Event Handling Error',
       },
     });
