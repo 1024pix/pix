@@ -2,20 +2,27 @@ const settings = require('../../config');
 const tokenService = require('./token-service');
 const { UnauthorizedError } = require('../../application/http-errors');
 const temporaryStorage = require('../../infrastructure/temporary-storage').withPrefix('refresh-tokens:');
+const userRefreshTokensTemporaryStorage = require('../../infrastructure/temporary-storage').withPrefix(
+  'user-refresh-tokens:'
+);
 const { v4: uuidv4 } = require('uuid');
 
 function _prefixForUser(userId) {
   return `${userId}:`;
 }
 
-async function createRefreshTokenFromUserId({ userId, source }) {
+async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uuidv4 }) {
   const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
-  const token = `${_prefixForUser(userId)}${uuidv4()}`;
-  return await temporaryStorage.save({
-    key: token,
+  const refreshToken = `${_prefixForUser(userId)}${uuidGenerator()}`;
+
+  await temporaryStorage.save({
+    key: refreshToken,
     value: { type: 'refresh_token', userId, source },
     expirationDelaySeconds,
   });
+  await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
+
+  return refreshToken;
 }
 
 async function createAccessTokenFromRefreshToken({ refreshToken }) {
@@ -39,4 +46,5 @@ module.exports = {
   revokeRefreshTokensForUserId,
 
   temporaryStorageForTests: temporaryStorage,
+  userRefreshTokensTemporaryStorageForTests: userRefreshTokensTemporaryStorage,
 };

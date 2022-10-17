@@ -53,6 +53,8 @@ class TemporaryStorage {
       deleteByPrefix(searchedPrefix) {
         return storage.deleteByPrefix(prefix + searchedPrefix);
       },
+
+      lpush({ key, value }) {},
     };
   }
 }
