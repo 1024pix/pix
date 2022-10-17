@@ -89,8 +89,7 @@
     flex-grow: 1;
     height: max-content;
     padding: 14px 24px;
-    margin: 32px;
-    margin-left: 0;
+    margin: 32px 0;
 
     @include device-is('mobile') {
       padding: 16px;
