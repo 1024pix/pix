@@ -1,3 +1,5 @@
+const Job = require('./ParticipationResultCalculationJob');
+
 class ParticipationResultCalculationJobHandler {
   constructor({ participantResultsSharedRepository, campaignParticipationRepository }) {
     this.participantResultsSharedRepository = participantResultsSharedRepository;
@@ -11,7 +13,7 @@ class ParticipationResultCalculationJobHandler {
   }
 
   get name() {
-    return 'ParticipationResultCalculation';
+    return Job.name;
   }
 }
 
