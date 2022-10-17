@@ -84,13 +84,35 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
     it('should remove refresh token from temporary storage', async function () {
       // given
       const refreshToken = 'valid-refresh-token';
+      const refreshTokenContent = {
+        type: 'refresh_token',
+        userId: 123,
+      };
+      sinon.stub(refreshTokenTemporaryStorage, 'get').resolves(refreshTokenContent);
       sinon.stub(refreshTokenTemporaryStorage, 'delete');
+      sinon.stub(userRefreshTokensTemporaryStorage, 'lrem');
 
       // when
       await refreshTokenService.revokeRefreshToken({ refreshToken });
 
       // then
+      expect(userRefreshTokensTemporaryStorage.lrem).to.have.been.calledWith({ key: 123, valueToRemove: refreshToken });
       expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith(refreshToken);
+    });
+
+    it('should do nothing if the refresh token does not exist', async function () {
+      // given
+      const refreshToken = 'valid-refresh-token';
+      sinon.stub(refreshTokenTemporaryStorage, 'get').resolves();
+      sinon.stub(refreshTokenTemporaryStorage, 'delete');
+      sinon.stub(userRefreshTokensTemporaryStorage, 'lrem');
+
+      // when
+      await refreshTokenService.revokeRefreshToken({ refreshToken });
+
+      // then
+      expect(userRefreshTokensTemporaryStorage.lrem).to.not.have.been.called;
+      expect(refreshTokenTemporaryStorage.delete).to.not.have.been.called;
     });
   });
 
