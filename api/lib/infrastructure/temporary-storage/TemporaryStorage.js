@@ -57,6 +57,8 @@ class TemporaryStorage {
       lpush({ key, value }) {},
 
       lrem({ key, valueToRemove }) {},
+
+      lrange(key) {},
     };
   }
 }

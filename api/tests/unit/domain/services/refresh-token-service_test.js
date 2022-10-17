@@ -119,12 +119,19 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
   describe('#revokeRefreshTokensForUserId', function () {
     it('should remove refresh tokens for given userId from temporary storage', async function () {
       // given
+      sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves(['123:uuid1', '123:uuid2']);
+      sinon.stub(userRefreshTokensTemporaryStorage, 'delete');
+      sinon.stub(refreshTokenTemporaryStorage, 'delete');
       sinon.stub(refreshTokenTemporaryStorage, 'deleteByPrefix');
 
       // when
-      await refreshTokenService.revokeRefreshTokensForUserId({ userId: 123 });
+      await refreshTokenService.revokeRefreshTokensForUserId({ userId: '123' });
 
       // then
+      expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith('123');
+      expect(userRefreshTokensTemporaryStorage.delete).to.have.been.calledWith('123');
+      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith('123:uuid1');
+      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith('123:uuid2');
       expect(refreshTokenTemporaryStorage.deleteByPrefix).to.have.been.calledWith('123:');
     });
   });
