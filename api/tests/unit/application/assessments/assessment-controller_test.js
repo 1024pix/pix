@@ -55,6 +55,7 @@ describe('Unit | Controller | assessment-controller', function () {
 
       sinon.stub(usecases, 'completeAssessment');
       sinon.stub(usecases, 'handleBadgeAcquisition');
+      sinon.stub(usecases, 'handleTrainingRecommendation');
       usecases.completeAssessment.resolves({
         event: assessmentCompletedEvent,
         assessment,
@@ -77,6 +78,21 @@ describe('Unit | Controller | assessment-controller', function () {
 
       // then
       expect(usecases.handleBadgeAcquisition).to.have.been.calledWithExactly({ assessment, domainTransaction });
+    });
+
+    it('should call the handleTrainingRecommendation use case', async function () {
+      // given
+      const locale = 'fr-fr';
+
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+      // then
+      expect(usecases.handleTrainingRecommendation).to.have.been.calledWithExactly({
+        assessment,
+        locale,
+        domainTransaction,
+      });
     });
 
     it('should dispatch the assessment completed event', async function () {
