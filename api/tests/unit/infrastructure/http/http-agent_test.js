@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const axios = require('axios');
-const logger = require('../../../../lib/infrastructure/logger');
 const { post, get } = require('../../../../lib/infrastructure/http/http-agent');
+const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
 
 describe('Unit | Infrastructure | http | http-agent', function () {
   describe('#post', function () {
@@ -32,11 +32,34 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     });
 
     context('when an error occurs', function () {
+      it('should log the response error data, but does not (bug)', async function () {
+        // given
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        monitoringTools.logErrorWithCorrelationIds.resolves();
+
+        const url = 'someUrl';
+        const payload = 'somePayload';
+        const headers = { a: 'someHeaderInfo' };
+        const axiosError = {
+          response: {
+            data: { a: '1', b: '2' },
+            status: 'someStatus',
+          },
+        };
+        sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
+
+        // when
+        await post({ url, payload, headers });
+
+        // then
+        const expected = 'End POST request to someUrl error: someStatus [object Object]';
+        const { message } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        expect(message).to.equal(expected);
+      });
+
       context('when error.response exists', function () {
         it("should return the error's response status and data from the http call when failed", async function () {
           // given
-          sinon.stub(logger, 'error');
-
           const url = 'someUrl';
           const payload = 'somePayload';
           const headers = { a: 'someHeaderInfo' };
@@ -61,10 +84,8 @@ describe('Unit | Infrastructure | http | http-agent', function () {
       });
 
       context("when error.response doesn't exists", function () {
-        it("should log error and return the error's response status and success from the http call when failed", async function () {
+        it("should return the error's response status and success from the http call when failed", async function () {
           // given
-          sinon.stub(logger, 'error');
-
           const url = 'someUrl';
           const payload = 'somePayload';
           const headers = { a: 'someHeaderInfo' };
@@ -96,7 +117,6 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     afterEach(function () {
       axios.get.restore();
     });
-
     it('should return the response status and success from the http call when successful', async function () {
       // given
       const url = 'someUrl';
@@ -120,6 +140,31 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     });
 
     context('when an error occurs', function () {
+      it('should log the response error data, but does not (bug)', async function () {
+        // given
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        monitoringTools.logErrorWithCorrelationIds.resolves();
+
+        const url = 'someUrl';
+        const payload = 'somePayload';
+        const headers = { a: 'someHeaderInfo' };
+        const axiosError = {
+          response: {
+            data: { a: '1', b: '2' },
+            status: 'someStatus',
+          },
+        };
+        sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).rejects(axiosError);
+
+        // when
+        await get({ url, payload, headers });
+
+        // then
+        const expected = 'End GET request to someUrl error: someStatus';
+        const { message } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        expect(message).to.equal(expected);
+      });
+
       context('when error.response exists', function () {
         it("should return the error's response status and data from the http call when failed", async function () {
           // given
