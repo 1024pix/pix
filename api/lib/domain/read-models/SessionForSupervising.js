@@ -1,5 +1,5 @@
 class SessionForSupervising {
-  constructor({ id, date, time, examiner, certificationCenterName, room, certificationCandidates } = {}) {
+  constructor({ id, date, time, examiner, certificationCenterName, room, certificationCandidates, accessCode } = {}) {
     this.id = id;
     this.date = date;
     this.time = time;
@@ -7,6 +7,7 @@ class SessionForSupervising {
     this.certificationCenterName = certificationCenterName;
     this.room = room;
     this.certificationCandidates = certificationCandidates;
+    this.accessCode = accessCode;
   }
 }
 
