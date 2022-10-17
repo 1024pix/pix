@@ -62,6 +62,32 @@ module('Acceptance | authenticated | team', function (hooks) {
               assert.dom(screen.queryByRole('dialog', { name: 'Sélectionner le référent Pix' })).doesNotExist();
               assert.dom(screen.getByRole('cell', { name: 'Référent Pix' })).exists();
             });
+
+            module('when no referer is selected', function () {
+              test('it should not be possible to validate', async function (assert) {
+                // given
+                const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+                server.create('featureToggle', {
+                  isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true,
+                });
+                server.create('member', {
+                  id: 102,
+                  firstName: 'Lili',
+                  lastName: 'Dupont',
+                  isReferer: false,
+                });
+                server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                await authenticateSession(certificationPointOfContact.id);
+
+                // when
+                const screen = await visitScreen('/equipe');
+
+                await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+
+                // then
+                assert.dom(screen.getByRole('button', { name: 'Valider la sélection de référent' })).isDisabled();
+              });
+            });
           });
         });
       });

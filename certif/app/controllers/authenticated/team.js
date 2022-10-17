@@ -42,6 +42,7 @@ export default class Team extends Controller {
 
   @action
   toggleRefererModal() {
+    this.selectedReferer = '';
     this.shouldShowRefererSelectionModal = !this.shouldShowRefererSelectionModal;
   }
 }
