@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class LoginOrRegisterOidcController extends Controller {
-  queryParams = ['authenticationKey', 'identityProviderSlug'];
+  queryParams = ['authenticationKey', 'identityProviderSlug', 'givenName', 'familyName'];
 
   @service url;
   @service oidcIdentityProviders;

@@ -67,6 +67,29 @@
     margin: 0;
   }
 
+  &__description em {
+    color: $pix-neutral-90;
+    font-style: normal;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+  }
+
+  &__information {
+    color: $pix-neutral-60;
+    font-family: $font-open-sans;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 2rem;
+
+    ul {
+      padding-left: 1rem;
+    }
+
+    li {
+      list-style: initial;
+    }
+  }
+
   &__register-container,
   &__login-container {
     display: flex;
