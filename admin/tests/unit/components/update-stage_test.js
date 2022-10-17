@@ -10,7 +10,7 @@ module('Unit | Component | update-stage', function (hooks) {
     test('it should update controller stage fields', async function (assert) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', {
-        model: {
+        stage: {
           threshold: 50,
           title: 'titre originel',
           message: 'message originel',
@@ -37,18 +37,18 @@ module('Unit | Component | update-stage', function (hooks) {
 
       // then
       assert.ok(event.preventDefault.called);
-      assert.ok(component.args.model.save.called);
-      assert.strictEqual(component.args.model.threshold, 42);
-      assert.strictEqual(component.args.model.title, 'titre modifié');
-      assert.strictEqual(component.args.model.message, 'message modifié');
-      assert.strictEqual(component.args.model.prescriberTitle, 'palier intermédiaire');
-      assert.strictEqual(component.args.model.prescriberDescription, 'le niveau est moyen');
+      assert.ok(component.args.stage.save.called);
+      assert.strictEqual(component.args.stage.threshold, 42);
+      assert.strictEqual(component.args.stage.title, 'titre modifié');
+      assert.strictEqual(component.args.stage.message, 'message modifié');
+      assert.strictEqual(component.args.stage.prescriberTitle, 'palier intermédiaire');
+      assert.strictEqual(component.args.stage.prescriberDescription, 'le niveau est moyen');
     });
 
     test('it should update stage field even if a field is empty', async function (assert) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', {
-        model: {
+        stage: {
           threshold: 50,
           title: 'titre du palier',
           message: '',
@@ -72,18 +72,18 @@ module('Unit | Component | update-stage', function (hooks) {
       await component.updateStage(event);
 
       // then
-      assert.ok(component.args.model.save.called);
-      assert.strictEqual(component.args.model.threshold, 50);
-      assert.strictEqual(component.args.model.title, 'titre du palier');
-      assert.strictEqual(component.args.model.message, null);
-      assert.strictEqual(component.args.model.prescriberDescription, 'Ceci est une description');
-      assert.strictEqual(component.args.model.prescriberTitle, null);
+      assert.ok(component.args.stage.save.called);
+      assert.strictEqual(component.args.stage.threshold, 50);
+      assert.strictEqual(component.args.stage.title, 'titre du palier');
+      assert.strictEqual(component.args.stage.message, null);
+      assert.strictEqual(component.args.stage.prescriberDescription, 'Ceci est une description');
+      assert.strictEqual(component.args.stage.prescriberTitle, null);
     });
 
     test('it should display a success notification when model has been saved', async function (assert) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', {
-        model: {
+        stage: {
           threshold: 50,
           title: '',
           message: '',

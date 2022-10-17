@@ -12,10 +12,4 @@ export default class TargetProfileRoute extends Route {
   model(params) {
     return this.store.findRecord('target-profile', params.target_profile_id);
   }
-
-  resetController(controller, isExiting) {
-    if (isExiting) {
-      controller.reset();
-    }
-  }
 }

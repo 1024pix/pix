@@ -99,11 +99,10 @@ Router.map(function () {
         this.route('badges', function () {
           this.route('new');
         });
+        this.route('stages', function () {
+          this.route('stage', { path: '/:stage_id' });
+        });
       });
-    });
-
-    this.route('stages', function () {
-      this.route('stage', { path: '/:stage_id' });
     });
 
     this.route('badges', function () {

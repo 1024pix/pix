@@ -3,9 +3,9 @@ import Component from '@glimmer/component';
 const LEVEL = 'Niveau';
 const THRESHOLD = 'Seuil';
 
-export default class StagesStage extends Component {
+export default class Stage extends Component {
   get isTypeLevel() {
-    return this.args.model.isTypeLevel;
+    return this.args.stage.isTypeLevel;
   }
 
   get stageTypeName() {

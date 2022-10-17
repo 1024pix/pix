@@ -11,10 +11,10 @@ module.exports = {
     return _toDomain(createdStage);
   },
 
-  async updateStage({ id, title, message, threshold, prescriberTitle, prescriberDescription }) {
+  async updateStage({ id, title, message, threshold, level, prescriberTitle, prescriberDescription }) {
     const updatedRows = await knex(TABLE_NAME)
       .where('id', id)
-      .update({ title, message, threshold, prescriberTitle, prescriberDescription, updatedAt: new Date() });
+      .update({ title, message, threshold, level, prescriberTitle, prescriberDescription, updatedAt: new Date() });
 
     if (!updatedRows) {
       throw new NotFoundError(`Le palier avec l'id ${id} n'existe pas`);

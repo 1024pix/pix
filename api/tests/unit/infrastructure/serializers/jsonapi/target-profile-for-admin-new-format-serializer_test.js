@@ -13,6 +13,13 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         code: 'lyoko',
         frameworkId: 'recFrameworkCool1',
       });
+      const area2 = domainBuilder.buildArea({
+        id: 'recArea2',
+        title: 'Super domaine2',
+        color: 'red',
+        code: 'red',
+        frameworkId: 'recFrameworkCool1',
+      });
       const targetProfileForAdminNewFormat = new TargetProfileForAdminNewFormat({
         id: 132,
         name: 'Mon Super profil cible',
@@ -25,13 +32,19 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         imageUrl: 'some/image/url',
         category: 'OTHER',
         isSimplifiedAccess: true,
-        areas: [area],
+        areas: [area, area2],
         competences: [
           domainBuilder.buildCompetence({
             id: 'recComp1',
             area,
             name: 'Super compétence',
             index: '1.1',
+          }),
+          domainBuilder.buildCompetence({
+            id: 'recComp2',
+            area: area2,
+            name: 'Super compétence2',
+            index: '1.2',
           }),
         ],
         thematics: [
@@ -40,6 +53,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             competenceId: 'recComp1',
             name: 'Super thématique',
             index: '5',
+          }),
+          domainBuilder.buildThematic({
+            id: 'recThem2',
+            competenceId: 'recComp2',
+            name: 'Super thématique2',
+            index: '6',
           }),
         ],
         tubes: [
@@ -50,7 +69,29 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               practicalTitle: 'Super tube',
             }),
             thematicId: 'recThem1',
-            level: 8,
+            level: 7,
+            mobile: true,
+            tablet: false,
+          },
+          {
+            ...domainBuilder.buildTube({
+              id: 'recTube2',
+              name: '@nomTube2',
+              practicalTitle: 'Super tube2',
+            }),
+            thematicId: 'recThem2',
+            level: 4,
+            mobile: true,
+            tablet: false,
+          },
+          {
+            ...domainBuilder.buildTube({
+              id: 'recTube3',
+              name: '@nomTube3',
+              practicalTitle: 'Super tube3',
+            }),
+            thematicId: 'recThem2',
+            level: 6,
             mobile: true,
             tablet: false,
           },
@@ -73,6 +114,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             'image-url': 'some/image/url',
             category: 'OTHER',
             'is-simplified-access': true,
+            'max-level': 7,
           },
           relationships: {
             badges: {
@@ -91,6 +133,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
                   type: 'newAreas',
                   id: 'recArea1',
                 },
+                {
+                  type: 'newAreas',
+                  id: 'recArea2',
+                },
               ],
             },
           },
@@ -102,7 +148,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             attributes: {
               name: '@nomTube',
               'practical-title': 'Super tube',
-              level: 8,
+              level: 7,
               mobile: true,
               tablet: false,
             },
@@ -158,6 +204,88 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
                   {
                     type: 'new-competences',
                     id: 'recComp1',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'new-tubes',
+            id: 'recTube2',
+            attributes: {
+              name: '@nomTube2',
+              'practical-title': 'Super tube2',
+              level: 4,
+              mobile: true,
+              tablet: false,
+            },
+          },
+          {
+            type: 'new-tubes',
+            id: 'recTube3',
+            attributes: {
+              name: '@nomTube3',
+              'practical-title': 'Super tube3',
+              level: 6,
+              mobile: true,
+              tablet: false,
+            },
+          },
+          {
+            type: 'new-thematics',
+            id: 'recThem2',
+            attributes: {
+              name: 'Super thématique2',
+              index: '6',
+            },
+            relationships: {
+              tubes: {
+                data: [
+                  {
+                    type: 'new-tubes',
+                    id: 'recTube2',
+                  },
+                  {
+                    type: 'new-tubes',
+                    id: 'recTube3',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'new-competences',
+            id: 'recComp2',
+            attributes: {
+              name: 'Super compétence2',
+              index: '1.2',
+            },
+            relationships: {
+              thematics: {
+                data: [
+                  {
+                    type: 'new-thematics',
+                    id: 'recThem2',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'newAreas',
+            id: 'recArea2',
+            attributes: {
+              title: 'Super domaine2',
+              color: 'red',
+              code: 'red',
+              'framework-id': 'recFrameworkCool1',
+            },
+            relationships: {
+              competences: {
+                data: [
+                  {
+                    type: 'new-competences',
+                    id: 'recComp2',
                   },
                 ],
               },
