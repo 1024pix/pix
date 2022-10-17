@@ -1,6 +1,5 @@
 require('dotenv').config();
 const PgBoss = require('pg-boss');
-const _ = require('lodash');
 const config = require('./lib/config');
 const logger = require('./lib/infrastructure/logger');
 const JobQueue = require('./lib/infrastructure/jobs/JobQueue');
@@ -20,15 +19,7 @@ async function runJobs() {
     max: config.pgBoss.connexionPoolMaxSize,
     ...(monitorStateIntervalSeconds ? { monitorStateIntervalSeconds } : {}),
   });
-  pgBoss.on('monitor-states', (state) => {
-    logger.info({ event: 'pg-boss-state', name: 'global' }, { ...state, queues: undefined });
-    _.each(state.queues, (queueState, queueName) => {
-      logger.info({ event: 'pg-boss-state', name: queueName }, queueState);
-    });
-  });
-  pgBoss.on('error', (err) => {
-    logger.error({ event: 'pg-boss-error' }, err);
-  });
+
   await pgBoss.start();
   const jobQueue = new JobQueue(pgBoss, dependenciesBuilder);
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
