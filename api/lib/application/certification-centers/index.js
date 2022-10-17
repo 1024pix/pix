@@ -254,6 +254,36 @@ exports.register = async function (server) {
         tags: ['api', 'certification-center', 'members'],
       },
     },
+
+    {
+      method: 'GET',
+      path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: certificationCenterController.findPendingInvitationsForAdmin,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
+            '- Récupération de la liste des invitations en attente liée un centre de certification',
+        ],
+        tags: ['api', 'certification-center', 'invitations', 'admin'],
+      },
+    },
   ]);
 };
 
