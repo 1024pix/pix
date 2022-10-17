@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.274.0 (17/10/2022)
+
+
+### :rocket: Amélioration
+- [#5065](https://github.com/1024pix/pix/pull/5065) [FEATURE] Admin: Permettre la modification des informations du DPO pour un centre de certification (PIX-5267)
+- [#5026](https://github.com/1024pix/pix/pull/5026) [FEATURE] Dans Pix Admin afficher la liste des invitations à un centre de certification (PIX-4027)
+- [#5072](https://github.com/1024pix/pix/pull/5072) [FEATURE] Nouvel affichage des contenus formatifs à la fin d'un parcours (PIX-5758)
+- [#5051](https://github.com/1024pix/pix/pull/5051) [FEATURE] Après une connexion SSO, afficher prénom et nom qui seront utilisés pour créer un compte Pix
+
 ## v3.273.0 (14/10/2022)
 
 
