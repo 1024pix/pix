@@ -4,6 +4,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 const temporaryStorage = refreshTokenService.temporaryStorageForTests;
+const userRefreshTokensTemporaryStorage = refreshTokenService.userRefreshTokensTemporaryStorageForTests;
 
 describe('Unit | Domain | Service | Refresh Token Service', function () {
   describe('#createRefreshTokenFromUserId', function () {
@@ -17,16 +18,22 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
         source,
       };
       const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
-
+      const uuid = 'aaaabbbb-1111-ffff-8888-7777dddd0000';
+      const uuidGenerator = sinon.stub().returns(uuid);
       sinon
         .stub(temporaryStorage, 'save')
-        .withArgs(sinon.match({ key: sinon.match(/^123:[-0-9a-f]+$/), value, expirationDelaySeconds }))
-        .resolves('123:aaaabbbb-1111-ffff-8888-7777dddd0000');
+        .withArgs(sinon.match({ key: `${userId}:${uuid}`, value, expirationDelaySeconds }))
+        .resolves(`${userId}:${uuid}`);
+      sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves();
 
       // when
-      const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source });
+      const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
 
       // then
+      expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWith({
+        key: 123,
+        value: '123:aaaabbbb-1111-ffff-8888-7777dddd0000',
+      });
       expect(result).to.equal('123:aaaabbbb-1111-ffff-8888-7777dddd0000');
     });
   });
