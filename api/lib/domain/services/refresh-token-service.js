@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const settings = require('../../config');
 const tokenService = require('./token-service');
 const { UnauthorizedError } = require('../../application/http-errors');
@@ -39,6 +40,11 @@ async function revokeRefreshToken({ refreshToken }) {
 }
 
 async function revokeRefreshTokensForUserId({ userId }) {
+  const refreshTokens = await userRefreshTokensTemporaryStorage.lrange(userId);
+  await userRefreshTokensTemporaryStorage.delete(userId);
+  await bluebird.mapSeries(refreshTokens, (refreshToken) => {
+    return refreshTokenTemporaryStorage.delete(refreshToken);
+  });
   await refreshTokenTemporaryStorage.deleteByPrefix(_prefixForUser(userId));
 }
 
