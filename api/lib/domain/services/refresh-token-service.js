@@ -32,6 +32,9 @@ async function createAccessTokenFromRefreshToken({ refreshToken }) {
 }
 
 async function revokeRefreshToken({ refreshToken }) {
+  const { userId } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
+  if (!userId) return;
+  await userRefreshTokensTemporaryStorage.lrem({ key: userId, valueToRemove: refreshToken });
   await refreshTokenTemporaryStorage.delete(refreshToken);
 }
 
