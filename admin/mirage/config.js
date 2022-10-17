@@ -126,6 +126,10 @@ export default function () {
       user,
     });
   });
+  this.get('/admin/certification-centers/:id/invitations', (schema, request) => {
+    const certificationCenterId = request.params.id;
+    return schema.certificationCenterInvitations.where({ certificationCenterId });
+  });
 
   this.delete('/admin/certification-center-memberships/:id', (schema, request) => {
     const certificationCenterMembershipId = request.params.id;
