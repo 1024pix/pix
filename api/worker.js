@@ -10,6 +10,7 @@ const ParticipationResultCalculationJobHandler = require('./lib/infrastructure/j
 const SendSharedParticipationResultsToPoleEmploiHandler = require('./lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
 const dependenciesBuilder = require('./lib/infrastructure/jobs/JobDependenciesBuilder');
 const scheduleCpfJobs = require('./lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs');
+const MonitoredJobQueue = require('./lib/infrastructure/jobs/monitoring/MonitoredJobQueue');
 
 async function runJobs() {
   logger.info('Starting pg-boss');
@@ -30,22 +31,21 @@ async function runJobs() {
   });
   await pgBoss.start();
   const jobQueue = new JobQueue(pgBoss, dependenciesBuilder);
-
+  const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
-    await jobQueue.stop();
+    await monitoredJobQueue.stop();
     // eslint-disable-next-line node/no-process-exit
     process.exit(0);
   });
 
-  jobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
-  jobQueue.performJob(
+  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
+  monitoredJobQueue.performJob(
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiHandler
   );
 
   await scheduleCpfJobs(pgBoss);
 }
-
 const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
 const isEntryPointFromOtherFile = require.main.filename !== __filename;
 if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
