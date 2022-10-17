@@ -12,7 +12,7 @@ export default class Team extends Controller {
   get shouldDisplayNoRefererSection() {
     return (
       this.model.hasCleaHabilitation &&
-      _hasNoReferer(this.model.members) &&
+      _hasAtLeastOneMemberAndNoReferer(this.model.members) &&
       this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
     );
   }
@@ -46,6 +46,6 @@ export default class Team extends Controller {
   }
 }
 
-function _hasNoReferer(members) {
-  return !members.toArray().some((member) => member.isReferer);
+function _hasAtLeastOneMemberAndNoReferer(members) {
+  return members.length > 0 && !members.toArray().some((member) => member.isReferer);
 }
