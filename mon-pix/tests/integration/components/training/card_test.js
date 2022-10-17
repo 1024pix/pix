@@ -22,15 +22,11 @@ describe('Integration | Component | Training | Card', function () {
 
     // then
     expect(find('.training-card')).to.exist;
-    expect(find('.training-card')).to.have.property('href').that.equals('https://training.net/');
-    expect(find('.training-card__visual')).to.exist;
-    expect(find('.training-card__visual img'))
-      .to.have.property('alt')
-      .that.equals("Ministère de l'éducation nationale et de la jeunesse");
-    expect(find('.training-card__content')).to.exist;
-    expect(find('.training-card__title').textContent.trim()).to.equal('Mon super training');
-    expect(find('.training-card__infos')).to.exist;
-    expect(find('.training-card__type').textContent.trim()).to.equal('Webinaire');
-    expect(find('.training-card__duration').textContent.trim()).to.equal('6h');
+    expect(find('.training-card__content')).to.have.property('href').that.equals('https://training.net/');
+    expect(find('.training-card-content__title').textContent.trim()).to.equal('Mon super training');
+    expect(find('.training-card-content__infos')).to.exist;
+    expect(find('.training-card-content-infos-list__type').textContent.trim()).to.equal('Webinaire');
+    expect(find('.training-card-content-infos-list__duration').textContent.trim()).to.equal('6h');
+    expect(find('.training-card-content__image')).to.have.property('alt').to.be.empty;
   });
 });

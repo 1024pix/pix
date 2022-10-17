@@ -134,9 +134,13 @@
         <section class="skill-review__trainings">
           <h2 class="skill-review-trainings__title">{{t "pages.skill-review.trainings.title"}}</h2>
           <p class="skill-review-trainings__description">{{t "pages.skill-review.trainings.description"}}</p>
-          {{#each @model.trainings as |training|}}
-            <Training::Card @training={{training}} />
-          {{/each}}
+          <ul class="skill-review-trainings__list">
+            {{#each @model.trainings as |training|}}
+              <li class="skill-review-trainings-list__item">
+                <Training::Card @training={{training}} />
+              </li>
+            {{/each}}
+          </ul>
         </section>
       {{/if}}
     </PixBlock>
