@@ -14,6 +14,7 @@ describe('Unit | UseCase | update-stage', function () {
       title: "c'est cool",
       message: "ça va aller t'inquiète pas",
       threshold: 86,
+      level: 6,
       prescriberTitle: 'palier bof',
       prescriberDescription: 'tu es moyen',
       stageRepository,
@@ -25,6 +26,7 @@ describe('Unit | UseCase | update-stage', function () {
       title: "c'est cool",
       message: "ça va aller t'inquiète pas",
       threshold: 86,
+      level: 6,
       prescriberTitle: 'palier bof',
       prescriberDescription: 'tu es moyen',
     });

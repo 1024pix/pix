@@ -50,6 +50,11 @@ class TargetProfileForAdminNewFormat {
   getContentAsJson(skills) {
     return JSON.stringify(this.areas.flatMap((area) => area.getTubesForContentJson(skills)));
   }
+
+  get maxLevel() {
+    const levels = this.areas.map((area) => area.maxLevel);
+    return Math.max(...levels);
+  }
 }
 
 class TP_Area {
@@ -80,6 +85,11 @@ class TP_Area {
   getTubesForContentJson(skills) {
     return this.competences.flatMap((competence) => competence.getTubesForContentJson(skills, this.frameworkId));
   }
+
+  get maxLevel() {
+    const levels = this.competences.map((competence) => competence.maxLevel);
+    return Math.max(...levels);
+  }
 }
 
 class TP_Competence {
@@ -106,6 +116,11 @@ class TP_Competence {
 
   getTubesForContentJson(skills, frameworkId) {
     return this.thematics.flatMap((thematic) => thematic.getTubesForContentJson(skills, frameworkId));
+  }
+
+  get maxLevel() {
+    const levels = this.thematics.map((thematic) => thematic.maxLevel);
+    return Math.max(...levels);
   }
 }
 
@@ -135,6 +150,11 @@ class TP_Thematic {
 
   getTubesForContentJson(skills, frameworkId) {
     return this.tubes.flatMap((tube) => tube.asContentJson(skills, frameworkId));
+  }
+
+  get maxLevel() {
+    const levels = this.tubes.map((tube) => tube.level);
+    return Math.max(...levels);
   }
 }
 

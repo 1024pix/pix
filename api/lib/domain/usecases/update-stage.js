@@ -3,6 +3,7 @@ module.exports = function updateStage({
   title,
   message,
   threshold,
+  level,
   prescriberTitle,
   prescriberDescription,
   stageRepository,
@@ -12,6 +13,7 @@ module.exports = function updateStage({
     title,
     message,
     threshold,
+    level,
     prescriberTitle,
     prescriberDescription,
   });

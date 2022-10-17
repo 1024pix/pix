@@ -1,10 +1,26 @@
 <section class="page-section">
   <form class="form stage-form" {{on "submit" this.updateStage}}>
     <div class="form-field">
-      <label for="threshold" class="form-field__label">
-        Seuil
+      <label for="threshold-or-level" class="form-field__label">
+        {{@stageTypeName}}
       </label>
-      <Input id="threshold" @type="number" class="form-control" @value={{this.form.threshold}} min="0" max="100" />
+      {{#if @isTypeLevel}}
+        <PixSelect
+          id="threshold-or-level"
+          @options={{this.levelOptions}}
+          @onChange={{this.setLevel}}
+          @selectedOption={{this.form.level}}
+        />
+      {{else}}
+        <Input
+          id="threshold-or-level"
+          @type="number"
+          class="form-control"
+          @value={{this.form.threshold}}
+          min="0"
+          max="100"
+        />
+      {{/if}}
       <br />
 
       <label for="title" class="form-field__label">
