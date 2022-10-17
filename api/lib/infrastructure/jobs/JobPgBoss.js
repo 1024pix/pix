@@ -8,12 +8,13 @@ class JobPgBoss {
 
   async schedule(data) {
     await this.queryBuilder.raw(
-      'INSERT INTO pgboss.job (name, data, retryLimit, retryDelay) VALUES (:name, :data, :retryLimit, :retryDelay)',
+      'INSERT INTO pgboss.job (name, data, retryLimit, retryDelay, on_complete) VALUES (:name, :data, :retryLimit, :retryDelay, :on_complete)',
       {
         name: this.name,
         retryLimit: this.retryLimit,
         retryDelay: this.retryDelay,
         data,
+        on_complete: true,
       }
     );
   }
