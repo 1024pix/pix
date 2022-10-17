@@ -34,6 +34,17 @@ module('Unit | Controller | authenticated/team', function (hooks) {
           });
         });
 
+        module('when there is no member', function () {
+          test('should return false', function (assert) {
+            // given
+            const controller = this.owner.lookup('controller:authenticated/team');
+            controller.model = { members: [], hasCleaHabilitation: true };
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
         module('when there is no referer', function () {
           test('should return true', function (assert) {
             // given
