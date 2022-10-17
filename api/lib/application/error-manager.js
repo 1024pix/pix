@@ -129,9 +129,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }
-  if (error instanceof DomainErrors.AuthenticationTokenRetrievalError) {
-    return new HttpErrors.InternalServerError(error.message, error.title);
-  }
+
   if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
     return new HttpErrors.ConflictError(error.message);
   }
@@ -469,7 +467,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidJuryLevelError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-
   return new HttpErrors.BaseHttpError(error.message);
 }
 

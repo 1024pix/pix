@@ -2,7 +2,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { AuthenticationTokenRetrievalError, InvalidExternalAPIResponseError } = require('../../errors');
+const { InvalidExternalAPIResponseError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const { v4: uuidv4 } = require('uuid');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
@@ -71,7 +71,7 @@ class OidcAuthenticationService {
 
     if (!response.isSuccessful) {
       const errorMessage = JSON.stringify(response.data);
-      throw new AuthenticationTokenRetrievalError(errorMessage, response.code);
+      throw new InvalidExternalAPIResponseError(errorMessage, response.code);
     }
 
     return new AuthenticationSessionContent({

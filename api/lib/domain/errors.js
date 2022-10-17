@@ -1032,14 +1032,6 @@ class NotImplementedError extends Error {
   }
 }
 
-class AuthenticationTokenRetrievalError extends DomainError {
-  constructor(message, status) {
-    super(message);
-    this.status = parseInt(status, 10);
-    this.title = 'Erreur lors de la récupération des tokens du partenaire.';
-  }
-}
-
 class InvalidMembershipOrganizationRoleError extends DomainError {
   constructor(message = 'Le rôle du membre est invalide.') {
     super(message);
@@ -1226,7 +1218,6 @@ module.exports = {
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationKeyExpired,
-  AuthenticationTokenRetrievalError,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
   CampaignParticipationDeletedError,
