@@ -550,6 +550,19 @@ describe('Unit | Application | ErrorManager', function () {
         // then
         expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
       });
+
+      it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async function () {
+        // given
+        const error = new InvalidExternalAPIResponseError();
+        sinon.stub(HttpErrors, 'ServiceUnavailableError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
+      });
     });
   });
 });

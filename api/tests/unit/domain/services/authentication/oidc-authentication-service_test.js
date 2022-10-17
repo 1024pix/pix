@@ -5,10 +5,7 @@ const OidcAuthenticationService = require('../../../../../lib/domain/services/au
 const jsonwebtoken = require('jsonwebtoken');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const {
-  AuthenticationTokenRetrievalError,
-  InvalidExternalAPIResponseError,
-} = require('../../../../../lib/domain/errors');
+const { InvalidExternalAPIResponseError } = require('../../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
@@ -113,7 +110,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
 
     context('when tokens retrieval fails', function () {
-      it('should log error and throw AuthenticationTokenRetrievalError', async function () {
+      it('should log error and throw InvalidExternalAPIResponseError', async function () {
         // given
         const clientId = 'OIDC_CLIENT_ID';
         const tokenUrl = 'http://oidc.net/api/token';
@@ -141,7 +138,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceOf(AuthenticationTokenRetrievalError);
+        expect(error).to.be.an.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.equal(
           '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
         );
