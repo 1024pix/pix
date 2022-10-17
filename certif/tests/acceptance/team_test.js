@@ -9,11 +9,13 @@ import {
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
 } from '../helpers/test-init';
+import setupIntl from '../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('when user go to members list', function () {
     module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function () {
@@ -32,8 +34,14 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert.dom(screen.getByText('Aucun référent Pix désigné')).exists();
-              assert.dom(screen.getByRole('button', { name: 'Désigner un référent' })).exists();
+              assert.dom(screen.getByText(this.intl.t('pages.team.no-referer-section.title'))).exists();
+              assert
+                .dom(
+                  screen.getByRole('button', {
+                    name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
+                  })
+                )
+                .exists();
             });
 
             test('it should be possible to select a referer', async function (assert) {
@@ -54,13 +62,20 @@ module('Acceptance | authenticated | team', function (hooks) {
 
               assert.dom(screen.queryByRole('cell', { name: 'Référent Pix' })).doesNotExist();
 
-              await click(screen.getByRole('button', { name: 'Désigner un référent' }));
-              await fillIn(screen.getByRole('combobox', { name: 'Sélectionner le référent Pix' }), '102');
+              await click(
+                screen.getByRole('button', { name: this.intl.t('pages.team.no-referer-section.select-referer-button') })
+              );
+              await fillIn(
+                screen.getByRole('combobox', { name: this.intl.t('pages.team.select-referer-modal.title') }),
+                '102'
+              );
               await click(screen.getByRole('button', { name: 'Valider la sélection de référent' }));
 
               // then
-              assert.dom(screen.queryByRole('dialog', { name: 'Sélectionner le référent Pix' })).doesNotExist();
-              assert.dom(screen.getByRole('cell', { name: 'Référent Pix' })).exists();
+              assert
+                .dom(screen.queryByRole('dialog', { name: this.intl.t('pages.team.select-referer-modal.title') }))
+                .doesNotExist();
+              assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).exists();
             });
 
             module('when no referer is selected', function () {
@@ -82,7 +97,11 @@ module('Acceptance | authenticated | team', function (hooks) {
                 // when
                 const screen = await visitScreen('/equipe');
 
-                await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+                await click(
+                  screen.getByRole('button', {
+                    name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
+                  })
+                );
 
                 // then
                 assert.dom(screen.getByRole('button', { name: 'Valider la sélection de référent' })).isDisabled();
