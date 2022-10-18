@@ -129,9 +129,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }
-  if (error instanceof DomainErrors.AuthenticationTokenRetrievalError) {
-    return new HttpErrors.InternalServerError(error.message, error.title);
-  }
+
   if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
     return new HttpErrors.ConflictError(error.message);
   }
@@ -402,6 +400,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
+  if (error instanceof DomainErrors.InvalidIdentityProviderError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
+
   if (error instanceof DomainErrors.YamlParsingError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
@@ -465,7 +467,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidJuryLevelError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-
   return new HttpErrors.BaseHttpError(error.message);
 }
 

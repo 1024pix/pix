@@ -1032,14 +1032,6 @@ class NotImplementedError extends Error {
   }
 }
 
-class AuthenticationTokenRetrievalError extends DomainError {
-  constructor(message, status) {
-    super(message);
-    this.status = parseInt(status, 10);
-    this.title = 'Erreur lors de la récupération des tokens du partenaire.';
-  }
-}
-
 class InvalidMembershipOrganizationRoleError extends DomainError {
   constructor(message = 'Le rôle du membre est invalide.') {
     super(message);
@@ -1054,6 +1046,13 @@ class TooManyRows extends DomainError {
 
 class UnexpectedOidcStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
+    super(message);
+  }
+}
+
+class InvalidIdentityProviderError extends DomainError {
+  constructor(identityProvider) {
+    const message = `Identity provider ${identityProvider} is not supported.`;
     super(message);
   }
 }
@@ -1219,7 +1218,6 @@ module.exports = {
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationKeyExpired,
-  AuthenticationTokenRetrievalError,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
   CampaignParticipationDeletedError,
@@ -1273,6 +1271,7 @@ module.exports = {
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
   InvalidExternalAPIResponseError,
+  InvalidIdentityProviderError,
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,

@@ -30,6 +30,8 @@ const {
   CertificationAttestationGenerationError,
   CampaignTypeError,
   InvalidJuryLevelError,
+  UnexpectedOidcStateError,
+  InvalidIdentityProviderError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -470,19 +472,6 @@ describe('Unit | Application | ErrorManager', function () {
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
-    it('should instantiate ConflictError when DifferentExternalIdentifierError', async function () {
-      // given
-      const error = new DifferentExternalIdentifierError();
-      sinon.stub(HttpErrors, 'ConflictError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
-    });
-
     it('should instantiate UnprocessableEntityError when CertificationAttestationGenerationError', async function () {
       // given
       const error = new CertificationAttestationGenerationError();
@@ -520,6 +509,60 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    describe('SSO specific errors', function () {
+      it('should instantiate ConflictError when DifferentExternalIdentifierError', async function () {
+        // given
+        const error = new DifferentExternalIdentifierError();
+        sinon.stub(HttpErrors, 'ConflictError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
+      });
+
+      it('should instantiate BadRequestError when UnexpectedOidcStateError', async function () {
+        // given
+        const error = new UnexpectedOidcStateError();
+        sinon.stub(HttpErrors, 'BadRequestError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+      });
+
+      it('should instantiate BadRequestError when InvalidIdentityProviderError', async function () {
+        // given
+        const error = new InvalidIdentityProviderError();
+        sinon.stub(HttpErrors, 'BadRequestError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+      });
+
+      it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async function () {
+        // given
+        const error = new InvalidExternalAPIResponseError();
+        sinon.stub(HttpErrors, 'ServiceUnavailableError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
+      });
     });
   });
 });
