@@ -1,5 +1,5 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
-const { UnexpectedOidcStateError, DifferentExternalIdentifierError } = require('../../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('../../../../test-helper');
+const { UnexpectedOidcStateError } = require('../../../../../lib/domain/errors');
 const logger = require('../../../../../lib/infrastructure/logger');
 
 const authenticateOidcUser = require('../../../../../lib/domain/usecases/authentication/authenticate-oidc-user');
@@ -7,7 +7,6 @@ const AuthenticationSessionContent = require('../../../../../lib/domain/models/A
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const moment = require('moment');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const { featureToggles } = require('../../../../../lib/config');
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   let oidcAuthenticationService;
@@ -17,7 +16,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
   const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
   beforeEach(function () {
-    featureToggles.isSsoAccountReconciliationEnabled = true;
     oidcAuthenticationService = {
       identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       createAccessToken: sinon.stub(),
@@ -28,9 +26,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     };
 
     authenticationMethodRepository = {
-      create: sinon.stub(),
       updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
-      findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
     authenticationSessionService = {
@@ -41,10 +37,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       findByExternalIdentifier: sinon.stub(),
       updateLastLoggedAt: sinon.stub(),
     };
-  });
-
-  afterEach(async function () {
-    featureToggles.isSsoAccountReconciliationEnabled = false;
   });
 
   context('When the request state does not match the response state', function () {
@@ -181,197 +173,59 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
   });
 
   context('When user has an account', function () {
-    context('When the feature toggle is not active', function () {
-      beforeEach(function () {
-        featureToggles.isSsoAccountReconciliationEnabled = false;
-      });
+    context('When the provider does not have an authentication complement', function () {
+      it('should not update authentication method', async function () {
+        // given
+        _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        userRepository.findByExternalIdentifier.resolves({ id: 10 });
+        oidcAuthenticationService.createAuthenticationComplement.returns(null);
 
-      context('When the provider does not have an authentication complement', function () {
-        it('should not update or create an authentication method', async function () {
-          // given
-          _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          oidcAuthenticationService.createAuthenticationComplement.returns(null);
-
-          // when
-          await authenticateOidcUser({
-            authenticatedUserId: 1,
-            stateReceived: 'state',
-            stateSent: 'state',
-            oidcAuthenticationService,
-            authenticationSessionService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          expect(authenticationMethodRepository.create).not.to.have.been.called;
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).not.to.have.been.called;
-        });
-      });
-
-      context('When the user does not have an oidc authentication method', function () {
-        it('should add oidc authentication method to user', async function () {
-          // given
-          const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
-            accessToken: sessionContent.accessToken,
-            refreshToken: sessionContent.refreshToken,
-            expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-          });
-          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-
-          // when
-          await authenticateOidcUser({
-            authenticatedUserId: 1,
-            stateReceived: 'state',
-            stateSent: 'state',
-            oidcAuthenticationService,
-            authenticationSessionService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          const expectedAuthenticationMethod = new AuthenticationMethod({
-            identityProvider: oidcAuthenticationService.identityProvider,
-            externalIdentifier: externalIdentityId,
-            authenticationComplement,
-            userId: 1,
-          });
-          expect(authenticationMethodRepository.create).to.have.been.calledWith({
-            authenticationMethod: expectedAuthenticationMethod,
-          });
-        });
-      });
-
-      context('When the user does have an oidc authentication method', function () {
-        context('When the external identifier does not match the oidc authentication method', function () {
-          it('should throw a DifferentExternalIdentifierError error', async function () {
-            // given
-            const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-            const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
-              accessToken: sessionContent.accessToken,
-              refreshToken: sessionContent.refreshToken,
-              expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-            });
-            oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-            authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-              domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-                externalIdentifier: 'other_external_identifier',
-              })
-            );
-
-            // when
-            const error = await catchErr(authenticateOidcUser)({
-              authenticatedUserId: 1,
-              stateReceived: 'state',
-              stateSent: 'state',
-              oidcAuthenticationService,
-              authenticationSessionService,
-              authenticationMethodRepository,
-              userRepository,
-            });
-
-            // then
-            expect(error).to.be.instanceOf(DifferentExternalIdentifierError);
-          });
+        // when
+        await authenticateOidcUser({
+          stateReceived: 'state',
+          stateSent: 'state',
+          oidcAuthenticationService,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          userRepository,
         });
 
-        it('should update authentication method', async function () {
-          // given
-          const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
-            accessToken: sessionContent.accessToken,
-            refreshToken: sessionContent.refreshToken,
-            expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-          });
-          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-              externalIdentifier: externalIdentityId,
-            })
-          );
-
-          // when
-          await authenticateOidcUser({
-            authenticatedUserId: 1,
-            stateReceived: 'state',
-            stateSent: 'state',
-            oidcAuthenticationService,
-            authenticationSessionService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).to.have.been.calledWith({
-            authenticationComplement,
-            userId: 1,
-            identityProvider: oidcAuthenticationService.identityProvider,
-          });
-        });
+        // then
+        expect(
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+        ).not.to.have.been.called;
       });
     });
 
-    context('When the feature toggle is active', function () {
-      context('When the provider does not have an authentication complement', function () {
-        it('should not update authentication method', async function () {
-          // given
-          _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          oidcAuthenticationService.createAuthenticationComplement.returns(null);
-
-          // when
-          await authenticateOidcUser({
-            authenticatedUserId: 1,
-            stateReceived: 'state',
-            stateSent: 'state',
-            oidcAuthenticationService,
-            authenticationSessionService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).not.to.have.been.called;
+    context('When the provider has an authentication complement', function () {
+      it('should update authentication method', async function () {
+        // given
+        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        userRepository.findByExternalIdentifier.resolves({ id: 1 });
+        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+          accessToken: sessionContent.accessToken,
+          refreshToken: sessionContent.refreshToken,
+          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
         });
-      });
+        oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
-      context('When the provider has an authentication complement', function () {
-        it('should update authentication method', async function () {
-          // given
-          const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
-            accessToken: sessionContent.accessToken,
-            refreshToken: sessionContent.refreshToken,
-            expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-          });
-          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
+        // when
+        await authenticateOidcUser({
+          stateReceived: 'state',
+          stateSent: 'state',
+          oidcAuthenticationService,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          userRepository,
+        });
 
-          // when
-          await authenticateOidcUser({
-            authenticatedUserId: 1,
-            stateReceived: 'state',
-            stateSent: 'state',
-            oidcAuthenticationService,
-            authenticationSessionService,
-            authenticationMethodRepository,
-            userRepository,
-          });
-
-          // then
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-          ).to.have.been.calledWith({
-            authenticationComplement,
-            userId: 1,
-            identityProvider: oidcAuthenticationService.identityProvider,
-          });
+        // then
+        expect(
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+        ).to.have.been.calledWith({
+          authenticationComplement,
+          userId: 1,
+          identityProvider: oidcAuthenticationService.identityProvider,
         });
       });
     });
@@ -390,7 +244,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       // when
       const accessToken = await authenticateOidcUser({
-        authenticatedUserId: undefined,
         stateReceived: 'state',
         stateSent: 'state',
         oidcAuthenticationService,
@@ -426,7 +279,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       // when
       await authenticateOidcUser({
-        authenticatedUserId: 1,
         stateReceived: 'state',
         stateSent: 'state',
         oidcAuthenticationService,
