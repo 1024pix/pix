@@ -204,25 +204,22 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       let user;
       let targetProfile;
       let badge;
+      let training;
 
-      beforeEach(function () {
+      beforeEach(async function () {
         user = databaseBuilder.factory.buildUser({});
         targetProfile = databaseBuilder.factory.buildTargetProfile();
         badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+        training = databaseBuilder.factory.buildTraining();
+        databaseBuilder.factory.buildTargetProfileTraining({
+          targetProfileId: targetProfile.id,
+          trainingId: training.id,
+        });
       });
 
       afterEach(async function () {
         await knex('badge-acquisitions').delete();
-        await knex('badge-criteria').delete();
-        await knex('badges').delete();
-        await knex('knowledge-elements').delete();
-        await knex('assessment-results').delete();
-        await knex('answers').delete();
-        await knex('assessments').delete();
-        await knex('campaign-participations').delete();
-        await knex('campaigns').delete();
-        await knex('target-profiles_skills').delete();
-        await knex('target-profiles').delete();
+        await knex('user-recommended-trainings').delete();
       });
 
       it('should create a badge when it is acquired', async function () {
@@ -281,6 +278,31 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         });
 
         expect(badgeAcquisitions).to.have.lengthOf(2);
+      });
+
+      it('should create recommended trainings', async function () {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign({
+          targetProfileId: targetProfile.id,
+        });
+
+        // when
+        await _createAndCompleteCampaignParticipation({
+          user,
+          campaign,
+          badge,
+          options,
+          server,
+        });
+
+        // then
+        const recommendedTrainings = await knex('user-recommended-trainings')
+          .where({
+            userId: user.id,
+            trainingId: training.id,
+          })
+          .first();
+        expect(recommendedTrainings).to.exist;
       });
     });
 
