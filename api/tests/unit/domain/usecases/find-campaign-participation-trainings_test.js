@@ -3,14 +3,12 @@ const findCampaignParticipationTrainings = require('../../../../lib/domain/useca
 const { UserNotAuthorizedToFindTrainings } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-campaign-participation-trainings', function () {
-  let campaignRepository;
   let campaignParticipationRepository;
-  let trainingRepository;
+  let userRecommendedTrainingRepository;
 
   beforeEach(function () {
-    campaignRepository = { get: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
-    trainingRepository = { findByTargetProfileIdAndLocale: sinon.stub() };
+    userRecommendedTrainingRepository = { findByCampaignParticipationId: sinon.stub() };
   });
 
   context('when authenticated user is not the campaign participation owner', function () {
@@ -29,6 +27,7 @@ describe('Unit | UseCase | find-campaign-participation-trainings', function () {
         userId,
         campaignParticipationId: campaignParticipation.id,
         campaignParticipationRepository,
+        userRecommendedTrainingRepository,
       });
 
       // then
@@ -36,55 +35,30 @@ describe('Unit | UseCase | find-campaign-participation-trainings', function () {
     });
   });
 
-  context('when related campaign is not associated to targetProfile', function () {
-    it('should return empty array', async function () {
-      // given
-      const userId = 123;
-      const campaignWithoutTargetProfileId = domainBuilder.buildCampaign({ targetProfile: null });
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({
-        userId,
-        campaign: campaignWithoutTargetProfileId,
-      });
-      campaignRepository.get.resolves(campaignParticipation.campaign);
-      campaignParticipationRepository.get.resolves(campaignParticipation);
-
-      // when
-      const result = await findCampaignParticipationTrainings({
-        userId,
-        campaignParticipationId: campaignParticipation.id,
-        campaignRepository,
-        campaignParticipationRepository,
-      });
-
-      // then
-      expect(result).to.deep.equal([]);
-    });
-  });
-
-  context('when related campaign is associated with a targetProfile', function () {
-    it('should return array of trainings', async function () {
+  context('when authenticated user is the campaign participation owner', function () {
+    it('should return array of recommended trainings', async function () {
       // given
       const userId = 123;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId });
-      campaignRepository.get.resolves(campaignParticipation.campaign);
       campaignParticipationRepository.get.resolves(campaignParticipation);
-
       const trainings = Symbol('trainings');
-
-      trainingRepository.findByTargetProfileIdAndLocale.resolves(trainings);
+      userRecommendedTrainingRepository.findByCampaignParticipationId.resolves(trainings);
 
       // when
       const result = await findCampaignParticipationTrainings({
         userId,
         campaignParticipationId: campaignParticipation.id,
         locale: 'fr-fr',
-        campaignRepository,
         campaignParticipationRepository,
-        trainingRepository,
+        userRecommendedTrainingRepository,
       });
 
       // then
       expect(result).to.deep.equal(trainings);
+      expect(userRecommendedTrainingRepository.findByCampaignParticipationId).to.have.been.calledWithExactly({
+        campaignParticipationId: campaignParticipation.id,
+        locale: 'fr-fr',
+      });
     });
   });
 });
