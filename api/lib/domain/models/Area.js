@@ -1,14 +1,5 @@
 class Area {
-  constructor({
-    id,
-    code,
-    name,
-    title,
-    color,
-    competences = [], // list of Competence domain objects
-    frameworkId,
-    framework = null,
-  } = {}) {
+  constructor({ id, code, name, title, color, competences = [], frameworkId }) {
     this.id = id;
     this.code = code;
     this.name = name;
@@ -16,11 +7,6 @@ class Area {
     this.color = color;
     this.competences = competences;
     this.frameworkId = frameworkId;
-    this.framework = framework;
-  }
-
-  get frameworkName() {
-    return this.framework?.name ?? '';
   }
 }
 

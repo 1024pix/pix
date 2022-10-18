@@ -243,7 +243,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
 
     it('should return a PrivateCertificate', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -345,7 +345,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           framework: null,
         });
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent([
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             ...area1,
             titleFr: area1.title,
@@ -460,7 +460,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           framework: null,
         });
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent([
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             ...area1,
             titleFr: area1.title,
@@ -528,7 +528,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           hasExternalJury: true,
         }).id;
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;

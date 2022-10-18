@@ -73,6 +73,7 @@ module.exports = {
   buildCpfCertificationResult: require('./build-cpf-certification-result'),
   buildDataProtectionOfficer: require('./build-data-protection-officer'),
   buildFinalizedSession: require('./build-finalized-session'),
+  buildFramework: require('./build-framework'),
   buildHint: require('./build-hint'),
   buildSupOrganizationLearner: require('./build-sup-organization-learner'),
   buildJuryCertification: require('./build-jury-certification'),

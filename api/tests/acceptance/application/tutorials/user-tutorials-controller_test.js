@@ -160,7 +160,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           'accept-language': 'fr',
         },
       };
-      learningContentObjects = learningContentBuilder.buildLearningContent([
+      learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
           titleFrFr: 'area1_Title',
@@ -541,7 +541,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         },
       };
 
-      learningContentObjects = learningContentBuilder.buildLearningContent([
+      learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
           titleFrFr: 'area1_Title',

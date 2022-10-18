@@ -1,6 +1,10 @@
 module.exports = class LearningContent {
-  constructor(areas) {
-    this.areas = areas;
+  constructor(frameworks) {
+    this.frameworks = frameworks;
+  }
+
+  get areas() {
+    return this.frameworks.flatMap((framework) => framework.areas);
   }
 
   get competences() {
@@ -36,9 +40,19 @@ module.exports = class LearningContent {
     return this.areas.find((area) => area.id === areaId) ?? null;
   }
 
+  findFramework(frameworkId) {
+    return this.frameworks.find((framework) => framework.id === frameworkId) ?? null;
+  }
+
   findCompetenceIdOfSkill(skillId) {
     const tubeId = this.findSkill(skillId)?.tubeId;
     if (!tubeId) return null;
     return this.findTube(tubeId).competenceId;
+  }
+
+  findFrameworkNameOfArea(areaId) {
+    const frameworkId = this.findArea(areaId)?.frameworkId;
+    if (!frameworkId) return '';
+    return this.findFramework(frameworkId).name;
   }
 };

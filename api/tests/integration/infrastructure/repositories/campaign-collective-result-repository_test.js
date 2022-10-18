@@ -147,8 +147,9 @@ describe('Integration | Repository | Campaign collective result repository', fun
             }),
           ],
         });
+        const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
 
-        learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area1, area2]);
+        learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       });
 
       context('when there is no participant', function () {

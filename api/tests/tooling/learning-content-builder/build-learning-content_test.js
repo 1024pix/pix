@@ -8,17 +8,29 @@ const courseDatasource = require('../../../lib/infrastructure/datasources/learni
 const frameworkDatasource = require('../../../lib/infrastructure/datasources/learning-content/framework-datasource');
 
 describe('Integration | buildLearningContent', function () {
-  it('builds areas', async function () {
+  it('builds areas and frameworks', async function () {
     // given
     const learningContent = [
       {
-        id: 'recArea1',
-        competences: [],
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
+          {
+            id: 'recArea1',
+            competences: [],
+          },
+        ],
       },
       {
-        id: 'recArea2',
-        competences: [],
-        frameworkId: 'test',
+        id: 'recFramework2',
+        name: 'monFramework 2',
+        areas: [
+          {
+            id: 'recArea2',
+            competences: [],
+            frameworkId: 'test',
+          },
+        ],
       },
     ];
 
@@ -32,40 +44,46 @@ describe('Integration | buildLearningContent', function () {
     expect(areas[0].id).to.equal('recArea1');
     expect(areas[1].id).to.equal('recArea2');
     expect(frameworks.length).to.equal(2);
-    expect(frameworks[0].id).to.deep.equal('-1');
-    expect(frameworks[0].name).to.deep.equal('framework#-1');
-    expect(frameworks[1].id).to.deep.equal('test');
-    expect(frameworks[1].name).to.deep.equal('framework#test');
+    expect(frameworks[0].id).to.deep.equal('recFramework1');
+    expect(frameworks[0].name).to.deep.equal('monFramework 1');
+    expect(frameworks[1].id).to.deep.equal('recFramework2');
+    expect(frameworks[1].name).to.deep.equal('monFramework 2');
   });
 
   it('builds competences', async function () {
     // given
     const learningContent = [
       {
-        id: 'recArea1',
-        competences: [
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
           {
-            id: 'recArea1_Competence1',
-            tubes: [],
+            id: 'recArea1',
+            competences: [
+              {
+                id: 'recArea1_Competence1',
+                tubes: [],
+              },
+              {
+                id: 'recArea1_Competence2',
+                tubes: [],
+              },
+            ],
           },
           {
-            id: 'recArea1_Competence2',
-            tubes: [],
-          },
-        ],
-      },
-      {
-        id: 'recArea2',
-        competences: [
-          {
-            id: 'recArea2_Competence1',
-            tubes: [],
-            origin: 'Pix+',
-          },
-          {
-            id: 'recArea2_Competence2',
-            tubes: [],
-            origin: 'Pix+',
+            id: 'recArea2',
+            competences: [
+              {
+                id: 'recArea2_Competence1',
+                tubes: [],
+                origin: 'Pix+',
+              },
+              {
+                id: 'recArea2_Competence2',
+                tubes: [],
+                origin: 'Pix+',
+              },
+            ],
           },
         ],
       },
@@ -98,18 +116,24 @@ describe('Integration | buildLearningContent', function () {
     // given
     const learningContent = [
       {
-        id: 'recArea1',
-        competences: [
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
           {
-            id: 'recArea1_Competence1',
-            tubes: [
+            id: 'recArea1',
+            competences: [
               {
-                id: 'recArea1_Competence1_Tube1',
-                skills: [],
-              },
-              {
-                id: 'recArea1_Competence1_Tube2',
-                skills: [],
+                id: 'recArea1_Competence1',
+                tubes: [
+                  {
+                    id: 'recArea1_Competence1_Tube1',
+                    skills: [],
+                  },
+                  {
+                    id: 'recArea1_Competence1_Tube2',
+                    skills: [],
+                  },
+                ],
               },
             ],
           },
@@ -135,25 +159,31 @@ describe('Integration | buildLearningContent', function () {
     // given
     const learningContent = [
       {
-        id: 'recArea1',
-        competences: [
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
           {
-            id: 'recArea1_Competence1',
-            tubes: [
+            id: 'recArea1',
+            competences: [
               {
-                id: 'recArea1_Competence1_Tube1',
-                skills: [
+                id: 'recArea1_Competence1',
+                tubes: [
                   {
-                    id: 'recArea1_Competence1_Tube1_Skill1',
-                    nom: '@accesDonnées1',
-                    status: 'actif',
-                    challenges: [],
-                  },
-                  {
-                    id: 'recArea1_Competence1_Tube1_Skill2',
-                    nom: '@accesDonnées2',
-                    status: 'archivé',
-                    challenges: [],
+                    id: 'recArea1_Competence1_Tube1',
+                    skills: [
+                      {
+                        id: 'recArea1_Competence1_Tube1_Skill1',
+                        nom: '@accesDonnées1',
+                        status: 'actif',
+                        challenges: [],
+                      },
+                      {
+                        id: 'recArea1_Competence1_Tube1_Skill2',
+                        nom: '@accesDonnées2',
+                        status: 'archivé',
+                        challenges: [],
+                      },
+                    ],
                   },
                 ],
               },
@@ -191,26 +221,32 @@ describe('Integration | buildLearningContent', function () {
     // given
     const learningContent = [
       {
-        id: 'recArea1',
-        competences: [
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
           {
-            id: 'recArea1_Competence1',
-            tubes: [
+            id: 'recArea1',
+            competences: [
               {
-                id: 'recArea1_Competence1_Tube1',
-                skills: [
+                id: 'recArea1_Competence1',
+                tubes: [
                   {
-                    id: 'recArea1_Competence1_Tube1_Skill1',
-                    status: 'actif',
-                    challenges: [
+                    id: 'recArea1_Competence1_Tube1',
+                    skills: [
                       {
-                        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-                        statut: 'validé',
-                      },
-                      {
-                        id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
-                        statut: 'archivé',
-                        langues: ['Francophone', 'Franco Français'],
+                        id: 'recArea1_Competence1_Tube1_Skill1',
+                        status: 'actif',
+                        challenges: [
+                          {
+                            id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+                            statut: 'validé',
+                          },
+                          {
+                            id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
+                            statut: 'archivé',
+                            langues: ['Francophone', 'Franco Français'],
+                          },
+                        ],
                       },
                     ],
                   },
@@ -241,17 +277,23 @@ describe('Integration | buildLearningContent', function () {
     // given
     const learningContent = [
       {
-        competences: [],
-        courses: [
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
           {
-            id: 'recCourse0',
-            name: 'Test de démo 0',
-            challengeIds: ['second_challenge', 'first_challenge'],
-          },
-          {
-            id: 'recCourse1',
-            name: 'Test de démo 1',
-            challengeIds: ['first_challenge'],
+            competences: [],
+            courses: [
+              {
+                id: 'recCourse0',
+                name: 'Test de démo 0',
+                challengeIds: ['second_challenge', 'first_challenge'],
+              },
+              {
+                id: 'recCourse1',
+                name: 'Test de démo 1',
+                challengeIds: ['first_challenge'],
+              },
+            ],
           },
         ],
       },

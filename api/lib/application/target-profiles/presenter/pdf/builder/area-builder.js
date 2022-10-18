@@ -10,11 +10,12 @@ module.exports = {
   /**
    * @param pdfDocument{PDFDocument}
    * @param area{Area}
+   * @param frameworkName{string}
    * @param language{string}
    */
-  build(pdfDocument, area, language) {
+  build(pdfDocument, area, frameworkName, language) {
     const page = _addPage(pdfDocument, language);
-    const areaTitle = area.frameworkName + ' : ' + area.title;
+    const areaTitle = frameworkName + ' : ' + area.title;
     let pageContext = {
       page,
       positionY: _drawAreaTitle(page, areaTitle, area.color),

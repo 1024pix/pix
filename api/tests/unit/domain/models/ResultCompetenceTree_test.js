@@ -34,10 +34,6 @@ describe('Unit | Domain | Models | ResultCompetence', function () {
               title: 'Information et données',
               color: 'jaffa',
               frameworkId: 'recAi12kj43h23jrh3',
-              framework: {
-                id: 'recAi12kj43h23jrh3',
-                name: 'PIX',
-              },
               resultCompetences: [
                 {
                   id: 'recsvLz0W2ShyfD63',

@@ -43,7 +43,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       targetProfile = databaseBuilder.factory.buildTargetProfile();

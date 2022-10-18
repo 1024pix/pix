@@ -55,7 +55,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -110,7 +110,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -156,7 +156,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -213,7 +213,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -261,7 +261,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -307,7 +307,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -365,7 +365,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         // when
@@ -408,7 +408,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -523,7 +523,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         // when
@@ -568,7 +568,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
       it('returns participants which have one badge', async function () {
@@ -721,7 +721,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
       it('returns participants which have the given stage', async function () {
@@ -869,7 +869,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         // when
@@ -908,7 +908,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 

@@ -68,7 +68,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
     context('when assessment is a competence evaluation', function () {
       context('when there is one challenge in the accepted language (fr-fr)', function () {
         beforeEach(async function () {
-          const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+          const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
 
           databaseBuilder.factory.buildUser({ id: userId });

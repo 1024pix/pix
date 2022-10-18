@@ -89,7 +89,8 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           index: '2.3',
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
-        learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+        const framework = domainBuilder.buildFramework({ areas: [area] });
+        learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
 
         return databaseBuilder.commit();
       });
@@ -468,7 +469,8 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           index: '2.3',
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
-        learningContent = domainBuilder.buildCampaignLearningContent.fromAreas([area]);
+        const framework = domainBuilder.buildFramework({ areas: [area] });
+        learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
 
         return databaseBuilder.commit();
       });
