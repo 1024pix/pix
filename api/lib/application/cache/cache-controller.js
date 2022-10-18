@@ -7,6 +7,8 @@ module.exports = {
   refreshCacheEntries(request, h) {
     learningContentDatasource
       .refreshLearningContentCacheRecords()
+      // TODO: replace by monitoringTools.logErorWithCorrelationIds
+      // eslint-disable-next-line no-restricted-syntax
       .catch((e) => logger.error('Error while reloading cache', e));
     return h.response({}).code(202);
   },

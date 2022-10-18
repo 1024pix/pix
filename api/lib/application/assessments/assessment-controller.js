@@ -56,15 +56,21 @@ module.exports = {
       type: 'controller',
       assessmentId,
     };
+    // TODO: replace by mointoringTools.logTraceWithCorrelationIds
+    // eslint-disable-next-line no-restricted-syntax
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
     try {
       const assessment = await assessmentRepository.get(assessmentId);
       logContext.assessmentType = assessment.type;
+      // TODO: replace by monitoringTools.logTraceWithCorrelationIds
+      // eslint-disable-next-line no-restricted-syntax
       logger.trace(logContext, 'assessment loaded');
 
       const challenge = await _getChallenge(assessment, request);
       logContext.challenge = challenge;
+      // TODO: replace by monitoringTools.logTraceWithCorrelationIds
+      // eslint-disable-next-line no-restricted-syntax
       logger.trace(logContext, 'replying with challenge');
 
       return challengeSerializer.serialize(challenge);

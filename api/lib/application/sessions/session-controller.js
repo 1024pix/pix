@@ -351,10 +351,14 @@ module.exports = {
 };
 
 function _logSessionBatchPublicationErrors(result) {
+  // TODO: replace by monitoringTools.logWarnWithCorrelationIds
+  // eslint-disable-next-line no-restricted-syntax
   logger.warn(`One or more error occurred when publishing session in batch ${result.batchId}`);
 
   const sessionAndError = result.publicationErrors;
   for (const sessionId in sessionAndError) {
+    // TODO: replace by monitoringTools.logWarnWithCorrelationIds
+    // eslint-disable-next-line no-restricted-syntax
     logger.warn(
       {
         batchId: result.batchId,

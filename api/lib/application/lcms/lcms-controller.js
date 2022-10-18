@@ -6,9 +6,13 @@ module.exports = {
     usecases
       .createLcmsRelease()
       .then(() => {
+        // TODO: replace by monitoringTools.logInfoWithCorrelationIds
+        // eslint-disable-next-line no-restricted-syntax
         logger.info('Release created and cache reloaded');
       })
       .catch((e) => {
+        // TODO: replace by monitoringTools.logErrorWithCorrelationIds
+        // eslint-disable-next-line no-restricted-syntax
         logger.error('Error while creating the release and reloading cache', e);
       });
     return h.response({}).code(204);
