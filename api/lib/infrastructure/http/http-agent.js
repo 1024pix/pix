@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
 const { performance } = require('perf_hooks');
-const { logInfoWithCorrelationIds, logErrorWithCorrelationIds } = require('../monitoring-tools');
+const monitoringTools = require('../monitoring-tools');
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -20,7 +20,7 @@ module.exports = {
         headers,
       });
       responseTime = performance.now() - startTime;
-      logInfoWithCorrelationIds({
+      monitoringTools.logInfoWithCorrelationIds({
         metrics: { responseTime },
         message: `End POST request to ${url} success: ${httpResponse.status}`,
       });
@@ -42,9 +42,11 @@ module.exports = {
         data = httpErr.message;
       }
 
-      logErrorWithCorrelationIds({
+      const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
+
+      monitoringTools.logErrorWithCorrelationIds({
         metrics: { responseTime },
-        message: `End POST request to ${url} error: ${code || ''} ${data.toString()}`,
+        message,
       });
 
       return new HttpResponse({
@@ -61,7 +63,7 @@ module.exports = {
       const config = { data: payload, headers };
       const httpResponse = await axios.get(url, config);
       responseTime = performance.now() - startTime;
-      logInfoWithCorrelationIds({
+      monitoringTools.logInfoWithCorrelationIds({
         metrics: { responseTime },
         message: `End GET request to ${url} success: ${httpResponse.status}`,
       });
@@ -86,9 +88,9 @@ module.exports = {
         data = null;
       }
 
-      logErrorWithCorrelationIds({
+      monitoringTools.logErrorWithCorrelationIds({
         metrics: { responseTime },
-        message: `End GET request to ${url} error: ${code}`,
+        message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
       });
 
       return new HttpResponse({
