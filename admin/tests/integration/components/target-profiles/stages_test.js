@@ -172,23 +172,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.strictEqual(find('tbody tr td:nth-child(8)').textContent.trim(), 'Voir détail');
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
-    test('it should not display new stage button action', async function (assert) {
-      // given
-      const stage = EmberObject.create({
-        id: 1,
-        isTypeLevel: true,
-        level: 6,
-        title: 'My title',
-        message: 'My message',
-      });
-      this.set('stages', [stage]);
-
-      // when
-      const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
-
-      // then
-      assert.dom(screen.queryByText('Nouveau palier')).doesNotExist();
-    });
 
     module('when no stage with level 0', function () {
       test('it should display warning message', async function (assert) {

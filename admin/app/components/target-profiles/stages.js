@@ -40,7 +40,10 @@ export default class Stages extends Component {
 
   @action
   addStage() {
-    this.store.createRecord('stage', { targetProfile: this.args.targetProfile });
+    this.store.createRecord('stage', {
+      targetProfile: this.args.targetProfile,
+      level: this.isTypeLevel ? 0 : undefined,
+    });
   }
 
   @action
@@ -62,5 +65,10 @@ export default class Stages extends Component {
   @action
   cancelStagesCreation() {
     this.newStages.forEach((stage) => stage.deleteRecord());
+  }
+
+  @action
+  onStageLevelChange(stage, event) {
+    stage.level = event.target.value;
   }
 }

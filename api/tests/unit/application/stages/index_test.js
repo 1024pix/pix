@@ -21,7 +21,25 @@ describe('Unit | Application | Stages | Routes', function () {
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
+        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages', {
+          data: {
+            attributes: {
+              message: 'le message',
+              'prescriber-description': null,
+              'prescriber-title': null,
+              threshold: 50,
+              level: null,
+              title: 'le titre',
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: 123,
+                },
+              },
+            },
+          },
+        });
 
         // then
         expect(statusCode).to.equal(201);
@@ -49,7 +67,25 @@ describe('Unit | Application | Stages | Routes', function () {
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
+        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages', {
+          data: {
+            attributes: {
+              message: 'le message',
+              'prescriber-description': null,
+              'prescriber-title': null,
+              threshold: 50,
+              level: null,
+              title: 'le titre',
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: 123,
+                },
+              },
+            },
+          },
+        });
 
         // then
         expect(statusCode).to.equal(403);
