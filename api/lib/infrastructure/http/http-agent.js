@@ -42,7 +42,7 @@ module.exports = {
         data = httpErr.message;
       }
 
-      const message = `End POST request to ${url} error: ${code || ''} ${data.toString()}`;
+      const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
       monitoringTools.logErrorWithCorrelationIds({
         metrics: { responseTime },
