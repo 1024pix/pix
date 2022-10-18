@@ -1,6 +1,7 @@
 module.exports = class LearningContent {
-  constructor(areas) {
+  constructor(areas, frameworks) {
     this.areas = areas;
+    this.frameworks = frameworks;
   }
 
   get competences() {

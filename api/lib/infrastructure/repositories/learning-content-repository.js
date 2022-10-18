@@ -13,9 +13,9 @@ const learningContentConversionService = require('../../domain/services/learning
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
 
-  const areas = await _getLearningContentBySkillIds(skills, locale);
+  const { areas, frameworks } = await _getLearningContentBySkillIds(skills, locale);
 
-  return new LearningContent(areas);
+  return new LearningContent(areas, frameworks);
 }
 
 async function findByTargetProfileId(targetProfileId, locale) {
@@ -30,8 +30,8 @@ async function findByTargetProfileId(targetProfileId, locale) {
     throw new NotFoundError("Le profil cible n'existe pas");
   }
 
-  const areas = await _getLearningContentByCappedTubes(cappedTubesDTO, locale);
-  return new LearningContent(areas);
+  const { areas, frameworks } = await _getLearningContentByCappedTubes(cappedTubesDTO, locale);
+  return new LearningContent(areas, frameworks);
 }
 
 async function _getLearningContentBySkillIds(skills, locale) {
@@ -90,14 +90,19 @@ async function _getLearningContentByTubes(tubes, locale) {
     'id'
   );
 
+  const frameworkIds = _.uniq(areas.map((area) => area.frameworkId));
+  const frameworks = await frameworkRepository.findByRecordIds(frameworkIds);
+
   for (const area of areas) {
-    area.framework = await frameworkRepository.getById(area.frameworkId);
+    area.framework = frameworks.find((framework) => framework.id === area.frameworkId);
+    // TODO I know, right...
+    area.framework.areas.push(area);
     area.competences = competences.filter((competence) => {
       return competence.area.id === area.id;
     });
   }
 
-  return areas;
+  return { areas, frameworks };
 }
 
 module.exports = {
