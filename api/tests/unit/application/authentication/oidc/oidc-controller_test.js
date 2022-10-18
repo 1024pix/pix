@@ -3,9 +3,7 @@ const authenticationServiceRegistry = require('../../../../../lib/domain/service
 const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
 const oidcSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer');
 const usecases = require('../../../../../lib/domain/usecases');
-const settings = require('../../../../../lib/config');
 const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
@@ -126,7 +124,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
 
       // then
       expect(usecases.authenticateOidcUser).to.have.been.calledWith({
-        authenticatedUserId: undefined,
         code,
         redirectUri,
         stateReceived,
@@ -179,72 +176,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
       expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
       expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName });
-    });
-
-    context('when isSsoAccountReconciliationEnabled is false', function () {
-      it('should send the authenticated user id for pole emploi', async function () {
-        // given
-        settings.featureToggles.isSsoAccountReconciliationEnabled = false;
-        const identityProvider = OidcIdentityProviders.POLE_EMPLOI.code;
-        const oidcAuthenticationService = {};
-        sinon
-          .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
-          .withArgs(identityProvider)
-          .returns(oidcAuthenticationService);
-        request.deserializedPayload.identityProvider = identityProvider;
-
-        usecases.authenticateOidcUser.resolves({
-          pixAccessToken,
-          logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-          isAuthenticationComplete: true,
-        });
-
-        // when
-        await oidcController.authenticateUser(request, hFake);
-
-        // then
-        expect(usecases.authenticateOidcUser).to.have.been.calledWith({
-          authenticatedUserId: 123,
-          code,
-          redirectUri,
-          stateReceived,
-          stateSent,
-          oidcAuthenticationService,
-        });
-      });
-    });
-
-    context('when isSsoAccountReconciliationEnabled is true', function () {
-      it('should not send the authenticated user id for pole emploi when toggle is enabled', async function () {
-        // given
-        settings.featureToggles.isSsoAccountReconciliationEnabled = true;
-        const identityProvider = OidcIdentityProviders.POLE_EMPLOI.code;
-        const oidcAuthenticationService = {};
-        sinon
-          .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
-          .withArgs(identityProvider)
-          .returns(oidcAuthenticationService);
-        request.deserializedPayload.identityProvider = identityProvider;
-
-        usecases.authenticateOidcUser.resolves({
-          pixAccessToken,
-          logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-          isAuthenticationComplete: true,
-        });
-
-        // when
-        await oidcController.authenticateUser(request, hFake);
-
-        // then
-        expect(usecases.authenticateOidcUser).to.have.been.calledWith({
-          authenticatedUserId: undefined,
-          code,
-          redirectUri,
-          stateReceived,
-          stateSent,
-          oidcAuthenticationService,
-        });
-      });
     });
   });
 

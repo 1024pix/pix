@@ -1,11 +1,9 @@
 const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const get = require('lodash/get');
 const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer');
 const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const usecases = require('../../../domain/usecases');
 const { UnauthorizedError } = require('../../http-errors');
-const config = require('../../../config');
 const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
 
 module.exports = {
@@ -59,17 +57,10 @@ module.exports = {
 
   async authenticateUser(request, h) {
     const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
-    let authenticatedUserId;
-    if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
-      authenticatedUserId =
-        identityProvider === OidcIdentityProviders.POLE_EMPLOI.code
-          ? get(request.auth, 'credentials.userId')
-          : undefined;
-    }
+
     const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
 
     const result = await usecases.authenticateOidcUser({
-      authenticatedUserId,
       code,
       redirectUri,
       stateReceived,
