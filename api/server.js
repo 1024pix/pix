@@ -82,6 +82,7 @@ const enableOpsMetrics = async function (server) {
   });
 
   oppsy.start(config.logging.emitOpsEventEachSeconds * 1000);
+  server.oppsy = oppsy;
 };
 
 const loadConfiguration = function () {
