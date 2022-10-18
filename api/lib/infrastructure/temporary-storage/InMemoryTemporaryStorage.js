@@ -37,6 +37,25 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
   quit() {
     noop;
   }
+
+  lpush(key, value) {
+    let list = this._client.get(key) || [];
+    list = [value, ...list];
+    this._client.set(key, list);
+    return list.length;
+  }
+
+  lrem(key, value) {
+    const list = this._client.get(key) || [];
+    const filtered = list.filter((item) => item !== value);
+    const removed = list.filter((item) => item === value);
+    this._client.set(key, filtered);
+    return removed.length;
+  }
+
+  lrange(key) {
+    return this._client.get(key) || [];
+  }
 }
 
 module.exports = InMemoryTemporaryStorage;
