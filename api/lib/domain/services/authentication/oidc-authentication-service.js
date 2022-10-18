@@ -1,6 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
+const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
 const querystring = require('querystring');
 const { InvalidExternalAPIResponseError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
@@ -70,14 +71,10 @@ class OidcAuthenticationService {
     });
 
     if (!response.isSuccessful) {
-      const errorResponse = JSON.stringify(response.data);
       const message = 'Erreur lors de la récupération des tokens du partenaire.';
-      const dataToLog = {
-        message,
-        errorDescription: errorResponse.error_description,
-        errorType: errorResponse.error,
-      };
+      const dataToLog = httpErrorsHelper.getErrorDetails(response, message);
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+
       throw new InvalidExternalAPIResponseError(message);
     }
 
@@ -108,39 +105,24 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
-  _validateUserInfoContent({ userInfoContent }) {
-    const missingFields = [];
-    if (!userInfoContent.family_name) {
-      missingFields.push('family_name');
-    }
-    if (!userInfoContent.given_name) {
-      missingFields.push('given_name');
-    }
-    if (!userInfoContent.sub) {
-      missingFields.push('sub');
-    }
-    const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
-    if (thereIsAtLeastOneRequiredMissingField) {
-      throw new InvalidExternalAPIResponseError(missingFields.join(','));
-    }
-  }
+  async getUserInfoFromEndpoint({ accessToken, userInfoUrl }) {
+    const response = await httpAgent.get({
+      url: userInfoUrl,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
 
-  async _getContentFromUserInfoEndpoint({ accessToken, userInfoUrl }) {
-    let userInfoContent;
+    if (!response.isSuccessful) {
+      const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
+      const dataToLog = httpErrorsHelper.getErrorDetails(response, message);
 
-    try {
-      const { data } = await httpAgent.get({
-        url: userInfoUrl,
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      userInfoContent = data;
-    } catch (error) {
-      error.customMessage = 'Une erreur est survenue en récupérant les information des utilisateurs.';
-      monitoringTools.logErrorWithCorrelationIds({ message: error });
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+
       throw new InvalidExternalAPIResponseError(
-        'Une erreur est survenue en récupérant les information des utilisateurs.'
+        'Une erreur est survenue en récupérant les informations des utilisateurs.'
       );
     }
+
+    const userInfoContent = response.data;
 
     if (!userInfoContent || typeof userInfoContent !== 'object') {
       const message = 'Les informations utilisateur récupérées ne sont pas au format attendu.';
@@ -153,12 +135,12 @@ class OidcAuthenticationService {
       throw new InvalidExternalAPIResponseError(message);
     }
 
-    try {
-      this._validateUserInfoContent({ userInfoContent });
-    } catch (error) {
+    const userInfoContentContainsMissingFields = this.isUserInfoContentContainsMissingFields({ userInfoContent });
+
+    if (userInfoContentContainsMissingFields) {
       monitoringTools.logErrorWithCorrelationIds({
         message: "Un des champs obligatoires n'a pas été renvoyé",
-        missingFields: error,
+        missingFields: userInfoContentContainsMissingFields,
       });
       throw new InvalidExternalAPIResponseError('Les informations utilisateurs récupérées sont incorrectes.');
     }
@@ -171,12 +153,30 @@ class OidcAuthenticationService {
     };
   }
 
+  isUserInfoContentContainsMissingFields({ userInfoContent }) {
+    const missingFields = [];
+    if (!userInfoContent.family_name) {
+      missingFields.push('family_name');
+    }
+    if (!userInfoContent.given_name) {
+      missingFields.push('given_name');
+    }
+    if (!userInfoContent.sub) {
+      missingFields.push('sub');
+    }
+
+    const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
+    return thereIsAtLeastOneRequiredMissingField ? `Champs manquants : ${missingFields.join(',')}` : false;
+  }
+
   async getUserInfo({ idToken, accessToken }) {
     const { family_name, given_name, sub, nonce } = await jsonwebtoken.decode(idToken);
     let userInfoContent;
 
-    if (!family_name || !given_name || !sub) {
-      userInfoContent = await this._getContentFromUserInfoEndpoint({ accessToken, userInfoUrl: this.userInfoUrl });
+    const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
+
+    if (isMandatoryUserInfoMissing) {
+      userInfoContent = await this.getUserInfoFromEndpoint({ accessToken, userInfoUrl: this.userInfoUrl });
     }
 
     return {
