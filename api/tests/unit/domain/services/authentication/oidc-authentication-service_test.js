@@ -5,14 +5,12 @@ const OidcAuthenticationService = require('../../../../../lib/domain/services/au
 const jsonwebtoken = require('jsonwebtoken');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const {
-  AuthenticationTokenRetrievalError,
-  InvalidExternalAPIResponseError,
-} = require('../../../../../lib/domain/errors');
+const { InvalidExternalAPIResponseError } = require('../../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+const monitoringTools = require('../../../../../lib/infrastructure/monitoring-tools');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
@@ -59,6 +57,44 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       // then
       expect(result).to.be.null;
+    });
+  });
+
+  describe('#isUserInfoContentContainsMissingFields', function () {
+    it('should return a message with missing fields list', async function () {
+      // given
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const response = await oidcAuthenticationService.isUserInfoContentContainsMissingFields({
+        userInfoContent: {
+          given_name: 'givenName',
+          family_name: undefined,
+          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        },
+      });
+
+      // then
+      expect(response).to.equal('Champs manquants : family_name');
+    });
+
+    it('should return false', async function () {
+      // given
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const response = await oidcAuthenticationService.isUserInfoContentContainsMissingFields({
+        userInfoContent: {
+          given_name: 'givenName',
+          family_name: 'familyName',
+          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        },
+      });
+
+      // then
+      expect(response).to.equal(false);
     });
   });
 
@@ -113,12 +149,13 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
 
     context('when tokens retrieval fails', function () {
-      it('should log error and throw AuthenticationTokenRetrievalError', async function () {
+      it('should log error and throw InvalidExternalAPIResponseError', async function () {
         // given
         const clientId = 'OIDC_CLIENT_ID';
         const tokenUrl = 'http://oidc.net/api/token';
         const clientSecret = 'OIDC_CLIENT_SECRET';
 
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         sinon.stub(httpAgent, 'post');
         httpAgent.post.resolves({
           isSuccessful: false,
@@ -141,10 +178,17 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceOf(AuthenticationTokenRetrievalError);
-        expect(error.message).to.equal(
-          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
-        );
+        expect(error).to.be.an.instanceOf(InvalidExternalAPIResponseError);
+        expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: {
+            customMessage: 'Erreur lors de la récupération des tokens du partenaire.',
+            errorDetails: {
+              errorDescription: 'Invalid authentication method for accessing this endpoint.',
+              errorType: 'invalid_client',
+            },
+          },
+        });
       });
     });
   });
@@ -239,7 +283,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const userInfoUrl = 'infoUrl';
 
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
-        sinon.stub(oidcAuthenticationService, '_getContentFromUserInfoEndpoint');
+        sinon.stub(oidcAuthenticationService, 'getUserInfoFromEndpoint');
 
         // when
         await oidcAuthenticationService.getUserInfo({
@@ -248,7 +292,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         // then
-        expect(oidcAuthenticationService._getContentFromUserInfoEndpoint).to.have.been.calledOnceWithExactly({
+        expect(oidcAuthenticationService.getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
           accessToken: 'accessToken',
           userInfoUrl,
         });
@@ -256,23 +300,33 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
-  describe('#_getContentFromUserInfoEndpoint', function () {
+  describe('#getUserInfoFromEndpoint', function () {
+    // given
+    const userInfoUrl = 'userInfoUrl';
+    const accessToken = 'accessToken';
+
     it('should return nonce, firstName, lastName and external identity id', async function () {
       // given
-      sinon.stub(httpAgent, 'get').resolves({
-        isSuccessful: true,
-        data: {
-          given_name: 'givenName',
-          family_name: 'familyName',
-          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        },
+      sinon
+        .stub(httpAgent, 'get')
+        .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+        .resolves({
+          isSuccessful: true,
+          data: {
+            given_name: 'givenName',
+            family_name: 'familyName',
+            nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+          },
+        });
+
+      const oidcAuthenticationService = new OidcAuthenticationService({
+        userInfoUrl,
+        accessToken,
       });
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
-
       // when
-      const result = await oidcAuthenticationService._getContentFromUserInfoEndpoint({
+      const result = await oidcAuthenticationService.getUserInfoFromEndpoint({
         accessToken: 'accessToken',
         userInfoUrl: 'userInfoUrl',
       });
@@ -286,22 +340,103 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when required properties are not returned by external API', function () {
+    describe('when call to external API fails with no data details', function () {
       it('should throw error', async function () {
         // given
-        sinon.stub(httpAgent, 'get').resolves({
-          isSuccessful: true,
-          data: {
-            given_name: 'givenName',
-            family_name: undefined,
-            nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        const axiosError = {
+          response: {
+            data: '',
+            status: 400,
+          },
+        };
+        sinon
+          .stub(httpAgent, 'get')
+          .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+          .resolves({ isSuccessful: false, code: axiosError.response.status, data: axiosError.response.data });
+        // See api/lib/infrastructure/http/http-agent.js to understand, axios can throw an error but httpAgent.get map it into an http response
+        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken });
+
+        // when
+        let errorResponse;
+        try {
+          await oidcAuthenticationService.getUserInfoFromEndpoint({
+            accessToken: 'accessToken',
+            userInfoUrl: 'userInfoUrl',
+          });
+        } catch (error) {
+          errorResponse = error;
+        }
+
+        // then
+        expect(errorResponse).to.be.instanceOf(InvalidExternalAPIResponseError);
+        expect(errorResponse.message).to.be.equal(
+          'Une erreur est survenue en récupérant les informations des utilisateurs.'
+        );
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: {
+            customMessage: 'Une erreur est survenue en récupérant les informations des utilisateurs.',
+            errorDetails: 'Pas de détails disponibles',
           },
         });
+      });
+    });
+
+    describe('when returned value by external API is not a json object', function () {
+      it('should throw error', async function () {
+        // given
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon
+          .stub(httpAgent, 'get')
+          .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+          .resolves({
+            isSuccessful: true,
+            data: '',
+          });
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
 
         // when
-        const error = await catchErr(oidcAuthenticationService._getContentFromUserInfoEndpoint)({
+        const error = await catchErr(oidcAuthenticationService.getUserInfoFromEndpoint)({
+          accessToken,
+          userInfoUrl,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
+        expect(error.message).to.be.equal('Les informations utilisateur récupérées ne sont pas au format attendu.');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: {
+            message: 'Les informations utilisateur récupérées ne sont pas au format attendu.',
+            typeOfUserInfoContent: 'string',
+            userInfoContent: '',
+          },
+        });
+      });
+    });
+
+    describe('when required properties are not returned by external API', function () {
+      it('should throw error', async function () {
+        // given
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon
+          .stub(httpAgent, 'get')
+          .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+          .resolves({
+            isSuccessful: true,
+            data: {
+              given_name: 'givenName',
+              family_name: undefined,
+              nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+            },
+          });
+        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken });
+
+        // when
+        const error = await catchErr(
+          oidcAuthenticationService.getUserInfoFromEndpoint,
+          oidcAuthenticationService
+        )({
           accessToken: 'accessToken',
           userInfoUrl: 'userInfoUrl',
         });
@@ -309,46 +444,10 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.be.equal('Les informations utilisateurs récupérées sont incorrectes.');
-      });
-    });
-
-    describe('when returned value by external API is not a json object', function () {
-      it('should throw error', async function () {
-        // given
-        sinon.stub(httpAgent, 'get').resolves({
-          isSuccessful: true,
-          data: '',
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: "Un des champs obligatoires n'a pas été renvoyé",
+          missingFields: 'Champs manquants : family_name',
         });
-        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
-
-        // when
-        const error = await catchErr(oidcAuthenticationService._getContentFromUserInfoEndpoint)({
-          accessToken: 'accessToken',
-          userInfoUrl: 'userInfoUrl',
-        });
-
-        // then
-        expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
-        expect(error.message).to.be.equal('Les informations utilisateur récupérées ne sont pas au format attendu.');
-      });
-    });
-
-    describe('when call to external API fails', function () {
-      it('should throw error', async function () {
-        // given
-        const anError = new Error('something bad happened');
-        sinon.stub(httpAgent, 'get').rejects(anError);
-        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
-
-        // when
-        const error = await catchErr(oidcAuthenticationService._getContentFromUserInfoEndpoint)({
-          accessToken: 'accessToken',
-          userInfoUrl: 'userInfoUrl',
-        });
-
-        // then
-        expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
-        expect(error.message).to.be.equal('Une erreur est survenue en récupérant les information des utilisateurs.');
       });
     });
   });
