@@ -163,6 +163,26 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       ]);
     });
   });
+  describe('#getByCertifiableBadgeAcquisition', function () {
+    it('should return a BadgeForCalculation with criteria', async function () {
+      // given
+      const expectedBadgeForCalculation1 = _buildBadgeWithCampaignParticipationAndCappedTubes(
+        targetProfileId,
+        campaignSkillsId
+      );
+      const badge = domainBuilder.buildBadge({ id: expectedBadgeForCalculation1.id });
+      const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({ campaignId, badge });
+      await databaseBuilder.commit();
+
+      // when
+      const actualBadgeForCalculation = await badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
+        certifiableBadgeAcquisition,
+      });
+
+      // then
+      expect(actualBadgeForCalculation).to.deepEqualInstance(expectedBadgeForCalculation1);
+    });
+  });
 });
 
 function _buildBadgeWithCampaignParticipationAndCappedTubes(targetProfileId, campaignSkillsId) {
