@@ -57,11 +57,28 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
+    {{#unless this.hasStages}}
+      <PixRadioButton
+        name="stageType"
+        @label="Palier par seuil"
+        @value="threshold"
+        checked={{this.isStageTypeThresholdChecked}}
+        {{on "change" this.onStageTypeChange}}
+      />
+      <PixRadioButton
+        name="stageType"
+        @label="Palier par niveau"
+        @value="level"
+        checked={{this.isStageTypeLevelChecked}}
+        {{on "change" this.onStageTypeChange}}
+      />
+    {{/unless}}
     <PixButton
       class="stages-new-stage pix-button__secondary"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
       @triggerAction={{this.addStage}}
+      @isDisabled={{this.isAddStageDisabled}}
     >
       <FaIcon @icon="plus" />Nouveau palier
     </PixButton>
