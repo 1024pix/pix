@@ -7,7 +7,7 @@ module.exports = {
       .pluck('assessment-results.status')
       .where('certification-courses.sessionId', sessionId)
       .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-      .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+      .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
       .whereNotExists(
         knex
           .select(1)
@@ -16,7 +16,7 @@ module.exports = {
           .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
       );
 
-    if (latestAssessmentResultStatuses.includes('error') || latestAssessmentResultStatuses.includes('started')) {
+    if (latestAssessmentResultStatuses.includes('error') || latestAssessmentResultStatuses.includes(null)) {
       throw new CertificationCourseNotPublishableError();
     }
 
