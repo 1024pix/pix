@@ -6,6 +6,7 @@ const ComplementaryCertificationBadge = require('../../domain/models/Complementa
 const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
 const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
+const _ = require('lodash');
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
@@ -25,7 +26,6 @@ module.exports = {
         'complementary-certifications.key as complementaryCertificationKey',
         'campaign-participations.campaignId'
       )
-      .distinctOn('complementary-certifications.id')
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
       .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
       .join(
@@ -39,11 +39,26 @@ module.exports = {
         'badges.isCertifiable': true,
       })
       .whereRaw(
-        '"complementary-certification-badges".level = (select max(level) from "complementary-certification-badges" ccb join "badges" b on ccb."badgeId" = b.id join "badge-acquisitions" ba on ba."badgeId" = b.id where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId" and ba."userId" = ? and b."isCertifiable" = true)',
+        `"badge-acquisitions"."createdAt" =
+            (select max(ba."createdAt") from "complementary-certification-badges" ccb
+            join "badges" b on ccb."badgeId" = b.id
+            join "badge-acquisitions" ba on ba."badgeId" = b.id
+            where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId"
+            and ba."userId" = ? and b."isCertifiable" = true)
+        `,
         userId
       );
 
-    const certifiableBadgeAcquisitionBadgeIds = certifiableBadgeAcquisitions.map(
+    const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
+      .groupBy('complementaryCertificationId')
+      .values()
+      .map((certifiableBadgeAcquisitionByComplementaryCertifications) =>
+        _.maxBy(certifiableBadgeAcquisitionByComplementaryCertifications, 'complementaryCertificationBadgeLevel')
+      )
+      .flatten()
+      .value();
+
+    const certifiableBadgeAcquisitionBadgeIds = highestCertifiableBadgeAcquisitionByComplementaryCertificationId.map(
       (certifiableBadgeAcquisition) => certifiableBadgeAcquisition.badgeId
     );
 
@@ -55,7 +70,7 @@ module.exports = {
 
     const skillSets = await knexConn('skill-sets').whereIn('id', uniqueSkillSetIds);
 
-    return _toDomain(certifiableBadgeAcquisitions, badgeCriteria, skillSets);
+    return _toDomain(highestCertifiableBadgeAcquisitionByComplementaryCertificationId, badgeCriteria, skillSets);
   },
 };
 
