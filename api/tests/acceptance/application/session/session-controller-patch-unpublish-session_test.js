@@ -1,5 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const { status } = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('PATCH /api/admin/sessions/:id/unpublish', function () {
   let server;
@@ -73,7 +74,11 @@ describe('PATCH /api/admin/sessions/:id/unpublish', function () {
           sessionId = databaseBuilder.factory.buildSession({ publishedAt: date }).id;
           databaseBuilder.factory.buildFinalizedSession({ sessionId, publishedAt: date });
           options.url = `/api/admin/sessions/${sessionId}/unpublish`;
-          certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: true }).id;
+          certificationId = databaseBuilder.factory.buildCertificationCourse({
+            sessionId,
+            isPublished: true,
+            pixCertificationStatus: status.REJECTED,
+          }).id;
 
           return databaseBuilder.commit();
         });
@@ -86,13 +91,14 @@ describe('PATCH /api/admin/sessions/:id/unpublish', function () {
           expect(response.statusCode).to.equal(200);
         });
 
-        it('should update the isPublished field in certification course', async function () {
+        it('should update the isPublished field to false and set pixCertificationStatus to null in certification course', async function () {
           // when
           await server.inject(options);
 
           // then
           const certificationCourses = await knex('certification-courses').where({ id: certificationId });
           expect(certificationCourses[0].isPublished).to.be.false;
+          expect(certificationCourses[0].pixCertificationStatus).to.be.null;
         });
       });
     });
