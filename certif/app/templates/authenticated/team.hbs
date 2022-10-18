@@ -21,14 +21,14 @@
       </div>
     </div>
   </div>
-{{/if}}
-{{#if this.shouldShowRefererSelectionModal}}
-  <SelectRefererModal
-    @toggleRefererModal={{this.toggleRefererModal}}
-    @onSelectReferer={{this.onSelectReferer}}
-    @onValidateReferer={{this.onValidateReferer}}
-    @noSelectedReferer={{not this.selectedReferer.length}}
-    @options={{this.membersSelectOptionsSortedByLastName}}
-  />
+  {{#if this.shouldShowRefererSelectionModal}}
+    <SelectRefererModal
+      @toggleRefererModal={{this.toggleRefererModal}}
+      @onSelectReferer={{this.onSelectReferer}}
+      @onValidateReferer={{this.onValidateReferer}}
+      @noSelectedReferer={{not this.selectedReferer.length}}
+      @options={{this.membersSelectOptionsSortedByLastName}}
+    />
+  {{/if}}
 {{/if}}
 <MembersList @members={{@model.members}} />
