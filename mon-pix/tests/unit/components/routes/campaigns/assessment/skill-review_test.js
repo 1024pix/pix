@@ -241,6 +241,71 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
     });
   });
 
+  describe('#acquiredCertifiableBadges', function () {
+    it('should only return certifiable acquired badges', function () {
+      // given
+      const badges = [
+        { id: 33, isAcquired: true, isCertifiable: true },
+        { id: 34, isAcquired: false, isCertifiable: false },
+      ];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const acquiredBadges = component.acquiredCertifiableBadges;
+
+      // then
+      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true, isCertifiable: true }]);
+    });
+  });
+
+  describe('#notAcquiredButVisibleCertifiableBadges', function () {
+    it('should only return not acquired certifiable badges', function () {
+      // given
+      const badges = [
+        { id: 33, isAcquired: true, isCertifiable: false },
+        { id: 34, isAcquired: false, isAlwaysVisible: true, isCertifiable: true },
+        { id: 35, isAcquired: true, isAlwaysVisible: true, isCertifiable: true },
+        { id: 36, isAcquired: true, isAlwaysVisible: true, isCertifiable: false },
+        { id: 37, isAcquired: false, isAlwaysVisible: false, isCertifiable: false },
+      ];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const notAcquiredBadges = component.notAcquiredButVisibleBadges;
+
+      // then
+      expect(notAcquiredBadges).to.deep.equal([
+        {
+          id: 34,
+          isAcquired: false,
+          isAlwaysVisible: true,
+          isCertifiable: true,
+        },
+      ]);
+    });
+  });
+
+  describe('#orderedCertifiableBadges', function () {
+    it('should return certifiable badges ordered by if it is acquired or not', function () {
+      // given
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = [
+        { id: 33, isAcquired: true, isAlwaysVisible: true, isCertifiable: true },
+        { id: 34, isAcquired: false, isAlwaysVisible: true, isCertifiable: true },
+        { id: 35, isAcquired: true, isAlwaysVisible: true, isCertifiable: true },
+      ];
+
+      // when
+      const orderedBadges = component.orderedCertifiableBadges;
+
+      // then
+      expect(orderedBadges).to.deep.equal([
+        { id: 33, isAcquired: true, isAlwaysVisible: true, isCertifiable: true },
+        { id: 35, isAcquired: true, isAlwaysVisible: true, isCertifiable: true },
+        { id: 34, isAcquired: false, isAlwaysVisible: true, isCertifiable: true },
+      ]);
+    });
+  });
+
   describe('#showOrganizationMessage', function () {
     it('should return true when the campaign has a customResultPageText', function () {
       // given
@@ -549,11 +614,15 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
   describe('#redirectToSignupIfUserIsAnonymous', function () {
     it('should redirect to sign up page on click when user is anonymous', async function () {
       // given
-      const event = { preventDefault: () => {} };
+      const event = {
+        preventDefault: () => {},
+      };
       const session = this.owner.lookup('service:session');
+
       class currentUser extends Service {
         user = { isAnonymous: true };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       session.invalidate = sinon.stub();
@@ -568,10 +637,14 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
 
     it('should redirect to home page when user is not anonymous', async function () {
       // given
-      const event = { preventDefault: () => {} };
+      const event = {
+        preventDefault: () => {},
+      };
+
       class currentUser extends Service {
         user = { isAnonymous: false };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when
@@ -584,9 +657,11 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
     it('prevents default behaviour', async function () {
       // given
       const event = { preventDefault: sinon.stub() };
+
       class currentUser extends Service {
         user = { isAnonymous: false };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when

@@ -48,13 +48,27 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => badge.isAcquired);
   }
 
+  get acquiredCertifiableBadges() {
+    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return badges.filter((badge) => badge.isAcquired && badge.isCertifiable);
+  }
+
   get notAcquiredButVisibleBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
     return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible);
   }
 
+  get notAcquiredButVisibleCertifiableBadges() {
+    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible && badge.isCertifiable);
+  }
+
   get orderedBadges() {
     return [...this.acquiredBadges, ...this.notAcquiredButVisibleBadges];
+  }
+
+  get orderedCertifiableBadges() {
+    return [...this.acquiredCertifiableBadges, ...this.notAcquiredButVisibleCertifiableBadges];
   }
 
   get showStages() {
