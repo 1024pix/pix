@@ -6,9 +6,7 @@ function getErrorDetails(response, customMessage) {
   }
 
   if (typeof response.data === 'object') {
-    errorDetails = response.data.error_description
-      ? { errorDescription: response.data.error_description, errorType: response.data.error }
-      : JSON.stringify(response.data);
+    errorDetails = JSON.stringify(response.data);
   }
 
   const dataToLog = {
