@@ -36,6 +36,13 @@
       }
     },
     "session-supervising": {
+      "header": {
+        "session-id": "Session {sessionId}",
+        "center-name": "Center name",
+        "room": "Room",
+        "supervisor": "Supervisor",
+        "access-code": "Access code (candidates)"
+      },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} authorized {authorizedToStartCandidates, plural,one {candidate} other {candidates}}"
       }

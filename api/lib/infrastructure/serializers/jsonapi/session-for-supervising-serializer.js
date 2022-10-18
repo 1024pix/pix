@@ -13,7 +13,15 @@ const attributes = [
 module.exports = {
   serialize(sessions) {
     return new Serializer('sessionForSupervising', {
-      attributes: ['room', 'examiner', 'date', 'time', 'certificationCenterName', 'certificationCandidates'],
+      attributes: [
+        'room',
+        'examiner',
+        'accessCode',
+        'date',
+        'time',
+        'certificationCenterName',
+        'certificationCandidates',
+      ],
       typeForAttribute: (attribute) =>
         attribute === 'certificationCandidates' ? 'certification-candidate-for-supervising' : attribute,
       certificationCandidates: {

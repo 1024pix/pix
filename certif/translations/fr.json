@@ -2,7 +2,8 @@
   "common": {
     "actions": {
       "cancel": "Annuler",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "quit": "Quitter"
     }
   },
   "current-lang": "fr",
@@ -36,6 +37,13 @@
       }
     },
     "session-supervising": {
+      "header": {
+        "session-id": "Session {sessionId}",
+        "center-name": "Site",
+        "room": "Salle",
+        "supervisor": "Surveillant",
+        "access-code": "Code d'accès (candidats)"
+      },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"
       }

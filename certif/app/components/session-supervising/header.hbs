@@ -7,9 +7,13 @@
     @isBorderVisible="true"
     class="session-supervising-header__quit"
   >
-    <FaIcon @icon="sign-out-alt" />Quitter
+    <FaIcon @icon="sign-out-alt" />
+    {{t "common.actions.quit"}}
   </PixButton>
-  <h1 class="session-supervising-header__title">Session {{@session.id}}</h1>
+  <h1 class="session-supervising-header__title">{{t
+      "pages.session-supervising.header.session-id"
+      sessionId=@session.id
+    }}</h1>
   <time class="session-supervising-header__date">
     {{moment-format @session.date "DD/MM/YYYY"}}
     ·
@@ -18,16 +22,20 @@
 
   <div>
     <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">Site</span>
+      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.center-name"}}</span>
       {{@session.certificationCenterName}}
     </p>
     <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">Salle</span>
+      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.room"}}</span>
       {{@session.room}}
     </p>
     <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">Surveillant</span>
+      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.supervisor"}}</span>
       {{@session.examiner}}
+    </p>
+    <p class="session-supervising-header__line">
+      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.access-code"}}</span>
+      {{@session.accessCode}}
     </p>
   </div>
 

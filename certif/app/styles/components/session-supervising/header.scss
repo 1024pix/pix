@@ -6,7 +6,7 @@
     padding: 40px 48px;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     align-self: center;
     width: 672px;
   }
@@ -42,10 +42,6 @@
     font-weight: 500;
     margin: 0;
     padding: 8px 0;
-
-    &:last-child {
-      border: 0;
-    }
   }
 
   &__label {
@@ -53,6 +49,6 @@
     display: inline-block;
     flex-shrink: 0;
     font-weight: normal;
-    width: 85px;
+    margin-right: 8px;
   }
 }

@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | SessionSupervising::Header', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
 
@@ -26,6 +26,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       examiner: 'Star Lord',
       certificationCenterName: 'Knowhere',
       certificationCandidates: [],
+      accessCode: 'ACCES1',
     });
 
     this.set('sessionForSupervising', sessionForSupervising);
@@ -37,6 +38,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     assert.dom(screen.getByText('Session 12345')).exists();
     assert.dom(screen.getByText('Salle 12')).exists();
     assert.dom(screen.getByText('Star Lord')).exists();
+    assert.dom(screen.getByText('ACCES1')).exists();
     assert.dom(screen.getByText('01/01/2020 · 12:00')).exists();
   });
 
