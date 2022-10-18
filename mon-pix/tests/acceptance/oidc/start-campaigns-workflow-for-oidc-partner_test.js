@@ -3,7 +3,7 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { fillIn, currentURL, find } from '@ember/test-helpers';
+import { fillIn, currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -64,7 +64,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         expect(currentURL()).to.equal('/connexion/oidc-partner');
       });
 
-      it('should redirect to oidc terms of service page', async function () {
+      it('should redirect to login or register oidc page', async function () {
         // given
         const state = 'state';
         const session = currentSession();
@@ -90,8 +90,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         const screen = await visit(`/connexion/oidc-partner?code=test&state=${state}`);
 
         // then
-        expect(currentURL()).to.equal(`/cgu-oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
-        expect(find(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).textContent).to.exist;
+        expect(currentURL()).to.equal(`/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
+        expect(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register-oidc.title') })).to.exist;
       });
 
       it('should begin campaign participation once user has accepted terms of service', async function () {
@@ -105,9 +105,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         sessionStorage.setItem('campaigns', JSON.stringify(data));
 
         // when
-        await visit(`/cgu-oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
-        await clickByLabel("J'accepte les conditions d'utilisation et la politique de confidentialité de Pix");
-        await clickByLabel('Je continue');
+        const screen = await visit(`/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
+        await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+        await click(screen.getByRole('button', { name: 'Je créé mon compte' }));
 
         // then
         expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -188,26 +188,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
           // then
           sinon.assert.called(replaceLocationStub);
           expect(currentURL()).to.equal('/connexion/oidc-partner');
-        });
-
-        it('should begin campaign participation once user is authenticated', async function () {
-          // given
-          const state = 'state';
-
-          const session = currentSession();
-          session.set('isAuthenticated', true);
-          session.set('data.state', state);
-          session.set('data.nextURL', `/campagnes/${campaign.code}/acces`);
-          const data = {};
-          data[campaign.code] = { landingPageShown: true };
-          sessionStorage.setItem('campaigns', JSON.stringify(data));
-
-          // when
-          await visit(`/connexion/oidc-partner?code=test&state=${state}`);
-
-          // then
-          sinon.assert.notCalled(replaceLocationStub);
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
     });
