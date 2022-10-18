@@ -18,7 +18,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
 
     user = databaseBuilder.factory.buildUser();
 
-    const learningContent = learningContentBuilder.buildLearningContent([
+    const learningContent = learningContentBuilder.buildLearningContent.fromAreas([
       {
         id: 'recvoGdo7z2z7pXWa',
         titleFrFr: 'Information et données',
