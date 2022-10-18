@@ -135,52 +135,23 @@ describe('Unit | Route | login-oidc', function () {
 
   describe('#afterModel', function () {
     describe('when user has no pix account', function () {
-      describe('when sso account reconciliation enabled', function () {
-        it('should redirect to login or register oidc page', async function () {
-          // given
-          const route = this.owner.lookup('route:authentication/login-oidc');
-          route.router = { replaceWith: sinon.stub() };
-          const identityProviderSlug = 'super-idp-name';
+      it('should redirect to login or register oidc page', async function () {
+        // given
+        const route = this.owner.lookup('route:authentication/login-oidc');
+        route.router = { replaceWith: sinon.stub() };
+        const identityProviderSlug = 'super-idp-name';
 
-          class FeatureTogglesStub extends Service {
-            featureToggles = { isSsoAccountReconciliationEnabled: true };
-          }
-          this.owner.register('service:featureToggles', FeatureTogglesStub);
+        // when
+        await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderSlug });
 
-          // when
-          await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderSlug });
-
-          // then
-          sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-or-register-oidc', {
-            queryParams: {
-              authenticationKey: '123',
-              identityProviderSlug,
-              givenName: undefined,
-              familyName: undefined,
-            },
-          });
-        });
-      });
-
-      describe('when sso account reconciliation is not enabled', function () {
-        it("should redirect to cgu's oidc page", async function () {
-          // given
-          const route = this.owner.lookup('route:authentication/login-oidc');
-          route.router = { replaceWith: sinon.stub() };
-          const identityProviderSlug = 'super-idp-name';
-
-          class FeatureTogglesStub extends Service {
-            featureToggles = { isSsoAccountReconciliationEnabled: false };
-          }
-          this.owner.register('service:featureToggles', FeatureTogglesStub);
-
-          // when
-          await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderSlug });
-
-          // then
-          sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-oidc', {
-            queryParams: { authenticationKey: '123', identityProviderSlug },
-          });
+        // then
+        sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-or-register-oidc', {
+          queryParams: {
+            authenticationKey: '123',
+            identityProviderSlug,
+            givenName: undefined,
+            familyName: undefined,
+          },
         });
       });
     });
