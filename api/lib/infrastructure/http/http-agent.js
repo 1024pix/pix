@@ -90,7 +90,7 @@ module.exports = {
 
       monitoringTools.logErrorWithCorrelationIds({
         metrics: { responseTime },
-        message: `End GET request to ${url} error: ${code}`,
+        message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
       });
 
       return new HttpResponse({
