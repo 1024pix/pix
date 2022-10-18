@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
@@ -119,6 +120,26 @@ describe('Integration | Component | routes/register-form', function () {
         password: 'Mypassword1',
         scope: 'mon-pix',
       });
+    });
+
+    it('should display RGPD legal notice', async function () {
+      // given
+      const screen = await renderScreen(hbs`<Routes::RegisterForm />`);
+
+      await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), 'Legolas');
+      await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), 'Vertefeuille');
+      await fillIn('#dayOfBirth', '10');
+      await fillIn('#monthOfBirth', '10');
+      await fillIn('#yearOfBirth', '2010');
+
+      // when
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
+
+      // then
+      expect(screen.getByText(this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice'))).to.exist;
+      expect(
+        screen.getByRole('link', { name: this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice-link') })
+      ).to.exist;
     });
   });
 
