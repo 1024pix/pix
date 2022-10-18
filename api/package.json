@@ -166,25 +166,6 @@
     "test:ci": "npm run test",
     "test:lint": "npm test && npm run lint"
   },
-  "nodemonConfig": {
-    "signal": "SIGTERM",
-    "watch": [
-      "lib",
-      "index.js",
-      "server.js",
-      "worker.js",
-      "package.json",
-      "db",
-      "translations",
-      ".env"
-    ],
-    "ignore": [
-      "db/seeds",
-      "db/migrations",
-      "db/database-builder"
-    ],
-    "ext": "js"
-  },
   "optionalDependencies": {
     "nyc": "^15.1.0"
   }
