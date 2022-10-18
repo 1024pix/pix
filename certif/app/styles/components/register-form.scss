@@ -1,0 +1,36 @@
+.register-form {
+  max-width: 360px;
+  font-size: 0.875rem;
+  overflow-y: scroll;
+
+  &__cgu-label {
+    font-family: $font-roboto;
+    margin: 0;
+  }
+
+  &__cgu-error {
+    color: $pix-error-70;
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+
+  &__submit-button {
+    width: 100%;
+  }
+
+  .input-container {
+    margin-top: $spacing-m;
+  }
+
+  .checkbox-container {
+    display: flex;
+
+    input[type="checkbox"] {
+      margin: 1px 6px 0 0;
+    }
+  }
+
+  .register-form-legal-text {
+    margin-top: $spacing-m;
+  }
+}
