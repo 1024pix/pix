@@ -25,6 +25,18 @@ class TemporaryStorage {
     throw new Error('Method #deleteByPrefix(prefix) must be overridden');
   }
 
+  async lpush(/* key, value */) {
+    throw new Error('Method #lpush(key, value) must be overriden');
+  }
+
+  async lrem(/* key, valueToRemove */) {
+    throw new Error('Method #lrem(key, valueToRemove) must be overriden');
+  }
+
+  async lrange(/* key, start, stop */) {
+    throw new Error('Method #lrange(key) must be overriden');
+  }
+
   quit() {
     throw new Error('Method #quit() must be overridden');
   }
@@ -54,11 +66,17 @@ class TemporaryStorage {
         return storage.deleteByPrefix(prefix + searchedPrefix);
       },
 
-      lpush({ key, value }) {},
+      lpush({ key, value }) {
+        return storage.lpush(prefix + key, value);
+      },
 
-      lrem({ key, valueToRemove }) {},
+      lrem({ key, valueToRemove }) {
+        return storage.lrem(prefix + key, valueToRemove);
+      },
 
-      lrange(key) {},
+      lrange(key) {
+        return storage.lrange(prefix + key);
+      },
     };
   }
 }

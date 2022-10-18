@@ -137,4 +137,43 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
       expect(call).to.throw();
     });
   });
+
+  describe('#lpush', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.lpush({ key: 'key', value: 'value' });
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
+  describe('#lrem', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.lrem({ key: 'key', valueToRemove: 'valueToRemove' });
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
+  describe('#lrange', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.lrange('key');
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
 });
