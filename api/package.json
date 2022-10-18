@@ -163,24 +163,5 @@
     "test:api:watch": "NODE_ENV=test mocha --recursive tests --watch --reporter dot",
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:ci": "npm run test"
-  },
-  "nodemonConfig": {
-    "signal": "SIGTERM",
-    "watch": [
-      "lib",
-      "index.js",
-      "server.js",
-      "worker.js",
-      "package.json",
-      "db",
-      "translations",
-      ".env"
-    ],
-    "ignore": [
-      "db/seeds",
-      "db/migrations",
-      "db/database-builder"
-    ],
-    "ext": "js"
   }
 }
