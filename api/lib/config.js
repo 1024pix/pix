@@ -197,7 +197,6 @@ module.exports = (function () {
 
     featureToggles: {
       isPixAppTrainingsPageEnabled: isFeatureEnabled(process.env.FT_TRAININGS_PAGE),
-      isSsoAccountReconciliationEnabled: isFeatureEnabled(process.env.FT_SSO_ACCOUNT_RECONCILIATION),
       isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
         process.env.FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS
       ),
@@ -323,7 +322,6 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
-    config.featureToggles.isSsoAccountReconciliationEnabled = false;
     config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
     config.featureToggles.logAnswers = false;
 
