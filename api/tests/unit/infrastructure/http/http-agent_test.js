@@ -152,7 +152,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         const axiosError = {
           response: {
             data: { a: '1', b: '2' },
-            status: 'someStatus',
+            status: 400,
           },
         };
         sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).rejects(axiosError);
@@ -161,7 +161,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         await get({ url, payload, headers });
 
         // then
-        const expected = 'End GET request to someUrl error: someStatus';
+        const expected = 'End GET request to someUrl error: 400 {"a":"1","b":"2"}';
         const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
         expect(message).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
