@@ -61,7 +61,14 @@
                   }}
                   @models={{array @campaign.id participation.id}}
                 >
-                  {{participation.lastName}}
+                  <span
+                    aria-label="{{t
+                      'pages.campaign-activity.table.see-results'
+                      firstName=participation.firstName
+                      lastName=participation.lastName
+                    }}"
+                  >
+                    {{participation.lastName}}</span>
                 </LinkTo>
               </td>
               <td>{{participation.firstName}}</td>

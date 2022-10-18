@@ -290,7 +290,8 @@
         "delete-button-label": "Delete participation",
         "empty": "No participants",
         "row-title": "Participant",
-        "title": "List of participants"
+        "title": "List of participants",
+        "see-results": "See results of {firstName} {lastName}"
       },
       "status": {
         "STARTED-assessment": "In progress",

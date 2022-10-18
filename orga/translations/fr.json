@@ -290,7 +290,8 @@
         "delete-button-label": "Supprimer la participation",
         "empty": "Aucun participant",
         "row-title": "Participant",
-        "title": "Liste des participants"
+        "title": "Liste des participants",
+        "see-results": "Voir les résultats de {firstName} {lastName}"
       },
       "status": {
         "STARTED-assessment": "En cours",
