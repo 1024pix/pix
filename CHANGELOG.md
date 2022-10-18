@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.275.0 (18/10/2022)
+
+
+### :rocket: Amélioration
+- [#5087](https://github.com/1024pix/pix/pull/5087) [FEATURE] Monitore l'état du pool de connexion knex
+- [#5080](https://github.com/1024pix/pix/pull/5080) [FEATURE] Afficher le code d'accès candidat à la session dans l'espace surveillant (PIX-6012)
+- [#5079](https://github.com/1024pix/pix/pull/5079) [FEATURE] Enregistrer les contenus formatifs que nous recommandons aux utilisateurs (PIX-6040).
+- [#5006](https://github.com/1024pix/pix/pull/5006) [FEATURE] Prendre le dernier RT obtenu de plus haut niveau pour une certif complémentaire (PIX-5783)
+- [#5078](https://github.com/1024pix/pix/pull/5078) [FEATURE] Améliorer la visibilité du mot de passe dans la pop-up 'Gestion du compte Pix de l'élève' sur Pix Orga (PIX-6016)
+- [#5053](https://github.com/1024pix/pix/pull/5053) [FEATURE] Pouvoir modifier tout type de palier (PIX-5691)
+
+### :building_construction: Tech
+- [#5066](https://github.com/1024pix/pix/pull/5066) [TECH] Refactoring du modèle LearningContent : faire des frameworks les noeuds racines de l'arborescence référentielle (PIX-6031)
+- [#5071](https://github.com/1024pix/pix/pull/5071) [TECH] Monitorer les temps d'execution des jobs dans pgboss (PIX-6011).
+- [#5076](https://github.com/1024pix/pix/pull/5076) [TECH] Enregistrer les formations recommandées (PIX-6038).
+
+### :bug: Correction
+- [#5088](https://github.com/1024pix/pix/pull/5088) [BUGFIX] Stoppe le monitoring d'oppsy a l'arrêt du serveur
+- [#5084](https://github.com/1024pix/pix/pull/5084) [BUGFIX] Permettre aux propositions du QCM d'être sur deux lignes (PIX-6051)
+- [#5077](https://github.com/1024pix/pix/pull/5077) [BUGFIX] L'erreur n'est complètement tracée lors d'un appel en erreur à un partenaire
+- [#5068](https://github.com/1024pix/pix/pull/5068) [BUGFIX] Tracer une erreur détaillée de l'appel API dentity provider dans le flow oidc (PIX-5784)
+- [#5069](https://github.com/1024pix/pix/pull/5069) [BUGFIX] Permettre la récupération de compte SCO si l'utilisateur à une autre méthode que le GAR sur Pix App (PIX-5832).
+- [#5073](https://github.com/1024pix/pix/pull/5073) [BUGFIX] Améliorer le positionnement du bouton de modification d'email au format mobile (PIX-6030)
+
+### :coffee: Autre
+- [#5064](https://github.com/1024pix/pix/pull/5064) [A11Y] Rendre les liens vers le profils du prescrit plus explicites (PIX-5164)
+
 ## v3.274.0 (17/10/2022)
 
 
