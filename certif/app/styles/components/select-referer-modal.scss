@@ -1,6 +1,18 @@
 .select-referer-modal {
   width: 35%;
 
+  &__title {
+    font-family: $font-open-sans;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: $pix-neutral-90;
+  }
+
+  &__label {
+    font-weight: 500;
+    padding-bottom: 4px;
+  }
+
   &__referer-selector {
     margin: 0 24px;
   }

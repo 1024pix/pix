@@ -13,6 +13,7 @@
   &__no-referer-title {
     font-weight: 500;
     font-size: 1.25rem;
+    font-family: $font-open-sans;
     color: $pix-neutral-90;
     margin: 0 0 4px;
   }
@@ -36,6 +37,6 @@
   }
 
   &__referer-add-button {
-    width: 30%;
+    width: 20%;
   }
 }
