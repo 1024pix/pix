@@ -13,6 +13,7 @@ const authentication = require('./lib/infrastructure/authentication');
 const { handleFailAction } = require('./lib/validate');
 const monitoringTools = require('./lib/infrastructure/monitoring-tools');
 const deserializer = require('./lib/infrastructure/serializers/jsonapi/deserializer');
+const { knex } = require('./db/knex-database-connection');
 
 monitoringTools.installHapiHook();
 
@@ -68,7 +69,16 @@ const enableOpsMetrics = async function (server) {
   const oppsy = new Oppsy(server);
 
   oppsy.on('ops', (data) => {
-    server.log(['ops'], data);
+    const knexPool = knex.client.pool;
+    server.log(['ops'], {
+      ...data,
+      knexPool: {
+        used: knexPool.numUsed(),
+        free: knexPool.numFree(),
+        pendingAcquires: knexPool.numPendingAcquires(),
+        pendingCreates: knexPool.numPendingCreates(),
+      },
+    });
   });
 
   oppsy.start(config.logging.emitOpsEventEachSeconds * 1000);
