@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 const LEVEL_COLUMN_NAME = 'Niveau';
 const THRESHOLD_COLUMN_NAME = 'Seuil';
@@ -9,8 +10,11 @@ export default class Stages extends Component {
   @service store;
   @service notifications;
 
+  @tracked
+  firstStageType = undefined;
+
   get isTypeLevel() {
-    return this.args.stages?.firstObject?.isTypeLevel ?? false;
+    return this.args.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
   }
 
   get hasStages() {
@@ -44,6 +48,23 @@ export default class Stages extends Component {
       targetProfile: this.args.targetProfile,
       level: this.isTypeLevel ? 0 : undefined,
     });
+  }
+
+  @action
+  onStageTypeChange(event) {
+    this.firstStageType = event.target.value;
+  }
+
+  get isStageTypeLevelChecked() {
+    return this.firstStageType === 'level';
+  }
+
+  get isStageTypeThresholdChecked() {
+    return this.firstStageType === 'threshold';
+  }
+
+  get isAddStageDisabled() {
+    return !this.hasStages && this.firstStageType == null;
   }
 
   @action
