@@ -11,6 +11,9 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       get: sinon.stub(),
       set: sinon.stub(),
       del: sinon.stub(),
+      lpush: sinon.stub(),
+      lrem: sinon.stub(),
+      lrange: sinon.stub(),
     };
 
     sinon.stub(RedisTemporaryStorage, 'createClient').withArgs(REDIS_URL).returns(clientStub);
@@ -134,6 +137,55 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
 
       // then
       expect(clientStub.del).to.have.been.called;
+    });
+  });
+
+  describe('#lpush', function () {
+    it('should call client lPush to add a value to a list', async function () {
+      // given
+      const key = 'key';
+      const value = 'valueToAdd';
+      clientStub.lpush.withArgs(key, value).resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.lpush(key, value);
+
+      // then
+      expect(clientStub.lpush).to.have.been.calledWith('key', 'valueToAdd');
+    });
+  });
+
+  describe('#lrem', function () {
+    it('should call client lRem to remove a value from a list', async function () {
+      // given
+      const key = 'key';
+      const value = 'valueToRemove';
+      clientStub.lrem.withArgs(key, value).resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.lrem(key, value);
+
+      // then
+      expect(clientStub.lrem).to.have.been.calledWith('key', 0, 'valueToRemove');
+    });
+  });
+
+  describe('#lrange', function () {
+    it('should call client lRange to return a list', async function () {
+      // given
+      const key = 'key';
+      const start = 0;
+      const stop = -1;
+      clientStub.lrange.withArgs(key, start, stop).resolves(['value']);
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.lrange(key, start, stop);
+
+      // then
+      expect(clientStub.lrange).to.have.been.calledWith('key', 0, -1);
     });
   });
 });

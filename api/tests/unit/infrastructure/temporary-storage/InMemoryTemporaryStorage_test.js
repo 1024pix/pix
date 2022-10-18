@@ -158,4 +158,54 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(await inMemoryTemporaryStorage.get('456:c')).to.exist;
     });
   });
+
+  describe('#lpush', function () {
+    it('should add value into key list', async function () {
+      // given
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const length = await inMemoryTemporaryStorage.lpush('key:lpush', 'value');
+
+      // then
+      expect(length).to.equal(1);
+    });
+  });
+
+  describe('#lrem', function () {
+    it('should remove values into key list', async function () {
+      // given
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const key = 'key:lrem';
+      await inMemoryTemporaryStorage.lpush(key, 'value1');
+      await inMemoryTemporaryStorage.lpush(key, 'value2');
+      await inMemoryTemporaryStorage.lpush(key, 'value1');
+
+      const length = await inMemoryTemporaryStorage.lrem(key, 'value1');
+
+      // then
+      expect(length).to.equal(2);
+    });
+  });
+
+  describe('#lrange', function () {
+    it('should return key values list', async function () {
+      // given
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const key = 'key:lrange';
+      await inMemoryTemporaryStorage.lpush(key, 'value1');
+      await inMemoryTemporaryStorage.lpush(key, 'value2');
+      await inMemoryTemporaryStorage.lpush(key, 'value3');
+
+      const values = await inMemoryTemporaryStorage.lrange(key);
+
+      // then
+      expect(values.length).to.equal(3);
+      expect(values).to.deep.equal(['value3', 'value2', 'value1']);
+    });
+  });
 });
