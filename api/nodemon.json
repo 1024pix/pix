@@ -1,0 +1,19 @@
+{
+  "signal": "SIGTERM",
+  "watch": [
+    "lib",
+    "index.js",
+    "server.js",
+    "worker.js",
+    "package.json",
+    "db",
+    "translations",
+    ".env"
+  ],
+  "ignore": [
+    "db/seeds",
+    "db/migrations",
+    "db/database-builder"
+  ],
+  "ext": "js"
+}
