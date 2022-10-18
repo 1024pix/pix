@@ -191,11 +191,9 @@
   {{#if this.showDetail}}
     <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
       {{#if this.showBadges}}
-        {{#unless this.hideBadgesTitle}}
-          <h2 class="skill-review-result-detail__badge-subtitle">
-            {{t "pages.skill-review.badges-title"}}
-          </h2>
-        {{/unless}}
+        <h2 class="skill-review-result-detail__badge-subtitle">
+          {{t "pages.skill-review.badges-title"}}
+        </h2>
         <div class="badge-container">
           {{#each this.orderedBadges as |badge|}}
             <BadgeCard
