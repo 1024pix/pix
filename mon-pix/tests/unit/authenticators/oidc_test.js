@@ -128,7 +128,7 @@ describe('Unit | Authenticator | oidc', function () {
     });
 
     context('when user is authenticated', function () {
-      it('should pass the access token in the header authorization', async function () {
+      it('should invalidate session', async function () {
         // given
         const sessionStub = Service.create({
           isAuthenticated: true,
@@ -140,72 +140,17 @@ describe('Unit | Authenticator | oidc', function () {
             },
           },
         });
-        const featureTogglesStub = Service.create({
-          featureToggles: {
-            isSsoAccountReconciliationEnabled: false,
-          },
-        });
 
         const authenticator = this.owner.lookup('authenticator:oidc');
         authenticator.session = sessionStub;
-        authenticator.featureToggles = featureTogglesStub;
 
         // when
-        const token = await authenticator.authenticate({
-          code,
-          redirectUri,
-          state,
-          identityProviderSlug,
-          hostSlug: 'token',
-        });
+        await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug, hostSlug: 'token' });
 
         // then
-        request.headers['Authorization'] = `Bearer ${accessToken}`;
         request.body = body;
         sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
         sinon.assert.calledOnce(sessionStub.invalidate);
-        expect(token).to.deep.equal({
-          access_token: accessToken,
-          logoutUrlUuid,
-          source,
-          hasLogoutUrl,
-          user_id: userId,
-          identityProviderCode,
-        });
-      });
-
-      context('when sso account reconciliation is enabled', function () {
-        it('should only invalidate session', async function () {
-          // given
-          const sessionStub = Service.create({
-            isAuthenticated: true,
-            invalidate: sinon.stub(),
-            data: {
-              authenticated: {
-                logoutUrlUuid,
-                access_token: accessToken,
-              },
-            },
-          });
-          const featureTogglesStub = Service.create({
-            featureToggles: {
-              isSsoAccountReconciliationEnabled: true,
-            },
-          });
-
-          const authenticator = this.owner.lookup('authenticator:oidc');
-          authenticator.session = sessionStub;
-          authenticator.featureToggles = featureTogglesStub;
-
-          // when
-          await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug, hostSlug: 'token' });
-
-          // then
-          delete request.headers['Authorization'];
-          request.body = body;
-          sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
-          sinon.assert.calledOnce(sessionStub.invalidate);
-        });
       });
     });
   });
