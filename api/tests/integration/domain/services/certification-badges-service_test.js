@@ -92,7 +92,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
 
       await databaseBuilder.commit();
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when

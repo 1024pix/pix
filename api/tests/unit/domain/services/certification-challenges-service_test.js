@@ -1073,8 +1073,9 @@ describe('Unit | Service | Certification Challenge Service', function () {
         areaName: 'faireBienDedans',
         origin: 'PixPlusEpreuvesDeLaVie',
       });
+      const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
 
-      learningContent = domainBuilder.buildLearningContent([area1, area2]);
+      learningContent = domainBuilder.buildLearningContent([framework]);
       sinon.stub(learningContentRepository, 'findByCampaignId').withArgs(123, locale).resolves(learningContent);
     });
 

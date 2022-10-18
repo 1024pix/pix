@@ -16,7 +16,7 @@ const CampaignParticipationStatuses = require('../../../../lib/domain/models/Cam
 const { STARTED } = CampaignParticipationStatuses;
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 function setLearningContent(learningContent) {
-  const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
+  const learningObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
   mockLearningContent(learningObjects);
 }
 

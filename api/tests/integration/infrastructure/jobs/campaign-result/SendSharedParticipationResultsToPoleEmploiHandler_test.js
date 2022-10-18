@@ -35,7 +35,7 @@ describe('Integration | Job | SendSharedParticipationResultsToPoleEmploi', funct
       event = new CampaignParticipationResultsSharedEvent();
       event.campaignParticipationId = campaignParticipationId;
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent([]);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([]);
       mockLearningContent(learningContentObjects);
       return databaseBuilder.commit();
     });

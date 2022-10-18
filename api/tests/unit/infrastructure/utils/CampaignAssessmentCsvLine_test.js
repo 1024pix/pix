@@ -304,8 +304,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
+          const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile();
-          const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+          const learningContent = domainBuilder.buildLearningContent([framework]);
           const campaignStages = domainBuilder.buildCampaignStages();
 
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -426,8 +427,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
+          const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile();
-          const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+          const learningContent = domainBuilder.buildLearningContent([framework]);
           const campaignStages = domainBuilder.buildCampaignStages();
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
@@ -616,8 +618,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
+          const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
-          const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+          const learningContent = domainBuilder.buildLearningContent([framework]);
           const campaignStages = domainBuilder.buildCampaignStages();
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
@@ -731,8 +734,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const area1 = domainBuilder.buildArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildArea({ id: 'recArea2', competences: [competence3] });
+          const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
-          const learningContent = domainBuilder.buildLearningContent([area1, area2]);
+          const learningContent = domainBuilder.buildLearningContent([framework]);
           const campaignStages = domainBuilder.buildCampaignStages();
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
@@ -984,8 +988,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
               tubes: [tube],
             });
             const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
+            const framework = domainBuilder.buildFramework({ areas: [area] });
             const targetProfile = domainBuilder.buildTargetProfile();
-            const learningContent = domainBuilder.buildLearningContent([area]);
+            const learningContent = domainBuilder.buildLearningContent([framework]);
             const campaignStages = domainBuilder.buildCampaignStages({
               stages: [
                 domainBuilder.buildStage({ threshold: 33 }),
@@ -1044,8 +1049,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
               tubes: [tube],
             });
             const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
+            const framework = domainBuilder.buildFramework({ areas: [area] });
             const targetProfile = domainBuilder.buildTargetProfile();
-            const learningContent = domainBuilder.buildLearningContent([area]);
+            const learningContent = domainBuilder.buildLearningContent([framework]);
             const campaignStages = domainBuilder.buildCampaignStages({
               stages: [
                 domainBuilder.buildStage({ threshold: 33 }),
@@ -1115,8 +1121,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             tubes: [tube],
           });
           const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
+          const framework = domainBuilder.buildFramework({ areas: [area] });
           const targetProfile = domainBuilder.buildTargetProfile();
-          const learningContent = domainBuilder.buildLearningContent([area]);
+          const learningContent = domainBuilder.buildLearningContent([framework]);
           const campaignStages = domainBuilder.buildCampaignStages({
             stages: [domainBuilder.buildStage({ threshold: 30 }), domainBuilder.buildStage({ threshold: 60 })],
           });

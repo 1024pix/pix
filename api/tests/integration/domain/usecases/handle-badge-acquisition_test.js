@@ -99,7 +99,7 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
         type: Assessment.types.CAMPAIGN,
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();

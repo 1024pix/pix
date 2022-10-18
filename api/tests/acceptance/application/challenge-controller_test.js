@@ -51,7 +51,7 @@ describe('Acceptance | API | ChallengeController', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
