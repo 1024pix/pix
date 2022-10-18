@@ -271,6 +271,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'image-url': '/img/banana.svg',
               'is-acquired': false,
               'is-always-visible': false,
+              'is-certifiable': false,
               key: 'PIX_BANANA',
               title: 'Banana',
               message: 'You won a Banana Badge',
