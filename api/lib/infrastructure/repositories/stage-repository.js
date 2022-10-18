@@ -6,7 +6,7 @@ const TABLE_NAME = 'stages';
 
 module.exports = {
   async create(stage) {
-    const stageAttributes = _.pick(stage, ['title', 'message', 'threshold', 'targetProfileId']);
+    const stageAttributes = _.pick(stage, ['title', 'message', 'threshold', 'level', 'targetProfileId']);
     const [createdStage] = await knex(TABLE_NAME).insert(stageAttributes).returning('*');
     return _toDomain(createdStage);
   },

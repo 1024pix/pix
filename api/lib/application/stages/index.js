@@ -20,6 +20,27 @@ exports.register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                threshold: Joi.number().required().allow(null),
+                level: Joi.number().required().allow(null),
+                title: Joi.string().required(),
+                message: Joi.string().required(),
+                'prescriber-title': Joi.string().required().allow(null),
+                'prescriber-description': Joi.string().required().allow(null),
+              },
+              relationships: {
+                'target-profile': {
+                  data: {
+                    id: Joi.number().required(),
+                  },
+                },
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
         handler: stagesController.create,
         tags: ['api', 'admin', 'stages'],
       },

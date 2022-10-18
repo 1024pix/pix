@@ -5,17 +5,28 @@
   </td>
   <td>
     <div class="form-field">
-      <Input
-        class={{if @errors.threshold "form-control is-invalid" "form-control"}}
-        @type="number"
-        required="true"
-        @value={{@threshold}}
-        aria-label="Seuil du palier"
-      />
-      {{#if @errors.threshold}}
-        <div class="form-field__error">
-          {{@errors.threshold.0.message}}
-        </div>
+      {{#if @isTypeLevel}}
+        <Stages::StageLevelSelect
+          @maxLevel={{@maxLevel}}
+          @value={{@level}}
+          @onChange={{@setLevel}}
+          class={{if @errors.level "form-control is-invalid" "form-control"}}
+          required="true"
+          aria-label="Niveau du palier"
+        />
+      {{else}}
+        <Input
+          class={{if @errors.threshold "form-control is-invalid" "form-control"}}
+          @type="number"
+          required="true"
+          @value={{@threshold}}
+          aria-label="Seuil du palier"
+        />
+        {{#if @errors.threshold}}
+          <div class="form-field__error">
+            {{@errors.threshold.0.message}}
+          </div>
+        {{/if}}
       {{/if}}
     </div>
   </td>

@@ -5,11 +5,11 @@
         {{@stageTypeName}}
       </label>
       {{#if @isTypeLevel}}
-        <PixSelect
+        <Stages::StageLevelSelect
           id="threshold-or-level"
-          @options={{this.levelOptions}}
+          @maxLevel={{@maxLevel}}
           @onChange={{this.setLevel}}
-          @selectedOption={{this.form.level}}
+          @value={{this.form.level}}
         />
       {{else}}
         <Input
