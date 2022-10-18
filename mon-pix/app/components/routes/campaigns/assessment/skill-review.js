@@ -28,11 +28,7 @@ export default class SkillReview extends Component {
 
   get _isCleaBadgeAcquired() {
     const pixEmploiClea = 'PIX_EMPLOI_CLEA';
-    return this.acquiredBadges.some((badge) => badge.key === pixEmploiClea);
-  }
-
-  get hideBadgesTitle() {
-    return this._isCleaBadgeAcquired && this.acquiredBadges.length === 1;
+    return this.acquiredCertifiableBadges.some((badge) => badge.key === pixEmploiClea);
   }
 
   get showDisabledBlock() {
