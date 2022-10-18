@@ -19,6 +19,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       altMessage: 'Yellow Alt Message',
       key: 'YELLOW',
       imageUrl: 'yellow.svg',
+      isCertifiable: false,
       badgeCompetences: [],
     };
 
@@ -32,6 +33,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       isAcquired: true,
       key: 'YELLOW',
       imageUrl: 'yellow.svg',
+      isCertifiable: false,
     });
   });
 
