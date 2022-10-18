@@ -164,7 +164,7 @@ describe('Acceptance | Route | target-profiles', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       user = databaseBuilder.factory.buildUser.withRole();
@@ -561,7 +561,7 @@ describe('Acceptance | Route | target-profiles', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -631,7 +631,7 @@ describe('Acceptance | Route | target-profiles', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;

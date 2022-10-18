@@ -52,7 +52,7 @@ describe('Acceptance | API | Campaign Participations', function () {
           ],
         },
       ];
-      const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningObjects);
 
       options = {
@@ -312,7 +312,7 @@ describe('Acceptance | API | Campaign Participations', function () {
 
   describe('GET /api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}', function () {
     beforeEach(function () {
-      const learningObjects = learningContentBuilder.buildLearningContent([]);
+      const learningObjects = learningContentBuilder.buildLearningContent.fromAreas([]);
       mockLearningContent(learningObjects);
     });
 

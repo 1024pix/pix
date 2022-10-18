@@ -65,7 +65,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });
 

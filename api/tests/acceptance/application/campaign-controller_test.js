@@ -145,7 +145,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -258,7 +258,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -335,7 +335,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -424,7 +424,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -575,7 +575,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -687,7 +687,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when
@@ -762,7 +762,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when
@@ -838,7 +838,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when
@@ -905,7 +905,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -1345,7 +1345,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

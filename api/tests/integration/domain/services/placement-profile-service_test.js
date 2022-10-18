@@ -92,7 +92,7 @@ describe('Integration | Service | Placement Profile Service', function () {
       },
     ];
 
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
     userId = databaseBuilder.factory.buildUser().id;

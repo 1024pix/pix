@@ -150,7 +150,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   ];
 
   beforeEach(async function () {
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
     server = await createServer();
@@ -315,7 +315,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         certifiableUserId = databaseBuilder.factory.buildUser().id;
 
         const competenceIdSkillIdPairs =
-          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
+          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
             learningContent,
             userId: certifiableUserId,
             placementDate: limitDate,

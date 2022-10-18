@@ -27,7 +27,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
 
       beforeEach(function () {
         sinon.stub(console, 'log');
-        learningContentObjects = learningContentBuilder.buildLearningContent([
+        learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             id: 'recArea1',
             titleFrFr: 'area1_Title',
@@ -226,7 +226,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   describe('#getAllTutorials', function () {
     it('should retrieve all tutorials', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent([
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
           titleFrFr: 'area1_Title',
@@ -329,7 +329,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   describe('#getAllSkills', function () {
     it('should retrieve all skills', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent([
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
           titleFrFr: 'area1_Title',

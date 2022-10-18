@@ -170,7 +170,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         key: 'Badge3',
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();
@@ -618,7 +618,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         userId,
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();
