@@ -32,7 +32,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     });
 
     context('when an error occurs', function () {
-      it('should log the response error data, but does not (bug)', async function () {
+      it('should log the response error data and response time', async function () {
         // given
         sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         monitoringTools.logErrorWithCorrelationIds.resolves();
@@ -43,7 +43,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         const axiosError = {
           response: {
             data: { a: '1', b: '2' },
-            status: 'someStatus',
+            status: 400,
           },
         };
         sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
@@ -52,9 +52,10 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         await post({ url, payload, headers });
 
         // then
-        const expected = 'End POST request to someUrl error: someStatus [object Object]';
-        const { message } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        const expected = 'End POST request to someUrl error: 400 {"a":"1","b":"2"}';
+        const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
         expect(message).to.equal(expected);
+        expect(metrics.responseTime).to.be.greaterThan(0);
       });
 
       context('when error.response exists', function () {
@@ -140,7 +141,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     });
 
     context('when an error occurs', function () {
-      it('should log the response error data, but does not (bug)', async function () {
+      it('should log the response error data and response time', async function () {
         // given
         sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         monitoringTools.logErrorWithCorrelationIds.resolves();
@@ -161,8 +162,9 @@ describe('Unit | Infrastructure | http | http-agent', function () {
 
         // then
         const expected = 'End GET request to someUrl error: someStatus';
-        const { message } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
         expect(message).to.equal(expected);
+        expect(metrics.responseTime).to.be.greaterThan(0);
       });
 
       context('when error.response exists', function () {
