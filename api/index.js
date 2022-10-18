@@ -21,6 +21,10 @@ async function _exitOnSignal(signal) {
   logger.info(`Received signal: ${signal}.`);
   logger.info('Stopping HAPI server...');
   await server.stop({ timeout: 30000 });
+  if (server.oppsy) {
+    logger.info('Stopping HAPI Oppsy server...');
+    await server.oppsy.stop();
+  }
   logger.info('Closing connexions to database...');
   await disconnect();
   logger.info('Closing connexions to cache...');
