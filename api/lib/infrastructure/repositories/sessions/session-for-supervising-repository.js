@@ -12,6 +12,7 @@ module.exports = {
         time: 'sessions.time',
         room: 'sessions.room',
         examiner: 'sessions.examiner',
+        accessCode: 'sessions.accessCode',
         certificationCenterName: 'certification-centers.name',
         certificationCandidates: knex.raw(`
           json_agg(json_build_object(
