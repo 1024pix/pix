@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../../../test-helper');
 const planner = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const { cpf } = require('../../../../../../lib/config');
 
 describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
@@ -22,8 +22,8 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
     sinon.stub(cpf.plannerJob, 'minimumReliabilityPeriod').value(2);
 
-    const startDate = moment().utc().subtract(3, 'months').startOf('month').toDate();
-    const endDate = moment().utc().subtract(2, 'months').endOf('month').toDate();
+    const startDate = dayjs().utc().subtract(3, 'months').startOf('month').toDate();
+    const endDate = dayjs().utc().subtract(2, 'months').endOf('month').toDate();
 
     cpfCertificationResultRepository.countByTimeRange.resolves(5);
 
