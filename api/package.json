@@ -33,8 +33,8 @@
     "bookshelf-json-columns": "^3.0.0",
     "bookshelf-validate": "^2.0.3",
     "boom": "^7.3.0",
-    "dayjs": "^1.11.5",
     "cron-parser": "^4.6.0",
+    "dayjs": "^1.11.5",
     "dotenv": "^16.0.1",
     "fast-levenshtein": "^3.0.0",
     "file-type": "^16.5.3",
@@ -144,6 +144,7 @@
     "lint:file-and-directory-names": "ls-lint",
     "lint:code": "eslint . --ext js --cache --cache-strategy content",
     "lint:code:uncached": "eslint . --ext js",
+    "local:test:coverage": "nyc npm test",
     "manual-lint:json": "eslint --cache --cache-strategy content --fix --ext .json translations/",
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
@@ -183,5 +184,8 @@
       "db/database-builder"
     ],
     "ext": "js"
+  },
+  "optionalDependencies": {
+    "nyc": "^15.1.0"
   }
 }
