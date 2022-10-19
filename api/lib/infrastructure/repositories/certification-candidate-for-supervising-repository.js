@@ -5,7 +5,11 @@ const CertificationCandidateForSupervising = require('../../domain/models/Certif
 module.exports = {
   async get(certificationCandidateId) {
     const result = await knex('certification-candidates')
-      .select('certification-candidates.*', 'assessments.state AS assessmentStatus')
+      .select(
+        'certification-candidates.*',
+        'assessments.state AS assessmentStatus',
+        'certification-courses.createdAt AS startDateTime'
+      )
       .leftJoin('certification-courses', function () {
         this.on('certification-courses.sessionId', '=', 'certification-candidates.sessionId');
         this.on('certification-courses.userId', '=', 'certification-candidates.userId');

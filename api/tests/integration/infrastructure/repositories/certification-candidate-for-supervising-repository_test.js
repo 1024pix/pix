@@ -20,6 +20,7 @@ describe('Integration | Repository | certification candidate for supervising', f
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: user.id,
           sessionId: session.id,
+          createdAt: new Date('2022-10-01T14:00:00Z'),
         });
         databaseBuilder.factory.buildAssessment({
           certificationCourseId: certificationCourse.id,
@@ -43,6 +44,7 @@ describe('Integration | Repository | certification candidate for supervising', f
             id: candidate.id,
             lastName: 'Joplin',
             assessmentStatus: 'started',
+            startDateTime: new Date('2022-10-01T14:00:00Z'),
           })
         );
       });
