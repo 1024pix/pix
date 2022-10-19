@@ -147,29 +147,29 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
     });
   });
 
-  describe('#showBadges', function () {
+  describe('#showNotCertifiableBadges', function () {
     it('should show not certifiable badges when acquired', function () {
       // given
       const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
       expect(shouldShowBadges).to.equal(true);
     });
 
-    it('should show certifiable badges when acquired', function () {
+    it('should not show certifiable badges when acquired', function () {
       // given
       const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
-      expect(shouldShowBadges).to.equal(true);
+      expect(shouldShowBadges).to.equal(false);
     });
 
     it('should not show badges when not acquired', function () {
@@ -178,7 +178,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
       expect(shouldShowBadges).to.equal(false);
@@ -190,7 +190,57 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+  });
+
+  describe('#showCertifiableBadges', function () {
+    it('should show certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show not certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when not acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when none', function () {
+      // given
+      const badges = [];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
 
       // then
       expect(shouldShowBadges).to.equal(false);

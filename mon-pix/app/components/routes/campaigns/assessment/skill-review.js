@@ -35,8 +35,12 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipationResult.isDisabled && !this.isShared;
   }
 
-  get showBadges() {
-    return this.orderedNotCertifiableBadges.length > 0 || this.orderedCertifiableBadges.length > 0;
+  get showNotCertifiableBadges() {
+    return this.orderedNotCertifiableBadges.length > 0;
+  }
+
+  get showCertifiableBadges() {
+    return this.orderedCertifiableBadges.length > 0;
   }
 
   get acquiredNotCertifiableBadges() {
