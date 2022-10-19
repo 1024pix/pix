@@ -1,10 +1,8 @@
-const { expect, knex, domainBuilder, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
-const config = require('../../../../lib/config');
 
 describe('Integration | Repository | answerRepository', function () {
   describe('#get', function () {
@@ -523,7 +521,7 @@ describe('Integration | Repository | answerRepository', function () {
       });
     });
 
-    context("when user doesn't exist", function () {
+    context('when something goes wrong during the saving of the knowledge elements', function () {
       it('should not have saved anything', async function () {
         // given
         const answerToSave = domainBuilder.buildAnswer({
@@ -547,37 +545,6 @@ describe('Integration | Repository | answerRepository', function () {
         const knowledgeElementsInDB = await knex('knowledge-elements');
         expect(answerInDB).to.have.length(0);
         expect(knowledgeElementsInDB).to.have.length(0);
-      });
-
-      context('when feature toogle is active', function () {
-        it('should log the values to be inserted in a custom error message', async function () {
-          // given
-          config.featureToggles.logAnswers = true;
-          sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-
-          databaseBuilder.factory.buildUser({ id: 456 });
-          const answerToSave = domainBuilder.buildAnswer({
-            id: null,
-            assessmentId: 123,
-            value: 'test\u0000',
-          });
-          const knowledgeElement = domainBuilder.buildKnowledgeElement({
-            id: null,
-            createdAt: null,
-            assessmentId: 123,
-            userId: 456,
-          });
-          databaseBuilder.factory.buildAssessment({ id: 123 });
-          await databaseBuilder.commit();
-
-          const errorMessage =
-            'INSERT INTO answers failed with values {"value":"test\\u0000","timeout":null,"challengeId":"recChallenge123","assessmentId":123,"timeSpent":20,"isFocusedOut":false,"result":"ok","resultDetails":"null\\n"}';
-          // when
-          await catchErr(answerRepository.saveWithKnowledgeElements)(answerToSave, [knowledgeElement]);
-
-          // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({ message: errorMessage });
-        });
       });
     });
 
