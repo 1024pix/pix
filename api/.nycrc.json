@@ -8,7 +8,7 @@
   ],
   "exclude": [
     "**/.eslintrc.js",
-    "./lib/infrastructure/validate-environement-variables.js"
+    "./lib/infrastructure/validate-environment-variables.js"
   ],
   "temp-dir": "/tmp/pix-api-test-coverage/tmp",
   "report-dir": "/tmp/pix-api-test-coverage/report"
