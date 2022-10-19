@@ -98,4 +98,13 @@ export default class CandidateInList extends Component {
   get actionMethod() {
     return this.actionOnConfirmation;
   }
+
+  get candidateStartTime() {
+    const startDateTime = new Date(this.args.candidate.startDateTime).toLocaleString('fr-FR', {
+      timeZone: 'Zulu',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return startDateTime;
+  }
 }

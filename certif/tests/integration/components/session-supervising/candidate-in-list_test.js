@@ -86,7 +86,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
   });
 
   module('when the candidate has started the test', function () {
-    test('it displays the "en cours" label and the options menu button', async function (assert) {
+    test('it displays the "en cours" label, the start time and the options menu button', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 789,
@@ -96,6 +96,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         extraTimePercentage: null,
         authorizedToStart: true,
         assessmentStatus: 'started',
+        startDateTime: new Date('2022-10-19T14:30:15Z'),
       });
 
       // when
@@ -107,6 +108,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.getByText('Racoon Rocket')).exists();
       assert.dom(screen.getByText('28/07/1982')).exists();
       assert.dom(screen.getByText('En cours')).exists();
+      assert.dom(screen.getByText('Début : 14:30')).exists();
       assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
     });
