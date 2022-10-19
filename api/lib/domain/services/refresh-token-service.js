@@ -29,6 +29,14 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uu
 async function createAccessTokenFromRefreshToken({ refreshToken }) {
   const { userId, source } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+
+  const userRefreshTokens = (await userRefreshTokensTemporaryStorage.lrange(userId)) || [];
+  const refreshTokenFound = userRefreshTokens.find((userRefreshToken) => userRefreshToken === refreshToken);
+
+  if (!refreshTokenFound) {
+    await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
+  }
+
   return tokenService.createAccessTokenFromUser(userId, source);
 }
 
