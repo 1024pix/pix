@@ -5,7 +5,6 @@ const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const SkillSet = require('../../../../lib/domain/models/SkillSet');
 const omit = require('lodash/omit');
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithSkillSets;
@@ -268,128 +267,6 @@ describe('Integration | Repository | Badge', function () {
 
       // then
       expect(badges).to.have.lengthOf(0);
-    });
-  });
-
-  describe('#findByCampaignParticipationId', function () {
-    beforeEach(function () {
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildBadge({ targetProfileId, key: 'mille_feuilles' });
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
-      return databaseBuilder.commit();
-    });
-
-    it('should return the badges linked to the target profile of the given campaign participation', async function () {
-      // given
-      const targetProfileId = targetProfileWithSeveralBadges.id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const badges = await badgeRepository.findByCampaignParticipationId({ campaignParticipationId });
-
-      expect(badges.length).to.equal(2);
-
-      const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
-      expect(firstBadge).deep.equal(
-        new Badge({
-          ...badgeWithSameTargetProfile_1,
-          badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
-          skillSets: [],
-          complementaryCertificationBadge: null,
-        })
-      );
-
-      const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-      expect(secondBadge).deep.equal(
-        new Badge({
-          ...badgeWithSameTargetProfile_2,
-          badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
-          skillSets: [],
-          complementaryCertificationBadge: null,
-        })
-      );
-    });
-
-    it('should return the badge linked to the target profile of the given campaign participation with related badge criteria and badge partner competences', async function () {
-      // given
-      const targetProfileId = targetProfileWithSkillSets.id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const badges = await badgeRepository.findByCampaignParticipationId({ campaignParticipationId });
-
-      // then
-      expect(badges.length).to.equal(1);
-      expect(badges[0]).to.be.an.instanceOf(Badge);
-      expect(badges[0].badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
-      expect(badges[0].skillSets[0]).to.be.an.instanceOf(SkillSet);
-      expect(badges[0]).to.deep.equal(
-        new Badge({
-          ...badgeWithSkillSets,
-          badgeCriteria: [badgeCriterionForBadgeWithSkillSets],
-          skillSets: [skillSet_1, skillSet_2],
-          complementaryCertificationBadge: null,
-        })
-      );
-    });
-
-    it('should return an empty array when the target profile of the given campaign participation has no badges', async function () {
-      // given
-      const targetProfileId = targetProfileWithoutBadge.id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const badges = await badgeRepository.findByCampaignParticipationId({ campaignParticipationId });
-
-      // then
-      expect(badges.length).to.equal(0);
-    });
-
-    context('when domainTransaction is passed in parameters', function () {
-      it('should used it the badges linked to the target profile of the given campaign participation', async function () {
-        // given
-        const targetProfileId = targetProfileWithSeveralBadges.id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const badges = await DomainTransaction.execute(async (domainTransaction) => {
-          return badgeRepository.findByCampaignParticipationId({
-            campaignParticipationId,
-            domainTransaction,
-          });
-        });
-
-        expect(badges.length).to.equal(2);
-
-        const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
-        expect(firstBadge).deep.equal(
-          new Badge({
-            ...badgeWithSameTargetProfile_1,
-            badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
-            skillSets: [],
-            complementaryCertificationBadge: null,
-          })
-        );
-
-        const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-        expect(secondBadge).deep.equal(
-          new Badge({
-            ...badgeWithSameTargetProfile_2,
-            badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
-            skillSets: [],
-            complementaryCertificationBadge: null,
-          })
-        );
-      });
     });
   });
 

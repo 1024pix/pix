@@ -2,8 +2,7 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const certifiableBadgeAcquisitionRepository = require('../../infrastructure/repositories/certifiable-badge-acquisition-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
-const badgeCriteriaService = require('../../domain/services/badge-criteria-service');
+const badgeForCalculationRepository = require('../../infrastructure/repositories/badge-for-calculation-repository');
 
 module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
@@ -16,18 +15,12 @@ module.exports = {
 
     const badgeAcquisitions = await bluebird.mapSeries(
       highestCertifiableBadgeAcquisitions,
-      async (badgeAcquisition) => {
-        const badge = badgeAcquisition.badge;
-        const skillIds = await campaignRepository.findSkillIds({
-          campaignId: badgeAcquisition.campaignId,
-          domainTransaction,
+      async (certifiableBadgeAcquisition) => {
+        const badgeForCalculation = await badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
+          certifiableBadgeAcquisition,
         });
-        const isBadgeValid = badgeCriteriaService.areBadgeCriteriaFulfilled({
-          knowledgeElements,
-          skillIds,
-          badge,
-        });
-        return isBadgeValid ? badgeAcquisition : null;
+        const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeElements);
+        return isBadgeValid ? certifiableBadgeAcquisition : null;
       }
     );
 

@@ -12,41 +12,47 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
 
       const learningContent = [
         {
-          id: 'recArea1',
-          titleFrFr: 'area1_Title',
-          color: 'someColor',
-          competences: [
+          id: 'recFrameworkId',
+          name: 'monFramework',
+          areas: [
             {
-              id: 'competenceId',
-              nameFrFr: 'Mener une recherche et une veille d’information',
-              index: '1.1',
-              tubes: [
+              id: 'recArea1',
+              titleFrFr: 'area1_Title',
+              color: 'someColor',
+              competences: [
                 {
-                  id: 'recTube0_0',
-                  skills: [
+                  id: 'competenceId',
+                  nameFrFr: 'Mener une recherche et une veille d’information',
+                  index: '1.1',
+                  tubes: [
                     {
-                      id: listSkill[0],
-                      nom: '@web1',
-                      status: 'actif',
-                      challenges: [],
-                    },
-                    {
-                      id: listSkill[1],
-                      nom: '@web2',
-                      status: 'actif',
-                      challenges: [],
-                    },
-                    {
-                      id: listSkill[2],
-                      nom: 'web3',
-                      status: 'actif',
-                      challenges: [],
-                    },
-                    {
-                      id: listSkill[3],
-                      nom: 'web4',
-                      status: 'actif',
-                      challenges: [],
+                      id: 'recTube0_0',
+                      skills: [
+                        {
+                          id: listSkill[0],
+                          nom: '@web1',
+                          status: 'actif',
+                          challenges: [],
+                        },
+                        {
+                          id: listSkill[1],
+                          nom: '@web2',
+                          status: 'actif',
+                          challenges: [],
+                        },
+                        {
+                          id: listSkill[2],
+                          nom: 'web3',
+                          status: 'actif',
+                          challenges: [],
+                        },
+                        {
+                          id: listSkill[3],
+                          nom: 'web4',
+                          status: 'actif',
+                          challenges: [],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -87,19 +93,13 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
         threshold: 90,
       });
 
-      databaseBuilder.factory.buildBadge({
-        targetProfileId,
-        badgeCriteria: [],
-        key: 'Badge3',
-      });
-
       assessment = new Assessment({
         userId,
         campaignParticipationId,
         type: Assessment.types.CAMPAIGN,
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();
