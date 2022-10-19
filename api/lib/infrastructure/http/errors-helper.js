@@ -1,4 +1,4 @@
-function getErrorDetails(response, customMessage) {
+function serializeHttpErrorResponse(response, customMessage) {
   let errorDetails;
 
   if (typeof response.data === 'string') {
@@ -6,9 +6,7 @@ function getErrorDetails(response, customMessage) {
   }
 
   if (typeof response.data === 'object') {
-    errorDetails = response.data.error_description
-      ? { errorDescription: response.data.error_description, errorType: response.data.error }
-      : JSON.stringify(response.data);
+    errorDetails = JSON.stringify(response.data);
   }
 
   const dataToLog = {
@@ -20,5 +18,5 @@ function getErrorDetails(response, customMessage) {
 }
 
 module.exports = {
-  getErrorDetails,
+  serializeHttpErrorResponse,
 };

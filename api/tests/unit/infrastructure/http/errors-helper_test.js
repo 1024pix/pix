@@ -1,8 +1,29 @@
 const { expect } = require('../../../test-helper');
 
-const { getErrorDetails } = require('../../../../lib/infrastructure/http/errors-helper');
+const { serializeHttpErrorResponse } = require('../../../../lib/infrastructure/http/errors-helper');
 
-describe('getErrorDetails', function () {
+describe('serializeHttpErrorResponse', function () {
+  describe('when http error data is null', function () {
+    it('should display the string message', function () {
+      // given
+      const errorResponse = {
+        code: '500',
+        data: null,
+      };
+
+      const customMessage = 'Something bad happened';
+
+      // when
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
+
+      // then
+      expect(formattedResponse).to.deep.equal({
+        customMessage,
+        errorDetails: 'null',
+      });
+    });
+  });
+
   describe('when http error data is a string', function () {
     it('should display the string message', function () {
       // given
@@ -14,7 +35,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
@@ -31,7 +52,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
@@ -55,15 +76,12 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
         customMessage,
-        errorDetails: {
-          errorDescription: 'Invalid authentication method for accessing this endpoint.',
-          errorType: 'invalid_client',
-        },
+        errorDetails: JSON.stringify(errorResponse.data),
       });
     });
   });
@@ -82,7 +100,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({

@@ -59,7 +59,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
       });
 
       context('when error.response exists', function () {
-        it("should return the error's response status and data from the http call when failed", async function () {
+        it("should return an http response with the error's response status as code and data from the failed http call", async function () {
           // given
           const url = 'someUrl';
           const payload = 'somePayload';
@@ -85,7 +85,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
       });
 
       context("when error.response doesn't exists", function () {
-        it("should return the error's response status and success from the http call when failed", async function () {
+        it('should return an http response with error with code 500 and data null', async function () {
           // given
           const url = 'someUrl';
           const payload = 'somePayload';
@@ -168,7 +168,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
       });
 
       context('when error.response exists', function () {
-        it("should return the error's response status and data from the http call when failed", async function () {
+        it("should return an http response with the error's response status as code and data from the failed http call", async function () {
           // given
           const url = 'someUrl';
           const payload = 'somePayload';
@@ -194,7 +194,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
       });
 
       context("when error.response doesn't exists", function () {
-        it("should return the error's response status and success from the http call when failed", async function () {
+        it('should return an http response with error with code 500 and data null', async function () {
           // given
           const url = 'someUrl';
           const payload = 'somePayload';
