@@ -819,6 +819,9 @@
     "join": {
       "title": "Rejoindre",
       "button": "C'est parti !",
+      "rgpd-legal-notice": "Pour savoir comment tes données sont traitées et quels sont tes droits, tu peux lire les",
+      "rgpd-legal-notice-link": "Mentions d'information.",
+      "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39",
       "fields": {
         "birthdate": {
           "day-error": "Votre jour de naissance n’est pas valide.",

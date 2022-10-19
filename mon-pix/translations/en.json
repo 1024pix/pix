@@ -819,6 +819,9 @@
     "join": {
       "title": "Join",
       "button": "Let's go!",
+      "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
+      "rgpd-legal-notice-link": "TODO",
+      "rgpd-legal-notice-url": "TODO",
       "fields": {
         "birthdate": {
           "day-error": "Your birth day is in an invalid format.",
