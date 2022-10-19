@@ -2,6 +2,11 @@ const { expect, domainBuilder, sinon, streamToPromise } = require('../../../test
 const { PassThrough } = require('stream');
 const proxyquire = require('proxyquire');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const cpfCertificationXmlExportService = proxyquire(
   '../../../../lib/domain/services/cpf-certification-xml-export-service',
   {
@@ -17,7 +22,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
   let clock;
 
   beforeEach(function () {
-    const now = dayjs('2022-02-01T10:43:27').toDate();
+    const now = dayjs('2022-02-01T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
   });
 
@@ -86,7 +91,7 @@ function _getExpectedXmlExport() {
     5d079a5d-0a4d-45ac-854d-256b01cacdfe
   </cpf:idFlux>
   <cpf:horodatage>
-    2022-02-01T10:43:27+01:00
+    2022-02-01T11:43:27+01:00
   </cpf:horodatage>
   <cpf:emetteur>
     <cpf:idClient>

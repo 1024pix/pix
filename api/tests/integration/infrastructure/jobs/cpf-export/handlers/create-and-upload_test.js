@@ -4,6 +4,10 @@ const { createUnzip } = require('node:zlib');
 const fs = require('fs');
 const proxyquire = require('proxyquire');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const { PassThrough } = require('stream');
 
@@ -11,7 +15,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
   let cpfCertificationResultRepository;
   let cpfExternalStorage;
   let clock;
-  const expectedFileName = 'pix-cpf-export-20220102-114327000.xml.gz';
+  const expectedFileName = 'pix-cpf-export-20220102-114327.xml.gz';
 
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
