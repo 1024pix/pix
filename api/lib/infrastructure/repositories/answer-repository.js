@@ -4,8 +4,6 @@ const { knex } = require('../../../db/knex-database-connection');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const config = require('../../config');
-const monitoringTools = require('../monitoring-tools');
 
 function _adaptAnswerToDb(answer) {
   return {
@@ -117,15 +115,7 @@ module.exports = {
       if (alreadySavedAnswer.length !== 0) {
         throw new ChallengeAlreadyAnsweredError();
       }
-      let result;
-      try {
-        result = await trx('answers').insert(answerForDB).returning(COLUMNS);
-      } catch (error) {
-        const errorMessage = `INSERT INTO answers failed with values ${JSON.stringify(answerForDB)}`;
-        monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
-        throw error;
-      }
-      const [savedAnswerDTO] = result;
+      const [savedAnswerDTO] = await trx('answers').insert(answerForDB).returning(COLUMNS);
       const savedAnswer = _toDomain(savedAnswerDTO);
       if (!_.isEmpty(knowledgeElements)) {
         for (const knowledgeElement of knowledgeElements) {
