@@ -1,4 +1,4 @@
-const Badge = require('../../../../lib/domain/models/Badge');
+const { badges } = require('../../../constants');
 const {
   CERTIFICATION_COURSE_SUCCESS_ID,
   CERTIFICATION_COURSE_FAILURE_ID,
@@ -47,7 +47,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessCleaId,
     acquired: true,
-    partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
+    partnerKey: badges.keys.PIX_EMPLOI_CLEA_V3,
   });
 
   const { id: complementaryCertifCourseFailureId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -58,7 +58,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseFailureId,
     acquired: false,
-    partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
+    partnerKey: badges.keys.PIX_EMPLOI_CLEA_V3,
   });
 
   const { id: complementaryCertifCourseSuccessDroitId } = databaseBuilder.factory.buildComplementaryCertificationCourse(
@@ -71,7 +71,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessDroitId,
     acquired: true,
-    partnerKey: Badge.keys.PIX_DROIT_MAITRE_CERTIF,
+    partnerKey: badges.keys.PIX_DROIT_MAITRE_CERTIF,
   });
 
   const { id: complementaryCertifCourseEduId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -82,7 +82,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseEduId,
     acquired: true,
-    partnerKey: Badge.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+    partnerKey: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
   });
 }
 

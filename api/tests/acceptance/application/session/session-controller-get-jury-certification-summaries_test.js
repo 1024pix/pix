@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const Badge = require('../../../../lib/domain/models/Badge');
 const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
@@ -54,24 +53,29 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         const dbf = databaseBuilder.factory;
         superAdminId = dbf.buildUser.withRole().id;
         sessionId = dbf.buildSession().id;
-        const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 });
-        const complementaryCertificationId = dbf.buildComplementaryCertification({ name: 'CléA Numérique' }).id;
+        const badge = dbf.buildBadge();
+
+        const complementaryCertificationId = dbf.buildComplementaryCertification({
+          name: 'CléA Numérique',
+          badge: badge,
+        }).id;
+        const complementaryCertificationBadgeId = dbf.buildComplementaryCertificationBadge({
+          badgeId: badge.id,
+          complementaryCertificationId,
+          label: 'CléA Numérique',
+        }).id;
 
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         const { id } = dbf.buildComplementaryCertificationCourse({
           certificationCourseId: certif1.id,
           name: CLEA,
           complementaryCertificationId,
+          complementaryCertificationBadgeId,
         });
         dbf.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: id,
           partnerKey: badge.key,
           acquired: true,
-        });
-        dbf.buildComplementaryCertificationBadge({
-          badgeId: badge.id,
-          complementaryCertificationId,
-          label: 'CléA Numérique',
         });
         const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
         asr1 = dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });

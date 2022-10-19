@@ -8,7 +8,6 @@ const {
   learningContentBuilder,
 } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const Badge = require('../../../../lib/domain/models/Badge');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const createServer = require('../../../../server');
 
@@ -327,7 +326,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
           competenceIdSkillIdPairs,
           limitDate: moment(limitDate).add(1, 'day').toDate(),
         }).id;
-        const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 }).id;
+        const badgeId = databaseBuilder.factory.buildBadge().id;
         databaseBuilder.factory.buildSkillSet({
           badgeId,
           skillIds: ['recSkill0_0'],

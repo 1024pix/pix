@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const cleaCertifiedCandidateRepository = require('../../../../lib/infrastructure/repositories/clea-certified-candidate-repository');
-const { PIX_EMPLOI_CLEA_V3 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Repository | clea-certified-candidate-repository', function () {
   describe('#getBySessionId', function () {
@@ -42,7 +41,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
         databaseBuilder.factory.buildComplementaryCertification.clea({
           id: 1,
         });
-        const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true, key: PIX_EMPLOI_CLEA_V3 });
+        const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true });
         const complementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
           complementaryCertificationId: 1,
           badgeId: badgeClea.id,
@@ -134,7 +133,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
           databaseBuilder.factory.buildComplementaryCertification.clea({
             id: 1,
           });
-          const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true, key: PIX_EMPLOI_CLEA_V3 });
+          const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true });
           const complementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
             complementaryCertificationId: 1,
             badgeId: badgeClea.id,

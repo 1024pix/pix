@@ -5,19 +5,6 @@ const {
   REJECTED_AUTOMATICALLY_COMMENT,
   getCleaCertifiedCandidateCsv,
 } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
-const {
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {
@@ -174,9 +161,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
     context(`when at least one candidate has passed PIX_EMPLOI_CLEA_V3 certification`, function () {
       it(`should return correct csvContent with the PIX_EMPLOI_CLEA_V3 information`, async function () {
         // given
-        const partnerKey = PIX_EMPLOI_CLEA_V3;
-        const expectedHeader = 'Certification CléA Numérique';
-        const label = 'CléA Numérique';
+        const partnerKey = 'PARTNER_KEY';
+        const expectedHeader = 'Certification skateboard numérique';
+        const label = 'skateboard numérique';
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
         const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
@@ -210,11 +197,12 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
-      it(`should return a cancelled PIX_EMPLOI_CLEA_V3 certification when certification pix is cancelled`, async function () {
+
+      it(`should return a cancelled complementary certification when certification pix is cancelled`, async function () {
         // given
-        const partnerKey = PIX_EMPLOI_CLEA_V3;
-        const expectedHeader = 'Certification CléA Numérique';
-        const label = 'CléA Numérique';
+        const partnerKey = 'PARTNER_KEY';
+        const expectedHeader = 'Certification skateboard numérique';
+        const label = 'skateboard numérique';
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
         const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
@@ -272,69 +260,15 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
               id: 1,
-              partnerKey: PIX_DROIT_MAITRE_CERTIF,
+              partnerKey: '1ST_PARTNER_KEY',
               acquired: false,
-              label: 'Pix+ Droit Maître',
+              label: 'Pix+ Bandjo Maître',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
               id: 2,
-              partnerKey: PIX_DROIT_EXPERT_CERTIF,
+              partnerKey: '2ND_PARTNER_KEY',
               acquired: true,
-              label: 'Pix+ Droit Expert',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 3,
-              partnerKey: PIX_EMPLOI_CLEA_V3,
-              acquired: true,
-              label: 'CléA Numérique',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-              acquired: true,
-              label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-              acquired: false,
-              label: 'Pix+ Édu 2nd degré Confirmé',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-              acquired: true,
-              label: 'Pix+ Édu 2nd degré Avancé',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-              acquired: false,
-              label: 'Pix+ Édu 2nd degré Expert',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-              acquired: true,
-              label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-              acquired: false,
-              label: 'Pix+ Édu 1er degré Confirmé',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-              acquired: true,
-              label: 'Pix+ Édu 1er degré Avancé',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-              acquired: false,
-              label: 'Pix+ Édu 1er degré Expert',
+              label: 'Pix+ Bandjo Expert',
             }),
           ],
         });
@@ -347,8 +281,8 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         // then
         const expectedResult =
           '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Maître";"Certification Pix+ Droit Expert";"Certification CléA Numérique";"Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)";"Certification Pix+ Édu 2nd degré Confirmé";"Certification Pix+ Édu 2nd degré Avancé";"Certification Pix+ Édu 2nd degré Expert";"Certification Pix+ Édu 1er degré Initié (entrée dans le métier)";"Certification Pix+ Édu 1er degré Confirmé";"Certification Pix+ Édu 1er degré Avancé";"Certification Pix+ Édu 1er degré Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";"Validée";"Validée";"Validée";"Rejetée";"Validée";"Rejetée";"Validée";"Rejetée";"Validée";"Rejetée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Bandjo Maître";"Certification Pix+ Bandjo Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
     });
