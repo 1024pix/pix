@@ -200,7 +200,6 @@ module.exports = (function () {
       isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
         process.env.FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS
       ),
-      logAnswers: isFeatureEnabled(process.env.FT_LOG_ANSWERS),
     },
 
     infra: {
@@ -323,7 +322,6 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
-    config.featureToggles.logAnswers = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';

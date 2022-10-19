@@ -24,7 +24,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           attributes: {
             'is-pix-app-trainings-page-enabled': false,
             'is-clea-results-retrieval-by-habilitated-certification-centers-enabled': false,
-            'log-answers': false,
           },
         },
       };
