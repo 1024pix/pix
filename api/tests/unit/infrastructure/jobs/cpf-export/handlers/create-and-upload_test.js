@@ -1,6 +1,11 @@
 const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
-const { PassThrough } = require('stream');
+const { PassThrough, Readable } = require('stream');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;
@@ -9,7 +14,8 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(new Date('2022-01-01T10:43:27Z'));
+    const now = dayjs('2022-01-01T10:43:27Z').tz('Europe/Paris').toDate();
+    clock = sinon.useFakeTimers(now);
 
     cpfCertificationResultRepository = {
       findByTimeRange: sinon.stub(),
@@ -64,12 +70,12 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       writableStream: sinon.match(PassThrough),
     });
     expect(cpfExternalStorage.upload).to.have.been.calledWith({
-      filename: 'pix-cpf-export-20220101-114327000.xml',
-      writableStream: sinon.match(PassThrough),
+      filename: 'pix-cpf-export-20220101-114327.xml.gz',
+      readableStream: sinon.match(Readable),
     });
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
       certificationCourseIds: [12, 20, 33, 98, 114],
-      filename: 'pix-cpf-export-20220101-114327000.xml',
+      filename: 'pix-cpf-export-20220101-114327.xml.gz',
     });
   });
 });
