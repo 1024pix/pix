@@ -1,5 +1,5 @@
 require('dotenv').config();
-const validateEnvironmentVariables = require('./lib/infrastructure/validate-environement-variables');
+const validateEnvironmentVariables = require('./lib/infrastructure/validate-environment-variables');
 validateEnvironmentVariables();
 
 const createServer = require('./server');
