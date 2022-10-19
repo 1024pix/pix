@@ -253,7 +253,7 @@ const learningContentTree = [
             id: 'recCourse1',
             name: 'recCourse1 name',
             description: 'recCourse1 description',
-            challengeIds: ['challengePixA1C1Th1Tu1S1Ch1'],
+            challengeIds: ['challengePixA1C1Th1Tu1S1Ch1', 'challengePixA1C1Th1Tu1S3Ch1'],
           },
         ],
       },
