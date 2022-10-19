@@ -190,12 +190,27 @@
 
   {{#if this.showDetail}}
     <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
-      {{#if this.showBadges}}
+
+      {{#if this.showCertifiableBadges}}
+        <div class="badge-container">
+          {{#each this.orderedCertifiableBadges as |badge|}}
+            <BadgeCard
+              @title={{badge.title}}
+              @message={{badge.message}}
+              @imageUrl={{badge.imageUrl}}
+              @altMessage={{badge.altMessage}}
+              @isAcquired={{badge.isAcquired}}
+            />
+          {{/each}}
+        </div>
+      {{/if}}
+
+      {{#if this.showNotCertifiableBadges}}
         <h2 class="skill-review-result-detail__badge-subtitle">
           {{t "pages.skill-review.badges-title"}}
         </h2>
         <div class="badge-container">
-          {{#each this.orderedBadges as |badge|}}
+          {{#each this.orderedNotCertifiableBadges as |badge|}}
             <BadgeCard
               @title={{badge.title}}
               @message={{badge.message}}
