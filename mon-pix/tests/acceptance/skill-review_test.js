@@ -132,8 +132,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           imageUrl: '/images/badges/Pix-emploi.svg',
           message: 'Congrats, you won a Pix Emploi badge',
           isAcquired: true,
+          isCertifiable: true,
         });
         campaignParticipationResult.update({ campaignParticipationBadges: [badge] });
+
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -156,6 +158,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           imageUrl: '/images/badges/yellow.svg',
           message: 'Congrats, you won a Yellow badge',
           isAcquired: true,
+          isCertifiable: true,
         });
         const unacquiredDisplayedBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a green badge',
@@ -163,6 +166,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           message: 'Congrats, you won a Green badge',
           isAcquired: false,
           isAlwaysVisible: true,
+          isCertifiable: false,
         });
         const unacquiredHiddenBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a pink badge',
@@ -170,6 +174,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           message: 'Congrats, you won a pink badge',
           isAcquired: false,
           isAlwaysVisible: false,
+          isCertifiable: true,
         });
         campaignParticipationResult.update({
           campaignParticipationBadges: [acquiredBadge, unacquiredDisplayedBadge, unacquiredHiddenBadge],
@@ -214,6 +219,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
             altMessage: 'Vous avez validé le badge Pix Emploi.',
             imageUrl: 'url.svg',
             isAcquired: true,
+            isCertifiable: true,
             message:
               'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
             title: 'Pix Emploi - Clea',
