@@ -8,6 +8,7 @@ module.exports = function buildCertificationCandidateForSupervising({
   extraTimePercentage = 0.3,
   authorizedToStart = false,
   assessmentStatus = null,
+  startDateTime = new Date('2022-10-01T12:00:00Z'),
 } = {}) {
   return new CertificationCandidateForSupervising({
     id,
@@ -17,5 +18,6 @@ module.exports = function buildCertificationCandidateForSupervising({
     extraTimePercentage,
     authorizedToStart,
     assessmentStatus,
+    startDateTime,
   });
 };
