@@ -8,6 +8,7 @@ const attributes = [
   'extraTimePercentage',
   'authorizedToStart',
   'assessmentStatus',
+  'startDateTime',
 ];
 
 module.exports = {
