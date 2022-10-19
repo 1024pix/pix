@@ -48,6 +48,8 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
         const accessToken = 'valid-access-token';
         const expirationDelaySeconds = 1;
         sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
+        sinon.stub(userRefreshTokensTemporaryStorage, 'get').resolves([]);
+        sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves(1);
         sinon
           .stub(tokenService, 'createAccessTokenFromUser')
           .withArgs(userId, source)
@@ -58,6 +60,56 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
 
         // then
         expect(result).to.be.deep.equal({ accessToken, expirationDelaySeconds });
+      });
+
+      context('when user refresh token is not in a list', function () {
+        it('should be added to the list of refresh tokens', async function () {
+          // given
+          const userId = 123;
+          const source = 'pix';
+          const refreshToken = 'valid-refresh-token';
+          const accessToken = 'valid-access-token';
+          const expirationDelaySeconds = 1;
+          sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
+          sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves([]);
+          sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves(1);
+          sinon
+            .stub(tokenService, 'createAccessTokenFromUser')
+            .withArgs(userId, source)
+            .resolves({ accessToken, expirationDelaySeconds });
+
+          // when
+          await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
+
+          // then
+          expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith(userId);
+          expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWith({ key: userId, value: refreshToken });
+        });
+      });
+
+      context('when user refresh token is in a list', function () {
+        it('should not be added to the list of refresh tokens', async function () {
+          // given
+          const userId = 123;
+          const source = 'pix';
+          const refreshToken = 'valid-refresh-token';
+          const accessToken = 'valid-access-token';
+          const expirationDelaySeconds = 1;
+          sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
+          sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves(['valid-refresh-token']);
+          sinon.stub(userRefreshTokensTemporaryStorage, 'lpush');
+          sinon
+            .stub(tokenService, 'createAccessTokenFromUser')
+            .withArgs(userId, source)
+            .resolves({ accessToken, expirationDelaySeconds });
+
+          // when
+          await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
+
+          // then
+          expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith(userId);
+          expect(userRefreshTokensTemporaryStorage.lpush).to.have.not.been.calledOnce;
+        });
       });
     });
 
