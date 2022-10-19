@@ -2,42 +2,14 @@ const {
   expect,
   databaseBuilder,
   knex,
-  mockLearningContent,
-  learningContentBuilder,
+  LearningContentMock,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-const lastChallengeAnswer = 'last challenge answer';
-const lastChallengeId = 'lastChallengeId';
-const learningContent = [
-  {
-    id: 'recArea1',
-    titleFrFr: 'area1_Title',
-    color: 'someColor',
-    competences: [
-      {
-        id: 'competenceId',
-        nameFrFr: 'Mener une recherche et une veille d’information',
-        index: '1.1',
-        tubes: [
-          {
-            id: 'recTube0_0',
-            skills: [
-              {
-                id: 'skillWeb2Id',
-                name: '@web2',
-                challenges: [{ id: lastChallengeId, solution: lastChallengeAnswer, type: 'QROC', autoReply: false }],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+const lastChallengeId = 'challengePixA1C1Th1Tu1S1Ch1';
 
 describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-auto-answer', function () {
   let server;
@@ -46,8 +18,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
-    mockLearningContent(learningContentObjects);
+    LearningContentMock.mockCommon();
   });
 
   describe('GET /api/assessments/:id/challenge-for-pix-auto-answer', function () {
@@ -102,11 +73,12 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         const response = await server.inject(options);
 
         // then
+        const lastChallenge = LearningContentMock.getChallengeDTO(lastChallengeId);
         expect(response.result).to.deep.equal({
           id: lastChallengeId,
-          type: 'QROC',
+          type: lastChallenge.type,
           autoReply: false,
-          solution: lastChallengeAnswer,
+          solution: lastChallenge.solution,
         });
       });
     });
