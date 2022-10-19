@@ -36,12 +36,12 @@ export default class SkillReview extends Component {
   }
 
   get showBadges() {
-    return this.orderedBadges.length > 0;
+    return this.orderedNotCertifiableBadges.length > 0 || this.orderedCertifiableBadges.length > 0;
   }
 
-  get acquiredBadges() {
+  get acquiredNotCertifiableBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
-    return badges.filter((badge) => badge.isAcquired);
+    return badges.filter((badge) => badge.isAcquired && !badge.isCertifiable);
   }
 
   get acquiredCertifiableBadges() {
@@ -49,9 +49,9 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => badge.isAcquired && badge.isCertifiable);
   }
 
-  get notAcquiredButVisibleBadges() {
+  get notAcquiredButVisibleNotCertifiableBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
-    return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible);
+    return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible && !badge.isCertifiable);
   }
 
   get notAcquiredButVisibleCertifiableBadges() {
@@ -59,8 +59,8 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible && badge.isCertifiable);
   }
 
-  get orderedBadges() {
-    return [...this.acquiredBadges, ...this.notAcquiredButVisibleBadges];
+  get orderedNotCertifiableBadges() {
+    return [...this.acquiredNotCertifiableBadges, ...this.notAcquiredButVisibleNotCertifiableBadges];
   }
 
   get orderedCertifiableBadges() {

@@ -148,9 +148,21 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
   });
 
   describe('#showBadges', function () {
-    it('should show badges when acquired', function () {
+    it('should show not certifiable badges when acquired', function () {
       // given
-      const badges = [{ id: 33, isAcquired: true }];
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should show certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
@@ -185,58 +197,71 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
     });
   });
 
-  describe('#acquiredBadges', function () {
-    it('should only return acquired badges', function () {
+  describe('#acquiredNotCertifiableBadges', function () {
+    it('should only return acquired and not certifiable badges', function () {
       // given
       const badges = [
-        { id: 33, isAcquired: true },
-        { id: 34, isAcquired: false },
+        { id: 33, isAcquired: true, isCertifiable: false },
+        { id: 34, isAcquired: false, isCertifiable: true },
+        { id: 35, isAcquired: true, isCertifiable: true },
+        { id: 36, isAcquired: false, isCertifiable: false },
       ];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const acquiredBadges = component.acquiredBadges;
+      const acquiredBadges = component.acquiredNotCertifiableBadges;
 
       // then
-      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true }]);
+      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true, isCertifiable: false }]);
     });
   });
 
-  describe('#notAcquiredButVisibleBadges', function () {
-    it('should only return not acquired badges', function () {
+  describe('#notAcquiredButVisibleNotCertifiableBadges', function () {
+    it('should only return not acquired and not certifiable badges', function () {
       // given
       const badges = [
-        { id: 33, isAcquired: true },
-        { id: 34, isAcquired: false, isAlwaysVisible: true },
-        { id: 35, isAcquired: false, isAlwaysVisible: false },
+        { id: 33, isAcquired: true, isCertifiable: false },
+        { id: 34, isAcquired: false, isAlwaysVisible: true, isCertifiable: false },
+        { id: 35, isAcquired: false, isAlwaysVisible: true, isCertifiable: true },
+        { id: 36, isAcquired: false, isAlwaysVisible: false, isCertifiable: true },
       ];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const notAcquiredBadges = component.notAcquiredButVisibleBadges;
+      const notAcquiredBadges = component.notAcquiredButVisibleNotCertifiableBadges;
 
       // then
-      expect(notAcquiredBadges).to.deep.equal([{ id: 34, isAcquired: false, isAlwaysVisible: true }]);
+      expect(notAcquiredBadges).to.deep.equal([
+        {
+          id: 34,
+          isAcquired: false,
+          isAlwaysVisible: true,
+          isCertifiable: false,
+        },
+      ]);
     });
   });
 
-  describe('#orderedBadges', function () {
-    it('should return badges ordered by if it is acquired or not', function () {
+  describe('#orderedNotCertifiableBadges', function () {
+    it('should return not certifiable badges ordered by if it is acquired or not', function () {
       // given
       component.args.model.campaignParticipationResult.campaignParticipationBadges = [
-        { id: 33, isAcquired: true, isAlwaysVisible: true },
-        { id: 34, isAcquired: false, isAlwaysVisible: true },
-        { id: 35, isAcquired: true, isAlwaysVisible: true },
+        { id: 33, isAcquired: true, isAlwaysVisible: true, isCertifiable: true },
+        { id: 34, isAcquired: true, isAlwaysVisible: true, isCertifiable: false },
+        { id: 35, isAcquired: false, isAlwaysVisible: true, isCertifiable: true },
+        { id: 36, isAcquired: false, isAlwaysVisible: true, isCertifiable: false },
+        { id: 37, isAcquired: true, isAlwaysVisible: false, isCertifiable: true },
+        { id: 38, isAcquired: true, isAlwaysVisible: false, isCertifiable: false },
       ];
 
       // when
-      const orderedBadges = component.orderedBadges;
+      const orderedBadges = component.orderedNotCertifiableBadges;
 
       // then
       expect(orderedBadges).to.deep.equal([
-        { id: 33, isAcquired: true, isAlwaysVisible: true },
-        { id: 35, isAcquired: true, isAlwaysVisible: true },
-        { id: 34, isAcquired: false, isAlwaysVisible: true },
+        { id: 34, isAcquired: true, isAlwaysVisible: true, isCertifiable: false },
+        { id: 38, isAcquired: true, isAlwaysVisible: false, isCertifiable: false },
+        { id: 36, isAcquired: false, isAlwaysVisible: true, isCertifiable: false },
       ]);
     });
   });
@@ -271,7 +296,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const notAcquiredBadges = component.notAcquiredButVisibleBadges;
+      const notAcquiredBadges = component.notAcquiredButVisibleCertifiableBadges;
 
       // then
       expect(notAcquiredBadges).to.deep.equal([
