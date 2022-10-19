@@ -98,7 +98,6 @@ module.exports = {
   buildComplementaryCertificationCourseResultForJuryCertification: require('./build-complementary-certification-course-result-for-certification'),
   buildComplementaryCertificationCourseResultForJuryCertificationWithExternal: require('./build-complementary-certification-course-result-for-certification-with-external'),
   buildComplementaryCertificationScoringWithoutComplementaryReferential: require('./build-complementary-certification-scoring-without-complementary-referential'),
-  buildPixPlusDroitCertificationResult: require('./build-pix-plus-droit-certification-result'),
   buildComplementaryCertificationScoringWithComplementaryReferential: require('./build-pix-plus-certification-scoring'),
   buildPlacementProfile: require('./build-placement-profile'),
   buildPoleEmploiSending: require('./build-pole-emploi-sending'),

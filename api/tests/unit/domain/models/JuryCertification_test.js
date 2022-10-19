@@ -1,7 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
-const { PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE } = require('../../../../lib/domain/models/Badge').keys;
-const { PIX_EMPLOI_CLEA } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {
@@ -43,7 +41,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       const certificationIssueReports = [certificationIssueReport];
       const commonComplementaryCertificationCourseResults = [
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
-          partnerKey: PIX_EMPLOI_CLEA,
+          partnerKey: 'PIX_PARTNER_KEY',
           acquired: true,
         }),
       ];
@@ -63,9 +61,9 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       const complementaryCertificationCourseResultsWithExternal =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
           complementaryCertificationCourseId: 123,
-          pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          pixPartnerKey: 'PIX_PARTNER_KEY',
           pixAcquired: true,
-          externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          externalPartnerKey: 'PIX_PARTNER_KEY_EXTERNAL',
           externalAcquired: true,
         });
 

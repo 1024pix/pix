@@ -2,11 +2,6 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -193,84 +188,53 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     it(`should return complementary certifications linked to the certifications`, async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const {
-        certificationCourseId: cleaCertificationCourseId,
-        assessmentResultId: cleaAssessmentResultId,
-        competenceMarkId: cleaCompetenceMarkId,
-      } = await _buildCertificationResultInSession(sessionId);
-      const cleaBadgeId = databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V1 }).id;
-      const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        key: PIX_EMPLOI_CLEA_V1,
+      const { certificationCourseId, assessmentResultId, competenceMarkId } = await _buildCertificationResultInSession(
+        sessionId
+      );
+      const oneBadgeId = databaseBuilder.factory.buildBadge({ key: 'PARTNER_KEY' }).id;
+      const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        key: 'PARTNER_KEY',
       }).id;
-      const cleaComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: cleaBadgeId,
-        complementaryCertificationId: cleaComplementaryCertificationId,
-        label: 'CléA Numérique',
+      const oneComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: oneBadgeId,
+        complementaryCertificationId: oneComplementaryCertificationId,
+        label: 'PARTNER_LABEL',
       }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 998,
-        certificationCourseId: cleaCertificationCourseId,
-        complementaryCertificationId: cleaComplementaryCertificationId,
-        complementaryCertificationBadgeId: cleaComplementaryCertificationBadgeId,
+        certificationCourseId,
+        complementaryCertificationId: oneComplementaryCertificationId,
+        complementaryCertificationBadgeId: oneComplementaryCertificationBadgeId,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
-        partnerKey: PIX_EMPLOI_CLEA_V1,
+        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: 'PIX',
       });
 
       const {
-        certificationCourseId: pixEdu1erDegreCertificationCourseId,
-        assessmentResultId: pixEdu1erDegreAssessmentResultId,
-        competenceMarkId: pixEdu1erDegreCompetenceMarkId,
+        certificationCourseId: otherDegreCertificationCourseId,
+        assessmentResultId: otherAssessmentResultId,
+        competenceMarkId: otherCompetenceMarkId,
       } = await _buildCertificationResultInSession(sessionId);
-      const edu1erDegreComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Edu 1er degre',
-      }).id;
-      databaseBuilder.factory.buildBadge({ id: 12345, key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT });
-      const pixEduComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+      const otherComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      databaseBuilder.factory.buildBadge({ id: 12345, key: 'OTHER_PARTNER_KEY' });
+      const otherComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: '12345',
-        complementaryCertificationId: edu1erDegreComplementaryCertificationId,
-        label: 'Pix+ Édu 1er degré Expert',
+        complementaryCertificationId: otherComplementaryCertificationId,
+        label: 'OTHER_PARTNER_LABEL',
       }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 997,
-        certificationCourseId: pixEdu1erDegreCertificationCourseId,
-        complementaryCertificationBadgeId: pixEduComplementaryCertificationBadgeId,
-        complementaryCertificationId: edu1erDegreComplementaryCertificationId,
+        certificationCourseId: otherDegreCertificationCourseId,
+        complementaryCertificationBadgeId: otherComplementaryCertificationBadgeId,
+        complementaryCertificationId: otherComplementaryCertificationId,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        partnerKey: 'OTHER_PARTNER_KEY',
         acquired: false,
-        source: 'PIX',
-      });
-
-      const {
-        certificationCourseId: pixEdu2ndDegreCertificationCourseId,
-        assessmentResultId: pixEdu2ndDegreAssessmentResultId,
-        competenceMarkId: pixEdu2ndDegreCompetenceMarkId,
-      } = await _buildCertificationResultInSession(sessionId);
-      const edu2ndDegreComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 2nd degré',
-      }).id;
-      databaseBuilder.factory.buildBadge({ id: 6434, key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME });
-      const pixEdu2ndComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: 6434,
-        complementaryCertificationId: edu2ndDegreComplementaryCertificationId,
-        label: 'Pix+ Édu 2nd degré Confirmé',
-      }).id;
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 996,
-        certificationCourseId: pixEdu2ndDegreCertificationCourseId,
-        complementaryCertificationBadgeId: pixEdu2ndComplementaryCertificationBadgeId,
-        complementaryCertificationId: edu2ndDegreComplementaryCertificationId,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 996,
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        acquired: true,
         source: 'PIX',
       });
 
@@ -282,7 +246,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       // then
       const expectedResult = [
         domainBuilder.buildCertificationResult({
-          id: cleaCertificationCourseId,
+          id: certificationCourseId,
           firstName: 'first-name',
           lastName: 'last-name',
           externalId: 'externalId',
@@ -295,27 +259,27 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
-              id: cleaCompetenceMarkId,
+              id: competenceMarkId,
               score: 42,
               level: 5,
               competence_code: '1.1',
               area_code: '1',
               competenceId: 'recABC123',
-              assessmentResultId: cleaAssessmentResultId,
+              assessmentResultId: assessmentResultId,
             }),
           ],
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 998,
-              partnerKey: PIX_EMPLOI_CLEA_V1,
+              partnerKey: 'PARTNER_KEY',
               source: 'PIX',
-              label: 'CléA Numérique',
+              label: 'PARTNER_LABEL',
             }),
           ],
         }),
         domainBuilder.buildCertificationResult({
-          id: pixEdu1erDegreCertificationCourseId,
+          id: otherDegreCertificationCourseId,
           firstName: 'first-name',
           lastName: 'last-name',
           externalId: 'externalId',
@@ -328,55 +292,22 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
-              id: pixEdu1erDegreCompetenceMarkId,
+              id: otherCompetenceMarkId,
               score: 42,
               level: 5,
               competence_code: '1.1',
               area_code: '1',
               competenceId: 'recABC123',
-              assessmentResultId: pixEdu1erDegreAssessmentResultId,
+              assessmentResultId: otherAssessmentResultId,
             }),
           ],
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: false,
               complementaryCertificationCourseId: 997,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+              partnerKey: 'OTHER_PARTNER_KEY',
               source: 'PIX',
-              label: 'Pix+ Édu 1er degré Expert',
-            }),
-          ],
-        }),
-        domainBuilder.buildCertificationResult({
-          id: pixEdu2ndDegreCertificationCourseId,
-          firstName: 'first-name',
-          lastName: 'last-name',
-          externalId: 'externalId',
-          pixScore: 456,
-          sessionId,
-          status: 'validated',
-          birthdate: '2001-05-21',
-          birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
-          competencesWithMark: [
-            domainBuilder.buildCompetenceMark({
-              id: pixEdu2ndDegreCompetenceMarkId,
-              score: 42,
-              level: 5,
-              competence_code: '1.1',
-              area_code: '1',
-              competenceId: 'recABC123',
-              assessmentResultId: pixEdu2ndDegreAssessmentResultId,
-            }),
-          ],
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              acquired: true,
-              complementaryCertificationCourseId: 996,
-              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-              source: 'PIX',
-              label: 'Pix+ Édu 2nd degré Confirmé',
+              label: 'OTHER_PARTNER_LABEL',
             }),
           ],
         }),
@@ -388,34 +319,38 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const {
-        certificationCourseId: pixEdu1erDegreCertificationCourseId,
-        assessmentResultId: pixEdu1erDegreAssessmentResultId,
-        competenceMarkId: pixEdu1erDegreCompetenceMarkId,
+        certificationCourseId: oneCertificationCourseId,
+        assessmentResultId: oneAssessmentResultId,
+        competenceMarkId: oneCompetenceMarkId,
       } = await _buildCertificationResultInSession(sessionId);
-      const edu1erDegreComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Edu 1er degre',
-      }).id;
-      databaseBuilder.factory.buildBadge({ id: 12345, key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT });
+      const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      databaseBuilder.factory.buildBadge({ id: 12345, key: 'PARTNER_KEY_PIX' });
+      databaseBuilder.factory.buildBadge({ id: 12346, key: 'PARTNER_KEY_EXTERNAL' });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 997,
-        certificationCourseId: pixEdu1erDegreCertificationCourseId,
+        certificationCourseId: oneCertificationCourseId,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        partnerKey: 'PARTNER_KEY_PIX',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        partnerKey: 'PARTNER_KEY_EXTERNAL',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: 12345,
-        complementaryCertificationId: edu1erDegreComplementaryCertificationId,
-        label: 'Pix+ Édu 1er degré Expert',
+        complementaryCertificationId: oneComplementaryCertificationId,
+        label: 'PARTNER_LABEL_PIX',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: 12346,
+        complementaryCertificationId: oneComplementaryCertificationId,
+        label: 'PARTNER_LABEL_EXTERNAL',
       });
 
       await databaseBuilder.commit();
@@ -426,7 +361,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       // then
       const expectedResult = [
         domainBuilder.buildCertificationResult({
-          id: pixEdu1erDegreCertificationCourseId,
+          id: oneCertificationCourseId,
           firstName: 'first-name',
           lastName: 'last-name',
           externalId: 'externalId',
@@ -439,22 +374,22 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
-              id: pixEdu1erDegreCompetenceMarkId,
+              id: oneCompetenceMarkId,
               score: 42,
               level: 5,
               competence_code: '1.1',
               area_code: '1',
               competenceId: 'recABC123',
-              assessmentResultId: pixEdu1erDegreAssessmentResultId,
+              assessmentResultId: oneAssessmentResultId,
             }),
           ],
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 997,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+              partnerKey: 'PARTNER_KEY_PIX',
               source: 'PIX',
-              label: 'Pix+ Édu 1er degré Expert',
+              label: 'PARTNER_LABEL_PIX',
             }),
           ],
         }),
@@ -841,30 +776,30 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         competenceId: 'recComp23',
         assessmentResultId,
       });
-      const edu1erDegreComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Edu 1er degre',
+      const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'PARTNER_LABEL',
       }).id;
-      databaseBuilder.factory.buildBadge({ id: 12345, key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT });
+      databaseBuilder.factory.buildBadge({ id: 12345, key: 'PARTNER_KEY' });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 997,
         certificationCourseId,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: 12345,
-        complementaryCertificationId: edu1erDegreComplementaryCertificationId,
-        label: 'Pix+ Édu 1er degré Expert',
+        complementaryCertificationId: oneComplementaryCertificationId,
+        label: 'PARTNER_LABEL',
       });
       const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
       await databaseBuilder.commit();
@@ -903,9 +838,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 997,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+              partnerKey: 'PARTNER_KEY',
               source: 'PIX',
-              label: 'Pix+ Édu 1er degré Expert',
+              label: 'PARTNER_LABEL',
             }),
           ],
         }),
@@ -917,100 +852,43 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const {
-        certificationCandidateId: cleaCcertificationCandidateId,
-        certificationCourseId: cleaCertificationCourseId,
-        assessmentResultId: cleaAssessmentResultId,
-        competenceMarkId: cleaCompetenceMarkId,
+        certificationCandidateId: oneCertificationCandidateId,
+        certificationCourseId: oneCertificationCourseId,
+        assessmentResultId: assessmentResultId,
+        competenceMarkId: competenceMarkId,
       } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildComplementaryCertification({ id: 333, name: 'CléA Numérique' });
-      databaseBuilder.factory.buildBadge({ id: 12345, key: PIX_EMPLOI_CLEA_V1 });
+      databaseBuilder.factory.buildComplementaryCertification({ id: 333 });
+      databaseBuilder.factory.buildBadge({ id: 12345, key: 'PARTNER_KEY' });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 100,
         badgeId: 12345,
         complementaryCertificationId: 333,
-        label: 'CléA Numérique',
+        label: 'PARTNER_LABEL',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 998,
-        certificationCourseId: cleaCertificationCourseId,
+        certificationCourseId: oneCertificationCourseId,
         complementaryCertificationBadgeId: 100,
         complementaryCertificationId: 333,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
-        partnerKey: PIX_EMPLOI_CLEA_V1,
+        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: 'PIX',
       });
 
-      const {
-        certificationCandidateId: pixEdu1erDegreCertificationCandidateId,
-        certificationCourseId: pixEdu1erDegreCertificationCourseId,
-        assessmentResultId: pixEdu1erDegreAssessmentResultId,
-        competenceMarkId: pixEdu1erDegreCompetenceMarkId,
-      } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildComplementaryCertification({ id: 444, name: 'Pix+ Édu 1er degré' });
-      databaseBuilder.factory.buildBadge({ id: 4567, key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 101,
-        badgeId: 4567,
-        complementaryCertificationId: 444,
-        label: 'Pix+ Édu 1er degré Expert',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 997,
-        certificationCourseId: pixEdu1erDegreCertificationCourseId,
-        complementaryCertificationBadgeId: 101,
-        complementaryCertificationId: 444,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 997,
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-        acquired: false,
-        source: 'PIX',
-      });
-
-      const {
-        certificationCandidateId: pixEdu2ndDegreCertificationCandidateId,
-        certificationCourseId: pixEdu2ndDegreCertificationCourseId,
-        assessmentResultId: pixEdu2ndDegreAssessmentResultId,
-        competenceMarkId: pixEdu2ndDegreCompetenceMarkId,
-      } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildComplementaryCertification({ id: 555, name: 'Pix+ Édu 2nd degré' });
-      databaseBuilder.factory.buildBadge({ id: 6789, key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 102,
-        badgeId: 6789,
-        complementaryCertificationId: 555,
-        label: 'Pix+ Édu 2nd degré Confirmé',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 996,
-        certificationCourseId: pixEdu2ndDegreCertificationCourseId,
-        complementaryCertificationBadgeId: 102,
-        complementaryCertificationId: 555,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 996,
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        acquired: true,
-        source: 'PIX',
-      });
       await databaseBuilder.commit();
 
       // when
       const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
-        certificationCandidateIds: [
-          cleaCcertificationCandidateId,
-          pixEdu1erDegreCertificationCandidateId,
-          pixEdu2ndDegreCertificationCandidateId,
-        ],
+        certificationCandidateIds: [oneCertificationCandidateId],
       });
 
       // then
       const expectedResult = [
         domainBuilder.buildCertificationResult({
-          id: cleaCertificationCourseId,
+          id: oneCertificationCourseId,
           firstName: 'first-name',
           lastName: 'last-name',
           externalId: 'externalId',
@@ -1023,88 +901,22 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
-              id: cleaCompetenceMarkId,
+              id: competenceMarkId,
               score: 42,
               level: 5,
               competence_code: '1.1',
               area_code: '1',
               competenceId: 'recABC123',
-              assessmentResultId: cleaAssessmentResultId,
+              assessmentResultId: assessmentResultId,
             }),
           ],
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 998,
-              partnerKey: PIX_EMPLOI_CLEA_V1,
+              partnerKey: 'PARTNER_KEY',
               source: 'PIX',
-              label: 'CléA Numérique',
-            }),
-          ],
-        }),
-        domainBuilder.buildCertificationResult({
-          id: pixEdu1erDegreCertificationCourseId,
-          firstName: 'first-name',
-          lastName: 'last-name',
-          externalId: 'externalId',
-          pixScore: 456,
-          sessionId,
-          status: 'validated',
-          birthdate: '2001-05-21',
-          birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
-          competencesWithMark: [
-            domainBuilder.buildCompetenceMark({
-              id: pixEdu1erDegreCompetenceMarkId,
-              score: 42,
-              level: 5,
-              competence_code: '1.1',
-              area_code: '1',
-              competenceId: 'recABC123',
-              assessmentResultId: pixEdu1erDegreAssessmentResultId,
-            }),
-          ],
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              acquired: false,
-              complementaryCertificationCourseId: 997,
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-              source: 'PIX',
-              label: 'Pix+ Édu 1er degré Expert',
-            }),
-          ],
-        }),
-        domainBuilder.buildCertificationResult({
-          id: pixEdu2ndDegreCertificationCourseId,
-          firstName: 'first-name',
-          lastName: 'last-name',
-          externalId: 'externalId',
-          pixScore: 456,
-          sessionId,
-          status: 'validated',
-          birthdate: '2001-05-21',
-          birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
-          competencesWithMark: [
-            domainBuilder.buildCompetenceMark({
-              id: pixEdu2ndDegreCompetenceMarkId,
-              score: 42,
-              level: 5,
-              competence_code: '1.1',
-              area_code: '1',
-              competenceId: 'recABC123',
-              assessmentResultId: pixEdu2ndDegreAssessmentResultId,
-            }),
-          ],
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              acquired: true,
-              complementaryCertificationCourseId: 996,
-              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-              source: 'PIX',
-              label: 'Pix+ Édu 2nd degré Confirmé',
+              label: 'PARTNER_LABEL',
             }),
           ],
         }),

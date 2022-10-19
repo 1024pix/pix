@@ -112,8 +112,6 @@ const dependencies = {
   passwordGenerator: require('../../domain/services/password-generator'),
   pickChallengeService: require('../services/pick-challenge-service'),
   pixAuthenticationService: require('../../domain/services/authentication/pix-authentication-service'),
-  pixPlusDroitMaitreCertificationResultRepository: require('../../infrastructure/repositories/pix-plus-droit-maitre-certification-result-repository'),
-  pixPlusDroitExpertCertificationResultRepository: require('../../infrastructure/repositories/pix-plus-droit-expert-certification-result-repository'),
   placementProfileService: require('../../domain/services/placement-profile-service'),
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
   prescriberRepository: require('../../infrastructure/repositories/prescriber-repository'),

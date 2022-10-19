@@ -210,28 +210,44 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   }
 
   function buildComplementaryCertifications() {
-    const { id: cleaTargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
-    const { id: droitTargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
-    const { id: edu1TargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
-    const { id: edu2TargetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
-    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: cleaTargetProfileId });
-    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: droitTargetProfileId });
-    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: edu1TargetProfileId });
-    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId: edu2TargetProfileId });
-    databaseBuilderCli.factory.buildBadge({ key: 'PIX_EMPLOI_CLEA_V3', targetProfileId: cleaTargetProfileId });
-    databaseBuilderCli.factory.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: droitTargetProfileId });
-    databaseBuilderCli.factory.buildBadge({
-      key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
-      targetProfileId: edu1TargetProfileId,
+    buildComplementaryCertification({
+      complementaryCertificationId: 52,
+      complementaryCertificationKey: 'CLEA',
+      complementaryCertificationBadgeKey: 'PIX_EMPLOI_CLEA_V3',
     });
-    databaseBuilderCli.factory.buildBadge({
-      key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
-      targetProfileId: edu2TargetProfileId,
+    buildComplementaryCertification({
+      complementaryCertificationId: 53,
+      complementaryCertificationKey: 'DROIT',
+      complementaryCertificationBadgeKey: 'PIX_DROIT_EXPERT_CERTIF',
     });
+    buildComplementaryCertification({
+      complementaryCertificationId: 54,
+      complementaryCertificationKey: 'EDU_1ER_DEGRE',
+      complementaryCertificationBadgeKey: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+    });
+    buildComplementaryCertification({
+      complementaryCertificationId: 55,
+      complementaryCertificationKey: 'EDU_2ND_DEGRE',
+      complementaryCertificationBadgeKey: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+    });
+  }
 
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 52, key: 'CLEA' });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 53, key: 'DROIT' });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 54, key: 'EDU_1ER_DEGRE' });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 55, key: 'EDU_2ND_DEGRE' });
+  function buildComplementaryCertification({
+    complementaryCertificationId,
+    complementaryCertificationKey,
+    complementaryCertificationBadgeKey,
+  }) {
+    const { id: targetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
+    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId });
+
+    databaseBuilderCli.factory.buildComplementaryCertification({
+      id: complementaryCertificationId,
+      key: complementaryCertificationKey,
+    });
+    const { id: badgeId } = databaseBuilderCli.factory.buildBadge({
+      key: complementaryCertificationBadgeKey,
+      targetProfileId,
+    });
+    databaseBuilderCli.factory.buildComplementaryCertificationBadge({ complementaryCertificationId, badgeId });
   }
 });

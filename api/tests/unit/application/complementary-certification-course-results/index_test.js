@@ -1,5 +1,4 @@
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const Badge = require('../../../../lib/domain/models/Badge');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/complementary-certification-course-results');
 
@@ -28,7 +27,7 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
       const response = await httpTestServer.request('POST', '/api/admin/complementary-certification-course-results', {
         data: {
           attributes: {
-            juryLevel: Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+            juryLevel: 'JURY_LEVEL_KEY',
             complementaryCertificationCourseId: 1234,
           },
         },
