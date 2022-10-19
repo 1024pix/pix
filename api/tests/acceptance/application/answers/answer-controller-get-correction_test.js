@@ -2,7 +2,7 @@ const {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
-  mockLearningContent,
+  LearningContentMock,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
@@ -12,17 +12,20 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
 
   beforeEach(async function () {
     server = await createServer();
+    LearningContentMock.mockCommon();
   });
 
   describe('GET /api/answers/{id}/correction', function () {
     let assessment = null;
     let answer = null;
     let userId;
+    const challengeId = 'challengePixA1C1Th1Tu1S2Ch1';
+    const tutorialId = 'tutorialPixA1C1Th1Tu1S2Tuto1FR';
+    const skillId = 'skillPixA1C1Th1Tu1S2';
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ id: 111 }).id;
       assessment = databaseBuilder.factory.buildAssessment({
-        courseId: 'adaptive_course_id',
         state: 'completed',
         userId,
       });
@@ -30,69 +33,23 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
       answer = databaseBuilder.factory.buildAnswer({
         value: 'any good answer',
         result: 'ok',
-        challengeId: 'q_first_challenge',
+        challengeId,
         assessmentId: assessment.id,
       });
 
       databaseBuilder.factory.buildUserSavedTutorial({
         id: 10001,
         userId,
-        tutorialId: 'french-tutorial-id',
+        tutorialId,
       });
 
       databaseBuilder.factory.buildTutorialEvaluation({
         id: 10002,
         userId,
-        tutorialId: 'french-tutorial-id',
+        tutorialId,
       });
 
       await databaseBuilder.commit();
-
-      const learningContent = {
-        challenges: [
-          {
-            id: 'q_first_challenge',
-            status: 'validé',
-            competenceId: 'competence_id',
-            solution: 'fromage',
-            solutionToDisplay: 'camembert',
-            skillId: 'q_first_acquis',
-          },
-        ],
-        tutorials: [
-          {
-            id: 'english-tutorial-id',
-            locale: 'en-us',
-            duration: '00:00:54',
-            format: 'video',
-            link: 'https://tuto.com',
-            source: 'tuto.com',
-            title: 'tuto1',
-          },
-          {
-            id: 'french-tutorial-id',
-            locale: 'fr-fr',
-            duration: '00:03:31',
-            format: 'vidéo',
-            link: 'http://www.example.com/this-is-an-example.html',
-            source: 'Source Example, Example',
-            title: 'Communiquer',
-          },
-        ],
-        skills: [
-          {
-            id: 'q_first_acquis',
-            name: '@web3',
-            hintFrFr: 'Geolocaliser ?',
-            hintEnUs: 'Geolocate ?',
-            hintStatus: 'Validé',
-            competenceId: 'recABCD',
-            tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
-            learningMoreTutorialIds: [],
-          },
-        ],
-      };
-      mockLearningContent(learningContent);
     });
 
     context('when Accept-Language header is specified', function () {
@@ -107,20 +64,22 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
           },
         };
 
+        const challengeData = LearningContentMock.getChallengeDTO(challengeId);
+        const tutorialData = LearningContentMock.getTutorialDTO(tutorialId);
         const expectedBody = {
           data: {
-            id: 'q_first_challenge',
+            id: challengeId,
             type: 'corrections',
             attributes: {
-              solution: 'fromage',
-              'solution-to-display': 'camembert',
-              hint: 'Geolocaliser ?',
+              solution: challengeData.solution,
+              'solution-to-display': challengeData.solutionToDisplay,
+              hint: LearningContentMock.getSkillDTO(skillId).hintFr,
             },
             relationships: {
               tutorials: {
                 data: [
                   {
-                    id: 'french-tutorial-id',
+                    id: tutorialId,
                     type: 'tutorials',
                   },
                 ],
@@ -135,7 +94,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
               attributes: {
                 id: 10002,
                 status: 'LIKED',
-                'tutorial-id': 'french-tutorial-id',
+                'tutorial-id': tutorialId,
                 'user-id': 111,
               },
               id: '10002',
@@ -144,7 +103,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
             {
               attributes: {
                 id: 10001,
-                'tutorial-id': 'french-tutorial-id',
+                'tutorial-id': tutorialId,
                 'user-id': 111,
               },
               id: '10001',
@@ -152,15 +111,15 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
             },
             {
               attributes: {
-                duration: '00:03:31',
-                format: 'vidéo',
-                id: 'french-tutorial-id',
-                link: 'http://www.example.com/this-is-an-example.html',
-                'skill-id': 'q_first_acquis',
-                source: 'Source Example, Example',
-                title: 'Communiquer',
+                duration: tutorialData.duration,
+                format: tutorialData.format,
+                id: tutorialId,
+                link: tutorialData.link,
+                'skill-id': skillId,
+                source: tutorialData.source,
+                title: tutorialData.title,
               },
-              id: 'french-tutorial-id',
+              id: tutorialId,
               type: 'tutorials',
               relationships: {
                 'user-saved-tutorial': {
