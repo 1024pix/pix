@@ -87,4 +87,17 @@
   <div class="join-restricted-campaign__actions">
     <PixButton @type="submit">{{t "pages.join.button"}}</PixButton>
   </div>
+
+  <p class="signup-form__legal-details-container">
+    {{t "pages.join.rgpd-legal-notice"}}
+    <a
+      href="{{t 'pages.join.rgpd-legal-notice-url'}}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="link--underline"
+    >
+      {{t "pages.join.rgpd-legal-notice-link"}}
+    </a>
+  </p>
+
 </form>
