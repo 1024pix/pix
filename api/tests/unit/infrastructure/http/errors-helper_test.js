@@ -1,8 +1,8 @@
 const { expect } = require('../../../test-helper');
 
-const { getErrorDetails } = require('../../../../lib/infrastructure/http/errors-helper');
+const { serializeHttpErrorResponse } = require('../../../../lib/infrastructure/http/errors-helper');
 
-describe('getErrorDetails', function () {
+describe('serializeHttpErrorResponse', function () {
   describe('when http error data is null', function () {
     it('should display the string message', function () {
       // given
@@ -14,7 +14,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
@@ -35,7 +35,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
@@ -52,7 +52,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
@@ -76,7 +76,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({
@@ -100,7 +100,7 @@ describe('getErrorDetails', function () {
       const customMessage = 'Something bad happened';
 
       // when
-      const formattedResponse = getErrorDetails(errorResponse, customMessage);
+      const formattedResponse = serializeHttpErrorResponse(errorResponse, customMessage);
 
       // then
       expect(formattedResponse).to.deep.equal({

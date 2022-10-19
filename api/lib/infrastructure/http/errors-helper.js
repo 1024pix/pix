@@ -1,4 +1,4 @@
-function getErrorDetails(response, customMessage) {
+function serializeHttpErrorResponse(response, customMessage) {
   let errorDetails;
 
   if (typeof response.data === 'string') {
@@ -18,5 +18,5 @@ function getErrorDetails(response, customMessage) {
 }
 
 module.exports = {
-  getErrorDetails,
+  serializeHttpErrorResponse,
 };
