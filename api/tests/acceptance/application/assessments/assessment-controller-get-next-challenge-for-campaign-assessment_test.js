@@ -2,71 +2,22 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
+  LearningContentMock,
   knex,
   sinon,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-const competenceId = 'recCompetence';
-const skillWeb1Id = 'recAcquisWeb1';
-const skillWeb2Id = 'recAcquisWeb2';
-const skillWeb3Id = 'recAcquisWeb3';
-
-const firstChallengeId = 'recFirstChallenge';
-const secondChallengeId = 'recSecondChallenge';
-const thirdChallengeId = 'recThirdChallenge';
-const otherChallengeId = 'recOtherChallenge';
-
-const learningContent = [
-  {
-    id: 'recArea1',
-    titleFrFr: 'area1_Title',
-    color: 'someColor',
-    competences: [
-      {
-        id: competenceId,
-        nameFrFr: 'Mener une recherche et une veille d’information',
-        index: '1.1',
-        tubes: [
-          {
-            id: 'recTube0_0',
-            skills: [
-              {
-                id: skillWeb2Id,
-                name: '@web2',
-                challenges: [{ id: firstChallengeId, alpha: 2.8, delta: 1.1, langues: ['Franco Français'] }],
-              },
-              {
-                id: skillWeb3Id,
-                name: '@web3',
-                challenges: [{ id: secondChallengeId, langues: ['Franco Français'], alpha: -1.2, delta: 3.3 }],
-              },
-              {
-                id: skillWeb1Id,
-                name: '@web1',
-                challenges: [
-                  { id: thirdChallengeId, alpha: -0.2, delta: 2.7, langues: ['Franco Français'] },
-                  { id: otherChallengeId, alpha: -0.2, delta: -0.4, langues: ['Franco Français'] },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+const competenceId = 'competencePixA1C1';
+const challengeId = 'challengePixA1C1Th1Tu1S1Ch1';
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-campaign-assessment', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
-    mockLearningContent(learningContentObjects);
+    LearningContentMock.mockCommon();
   });
 
   describe('GET /api/assessments/:assessment_id/next', function () {
@@ -121,7 +72,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
         // then
         const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
         expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-        expect(response.result.data.id).to.equal(firstChallengeId);
+        expect(response.result.data.id).to.equal(challengeId);
       });
     });
   });
