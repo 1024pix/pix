@@ -154,17 +154,18 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const clientId = 'OIDC_CLIENT_ID';
         const tokenUrl = 'http://oidc.net/api/token';
         const clientSecret = 'OIDC_CLIENT_SECRET';
-
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        sinon.stub(httpAgent, 'post');
-        httpAgent.post.resolves({
+        const errorResponse = {
           isSuccessful: false,
           code: 400,
           data: {
             error: 'invalid_client',
             error_description: 'Invalid authentication method for accessing this endpoint.',
           },
-        });
+        };
+
+        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon.stub(httpAgent, 'post');
+        httpAgent.post.resolves(errorResponse);
 
         const oidcAuthenticationService = new OidcAuthenticationService({ clientSecret, clientId, tokenUrl });
 
@@ -183,10 +184,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
           message: {
             customMessage: 'Erreur lors de la récupération des tokens du partenaire.',
-            errorDetails: {
-              errorDescription: 'Invalid authentication method for accessing this endpoint.',
-              errorType: 'invalid_client',
-            },
+            errorDetails: JSON.stringify(errorResponse.data),
           },
         });
       });
