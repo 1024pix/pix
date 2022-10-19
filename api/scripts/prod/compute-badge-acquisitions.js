@@ -7,11 +7,9 @@ const { hideBin } = require('yargs/helpers');
 const { knex, disconnect } = require('../../db/knex-database-connection');
 const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
 const logger = require('../../lib/infrastructure/logger');
-const badgeCriteriaService = require('../../lib/domain/services/badge-criteria-service');
 const badgeAcquisitionRepository = require('../../lib/infrastructure/repositories/badge-acquisition-repository');
-const badgeRepository = require('../../lib/infrastructure/repositories/badge-repository');
+const badgeForCalculationRepository = require('../../lib/infrastructure/repositories/badge-for-calculation-repository');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
 const MAX_RANGE_SIZE = 100_000;
@@ -66,11 +64,9 @@ async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
       return computeBadgeAcquisition({
         campaignParticipation,
         dryRun,
-        badgeCriteriaService,
+        badgeForCalculationRepository,
         badgeAcquisitionRepository,
-        badgeRepository,
         knowledgeElementRepository,
-        campaignRepository,
       });
     }
   );
@@ -80,33 +76,29 @@ async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
 async function computeBadgeAcquisition({
   campaignParticipation,
   dryRun = false,
-  badgeCriteriaService,
+  badgeForCalculationRepository,
   badgeAcquisitionRepository,
-  badgeRepository,
   knowledgeElementRepository,
-  campaignRepository,
 } = {}) {
-  const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository);
+  const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(
+    campaignParticipation,
+    badgeForCalculationRepository
+  );
   if (_.isEmpty(associatedBadges)) {
     return 0;
   }
 
   const userId = campaignParticipation.userId;
-  const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
-    campaignParticipationId: campaignParticipation.id,
-  });
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
-  const validatedBadgesByUser = associatedBadges.filter((badge) =>
-    badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, skillIds, badge })
-  );
+  const obtainedBadgesByUser = associatedBadges.filter((badge) => badge.shouldBeObtained(knowledgeElements));
 
   const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
-    badgeIds: validatedBadgesByUser.map(({ id }) => id),
+    badgeIds: obtainedBadgesByUser.map(({ id }) => id),
     userId,
   });
 
-  const badgeAcquisitionsToCreate = validatedBadgesByUser
+  const badgeAcquisitionsToCreate = obtainedBadgesByUser
     .filter((badge) => !acquiredBadgeIds.includes(badge.id))
     .map((badge) => {
       return {
@@ -127,8 +119,10 @@ async function computeBadgeAcquisition({
   return badgeAcquisitionsToCreate.length;
 }
 
-function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository) {
-  return badgeRepository.findByCampaignParticipationId({ campaignParticipationId: campaignParticipation.id });
+function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeForCalculationRepository) {
+  return badgeForCalculationRepository.findByCampaignParticipationId({
+    campaignParticipationId: campaignParticipation.id,
+  });
 }
 
 async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {

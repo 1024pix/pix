@@ -3,6 +3,7 @@ const {
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   mockLearningContent,
+  learningContentBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { PIX_EMPLOI_CLEA_V1 } = require('../../../../lib/domain/models/Badge').keys;
@@ -12,100 +13,149 @@ describe('Acceptance | users-controller-is-certifiable', function () {
   let options;
   let user;
 
-  const learningContent = {
-    areas: [
+  beforeEach(async function () {
+    server = await createServer();
+
+    user = databaseBuilder.factory.buildUser();
+
+    const learningContent = learningContentBuilder.buildLearningContent.fromAreas([
       {
         id: 'recvoGdo7z2z7pXWa',
         titleFrFr: 'Information et données',
         color: 'jaffa',
         code: '1',
-        competenceIds: ['recCompetence1', 'recCompetence2', 'recCompetence3'],
+        competences: [
+          {
+            id: 'recCompetence1',
+            nameFrFr: 'Mener une recherche et une veille d’information',
+            index: '1.1',
+            origin: 'Pix',
+            areaId: 'recvoGdo7z2z7pXWa',
+            thematics: [
+              {
+                id: 'recThemCompetence1',
+                tubes: [
+                  {
+                    id: 'recTubeCompetence1',
+                    skills: [
+                      {
+                        id: 'skillId@web3',
+                        name: '@web3',
+                        status: 'actif',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'recCompetence2',
+            nameFrFr: 'Gérer les données',
+            index: '1.2',
+            origin: 'Pix',
+            areaId: 'recvoGdo7z2z7pXWa',
+            thematics: [
+              {
+                id: 'recThemCompetence2',
+                tubes: [
+                  {
+                    id: 'recTubeCompetence2',
+                    skills: [
+                      {
+                        id: 'skillId@fichier3',
+                        name: '@fichier3',
+                        status: 'actif',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'recCompetence3',
+            nameFrFr: 'Traiter les données',
+            index: '1.3',
+            origin: 'Pix',
+            areaId: 'recvoGdo7z2z7pXWa',
+            thematics: [
+              {
+                id: 'recThemCompetence3',
+                tubes: [
+                  {
+                    id: 'recTubeCompetence3',
+                    skills: [
+                      {
+                        id: 'skillId@tri3',
+                        name: '@tri3',
+                        status: 'actif',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         id: 'recDH19F7kKrfL3Ii',
         titleFrFr: 'Communication et collaboration',
         color: 'jaffa',
         code: '1',
-        competenceIds: ['recCompetence4', 'recCompetence5'],
+        competences: [
+          {
+            id: 'recCompetence4',
+            nameFrFr: 'Intéragir',
+            index: '2.1',
+            origin: 'Pix',
+            areaId: 'recDH19F7kKrfL3Ii',
+            thematics: [
+              {
+                id: 'recThemCompetence4',
+                tubes: [
+                  {
+                    id: 'recTubeCompetence4',
+                    skills: [
+                      {
+                        id: 'skillId@spam3',
+                        name: '@spam3',
+                        status: 'actif',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'recCompetence5',
+            nameFrFr: 'Partager et publier',
+            index: '2.2',
+            origin: 'Pix',
+            areaId: 'recDH19F7kKrfL3Ii',
+            thematics: [
+              {
+                id: 'recThemCompetence5',
+                tubes: [
+                  {
+                    id: 'recTubeCompetence5',
+                    skills: [
+                      {
+                        id: 'skillId@vocRS3',
+                        name: '@vocRS3',
+                        status: 'actif',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
-    ],
-    competences: [
-      {
-        id: 'recCompetence1',
-        nameFrFr: 'Mener une recherche et une veille d’information',
-        index: '1.1',
-        origin: 'Pix',
-        areaId: 'recvoGdo7z2z7pXWa',
-      },
-      {
-        id: 'recCompetence2',
-        nameFrFr: 'Gérer les données',
-        index: '1.2',
-        origin: 'Pix',
-        areaId: 'recvoGdo7z2z7pXWa',
-      },
-      {
-        id: 'recCompetence3',
-        nameFrFr: 'Traiter les données',
-        index: '1.3',
-        origin: 'Pix',
-        areaId: 'recvoGdo7z2z7pXWa',
-      },
-      {
-        id: 'recCompetence4',
-        nameFrFr: 'Intéragir',
-        index: '2.1',
-        origin: 'Pix',
-        areaId: 'recDH19F7kKrfL3Ii',
-      },
-      {
-        id: 'recCompetence5',
-        nameFrFr: 'Partager et publier',
-        index: '2.2',
-        origin: 'Pix',
-        areaId: 'recDH19F7kKrfL3Ii',
-      },
-    ],
-    skills: [
-      {
-        id: 'skillId@web3',
-        name: '@web3',
-        status: 'actif',
-        competenceId: 'recCompetence1',
-      },
-      {
-        id: 'skillId@fichier3',
-        name: '@fichier3',
-        status: 'actif',
-        competenceId: 'recCompetence2',
-      },
-      {
-        id: 'skillId@tri3',
-        name: '@tri3',
-        status: 'actif',
-        competenceId: 'recCompetence3',
-      },
-      {
-        id: 'skillId@spam3',
-        name: '@spam3',
-        status: 'actif',
-        competenceId: 'recCompetence4',
-      },
-      {
-        id: 'skillId@vocRS3',
-        name: '@vocRS3',
-        status: 'actif',
-        competenceId: 'recCompetence5',
-      },
-    ],
-  };
-
-  beforeEach(async function () {
-    // create server
-    server = await createServer();
-
-    user = databaseBuilder.factory.buildUser();
-
+    ]);
     mockLearningContent(learningContent);
 
     learningContent.skills.forEach(({ id: skillId, competenceId }) => {

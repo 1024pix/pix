@@ -2,8 +2,6 @@ const { knex } = require('../../../db/knex-database-connection');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadge = require('../orm-models/Badge');
 const Badge = require('../../domain/models/Badge');
-const BadgeCriterion = require('../../domain/models/BadgeCriterion');
-const SkillSet = require('../../domain/models/SkillSet');
 const omit = require('lodash/omit');
 const bookshelfUtils = require('../utils/knex-utils');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
@@ -32,36 +30,6 @@ module.exports = {
         withRelated: ['badgeCriteria', 'skillSets'],
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
-  },
-
-  async findByCampaignParticipationId({
-    campaignParticipationId,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const badges = await knexConn(TABLE_NAME)
-      .select('badges.*')
-      .join('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
-      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
-      .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-      .where('campaign-participations.id', campaignParticipationId);
-
-    const badgeIds = badges.map(({ id }) => id);
-
-    const badgeCriteriaDto = await knexConn('badge-criteria').whereIn('badgeId', badgeIds);
-
-    const skillSetsDto = await knexConn('skill-sets').whereIn('badgeId', badgeIds);
-
-    const badgeCriteria = badgeCriteriaDto.map((badgeCriterion) => new BadgeCriterion(badgeCriterion));
-    const skillSets = skillSetsDto.map((skillSet) => new SkillSet(skillSet));
-
-    return badges.map((badge) => {
-      return new Badge({
-        ...badge,
-        badgeCriteria: badgeCriteria.filter((badgeCriterion) => badgeCriterion.badgeId === badge.id),
-        skillSets: skillSets.filter((skillSet) => skillSet.badgeId === badge.id),
-      });
-    });
   },
 
   async isAssociated(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {

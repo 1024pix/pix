@@ -5,25 +5,19 @@ module.exports = async function getUserCampaignAssessmentResult({
   campaignId,
   locale,
   participantResultRepository,
-  knowledgeElementRepository,
-  badgeCriteriaService,
-  targetProfileRepository,
   badgeRepository,
-  campaignRepository,
+  knowledgeElementRepository,
+  badgeForCalculationRepository,
 }) {
   try {
-    const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
-    const skillIds = await campaignRepository.findSkillIds({ campaignId });
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
-    const badges = await badgeRepository.findByTargetProfileId(targetProfile.id);
-    const stillValidBadges = badges.filter((badge) =>
-      badgeCriteriaService.areBadgeCriteriaFulfilled({
-        knowledgeElements,
-        skillIds,
-        badge,
-      })
+    const badges = await badgeRepository.findByCampaignId(campaignId);
+    const stillValidBadgeIds = await _checkStillValidBadges(
+      campaignId,
+      userId,
+      knowledgeElementRepository,
+      badgeForCalculationRepository
     );
-
+    const stillValidBadges = badges.filter((badge) => stillValidBadgeIds.includes(badge.id));
     const assessmentResult = await participantResultRepository.getByUserIdAndCampaignId({
       userId,
       campaignId,
@@ -37,3 +31,9 @@ module.exports = async function getUserCampaignAssessmentResult({
     throw error;
   }
 };
+
+async function _checkStillValidBadges(campaignId, userId, knowledgeElementRepository, badgeForCalculationRepository) {
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+  const badges = await badgeForCalculationRepository.findByCampaignId({ campaignId });
+  return badges.filter((badge) => badge.shouldBeObtained(knowledgeElements)).map(({ id }) => id);
+}
