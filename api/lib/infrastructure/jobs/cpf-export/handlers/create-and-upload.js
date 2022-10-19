@@ -37,7 +37,7 @@ module.exports = async function createAndUpload({
     writableStream: gzipStream,
   });
 
-  const now = dayjs().tz('Europe/Paris').format('YYYYMMDD-HHmmssSSS');
+  const now = dayjs().tz('Europe/Paris').format('YYYYMMDD-HHmmss');
   const filename = `pix-cpf-export-${now}.xml.gz`;
   await cpfExternalStorage.upload({
     filename,

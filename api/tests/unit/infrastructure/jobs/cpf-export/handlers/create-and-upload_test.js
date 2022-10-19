@@ -70,12 +70,12 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       writableStream: sinon.match(PassThrough),
     });
     expect(cpfExternalStorage.upload).to.have.been.calledWith({
-      filename: 'pix-cpf-export-20220101-114327000.xml.gz',
+      filename: 'pix-cpf-export-20220101-114327.xml.gz',
       readableStream: sinon.match(Readable),
     });
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
       certificationCourseIds: [12, 20, 33, 98, 114],
-      filename: 'pix-cpf-export-20220101-114327000.xml.gz',
+      filename: 'pix-cpf-export-20220101-114327.xml.gz',
     });
   });
 });

@@ -2,6 +2,10 @@ const { cpf } = require('../../config');
 const { create, fragment } = require('xmlbuilder2');
 const { v4: uuidv4 } = require('uuid');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const schemaVersion = '1.0.0';
 
@@ -9,7 +13,7 @@ const schemaVersion = '1.0.0';
 async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}}) {
   const overrideOpts = { allowEmptyTags: true, };
   const PLACEHOLDER = 'PLACEHOLDER';
-  const formatedDate = dayjs().format('YYYY-MM-DDThh:mm:ss') + '+01:00';
+  const formatedDate = dayjs().tz('Europe/Paris').format('YYYY-MM-DDThh:mm:ss') + '+01:00';
   const root = create()
     .ele('cpf:flux', {
       'xmlns:cpf': `urn:cdc:cpf:pc5:schema:${schemaVersion}`,
