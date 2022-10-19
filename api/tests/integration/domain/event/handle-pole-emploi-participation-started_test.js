@@ -1,11 +1,4 @@
-const {
-  expect,
-  databaseBuilder,
-  knex,
-  mockLearningContent,
-  learningContentBuilder,
-  sinon,
-} = require('../../../test-helper');
+const { expect, databaseBuilder, knex, LearningContentMock, sinon } = require('../../../test-helper');
 const handlePoleEmploiParticipationStarted = require('../../../../lib/domain/events/handle-pole-emploi-participation-started');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
@@ -37,9 +30,7 @@ describe('Integration | Event | Handle Pole emploi participation started', funct
       event = new CampaignParticipationStartedEvent();
       event.campaignParticipationId = campaignParticipationId;
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([]);
-      mockLearningContent(learningContentObjects);
-
+      LearningContentMock.mockCommon();
       return databaseBuilder.commit();
     });
 
