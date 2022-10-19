@@ -57,4 +57,33 @@ buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas = function (
   });
 };
 
+buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromCompetences_new = function ({
+  competences,
+  userId,
+  placementDate,
+  earnedPix,
+}) {
+  const competenceIdSkillIdPairs = [];
+  competences.forEach((competence) => {
+    competence.thematics.forEach((thematic) => {
+      thematic.tubes.forEach((tube) => {
+        tube.skills.forEach((skill) => {
+          competenceIdSkillIdPairs.push({ competenceId: competence.id, skillId: skill.id });
+          skill.challenges.forEach((challenge) => {
+            buildCorrectAnswerAndKnowledgeElement({
+              userId,
+              competenceId: competence.id,
+              skillId: skill.id,
+              challengeId: challenge.id,
+              pixValue: earnedPix,
+              acquisitionDate: placementDate,
+            });
+          });
+        });
+      });
+    });
+  });
+  return competenceIdSkillIdPairs;
+};
+
 module.exports = buildCorrectAnswersAndKnowledgeElementsForLearningContent;

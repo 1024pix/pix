@@ -4,154 +4,22 @@ const {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-  mockLearningContent,
-  learningContentBuilder,
+  LearningContentMock,
 } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Badge = require('../../../../lib/domain/models/Badge');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const createServer = require('../../../../server');
 
+const skillId = 'skillPixA1C1Th1Tu1S1';
+const competenceId = 'competencePixA1C1';
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
   let server;
   let user, assessment;
-  const learningContent = [
-    {
-      id: 'recArea0',
-      competences: [
-        {
-          id: 'recCompetence0',
-          tubes: [
-            {
-              id: 'recTube0_0',
-              skills: [
-                {
-                  id: 'recSkill0_0',
-                  name: '@recSkill0_0',
-                  challenges: [{ id: 'recChallenge0_0_0' }],
-                },
-                {
-                  id: 'recSkill0_1',
-                  name: '@recSkill0_1',
-                  challenges: [{ id: 'recChallenge0_1_0' }],
-                },
-                {
-                  id: 'recSkill0_2',
-                  name: '@recSkill0_2',
-                  challenges: [{ id: 'recChallenge0_2_0' }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'recCompetence1',
-          tubes: [
-            {
-              id: 'recTube1_0',
-              skills: [
-                {
-                  id: 'recSkill1_0',
-                  name: '@recSkill1_0',
-                  challenges: [{ id: 'recChallenge1_0_0' }],
-                },
-                {
-                  id: 'recSkill1_1',
-                  name: '@recSkill1_1',
-                  challenges: [{ id: 'recChallenge1_1_0' }],
-                },
-                {
-                  id: 'recSkill1_2',
-                  name: '@recSkill1_2',
-                  challenges: [{ id: 'recChallenge1_2_0' }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'recCompetence2',
-          tubes: [
-            {
-              id: 'recTube2_0',
-              skills: [
-                {
-                  id: 'recSkill2_0',
-                  name: '@recSkill2_0',
-                  challenges: [{ id: 'recChallenge2_0_0' }],
-                },
-                {
-                  id: 'recSkill2_1',
-                  name: '@recSkill2_1',
-                  challenges: [{ id: 'recChallenge2_1_0' }],
-                },
-                {
-                  id: 'recSkill2_2',
-                  name: '@recSkill2_2',
-                  challenges: [{ id: 'recChallenge2_2_0' }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'recCompetence3',
-          tubes: [
-            {
-              id: 'recTube3_0',
-              skills: [
-                {
-                  id: 'recSkill3_0',
-                  name: '@recSkill3_0',
-                  challenges: [{ id: 'recChallenge3_0_0' }],
-                },
-                {
-                  id: 'recSkill3_1',
-                  name: '@recSkill3_1',
-                  challenges: [{ id: 'recChallenge3_1_0' }],
-                },
-                {
-                  id: 'recSkill3_2',
-                  name: '@recSkill3_2',
-                  challenges: [{ id: 'recChallenge3_2_0' }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'recCompetence4',
-          tubes: [
-            {
-              id: 'recTube4_0',
-              skills: [
-                {
-                  id: 'recSkill4_0',
-                  name: '@recSkill4_0',
-                  challenges: [{ id: 'recChallenge4_0_0' }],
-                },
-                {
-                  id: 'recSkill4_1',
-                  name: '@recSkill4_1',
-                  challenges: [{ id: 'recChallenge4_1_0' }],
-                },
-                {
-                  id: 'recSkill4_2',
-                  name: '@recSkill4_2',
-                  challenges: [{ id: 'recChallenge4_2_0' }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
   beforeEach(async function () {
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
-    mockLearningContent(learningContentObjects);
+    LearningContentMock.mockCommon();
 
     server = await createServer();
 
@@ -314,9 +182,10 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const limitDate = new Date('2020-01-01T00:00:00Z');
         certifiableUserId = databaseBuilder.factory.buildUser().id;
 
+        const competence = LearningContentMock.getCompetenceDTO(competenceId);
         const competenceIdSkillIdPairs =
-          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-            learningContent,
+          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromCompetences_new({
+            competences: [competence],
             userId: certifiableUserId,
             placementDate: limitDate,
             earnedPix: 8,
@@ -330,7 +199,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 }).id;
         databaseBuilder.factory.buildSkillSet({
           badgeId,
-          skillIds: ['recSkill0_0'],
+          skillIds: [skillId],
         });
 
         return databaseBuilder.commit();
@@ -372,13 +241,13 @@ async function _createAndCompleteCampaignParticipation({ user, campaign, badge, 
 
   databaseBuilder.factory.buildTargetProfileSkill({
     targetProfileId: campaign.targetProfileId,
-    skillId: 'recSkill0_0',
+    skillId,
   });
   databaseBuilder.factory.buildKnowledgeElement({
-    skillId: 'recSkill0_0',
+    skillId,
     assessmentId: campaignAssessment.id,
     userId: user.id,
-    competenceId: 'recCompetence0',
+    competenceId,
     createdAt: anyDateBeforeCampaignParticipation,
   });
   databaseBuilder.factory.buildBadgeCriterion({
