@@ -13,7 +13,6 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
   let user;
 
   beforeEach(async function () {
-    server.create('feature-toggle', { id: 0, isPixAppTutoFiltersEnabled: true });
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
