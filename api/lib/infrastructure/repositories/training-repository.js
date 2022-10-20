@@ -2,6 +2,8 @@ const Training = require('../../domain/models/Training');
 const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
+const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining');
+const { fetchPage } = require('../utils/knex-utils');
 const TABLE_NAME = 'trainings';
 
 module.exports = {
@@ -65,6 +67,21 @@ module.exports = {
     const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
 
     return _toDomain(updatedTraining, targetProfileTrainings);
+  },
+
+  async findPaginatedByUserId({ userId, locale, page, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const query = knexConn(TABLE_NAME)
+      .select('trainings.*')
+      .join('user-recommended-trainings', 'trainings.id', 'trainingId')
+      .where({ userId, locale })
+      .orderBy('id', 'asc');
+    const { results, pagination } = await fetchPage(query, page);
+
+    const userRecommendedTrainings = results.map(
+      (userRecommendedTraining) => new UserRecommendedTraining(userRecommendedTraining)
+    );
+    return { userRecommendedTrainings, pagination };
   },
 };
 

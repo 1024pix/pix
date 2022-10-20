@@ -2,6 +2,7 @@ const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../.
 const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Training = require('../../../../lib/domain/models/Training');
+const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
 
 describe('Integration | Repository | training-repository', function () {
   describe('#findByTargetProfileId', function () {
@@ -299,6 +300,91 @@ describe('Integration | Repository | training-repository', function () {
         .first();
       expect(trainingNotUpdated.title).to.equal(trainingNotToBeUpdated.title);
       expect(trainingNotUpdated.link).to.equal(trainingNotToBeUpdated.link);
+    });
+  });
+
+  describe('#findPaginatedByUserId', function () {
+    it('should return paginated trainings related to given userId', async function () {
+      // given
+      const { userId, id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation();
+      const { userId: anotherUserId, id: anotherCampaignParticipationId } =
+        databaseBuilder.factory.buildCampaignParticipation();
+      const training1 = databaseBuilder.factory.buildTraining();
+      const training2 = databaseBuilder.factory.buildTraining();
+      const training3 = databaseBuilder.factory.buildTraining();
+      const training4 = databaseBuilder.factory.buildTraining();
+      const trainingWithAnotherLocale = databaseBuilder.factory.buildTraining({ locale: 'en-gb' });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training1.id,
+        campaignParticipationId,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training2.id,
+        campaignParticipationId,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training3.id,
+        campaignParticipationId,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training4.id,
+        campaignParticipationId,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: trainingWithAnotherLocale.id,
+        campaignParticipationId,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId: anotherUserId,
+        trainingId: training2.id,
+        campaignParticipationId: anotherCampaignParticipationId,
+      });
+      await databaseBuilder.commit();
+
+      const page = { size: 2, number: 2 };
+
+      // when
+      const { userRecommendedTrainings, pagination } = await trainingRepository.findPaginatedByUserId({
+        userId,
+        locale: 'fr-fr',
+        page,
+      });
+
+      // then
+      expect(userRecommendedTrainings).to.be.lengthOf(2);
+      expect(userRecommendedTrainings[0]).to.be.instanceOf(UserRecommendedTraining);
+      expect(userRecommendedTrainings).to.deep.equal([
+        new UserRecommendedTraining({ ...training3, duration: { hours: 6 } }),
+        new UserRecommendedTraining({ ...training4, duration: { hours: 6 } }),
+      ]);
+      expect(pagination).to.equal(pagination);
+    });
+
+    it('should return an empty array when given user does not have recommended trainings', async function () {
+      // given
+      const { userId, id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training1 = databaseBuilder.factory.buildTraining();
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training1.id,
+        campaignParticipationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const { userRecommendedTrainings, pagination } = await trainingRepository.findPaginatedByUserId({
+        userId: '0293',
+        locale: 'fr-fr',
+      });
+
+      // then
+      expect(userRecommendedTrainings).to.be.lengthOf(0);
+      expect(pagination).to.deep.equal({ page: 1, pageSize: 10, rowCount: 0, pageCount: 0 });
     });
   });
 });
