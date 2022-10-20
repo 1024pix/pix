@@ -250,4 +250,12 @@ export default function () {
   this.delete('/sessions/:id', async () => {
     return new Response(204);
   });
+
+  this.post('certif/certification-centers/:id/update-referer', async (schema, request) => {
+    const payload = JSON.parse(request.requestBody);
+    const memberId = payload.data.attributes.userId;
+    const member = schema.members.find(memberId);
+    await member.update({ isReferer: true });
+    return new Response(204);
+  });
 }

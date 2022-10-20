@@ -127,4 +127,16 @@ module.exports = {
     });
     return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
   },
+
+  async updateReferer(request, h) {
+    const certificationCenterId = request.params.certificationCenterId;
+    const { userId, isReferer } = request.payload.data.attributes;
+
+    await usecases.updateCertificationCenterReferer({
+      userId,
+      certificationCenterId,
+      isReferer,
+    });
+    return h.response().code(204);
+  },
 };

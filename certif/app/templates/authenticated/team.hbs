@@ -1,4 +1,34 @@
-{{page-title "Équipe"}}
+{{page-title (t "pages.team.title")}}
 
-<h1 class="page__title page-title">Équipe</h1>
-<MembersList @members={{@model}} />
+<h1 class="page__title page-title">{{t "pages.team.title"}}</h1>
+{{#if this.shouldDisplayNoRefererSection}}
+  <div class="panel team__no-referer-container">
+    <div class="team__no-referer-container-grey">
+      <div class="team__no-referer-bell-icon">
+        <FaIcon @icon="bell" />
+      </div>
+      <div>
+        <h1 class="team__no-referer-title">
+          {{t "pages.team.no-referer-section.title"}}
+        </h1>
+        <p class="team__no-referer-description">
+          {{t "pages.team.no-referer-section.description"}}
+        </p>
+
+        <PixButton class="team__referer-add-button" @triggerAction={{this.toggleRefererModal}}>
+          {{t "pages.team.no-referer-section.select-referer-button"}}
+        </PixButton>
+      </div>
+    </div>
+  </div>
+{{/if}}
+{{#if this.shouldShowRefererSelectionModal}}
+  <SelectRefererModal
+    @toggleRefererModal={{this.toggleRefererModal}}
+    @onSelectReferer={{this.onSelectReferer}}
+    @onValidateReferer={{this.onValidateReferer}}
+    @noSelectedReferer={{not this.selectedReferer.length}}
+    @options={{this.membersSelectOptionsSortedByLastName}}
+  />
+{{/if}}
+<MembersList @members={{@model.members}} />
