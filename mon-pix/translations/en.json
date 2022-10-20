@@ -905,10 +905,22 @@
         "error": "An error has occured. Please try again or contact the support.",
         "fields": {
           "birthdate": {
-            "day-error": "Your birth day is in an invalid format.",
             "label": "Date of birth (DD/MM/YYYY)",
-            "month-error": "Your birth month is in an invalid format.",
-            "year-error": "Your birth year is in an invalid format."
+            "month": {
+              "label": "Month",
+              "placeholder": "MM",
+              "error": "Your birth month is in an invalid format."
+            },
+            "day": {
+              "label": "Day",
+              "placeholder": "DD",
+              "error": "Your birth day is in an invalid format."
+            },
+            "year": {
+              "label": "Year",
+              "placeholder": "YYYY",
+              "error": "Your birth year is in an invalid format."
+            }
           },
           "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
           "email": {

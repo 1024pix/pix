@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { click, fillIn, find, triggerEvent } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
@@ -57,25 +57,12 @@ describe('Integration | Component | routes/register-form', function () {
     this.owner.register('service:store', storeStub);
   });
 
-  it('renders', async function () {
-    // when
-    await render(hbs`<Routes::RegisterForm/>`);
-
-    //then
-    expect(find('.register-form')).to.exist;
-  });
-
   context('successful cases', function () {
     it('should call authentication service by email with appropriate parameters, when all things are ok and form is submitted', async function () {
       // given
-      await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::RegisterForm />`);
 
-      await fillIn('#firstName', 'pix');
-      await fillIn('#lastName', 'pix');
-      await fillIn('#dayOfBirth', '10');
-      await fillIn('#monthOfBirth', '10');
-      await fillIn('#yearOfBirth', '2010');
-
+      await fillInputReconciliationForm({ screen, intl: this.intl });
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
       await click('.pix-toggle__off');
 
@@ -97,14 +84,9 @@ describe('Integration | Component | routes/register-form', function () {
 
     it('should call authentication service by username with appropriate parameters, when all things are ok and form is submitted', async function () {
       // given
-      await render(hbs`<Routes::RegisterForm />`);
+      const screen = await render(hbs`<Routes::RegisterForm />`);
 
-      await fillIn('#firstName', 'pix');
-      await fillIn('#lastName', 'pix');
-      await fillIn('#dayOfBirth', '10');
-      await fillIn('#monthOfBirth', '10');
-      await fillIn('#yearOfBirth', '2010');
-
+      await fillInputReconciliationForm({ screen, intl: this.intl });
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       await fillIn('#password', 'Mypassword1');
@@ -124,13 +106,8 @@ describe('Integration | Component | routes/register-form', function () {
 
     it('should display RGPD legal notice', async function () {
       // given
-      const screen = await renderScreen(hbs`<Routes::RegisterForm />`);
-
-      await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), 'Legolas');
-      await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), 'Vertefeuille');
-      await fillIn('#dayOfBirth', '10');
-      await fillIn('#monthOfBirth', '10');
-      await fillIn('#yearOfBirth', '2010');
+      const screen = await render(hbs`<Routes::RegisterForm />`);
+      await fillInputReconciliationForm({ screen, intl: this.intl });
 
       // when
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -150,14 +127,9 @@ describe('Integration | Component | routes/register-form', function () {
         const expectedRegisterErrorMessage = this.intl.t('pages.login-or-register.register-form.error');
         saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
         // when
-        await render(hbs`<Routes::RegisterForm />`);
+        const screen = await render(hbs`<Routes::RegisterForm />`);
 
-        await fillIn('#firstName', 'pix');
-        await fillIn('#lastName', 'pix');
-        await fillIn('#dayOfBirth', '10');
-        await fillIn('#monthOfBirth', '10');
-        await fillIn('#yearOfBirth', '2010');
-
+        await fillInputReconciliationForm({ screen, intl: this.intl });
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         await fillIn('#password', 'Mypassword1');
@@ -260,13 +232,9 @@ describe('Integration | Component | routes/register-form', function () {
     }) {
       it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function () {
         // given
-        await render(hbs`<Routes::RegisterForm /> `);
+        const screen = await render(hbs`<Routes::RegisterForm /> `);
 
-        await fillIn('#firstName', 'pix');
-        await fillIn('#lastName', 'pix');
-        await fillIn('#dayOfBirth', '10');
-        await fillIn('#monthOfBirth', '10');
-        await fillIn('#yearOfBirth', '2010');
+        await fillInputReconciliationForm({ screen, intl: this.intl });
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // when
@@ -284,13 +252,9 @@ describe('Integration | Component | routes/register-form', function () {
 
     it('should not call api when email is invalid', async function () {
       // given
-      await render(hbs`<Routes::RegisterForm /> `);
+      const screen = await render(hbs`<Routes::RegisterForm /> `);
 
-      await fillIn('#firstName', 'pix');
-      await fillIn('#lastName', 'pix');
-      await fillIn('#dayOfBirth', '10');
-      await fillIn('#monthOfBirth', '10');
-      await fillIn('#yearOfBirth', '2010');
+      await fillInputReconciliationForm({ screen, intl: this.intl });
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // when
@@ -315,13 +279,9 @@ describe('Integration | Component | routes/register-form', function () {
     ].forEach(function ({ stringFilledIn }) {
       it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function () {
         // given
-        await render(hbs`<Routes::RegisterForm /> `);
+        const screen = await render(hbs`<Routes::RegisterForm /> `);
 
-        await fillIn('#firstName', 'pix');
-        await fillIn('#lastName', 'pix');
-        await fillIn('#dayOfBirth', '10');
-        await fillIn('#monthOfBirth', '10');
-        await fillIn('#yearOfBirth', '2010');
+        await fillInputReconciliationForm({ screen, intl: this.intl });
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // when
@@ -338,13 +298,9 @@ describe('Integration | Component | routes/register-form', function () {
 
     it('should not call api when password is invalid', async function () {
       // given
-      await render(hbs`<Routes::RegisterForm /> `);
+      const screen = await render(hbs`<Routes::RegisterForm /> `);
 
-      await fillIn('#firstName', 'pix');
-      await fillIn('#lastName', 'pix');
-      await fillIn('#dayOfBirth', '10');
-      await fillIn('#monthOfBirth', '10');
-      await fillIn('#yearOfBirth', '2010');
+      await fillInputReconciliationForm({ screen, intl: this.intl });
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // when
@@ -373,13 +329,8 @@ describe('Integration | Component | routes/register-form', function () {
     ].forEach(({ status, errorMessage }) => {
       it(`should display an error message if user saves with an error response status ${status}`, async function () {
         saveUserAssociationStub.rejects({ errors: [{ status }] });
-        await render(hbs`<Routes::RegisterForm />`);
-
-        await fillIn('#firstName', 'pix');
-        await fillIn('#lastName', 'pix');
-        await fillIn('#dayOfBirth', '10');
-        await fillIn('#monthOfBirth', '10');
-        await fillIn('#yearOfBirth', '2010');
+        const screen = await render(hbs`<Routes::RegisterForm />`);
+        await fillInputReconciliationForm({ screen, intl: this.intl });
 
         // when
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -406,8 +357,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -433,8 +384,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -460,8 +411,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -487,8 +438,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -514,8 +465,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -541,8 +492,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -568,8 +519,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -597,8 +548,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -624,8 +575,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -651,8 +602,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -678,8 +629,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -705,8 +656,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -732,8 +683,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -759,8 +710,8 @@ describe('Integration | Component | routes/register-form', function () {
 
           saveUserAssociationStub.rejects({ errors: [error] });
 
-          await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm();
+          const screen = await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
@@ -772,10 +723,25 @@ describe('Integration | Component | routes/register-form', function () {
   });
 });
 
-async function fillInputReconciliationForm() {
-  await fillIn('#firstName', 'pix');
-  await fillIn('#lastName', 'pix');
-  await fillIn('#dayOfBirth', '10');
-  await fillIn('#monthOfBirth', '10');
-  await fillIn('#yearOfBirth', '2010');
+async function fillInputReconciliationForm({ screen, intl }) {
+  await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), 'Legolas');
+  await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), 'Vertefeuille');
+  await fillIn(
+    screen.getByRole('spinbutton', {
+      name: intl.t('pages.login-or-register.register-form.fields.birthdate.day.label'),
+    }),
+    '10'
+  );
+  await fillIn(
+    screen.getByRole('spinbutton', {
+      name: intl.t('pages.login-or-register.register-form.fields.birthdate.month.label'),
+    }),
+    '10'
+  );
+  await fillIn(
+    screen.getByRole('spinbutton', {
+      name: intl.t('pages.login-or-register.register-form.fields.birthdate.year.label'),
+    }),
+    '2010'
+  );
 }
