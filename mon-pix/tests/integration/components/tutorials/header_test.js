@@ -28,13 +28,7 @@ describe('Integration | Component | Tutorials | Header', function () {
   });
 
   describe('when shouldShowFilterButton is true', function () {
-    it('should render filter button when tutorial filter feature toggle is activate', async function () {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isPixAppTutoFiltersEnabled: true };
-      }
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
-
+    it('should render filter button', async function () {
       // when
       const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{true}}/>`);
 
@@ -44,13 +38,7 @@ describe('Integration | Component | Tutorials | Header', function () {
   });
 
   describe('when shouldShowFilterButton is false', function () {
-    it('should render filter button when tutorial filter feature toggle is activate', async function () {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isPixAppTutoFiltersEnabled: true };
-      }
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
-
+    it('should render filter button', async function () {
       // when
       const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{false}}/>`);
 
