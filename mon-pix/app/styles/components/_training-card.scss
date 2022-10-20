@@ -36,11 +36,31 @@
   }
 }
 
-.training-card-content__image {
+.training-card-content__illustration {
   position: absolute;
-  bottom: 80px;
-  left: 0;
   height: 155px;
   width: 100%;
-  object-fit: cover;
+  bottom: 80px;
+  left: 0;
+
+  .training-card-content-illustration {
+
+    &__logo {
+      z-index: 1;
+      position: absolute;
+      left: $spacing-s;
+      width: 64px;
+      padding: $spacing-xxs;
+      background-color: $pix-neutral-0;
+      border-radius: 0 0 4px 4px;
+    }
+
+    &__image {
+      height: 155px;
+      width: 100%;
+      z-index: 0;
+      position: absolute;
+      object-fit: cover;
+    }
+  }
 }

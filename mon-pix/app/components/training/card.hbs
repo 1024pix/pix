@@ -11,7 +11,14 @@
         </li>
       </ul>
     </PixTag>
-    {{! template-lint-disable require-valid-alt-text }}
-    <img class="training-card-content__image" src={{this.imageSrc}} alt="" />
+    <div class="training-card-content__illustration">
+      <img
+        class="training-card-content-illustration__logo"
+        src="images/logo/logo-ministere-education-nationale-et-jeunesse.svg"
+        alt="{{t 'common.french-education-ministry'}}"
+      />
+      {{! template-lint-disable require-valid-alt-text }}
+      <img class="training-card-content-illustration__image" src={{this.imageSrc}} alt="" />
+    </div>
   </a>
 </PixBlock>
