@@ -707,6 +707,48 @@ describe('Acceptance | API | Certification Center', function () {
     });
   });
 
+  describe('POST /api/certif/certification-centers/{certificationCenterId}/update-referer', function () {
+    it('should return 204 HTTP status', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterMemberId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        isReferer: false,
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: certificationCenterMemberId,
+        certificationCenterId,
+        isReferer: false,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          attributes: {
+            isReferer: true,
+            userId,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/certif/certification-centers/${certificationCenterId}/update-referer`,
+        payload,
+        headers: { authorization: generateValidRequestAuthorizationHeader(certificationCenterMemberId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
   function _buildOrganizationLearners(organization, ...students) {
     const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
     return students.map((student) =>

@@ -65,35 +65,6 @@ module.exports = {
     return certificationCenterMemberships.map(_toDomain);
   },
 
-  async findActiveByCertificationCenterIdSortedByNames({ certificationCenterId }) {
-    const certificationCenterMemberships = await knex
-      .select(
-        'certification-center-memberships.*',
-        'users.firstName',
-        'users.lastName',
-        'users.email',
-        'certification-centers.name',
-        'certification-centers.type',
-        'certification-centers.externalId',
-        'certification-centers.createdAt AS certificationCenterCreatedAt',
-        'certification-centers.updatedAt AS certificationCenterUpdatedAt'
-      )
-      .from('certification-center-memberships')
-      .leftJoin('users', 'users.id', 'certification-center-memberships.userId')
-      .leftJoin(
-        'certification-centers',
-        'certification-centers.id',
-        'certification-center-memberships.certificationCenterId'
-      )
-      .where({
-        certificationCenterId,
-        disabledAt: null,
-      })
-      .orderBy('lastName', 'ASC')
-      .orderBy('firstName', 'ASC');
-    return certificationCenterMemberships.map(_toDomain);
-  },
-
   async findActiveByCertificationCenterIdSortedById({ certificationCenterId }) {
     const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({
       certificationCenterId,
@@ -163,5 +134,9 @@ module.exports = {
     } catch (e) {
       throw new CertificationCenterMembershipDisableError();
     }
+  },
+
+  async updateRefererStatusByUserIdAndCertificationCenterId({ userId, certificationCenterId, isReferer }) {
+    await knex('certification-center-memberships').where({ userId, certificationCenterId }).update({ isReferer });
   },
 };

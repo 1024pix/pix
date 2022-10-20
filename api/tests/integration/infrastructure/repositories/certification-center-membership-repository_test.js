@@ -271,121 +271,6 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
-  describe('#findActiveByCertificationCenterIdSortedByNames', function () {
-    it('should return certification center membership associated to the certification center', async function () {
-      // given
-      const now = new Date('2021-01-02');
-      const clock = sinon.useFakeTimers(now);
-
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ updatedAt: now });
-      const user = databaseBuilder.factory.buildUser();
-      const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user.id,
-      });
-      const expectedUser = {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      };
-      await databaseBuilder.commit();
-
-      // when
-      const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByNames({
-          certificationCenterId: certificationCenter.id,
-        });
-
-      // then
-      expect(foundCertificationCenterMemberships).to.be.an('array');
-
-      const foundCertificationCenterMembership = foundCertificationCenterMemberships[0];
-      expect(foundCertificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
-      expect(foundCertificationCenterMembership.id).to.equal(certificationCenterMembership.id);
-
-      expect(foundCertificationCenterMembership.user).to.be.an.instanceOf(User);
-      expect(foundCertificationCenterMembership.user.lastName).to.be.equal(expectedUser.lastName);
-      expect(foundCertificationCenterMembership.user.firstName).to.be.equal(expectedUser.firstName);
-      clock.restore();
-    });
-
-    it('should return certification center memberships sorted by lastName and firstName', async function () {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      const user1 = databaseBuilder.factory.buildUser({ lastName: 'Abba' });
-      const user4 = databaseBuilder.factory.buildUser({ lastName: 'Dodo', firstName: 'Jean' });
-      const user3 = databaseBuilder.factory.buildUser({ lastName: 'Dodo', firstName: 'Alice' });
-      const user2 = databaseBuilder.factory.buildUser({ lastName: 'Dada' });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user1.id,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user4.id,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user3.id,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user2.id,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByNames({
-          certificationCenterId: certificationCenter.id,
-        });
-
-      // then
-      const certificationCenterMembershipFound1 = foundCertificationCenterMemberships[0];
-      expect(certificationCenterMembershipFound1.user.lastName).to.equal('Abba');
-
-      const certificationCenterMembershipFound2 = foundCertificationCenterMemberships[1];
-      expect(certificationCenterMembershipFound2.user.lastName).to.equal('Dada');
-
-      const certificationCenterMembershipFound3 = foundCertificationCenterMemberships[2];
-      expect(certificationCenterMembershipFound3.user.lastName).to.equal('Dodo');
-      expect(certificationCenterMembershipFound3.user.firstName).to.equal('Alice');
-
-      const certificationCenterMembershipFound4 = foundCertificationCenterMemberships[3];
-      expect(certificationCenterMembershipFound4.user.lastName).to.equal('Dodo');
-      expect(certificationCenterMembershipFound4.user.firstName).to.equal('Jean');
-    });
-
-    it('should only return active (not disabled) certification center memberships', async function () {
-      // given
-      const now = new Date();
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      const user1 = databaseBuilder.factory.buildUser();
-      const user2 = databaseBuilder.factory.buildUser();
-      const activeCertificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership({
-        userId: user1.id,
-        certificationCenterId: certificationCenter.id,
-      }).id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId: user2.id,
-        certificationCenterId: certificationCenter.id,
-        disabledAt: now,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByNames({
-          certificationCenterId: certificationCenter.id,
-        });
-
-      // then
-      expect(foundCertificationCenterMemberships.length).to.equal(1);
-      expect(foundCertificationCenterMemberships[0].id).to.equal(activeCertificationCenterMembershipId);
-    });
-  });
-
   describe('#isMemberOfCertificationCenter', function () {
     it('should return false if user has no membership in given certification center', async function () {
       // given
@@ -512,6 +397,39 @@ describe('Integration | Repository | Certification Center Membership', function 
         expect(error).to.be.an.instanceOf(CertificationCenterMembershipDisableError);
         expect(error.message).to.be.equal('Erreur lors de la mise à jour du membership de centre de certification.');
       });
+    });
+  });
+
+  describe('#updateRefererStatusByUserIdAndCertificationCenterId', function () {
+    it('should update isReferer on certification center membership', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        disabledAt: null,
+        isReferer: false,
+      });
+
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId({
+        userId,
+        certificationCenterId,
+        isReferer: true,
+      });
+
+      // then
+      const updatedCertificationCenterMembership = await knex('certification-center-memberships')
+        .where({
+          userId,
+          certificationCenterId,
+        })
+        .first();
+      expect(updatedCertificationCenterMembership.isReferer).to.be.true;
     });
   });
 });
