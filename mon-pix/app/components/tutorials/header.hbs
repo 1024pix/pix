@@ -16,7 +16,7 @@
           {{t "pages.user-tutorials.saved"}}
         </ChoiceChip>
       </li>
-      {{#if (and this.featureToggles.featureToggles.isPixAppTutoFiltersEnabled @shouldShowFilterButton)}}
+      {{#if @shouldShowFilterButton}}
         <li class="user-tutorials-banner-v2-filters__filter">
           <PixButton
             @backgroundColor="transparent-light"
