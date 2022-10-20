@@ -2,12 +2,10 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import setupIntl from '../../helpers/setup-intl';
 import sinon from 'sinon';
 
 describe('Unit | Route | application', function () {
   setupTest();
-  setupIntl();
 
   it('hides the splash when the route is activated', function () {
     // Given
@@ -29,15 +27,36 @@ describe('Unit | Route | application', function () {
   });
 
   describe('#beforeModel', function () {
-    let featureTogglesServiceStub, sessionServiceStub;
+    let featureTogglesServiceStub, sessionServiceStub, oidcIdentityProvidersStub;
+
     beforeEach(function () {
       const catchStub = sinon.stub();
+
       featureTogglesServiceStub = Service.create({
         load: sinon.stub().resolves(catchStub),
       });
       sessionServiceStub = Service.create({
         handleUserLanguageAndLocale: sinon.stub().resolves(),
       });
+      oidcIdentityProvidersStub = Service.create({
+        load: sinon.stub().resolves(),
+      });
+
+      this.intl = this.owner.lookup('service:intl');
+    });
+
+    it('should set "fr" locale as default', async function () {
+      // given
+      const route = this.owner.lookup('route:application');
+      route.set('featureToggles', featureTogglesServiceStub);
+      route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
+
+      // when
+      await route.beforeModel();
+
+      // then
+      expect(this.intl.primaryLocale).to.equal('fr');
     });
 
     it('should set the head description', async function () {
@@ -45,6 +64,7 @@ describe('Unit | Route | application', function () {
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
 
       // when
       await route.beforeModel();
@@ -58,6 +78,7 @@ describe('Unit | Route | application', function () {
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
 
       // when
       await route.beforeModel();
@@ -71,6 +92,7 @@ describe('Unit | Route | application', function () {
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
       route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
       const transition = { from: 'inscription' };
       // when
       await route.beforeModel(transition);
