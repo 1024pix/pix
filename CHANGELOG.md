@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.276.0 (20/10/2022)
+
+
+### :rocket: Amélioration
+- [#4982](https://github.com/1024pix/pix/pull/4982) [FEATURE] Compresser les exports CPF (PIX-5399)
+- [#5074](https://github.com/1024pix/pix/pull/5074) [FEATURE] Prendre en compte un nouveau critère de validation de RT défini par des sujets cappés lors de la vérification d'acquisition d'un RT (PIX-5700)
+
+### :building_construction: Tech
+- [#3803](https://github.com/1024pix/pix/pull/3803) [TECH] Eviter le code involontairement non testé.
+- [#5090](https://github.com/1024pix/pix/pull/5090) [TECH] Tracer l'erreur HTTP complète lors de l'appel à un client lorsque la propriété data n'est pas alimentée
+
+### :bug: Correction
+- [#5095](https://github.com/1024pix/pix/pull/5095) [BUGFIX] QCM - Recentrer les inputs (PIX-6072)
+
 ## v3.275.0 (18/10/2022)
 
 
