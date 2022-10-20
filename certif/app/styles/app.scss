@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-@import 'pix-design-tokens';
+@import "pix-design-tokens";
 @import "globals/errors";
 @import "globals/forms";
 @import "globals/pages";
@@ -47,6 +47,7 @@
 @import "components/session-supervising/candidate-in-list";
 @import "components/session-supervising/candidate-list";
 @import "components/session-summary-list";
+@import "components/toggable-login-form";
 @import "components/pagination-control.scss";
 @import "components/dropdown";
 @import "components/user-logged-menu";
