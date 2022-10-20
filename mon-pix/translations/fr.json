@@ -905,10 +905,22 @@
         "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support.",
         "fields": {
           "birthdate": {
-            "day-error": "Votre jour de naissance n’est pas valide.",
             "label": "Date de naissance (JJ/MM/AAAA)",
-            "month-error": "Votre mois de naissance n’est pas valide.",
-            "year-error": "Votre année de naissance n’est pas valide."
+            "month": {
+              "label": "Mois de naissance",
+              "placeholder": "MM",
+              "error": "Votre mois de naissance n’est pas valide."
+            },
+            "day": {
+              "label": "Jour de naissance",
+              "placeholder": "JJ",
+              "error": "Votre jour de naissance n’est pas valide."
+            },
+            "year": {
+              "label": "Année de naissance",
+              "placeholder": "AAAA",
+              "error": "Votre année de naissance n’est pas valide."
+            }
           },
           "cgu": "J’accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'conditions d’utilisation de Pix'</a>'",
           "email": {
