@@ -92,6 +92,11 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
                 related: `/api/users/${user.id}/is-certifiable`,
               },
             },
+            trainings: {
+              links: {
+                related: `/api/users/${user.id}/trainings`,
+              },
+            },
           },
         },
       };

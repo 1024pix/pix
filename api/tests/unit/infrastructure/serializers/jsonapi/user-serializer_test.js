@@ -87,6 +87,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
                   related: `/api/users/${userModelObject.id}/is-certifiable`,
                 },
               },
+              trainings: {
+                links: {
+                  related: `/api/users/${userModelObject.id}/trainings`,
+                },
+              },
             },
           },
         };
