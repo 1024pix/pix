@@ -2,24 +2,16 @@ const { UserNotAuthorizedToFindTrainings } = require('../errors');
 
 module.exports = async function findCampaignParticipationTrainings({
   userId,
-  campaignParticipationId,
   locale,
+  campaignParticipationId,
   campaignParticipationRepository,
-  campaignRepository,
-  trainingRepository,
+  userRecommendedTrainingRepository,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
-  if (campaignParticipation.userId !== userId) throw new UserNotAuthorizedToFindTrainings();
-
-  const { targetProfile } = await campaignRepository.get(campaignParticipation.campaign.id);
-
-  if (!targetProfile) {
-    return [];
+  if (campaignParticipation.userId !== userId) {
+    throw new UserNotAuthorizedToFindTrainings();
   }
 
-  return trainingRepository.findByTargetProfileIdAndLocale({
-    targetProfileId: targetProfile.id,
-    locale,
-  });
+  return userRecommendedTrainingRepository.findByCampaignParticipationId({ campaignParticipationId, locale });
 };
