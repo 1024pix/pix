@@ -1,0 +1,46 @@
+<form class="login-form" {{on "submit" this.authenticate}}>
+  <p class="login-form__information">{{t "common.form.mandatory-all-fields"}}</p>
+
+  <PixInput
+    @id="login-email"
+    @label={{t "pages.login-form.email"}}
+    name="login"
+    type="email"
+    {{on "focusout" this.validateEmail}}
+    {{on "input" this.updateEmail}}
+    @errorMessage={{this.emailValidationMessage}}
+    required={{true}}
+    aria-required={{true}}
+    autocomplete="email"
+  />
+
+  <PixInputPassword
+    @id="login-password"
+    name="password"
+    @label={{t "pages.login-form.password"}}
+    autocomplete="current-password"
+    required={{true}}
+    aria-required={{true}}
+    {{on "focusout" this.validatePassword}}
+    {{on "input" this.validatePassword}}
+    @errorMessage={{this.passwordValidationMessage}}
+  />
+
+  {{#if this.isErrorMessagePresent}}
+    <PixMessage @type="alert">
+      {{this.errorMessage}}
+    </PixMessage>
+  {{/if}}
+
+  <PixButton @type="submit" @isLoading={{this.isLoading}}>
+    {{t "pages.login-form.login"}}
+  </PixButton>
+
+  <div>
+    <div class="login-form__forgotten-password">
+      <a href={{this.forgottenPasswordUrl}} target="_blank" rel="noopener noreferrer" class="link">
+        {{t "pages.login-form.forgot-password"}}
+      </a>
+    </div>
+  </div>
+</form>

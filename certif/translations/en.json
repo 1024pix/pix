@@ -3,6 +3,9 @@
     "actions": {
       "cancel": "Annuler",
       "delete": "Supprimer"
+    },
+    "form": {
+      "mandatory-all-fields": "All fields are required."
     }
   },
   "current-lang": "en",
@@ -16,6 +19,16 @@
   "pages": {
     "login": {
       "title": "Login"
+    },
+    "login-form": {
+      "email": "Email address",
+      "errors": {
+        "invalid-email": "Your email address is invalid.",
+        "empty-password": "Your password can't be empty."
+      },
+      "forgot-password": "Forgot your password?",
+      "login": "Log in",
+      "password": "Password"
     },
     "sessions": {
       "enrolled-candidates": {
