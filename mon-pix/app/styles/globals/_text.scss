@@ -48,3 +48,14 @@
     line-height: 26px;
   }
 }
+
+.legal-notice {
+  display: block;
+  max-width: 100%;
+  padding: 10px;
+  font-size: 0.75rem;
+
+  @include device-is('tablet') {
+    padding: 10px 0;
+  }
+}
