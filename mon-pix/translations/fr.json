@@ -1550,6 +1550,10 @@
     "user-tests": {
       "title": "Mes parcours"
     },
+    "user-trainings": {
+      "title": "Mes formations",
+      "description": "Continuez à progresser grâce aux formations recommandées à l’issue de vos parcours d’évaluation."
+    },
     "user-tutorials": {
       "title": "Mes tutos",
       "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",

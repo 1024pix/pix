@@ -12,6 +12,7 @@ import resetScorecard from './reset-scorecard';
 import patchTermsOfServiceAcceptance from './patch-terms-of-service-acceptance';
 import putVerificationCode from './put-verification-code';
 import putUpdateEmail from './put-update-email';
+import findPaginatedUserTrainings from './find-paginated-user-trainings';
 
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);
@@ -32,6 +33,7 @@ export default function index(config) {
   config.get('/users/:id/profile', getProfile);
   config.get('/users/:id/campaign-participations', getUserCampaignParticipations);
   config.get('/users/:id/campaign-participation-overviews', getUserCampaignParticipationOverviews);
+  config.get('/users/:id/trainings', findPaginatedUserTrainings);
 
   config.get('/users/:id/authentication-methods', (schema, request) => {
     return schema.authenticationMethods.where({ userId: request.params.id });
