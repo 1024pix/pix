@@ -366,24 +366,16 @@ describe('Acceptance | API | Campaign Participations', function () {
   });
 
   describe('GET /api/campaign-participations/{id}/trainings', function () {
-    let targetProfileId;
-
-    beforeEach(function () {
-      targetProfileId = 1;
-    });
-
     it('should return the campaign-participation trainings', async function () {
       // given
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: targetProfileId });
       const training = databaseBuilder.factory.buildTraining();
-      databaseBuilder.factory.buildTargetProfileTraining({
-        trainingId: training.id,
-        targetProfileId: targetProfile.id,
-      });
-      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
-        campaignId: campaign.id,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId: campaignParticipation.userId,
+        trainingId: training.id,
+        campaignParticipationId: campaignParticipation.id,
       });
       await databaseBuilder.commit();
       const options = {
