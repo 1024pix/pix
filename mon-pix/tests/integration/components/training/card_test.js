@@ -27,6 +27,9 @@ describe('Integration | Component | Training | Card', function () {
     expect(find('.training-card-content__infos')).to.exist;
     expect(find('.training-card-content-infos-list__type').textContent.trim()).to.equal('Webinaire');
     expect(find('.training-card-content-infos-list__duration').textContent.trim()).to.equal('6h');
-    expect(find('.training-card-content__image')).to.have.property('alt').to.be.empty;
+    expect(find('.training-card-content-illustration__image')).to.have.property('alt').to.be.empty;
+    expect(find('.training-card-content-illustration__logo'))
+      .to.have.property('alt')
+      .that.equals(this.intl.t('common.french-education-ministry'));
   });
 });
