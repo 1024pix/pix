@@ -9,7 +9,7 @@ const campaignParticipantsActivitySerializer = require('../../../../lib/infrastr
 
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
@@ -125,30 +125,14 @@ describe('Unit | Application | Controller | Campaign', function () {
   });
 
   describe('#getCsvAssessmentResults', function () {
-    const userId = 1;
-    const campaignId = 2;
-    const request = {
-      query: {
-        accessToken: 'token',
-      },
-      params: {
-        id: campaignId,
-      },
-      i18n: {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        __: sinon.stub(),
-      },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream');
-      sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
-    });
-
     it('should call the use case to get result campaign in csv', async function () {
       // given
-      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'any file name' });
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
+      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({ fileName: 'any file name' });
 
       // when
       await campaignController.getCsvAssessmentResults(request);
@@ -162,7 +146,14 @@ describe('Unit | Application | Controller | Campaign', function () {
 
     it('should return a response with correct headers', async function () {
       // given
-      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'expected file name' });
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
+      sinon
+        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
+        .resolves({ fileName: 'expected file name' });
 
       // when
       const response = await campaignController.getCsvAssessmentResults(request);
@@ -175,7 +166,12 @@ describe('Unit | Application | Controller | Campaign', function () {
 
     it('should fix invalid header chars in filename', async function () {
       // given
-      usecases.startWritingCampaignAssessmentResultsToStream.resolves({
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
+      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({
         fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
       });
 
@@ -187,28 +183,46 @@ describe('Unit | Application | Controller | Campaign', function () {
         'attachment; filename="file-name with invalid_chars _____________.csv"'
       );
     });
+
+    context('when the campaign id is not the same as provided in the access token', function () {
+      it('should thrown an error', async function () {
+        // given
+        const userId = 1;
+        const campaignId = 2;
+        const request = _getRequestForCampaignId(campaignId);
+
+        sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId: 19 });
+
+        // when
+        const error = await catchErr(campaignController.getCsvAssessmentResults)(request);
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+      });
+    });
   });
 
   describe('#getCsvProfilesCollectionResult', function () {
     const userId = 1;
     const campaignId = 2;
-    const request = {
-      query: {
-        accessToken: 'token',
-      },
-      params: {
-        id: campaignId,
-      },
-      i18n: {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        __: sinon.stub(),
-      },
-    };
+
+    let request;
 
     beforeEach(function () {
+      request = {
+        query: {
+          accessToken: 'token',
+        },
+        params: {
+          id: campaignId,
+        },
+        i18n: {
+          __: sinon.stub(),
+        },
+      };
+
       sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
-      sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
     });
 
     it('should call the use case to get result campaign in csv', async function () {
@@ -251,6 +265,19 @@ describe('Unit | Application | Controller | Campaign', function () {
       expect(response.headers['content-disposition']).to.equal(
         'attachment; filename="file-name with invalid_chars _____________.csv"'
       );
+    });
+
+    context('when the campaign id is not the same as provided in the access token', function () {
+      it('should thrown an error', async function () {
+        // given
+        tokenService.extractCampaignResultsTokenContent.returns({ userId, campaignId: 19 });
+
+        // when
+        const error = await catchErr(campaignController.getCsvProfilesCollectionResults)(request);
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+      });
     });
   });
 
@@ -594,3 +621,17 @@ describe('Unit | Application | Controller | Campaign', function () {
     });
   });
 });
+
+function _getRequestForCampaignId(campaignId) {
+  return {
+    query: {
+      accessToken: 'token',
+    },
+    params: {
+      id: campaignId,
+    },
+    i18n: {
+      __: sinon.stub(),
+    },
+  };
+}
