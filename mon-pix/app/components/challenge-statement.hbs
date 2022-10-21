@@ -113,18 +113,18 @@
 
   {{#if @challenge.alternativeInstruction}}
     <div class="challenge-statement__alternative-instruction">
-      {{#if this.displayAlternativeInstruction}}
-        <PixButton @triggerAction={{this.toggleAlternativeInstruction}}>
+      <PixButton @triggerAction={{this.toggleAlternativeInstruction}}>
+        {{#if this.displayAlternativeInstruction}}
           {{t "pages.challenge.statement.alternative-instruction.actions.hide"}}
-        </PixButton>
+        {{else}}
+          {{t "pages.challenge.statement.alternative-instruction.actions.display"}}
+        {{/if}}
+      </PixButton>
+      {{#if this.displayAlternativeInstruction}}
         <MarkdownToHtml
           class="challenge-statement__alternative-instruction-text"
           @markdown={{@challenge.alternativeInstruction}}
         />
-      {{else}}
-        <PixButton @triggerAction={{this.toggleAlternativeInstruction}}>
-          {{t "pages.challenge.statement.alternative-instruction.actions.display"}}
-        </PixButton>
       {{/if}}
     </div>
   {{/if}}
