@@ -47,10 +47,11 @@ function createAccessTokenFromApplication(
   );
 }
 
-function createTokenForCampaignResults(userId) {
+function createTokenForCampaignResults({ userId, campaignId }) {
   return jsonwebtoken.sign(
     {
       access_id: userId,
+      campaign_id: campaignId,
     },
     settings.authentication.secret,
     { expiresIn: settings.authentication.tokenForCampaignResultLifespan }

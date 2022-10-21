@@ -64,7 +64,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(userId);
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults({ userId, campaignId });
 
     const campaign = await usecases.getCampaign({ campaignId, userId });
     return campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });

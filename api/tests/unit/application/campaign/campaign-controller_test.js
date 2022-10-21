@@ -330,7 +330,7 @@ describe('Unit | Application | Controller | Campaign', function () {
       sinon.stub(tokenService, 'createTokenForCampaignResults');
 
       queryParamsUtils.extractParameters.withArgs({}).returns({});
-      tokenService.createTokenForCampaignResults.withArgs(request.auth.credentials.userId).returns('token');
+      tokenService.createTokenForCampaignResults.returns('token');
       usecases.getCampaign.resolves(campaign);
     });
 
@@ -345,6 +345,7 @@ describe('Unit | Application | Controller | Campaign', function () {
 
       // then
       expect(usecases.getCampaign).calledWith({ campaignId, userId });
+      expect(tokenService.createTokenForCampaignResults).to.have.been.calledWith({ userId, campaignId });
       expect(response).to.deep.equal(expectedResult);
     });
   });
