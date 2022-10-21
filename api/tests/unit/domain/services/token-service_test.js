@@ -13,6 +13,29 @@ const settings = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Domain | Service | Token Service', function () {
+  describe('#createTokenForCampaignResults', function () {
+    it('should create an access token with user id and campaign id', function () {
+      // given
+      const generatedAccessToken = 'Valid-Access-Token';
+      const userId = 123;
+      const campaignId = 456;
+
+      settings.authentication.secret = 'a secret';
+      settings.authentication.tokenForCampaignResultLifespan = 10;
+
+      sinon.stub(jsonwebtoken, 'sign').returns(generatedAccessToken);
+
+      // when
+      const accessTokenForCampaignResults = tokenService.createTokenForCampaignResults({ userId, campaignId });
+
+      // then
+      expect(accessTokenForCampaignResults).to.equal(generatedAccessToken);
+      expect(jsonwebtoken.sign).to.have.been.calledWith({ access_id: userId, campaign_id: campaignId }, 'a secret', {
+        expiresIn: 10,
+      });
+    });
+  });
+
   describe('#createAccessTokenFromUser', function () {
     it('should create access token with user id and source', function () {
       // given
