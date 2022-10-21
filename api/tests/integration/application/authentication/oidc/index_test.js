@@ -1,6 +1,5 @@
 const { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } = require('../../../../test-helper');
 const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
-const { featureToggles } = require('../../../../../lib/config');
 const moduleUnderTest = require('../../../../../lib/application/authentication/oidc');
 const {
   UserNotFoundError,
@@ -97,7 +96,6 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // given
           sinon.stub(oidcController, 'findUserForReconciliation').rejects(new UserNotFoundError());
           const httpTestServer = new HttpTestServer();
-          featureToggles.isSsoAccountReconciliationEnabled = true;
           httpTestServer.setupAuthentication();
           await httpTestServer.register(moduleUnderTest);
 
@@ -127,7 +125,6 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // given
           sinon.stub(oidcController, 'findUserForReconciliation').rejects(new AuthenticationKeyExpired());
           const httpTestServer = new HttpTestServer();
-          featureToggles.isSsoAccountReconciliationEnabled = true;
           httpTestServer.setupAuthentication();
           await httpTestServer.register(moduleUnderTest);
 
@@ -153,7 +150,6 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // given
           sinon.stub(oidcController, 'findUserForReconciliation').rejects(new DifferentExternalIdentifierError());
           const httpTestServer = new HttpTestServer();
-          featureToggles.isSsoAccountReconciliationEnabled = true;
           httpTestServer.setupAuthentication();
           await httpTestServer.register(moduleUnderTest);
 

@@ -2,7 +2,7 @@ const { expect, databaseBuilder } = require('../../../../test-helper');
 const createServer = require('../../../../../server');
 const jsonwebtoken = require('jsonwebtoken');
 const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
-const { featureToggles } = require('../../../../../lib/config');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/reconcile', function () {
@@ -10,11 +10,6 @@ describe('Acceptance | Application | Oidc | Routes', function () {
 
     beforeEach(async function () {
       server = await createServer();
-      featureToggles.isSsoAccountReconciliationEnabled = true;
-    });
-
-    afterEach(async function () {
-      featureToggles.isSsoAccountReconciliationEnabled = false;
     });
 
     it('should return 200 HTTP status', async function () {
@@ -52,7 +47,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
         payload: {
           data: {
             attributes: {
-              identity_provider: 'CNAV',
+              identity_provider: OidcIdentityProviders.CNAV.code,
               authentication_key: userAuthenticationKey,
             },
           },
