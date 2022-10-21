@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const oidcController = require('./oidc-controller');
-const featureToggles = require('../../preHandlers/feature-toggles');
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.code);
 
@@ -64,7 +63,7 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/oidc/token',
       config: {
-        auth: { mode: 'optional' },
+        auth: false,
         validate: {
           payload: Joi.object({
             data: {
@@ -118,12 +117,6 @@ exports.register = async (server) => {
       path: '/api/oidc/user/check-reconciliation',
       config: {
         auth: false,
-        pre: [
-          {
-            method: featureToggles.checkIfSsoAccountReconciliationIsEnabled,
-            assign: 'checkIfSsoAccountReconciliationIsEnabled',
-          },
-        ],
         validate: {
           payload: Joi.object({
             data: Joi.object({
@@ -152,12 +145,6 @@ exports.register = async (server) => {
       path: '/api/oidc/user/reconcile',
       config: {
         auth: false,
-        pre: [
-          {
-            method: featureToggles.checkIfSsoAccountReconciliationIsEnabled,
-            assign: 'checkIfSsoAccountReconciliationIsEnabled',
-          },
-        ],
         validate: {
           payload: Joi.object({
             data: Joi.object({

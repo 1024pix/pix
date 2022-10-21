@@ -1,14 +1,11 @@
-const { UnexpectedOidcStateError, DifferentExternalIdentifierError } = require('../../errors');
+const { UnexpectedOidcStateError } = require('../../errors');
 const logger = require('../../../infrastructure/logger');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
-const config = require('../../../config');
 
 module.exports = async function authenticateOidcUser({
   stateReceived,
   stateSent,
   code,
   redirectUri,
-  authenticatedUserId,
   oidcAuthenticationService,
   authenticationSessionService,
   authenticationMethodRepository,
@@ -29,38 +26,26 @@ module.exports = async function authenticateOidcUser({
     identityProvider: oidcAuthenticationService.identityProvider,
   });
 
-  const userId = user?.id || authenticatedUserId;
-
-  if (!userId) {
+  if (!user) {
     const authenticationKey = await authenticationSessionService.save({ userInfo, sessionContent });
     const { firstName: givenName, lastName: familyName } = userInfo;
     return { authenticationKey, givenName, familyName, isAuthenticationComplete: false };
   }
 
-  if (!config.featureToggles.isSsoAccountReconciliationEnabled) {
-    await _createOrUpdateAuthenticationMethodWithComplement({
-      userInfo,
-      userId,
-      sessionContent,
-      oidcAuthenticationService,
-      authenticationMethodRepository,
-    });
-  } else {
-    await _updateAuthenticationMethodWithComplement({
-      userInfo,
-      userId,
-      sessionContent,
-      oidcAuthenticationService,
-      authenticationMethodRepository,
-    });
-  }
+  await _updateAuthenticationMethodWithComplement({
+    userInfo,
+    userId: user.id,
+    sessionContent,
+    oidcAuthenticationService,
+    authenticationMethodRepository,
+  });
 
-  const pixAccessToken = oidcAuthenticationService.createAccessToken(userId);
+  const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id);
   const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
     idToken: sessionContent.idToken,
-    userId,
+    userId: user.id,
   });
-  userRepository.updateLastLoggedAt({ userId });
+  userRepository.updateLastLoggedAt({ userId: user.id });
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
 };
@@ -73,43 +58,6 @@ async function _updateAuthenticationMethodWithComplement({
 }) {
   const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
   if (!authenticationComplement) return;
-
-  return await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
-    authenticationComplement,
-    userId,
-    identityProvider: oidcAuthenticationService.identityProvider,
-  });
-}
-
-async function _createOrUpdateAuthenticationMethodWithComplement({
-  userInfo,
-  userId,
-  sessionContent,
-  oidcAuthenticationService,
-  authenticationMethodRepository,
-}) {
-  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
-  if (!authenticationComplement) return;
-
-  const alreadyExistingAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
-    userId,
-    identityProvider: oidcAuthenticationService.identityProvider,
-  });
-
-  if (!alreadyExistingAuthenticationMethod) {
-    return await authenticationMethodRepository.create({
-      authenticationMethod: new AuthenticationMethod({
-        identityProvider: oidcAuthenticationService.identityProvider,
-        userId,
-        externalIdentifier: userInfo.externalIdentityId,
-        authenticationComplement,
-      }),
-    });
-  }
-
-  if (alreadyExistingAuthenticationMethod.externalIdentifier !== userInfo.externalIdentityId) {
-    throw new DifferentExternalIdentifierError();
-  }
 
   return await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
     authenticationComplement,

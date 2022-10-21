@@ -1394,16 +1394,6 @@
       },
       "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix."
     },
-    "terms-of-service-oidc": {
-      "title": "Terms and conditions of use",
-      "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
-      "form": {
-        "button": "Continue",
-        "error-message": "Please agree to the terms and conditions of use.",
-        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
-      },
-      "message": "Your Pix account will be created using the information provided by: {identityProviderOrganizationName}."
-    },
     "timed-challenge-instructions": {
       "action": "Start",
       "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",

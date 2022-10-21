@@ -113,7 +113,6 @@ Router.map(function () {
   });
 
   this.route('terms-of-service', { path: '/cgu' });
-  this.route('terms-of-service-oidc', { path: '/cgu-oidc' });
 
   this.route('authentication', { path: '/connexion' }, function () {
     this.route('login', { path: '' });

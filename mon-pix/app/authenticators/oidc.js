@@ -11,7 +11,6 @@ import fetch from 'fetch';
 export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
-  @service featureToggles;
   @service oidcIdentityProviders;
 
   async authenticate({ code, redirectUri, state, identityProviderSlug, authenticationKey, hostSlug }) {
@@ -41,10 +40,6 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       };
 
       if (this.session.isAuthenticated) {
-        if (!this.featureToggles.featureToggles.isSsoAccountReconciliationEnabled) {
-          const accessToken = this.session.get('data.authenticated.access_token');
-          request.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
         this.session.set('skipRedirectAfterSessionInvalidation', true);
         await this.session.invalidate();
       }

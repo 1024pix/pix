@@ -10,7 +10,6 @@ export default class LoginOidcRoute extends Route {
   @service router;
   @service location;
   @service oidcIdentityProviders;
-  @service featureToggles;
 
   _unsetOidcProperties() {
     this.session.set('data.nextURL', undefined);
@@ -48,21 +47,12 @@ export default class LoginOidcRoute extends Route {
 
     if (!shouldCreateAnAccountForUser) return;
 
-    if (this.featureToggles.featureToggles.isSsoAccountReconciliationEnabled) {
-      return this.router.replaceWith('authentication.login-or-register-oidc', {
-        queryParams: {
-          authenticationKey,
-          identityProviderSlug,
-          givenName,
-          familyName,
-        },
-      });
-    }
-
-    return this.router.replaceWith('terms-of-service-oidc', {
+    return this.router.replaceWith('authentication.login-or-register-oidc', {
       queryParams: {
         authenticationKey,
         identityProviderSlug,
+        givenName,
+        familyName,
       },
     });
   }
