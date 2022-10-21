@@ -60,4 +60,8 @@ export default class ToggableLoginForm extends Component {
   get isFormValid() {
     return isEmailValid(this.email) && !isEmpty(this.password);
   }
+
+  get forgottenPasswordUrl() {
+    return this.url.forgottenPasswordUrl;
+  }
 }
