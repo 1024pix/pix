@@ -43,6 +43,10 @@ class TargetProfileForAdminNewFormat {
     );
   }
 
+  get canAddStageOfTypeLevel() {
+    return true;
+  }
+
   get cappedTubes() {
     return this.areas.flatMap((area) => area.getCappedTubes());
   }

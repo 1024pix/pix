@@ -13,44 +13,7 @@ const TargetProfileForAdminOldFormat = require('../../domain/models/TargetProfil
 const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat');
 
 module.exports = {
-  async isNewFormat(targetProfileId) {
-    const hasAtLeastOneTube = await knex('target-profile_tubes')
-      .select('id')
-      .where('targetProfileId', targetProfileId)
-      .first();
-    return Boolean(hasAtLeastOneTube);
-  },
-
-  async getAsOldFormat({ id, locale = FRENCH_FRANCE }) {
-    const targetProfileDTO = await knex('target-profiles')
-      .select(
-        'target-profiles.id',
-        'target-profiles.name',
-        'target-profiles.outdated',
-        'target-profiles.isPublic',
-        'target-profiles.imageUrl',
-        'target-profiles.createdAt',
-        'target-profiles.description',
-        'target-profiles.comment',
-        'target-profiles.ownerOrganizationId',
-        'target-profiles.category',
-        'target-profiles.isSimplifiedAccess'
-      )
-      .where('id', id)
-      .first();
-
-    if (targetProfileDTO == null) {
-      throw new NotFoundError("Le profil cible n'existe pas");
-    }
-
-    const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
-    if (_.isEmpty(skillIds)) {
-      throw new TargetProfileInvalidError();
-    }
-    return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
-  },
-
-  async getAsNewFormat({ id, locale = FRENCH_FRANCE }) {
+  async get({ id, locale = FRENCH_FRANCE }) {
     const targetProfileDTO = await knex('target-profiles')
       .select(
         'target-profiles.id',
@@ -76,7 +39,12 @@ module.exports = {
       .select('tubeId', 'level')
       .where('targetProfileId', targetProfileDTO.id);
     if (_.isEmpty(tubesData)) {
-      throw new TargetProfileInvalidError();
+      // OLD target profile
+      const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
+      if (_.isEmpty(skillIds)) {
+        throw new TargetProfileInvalidError();
+      }
+      return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
     }
     return _toDomainNewFormat(targetProfileDTO, tubesData, locale);
   },

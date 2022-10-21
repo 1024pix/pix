@@ -33,6 +33,10 @@ class TargetProfileForAdminOldFormat {
         new TP_Area({ id: area.id, title: area.title, code: area.code, color: area.color, competences, tubes, skills })
     );
   }
+
+  get canAddStageOfTypeLevel() {
+    return false;
+  }
 }
 
 class TP_Area {

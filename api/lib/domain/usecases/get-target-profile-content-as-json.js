@@ -11,7 +11,7 @@ module.exports = async function getTargetProfileContentAsJson({
   const adminMember = await adminMemberRepository.get({ userId });
   if (!_hasAuthorizationToDownloadContent(adminMember))
     throw new ForbiddenAccess("L'utilisateur n'est pas autorisé à effectuer cette opération.");
-  const targetProfileForAdmin = await targetProfileForAdminRepository.getAsNewFormat({ id: targetProfileId });
+  const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id: targetProfileId });
   const skills = await learningContentConversionService.findActiveSkillsForCappedTubes(
     targetProfileForAdmin.cappedTubes
   );
