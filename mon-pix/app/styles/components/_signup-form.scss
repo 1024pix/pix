@@ -19,15 +19,4 @@
   &__cgu-label {
     margin: 3px 0 3px 15px;
   }
-
-  &__legal-details-container {
-    display: block;
-    max-width: 100%;
-    padding: 10px;
-    font-size: 0.75rem;
-
-    @include device-is('tablet') {
-      padding: 10px 0;
-    }
-  }
 }
