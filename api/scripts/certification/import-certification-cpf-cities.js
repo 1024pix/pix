@@ -419,7 +419,8 @@ async function main(filePath) {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      const filePath = process.argv[2];
+      await main(filePath);
     } catch (error) {
       logger.error(error);
       process.exitCode = 1;
