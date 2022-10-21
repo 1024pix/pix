@@ -13,9 +13,9 @@ import { getRegisterErrorsMessageByShortCode } from '../../utils/errors-messages
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'pages.login-or-register.register-form.fields.firstname.error',
   lastName: 'pages.login-or-register.register-form.fields.lastname.error',
-  dayOfBirth: 'pages.login-or-register.register-form.fields.birthdate.day-error',
-  monthOfBirth: 'pages.login-or-register.register-form.fields.birthdate.month-error',
-  yearOfBirth: 'pages.login-or-register.register-form.fields.birthdate.year-error',
+  dayOfBirth: 'pages.login-or-register.register-form.fields.birthdate.day.error',
+  monthOfBirth: 'pages.login-or-register.register-form.fields.birthdate.month.error',
+  yearOfBirth: 'pages.login-or-register.register-form.fields.birthdate.year.error',
   email: 'pages.login-or-register.register-form.fields.email.error',
   password: 'pages.login-or-register.register-form.fields.password.error',
 };

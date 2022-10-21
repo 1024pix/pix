@@ -12,7 +12,9 @@
         {{if @disabled 'form-textfield__input-container--disabled' this.dayInputContainerStatusClass}}"
     >
       <Input
-        @type="text"
+        min="1"
+        max="31"
+        @type="number"
         @id={{@dayTextfieldName}}
         @value={{@dayInputBindingValue}}
         name={{@dayTextfieldName}}
@@ -21,7 +23,8 @@
         aria-describedby={{@aria-describedby @dayValidationMessage}}
         required={{@require}}
         disabled={{@disabled}}
-        placeholder="JJ"
+        aria-label={{t "pages.login-or-register.register-form.fields.birthdate.day.label"}}
+        placeholder={{t "pages.login-or-register.register-form.fields.birthdate.day.placeholder"}}
       />
       <div class="form-textfield__icon">
         {{#if this.dayHasIcon}}
@@ -47,16 +50,19 @@
         {{if @disabled 'form-textfield__input-container--disabled' this.monthInputContainerStatusClass}}"
     >
       <Input
-        @type="text"
+        min="1"
+        max="12"
+        @type="number"
         @id={{@monthTextfieldName}}
         @value={{@monthInputBindingValue}}
         name={{@monthTextfieldName}}
         {{on "focusout" (fn @onValidateMonth @monthTextfieldName @monthInputBindingValue)}}
         class="form-textfield__input {{this.monthInputValidationStatus}}"
-        ariaDescribedBy={{@monthValidationMessage}}
+        aria-describedby={{@aria-describedby @monthValidationMessage}}
         required={{@require}}
         disabled={{@disabled}}
-        placeholder="MM"
+        aria-label={{t "pages.login-or-register.register-form.fields.birthdate.month.label"}}
+        placeholder={{t "pages.login-or-register.register-form.fields.birthdate.month.placeholder"}}
       />
       <div class="form-textfield__icon">
         {{#if this.monthHasIcon}}
@@ -82,16 +88,18 @@
         {{if @disabled 'form-textfield__input-container--disabled' this.yearInputContainerStatusClass}}"
     >
       <Input
-        @type="text"
+        min="1900"
+        @type="number"
         @id={{@yearTextfieldName}}
         @value={{@yearInputBindingValue}}
         name={{@yearTextfieldName}}
         {{on "focusout" (fn @onValidateYear @yearTextfieldName @yearInputBindingValue)}}
         class="form-textfield__input {{this.yearInputValidationStatus}}"
-        ariaDescribedBy={{@yearValidationMessage}}
+        aria-describedby={{@aria-describedby @yearValidationMessage}}
         required={{@require}}
         disabled={{@disabled}}
-        placeholder="AAAA"
+        aria-label={{t "pages.login-or-register.register-form.fields.birthdate.year.label"}}
+        placeholder={{t "pages.login-or-register.register-form.fields.birthdate.year.placeholder"}}
       />
       <div class="form-textfield__icon">
         {{#if this.yearHasIcon}}

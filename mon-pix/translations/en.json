@@ -819,6 +819,9 @@
     "join": {
       "title": "Join",
       "button": "Let's go!",
+      "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
+      "rgpd-legal-notice-link": "TODO",
+      "rgpd-legal-notice-url": "TODO",
       "fields": {
         "birthdate": {
           "day-error": "Your birth day is in an invalid format.",
@@ -902,10 +905,22 @@
         "error": "An error has occured. Please try again or contact the support.",
         "fields": {
           "birthdate": {
-            "day-error": "Your birth day is in an invalid format.",
             "label": "Date of birth (DD/MM/YYYY)",
-            "month-error": "Your birth month is in an invalid format.",
-            "year-error": "Your birth year is in an invalid format."
+            "month": {
+              "label": "Month",
+              "placeholder": "MM",
+              "error": "Your birth month is in an invalid format."
+            },
+            "day": {
+              "label": "Day",
+              "placeholder": "DD",
+              "error": "Your birth day is in an invalid format."
+            },
+            "year": {
+              "label": "Year",
+              "placeholder": "YYYY",
+              "error": "Your birth year is in an invalid format."
+            }
           },
           "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
           "email": {
@@ -933,6 +948,9 @@
         },
         "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
         "not-me": "That's not me",
+        "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
+        "rgpd-legal-notice-link": "TODO",
+        "rgpd-legal-notice-url": "TODO",
         "options": {
           "email": "My email address",
           "text": "Sign up with:",
