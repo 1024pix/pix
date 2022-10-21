@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.277.0 (21/10/2022)
+
+
+### :rocket: Amélioration
+- [#5102](https://github.com/1024pix/pix/pull/5102) [FEATURE] Ajouter le logo de l'éditeur sur les contenus formatifs sur Pix App (PIX-6074)
+- [#5060](https://github.com/1024pix/pix/pull/5060) [FEATURE] Pouvoir séléctionner le référent d'un centre de certification habilité CléA (PIX-5809)
+- [#5086](https://github.com/1024pix/pix/pull/5086) [FEATURE] Retourner les contenus formatifs dans PixApp (PIX-6052)
+- [#5040](https://github.com/1024pix/pix/pull/5040) [FEATURE] App: Définir "fr" comme langue par défaut
+
+### :building_construction: Tech
+- [#5101](https://github.com/1024pix/pix/pull/5101) [TECH] Supprimer le feature toggle sur les filtres des tutoriels (PIX-5686).
+
+### :bug: Correction
+- [#5105](https://github.com/1024pix/pix/pull/5105) [BUGFIX] Corrige le passage de parametre de script d'import (PIX-6097)
+
+### :coffee: Autre
+- [#5104](https://github.com/1024pix/pix/pull/5104)  [BUGFIX] Les badges ne sont plus affichés dans PixOrga (PIX-6050).
+
 ## v3.276.0 (20/10/2022)
 
 
