@@ -72,7 +72,7 @@ module.exports = {
 
   async getCsvAssessmentResults(request) {
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserIdForCampaignResults(token);
+    const { userId } = tokenService.extractCampaignResultsTokenContent(token);
     const campaignId = request.params.id;
 
     const writableStream = new PassThrough();
@@ -99,7 +99,7 @@ module.exports = {
 
   async getCsvProfilesCollectionResults(request) {
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserIdForCampaignResults(token);
+    const { userId } = tokenService.extractCampaignResultsTokenContent(token);
     const campaignId = request.params.id;
 
     const writableStream = new PassThrough();

@@ -137,28 +137,32 @@ describe('Unit | Domain | Service | Token Service', function () {
     });
   });
 
-  describe('#extractUserIdForCampaignResults', function () {
-    it('should return userId if the accessToken is valid', function () {
-      // given
-      const userId = 123;
-      const accessToken = tokenService.createTokenForCampaignResults(userId);
+  describe('#extractCampaignResultsTokenContent', function () {
+    context('valid token', function () {
+      it('should return userId and campaignId if the accessToken is valid', function () {
+        // given
+        const accessToken = tokenService.createTokenForCampaignResults({ userId: 123, campaignId: 456 });
 
-      // when
-      const result = tokenService.extractUserIdForCampaignResults(accessToken);
+        // when
+        const { userId, campaignId } = tokenService.extractCampaignResultsTokenContent(accessToken);
 
-      // then
-      expect(result).to.equal(userId);
+        // then
+        expect(userId).to.equal(123);
+        expect(campaignId).to.equal(456);
+      });
     });
 
-    it('should return null if the accessToken is invalid', function () {
-      // given
-      const accessToken = 'WRONG_DATA';
+    context('invalid token', function () {
+      it('should return null', function () {
+        // given
+        const accessToken = 'WRONG_DATA';
 
-      // when
-      const result = tokenService.extractUserIdForCampaignResults(accessToken);
+        // when
+        const result = tokenService.extractCampaignResultsTokenContent(accessToken);
 
-      // then
-      expect(result).to.equal(null);
+        // then
+        expect(result).to.equal(null);
+      });
     });
   });
 
