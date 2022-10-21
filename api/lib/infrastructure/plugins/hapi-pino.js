@@ -18,7 +18,10 @@ function logObjectSerializer(req) {
   };
 }
 
-module.exports = {
+const availableEvents = ['onPostStart', 'onPostStop', 'response', 'request-error'];
+const logEvents = availableEvents.filter((event) => event === 'response');
+
+const configuration = {
   plugin: require('hapi-pino'),
   options: {
     serializers: {
@@ -28,5 +31,8 @@ module.exports = {
     // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
     getChildBindings: () => ({}),
     logQueryParams: true,
+    logEvents,
   },
 };
+
+module.exports = configuration;
