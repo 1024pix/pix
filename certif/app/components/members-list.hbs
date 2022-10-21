@@ -4,10 +4,10 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column table__column--small">{{t "pages.team.last-name"}}</th>
-            <th class="table__column table__column--small">{{t "pages.team.first-name"}}</th>
+            <th class="table__column table__column--medium">{{t "pages.team.last-name"}}</th>
+            <th class="table__column table__column--medium">{{t "pages.team.first-name"}}</th>
             {{#if this.shouldDisplayRefererColumn}}
-              <th class="table__column table__column--small">{{t "pages.team.referer"}}</th>
+              <th class="table__column table__column--medium">{{t "pages.team.referer"}}</th>
             {{/if}}
           </tr>
         </thead>
@@ -17,23 +17,25 @@
             <tr aria-label="Membres du centre de certification">
               <td>{{member.lastName}}</td>
               <td>{{member.firstName}}</td>
-              {{#if (and this.shouldDisplayRefererColumn member.isReferer)}}
+              {{#if this.shouldDisplayRefererColumn}}
                 <td>
-                  <div class="members-list__is-referer">
-                    <PixTag class="members-list__tag" @color="blue-light">
-                      {{t "pages.team.pix-referer"}}
-                    </PixTag>
-                    <PixTooltip class="members-list__tool-tip" @isWide="true" @position="bottom">
-                      <:triggerElement>
-                        <span tabindex="0">
-                          <FaIcon @icon="info-circle" />
-                        </span>
-                      </:triggerElement>
-                      <:tooltip>
-                        {{t "pages.team.pix-referer-tooltip"}}
-                      </:tooltip>
-                    </PixTooltip>
-                  </div>
+                  {{#if member.isReferer}}
+                    <div class="members-list__is-referer">
+                      <PixTag class="members-list__tag" @color="blue-light">
+                        {{t "pages.team.pix-referer"}}
+                      </PixTag>
+                      <PixTooltip class="members-list__tool-tip" @isWide="true" @position="bottom">
+                        <:triggerElement>
+                          <span tabindex="0">
+                            <FaIcon @icon="info-circle" />
+                          </span>
+                        </:triggerElement>
+                        <:tooltip>
+                          {{t "pages.team.pix-referer-tooltip"}}
+                        </:tooltip>
+                      </PixTooltip>
+                    </div>
+                  {{/if}}
                 </td>
               {{/if}}
             </tr>

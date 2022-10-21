@@ -5,6 +5,9 @@ export default class MembersList extends Component {
   @service featureToggles;
 
   get shouldDisplayRefererColumn() {
-    return this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled;
+    return (
+      this.args.hasCleaHabilitation &&
+      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
+    );
   }
 }
