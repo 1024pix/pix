@@ -5,51 +5,11 @@ const TargetProfileForAdminOldFormat = require('../../../../lib/domain/models/Ta
 const TargetProfileForAdminNewFormat = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
 
 describe('Integration | Repository | target-profile-for-admin', function () {
-  describe('#isNewFormat', function () {
-    context('when target profile does not exist', function () {
-      it('should return false', async function () {
-        // when
-        const isNewFormat = await targetProfileForAdminRepository.isNewFormat(1);
-
-        // then
-        expect(isNewFormat).to.be.false;
-      });
-    });
-    context('when target profile is old format', function () {
-      it('should return false', async function () {
-        // given
-        databaseBuilder.factory.buildTargetProfile({ id: 1 });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: 1 });
-        await databaseBuilder.commit();
-
-        // when
-        const isNewFormat = await targetProfileForAdminRepository.isNewFormat(1);
-
-        // then
-        expect(isNewFormat).to.be.false;
-      });
-    });
-    context('when target profile is new format', function () {
-      it('should return true', async function () {
-        // given
-        databaseBuilder.factory.buildTargetProfile({ id: 1 });
-        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: 1 });
-        await databaseBuilder.commit();
-
-        // when
-        const isNewFormat = await targetProfileForAdminRepository.isNewFormat(1);
-
-        // then
-        expect(isNewFormat).to.be.true;
-      });
-    });
-  });
-
   describe('#getAsOldFormat', function () {
     context('when target profile does not exist', function () {
       it('should throw a NotFound error', async function () {
         // when
-        const err = await catchErr(targetProfileForAdminRepository.getAsOldFormat)({ id: 123 });
+        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 123 });
 
         // then
         expect(err).to.be.instanceOf(NotFoundError);
@@ -64,7 +24,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         await databaseBuilder.commit();
 
         // when
-        const err = await catchErr(targetProfileForAdminRepository.getAsOldFormat)({ id: 1 });
+        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 1 });
 
         // then
         expect(err).to.be.instanceOf(TargetProfileInvalidError);
@@ -166,7 +126,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         mockLearningContent(learningContent);
 
         // when
-        const actualTargetProfile = await targetProfileForAdminRepository.getAsOldFormat({ id: 1 });
+        const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1 });
 
         // then
         const skill1_1_1_2 = {
@@ -294,7 +254,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         mockLearningContent(learningContent);
 
         // when
-        const actualTargetProfile = await targetProfileForAdminRepository.getAsOldFormat({ id: 1, locale: 'en' });
+        const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1, locale: 'en' });
 
         // then
         const skill1 = { id: 'recSkill1', name: 'skill1', difficulty: 1, tubeId: 'recTube1' };
@@ -327,7 +287,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
     context('when target profile does not exist', function () {
       it('should throw a NotFound error', async function () {
         // when
-        const err = await catchErr(targetProfileForAdminRepository.getAsNewFormat)({ id: 123 });
+        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 123 });
 
         // then
         expect(err).to.be.instanceOf(NotFoundError);
@@ -342,7 +302,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         await databaseBuilder.commit();
 
         // when
-        const err = await catchErr(targetProfileForAdminRepository.getAsNewFormat)({ id: 1 });
+        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 1 });
 
         // then
         expect(err).to.be.instanceOf(TargetProfileInvalidError);
@@ -424,7 +384,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         mockLearningContent(learningContent);
 
         // when
-        const err = await catchErr(targetProfileForAdminRepository.getAsNewFormat)({ id: 1 });
+        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 1 });
 
         // then
         expect(err).to.be.instanceOf(NotFoundError);
@@ -629,7 +589,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         mockLearningContent(learningContent);
 
         // when
-        const actualTargetProfile = await targetProfileForAdminRepository.getAsNewFormat({ id: 1 });
+        const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1 });
 
         // then
         const tube1_themA_compA_areaA = {
@@ -807,7 +767,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         mockLearningContent(learningContent);
 
         // when
-        const actualTargetProfile = await targetProfileForAdminRepository.getAsNewFormat({ id: 1, locale: 'en' });
+        const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1, locale: 'en' });
 
         // then
         const tube1_themA_compA_areaA = {
