@@ -34,9 +34,6 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             'user-saved-tutorial': {
               data: null,
             },
-            'user-tutorial': {
-              data: null,
-            },
           },
         },
       };
@@ -74,11 +71,6 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             'tube-name': '@web',
             'tube-practical-description': 'Tube Practical Description',
             'tube-practical-title': 'Tube Practical Title',
-          },
-          relationships: {
-            'user-tutorial': {
-              data: null,
-            },
           },
         },
       };
@@ -130,12 +122,6 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
                 type: 'user-saved-tutorial',
               },
             },
-            'user-tutorial': {
-              data: {
-                id: userSavedTutorialId,
-                type: 'user-tutorial',
-              },
-            },
           },
         },
         included: [
@@ -156,15 +142,6 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             },
             id: userSavedTutorialId,
             type: 'user-saved-tutorial',
-          },
-          {
-            attributes: {
-              id: userSavedTutorialId,
-              'user-id': userId,
-              'tutorial-id': tutorialId,
-            },
-            id: userSavedTutorialId,
-            type: 'user-tutorial',
           },
         ],
       };
@@ -203,11 +180,6 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
               link: 'https://youtube.fr',
               source: 'Youtube',
               title: 'Savoir regarder des vidéos youtube.',
-            },
-            relationships: {
-              'user-tutorial': {
-                data: null,
-              },
             },
           },
         ],
