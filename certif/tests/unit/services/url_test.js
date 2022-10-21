@@ -92,4 +92,47 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(cguUrl, expectedCguUrl);
     });
   });
+
+  module('#forgottenPasswordUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedForgottenPasswordUrl = 'https://app.pix.fr/mot-de-passe-oublie';
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const forgottenPasswordUrl = service.forgottenPasswordUrl;
+
+      // then
+      assert.strictEqual(forgottenPasswordUrl, expectedForgottenPasswordUrl);
+    });
+
+    test('should get "pix.org" english url when current language is en', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedForgottenPasswordUrl = 'https://app.pix.org/mot-de-passe-oublie?lang=en';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('en') };
+
+      // when
+      const forgottenPasswordUrl = service.forgottenPasswordUrl;
+
+      // then
+      assert.strictEqual(forgottenPasswordUrl, expectedForgottenPasswordUrl);
+    });
+
+    test('should get "pix.org" french url when current language is fr', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedForgottenPasswordUrl = 'https://app.pix.org/mot-de-passe-oublie';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('fr') };
+
+      // when
+      const forgottenPasswordUrl = service.forgottenPasswordUrl;
+
+      // then
+      assert.strictEqual(forgottenPasswordUrl, expectedForgottenPasswordUrl);
+    });
+  });
 });
