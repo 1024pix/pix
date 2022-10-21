@@ -304,12 +304,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
                     type: 'user-saved-tutorial',
                   },
                 },
-                'user-tutorial': {
-                  data: {
-                    id: '10500',
-                    type: 'user-tutorial',
-                  },
-                },
               },
             },
             {
@@ -333,9 +327,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
                 'user-saved-tutorial': {
                   data: null,
                 },
-                'user-tutorial': {
-                  data: null,
-                },
               },
             },
           ],
@@ -348,15 +339,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
               },
               id: '10500',
               type: 'user-saved-tutorial',
-            },
-            {
-              attributes: {
-                id: 10500,
-                'tutorial-id': 'recTutorial1',
-                'user-id': 42,
-              },
-              id: '10500',
-              type: 'user-tutorial',
             },
           ],
         };

@@ -359,12 +359,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   type: 'user-saved-tutorial',
                 },
               },
-              'user-tutorial': {
-                data: {
-                  id: `${userSavedTutorialId}`,
-                  type: 'user-tutorial',
-                },
-              },
             },
             type: 'tutorials',
           },
@@ -385,9 +379,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'user-saved-tutorial': {
                 data: null,
               },
-              'user-tutorial': {
-                data: null,
-              },
             },
             type: 'tutorials',
           },
@@ -406,9 +397,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 data: null,
               },
               'user-saved-tutorial': {
-                data: null,
-              },
-              'user-tutorial': {
                 data: null,
               },
             },
@@ -478,9 +466,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               'user-saved-tutorial': {
                 data: null,
               },
-              'user-tutorial': {
-                data: null,
-              },
             },
             type: 'tutorials',
           },
@@ -499,9 +484,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 data: null,
               },
               'user-saved-tutorial': {
-                data: null,
-              },
-              'user-tutorial': {
                 data: null,
               },
             },
@@ -695,7 +677,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
             },
             relationships: {
               'user-saved-tutorial': { data: { id: '101', type: 'user-saved-tutorial' } },
-              'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
               'tutorial-evaluation': {
                 data: null,
               },
@@ -770,12 +751,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                   type: 'user-saved-tutorial',
                 },
               },
-              'user-tutorial': {
-                data: {
-                  id: '103',
-                  type: 'user-tutorial',
-                },
-              },
             },
             type: 'tutorials',
           },
@@ -797,12 +772,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                 data: {
                   id: '102',
                   type: 'user-saved-tutorial',
-                },
-              },
-              'user-tutorial': {
-                data: {
-                  id: '102',
-                  type: 'user-tutorial',
                 },
               },
             },
