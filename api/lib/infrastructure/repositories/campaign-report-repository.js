@@ -47,6 +47,7 @@ module.exports = {
         targetProfileId: 'target-profiles.id',
         targetProfileDescription: 'target-profiles.description',
         targetProfileName: 'target-profiles.name',
+        multipleSendings: 'campaigns.multipleSendings',
       })
       .select(
         knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
@@ -76,7 +77,7 @@ module.exports = {
       id: result.targetProfileId,
       name: result.targetProfileName,
       tubeCount: _.uniqBy(skills, 'tubeId').length,
-      thematicResults: _.uniq(result.badgeIds).filter((id) => id),
+      thematicResultCount: _.uniq(result.badgeIds).filter((id) => id).length,
       hasStage: result.stageIds.some((stage) => stage),
       description: result.targetProfileDescription,
     });
