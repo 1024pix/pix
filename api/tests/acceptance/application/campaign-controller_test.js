@@ -201,10 +201,11 @@ describe('Acceptance | API | Campaign Controller', function () {
   describe('GET /api/campaigns/{id}/csv-assessment-results', function () {
     let accessToken;
 
-    function _createTokenWithAccessId(userId) {
+    function _createTokenWithAccessId({ userId, campaignId }) {
       return jwt.sign(
         {
           access_id: userId,
+          campaign_id: campaignId,
         },
         settings.authentication.secret,
         { expiresIn: settings.authentication.accessTokenLifespanMs }
@@ -221,7 +222,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
       });
-      accessToken = _createTokenWithAccessId(userId);
+      accessToken = _createTokenWithAccessId({ userId, campaignId: campaign.id });
 
       databaseBuilder.factory.buildMembership({
         userId,
@@ -263,28 +264,38 @@ describe('Acceptance | API | Campaign Controller', function () {
     });
 
     it('should return csv file with statusCode 200', async function () {
-      // given
-      const url = `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`;
-      const request = {
+      // given & when
+      const { statusCode, payload } = await server.inject({
         method: 'GET',
-        url,
-      };
-
-      // when
-      const response = await server.inject(request);
+        url: `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`,
+      });
 
       // then
-      expect(response.statusCode).to.equal(200, response.payload);
+      expect(statusCode).to.equal(200, payload);
+    });
+
+    context('when accessing another campaign with the wrong access token', function () {
+      it('should return an error response with an HTTP status code 403', async function () {
+        // given & when
+        const { statusCode } = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/1234567890/csv-assessment-results?accessToken=${accessToken}`,
+        });
+
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
   });
 
   describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function () {
     let accessToken;
 
-    function _createTokenWithAccessId(userId) {
+    function _createTokenWithAccessId({ userId, campaignId }) {
       return jwt.sign(
         {
           access_id: userId,
+          campaign_id: campaignId,
         },
         settings.authentication.secret,
         { expiresIn: settings.authentication.accessTokenLifespanMs }
@@ -298,7 +309,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         organizationId: organization.id,
         type: 'PROFILES_COLLECTION',
       });
-      accessToken = _createTokenWithAccessId(userId);
+      accessToken = _createTokenWithAccessId({ userId, campaignId: campaign.id });
 
       databaseBuilder.factory.buildMembership({
         userId,
@@ -340,18 +351,27 @@ describe('Acceptance | API | Campaign Controller', function () {
     });
 
     it('should return csv file with statusCode 200', async function () {
-      // given
-      const url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`;
-      const request = {
+      // given & when
+      const { statusCode, payload } = await server.inject({
         method: 'GET',
-        url,
-      };
-
-      // when
-      const response = await server.inject(request);
+        url: `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`,
+      });
 
       // then
-      expect(response.statusCode).to.equal(200, response.payload);
+      expect(statusCode).to.equal(200, payload);
+    });
+
+    context('when accessing another campaign with the wrong access token', function () {
+      it('should return an error response with an HTTP status code 403', async function () {
+        // given & when
+        const { statusCode } = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/1234567890/csv-profiles-collection-results?accessToken=${accessToken}`,
+        });
+
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
   });
 
