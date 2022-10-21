@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.277.1 (21/10/2022)
+
+
+### :building_construction: Tech
+- [#5110](https://github.com/1024pix/pix/pull/5110) [TECH] Corriger le path de l'url du logo des éditeurs du contenu formatifs (PIX-6108).
+
 ## v3.277.0 (21/10/2022)
 
 
