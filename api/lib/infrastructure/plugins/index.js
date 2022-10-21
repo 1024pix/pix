@@ -6,7 +6,7 @@ const plugins = [
   Inert,
   Vision,
   require('./i18n'),
-  require('./pino'),
+  require('./hapi-pino'),
   require('./rate-limit'),
   ...(config.sentry.enabled ? [require('./sentry')] : []),
 ];

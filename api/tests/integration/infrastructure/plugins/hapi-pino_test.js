@@ -2,7 +2,7 @@ const split = require('split2');
 const writeStream = require('flush-write-stream');
 const config = require('../../../../lib/config');
 const { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
-const pinoPlugin = require('../../../../lib/infrastructure/plugins/pino');
+const hapiPinoPlugin = require('../../../../lib/infrastructure/plugins/hapi-pino');
 const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
 
 function sink(func) {
@@ -11,7 +11,7 @@ function sink(func) {
   return result;
 }
 
-describe('Integration | Infrastructure | plugins | pino', function () {
+describe('Integration | Infrastructure | plugins | hapi-pino', function () {
   let httpTestServer;
 
   beforeEach(async function () {
@@ -36,17 +36,18 @@ describe('Integration | Infrastructure | plugins | pino', function () {
   });
 
   async function registerWithPlugin(cb) {
-    const pinoPluginWithLogger = {
-      ...pinoPlugin,
+    const hapiPinoPluginWithLogger = {
+      ...hapiPinoPlugin,
       options: {
-        ...pinoPlugin.options,
+        ...hapiPinoPlugin.options,
         instance: undefined,
         level: 'info',
         stream: sink(cb),
       },
     };
-    await httpTestServer.register([pinoPluginWithLogger]);
+    await httpTestServer.register([hapiPinoPluginWithLogger]);
   }
+
   describe('Ensure that datadog configured log format is what we send', function () {
     context('with request monitoring disabled', function () {
       beforeEach(function () {
