@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, catchErr, mockLearningContent } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
 const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
 const targetProfileForAdminRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-admin-repository');
 const TargetProfileForAdminOldFormat = require('../../../../lib/domain/models/TargetProfileForAdminOldFormat');
@@ -55,6 +55,47 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         databaseBuilder.factory.buildTargetProfileSkill({
           targetProfileId: targetProfileDB.id,
           skillId: 'recArea1_Competence2_Tube1_Skill1',
+        });
+        const badge1DTO = databaseBuilder.factory.buildBadge({
+          targetProfileId: targetProfileDB.id,
+          altMessage: 'altMessage badge1',
+          imageUrl: 'image badge1',
+          message: 'message badge1',
+          title: 'title badge1',
+          key: 'KEY_BADGE1',
+          isCertifiable: true,
+          isAlwaysVisible: false,
+        });
+        const badge1Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({
+          badgeId: badge1DTO.id,
+          threshold: 65,
+        });
+        const skillSetId1 = databaseBuilder.factory.buildSkillSet({
+          name: 'skillSetName#recArea1_Competence2_Tube1_Skill1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+        }).id;
+        const skillSetId2 = databaseBuilder.factory.buildSkillSet({
+          name: 'skillSetName#recArea1_Competence1_Tube1_Skill2',
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+        }).id;
+        const badge1Criteria2DTO = databaseBuilder.factory.buildBadgeCriterion.scopeSkillSets({
+          badgeId: badge1DTO.id,
+          threshold: 50,
+          skillSetIds: [skillSetId1, skillSetId2],
+        });
+        const badge2DTO = databaseBuilder.factory.buildBadge({
+          targetProfileId: targetProfileDB.id,
+          altMessage: 'altMessage badge2',
+          imageUrl: 'image badge2',
+          message: 'message badge2',
+          title: 'title badge2',
+          key: 'KEY_BADGE2',
+          isCertifiable: false,
+          isAlwaysVisible: true,
+        });
+        const badge2Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({
+          badgeId: badge2DTO.id,
+          threshold: 65,
         });
         await databaseBuilder.commit();
         const learningContent = {
@@ -164,6 +205,22 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areaId: 'recArea1',
         };
         const area1 = { id: 'recArea1', title: 'area1_Title', code: 'area1_code', color: 'area1_color' };
+        const criteria1Badge1 =
+          domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge1Criteria1DTO);
+        const criteria2Badge1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
+          ...badge1Criteria2DTO,
+          arrayOfSkillIds: [['recArea1_Competence2_Tube1_Skill1'], ['recArea1_Competence1_Tube1_Skill2']],
+        });
+        const expectedBadge1 = domainBuilder.buildBadgeDetails({
+          ...badge1DTO,
+          criteria: [criteria1Badge1, criteria2Badge1],
+        });
+        const criteria1Badge2 =
+          domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge2Criteria1DTO);
+        const expectedBadge2 = domainBuilder.buildBadgeDetails({
+          ...badge2DTO,
+          criteria: [criteria1Badge2],
+        });
         const expectedTargetProfile = new TargetProfileForAdminOldFormat({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
@@ -180,6 +237,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           tubes: [tube1_1_1, tube1_2_1],
           competences: [competence1_1, competence1_2],
           areas: [area1],
+          badges: [expectedBadge1, expectedBadge2],
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
       });
@@ -277,6 +335,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           tubes: [tube1],
           competences: [competence1],
           areas: [area1],
+          badges: [],
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
       });
@@ -425,6 +484,51 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           targetProfileId: targetProfileDB.id,
           tubeId: 'recTube3',
           level: 8,
+        });
+        const badge1DTO = databaseBuilder.factory.buildBadge({
+          targetProfileId: targetProfileDB.id,
+          altMessage: 'altMessage badge1',
+          imageUrl: 'image badge1',
+          message: 'message badge1',
+          title: 'title badge1',
+          key: 'KEY_BADGE1',
+          isCertifiable: true,
+          isAlwaysVisible: false,
+        });
+        const badge1Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({
+          badgeId: badge1DTO.id,
+          threshold: 65,
+        });
+        const skillSetId1 = databaseBuilder.factory.buildSkillSet({
+          name: 'skillSetName#recSkillTube1',
+          skillIds: ['recSkillTube1', 'recSkillTube3'],
+        }).id;
+        const skillSetId2 = databaseBuilder.factory.buildSkillSet({
+          name: 'skillSetName#recSkillTube2',
+          skillIds: ['recSkillTube2'],
+        }).id;
+        const badge1Criteria2DTO = databaseBuilder.factory.buildBadgeCriterion.scopeSkillSets({
+          badgeId: badge1DTO.id,
+          threshold: 50,
+          skillSetIds: [skillSetId1, skillSetId2],
+        });
+        const badge2DTO = databaseBuilder.factory.buildBadge({
+          targetProfileId: targetProfileDB.id,
+          altMessage: 'altMessage badge2',
+          imageUrl: 'image badge2',
+          message: 'message badge2',
+          title: 'title badge2',
+          key: 'KEY_BADGE2',
+          isCertifiable: false,
+          isAlwaysVisible: true,
+        });
+        const badge2Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCappedTubes({
+          badgeId: badge2DTO.id,
+          threshold: 65,
+          cappedTubes: JSON.stringify([
+            { id: 'recTube2', level: 6 },
+            { id: 'recTube3', level: 3 },
+          ]),
         });
         await databaseBuilder.commit();
         const learningContent = {
@@ -656,6 +760,27 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           color: 'colorA',
           frameworkId: 'fmk1',
         };
+        const criteria1Badge1 =
+          domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge1Criteria1DTO);
+        const criteria2Badge1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
+          ...badge1Criteria2DTO,
+          arrayOfSkillIds: [['recSkillTube1', 'recSkillTube3'], ['recSkillTube2']],
+        });
+        const expectedBadge1 = domainBuilder.buildBadgeDetails({
+          ...badge1DTO,
+          criteria: [criteria1Badge1, criteria2Badge1],
+        });
+        const criteria1Badge2 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CappedTubes({
+          ...badge2Criteria1DTO,
+          cappedTubesDTO: [
+            { tubeId: 'recTube2', level: 6 },
+            { tubeId: 'recTube3', level: 3 },
+          ],
+        });
+        const expectedBadge2 = domainBuilder.buildBadgeDetails({
+          ...badge2DTO,
+          criteria: [criteria1Badge2],
+        });
         const expectedTargetProfile = new TargetProfileForAdminNewFormat({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
@@ -668,6 +793,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           imageUrl: targetProfileDB.imageUrl,
           category: targetProfileDB.category,
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
+          badges: [expectedBadge1, expectedBadge2],
           areas: [areaA],
           competences: [compA_areaA, compB_areaA],
           thematics: [themA_compA_areaA, themB_compA_areaA, themC_compB_areaA],
@@ -814,6 +940,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [compA_areaA],
           thematics: [themA_compA_areaA],
           tubes: [tube1_themA_compA_areaA],
+          badges: [],
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
       });

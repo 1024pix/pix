@@ -11,6 +11,7 @@ class TargetProfileForAdminOldFormat {
     imageUrl,
     category,
     isSimplifiedAccess,
+    badges,
     areas = [],
     competences = [],
     tubes = [],
@@ -28,6 +29,7 @@ class TargetProfileForAdminOldFormat {
     this.imageUrl = imageUrl;
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
+    this.badges = badges;
     this.areas = areas.map(
       (area) =>
         new TP_Area({ id: area.id, title: area.title, code: area.code, color: area.color, competences, tubes, skills })
