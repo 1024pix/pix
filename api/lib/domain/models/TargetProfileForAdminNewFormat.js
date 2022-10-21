@@ -11,6 +11,7 @@ class TargetProfileForAdminNewFormat {
     imageUrl,
     category,
     isSimplifiedAccess,
+    badges,
     areas = [],
     competences = [],
     thematics = [],
@@ -28,6 +29,7 @@ class TargetProfileForAdminNewFormat {
     this.imageUrl = imageUrl;
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
+    this.badges = badges;
     this.areas = areas.map(
       (area) =>
         new TP_Area({
