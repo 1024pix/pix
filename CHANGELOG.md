@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.278.0 (24/10/2022)
+
+
+### :rocket: Amélioration
+- [#5099](https://github.com/1024pix/pix/pull/5099) [FEATURE] Ajout des mentions RGPD pour le SCO (PIX-5316)
+
+### :building_construction: Tech
+- [#5109](https://github.com/1024pix/pix/pull/5109) [TECH] Supprimer la rétrocompatibilité des tutoriels (PIX-6101).
+- [#5082](https://github.com/1024pix/pix/pull/5082) [TECH] Suppression du feature toggle pour la réconciliation de compte SSO sur Pix App (PIX-5688).
+- [#5103](https://github.com/1024pix/pix/pull/5103) [TECH] Isoler la configuration de nodemon
+
+### :bug: Correction
+- [#5108](https://github.com/1024pix/pix/pull/5108) [BUGFIX] Le bouton d'affichage de l'alternative textuelle ne garde pas le focus (PIX-2649).
+- [#5085](https://github.com/1024pix/pix/pull/5085) [BUGFIX] Afficher la colonne référent seulement si le centre est habilité CléA (PIX-5989)
+
 ## v3.277.1 (21/10/2022)
 
 
