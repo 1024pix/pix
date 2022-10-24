@@ -21,6 +21,7 @@ export default class Team extends Controller {
     return this.model.members
       .toArray()
       .sort((member1, member2) => member1.lastName.localeCompare(member2.lastName, 'fr-FR', { sensitivity: 'base' }))
+      .filter((member) => !member.isReferer)
       .map((member) => ({ value: member.id, label: `${member.firstName} ${member.lastName}` }));
   }
 

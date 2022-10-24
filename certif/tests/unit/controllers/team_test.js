@@ -139,7 +139,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
   });
 
   module('#membersSelectOptionsSortedByLastName', function () {
-    test('should return an array of members select options ordered by last name', function (assert) {
+    test('should return an array of non referer members select options ordered by last name', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/team');
       const store = this.owner.lookup('service:store');
@@ -147,13 +147,21 @@ module('Unit | Controller | authenticated/team', function (hooks) {
         id: 102,
         firstName: 'Abe',
         lastName: 'Sapiens',
+        isReferer: false,
       });
       const member2 = store.createRecord('member', {
         id: 100,
         firstName: 'Trevor',
         lastName: 'Bruttenholm',
+        isReferer: false,
       });
-      controller.model = { members: [member1, member2], hasCleaHabilitation: true };
+      const member3 = store.createRecord('member', {
+        id: 101,
+        firstName: 'Aby',
+        lastName: 'Gails',
+        isReferer: true,
+      });
+      controller.model = { members: [member1, member2, member3], hasCleaHabilitation: true };
 
       // when then
       assert.deepEqual(controller.membersSelectOptionsSortedByLastName, [
