@@ -14,6 +14,7 @@ export default class CandidateInList extends Component {
   @tracked modalConfirmationText;
   @tracked modalInstructionText;
   @tracked actionOnConfirmation;
+  @service intl;
 
   get isCheckboxToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
@@ -40,22 +41,36 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToConfirmTestResume() {
-    this.modalDescriptionText =
-      "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.";
-    this.modalCancelText = 'Fermer';
-    this.modalConfirmationText = "Je confirme l'autorisation";
-    this.modalInstructionText = `Autoriser ${this.args.candidate.firstName} ${this.args.candidate.lastName} à reprendre son test ?`;
+    this.modalDescriptionText = this.intl.t(
+      'pages.session-supervising.candidate-in-list.resume-test-modal.description'
+    );
+    this.modalCancelText = this.intl.t('common.actions.close');
+    this.modalConfirmationText = this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.confirm');
+    this.modalInstructionText = this.intl.t(
+      'pages.session-supervising.candidate-in-list.resume-test-modal.instruction-with-name',
+      {
+        firstName: this.args.candidate.firstName,
+        lastName: this.args.candidate.lastName,
+      }
+    );
     set(this, 'actionOnConfirmation', this.authorizeTestResume);
     this.isConfirmationModalDisplayed = true;
   }
 
   @action
   askUserToConfirmTestEnd() {
-    this.modalDescriptionText =
-      'Attention : cette action entraîne la fin de son test de certification et est irréversible.';
-    this.modalCancelText = 'Annuler';
-    this.modalConfirmationText = 'Terminer le test';
-    this.modalInstructionText = `Terminer le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} ?`;
+    this.modalDescriptionText = this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.description');
+    this.modalCancelText = this.intl.t('common.actions.cancel');
+    this.modalConfirmationText = this.intl.t(
+      'pages.session-supervising.candidate-in-list.test-end-modal.end-assessment'
+    );
+    this.modalInstructionText = this.intl.t(
+      'pages.session-supervising.candidate-in-list.test-end-modal.instruction-with-name',
+      {
+        firstName: this.args.candidate.firstName,
+        lastName: this.args.candidate.lastName,
+      }
+    );
     set(this, 'actionOnConfirmation', this.endAssessmentForCandidate);
     this.isConfirmationModalDisplayed = true;
   }
@@ -71,11 +86,17 @@ export default class CandidateInList extends Component {
     try {
       await this.args.onCandidateTestResumeAuthorization(this.args.candidate);
       this.notifications.success(
-        `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`
+        this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.success', {
+          firstName: this.args.candidate.firstName,
+          lastName: this.args.candidate.lastName,
+        })
       );
     } catch (error) {
       this.notifications.error(
-        `Une erreur est survenue, ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a a pu être autorisé à reprendre son test.`
+        this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.error', {
+          firstName: this.args.candidate.firstName,
+          lastName: this.args.candidate.lastName,
+        })
       );
     }
   }
@@ -86,11 +107,17 @@ export default class CandidateInList extends Component {
     try {
       await this.args.onSupervisorEndAssessment(this.args.candidate);
       this.notifications.success(
-        `Succès ! Le test de  ${this.args.candidate.firstName} ${this.args.candidate.lastName} est terminé.`
+        this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.success', {
+          firstName: this.args.candidate.firstName,
+          lastName: this.args.candidate.lastName,
+        })
       );
     } catch (error) {
       this.notifications.error(
-        `Une erreur est survenue, le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a pas pu être terminé.`
+        this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.error', {
+          firstName: this.args.candidate.firstName,
+          lastName: this.args.candidate.lastName,
+        })
       );
     }
   }
