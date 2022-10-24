@@ -31,7 +31,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       certificationCenterName: 'Centre de Certif',
     });
 
-    await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
 
     // then
     assert.dom(screen.getByText(invitationMessage)).exists();
@@ -45,7 +45,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     );
 
     // when
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: firstNameInputLabelFromRegisterForm })).exists();
@@ -55,8 +55,8 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the login form on click on login button', async function (assert) {
     // given
-    const emailInputLabelFromLoginForm = this.intl.t('pages.login-form.email');
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    const emailInputLabelFromLoginForm = this.intl.t('pages.login-or-register.login-form.fields.email.label');
+    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
     await clickByName(loginButton);
@@ -70,7 +70,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     const emailInputLabelFromRegisterForm = this.intl.t('pages.login-or-register.register-form.fields.email.label');
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.button');
 
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
     await clickByName(loginButton);

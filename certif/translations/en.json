@@ -20,20 +20,22 @@
     "login": {
       "title": "Login"
     },
-    "login-form": {
-      "email": "Email address",
-      "errors": {
-        "invalid-email": "Your email address is invalid.",
-        "empty-password": "Your password can't be empty."
-      },
-      "forgot-password": "Forgot your password?",
-      "login": "Log in",
-      "password": "Password"
-    },
     "login-or-register": {
       "title": "You have been invited to join the certification center {certificationCenterName}",
       "login-form": {
         "title": "Already have an account?",
+        "fields": {
+          "email": {
+            "label": "Email address",
+            "error": "Your email address is invalid."
+          },
+          "password": {
+            "label": "Password",
+            "error": "Your password can't be empty.",
+            "forgot-password": "Forgot your password?"
+          }
+        },
+        "login": "Log in",
         "button": "Log in"
       },
       "register-form": {

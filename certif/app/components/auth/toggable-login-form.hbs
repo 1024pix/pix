@@ -3,7 +3,7 @@
 
   <PixInput
     @id="login-email"
-    @label={{t "pages.login-form.email"}}
+    @label={{t "pages.login-or-register.login-form.fields.email.label"}}
     name="login"
     type="email"
     {{on "focusout" this.validateEmail}}
@@ -17,7 +17,7 @@
   <PixInputPassword
     @id="login-password"
     name="password"
-    @label={{t "pages.login-form.password"}}
+    @label={{t "pages.login-or-register.login-form.fields.password.label"}}
     autocomplete="current-password"
     required={{true}}
     aria-required={{true}}
@@ -33,13 +33,13 @@
   {{/if}}
 
   <PixButton @type="submit" @isLoading={{this.isLoading}}>
-    {{t "pages.login-form.login"}}
+    {{t "pages.login-or-register.login-form.login"}}
   </PixButton>
 
   <div>
     <div class="login-form__forgotten-password">
       <a href={{this.forgottenPasswordUrl}} target="_blank" rel="noopener noreferrer" class="link">
-        {{t "pages.login-form.forgot-password"}}
+        {{t "pages.login-or-register.login-form.fields.password.forgot-password"}}
       </a>
     </div>
   </div>

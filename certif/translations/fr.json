@@ -21,20 +21,22 @@
     "login": {
       "title": "Connectez-vous"
     },
-    "login-form": {
-      "email": "Adresse e-mail",
-      "errors": {
-        "invalid-email": "Votre adresse e-mail n’est pas valide.",
-        "empty-password": "Le champ mot de passe est obligatoire."
-      },
-      "forgot-password": "Mot de passe oublié ?",
-      "login": "Je me connecte",
-      "password": "Mot de passe"
-    },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
       "login-form": {
         "title": "J'ai déjà un compte",
+        "fields": {
+          "email": {
+            "label": "Adresse e-mail",
+            "error": "Votre adresse e-mail n’est pas valide."
+          },
+          "password": {
+            "label": "Mot de passe",
+            "error": "Le champ mot de passe est obligatoire.",
+            "forgot-password": "Mot de passe oublié ?"
+          }
+        },
+        "login": "Je me connecte",
         "button": "Se connecter"
       },
       "register-form": {
