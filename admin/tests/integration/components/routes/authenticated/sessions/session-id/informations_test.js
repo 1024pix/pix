@@ -75,7 +75,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       const screen = await visit(`/sessions/${session.id}`);
 
       // when
-      assert.dom(screen.getByText('01/01/2022')).exists();
+      assert.dom(screen.getByText('01/04/2022')).exists();
     });
 
     test('it renders all the stats of the session', async function (assert) {
@@ -180,13 +180,13 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       test('it renders the publishedAt date', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const session = _buildSessionWithTwoJuryCertificationSummary({ publishedAt: new Date('2022-10-24') }, server);
+        const session = _buildSessionWithTwoJuryCertificationSummary({ publishedAt: new Date('2022-10-20') }, server);
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
 
         // when
-        assert.dom(screen.getByText('24/10/2022')).exists();
+        assert.dom(screen.getByText('20/10/2022')).exists();
       });
     });
 
@@ -238,8 +238,9 @@ function _buildSessionWithTwoJuryCertificationSummary(sessionData, server) {
   });
 
   return server.create('session', {
+    date: new Date('2022-01-01'),
     status: 'finalized',
-    finalizedAt: new Date('2022-01-01'),
+    finalizedAt: new Date('2022-04-01'),
     examinerGlobalComment: 'ceci est un commentaire sur les sessions de certification',
     juryCertificationSummaries: [juryCertifSummary1, juryCertifSummary2],
     ...sessionData,
