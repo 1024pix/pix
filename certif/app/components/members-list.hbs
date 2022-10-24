@@ -13,7 +13,7 @@
         </thead>
 
         <tbody>
-          {{#each @members as |member|}}
+          {{#each this.orderedMemberListWithRefererFirst as |member|}}
             <tr aria-label="Membres du centre de certification">
               <td>{{member.lastName}}</td>
               <td>{{member.firstName}}</td>
