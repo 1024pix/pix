@@ -3,7 +3,8 @@
     "actions": {
       "cancel": "Annuler",
       "delete": "Supprimer",
-      "quit": "Quitter"
+      "quit": "Quitter",
+      "close": "Fermer"
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires."
@@ -110,6 +111,31 @@
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"
+      },
+      "candidate-in-list": {
+        "extra-time": "Temps majoré",
+        "ongoing": "En cours",
+        "finished": "Terminé",
+        "display-candidate-options": "Afficher les options du candidat",
+        "candidate-options": "Options du candidat",
+        "start": "Début",
+        "test-end-modal": {
+          "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
+          "instruction-with-name": "Terminer le test de {firstName} {lastName} ?",
+          "end-assessment": "Terminer le test",
+          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
+          "success": "Succès ! Le test de {firstName} {lastName} est terminé.",
+          "error": "Une erreur est survenue, le test de {firstName} {lastName} n'a pas pu être terminé."
+        },
+        "resume-test-modal": {
+          "allow-test-resume": "Autoriser la reprise du test",
+          "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
+          "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?",
+          "confirm": "Je confirme l'autorisation",
+          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
+          "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification.",
+          "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
+        }
       }
     },
     "team": {

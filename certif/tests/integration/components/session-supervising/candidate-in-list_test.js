@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 
@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
 module('Integration | Component | SessionSupervising::CandidateInList', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
 
