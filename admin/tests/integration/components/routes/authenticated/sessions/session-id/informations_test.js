@@ -75,7 +75,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       const screen = await visit(`/sessions/${session.id}`);
 
       // when
-      assert.dom(screen.getByText('01/01/2022')).exists();
+      assert.dom(screen.getByText('01/04/2022')).exists();
     });
 
     test('it renders all the stats of the session', async function (assert) {
