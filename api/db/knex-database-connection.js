@@ -62,12 +62,11 @@ knex.on('query', function (data) {
 });
 
 knex.on('query-response', function (response, obj) {
+  monitoringTools.incrementInContext('metrics.knexQueryCount');
   if (logging.enableLogKnexQueries) {
     const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${obj.__knexQueryUid}`);
     if (queryStartedTime) {
       const duration = performance.now() - queryStartedTime;
-
-      monitoringTools.incrementInContext('metrics.knexQueryCount');
       monitoringTools.pushInContext('metrics.knexQueries', {
         id: obj.__knexQueryUid,
         sql: obj.sql,
