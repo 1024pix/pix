@@ -17,6 +17,14 @@ export default class Team extends Controller {
     );
   }
 
+  get shouldDisplayUpdateRefererButton() {
+    return (
+      this.model.hasCleaHabilitation &&
+      _hasAtLeastTwoMembersAndOneReferer(this.model.members) &&
+      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
+    );
+  }
+
   get membersSelectOptionsSortedByLastName() {
     return this.model.members
       .toArray()
@@ -50,4 +58,8 @@ export default class Team extends Controller {
 
 function _hasAtLeastOneMemberAndNoReferer(members) {
   return members.length > 0 && !members.toArray().some((member) => member.isReferer);
+}
+
+function _hasAtLeastTwoMembersAndOneReferer(members) {
+  return members.length > 1 && members.toArray().some((member) => member.isReferer);
 }
