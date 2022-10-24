@@ -15,7 +15,7 @@ function handleErrors(request, h) {
     if (isExpectedError(error)) {
       return errorManager.handle(request, h, error);
     } else {
-      monitoringTools.logError(error);
+      monitoringTools.logError({ event: 'uncaught-error', stack: error.stack });
     }
   }
 
