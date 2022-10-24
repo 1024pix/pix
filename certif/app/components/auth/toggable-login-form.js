@@ -36,7 +36,7 @@ export default class ToggableLoginForm extends Component {
     this.passwordValidationMessage = null;
 
     if (isInvalidInput) {
-      this.passwordValidationMessage = this.intl.t('pages.login-form.errors.empty-password');
+      this.passwordValidationMessage = this.intl.t('pages.login-or-register.login-form.fields.password.error');
     }
   }
 
@@ -48,7 +48,7 @@ export default class ToggableLoginForm extends Component {
     this.emailValidationMessage = null;
 
     if (isInvalidInput) {
-      this.emailValidationMessage = this.intl.t('pages.login-form.errors.invalid-email');
+      this.emailValidationMessage = this.intl.t('pages.login-or-register.login-form.fields.email.error');
     }
   }
 

@@ -12,8 +12,8 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   let passwordInputLabel;
 
   hooks.beforeEach(function () {
-    emailInputLabel = this.intl.t('pages.login-form.email');
-    passwordInputLabel = this.intl.t('pages.login-form.password');
+    emailInputLabel = this.intl.t('pages.login-or-register.login-form.fields.email.label');
+    passwordInputLabel = this.intl.t('pages.login-or-register.login-form.fields.password.label');
   });
 
   test('it should display email and password inputs', async function (assert) {
@@ -47,7 +47,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       await triggerEvent(emailInput, 'focusout');
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.login-form.errors.invalid-email'))).exists();
+      assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.fields.email.error'))).exists();
     });
 
     test('should display an empty password error message when focus-out', async function (assert) {
@@ -60,7 +60,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       await triggerEvent(passwordInput, 'focusout');
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.login-form.errors.empty-password'))).exists();
+      assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.fields.password.error'))).exists();
     });
   });
 });
