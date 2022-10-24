@@ -1,7 +1,7 @@
 const pick = require('lodash/pick');
 const omit = require('lodash/omit');
 
-const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } = require('../../../test-helper');
 
 const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/orm-models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
@@ -430,6 +430,83 @@ describe('Integration | Repository | Certification Center Membership', function 
         })
         .first();
       expect(updatedCertificationCenterMembership.isReferer).to.be.true;
+    });
+  });
+
+  describe('#getRefererByCertificationCenterId', function () {
+    context('when there is a referer', function () {
+      it('should return the referer certification center membership', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const refererCertificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId,
+          disabledAt: null,
+          isReferer: true,
+        });
+
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterMembershipRepository.getRefererByCertificationCenterId({
+          certificationCenterId,
+        });
+
+        // then
+        expect(result.id).to.equal(refererCertificationCenterMembership.id);
+        expect(result.user).to.deepEqualInstanceOmitting(domainBuilder.buildUser({ ...user }), [
+          'cgu',
+          'pixOrgaTermsOfServiceAccepted',
+          'pixCertifTermsOfServiceAccepted',
+          'emailConfirmedAt',
+          'knowledgeElements',
+          'lastName',
+          'lastTermsOfServiceValidatedAt',
+          'lastPixOrgaTermsOfServiceValidatedAt',
+          'lastPixCertifTermsOfServiceValidatedAt',
+          'hasSeenAssessmentInstructions',
+          'hasSeenNewDashboardInfo',
+          'hasSeenFocusedChallengeTooltip',
+          'hasSeenOtherChallengesTooltip',
+          'mustValidateTermsOfService',
+          'lang',
+          'isAnonymous',
+          'memberships',
+          'certificationCenterMemberships',
+          'pixScore',
+          'scorecards',
+          'campaignParticipations',
+          'authenticationMethods',
+          'username',
+        ]);
+      });
+    });
+
+    context('when there is no referer', function () {
+      it('should return null', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId,
+          disabledAt: null,
+          isReferer: false,
+        });
+
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterMembershipRepository.getRefererByCertificationCenterId({
+          certificationCenterId,
+        });
+
+        // then
+        expect(result).to.be.null;
+      });
     });
   });
 });

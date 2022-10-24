@@ -139,4 +139,18 @@ module.exports = {
   async updateRefererStatusByUserIdAndCertificationCenterId({ userId, certificationCenterId, isReferer }) {
     await knex('certification-center-memberships').where({ userId, certificationCenterId }).update({ isReferer });
   },
+
+  async getRefererByCertificationCenterId({ certificationCenterId }) {
+    const refererCertificationCenterMembership = await knex('certification-center-memberships')
+      .select('certification-center-memberships.*', 'users.lastName', 'users.firstName', 'users.email')
+      .join('users', 'users.id', 'certification-center-memberships.userId')
+      .where({ certificationCenterId, isReferer: true })
+      .first();
+
+    if (!refererCertificationCenterMembership) {
+      return null;
+    }
+
+    return _toDomain(refererCertificationCenterMembership);
+  },
 };
