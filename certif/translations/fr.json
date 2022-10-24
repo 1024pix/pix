@@ -28,7 +28,7 @@
         "fields": {
           "email": {
             "label": "Adresse e-mail",
-            "error": "Votre adresse e-mail n’est pas valide."
+            "error": "Le champ adresse e-mail n’est pas valide."
           },
           "password": {
             "label": "Mot de passe",
@@ -55,15 +55,15 @@
             "terms-of-use": "conditions d'utilisation de Pix"
           },
           "email": {
-            "error": "Votre adresse e-mail n’est pas valide.",
+            "error": "Le champ adresse e-mail n’est pas valide.",
             "label": "Adresse e-mail"
           },
           "first-name": {
-            "error": "Votre prénom n’est pas renseigné.",
+            "error": "Le champ prénom est obligatoire.",
             "label": "Prénom"
           },
           "last-name": {
-            "error": "Votre nom n’est pas renseigné.",
+            "error": "Le champ nom est obligatoire.",
             "label": "Nom"
           },
           "password": {
