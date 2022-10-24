@@ -10,6 +10,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     let model;
     hooks.beforeEach(() => {
       model = {
+        targetProfile: {},
         badges: [],
         stages: [],
       };

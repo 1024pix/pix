@@ -11,9 +11,12 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   test('it should display a message when empty', async function (assert) {
     // given
     this.set('stages', []);
+    this.set('targetProfile', {});
 
     // when
-    const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+    const screen = await render(
+      hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+    );
 
     // then
     assert.dom('table').doesNotExist();
@@ -62,9 +65,12 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     test('it should display a message when there is no stages with threshold 0', async function (assert) {
       // given
       this.set('stages', []);
+      this.set('targetProfile', {});
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+      );
 
       // then
       assert.dom('table').doesNotExist();
@@ -80,9 +86,12 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         message: 'My message',
       });
       this.set('stages', [stage]);
+      this.set('targetProfile', {});
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+      );
 
       // then
       assert.dom(screen.getByText("Attention ! Il n'y a pas de palier à 0")).exists();
