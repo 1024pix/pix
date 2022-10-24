@@ -59,11 +59,6 @@ module.exports = (function () {
 
     version: process.env.CONTAINER_VERSION || 'development',
 
-    hapi: {
-      options: {},
-      enableRequestMonitoring: isFeatureEnabled(process.env.ENABLE_REQUEST_MONITORING),
-    },
-
     domain: {
       tldFr: process.env.TLD_FR || '.fr',
       tldOrg: process.env.TLD_ORG || '.org',

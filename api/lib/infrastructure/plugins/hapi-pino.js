@@ -7,7 +7,6 @@ function logObjectSerializer(req) {
     version: config.version,
   };
 
-  if (!config.hapi.enableRequestMonitoring) return enhancedReq;
   const context = monitoringTools.getContext();
 
   return {

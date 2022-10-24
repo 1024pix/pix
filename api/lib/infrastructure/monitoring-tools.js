@@ -7,9 +7,6 @@ const { AsyncLocalStorage } = require('async_hooks');
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {
-  if (!settings.hapi.enableRequestMonitoring) {
-    return {};
-  }
   const context = asyncLocalStorage.getStore();
   const request = get(context, 'request');
   return {
@@ -81,8 +78,6 @@ function pushInContext(path, value) {
 }
 
 function installHapiHook() {
-  if (!settings.hapi.enableRequestMonitoring) return;
-
   const Request = require('@hapi/hapi/lib/request');
 
   const originalMethod = Request.prototype._execute;
