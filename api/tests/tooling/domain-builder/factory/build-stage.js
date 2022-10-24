@@ -8,6 +8,7 @@ module.exports = function buildStage({
   level = null,
   prescriberTitle = null,
   prescriberDescription = null,
+  targetProfileId = null,
 } = {}) {
   return new Stage({
     id,
@@ -17,5 +18,6 @@ module.exports = function buildStage({
     level,
     prescriberTitle,
     prescriberDescription,
+    targetProfileId,
   });
 };
