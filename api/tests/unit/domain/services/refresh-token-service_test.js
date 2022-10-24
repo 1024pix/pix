@@ -25,6 +25,7 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
         .withArgs(sinon.match({ key: `${userId}:${uuid}`, value, expirationDelaySeconds }))
         .resolves(`${userId}:${uuid}`);
       sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves();
+      sinon.stub(userRefreshTokensTemporaryStorage, 'expire').resolves();
 
       // when
       const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
@@ -33,6 +34,10 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWith({
         key: 123,
         value: '123:aaaabbbb-1111-ffff-8888-7777dddd0000',
+      });
+      expect(userRefreshTokensTemporaryStorage.expire).to.have.been.calledWith({
+        key: 123,
+        expirationDelaySeconds: settings.authentication.refreshTokenLifespanMs / 1000,
       });
       expect(result).to.equal('123:aaaabbbb-1111-ffff-8888-7777dddd0000');
     });

@@ -11,6 +11,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       get: sinon.stub(),
       set: sinon.stub(),
       del: sinon.stub(),
+      expire: sinon.stub(),
       lpush: sinon.stub(),
       lrem: sinon.stub(),
       lrange: sinon.stub(),
@@ -140,12 +141,28 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
     });
   });
 
+  describe('#expire', function () {
+    it('should call client expire to add a value to a list', async function () {
+      // given
+      const key = 'key';
+      const expirationDelaySeconds = 120;
+      clientStub.expire.resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.expire({ key, expirationDelaySeconds });
+
+      // then
+      expect(clientStub.expire).to.have.been.calledWith(key, expirationDelaySeconds);
+    });
+  });
+
   describe('#lpush', function () {
-    it('should call client lPush to add a value to a list', async function () {
+    it('should call client lpush to add a value to a list', async function () {
       // given
       const key = 'key';
       const value = 'valueToAdd';
-      clientStub.lpush.withArgs(key, value).resolves();
+      clientStub.lpush.resolves();
       const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
 
       // when
@@ -157,11 +174,11 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
   });
 
   describe('#lrem', function () {
-    it('should call client lRem to remove a value from a list', async function () {
+    it('should call client lrem to remove a value from a list', async function () {
       // given
       const key = 'key';
       const value = 'valueToRemove';
-      clientStub.lrem.withArgs(key, value).resolves();
+      clientStub.lrem.resolves();
       const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
 
       // when
@@ -173,12 +190,12 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
   });
 
   describe('#lrange', function () {
-    it('should call client lRange to return a list', async function () {
+    it('should call client lrange to return a list', async function () {
       // given
       const key = 'key';
       const start = 0;
       const stop = -1;
-      clientStub.lrange.withArgs(key, start, stop).resolves(['value']);
+      clientStub.lrange.resolves(['value']);
       const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
 
       // when
