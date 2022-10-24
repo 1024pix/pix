@@ -58,10 +58,10 @@ function setInContext(path, value) {
   set(store, path, value);
 }
 
-function incrementInContext(path) {
+function incrementInContext(path, increment = 1) {
   const store = asyncLocalStorage.getStore();
   if (!store) return;
-  update(store, path, (v) => (v ?? 0) + 1);
+  update(store, path, (v) => (v ?? 0) + increment);
 }
 
 function getContext() {
