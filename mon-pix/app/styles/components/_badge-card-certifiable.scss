@@ -1,0 +1,36 @@
+.badge-certifiable-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.badge-card-certifiable {
+  align-items: center;
+  background-color: $pix-success-5;
+  border-radius: 16px;
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 20px 35px;
+
+  &--not-acquired {
+    background-color: $pix-neutral-10;
+    filter: grayscale(1);
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__header h3 {
+    font-size: 1.25rem;
+    font-weight: $font-normal;
+  }
+
+  @include device-is('tablet') {
+    flex-basis: calc(50% - 10px);
+  }
+}
