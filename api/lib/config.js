@@ -110,7 +110,7 @@ module.exports = (function () {
       secret: process.env.AUTH_SECRET,
       accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '20m'),
       refreshTokenLifespanMs: ms(process.env.REFRESH_TOKEN_LIFESPAN || '7d'),
-      tokenForCampaignResultLifespan: '1h',
+      tokenForCampaignResultLifespan: process.env.CAMPAIGN_RESULT_ACCESS_TOKEN_LIFESPAN || '1h',
       tokenForStudentReconciliationLifespan: '1h',
       passwordResetTokenLifespan: '1h',
     },
