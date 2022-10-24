@@ -36,7 +36,7 @@ class HttpTestServer {
   }
 
   _setupErrorHandling() {
-    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
+    this.hapiServer.ext('onPreResponse', preResponseUtils.handleErrors);
   }
 
   async request(method, url, payload, auth, headers) {

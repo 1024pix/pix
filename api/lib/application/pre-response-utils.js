@@ -4,20 +4,18 @@ const { DomainError } = require('../domain/errors');
 const monitoringTools = require('../infrastructure/monitoring-tools');
 
 const isExpectedError = (error) => {
-  if (error instanceof DomainError || error instanceof BaseHttpError) {
-    return true;
-  }
+  return error instanceof DomainError || error instanceof BaseHttpError;
 };
 
-function handleDomainAndHttpErrors(request, h) {
+function handleErrors(request, h) {
   const response = request.response;
 
   if (response instanceof Error) {
     const error = response;
     if (isExpectedError(error)) {
-      return errorManager.handle(request, h, response);
+      return errorManager.handle(request, h, error);
     } else {
-      monitoringTools.logErrorWithCorrelationIds(response);
+      monitoringTools.logErrorWithCorrelationIds(error);
     }
   }
 
@@ -25,5 +23,5 @@ function handleDomainAndHttpErrors(request, h) {
 }
 
 module.exports = {
-  handleDomainAndHttpErrors,
+  handleErrors,
 };

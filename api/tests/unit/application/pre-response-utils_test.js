@@ -1,12 +1,12 @@
 const { expect, sinon, hFake } = require('../../test-helper');
 const errorManager = require('../../../lib/application/error-manager');
 const { BaseHttpError } = require('../../../lib/application/http-errors');
-const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
+const { handleErrors } = require('../../../lib/application/pre-response-utils');
 
 const { DomainError } = require('../../../lib/domain/errors');
 
 describe('Unit | Application | PreResponse-utils', function () {
-  describe('#handleDomainAndHttpErrors', function () {
+  describe('#handleErrors', function () {
     beforeEach(function () {
       sinon.stub(errorManager, 'handle').resolves();
     });
@@ -21,7 +21,7 @@ describe('Unit | Application | PreResponse-utils', function () {
       const expectedString = 'Symbol(continue)';
 
       // when
-      const response = await handleDomainAndHttpErrors(request, hFake);
+      const response = await handleErrors(request, hFake);
 
       // then
       expect(typeof response).to.be.equal('symbol');
@@ -34,7 +34,7 @@ describe('Unit | Application | PreResponse-utils', function () {
       };
 
       // when
-      await handleDomainAndHttpErrors(request, hFake);
+      await handleErrors(request, hFake);
 
       // then
       expect(errorManager.handle).to.have.been.calledWithExactly(request, hFake, request.response);
@@ -46,7 +46,7 @@ describe('Unit | Application | PreResponse-utils', function () {
       };
 
       // when
-      await handleDomainAndHttpErrors(request, hFake);
+      await handleErrors(request, hFake);
 
       // then
       expect(errorManager.handle).to.have.been.calledWithExactly(request, hFake, request.response);

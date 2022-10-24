@@ -90,7 +90,7 @@ const loadConfiguration = function () {
 };
 
 const setupErrorHandling = function (server) {
-  server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
+  server.ext('onPreResponse', preResponseUtils.handleErrors);
 };
 
 const setupDeserialization = function (server) {

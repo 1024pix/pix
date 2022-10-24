@@ -14,10 +14,10 @@ const {
 
 const { EntityValidationError } = require('../../../lib/domain/errors');
 
-const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
+const { handleErrors } = require('../../../lib/application/pre-response-utils');
 
 describe('Integration | Application | PreResponse-utils', function () {
-  describe('#handleDomainAndHttpErrors', function () {
+  describe('#handleErrors', function () {
     const invalidAttributes = [
       {
         attribute: 'type',
@@ -87,7 +87,7 @@ describe('Integration | Application | PreResponse-utils', function () {
         };
 
         // when
-        const response = await handleDomainAndHttpErrors(request, hFake);
+        const response = await handleErrors(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(testCase.expectedStatusCode);
