@@ -11,6 +11,11 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       get: sinon.stub(),
       set: sinon.stub(),
       del: sinon.stub(),
+      expire: sinon.stub(),
+      ttl: sinon.stub(),
+      lpush: sinon.stub(),
+      lrem: sinon.stub(),
+      lrange: sinon.stub(),
     };
 
     sinon.stub(RedisTemporaryStorage, 'createClient').withArgs(REDIS_URL).returns(clientStub);
@@ -90,7 +95,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
   });
 
   describe('#get', function () {
-    it('should call client set to retrieve value', async function () {
+    it('should call client get to retrieve value', async function () {
       // given
       const key = 'valueKey';
       const value = { name: 'name' };
@@ -134,6 +139,87 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
 
       // then
       expect(clientStub.del).to.have.been.called;
+    });
+  });
+
+  describe('#expire', function () {
+    it('should call client expire to add a value to a list', async function () {
+      // given
+      const key = 'key';
+      const expirationDelaySeconds = 120;
+      clientStub.expire.resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.expire({ key, expirationDelaySeconds });
+
+      // then
+      expect(clientStub.expire).to.have.been.calledWith(key, expirationDelaySeconds);
+    });
+  });
+
+  describe('#ttl', function () {
+    it('should call client ttl to retrieve the remaining expiration time', async function () {
+      // given
+      const key = 'key';
+      clientStub.ttl.resolves(12);
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      const remainingTtl = await redisTemporaryStorage.ttl(key);
+
+      // then
+      expect(clientStub.ttl).to.have.been.calledWith(key);
+      expect(remainingTtl).to.equal(12);
+    });
+  });
+
+  describe('#lpush', function () {
+    it('should call client lpush to add a value to a list', async function () {
+      // given
+      const key = 'key';
+      const value = 'valueToAdd';
+      clientStub.lpush.resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.lpush(key, value);
+
+      // then
+      expect(clientStub.lpush).to.have.been.calledWith('key', 'valueToAdd');
+    });
+  });
+
+  describe('#lrem', function () {
+    it('should call client lrem to remove a value from a list', async function () {
+      // given
+      const key = 'key';
+      const value = 'valueToRemove';
+      clientStub.lrem.resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.lrem(key, value);
+
+      // then
+      expect(clientStub.lrem).to.have.been.calledWith('key', 0, 'valueToRemove');
+    });
+  });
+
+  describe('#lrange', function () {
+    it('should call client lrange to return a list', async function () {
+      // given
+      const key = 'key';
+      const start = 0;
+      const stop = -1;
+      clientStub.lrange.resolves(['value']);
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.lrange(key, start, stop);
+
+      // then
+      expect(clientStub.lrange).to.have.been.calledWith('key', 0, -1);
     });
   });
 });

@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const RedisClient = require('../../../../lib/infrastructure/utils/RedisClient');
 const config = require('../../../../lib/config');
 const { expect } = require('../../../test-helper');
@@ -92,5 +93,32 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       // then
       expect(await redisClient.get('789:abcde')).to.exist;
     });
+  });
+
+  it('should allow to handle a list of values for a key', async function () {
+    // given
+    const keyToAdd = uuidv4();
+    const keyToRemove = uuidv4();
+    const redisClient = new RedisClient(config.redis.url);
+
+    await redisClient.lpush(keyToRemove, 'value1');
+    await redisClient.lpush(keyToRemove, 'value2');
+
+    // when
+    const keyToAddLength = await redisClient.lpush(keyToAdd, 'value1');
+    const keyToAddList = await redisClient.lrange(keyToAdd, 0, -1);
+
+    const valuesRemovedLength = await redisClient.lrem(keyToRemove, 0, 'value1');
+    const keyToRemoveList = await redisClient.lrange(keyToRemove, 0, -1);
+
+    // then
+    expect(keyToAddLength).to.equal(1);
+    expect(keyToAddList).to.deep.equal(['value1']);
+
+    expect(valuesRemovedLength).to.equal(1);
+    expect(keyToRemoveList).to.deep.equal(['value2']);
+
+    await redisClient.del(keyToAdd);
+    await redisClient.del(keyToRemove);
   });
 });
