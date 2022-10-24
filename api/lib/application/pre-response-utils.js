@@ -15,7 +15,7 @@ function handleErrors(request, h) {
     if (isExpectedError(error)) {
       return errorManager.handle(request, h, error);
     } else {
-      monitoringTools.logErrorWithCorrelationIds(error);
+      monitoringTools.logError(error);
     }
   }
 

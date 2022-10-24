@@ -73,7 +73,7 @@ class OidcAuthenticationService {
     if (!response.isSuccessful) {
       const message = 'Erreur lors de la récupération des tokens du partenaire.';
       const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      monitoringTools.logError({ message: dataToLog });
 
       throw new InvalidExternalAPIResponseError(message);
     }
@@ -115,7 +115,7 @@ class OidcAuthenticationService {
       const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
       const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
 
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      monitoringTools.logError({ message: dataToLog });
 
       throw new InvalidExternalAPIResponseError(
         'Une erreur est survenue en récupérant les informations des utilisateurs.'
@@ -131,14 +131,14 @@ class OidcAuthenticationService {
         typeOfUserInfoContent: typeof userInfoContent,
         userInfoContent,
       };
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      monitoringTools.logError({ message: dataToLog });
       throw new InvalidExternalAPIResponseError(message);
     }
 
     const userInfoContentContainsMissingFields = this.isUserInfoContentContainsMissingFields({ userInfoContent });
 
     if (userInfoContentContainsMissingFields) {
-      monitoringTools.logErrorWithCorrelationIds({
+      monitoringTools.logError({
         message: "Un des champs obligatoires n'a pas été renvoyé",
         missingFields: userInfoContentContainsMissingFields,
       });

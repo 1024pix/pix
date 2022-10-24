@@ -34,8 +34,8 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     context('when an error occurs', function () {
       it('should log the response error data and response time', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        monitoringTools.logErrorWithCorrelationIds.resolves();
+        sinon.stub(monitoringTools, 'logError');
+        monitoringTools.logError.resolves();
 
         const url = 'someUrl';
         const payload = 'somePayload';
@@ -53,7 +53,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
 
         // then
         const expected = 'End POST request to someUrl error: 400 {"a":"1","b":"2"}';
-        const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        const { message, metrics } = monitoringTools.logError.firstCall.args[0];
         expect(message).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
       });
@@ -143,8 +143,8 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     context('when an error occurs', function () {
       it('should log the response error data and response time', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        monitoringTools.logErrorWithCorrelationIds.resolves();
+        sinon.stub(monitoringTools, 'logError');
+        monitoringTools.logError.resolves();
 
         const url = 'someUrl';
         const payload = 'somePayload';
@@ -162,7 +162,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
 
         // then
         const expected = 'End GET request to someUrl error: 400 {"a":"1","b":"2"}';
-        const { message, metrics } = monitoringTools.logErrorWithCorrelationIds.firstCall.args[0];
+        const { message, metrics } = monitoringTools.logError.firstCall.args[0];
         expect(message).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
       });

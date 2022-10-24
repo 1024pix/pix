@@ -36,7 +36,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       sinon.stub(usecases, 'shareCampaignResult');
       sinon.stub(events.eventBus, 'publish');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
-      sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+      sinon.stub(monitoringTools, 'logError');
       domainTransaction = {
         knexTransaction: Symbol('transaction'),
       };
@@ -101,7 +101,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       sinon.stub(usecases, 'startCampaignParticipation');
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(events.eventDispatcher, 'dispatch');
-      sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+      sinon.stub(monitoringTools, 'logError');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -207,7 +207,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const response = await campaignParticipationController.save(request, hFake);
 
       // then
-      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({ message: errorInHandler });
+      expect(monitoringTools.logError).to.have.been.calledWith({ message: errorInHandler });
       expect(campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);

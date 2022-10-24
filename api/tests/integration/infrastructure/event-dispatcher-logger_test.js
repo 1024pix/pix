@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchStarted(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+      expect(monitoringTools.logInfo).to.have.been.calledWith({
         metrics: {
           event_name: 'TestEvent',
           event_content: event,
@@ -45,7 +45,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchStarted(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).not.to.be.called;
+      expect(monitoringTools.logInfo).not.to.be.called;
     });
   });
 
@@ -64,7 +64,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+      expect(monitoringTools.logInfo).to.have.been.calledWith({
         metrics: {
           event_name: 'TestEvent',
           event_content: event,
@@ -91,7 +91,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchFailure(event, eventHandlerName, anError);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+      expect(monitoringTools.logInfo).to.have.been.calledWith({
         metrics: {
           event_name: 'TestEvent',
           event_content: event,
@@ -119,7 +119,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).to.not.have.been.called;
+      expect(monitoringTools.logInfo).to.not.have.been.called;
     });
 
     it('logs an event dispatch failure as info', function () {
@@ -137,7 +137,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchFailure(event, eventHandlerName, anError);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).to.not.have.been.called;
+      expect(monitoringTools.logInfo).to.not.have.been.called;
     });
   });
 
@@ -159,7 +159,7 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName, context);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+      expect(monitoringTools.logInfo).to.have.been.calledWith({
         metrics: {
           event_name: 'TestEvent',
           event_content: event,
@@ -181,7 +181,7 @@ class TestEvent {
 
 function _getMonitoringToolsMock() {
   return {
-    logInfoWithCorrelationIds: sinon.stub(),
+    logInfo: sinon.stub(),
   };
 }
 

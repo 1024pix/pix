@@ -18,7 +18,7 @@ module.exports = {
     try {
       userAttributes = await saml.parsePostResponse(request.payload);
     } catch (e) {
-      // TODO: replace by monitoringTools.logErrorWithCorrelationIds
+      // TODO: replace by monitoringTools.logError
       // eslint-disable-next-line no-restricted-syntax
       logger.error({ e }, 'SAML: Error while parsing post response');
       return h.response(e.toString()).code(400);
@@ -33,7 +33,7 @@ module.exports = {
 
       return h.redirect(redirectionUrl);
     } catch (e) {
-      // TODO: replace by monitoringTools.logErrorWithCorrelationIds
+      // TODO: replace by monitoringTools.logError
       // eslint-disable-next-line no-restricted-syntax
       logger.error({ e }, 'SAML: Error while get external authentication redirection url');
       return h.response(e.toString()).code(500);

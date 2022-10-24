@@ -1,4 +1,3 @@
-const settings = require('../config');
 const { get, set, update, omit } = require('lodash');
 const logger = require('../infrastructure/logger');
 const requestUtils = require('../infrastructure/utils/request-response-utils');
@@ -15,7 +14,7 @@ function getCorrelationContext() {
   };
 }
 
-function logInfoWithCorrelationIds(data) {
+function logInfo(data) {
   const context = getCorrelationContext();
   logger.info(
     {
@@ -26,7 +25,7 @@ function logInfoWithCorrelationIds(data) {
   );
 }
 
-function logErrorWithCorrelationIds(data) {
+function logError(data) {
   const context = getCorrelationContext();
   logger.error(
     {
@@ -99,8 +98,8 @@ module.exports = {
   getInContext,
   incrementInContext,
   installHapiHook,
-  logErrorWithCorrelationIds,
-  logInfoWithCorrelationIds,
+  logError,
+  logInfo,
   pushInContext,
   setInContext,
   asyncLocalStorageForTests: asyncLocalStorage,

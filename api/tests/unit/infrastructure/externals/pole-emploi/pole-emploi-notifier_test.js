@@ -44,8 +44,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
       sinon.stub(authenticationMethodRepository, 'updateAuthenticationComplementByUserIdAndIdentityProvider');
-      sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-      sinon.stub(monitoringTools, 'logInfoWithCorrelationIds');
+      sinon.stub(monitoringTools, 'logError');
+      sinon.stub(monitoringTools, 'logInfo');
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
@@ -119,7 +119,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logInfo).to.have.been.calledWith({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'send-results',
           'participation-state': 'PARTICIPATION_COMPLETED',
@@ -243,7 +243,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             })
             .resolves(tokenResponse);
 
-          monitoringTools.logErrorWithCorrelationIds.resolves();
+          monitoringTools.logError.resolves();
 
           const expectedLoggerMessage = `${errorData.error} ${errorData.error_description}`;
           const expectedResult = {
@@ -255,7 +255,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          expect(monitoringTools.logError).to.have.been.calledWith({
             event: 'participation-send-pole-emploi',
             'pole-emploi-action': 'refresh-token',
             'participation-state': 'PARTICIPATION_STARTED',
@@ -297,7 +297,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             })
             .resolves(httpResponse);
 
-          monitoringTools.logErrorWithCorrelationIds.resolves();
+          monitoringTools.logError.resolves();
 
           const expectedLoggerMessage = httpResponse.data;
           const expectedResult = {
@@ -309,7 +309,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          expect(monitoringTools.logError).to.have.been.calledWith({
             event: 'participation-send-pole-emploi',
             'pole-emploi-action': 'send-results',
             'participation-state': 'PARTICIPATION_SHARED',

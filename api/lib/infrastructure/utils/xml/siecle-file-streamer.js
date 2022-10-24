@@ -1,6 +1,6 @@
 const { isObject, values } = require('lodash');
 const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
-const { logErrorWithCorrelationIds } = require('../../monitoring-tools');
+const { logError } = require('../../monitoring-tools');
 const fs = require('fs');
 const fsPromises = fs.promises;
 const Path = require('path');
@@ -28,7 +28,7 @@ const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
 
 class SiecleFileStreamer {
-  static async create(path, logError = logErrorWithCorrelationIds) {
+  static async create(path, injectedLogError = logError) {
     let filePath = path;
     let directory = undefined;
     if (await _isFileZipped(path)) {
@@ -36,7 +36,7 @@ class SiecleFileStreamer {
       filePath = await _unzipFile(directory, path);
     }
     const encoding = await _detectEncoding(filePath);
-    const stream = new SiecleFileStreamer(filePath, encoding, directory, logError);
+    const stream = new SiecleFileStreamer(filePath, encoding, directory, injectedLogError);
     return stream;
   }
 
@@ -69,11 +69,13 @@ async function _isFileZipped(path) {
   const fileType = await FileType.fromFile(path);
   return isObject(fileType) && fileType.mime === ZIP;
 }
+
 function _createTempDir() {
   const tmpDir = os.tmpdir();
   const directory = Path.join(tmpDir, 'import-siecle-');
   return fsPromises.mkdtemp(directory);
 }
+
 async function _unzipFile(directory, path) {
   const extractedFileName = Path.join(directory, 'organization-learners.xml');
   const zip = new StreamZip.async({ file: path });
@@ -93,7 +95,7 @@ async function _getFileToExtractName(zipStream) {
   const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
   if (validFiles.length != 1) {
     zipStream.close();
-    logErrorWithCorrelationIds({ ERROR: ERRORS.INVALID_FILE, entries });
+    logError({ ERROR: ERRORS.INVALID_FILE, entries });
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
   return validFiles[0];
@@ -112,7 +114,7 @@ async function _readFirstLine(path) {
     await file.read(buffer, 0, 128, 0);
     file.close();
   } catch (err) {
-    logErrorWithCorrelationIds(err);
+    logError(err);
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
 
@@ -153,7 +155,7 @@ function getDecodingStream(encoding) {
   try {
     return iconv.decodeStream(encoding);
   } catch (err) {
-    logErrorWithCorrelationIds(err);
+    logError(err);
     throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
   }
 }

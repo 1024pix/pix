@@ -163,7 +163,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           },
         };
 
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon.stub(monitoringTools, 'logError');
         sinon.stub(httpAgent, 'post');
         httpAgent.post.resolves(errorResponse);
 
@@ -181,7 +181,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.an.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logError).to.have.been.calledWith({
           message: {
             customMessage: 'Erreur lors de la récupération des tokens du partenaire.',
             errorDetails: JSON.stringify(errorResponse.data),
@@ -274,6 +274,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             'secret'
           );
         }
+
         const idToken = generateIdToken({
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
           sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
@@ -341,7 +342,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     describe('when call to external API fails with no data details', function () {
       it('should throw error', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon.stub(monitoringTools, 'logError');
         const axiosError = {
           response: {
             data: '',
@@ -371,7 +372,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(errorResponse.message).to.be.equal(
           'Une erreur est survenue en récupérant les informations des utilisateurs.'
         );
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logError).to.have.been.calledWith({
           message: {
             customMessage: 'Une erreur est survenue en récupérant les informations des utilisateurs.',
             errorDetails: 'Pas de détails disponibles',
@@ -383,7 +384,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     describe('when returned value by external API is not a json object', function () {
       it('should throw error', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon.stub(monitoringTools, 'logError');
         sinon
           .stub(httpAgent, 'get')
           .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
@@ -402,7 +403,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.be.equal('Les informations utilisateur récupérées ne sont pas au format attendu.');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logError).to.have.been.calledWith({
           message: {
             message: 'Les informations utilisateur récupérées ne sont pas au format attendu.',
             typeOfUserInfoContent: 'string',
@@ -415,7 +416,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     describe('when required properties are not returned by external API', function () {
       it('should throw error', async function () {
         // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+        sinon.stub(monitoringTools, 'logError');
         sinon
           .stub(httpAgent, 'get')
           .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
@@ -442,7 +443,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
         expect(error.message).to.be.equal('Les informations utilisateurs récupérées sont incorrectes.');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logError).to.have.been.calledWith({
           message: "Un des champs obligatoires n'a pas été renvoyé",
           missingFields: 'Champs manquants : family_name',
         });

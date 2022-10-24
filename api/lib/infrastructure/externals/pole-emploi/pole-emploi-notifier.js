@@ -11,7 +11,7 @@ const { UnexpectedUserAccountError } = require('../../../domain/errors');
 
 module.exports = {
   async notify(userId, payload) {
-    monitoringTools.logInfoWithCorrelationIds({
+    monitoringTools.logInfo({
       event: 'participation-send-pole-emploi',
       'pole-emploi-action': 'send-results',
       'participation-state': participationState(payload),
@@ -45,7 +45,7 @@ module.exports = {
 
       if (!tokenResponse.isSuccessful) {
         const errorMessage = _getErrorMessage(tokenResponse.data);
-        monitoringTools.logErrorWithCorrelationIds({
+        monitoringTools.logError({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'refresh-token',
           'participation-state': participationState(payload),
@@ -82,7 +82,7 @@ module.exports = {
 
     if (!httpResponse.isSuccessful) {
       const errorMessage = _getErrorMessage(httpResponse.data);
-      monitoringTools.logErrorWithCorrelationIds({
+      monitoringTools.logError({
         event: 'participation-send-pole-emploi',
         'pole-emploi-action': 'send-results',
         'participation-state': participationState(payload),

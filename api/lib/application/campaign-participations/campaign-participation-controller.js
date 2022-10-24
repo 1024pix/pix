@@ -24,9 +24,7 @@ module.exports = {
       }
     );
 
-    events.eventDispatcher
-      .dispatch(event)
-      .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
+    events.eventDispatcher.dispatch(event).catch((error) => monitoringTools.logError({ message: error }));
 
     return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
   },

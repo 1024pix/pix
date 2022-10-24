@@ -6,14 +6,14 @@ describe('Unit | Infrastructure | Events | Handler | LogEvent', function () {
   describe('#handle', function () {
     it('logs the event', async function () {
       const monitoringTools = {
-        logInfoWithCorrelationIds: sinon.stub(),
+        logInfo: sinon.stub(),
       };
 
       const event = new Event();
       const handler = new LogEvent({ monitoringTools });
       await handler.handle(event);
 
-      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+      expect(monitoringTools.logInfo).to.have.been.calledWith({
         message: {
           type: 'EVENT_LOG',
           event: event.attributes,

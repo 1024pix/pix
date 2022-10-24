@@ -20,7 +20,7 @@ module.exports = {
         headers,
       });
       responseTime = performance.now() - startTime;
-      monitoringTools.logInfoWithCorrelationIds({
+      monitoringTools.logInfo({
         metrics: { responseTime },
         message: `End POST request to ${url} success: ${httpResponse.status}`,
       });
@@ -44,7 +44,7 @@ module.exports = {
 
       const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
-      monitoringTools.logErrorWithCorrelationIds({
+      monitoringTools.logError({
         metrics: { responseTime },
         message,
       });
@@ -63,7 +63,7 @@ module.exports = {
       const config = { data: payload, headers };
       const httpResponse = await axios.get(url, config);
       responseTime = performance.now() - startTime;
-      monitoringTools.logInfoWithCorrelationIds({
+      monitoringTools.logInfo({
         metrics: { responseTime },
         message: `End GET request to ${url} success: ${httpResponse.status}`,
       });
@@ -88,7 +88,7 @@ module.exports = {
         data = null;
       }
 
-      monitoringTools.logErrorWithCorrelationIds({
+      monitoringTools.logError({
         metrics: { responseTime },
         message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
       });

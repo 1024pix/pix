@@ -42,7 +42,7 @@ class EventErrorHandler {
   }
 
   logHandlerStarting(event) {
-    this.logger.logInfoWithCorrelationIds({
+    this.logger.logInfo({
       message: {
         event,
         handlerName: this.handler.name,
@@ -53,7 +53,7 @@ class EventErrorHandler {
   }
 
   logHandlerFailed(event, error) {
-    this.logger.logErrorWithCorrelationIds({
+    this.logger.logError({
       message: {
         event,
         handlerName: this.handler.name,
