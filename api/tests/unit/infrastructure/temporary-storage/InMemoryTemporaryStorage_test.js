@@ -176,6 +176,22 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
     });
   });
 
+  describe('#ttl', function () {
+    it('should retrieve the remaining expiration time from a list', async function () {
+      // given
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const key = 'key:lpush';
+      await inMemoryTemporaryStorage.lpush(key, 'value');
+      await inMemoryTemporaryStorage.expire({ key, expirationDelaySeconds: 120 });
+      const remainingExpirationSeconds = inMemoryTemporaryStorage.ttl(key);
+
+      // then
+      expect(remainingExpirationSeconds).to.be.above(Date.now());
+    });
+  });
+
   describe('#lpush', function () {
     it('should add value into key list', async function () {
       // given

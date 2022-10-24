@@ -1,4 +1,5 @@
 const bluebird = require('bluebird');
+const { v4: uuidv4 } = require('uuid');
 const settings = require('../../config');
 const tokenService = require('./token-service');
 const { UnauthorizedError } = require('../../application/http-errors');
@@ -6,7 +7,8 @@ const refreshTokenTemporaryStorage = require('../../infrastructure/temporary-sto
 const userRefreshTokensTemporaryStorage = require('../../infrastructure/temporary-storage').withPrefix(
   'user-refresh-tokens:'
 );
-const { v4: uuidv4 } = require('uuid');
+
+const REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS = 60 * 60; // 1 hour
 
 function _prefixForUser(userId) {
   return `${userId}:`;
@@ -22,7 +24,10 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uu
     expirationDelaySeconds,
   });
   await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
-  await userRefreshTokensTemporaryStorage.expire({ key: userId, expirationDelaySeconds });
+  await userRefreshTokensTemporaryStorage.expire({
+    key: userId,
+    expirationDelaySeconds: expirationDelaySeconds + REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS,
+  });
 
   return refreshToken;
 }
@@ -31,11 +36,20 @@ async function createAccessTokenFromRefreshToken({ refreshToken }) {
   const { userId, source } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
 
-  const userRefreshTokens = (await userRefreshTokensTemporaryStorage.lrange(userId)) || [];
+  const refreshTokenRemainingExpirationSeconds = await refreshTokenTemporaryStorage.ttl(refreshToken);
+  const userRefreshTokenRemainingExpirationSeconds = await userRefreshTokensTemporaryStorage.ttl(refreshToken);
+  const userRefreshTokens = await userRefreshTokensTemporaryStorage.lrange(userId);
   const refreshTokenFound = userRefreshTokens.find((userRefreshToken) => userRefreshToken === refreshToken);
 
   if (!refreshTokenFound) {
     await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
+    if (refreshTokenRemainingExpirationSeconds > userRefreshTokenRemainingExpirationSeconds) {
+      await userRefreshTokensTemporaryStorage.expire({
+        key: userId,
+        expirationDelaySeconds:
+          refreshTokenRemainingExpirationSeconds + REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS,
+      });
+    }
   }
 
   return tokenService.createAccessTokenFromUser(userId, source);

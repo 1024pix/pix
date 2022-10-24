@@ -56,6 +56,10 @@ class RedisTemporaryStorage extends TemporaryStorage {
     return this._client.lpush(key, valueToAdd);
   }
 
+  async ttl(key) {
+    return this._client.ttl(key);
+  }
+
   async lrem(key, valueToRemove, count = 0) {
     return this._client.lrem(key, count, valueToRemove);
   }
