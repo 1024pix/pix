@@ -56,22 +56,18 @@ QueryBuilder.prototype.toSQL = function () {
 };
 
 knex.on('query', function (data) {
-  if (logging.enableLogKnexQueries) {
+  if (logging.enableKnexPerformanceMonitoring) {
     monitoringTools.setInContext(`knexQueryStartTimes.${data.__knexQueryUid}`, performance.now());
   }
 });
 
-knex.on('query-response', function (response, obj) {
+knex.on('query-response', function (response, data) {
   monitoringTools.incrementInContext('metrics.knexQueryCount');
-  if (logging.enableLogKnexQueries) {
-    const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${obj.__knexQueryUid}`);
+  if (logging.enableKnexPerformanceMonitoring) {
+    const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${data.__knexQueryUid}`);
     if (queryStartedTime) {
       const duration = performance.now() - queryStartedTime;
-      monitoringTools.pushInContext('metrics.knexQueries', {
-        id: obj.__knexQueryUid,
-        sql: obj.sql,
-        duration,
-      });
+      monitoringTools.incrementInContext('metrics.knexTotalTimeSpent', duration);
     }
   }
 });
