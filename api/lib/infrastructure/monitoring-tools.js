@@ -108,4 +108,5 @@ module.exports = {
   logInfoWithCorrelationIds,
   pushInContext,
   setInContext,
+  asyncLocalStorageForTests: asyncLocalStorage,
 };
