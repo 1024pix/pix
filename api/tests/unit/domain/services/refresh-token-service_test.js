@@ -37,7 +37,7 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       });
       expect(userRefreshTokensTemporaryStorage.expire).to.have.been.calledWith({
         key: 123,
-        expirationDelaySeconds: settings.authentication.refreshTokenLifespanMs / 1000,
+        expirationDelaySeconds: settings.authentication.refreshTokenLifespanMs / 1000 + 60 * 60,
       });
       expect(result).to.equal('123:aaaabbbb-1111-ffff-8888-7777dddd0000');
     });
@@ -76,8 +76,11 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
           const accessToken = 'valid-access-token';
           const expirationDelaySeconds = 1;
           sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
+          sinon.stub(refreshTokenTemporaryStorage, 'ttl').resolves(120);
+          sinon.stub(userRefreshTokensTemporaryStorage, 'ttl').resolves(119);
           sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves([]);
-          sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves(1);
+          sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves();
+          sinon.stub(userRefreshTokensTemporaryStorage, 'expire').resolves();
           sinon
             .stub(tokenService, 'createAccessTokenFromUser')
             .withArgs(userId, source)
@@ -87,8 +90,14 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
           await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
 
           // then
+          expect(refreshTokenTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
+          expect(userRefreshTokensTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
           expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith(userId);
           expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWith({ key: userId, value: refreshToken });
+          expect(userRefreshTokensTemporaryStorage.expire).to.have.been.calledWith({
+            key: 123,
+            expirationDelaySeconds: 120 + 60 * 60,
+          });
         });
       });
 
@@ -101,8 +110,10 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
           const accessToken = 'valid-access-token';
           const expirationDelaySeconds = 1;
           sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
+          sinon.stub(refreshTokenTemporaryStorage, 'ttl').resolves(120);
           sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves(['valid-refresh-token']);
           sinon.stub(userRefreshTokensTemporaryStorage, 'lpush');
+          sinon.stub(userRefreshTokensTemporaryStorage, 'ttl').resolves(120);
           sinon
             .stub(tokenService, 'createAccessTokenFromUser')
             .withArgs(userId, source)
@@ -112,6 +123,8 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
           await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
 
           // then
+          expect(refreshTokenTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
+          expect(userRefreshTokensTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
           expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith(userId);
           expect(userRefreshTokensTemporaryStorage.lpush).to.have.not.been.calledOnce;
         });

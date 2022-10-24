@@ -62,6 +62,22 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
       });
     });
 
+    describe('#ttl', function () {
+      it('should retrieve the remaining expiration time from a list', async function () {
+        // given
+        const key = uuidv4();
+        const storage = new RedisTemporaryStorage(process.env.REDIS_TEST_URL);
+
+        // when
+        await storage.lpush(key, 'value');
+        await storage.expire({ key, expirationDelaySeconds: 120 });
+        const remainingExpirationSeconds = await storage.ttl(key);
+
+        // then
+        expect(remainingExpirationSeconds).to.equal(120);
+      });
+    });
+
     describe('#lpush', function () {
       it('should add a value to a list and return the length of the list', async function () {
         // given

@@ -12,6 +12,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       set: sinon.stub(),
       del: sinon.stub(),
       expire: sinon.stub(),
+      ttl: sinon.stub(),
       lpush: sinon.stub(),
       lrem: sinon.stub(),
       lrange: sinon.stub(),
@@ -154,6 +155,22 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
 
       // then
       expect(clientStub.expire).to.have.been.calledWith(key, expirationDelaySeconds);
+    });
+  });
+
+  describe('#ttl', function () {
+    it('should call client ttl to retrieve the remaining expiration time', async function () {
+      // given
+      const key = 'key';
+      clientStub.ttl.resolves(12);
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      const remainingTtl = await redisTemporaryStorage.ttl(key);
+
+      // then
+      expect(clientStub.ttl).to.have.been.calledWith(key);
+      expect(remainingTtl).to.equal(12);
     });
   });
 

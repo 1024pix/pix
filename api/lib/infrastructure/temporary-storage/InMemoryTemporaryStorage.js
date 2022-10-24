@@ -42,6 +42,10 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     return this._client.ttl(key, expirationDelaySeconds);
   }
 
+  ttl(key) {
+    return this._client.getTtl(key);
+  }
+
   lpush(key, value) {
     let list = this._client.get(key) || [];
     list = [value, ...list];
