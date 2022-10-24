@@ -77,8 +77,8 @@ export default class Stages extends Component {
 
     try {
       await Promise.all(this.newStages.map((stage) => stage.save()));
-    } catch (_error) {
-      this.notifications.error('Une erreur est survenue.');
+    } catch (e) {
+      this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
   }
 
