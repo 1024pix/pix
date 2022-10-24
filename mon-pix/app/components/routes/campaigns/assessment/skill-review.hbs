@@ -111,6 +111,30 @@
                   @redirectToSignupIfUserIsAnonymous={{this.redirectToSignupIfUserIsAnonymous}}
                   @isFlashCampaign={{this.isFlashCampaign}}
                 />
+                <div class="skill-review-share__badge-icons">
+                  {{#if this.showCertifiableBadges}}
+                    <div class="skill-review-share-badge-icons skill-review-share-badge-icons--certifiable">
+                      {{#each this.orderedCertifiableBadges as |badge|}}
+                        <img
+                          class="skill-review-share-badge-icons__image"
+                          src="{{badge.imageUrl}}"
+                          alt="{{badge.altMessage}}"
+                        />
+                      {{/each}}
+                    </div>
+                  {{/if}}
+                  {{#if this.showNotCertifiableBadges}}
+                    <div class="skill-review-share-badge-icons skill-review-share-badge-icons--not-certifiable">
+                      {{#each this.orderedNotCertifiableBadges as |badge|}}
+                        <img
+                          class="skill-review-share-badge-icons__image"
+                          src="{{badge.imageUrl}}"
+                          alt="{{badge.altMessage}}"
+                        />
+                      {{/each}}
+                    </div>
+                  {{/if}}
+                </div>
               {{/if}}
             {{/if}}
           </div>
@@ -192,14 +216,15 @@
     <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
 
       {{#if this.showCertifiableBadges}}
-        <div class="badge-container">
+        <div class="badge-certifiable-container">
           {{#each this.orderedCertifiableBadges as |badge|}}
-            <BadgeCard
+            <BadgeCardCertifiable
               @title={{badge.title}}
               @message={{badge.message}}
               @imageUrl={{badge.imageUrl}}
               @altMessage={{badge.altMessage}}
               @isAcquired={{badge.isAcquired}}
+              @isCertifiable={{badge.isCertifiable}}
             />
           {{/each}}
         </div>
