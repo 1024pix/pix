@@ -29,6 +29,7 @@ module.exports = class RedisClient {
     this.get = promisify(this._wrapWithPrefix(this._client.get)).bind(this._client);
     this.set = promisify(this._wrapWithPrefix(this._client.set)).bind(this._client);
     this.del = promisify(this._wrapWithPrefix(this._client.del)).bind(this._client);
+    this.expire = promisify(this._wrapWithPrefix(this._client.expire)).bind(this._client);
     this.lpush = promisify(this._wrapWithPrefix(this._client.lpush)).bind(this._client);
     this.lrem = promisify(this._wrapWithPrefix(this._client.lrem)).bind(this._client);
     this.lrange = promisify(this._wrapWithPrefix(this._client.lrange)).bind(this._client);

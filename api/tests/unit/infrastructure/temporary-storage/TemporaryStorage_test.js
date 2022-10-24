@@ -138,6 +138,19 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     });
   });
 
+  describe('#expire', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.expire({ key: 'key', expirationDelaySeconds: 120 });
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
   describe('#lpush', function () {
     it('should reject an error (because this class actually mocks an interface)', function () {
       // given

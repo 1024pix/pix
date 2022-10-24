@@ -22,6 +22,7 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uu
     expirationDelaySeconds,
   });
   await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
+  await userRefreshTokensTemporaryStorage.expire({ key: userId, expirationDelaySeconds });
 
   return refreshToken;
 }

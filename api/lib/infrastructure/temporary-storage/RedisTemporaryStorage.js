@@ -48,6 +48,10 @@ class RedisTemporaryStorage extends TemporaryStorage {
     await this._client.quit();
   }
 
+  async expire({ key, expirationDelaySeconds }) {
+    return this._client.expire(key, expirationDelaySeconds);
+  }
+
   async lpush(key, valueToAdd) {
     return this._client.lpush(key, valueToAdd);
   }

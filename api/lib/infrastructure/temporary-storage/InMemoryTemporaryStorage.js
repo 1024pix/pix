@@ -38,6 +38,10 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     noop;
   }
 
+  expire({ key, expirationDelaySeconds }) {
+    return this._client.ttl(key, expirationDelaySeconds);
+  }
+
   lpush(key, value) {
     let list = this._client.get(key) || [];
     list = [value, ...list];

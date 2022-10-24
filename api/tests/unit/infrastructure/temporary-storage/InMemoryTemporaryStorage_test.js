@@ -159,6 +159,23 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
     });
   });
 
+  describe('#expire', function () {
+    it('should add an expiration time to the list', async function () {
+      // given
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const key = 'key:lpush';
+      await inMemoryTemporaryStorage.lpush(key, 'value');
+      await inMemoryTemporaryStorage.expire({ key, expirationDelaySeconds: 1 });
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const list = inMemoryTemporaryStorage.lrange(key);
+
+      // then
+      expect(list).to.be.empty;
+    });
+  });
+
   describe('#lpush', function () {
     it('should add value into key list', async function () {
       // given
