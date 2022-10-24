@@ -6,7 +6,7 @@
   flex-direction: column;
 
   @include device-is('desktop') {
-    padding: 50px 100px;
+    padding: 50px 50px;
   }
 
   &__logo {
@@ -28,13 +28,13 @@
     @include device-is('desktop') {
       padding: 32px 0 48px 0;
       font-size: 46px;
-      line-height: 60px;
+      line-height: 3.75rem;
     }
   }
 
   &__container {
     display: flex;
-    min-height: 500px;
+    min-height: 450px;
     flex-direction: column;
     align-items: center;
 
@@ -50,7 +50,7 @@
     font-family: $font-open-sans;
     font-weight: 500;
     font-size: 22px;
-    line-height: 40px;
+    line-height: 2.5rem;
     padding-bottom: 24px;
 
     @include device-is('desktop') {
@@ -60,9 +60,10 @@
 
   &__description {
     color: $pix-neutral-60;
-    font-family: $font-open-sans;
-    font-weight: 600;
     font-size: 16px;
+    font-family: $font-roboto;
+    font-weight: 500;
+    line-height: 1.375rem;
     padding-bottom: 24px;
     margin: 0;
   }
@@ -76,13 +77,15 @@
 
   &__information {
     color: $pix-neutral-60;
-    font-family: $font-open-sans;
-    font-weight: 600;
+    font-family: $font-roboto;
+    font-weight: 500;
+    line-height: 1.375rem;
     font-size: 16px;
     margin-bottom: 2rem;
 
     ul {
       padding-left: 1rem;
+      margin: 0;
     }
 
     li {
@@ -99,13 +102,13 @@
 
   &__register-container {
     @include device-is('desktop') {
-      padding-right: 20px;
+      padding-right: 30px;
     }
   }
 
   &__login-container {
     @include device-is('desktop') {
-      padding-left: 20px;
+      padding-left: 30px;
     }
   }
 
@@ -129,7 +132,6 @@
 
   &__cgu-label {
     margin-bottom: 0;
-    padding: 3px 0 0 15px;
     font-size: 14px;
   }
 
@@ -138,7 +140,7 @@
   }
 
   &__mandatory-description {
-    padding: 10px 0 10px 0;
+    padding-bottom: 10px;
     text-align: center;
     font-size: 14px;
     color: $pix-neutral-70;
