@@ -4,6 +4,9 @@
       "cancel": "Annuler",
       "delete": "Supprimer",
       "quit": "Quitter"
+    },
+    "form": {
+      "mandatory-all-fields": "Tous les champs sont obligatoires."
     }
   },
   "current-lang": "fr",
@@ -17,6 +20,59 @@
   "pages": {
     "login": {
       "title": "Connectez-vous"
+    },
+    "login-or-register": {
+      "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
+      "login-form": {
+        "title": "J'ai déjà un compte",
+        "fields": {
+          "email": {
+            "label": "Adresse e-mail",
+            "error": "Le champ adresse e-mail n’est pas valide."
+          },
+          "password": {
+            "label": "Mot de passe",
+            "error": "Le champ mot de passe est obligatoire.",
+            "forgot-password": "Mot de passe oublié ?"
+          }
+        },
+        "login": "Je me connecte",
+        "button": "Se connecter"
+      },
+      "register-form": {
+        "title": "Je m’inscris",
+        "button": "S'inscrire",
+        "fields": {
+          "button": {
+            "label": "Je m'inscris"
+          },
+          "cgu": {
+            "accept": "J'accepte les",
+            "and": "et la",
+            "aria-label": "Accepter les conditions d'utilisation de Pix",
+            "data-protection-policy": "politique de confidentialité",
+            "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
+            "terms-of-use": "conditions d'utilisation de Pix"
+          },
+          "email": {
+            "error": "Le champ adresse e-mail n’est pas valide.",
+            "label": "Adresse e-mail"
+          },
+          "first-name": {
+            "error": "Le champ prénom est obligatoire.",
+            "label": "Prénom"
+          },
+          "last-name": {
+            "error": "Le champ nom est obligatoire.",
+            "label": "Nom"
+          },
+          "password": {
+            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "label": "Mot de passe"
+          }
+        },
+        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « Informatique et Libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr."
+      }
     },
     "sessions": {
       "enrolled-candidates": {

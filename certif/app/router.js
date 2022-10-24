@@ -16,6 +16,8 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('login', { path: 'connexion' });
 
+  this.route('join', { path: 'rejoindre' });
+
   this.route('terms-of-service', { path: '/cgu' });
   this.route('login-session-supervisor', { path: '/connexion-espace-surveillant' });
   this.route('session-supervising', { path: '/sessions/:session_id/surveiller' });

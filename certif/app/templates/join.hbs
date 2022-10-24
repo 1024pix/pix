@@ -1,0 +1,5 @@
+{{page-title (t "pages.login-or-register.title" certificationCenterName=@model.certificationCenterName)}}
+
+<div class="join-page">
+  <Auth::LoginOrRegister @certificationCenterName={{@model.certificationCenterName}} />
+</div>

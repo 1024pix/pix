@@ -1,0 +1,58 @@
+<div class="login-or-register">
+  <div class="panel login-or-register__panel">
+    <img src="/pix-certif-logo.svg" alt="Pix Certif" class="login-or-register-panel__logo" />
+    <span class="login-or-register-panel__invitation">{{t
+        "pages.login-or-register.title"
+        certificationCenterName=@certificationCenterName
+      }}</span>
+    <div class="login-or-register-panel__forms-container">
+      <div class="login-or-register-panel__form">
+        <h1 class="form-title">{{t "pages.login-or-register.register-form.title"}}</h1>
+        {{#unless this.displayRegisterForm}}
+          <PixButton
+            id="register"
+            @triggerAction={{this.toggleFormsVisibility}}
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+          >
+            {{t "pages.login-or-register.register-form.button"}}
+          </PixButton>
+        {{/unless}}
+        <div
+          class={{concat
+            "login-or-register-panel-form__expandable"
+            (if this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")
+          }}
+        >
+          {{#if this.displayRegisterForm}}
+            <Auth::RegisterForm />
+          {{/if}}
+        </div>
+      </div>
+      <div class="login-or-register-panel__divider"></div>
+      <div class="login-or-register-panel__form">
+        <h1 class="form-title">{{t "pages.login-or-register.login-form.title"}}</h1>
+        {{#if this.displayRegisterForm}}
+          <PixButton
+            id="login"
+            @triggerAction={{this.toggleFormsVisibility}}
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+          >
+            {{t "pages.login-or-register.login-form.button"}}
+          </PixButton>
+        {{/if}}
+        <div
+          class={{concat
+            "login-or-register-panel-form__expandable"
+            (unless this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")
+          }}
+        >
+          {{#unless this.displayRegisterForm}}
+            <Auth::ToggableLoginForm />
+          {{/unless}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
