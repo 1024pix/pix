@@ -120,7 +120,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     });
   });
 
-  context('when the the campaign has stage', function () {
+  context('when the campaign has stage', function () {
     it('displays the stage message', async function () {
       const reachedStage = {
         get: sinon.stub(),
@@ -148,6 +148,56 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       // Then
       expect(contains('Bravo !')).to.exist;
+    });
+  });
+
+  context('when the the campaign has badges', function () {
+    it('should display acquired badges in the header whether certifiable or not', async function () {
+      campaign = {
+        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
+        customResultPageButtonText: 'Next step',
+        organizationName: 'Dragon & Co',
+        organizationShowNPS: false,
+      };
+      const campaignParticipationBadges = [
+        {
+          altMessage: 'Vous avez validé le badge 1.',
+          isAcquired: true,
+          isCertifiable: true,
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
+          title: 'Badge 1',
+        },
+        {
+          altMessage: 'Vous avez validé le badge 2.',
+          isAcquired: true,
+          isCertifiable: false,
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 2',
+          title: 'Badge 2',
+        },
+        {
+          altMessage: "Vous n'avez pas validé le badge 3",
+          isAcquired: false,
+          isCertifiable: false,
+          message: 'Dommage ! Essaie encore.',
+          title: 'Badge 3',
+        },
+      ];
+      const campaignParticipationResult = {
+        isShared: false,
+        participantExternalId: '1234G56',
+        campaignParticipationBadges,
+      };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+      // Then
+      expect(findAll('.skill-review-share-badge-icons__image')).to.have.length(2);
+      expect(find('.skill-review-share-badge-icons--certifiable')).to.exist;
+      expect(find('.skill-review-share-badge-icons--not-certifiable')).to.exist;
+      expect(find('.badge-container')).to.exist;
+      expect(find('.badge-certifiable-container')).to.exist;
     });
   });
 
