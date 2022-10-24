@@ -57,7 +57,7 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
-    {{#unless this.hasStages}}
+    {{#if this.mustChooseStageStype}}
       <PixRadioButton
         name="stageType"
         @label="Palier par seuil"
@@ -72,7 +72,7 @@
         checked={{this.isStageTypeLevelChecked}}
         {{on "change" this.onStageTypeChange}}
       />
-    {{/unless}}
+    {{/if}}
     <PixButton
       class="stages-new-stage pix-button__secondary"
       @backgroundColor="transparent-light"

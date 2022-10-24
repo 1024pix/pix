@@ -42,6 +42,10 @@ export default class Stages extends Component {
     return this.isTypeLevel ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
   }
 
+  get mustChooseStageStype() {
+    return !this.hasStages && this.args.targetProfile.isNewFormat;
+  }
+
   @action
   addStage() {
     this.store.createRecord('stage', {
@@ -64,7 +68,7 @@ export default class Stages extends Component {
   }
 
   get isAddStageDisabled() {
-    return !this.hasStages && this.firstStageType == null;
+    return this.mustChooseStageStype && this.firstStageType == null;
   }
 
   @action
