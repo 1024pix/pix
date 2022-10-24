@@ -40,20 +40,18 @@ describe('Integration | UseCase | find-pending-certification-center-invitations'
     // then
     expect(certificationCenterInvitations.length).to.equal(2);
     expect(certificationCenterInvitations[0]).to.be.instanceOf(CertificationCenterInvitation);
-    expect(certificationCenterInvitations).to.deep.have.members([
-      {
-        id: certificationCenterInvitation1.id,
-        certificationCenterId,
-        email: 'alex.terieur@example.net',
-        updatedAt: now,
-      },
-      {
-        id: certificationCenterInvitation2.id,
-        certificationCenterId,
-        email: 'sarah.pelle@example.net',
-        updatedAt: now,
-      },
-    ]);
+    expect(certificationCenterInvitations[0]).to.deep.include({
+      id: certificationCenterInvitation1.id,
+      certificationCenterId,
+      email: 'alex.terieur@example.net',
+      updatedAt: now,
+    });
+    expect(certificationCenterInvitations[1]).to.deep.include({
+      id: certificationCenterInvitation2.id,
+      certificationCenterId,
+      email: 'sarah.pelle@example.net',
+      updatedAt: now,
+    });
   });
 
   it('should return pending certification center invitations sorted by email and updatedAt', async function () {
