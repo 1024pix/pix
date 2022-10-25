@@ -95,9 +95,10 @@
       "detail": {
         "panel-clea": {
           "title": "Des candidats ont obtenu le certificat CléA numérique",
-          "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au\n format .xlsx puis importez-la sur la",
-          "link": "plateforme du CléA numérique.",
-          "download-button": "Télécharger la liste des candidats"
+          "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
+          "link-text": "plateforme du CléA numérique.",
+          "download-button": "Télécharger la liste des candidats",
+          "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée."
         }
       }
     },

@@ -181,16 +181,6 @@
     }
   }
 
-  &__clea-results-download-button {
-    width: 30%;
-  }
-
-  &__clea-results-download-error-message {
-    color: $error;
-    max-width: 250px;
-    margin-top: 15px;
-  }
-
   &__controls {
     display: flex;
     justify-content: space-between;
