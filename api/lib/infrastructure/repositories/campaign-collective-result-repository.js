@@ -40,10 +40,7 @@ async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
     .select('userId', 'sharedAt')
     .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
 
-  const userIdsAndDates = [];
-  for (const result of results) {
-    userIdsAndDates.push([result.userId, result.sharedAt]);
-  }
+  const userIdsAndDates = results.map((result) => [result.userId, result.sharedAt]);
 
   return _.chunk(userIdsAndDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 }
