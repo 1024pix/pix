@@ -33,6 +33,31 @@ describe('Integration | Repository | user-recommended-training-repository', func
         userRecommendedTraining
       );
     });
+
+    it('should not throw an error on userRecommendedTraing conflict', async function () {
+      // given
+      const userRecommendedTraining = databaseBuilder.factory.buildUserRecommendedTraining({
+        userId: databaseBuilder.factory.buildUser().id,
+        trainingId: databaseBuilder.factory.buildTraining().id,
+        campaignParticipationId: databaseBuilder.factory.buildCampaignParticipation().id,
+        updatedAt: new Date('2022-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const saveSameUserRecommendedTraining = async () => {
+        return userRecommendedTrainingRepository.save(userRecommendedTraining);
+      };
+
+      // then
+      expect(saveSameUserRecommendedTraining).not.to.throw();
+      const updatedUserRecommendedTraining = await knex('user-recommended-trainings')
+        .where({
+          id: userRecommendedTraining.id,
+        })
+        .first();
+      expect(updatedUserRecommendedTraining.updatedAt).to.be.above(userRecommendedTraining.updatedAt);
+    });
   });
 
   describe('#findByCampaignParticipationId', function () {
