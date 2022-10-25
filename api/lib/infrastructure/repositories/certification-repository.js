@@ -34,6 +34,7 @@ module.exports = {
       updatedAt: new Date(),
     }));
 
+    // Trick to .batchUpdate(), which does not exist in knex per say
     await knex('certification-courses')
       .insert(certificationDataToUpdate)
       .onConflict('id')
