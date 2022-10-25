@@ -7,7 +7,10 @@ const TABLE_NAME = 'user-recommended-trainings';
 module.exports = {
   save({ userId, trainingId, campaignParticipationId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction?.knexTransaction || knex;
-    return knexConn(TABLE_NAME).insert({ userId, trainingId, campaignParticipationId });
+    return knexConn(TABLE_NAME)
+      .insert({ userId, trainingId, campaignParticipationId })
+      .onConflict(['userId', 'trainingId', 'campaignParticipationId'])
+      .merge({ updatedAt: knexConn.fn.now() });
   },
 
   async findByCampaignParticipationId({
