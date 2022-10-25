@@ -10,22 +10,13 @@
       <p class="&__clea-results-download-description">
         {{t "pages.sessions.detail.panel-clea.description"}}
         <a href="https://cleanumerique.org/" target="_blank" rel="noopener noreferrer">
-          {{t "pages.sessions.detail.panel-clea.link"}}
+          {{t "pages.sessions.detail.panel-clea.link-text"}}
           <FaIcon @icon="link" /></a>
       </p>
 
-      <PixButton
-        @triggerAction={{this.downloadCleaCertifiedCandidateData}}
-        class="session-details__clea-results-download-button"
-      >
+      <PixButton @triggerAction={{this.downloadCleaCertifiedCandidateData}}>
         {{t "pages.sessions.detail.panel-clea.download-button"}}
       </PixButton>
-      {{#if this.cleaCandidateDataDownloadErrorMessage}}
-        <p
-          class="session-details__clea-results-download-error-message"
-        >{{this.cleaCandidateDataDownloadErrorMessage}}</p>
-      {{/if}}
-
     </div>
   </div>
 </div>
