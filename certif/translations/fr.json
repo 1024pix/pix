@@ -116,6 +116,7 @@
       "candidate-in-list": {
         "extra-time": "Temps majoré",
         "ongoing": "En cours",
+        "authorized-to-resume": "Autorisé à reprendre",
         "finished": "Terminé",
         "display-candidate-options": "Afficher les options du candidat",
         "candidate-options": "Options du candidat",
