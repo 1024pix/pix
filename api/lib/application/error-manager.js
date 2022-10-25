@@ -224,7 +224,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AlreadyExistingOrganizationInvitationError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
-  if (error instanceof DomainErrors.AlreadyAcceptedOrCancelledOrganizationInvitationError) {
+  if (error instanceof DomainErrors.AlreadyAcceptedOrCancelledInvitationError) {
     return new HttpErrors.ConflictError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyExistingCertificationCenterInvitationError) {

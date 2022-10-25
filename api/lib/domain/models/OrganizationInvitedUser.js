@@ -1,5 +1,5 @@
 const { AlreadyExistingMembershipError } = require('../../domain/errors');
-const { NotFoundError, AlreadyAcceptedOrCancelledOrganizationInvitationError } = require('../errors');
+const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors');
 const { roles } = require('./Membership');
 const OrganizationInvitation = require('./OrganizationInvitation');
 
@@ -19,7 +19,7 @@ class OrganizationInvitedUser {
     }
 
     if (this.status !== 'pending') {
-      throw new AlreadyAcceptedOrCancelledOrganizationInvitationError();
+      throw new AlreadyAcceptedOrCancelledInvitationError();
     }
 
     if (this.currentRole && !this.invitation.role) {
