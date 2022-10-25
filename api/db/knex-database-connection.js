@@ -57,7 +57,8 @@ QueryBuilder.prototype.toSQL = function () {
 
 knex.on('query', function (data) {
   if (logging.enableKnexPerformanceMonitoring) {
-    monitoringTools.setInContext(`knexQueryStartTimes.${data.__knexQueryUid}`, performance.now());
+    const queryId = data.__knexQueryUid;
+    monitoringTools.setInContext(`knexQueryStartTimes.${queryId}`, performance.now());
   }
 });
 
