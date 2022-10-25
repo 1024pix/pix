@@ -40,6 +40,7 @@ module.exports = {
   buildCertificationAttestation: require('./build-certification-attestation'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterForAdmin: require('./build-certification-center-for-admin'),
+  buildCertificationCenterInvitation: require('./build-certification-center-invitation'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
   buildCertificationChallengeWithType: require('./build-certification-challenge-with-type'),
