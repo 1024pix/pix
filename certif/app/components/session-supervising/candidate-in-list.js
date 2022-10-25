@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import dayjs from 'dayjs';
 
 export default class CandidateInList extends Component {
   @service notifications;
@@ -127,11 +128,7 @@ export default class CandidateInList extends Component {
   }
 
   get candidateStartTime() {
-    const startDateTime = new Date(this.args.candidate.startDateTime).toLocaleString('fr-FR', {
-      timeZone: 'Zulu',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    return startDateTime;
+    const startTime = dayjs(this.args.candidate.startDateTime).format('HH:mm');
+    return startTime;
   }
 }
