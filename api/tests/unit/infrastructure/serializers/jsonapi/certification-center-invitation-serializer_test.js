@@ -59,4 +59,28 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
       });
     });
   });
+
+  describe('#deserializeForAdmin', function () {
+    it('should convert the JSON payload to Object', async function () {
+      //given
+      const payload = {
+        data: {
+          type: 'certification-center-invitations',
+          attributes: {
+            language: 'fr-fr',
+            email: 'email@example.net',
+          },
+        },
+      };
+
+      // when
+      const json = await serializer.deserializeForAdmin(payload);
+
+      // then
+      expect(json).to.deep.equal({
+        language: 'fr-fr',
+        email: 'email@example.net',
+      });
+    });
+  });
 });
