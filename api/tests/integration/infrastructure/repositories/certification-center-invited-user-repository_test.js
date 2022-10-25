@@ -8,9 +8,10 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
     it('should return the invitation of the invited user', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
+      const user = databaseBuilder.factory.buildUser({ email: 'user@example.net' });
       const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
         id: 345,
-        email: 'user@example.net',
+        email: user.email,
         certificationCenterId,
         code: 'ABCDE123',
         status: CertificationCenterInvitation.StatusType.PENDING,
@@ -32,12 +33,13 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
       };
 
       // when
-      const invitation = await certificationCenterInvitedUserRepository.get({
+      const result = await certificationCenterInvitedUserRepository.get({
         certificationCenterInvitationId: certificationCenterInvitation.id,
+        email: user.email,
       });
 
       // then
-      expect(invitation).to.deep.equal(expectedCertificationCenterInvitation);
+      expect(result.invitation).to.deep.equal(expectedCertificationCenterInvitation);
     });
 
     context('when there are no invitation with the certificationCenterInvitationId', function () {
@@ -60,7 +62,27 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.equal('Not found certification center invitation for ID 3256');
+        expect(error.message).to.equal('No certification center invitation found for ID 3256');
+      });
+    });
+
+    context('when there are no user with the given email', function () {
+      it('should throw an error', async function () {
+        // given
+        const certificationCenterInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
+          id: 123,
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(certificationCenterInvitedUserRepository.get)({
+          certificationCenterInvitationId,
+          email: 'inexistantUser@email.net',
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.equal('No user found for email inexistantUser@email.net');
       });
     });
   });
