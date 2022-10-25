@@ -42,6 +42,7 @@ const dependencies = {
   certificationCandidateForSupervisingRepository: require('../../infrastructure/repositories/certification-candidate-for-supervising-repository'),
   certificationCandidatesOdsService: require('../../domain/services/certification-candidates-ods-service'),
   certificationCenterInvitationRepository: require('../../infrastructure/repositories/certification-center-invitation-repository'),
+  certificationCenterInvitedUserRepository: require('../../infrastructure/repositories/certification-center-invited-user-repository'),
   certificationCenterMembershipRepository: require('../../infrastructure/repositories/certification-center-membership-repository'),
   certificationCenterForAdminRepository: require('../../infrastructure/repositories/certification-center-for-admin-repository'),
   certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
