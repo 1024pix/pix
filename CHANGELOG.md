@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.279.0 (25/10/2022)
+
+
+### :rocket: Amélioration
+- [#5089](https://github.com/1024pix/pix/pull/5089) [FEATURE] Créer la double mire d'inscription/connexion Pix Certif (PIX-5005)
+
+### :building_construction: Tech
+- [#5100](https://github.com/1024pix/pix/pull/5100) [TECH] Ne pas tracer les réponses ne pouvant être insérées en BDD à cause d'un encodage incorrect
+- [#5115](https://github.com/1024pix/pix/pull/5115) [TECH] Corriger la date dans les tests Pix Admin
+- [#5091](https://github.com/1024pix/pix/pull/5091) [TECH] Améliorer le temps d'exécution du processus d'anonymisation d'un utilisateur (PIX-5951)
+
+### :bug: Correction
+- [#5111](https://github.com/1024pix/pix/pull/5111) [BUGFIX] Réparer l'affichage des QROC (PIX-6113).
+
+### :coffee: Autre
+- [#5037](https://github.com/1024pix/pix/pull/5037) [PERFORMANCE] Ajout d'un index sur la colonne targetProfileId de la table target-profile_tubes
+- [#5106](https://github.com/1024pix/pix/pull/5106) [TASK] Api : Création d'un script de migration pour l'ajout des informations des DPOs pour des organisations (PIX-4468)
+- [#5107](https://github.com/1024pix/pix/pull/5107) [TASK] Api : Création d'un script de migration pour l'ajout des informations des DPOs pour des centres de certifications (PIX-5265)
+
 ## v3.278.0 (24/10/2022)
 
 
