@@ -1,4 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
+const CertificationCenterInvitedUser = require('../../domain/models/CertificationCenterInvitedUser');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -8,14 +9,18 @@ module.exports = {
       .where({ id: certificationCenterInvitationId })
       .first();
     if (!invitation) {
-      throw new NotFoundError(`No certification center invitation found for ID ${certificationCenterInvitationId}`);
+      throw new NotFoundError(`Not found certification center invitation for ID ${certificationCenterInvitationId}`);
     }
 
-    const userId = await knex('users').select('id').where({ email }).first();
-    if (!userId) {
-      throw new NotFoundError(`No user found for email ${email}`);
+    const user = await knex('users').select('id').where({ email }).first();
+    if (!user) {
+      throw new NotFoundError(`Not found user for email ${email}`);
     }
 
-    return { invitation, userId };
+    return new CertificationCenterInvitedUser({
+      userId: user.id,
+      invitation,
+      status: invitation.status,
+    });
   },
 };
