@@ -1,7 +1,10 @@
+const { omit } = require('lodash');
+
 const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const certificationCenterInvitedUserRepository = require('../../../../lib/infrastructure/repositories/certification-center-invited-user-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+const CertificationCenterInvitedUser = require('../../../../lib/domain/models/CertificationCenterInvitedUser');
 
 describe('Integration | Repository | CertificationCenterInvitedUserRepository', function () {
   describe('#get', function () {
@@ -33,13 +36,21 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
       };
 
       // when
-      const result = await certificationCenterInvitedUserRepository.get({
+      const certificationCenterInvitedUser = await certificationCenterInvitedUserRepository.get({
         certificationCenterInvitationId: certificationCenterInvitation.id,
         email: user.email,
       });
 
       // then
-      expect(result.invitation).to.deep.equal(expectedCertificationCenterInvitation);
+      const invitation = omit(certificationCenterInvitation, ['email', 'updatedAt', 'createdAt']);
+      expect(certificationCenterInvitedUser.invitation).to.deep.equal(expectedCertificationCenterInvitation);
+      expect(certificationCenterInvitedUser).to.deepEqualInstance(
+        new CertificationCenterInvitedUser({
+          userId: user.id,
+          invitation,
+          status: certificationCenterInvitation.status,
+        })
+      );
     });
 
     context('when there are no invitation with the certificationCenterInvitationId', function () {
@@ -62,7 +73,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.equal('No certification center invitation found for ID 3256');
+        expect(error.message).to.equal('Not found certification center invitation for ID 3256');
       });
     });
 
@@ -82,7 +93,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.equal('No user found for email inexistantUser@email.net');
+        expect(error.message).to.equal('Not found user for email inexistantUser@email.net');
       });
     });
   });
