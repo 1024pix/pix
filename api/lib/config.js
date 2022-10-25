@@ -81,7 +81,7 @@ module.exports = (function () {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: _getLogForHumans(),
-      enableKnexPerformanceMonitoring: isFeatureEnabled(process.env.LOG_KNEX_PERFORMANCE),
+      enableKnexPerformanceMonitoring: isFeatureEnabled(process.env.ENABLE_KNEX_PERFORMANCE_MONITORING),
       enableLogStartingEventDispatch: isFeatureEnabled(process.env.LOG_STARTING_EVENT_DISPATCH),
       enableLogEndingEventDispatch: isFeatureEnabled(process.env.LOG_ENDING_EVENT_DISPATCH),
       emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
