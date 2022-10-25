@@ -27,7 +27,11 @@
                 <TargetProfiles::Stages::NewStage
                   @imageUrl={{@targetProfile.imageUrl}}
                   @title={{stage.title}}
+                  @isTypeLevel={{stage.isTypeLevel}}
+                  @maxLevel={{@targetProfile.maxLevel}}
                   @threshold={{stage.threshold}}
+                  @level={{stage.level}}
+                  @setLevel={{fn this.onStageLevelChange stage}}
                   @message={{stage.message}}
                   @errors={{stage.errors}}
                   @remove={{fn this.removeStage stage}}
@@ -53,16 +57,31 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
-    {{#unless this.isTypeLevel}}
-      <PixButton
-        class="stages-new-stage pix-button__secondary"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.addStage}}
-      >
-        <FaIcon @icon="plus" />Nouveau palier
-      </PixButton>
-    {{/unless}}
+    {{#if this.mustChooseStageStype}}
+      <PixRadioButton
+        name="stageType"
+        @label="Palier par seuil"
+        @value="threshold"
+        checked={{this.isStageTypeThresholdChecked}}
+        {{on "change" this.onStageTypeChange}}
+      />
+      <PixRadioButton
+        name="stageType"
+        @label="Palier par niveau"
+        @value="level"
+        checked={{this.isStageTypeLevelChecked}}
+        {{on "change" this.onStageTypeChange}}
+      />
+    {{/if}}
+    <PixButton
+      class="stages-new-stage pix-button__secondary"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{this.addStage}}
+      @isDisabled={{this.isAddStageDisabled}}
+    >
+      <FaIcon @icon="plus" />Nouveau palier
+    </PixButton>
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
         <PixButton

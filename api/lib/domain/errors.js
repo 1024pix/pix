@@ -1191,6 +1191,12 @@ class InvalidJuryLevelError extends DomainError {
   }
 }
 
+class InvalidStageError extends DomainError {
+  constructor(message) {
+    super(`Palier non valide : ${message}`);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1279,6 +1285,7 @@ module.exports = {
   InvalidSessionResultError,
   InvalidSessionSupervisingLoginError,
   InvalidSkillSetError,
+  InvalidStageError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
