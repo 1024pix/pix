@@ -39,6 +39,11 @@
       color: $pix-success-80;
     }
 
+    &--authorized-to-resume {
+      background-color: $pix-tertiary-5;
+      color: $pix-tertiary-80;
+    }
+
     &--completed {
       background-color: $pix-primary-10;
       color: $pix-primary-70;
