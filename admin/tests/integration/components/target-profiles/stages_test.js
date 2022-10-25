@@ -8,7 +8,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display a message when empty', async function (assert) {
+  test('it should display add button', async function (assert) {
     // given
     this.set('stages', []);
     this.set('targetProfile', {});
@@ -20,8 +20,83 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
     // then
     assert.dom('table').doesNotExist();
-    assert.dom(screen.getByText('Aucun palier associé')).exists();
+    assert.dom(screen.queryByRole('button', { name: 'Nouveau palier' })).exists();
   });
+
+  module('when no stages', function () {
+    test('it should display a message', async function (assert) {
+      // given
+      this.set('stages', []);
+      this.set('targetProfile', {});
+
+      // when
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+      );
+
+      // then
+      assert.dom('table').doesNotExist();
+      assert.dom(screen.queryByText('Aucun palier associé')).exists();
+    });
+
+    module('when target profile is tube based', function () {
+      test('it should display stage type radio buttons', async function (assert) {
+        // given
+        this.set('stages', []);
+        this.set('targetProfile', { isNewFormat: true });
+
+        // when
+        const screen = await render(
+          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+        );
+
+        // then
+        assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).exists();
+        assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).exists();
+      });
+    });
+
+    module('when target profile is skill based', function () {
+      test('it should NOT display stage type radio buttons', async function (assert) {
+        // given
+        this.set('stages', []);
+        this.set('targetProfile', { isNewFormat: false });
+
+        // when
+        const screen = await render(
+          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+        );
+
+        // then
+        assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).doesNotExist();
+        assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).doesNotExist();
+      });
+    });
+  });
+
+  module('when at least one stage', function () {
+    test('it should NOT display stage type radio buttons', async function (assert) {
+      // given
+      const stage = EmberObject.create({
+        id: 1,
+        threshold: 100,
+        title: 'My title',
+        message: 'My message',
+      });
+      this.set('stages', [stage]);
+      this.set('targetProfile', { isNewFormat: true });
+
+      // when
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
+      );
+
+      // then
+      assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).doesNotExist();
+      assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).doesNotExist();
+    });
+  });
+
   module('when stage type is threshold', function () {
     test('it should display the items', async function (assert) {
       // given
@@ -141,6 +216,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       });
     });
   });
+
   module('when stage type is level', function () {
     test('it should display the items', async function (assert) {
       // given
