@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
 const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Training = require('../../../../lib/domain/models/Training');
@@ -226,6 +226,79 @@ describe('Integration | Repository | training-repository', function () {
 
       // then
       expect(trainings).to.have.lengthOf(0);
+    });
+  });
+
+  describe('#update', function () {
+    it('should update given attributes', async function () {
+      // given
+      const training = databaseBuilder.factory.buildTraining({ updatedAt: new Date('2022-01-14') });
+      await databaseBuilder.commit();
+      const currentTraining = await knex('trainings').where({ id: training.id }).first();
+
+      const attributesToUpdate = {
+        title: 'Mon nouveau titre',
+        link: 'https://example.net/mon-nouveau-lien',
+      };
+
+      // when
+      await trainingRepository.update({ id: training.id, attributesToUpdate });
+
+      // then
+      const updatedTraining = await knex('trainings').where({ id: training.id }).first();
+      expect(updatedTraining.title).to.equal(attributesToUpdate.title);
+      expect(updatedTraining.link).to.equal(attributesToUpdate.link);
+      expect(updatedTraining.locale).to.equal(training.locale);
+      expect(updatedTraining.type).to.equal(training.type);
+      expect(updatedTraining.updatedAt).to.be.above(currentTraining.updatedAt);
+    });
+
+    it('should return updated training', async function () {
+      // given
+      const training = databaseBuilder.factory.buildTraining();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileTraining({
+        targetProfileId: targetProfile.id,
+        trainingId: training.id,
+      });
+      await databaseBuilder.commit();
+
+      const attributesToUpdate = {
+        title: 'Mon nouveau titre',
+        link: 'https://example.net/mon-nouveau-lien',
+      };
+
+      // when
+      const updatedTraining = await trainingRepository.update({ id: training.id, attributesToUpdate });
+
+      // then
+      expect(updatedTraining).to.be.instanceOf(Training);
+      expect(updatedTraining.title).to.equal(attributesToUpdate.title);
+      expect(updatedTraining.link).to.equal(attributesToUpdate.link);
+      expect(updatedTraining.targetProfileIds).to.deep.equal([targetProfile.id]);
+    });
+
+    it('should not update other raws', async function () {
+      // given
+      const training = databaseBuilder.factory.buildTraining();
+      const trainingNotToBeUpdated = databaseBuilder.factory.buildTraining();
+      await databaseBuilder.commit();
+
+      const attributesToUpdate = {
+        title: 'Mon nouveau titre',
+        link: 'https://example.net/mon-nouveau-lien',
+      };
+
+      // when
+      await trainingRepository.update({ id: training.id, attributesToUpdate });
+
+      // then
+      const trainingNotUpdated = await knex('trainings')
+        .select('title', 'link')
+        .where({ id: trainingNotToBeUpdated.id })
+        .first();
+      expect(trainingNotUpdated.title).to.equal(trainingNotToBeUpdated.title);
+      expect(trainingNotUpdated.link).to.equal(trainingNotToBeUpdated.link);
     });
   });
 });
