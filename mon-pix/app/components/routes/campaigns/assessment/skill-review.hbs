@@ -114,7 +114,7 @@
                 <div class="skill-review-share__badge-icons">
                   {{#if this.showCertifiableBadges}}
                     <div class="skill-review-share-badge-icons skill-review-share-badge-icons--certifiable">
-                      {{#each this.orderedCertifiableBadges as |badge|}}
+                      {{#each this.acquiredCertifiableBadges as |badge|}}
                         <img
                           class="skill-review-share-badge-icons__image"
                           src="{{badge.imageUrl}}"
@@ -125,7 +125,7 @@
                   {{/if}}
                   {{#if this.showNotCertifiableBadges}}
                     <div class="skill-review-share-badge-icons skill-review-share-badge-icons--not-certifiable">
-                      {{#each this.orderedNotCertifiableBadges as |badge|}}
+                      {{#each this.acquiredNotCertifiableBadges as |badge|}}
                         <img
                           class="skill-review-share-badge-icons__image"
                           src="{{badge.imageUrl}}"
@@ -217,7 +217,7 @@
 
       {{#if this.showCertifiableBadges}}
         <div class="badge-certifiable-container">
-          {{#each this.orderedCertifiableBadges as |badge|}}
+          {{#each this.acquiredCertifiableBadges as |badge|}}
             <BadgeCardCertifiable
               @title={{badge.title}}
               @message={{badge.message}}
@@ -235,7 +235,7 @@
           {{t "pages.skill-review.badges-title"}}
         </h2>
         <div class="badge-container">
-          {{#each this.orderedNotCertifiableBadges as |badge|}}
+          {{#each this.acquiredNotCertifiableBadges as |badge|}}
             <BadgeCard
               @title={{badge.title}}
               @message={{badge.message}}

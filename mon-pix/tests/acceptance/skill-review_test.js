@@ -151,7 +151,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
       });
 
-      it('should display acquired badges + non acquired but isAlwaysDisplayed badges', async function () {
+      it('should display acquired badges', async function () {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -184,7 +184,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(findAll('.badge-card').length).to.equal(2);
+        expect(findAll('.badge-card').length).to.equal(1);
       });
 
       describe('when campaign has stages', async function () {
