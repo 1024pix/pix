@@ -96,7 +96,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         extraTimePercentage: null,
         authorizedToStart: true,
         assessmentStatus: 'started',
-        startDateTime: new Date('2022-10-19T14:30:15Z'),
+        // eslint-disable-next-line no-restricted-syntax
+        startDateTime: new Date('2022-10-19T14:30:15'),
       });
 
       // when
@@ -108,7 +109,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.getByText('Racoon Rocket')).exists();
       assert.dom(screen.getByText('28/07/1982')).exists();
       assert.dom(screen.getByText('En cours')).exists();
-      assert.dom(screen.getByText('Début : 14:30')).exists();
+      assert.dom(screen.getByText('14:30')).exists();
       assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
     });
