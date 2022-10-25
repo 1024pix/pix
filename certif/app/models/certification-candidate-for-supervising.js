@@ -21,6 +21,10 @@ export default class CertificationCandidateForSupervising extends Model {
     return this.assessmentStatus === 'started';
   }
 
+  get isAuthorizedToResume() {
+    return this.hasStarted && this.authorizedToStart;
+  }
+
   get hasCompleted() {
     return [assessmentStates.COMPLETED, assessmentStates.ENDED_BY_SUPERVISOR].includes(this.assessmentStatus);
   }
