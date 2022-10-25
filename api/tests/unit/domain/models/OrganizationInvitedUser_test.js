@@ -3,7 +3,7 @@ const { expect, catchErr, domainBuilder } = require('../../../test-helper');
 const {
   NotFoundError,
   AlreadyExistingMembershipError,
-  AlreadyAcceptedOrCancelledOrganizationInvitationError,
+  AlreadyAcceptedOrCancelledInvitationError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
@@ -74,8 +74,8 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
           const error = await catchErr(invitedUser.acceptInvitation, invitedUser)({ code });
 
           // then
-          expect(error).to.be.an.instanceof(AlreadyAcceptedOrCancelledOrganizationInvitationError);
-          expect(error.message).to.equal("L'invitation à rejoindre l'organisation a déjà été acceptée ou annulée.");
+          expect(error).to.be.an.instanceof(AlreadyAcceptedOrCancelledInvitationError);
+          expect(error.message).to.equal("L'invitation a déjà été acceptée ou annulée.");
         });
       });
     });

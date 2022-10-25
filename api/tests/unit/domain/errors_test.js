@@ -515,8 +515,8 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.OrganizationLearnerCannotBeDissociatedError).to.exist;
   });
 
-  it('should export an AlreadyAcceptedOrCancelledOrganizationInvitationError', function () {
-    expect(errors.AlreadyAcceptedOrCancelledOrganizationInvitationError).to.exist;
+  it('should export an AlreadyAcceptedOrCancelledInvitationError', function () {
+    expect(errors.AlreadyAcceptedOrCancelledInvitationError).to.exist;
   });
 
   it('should export an MissingAttributesError', function () {

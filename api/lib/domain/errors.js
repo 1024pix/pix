@@ -103,8 +103,8 @@ class AlreadyExistingOrganizationInvitationError extends DomainError {
   }
 }
 
-class AlreadyAcceptedOrCancelledOrganizationInvitationError extends DomainError {
-  constructor(message = "L'invitation à rejoindre l'organisation a déjà été acceptée ou annulée.") {
+class AlreadyAcceptedOrCancelledInvitationError extends DomainError {
+  constructor(message = "L'invitation a déjà été acceptée ou annulée.") {
     super(message);
   }
 }
@@ -1218,7 +1218,7 @@ module.exports = {
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
   AdminMemberError,
-  AlreadyAcceptedOrCancelledOrganizationInvitationError,
+  AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
