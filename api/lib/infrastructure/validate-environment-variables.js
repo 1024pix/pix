@@ -55,7 +55,7 @@ const schema = Joi.object({
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_RECIPIENT: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
-  LOG_KNEX_PERFORMANCE: Joi.string().optional().valid('true', 'false'),
+  ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
