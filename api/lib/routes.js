@@ -42,7 +42,6 @@ module.exports = [
   require('./application/sco-organization-learners'),
   require('./application/sup-organization-learners'),
   require('./application/sessions'),
-  require('./application/simulateErrors'),
   require('./application/stages'),
   require('./application/tags'),
   require('./application/target-profiles'),

@@ -36,8 +36,4 @@ module.exports = {
       throw Boom.serverUnavailable('Connection to Redis failed');
     }
   },
-
-  crashTest() {
-    throw Boom.internal();
-  },
 };
