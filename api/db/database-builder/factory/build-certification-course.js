@@ -27,6 +27,7 @@ module.exports = function buildCertificationCourse({
   isCancelled = false,
   abortReason = null,
   cpfFilename = null,
+  pixCertificationStatus = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
@@ -54,6 +55,7 @@ module.exports = function buildCertificationCourse({
     isCancelled,
     abortReason,
     cpfFilename,
+    pixCertificationStatus,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',

@@ -1,35 +1,49 @@
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const { CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
-
-async function getAssessmentResultsStatusesBySessionId(id) {
-  const collection = await CertificationCourseBookshelf.query((qb) => {
-    qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
-    qb.innerJoin(
-      Bookshelf.knex.raw(
-        `"assessment-results" ar ON ar."assessmentId" = "assessments".id
-                    and ar."createdAt" = (select max(sar."createdAt") from "assessment-results" sar where sar."assessmentId" = "assessments".id)`
-      )
-    );
-    qb.where({ 'certification-courses.sessionId': id });
-  }).fetchAll({ columns: ['status'] });
-
-  return collection.map((obj) => obj.attributes.status);
-}
+const { status } = require('../../../lib/domain/models/AssessmentResult');
 
 module.exports = {
   async publishCertificationCoursesBySessionId(sessionId) {
-    const statuses = await getAssessmentResultsStatusesBySessionId(sessionId);
-    if (statuses.includes('error') || statuses.includes('started')) {
+    const certificationDTOs = await knex('certification-courses')
+      .select({
+        certificationId: 'certification-courses.id',
+        assessmentResultStatus: 'assessment-results.status',
+      })
+      .where('certification-courses.sessionId', sessionId)
+      .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
+      .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+      .whereNotExists(
+        knex
+          .select(1)
+          .from({ 'last-assessment-results': 'assessment-results' })
+          .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+      );
+
+    const hasErrorOrStartedCertification = certificationDTOs.find(
+      (dto) => !dto.assessmentResultStatus || dto.assessmentResultStatus === status.ERROR
+    );
+    if (hasErrorOrStartedCertification) {
       throw new CertificationCourseNotPublishableError();
     }
-    await CertificationCourseBookshelf.where({ sessionId }).save(
-      { isPublished: true },
-      { method: 'update', require: false }
-    );
+
+    const certificationDataToUpdate = certificationDTOs.map(({ certificationId, assessmentResultStatus }) => ({
+      id: certificationId,
+      pixCertificationStatus: assessmentResultStatus,
+      isPublished: true,
+      updatedAt: new Date(),
+    }));
+
+    // Trick to .batchUpdate(), which does not exist in knex per say
+    await knex('certification-courses')
+      .insert(certificationDataToUpdate)
+      .onConflict('id')
+      .merge(['pixCertificationStatus', 'isPublished', 'updatedAt']);
   },
 
   async unpublishCertificationCoursesBySessionId(sessionId) {
-    await CertificationCourseBookshelf.where({ sessionId }).save({ isPublished: false }, { method: 'update' });
+    await knex('certification-courses')
+      .where({ sessionId })
+      .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
   },
 };
