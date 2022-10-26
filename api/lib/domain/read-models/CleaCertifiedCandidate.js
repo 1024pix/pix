@@ -26,10 +26,7 @@ class CleaCertifiedCandidate {
   get isBornInAForeignCountry() {
     const INSEECodeForeignCountry = '99';
 
-    if (this.birthINSEECode.startsWith(INSEECodeForeignCountry)) {
-      return true;
-    }
-    return false;
+    return this.birthINSEECode?.startsWith(INSEECodeForeignCountry);
   }
 
   get geographicAreaOfBirthCode() {
@@ -43,10 +40,10 @@ class CleaCertifiedCandidate {
   get isBornInFrenchOutermostRegion() {
     const INSEECodeFrenchOutermostRegion = ['97', '98'];
 
-    return (
-      this.birthINSEECode.startsWith(INSEECodeFrenchOutermostRegion[0]) ||
-      this.birthINSEECode.startsWith(INSEECodeFrenchOutermostRegion[1])
-    );
+    const isCodeStartsWithFrenchOutermostRegion = (birthCode) =>
+      INSEECodeFrenchOutermostRegion.some((frenchOutermostRegion) => birthCode?.startsWith(frenchOutermostRegion));
+
+    return [this.birthPostalCode, this.birthINSEECode].some(isCodeStartsWithFrenchOutermostRegion);
   }
 }
 
