@@ -5,7 +5,7 @@ module.exports = {
   async acceptCertificationCenterInvitation(request, h) {
     const certificationCenterInvitationId = request.params.id;
     const { code, email: rawEmail } = request.deserializedPayload;
-    const email = rawEmail?.trim().toLowerCase();
+    const email = rawEmail.trim().toLowerCase();
 
     await usecases.acceptCertificationCenterInvitation({
       certificationCenterInvitationId,
