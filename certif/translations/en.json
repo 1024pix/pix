@@ -144,6 +144,7 @@
       "first-name": "Prénom",
       "referer": "Référent",
       "pix-referer": "Référent Pix",
+      "update-referer-button": "Changer de référent",
       "pix-referer-tooltip": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
       "no-referer-section": {
         "title": "Aucun référent Pix désigné",
