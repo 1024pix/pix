@@ -4,16 +4,6 @@ const certificationResultUtils = require('../../../../lib/infrastructure/utils/c
 const sessionWithCleaCertifiedCandidateController = require('../../../../lib/application/sessions/session-with-clea-certified-candidate-controller');
 
 describe('Unit | Controller | session-with-clea-certified-candidate', function () {
-  let clock;
-
-  beforeEach(function () {
-    clock = sinon.useFakeTimers(new Date('2021-01-01T14:30:00Z'));
-  });
-
-  afterEach(function () {
-    clock.restore();
-  });
-
   describe('#getCleaCertifiedCandidateDataCsv', function () {
     it('should return a response with CSV results', async function () {
       // given
@@ -22,13 +12,10 @@ describe('Unit | Controller | session-with-clea-certified-candidate', function (
           id: 1,
         },
       };
-      const session = domainBuilder.buildSession({ id: 1, date: new Date('2021-01-01'), time: '14:30' });
+      const session = domainBuilder.buildSession({ id: 1, date: '2021-01-01', time: '14:30' });
       const cleaCertifiedCandidates = [
         domainBuilder.buildCleaCertifiedCandidate({ createdAt: new Date('2021-01-01') }),
       ];
-
-      // sinon.stub(momentProto, 'format');
-      // momentProto.format.withArgs('YYYYMMDD_HHmm').returns('20210101_1430');
 
       sinon
         .stub(usecases, 'getCleaCertifiedCandidateBySession')
