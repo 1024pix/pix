@@ -117,7 +117,7 @@
                       {{#each this.acquiredCertifiableBadges as |badge|}}
                         <PixTooltip @position="top" @isInline={{true}} @id="tooltip-certifiable-{{badge.key}}">
                           <:triggerElement>
-                            <a data-testid="tooltip-badge-anchor" href="#{{badge.title}}">
+                            <a href="#{{badge.title}}">
                               <img
                                 aria-labelledby="tooltip-certifiable-{{badge.key}}"
                                 class="skill-review-share-badge-icons__image"
