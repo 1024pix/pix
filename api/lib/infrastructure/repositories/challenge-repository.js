@@ -83,12 +83,6 @@ module.exports = {
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
   },
-
-  async findValidatedPrototype() {
-    const challengeDataObjects = await challengeDatasource.findValidatedPrototype();
-    const activeSkills = await skillDatasource.findActive();
-    return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
-  },
 };
 
 function _toDomainCollection({ challengeDataObjects, skills }) {
