@@ -35,7 +35,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr', 'fr-fr'],
       alpha: 2.11,
       delta: -3.56,
-      genealogy: 'Declinaison 1',
     };
     challenge_competence1_noSkills = {
       id: 'challenge-competence1-noSkills',
@@ -45,7 +44,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr', 'fr-fr'],
       alpha: 8.11,
       delta: 0.95,
-      genealogy: 'Declinaison 1',
     };
     challenge_competence1_notValidated = {
       id: 'challenge-competence1-notValidated',
@@ -55,7 +53,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       status: 'proposé',
       alpha: -0,
       delta: 0,
-      genealogy: 'Prototype 1',
     };
     challenge_competence2 = {
       id: 'challenge-competence2',
@@ -65,14 +62,12 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr', 'fr-fr'],
       alpha: 8.21,
       delta: -4.23,
-      genealogy: 'Declinaison 1',
     };
     challenge_web1 = {
       id: 'challenge-web1',
       skillId: web1.id,
       locales: ['fr', 'fr-fr'],
       status: 'validé',
-      genealogy: 'Prototype 1',
     };
     challenge_web1_notValidated = {
       id: 'challenge-web1-notValidated',
@@ -81,7 +76,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr', 'fr-fr'],
       alpha: -1.9,
       delta: 2.34,
-      genealogy: 'Declinaison 1',
     };
     challenge_web1_archived = {
       id: 'challenge_web1_archived',
@@ -90,7 +84,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr', 'fr-fr'],
       alpha: -1.9,
       delta: 2.34,
-      genealogy: 'Declinaison 1',
     };
     challenge_web2_en = {
       id: 'challenge-web2',
@@ -99,7 +92,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       status: 'validé',
       alpha: 1,
       delta: -2,
-      genealogy: 'Declinaison 1',
     };
     challenge_web3 = {
       id: 'challenge-web3',
@@ -108,7 +100,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr', 'fr-fr'],
       alpha: 1.83,
       delta: 0.27,
-      genealogy: 'Declinaison 1',
     };
     challenge_web3_archived = {
       id: 'challenge-web3-archived',
@@ -117,7 +108,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr-fr'],
       alpha: -8.1,
       delta: 0,
-      genealogy: 'Declinaison 1',
     };
 
     sinon.stub(cache, 'get').callsFake((generator) => generator());
