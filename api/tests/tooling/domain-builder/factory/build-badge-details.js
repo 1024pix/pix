@@ -30,7 +30,7 @@ const buildBadgeDetails = function buildBadgeDetails({
   });
 };
 
-buildBadgeDetails.buildBadgeCriterion_CampaignParticipation = function ({ id = '456', threshold = 80 }) {
+buildBadgeDetails.buildBadgeCriterion_CampaignParticipation = function ({ id = 456, threshold = 80 }) {
   return new BadgeCriterion({
     id,
     scope: SCOPES.CAMPAIGN_PARTICIPATION,
@@ -41,7 +41,7 @@ buildBadgeDetails.buildBadgeCriterion_CampaignParticipation = function ({ id = '
 };
 
 buildBadgeDetails.buildBadgeCriterion_SkillSets = function ({
-  id = '456',
+  id = 456,
   threshold = 80,
   arrayOfSkillIds = [['rec123'], ['rec456']],
 }) {
@@ -58,7 +58,7 @@ buildBadgeDetails.buildBadgeCriterion_SkillSets = function ({
 };
 
 buildBadgeDetails.buildBadgeCriterion_CappedTubes = function ({
-  id = '456',
+  id = 456,
   threshold = 80,
   cappedTubesDTO = [
     { tubeId: 'recTube1', level: 4 },

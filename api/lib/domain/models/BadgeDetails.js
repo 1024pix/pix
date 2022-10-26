@@ -22,6 +22,16 @@ class BadgeCriterion {
     this.skillSets = skillSets;
     this.cappedTubes = cappedTubes;
   }
+
+  toDTO() {
+    return {
+      id: this.id,
+      scope: this.scope,
+      threshold: this.threshold,
+      skillSets: this.skillSets.map((skillSet) => skillSet.toDTO()),
+      cappedTubes: this.cappedTubes.map((cappedTube) => cappedTube.toDTO()),
+    };
+  }
 }
 
 class SkillSet {
@@ -29,12 +39,26 @@ class SkillSet {
     this.name = name;
     this.skillIds = skillIds;
   }
+
+  toDTO() {
+    return {
+      name: this.name,
+      skillIds: this.skillIds,
+    };
+  }
 }
 
 class CappedTube {
   constructor({ tubeId, level }) {
     this.tubeId = tubeId;
     this.level = level;
+  }
+
+  toDTO() {
+    return {
+      tubeId: this.tubeId,
+      level: this.level,
+    };
   }
 }
 
