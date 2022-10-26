@@ -454,7 +454,11 @@
     font-weight: $font-semi-bold;
     font-size: 1rem;
     line-height: 2rem;
-    padding: 16px 0;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    color: $pix-success-70;
+    background-color: $pix-success-5;
   }
 
   &__error {
@@ -468,6 +472,7 @@
     font-weight: $font-bold;
     font-family: $font-open-sans;
     text-align: center;
+    margin-bottom: 16px;
   }
 
   &__badge-icons {
