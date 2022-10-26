@@ -82,28 +82,56 @@ describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
 
   describe('#isBornInFrenchOutermostRegion', function () {
     describe('when the candidate is born in outermost region', function () {
-      it('should return true', function () {
-        // given
-        const cleaCertifiedCandidate = new CleaCertifiedCandidate({ birthINSEECode: '97302' });
+      describe('when the candidate has a INSEE code', function () {
+        it('should return true', function () {
+          // given
+          const cleaCertifiedCandidate = new CleaCertifiedCandidate({ birthINSEECode: '97302' });
 
-        // when
-        const bornInFrenchOutermostRegion = cleaCertifiedCandidate.isBornInFrenchOutermostRegion;
+          // when
+          const bornInFrenchOutermostRegion = cleaCertifiedCandidate.isBornInFrenchOutermostRegion;
 
-        // then
-        expect(bornInFrenchOutermostRegion).to.be.true;
+          // then
+          expect(bornInFrenchOutermostRegion).to.be.true;
+        });
+      });
+      describe('when the candidate has a postal code', function () {
+        it('should return true', function () {
+          // given
+          const cleaCertifiedCandidate = new CleaCertifiedCandidate({ birthPostalCode: '97302' });
+
+          // when
+          const bornInFrenchOutermostRegion = cleaCertifiedCandidate.isBornInFrenchOutermostRegion;
+
+          // then
+          expect(bornInFrenchOutermostRegion).to.be.true;
+        });
       });
     });
 
     describe('when the candidate is not born in outermost region', function () {
-      it('should return false', function () {
-        // given
-        const cleaCertifiedCandidate = new CleaCertifiedCandidate({ birthINSEECode: '37300' });
+      describe('when the candidate has a INSEE code', function () {
+        it('should return false', function () {
+          // given
+          const cleaCertifiedCandidate = new CleaCertifiedCandidate({ birthINSEECode: '37300' });
 
-        // when
-        const bornInFrenchOutermostRegion = cleaCertifiedCandidate.isBornInFrenchOutermostRegion;
+          // when
+          const bornInFrenchOutermostRegion = cleaCertifiedCandidate.isBornInFrenchOutermostRegion;
 
-        // then
-        expect(bornInFrenchOutermostRegion).to.be.false;
+          // then
+          expect(bornInFrenchOutermostRegion).to.be.false;
+        });
+      });
+      describe('when the candidate has a postal code', function () {
+        it('should return false', function () {
+          // given
+          const cleaCertifiedCandidate = new CleaCertifiedCandidate({ birthPostalCode: '37300' });
+
+          // when
+          const bornInFrenchOutermostRegion = cleaCertifiedCandidate.isBornInFrenchOutermostRegion;
+
+          // then
+          expect(bornInFrenchOutermostRegion).to.be.false;
+        });
       });
     });
   });
