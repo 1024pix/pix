@@ -44,6 +44,28 @@ function createBadge({
   _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO });
 }
 
+function createStages({
+  databaseBuilder,
+  targetProfileId,
+  cappedTubesDTO,
+  type, // 'LEVEL' or 'THRESHOLD'
+  countStages,
+}) {
+  const values = [0];
+  if (type === 'LEVEL') {
+    const maxLevel = _.maxBy(cappedTubesDTO, 'level').level;
+    const possibleLevels = Array.from({ length: maxLevel }, (_, i) => i + 1);
+    const pickedLevels = _pickRandomAmong(possibleLevels, countStages - 1);
+    values.push(...pickedLevels);
+  }
+  if (type === 'THRESHOLD') {
+    console.log('coucou');
+  }
+  for (const value of values) {
+    _createStage({ databaseBuilder, targetProfileId, type, value });
+  }
+}
+
 async function _cacheLearningContent() {
   if (!learningContentCached) {
     learningContentCached = true;
@@ -67,6 +89,16 @@ function _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic
 
 function _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible }) {
   databaseBuilder.factory.buildBadge({ id: badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+}
+
+function _createStage({ databaseBuilder, targetProfileId, type, value }) {
+  databaseBuilder.factory.buildStage({
+    targetProfileId,
+    message: `Palier "${value}" pour ${targetProfileId}`,
+    title: `Palier "${value}" pour ${targetProfileId}`,
+    level: type === 'LEVEL' ? value : null,
+    threshold: type === 'LEVEL' ? null : value,
+  });
 }
 
 function _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile }) {
@@ -143,4 +175,5 @@ function _pickRandomAmong(collection, howMuch) {
 module.exports = {
   createTargetProfile,
   createBadge,
+  createStages,
 };
