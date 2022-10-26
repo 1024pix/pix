@@ -8,7 +8,6 @@ const targetProfileRepository = require('./target-profile-repository');
 const thematicRepository = require('./thematic-repository');
 const tubeRepository = require('./tube-repository');
 const skillRepository = require('./skill-repository');
-const challengeRepository = require('./challenge-repository');
 const TargetProfileForAdminOldFormat = require('../../domain/models/TargetProfileForAdminOldFormat');
 const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat');
 const { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails');
@@ -127,18 +126,11 @@ async function _getLearningContent_new(targetProfileId, tubesData, locale) {
   const uniqAreaIds = _.uniq(areaIds);
   const areas = await areaRepository.findByRecordIds({ areaIds: uniqAreaIds, locale });
 
-  const challenges = await challengeRepository.findValidatedPrototype();
-
   for (const tube of tubes) {
     const tubeData = tubesData.find((data) => tube.id === data.tubeId);
     tube.level = tubeData.level;
     const correspondingThematic = thematics.find((thematic) => thematic.tubeIds.includes(tube.id));
     tube.thematicId = correspondingThematic.id;
-    const tubeChallenges = challenges.filter((challenge) => {
-      return challenge.skill.tubeId === tube.id;
-    });
-    tube.mobile = tubeChallenges && tubeChallenges.length > 0 && tubeChallenges.every((c) => c.isMobileCompliant);
-    tube.tablet = tubeChallenges && tubeChallenges.length > 0 && tubeChallenges.every((c) => c.isTabletCompliant);
   }
 
   return {
