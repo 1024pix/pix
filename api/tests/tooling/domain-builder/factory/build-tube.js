@@ -8,6 +8,8 @@ module.exports = function buildTube({
   description = 'description',
   practicalTitle = 'titre pratique',
   practicalDescription = 'description pratique',
+  isMobileCompliant = false,
+  isTabletCompliant = false,
   skills = buildSkillCollection(),
   competenceId = 'recCOMP123',
 } = {}) {
@@ -18,6 +20,8 @@ module.exports = function buildTube({
     description,
     practicalTitle,
     practicalDescription,
+    isMobileCompliant,
+    isTabletCompliant,
     skills,
     competenceId,
   });

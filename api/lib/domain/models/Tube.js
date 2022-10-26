@@ -1,12 +1,25 @@
 const _ = require('lodash');
 
 class Tube {
-  constructor({ id, name, title, description, practicalTitle, practicalDescription, skills = [], competenceId } = {}) {
+  constructor({
+    id,
+    name,
+    title,
+    description,
+    practicalTitle,
+    practicalDescription,
+    isMobileCompliant,
+    isTabletCompliant,
+    skills = [],
+    competenceId,
+  } = {}) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.practicalTitle = practicalTitle;
     this.practicalDescription = practicalDescription;
+    this.isMobileCompliant = isMobileCompliant;
+    this.isTabletCompliant = isTabletCompliant;
     this.skills = skills;
     this.competenceId = competenceId;
 
