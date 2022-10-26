@@ -1,4 +1,4 @@
-const { createTargetProfile, createBadge } = require('./tooling');
+const { createTargetProfile, createBadge, createStages } = require('./tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
 async function richTargetProfilesBuilder({ databaseBuilder }) {
@@ -45,6 +45,13 @@ async function richTargetProfilesBuilder({ databaseBuilder }) {
     isCertifiable: false,
     isAlwaysVisible: false,
     configBadge,
+  });
+  createStages({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    type: 'LEVEL',
+    countStages: 3,
   });
   configTargetProfile = {
     frameworks: [{
