@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.280.1 (26/10/2022)
+
+
+### :building_construction: Tech
+- [#5132](https://github.com/1024pix/pix/pull/5132) [TECH] Résoudre un test flaky sur `user-recommended-trainings` repository.
+
+### :bug: Correction
+- [#5130](https://github.com/1024pix/pix/pull/5130) [BUGFIX] La publication de session contenant des certifications annulées peut échouer (PIX-6152)
+
+### :coffee: Autre
+- [#5127](https://github.com/1024pix/pix/pull/5127) [CLEANUP] Refactorer une boucle en utilisant un map
+
 ## v3.280.0 (26/10/2022)
 
 
