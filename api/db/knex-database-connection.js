@@ -56,23 +56,19 @@ QueryBuilder.prototype.toSQL = function () {
 };
 
 knex.on('query', function (data) {
-  if (logging.enableLogKnexQueries) {
-    monitoringTools.setInContext(`knexQueryStartTimes.${data.__knexQueryUid}`, performance.now());
+  if (logging.enableKnexPerformanceMonitoring) {
+    const queryId = data.__knexQueryUid;
+    monitoringTools.setInContext(`knexQueryStartTimes.${queryId}`, performance.now());
   }
 });
 
-knex.on('query-response', function (response, obj) {
-  if (logging.enableLogKnexQueries) {
-    const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${obj.__knexQueryUid}`);
+knex.on('query-response', function (response, data) {
+  monitoringTools.incrementInContext('metrics.knexQueryCount');
+  if (logging.enableKnexPerformanceMonitoring) {
+    const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${data.__knexQueryUid}`);
     if (queryStartedTime) {
       const duration = performance.now() - queryStartedTime;
-
-      monitoringTools.incrementInContext('metrics.knexQueryCount');
-      monitoringTools.pushInContext('metrics.knexQueries', {
-        id: obj.__knexQueryUid,
-        sql: obj.sql,
-        duration,
-      });
+      monitoringTools.incrementInContext('metrics.knexTotalTimeSpent', duration);
     }
   }
 });
