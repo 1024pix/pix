@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.280.0 (26/10/2022)
+
+
+### :rocket: Amélioration
+- [#5083](https://github.com/1024pix/pix/pull/5083) [FEATURE] Pouvoir créer au choix des paliers de type seuil ou niveau (PIX-5692)
+- [#5114](https://github.com/1024pix/pix/pull/5114) [FEATURE] Améliorer le design de la page double mire SSO (PIX-6075)
+- [#5113](https://github.com/1024pix/pix/pull/5113) [FEATURE] Réduire le texte du bouton retour à l'écran précédent sur les pages sessions (PIX-5785)
+
+### :building_construction: Tech
+- [#5057](https://github.com/1024pix/pix/pull/5057) [TECH] Faire le lien entre le bouton de téléchargement et l'appel pour l'export csv des candidats Clea (PIX-5826)
+- [#5119](https://github.com/1024pix/pix/pull/5119) [TECH] Tracer le nombre de requêtes SQL associées à une requête http
+- [#5094](https://github.com/1024pix/pix/pull/5094) [TECH] Ecrire l'état d'obtention de la certification Pix dans la table "certification-courses" lors de la publication de la certification (PIX-6071)
+- [#5070](https://github.com/1024pix/pix/pull/5070) [TECH] Supprimer des routes de test de monitoring non utilisées
+
+### :bug: Correction
+- [#5125](https://github.com/1024pix/pix/pull/5125) [BUGFIX] Evite les conflicts lors de la création d'un `user-recommended-training` (PIX-6144)
+
 ## v3.279.0 (25/10/2022)
 
 
