@@ -7,6 +7,10 @@
       "quit": "Quitter",
       "update": "Modifier"
     },
+    "api-errors-messages": {
+      "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
+      "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement."
+    },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires."
     }
@@ -30,6 +34,16 @@
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
       "login-form": {
+        "errors": {
+          "status": {
+            "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+            "403": "L'accès à Pix Certif est limité aux membres invités. Chaque espace est géré par un administrateur Pix Certif propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
+            "404": "Cet email n'appartient à aucun utilisateur.",
+            "409": "Cette invitation a déjà été acceptée ou annulée.",
+            "412": "Cette invitation a déjà été acceptée",
+            "429": "Trop d'essais en peu de temps. Réessayez dans quelques minutes."
+          }
+        },
         "title": "J'ai déjà un compte",
         "fields": {
           "email": {
