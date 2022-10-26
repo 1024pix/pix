@@ -7,6 +7,7 @@ module.exports = {
     const certificationDTOs = await knex('certification-courses')
       .select({
         certificationId: 'certification-courses.id',
+        isCancelled: 'certification-courses.isCancelled',
         assessmentResultStatus: 'assessment-results.status',
       })
       .where('certification-courses.sessionId', sessionId)
@@ -20,10 +21,10 @@ module.exports = {
           .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
       );
 
-    const hasErrorOrStartedCertification = certificationDTOs.find(
-      (dto) => !dto.assessmentResultStatus || dto.assessmentResultStatus === status.ERROR
-    );
-    if (hasErrorOrStartedCertification) {
+    const hasCertificationInError = _hasCertificationInError(certificationDTOs);
+    const hasCertificationWithNoAssessmentResultStatus =
+      _hasCertificationWithNoAssessmentResultStatus(certificationDTOs);
+    if (hasCertificationInError || hasCertificationWithNoAssessmentResultStatus) {
       throw new CertificationCourseNotPublishableError();
     }
 
@@ -47,3 +48,11 @@ module.exports = {
       .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
   },
 };
+
+function _hasCertificationInError(certificationDTOs) {
+  return certificationDTOs.some((dto) => dto.assessmentResultStatus === status.ERROR);
+}
+
+function _hasCertificationWithNoAssessmentResultStatus(certificationDTOs) {
+  return certificationDTOs.some((dto) => dto.assessmentResultStatus === null && !dto.isCancelled);
+}
