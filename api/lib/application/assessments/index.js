@@ -76,31 +76,6 @@ exports.register = async (server) => {
       },
     },
     {
-      method: 'GET',
-      path: '/api/assessments/{id}/challenge-for-pix-auto-answer',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.assessmentId,
-          }),
-        },
-        handler: assessmentController.getChallengeForPixAutoAnswer,
-        tags: ['api'],
-      },
-    },
-    {
       method: 'PATCH',
       path: '/api/assessments/{id}/complete-assessment',
       config: {

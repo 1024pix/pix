@@ -40,14 +40,6 @@ module.exports = {
     return h.response(lastChallengeId).code(200);
   },
 
-  async getChallengeForPixAutoAnswer(request, h) {
-    const assessmentId = request.params.id;
-
-    const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
-
-    return h.response(challenge).code(200);
-  },
-
   async getNextChallenge(request) {
     const assessmentId = request.params.id;
 
