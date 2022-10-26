@@ -45,7 +45,7 @@ const learningContent = [
   },
 ];
 
-describe('Acceptance | API | assessment-controller-auto-validate-next-challlenge', function () {
+describe('Acceptance | API | assessment-controller-auto-validate-next-challenge', function () {
   let server;
   let assessmentId;
 
