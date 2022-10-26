@@ -210,7 +210,6 @@ module.exports = injectDependencies(
     createBadge: require('./create-badge'),
     createCampaign: require('./create-campaign'),
     createCertificationCenter: require('./create-certification-center'),
-    createCertificationCenterMembership: require('./create-certification-center-membership'),
     createCertificationCenterMembershipByEmail: require('./create-certification-center-membership-by-email'),
     createCertificationCenterMembershipForScoOrganizationMember: require('./create-certification-center-membership-for-sco-organization-member'),
     createLcmsRelease: require('./create-lcms-release'),
