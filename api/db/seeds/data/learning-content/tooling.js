@@ -15,12 +15,33 @@ async function createTargetProfile({
   ownerOrganizationId,
   isSimplifiedAccess,
   description,
-  config, // { framework[{ chooseCoreFramework: true/false, countTubes: 10, minLevel: 1, maxLevel: 5 }]
+  configTargetProfile,
 }) {
   await _cacheLearningContent();
   _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description });
-  _createTargetProfileTubes({ databaseBuilder, targetProfileId, config });
-  return targetProfileId;
+  const cappedTubesDTO = _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile });
+  return {
+    targetProfileId,
+    cappedTubesDTO,
+  };
+}
+
+function createBadge({
+  databaseBuilder,
+  badgeId,
+  targetProfileId,
+  cappedTubesDTO,
+  altMessage,
+  imageUrl,
+  message,
+  title,
+  key,
+  isCertifiable,
+  isAlwaysVisible,
+  configBadge,
+}) {
+  _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+  _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO });
 }
 
 async function _cacheLearningContent() {
@@ -44,9 +65,13 @@ function _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic
   databaseBuilder.factory.buildTargetProfile({ id: targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description });
 }
 
-function _createTargetProfileTubes({ databaseBuilder, targetProfileId, config }) {
+function _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible }) {
+  databaseBuilder.factory.buildBadge({ id: badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+}
+
+function _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile }) {
   const cappedTubesDTO = [];
-  for (const framework of config.frameworks) {
+  for (const framework of configTargetProfile.frameworks) {
     const frameworkName = _getFrameworkName(framework);
     for (let i = 0; i < framework.countTubes; ++i) {
       const tubeId = _pickRandomTube(frameworkName, cappedTubesDTO.map(({ id }) => id));
@@ -67,27 +92,55 @@ function _createTargetProfileTubes({ databaseBuilder, targetProfileId, config })
   return cappedTubesDTO;
 }
 
+function _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO }) {
+  for (const criterion of configBadge.criteria) {
+    let cappedTubesForCriterion = [];
+    if (criterion.scope === 'CappedTubes') {
+      const howManyTubesToPick = Math.max(Math.floor(cappedTubesDTO.length / 3), 1);
+      const cappedTubesToPick = _pickRandomAmong(cappedTubesDTO, howManyTubesToPick);
+      cappedTubesForCriterion = cappedTubesToPick.map((cappedTube) => {
+        return {
+          id: cappedTube.id,
+          level: _.random(cappedTube.level, 1),
+        };
+      });
+    }
+    databaseBuilder.factory.buildBadgeCriterion({
+      badgeId,
+      scope: criterion.scope,
+      threshold: criterion.threshold,
+      skillSetIds: [],
+      cappedTubes: JSON.stringify(cappedTubesForCriterion),
+    });
+  }
+}
+
 function _getFrameworkName({ chooseCoreFramework }) {
   if (chooseCoreFramework) return 'Pix';
-  return _pickRandomAmong(frameworkNames, 1);
+  return _pickOneRandomAmong(frameworkNames);
 }
 
 function _pickRandomTube(frameworkName, alreadyPickedTubeIds) {
   let attempt = 0;
   while (attempt < 10) {
-    const tubeId = _pickRandomAmong(tubeIdsByFramework[frameworkName], 1);
+    const tubeId = _pickOneRandomAmong(tubeIdsByFramework[frameworkName]);
     if (!alreadyPickedTubeIds.includes(tubeId)) return tubeId;
     ++attempt;
   }
   return null;
 }
 
+function _pickOneRandomAmong(collection) {
+  const items = _pickRandomAmong(collection, 1);
+  return items[0];
+}
+
 function _pickRandomAmong(collection, howMuch) {
   const shuffledCollection = _.sortBy(collection, () => _.random(0, 100));
-  if (howMuch === 1) return shuffledCollection[0];
   return _.slice(shuffledCollection, 0, howMuch);
 }
 
 module.exports = {
   createTargetProfile,
+  createBadge,
 };
