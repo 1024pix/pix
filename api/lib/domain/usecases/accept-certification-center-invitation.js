@@ -1,10 +1,13 @@
 module.exports = async function acceptCertificationCenterInvitation({
   certificationCenterInvitationId,
+  code,
   email,
   certificationCenterInvitedUserRepository,
 }) {
-  return await certificationCenterInvitedUserRepository.get({
+  const certificationCenterInvitedUser = await certificationCenterInvitedUserRepository.get({
     certificationCenterInvitationId,
     email,
   });
+
+  certificationCenterInvitedUser.acceptInvitation(code);
 };
