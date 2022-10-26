@@ -1,8 +1,8 @@
-const { createTargetProfile } = require('./tooling');
+const { createTargetProfile, createBadge } = require('./tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
 async function richTargetProfilesBuilder({ databaseBuilder }) {
-  let config = {
+  let configTargetProfile = {
     frameworks: [{
       chooseCoreFramework: true,
       countTubes: 30,
@@ -10,17 +10,43 @@ async function richTargetProfilesBuilder({ databaseBuilder }) {
       maxLevel: 5,
     }],
   };
-  await createTargetProfile({
+  const configBadge = {
+    criteria: [
+      {
+        scope: 'CappedTubes',
+        threshold: 60,
+      },
+      {
+        scope: 'CampaignParticipation',
+        threshold: 50,
+      },
+    ],
+  };
+  const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
     databaseBuilder,
     targetProfileId: 500,
     name: 'Profil cible Pur Pix (Niv3 ~ 5)',
     isPublic: true,
     ownerOrganizationId: PRO_COMPANY_ID,
     isSimplifiedAccess: false,
-    description: 'Profil cible pur pix (Niv3 ~ 5)',
-    config,
+    description: 'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation)',
+    configTargetProfile,
   });
-  config = {
+  createBadge({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    badgeId: 600,
+    altMessage: '1 RT double critère Campaign & Tubes',
+    imageUrl: 'some_image.svg',
+    message: '1 RT double critère Campaign & Tubes',
+    title: '1 RT double critère Campaign & Tubes',
+    key: 'SOME_KEY_FOR_RT_600',
+    isCertifiable: false,
+    isAlwaysVisible: false,
+    configBadge,
+  });
+  configTargetProfile = {
     frameworks: [{
       chooseCoreFramework: true,
       countTubes: 5,
@@ -41,7 +67,7 @@ async function richTargetProfilesBuilder({ databaseBuilder }) {
     ownerOrganizationId: PRO_COMPANY_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8)',
-    config,
+    configTargetProfile,
   });
 }
 
