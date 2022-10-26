@@ -11,6 +11,11 @@ const { UnexpectedUserAccountError } = require('../../../domain/errors');
 
 module.exports = {
   async notify(userId, payload) {
+    monitoringTools.logInfoWithCorrelationIds({
+      event: 'participation-send-pole-emploi',
+      'pole-emploi-action': 'send-results',
+      'participation-state': participationState(payload),
+    });
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
       userId,
       identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
@@ -40,7 +45,12 @@ module.exports = {
 
       if (!tokenResponse.isSuccessful) {
         const errorMessage = _getErrorMessage(tokenResponse.data);
-        monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
+        monitoringTools.logErrorWithCorrelationIds({
+          event: 'participation-send-pole-emploi',
+          'pole-emploi-action': 'refresh-token',
+          'participation-state': participationState(payload),
+          message: errorMessage,
+        });
         return {
           isSuccessful: tokenResponse.isSuccessful,
           code: tokenResponse.code || '500',
@@ -72,7 +82,12 @@ module.exports = {
 
     if (!httpResponse.isSuccessful) {
       const errorMessage = _getErrorMessage(httpResponse.data);
-      monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
+      monitoringTools.logErrorWithCorrelationIds({
+        event: 'participation-send-pole-emploi',
+        'pole-emploi-action': 'send-results',
+        'participation-state': participationState(payload),
+        message: errorMessage,
+      });
     }
 
     return {
@@ -93,4 +108,14 @@ function _getErrorMessage(data) {
     message = `${error} ${error_description}`;
   }
   return message.trim();
+}
+
+function participationState(payload) {
+  if (payload.dateValidation) {
+    return 'PARTICIPATION_SHARED';
+  } else if (payload.progression === 100) {
+    return 'PARTICIPATION_COMPLETED';
+  } else {
+    return 'PARTICIPATION_STARTED';
+  }
 }
