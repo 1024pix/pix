@@ -59,7 +59,9 @@ function createStages({
     values.push(...pickedLevels);
   }
   if (type === 'THRESHOLD') {
-    console.log('coucou');
+    const possibleThresholds = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    const pickedThresholds = _pickRandomAmong(possibleThresholds, countStages - 1);
+    values.push(...pickedThresholds);
   }
   for (const value of values) {
     _createStage({ databaseBuilder, targetProfileId, type, value });

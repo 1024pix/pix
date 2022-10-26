@@ -2,7 +2,16 @@ const { createTargetProfile, createBadge, createStages } = require('./tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
 async function richTargetProfilesBuilder({ databaseBuilder }) {
-  let configTargetProfile = {
+  await _createTargetProfile500(databaseBuilder);
+  await _createTargetProfile501(databaseBuilder);
+}
+
+module.exports = {
+  richTargetProfilesBuilder,
+};
+
+async function _createTargetProfile500(databaseBuilder) {
+  const configTargetProfile = {
     frameworks: [{
       chooseCoreFramework: true,
       countTubes: 30,
@@ -29,7 +38,7 @@ async function richTargetProfilesBuilder({ databaseBuilder }) {
     isPublic: true,
     ownerOrganizationId: PRO_COMPANY_ID,
     isSimplifiedAccess: false,
-    description: 'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation)',
+    description: 'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
     configTargetProfile,
   });
   createBadge({
@@ -53,7 +62,10 @@ async function richTargetProfilesBuilder({ databaseBuilder }) {
     type: 'LEVEL',
     countStages: 3,
   });
-  configTargetProfile = {
+}
+
+async function _createTargetProfile501(databaseBuilder) {
+  const configTargetProfile = {
     frameworks: [{
       chooseCoreFramework: true,
       countTubes: 5,
@@ -66,18 +78,21 @@ async function richTargetProfilesBuilder({ databaseBuilder }) {
       maxLevel: 8,
     }],
   };
-  await createTargetProfile({
+  const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
     databaseBuilder,
     targetProfileId: 501,
     name: 'Profil cible Pix et un autre réf (Niv1 ~ 8)',
     isPublic: true,
     ownerOrganizationId: PRO_COMPANY_ID,
     isSimplifiedAccess: false,
-    description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8)',
+    description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8) et des paliers SEUILS',
     configTargetProfile,
   });
+  createStages({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    type: 'THRESHOLD',
+    countStages: 4,
+  });
 }
-
-module.exports = {
-  richTargetProfilesBuilder,
-};
