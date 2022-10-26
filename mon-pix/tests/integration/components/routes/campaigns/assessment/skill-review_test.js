@@ -199,6 +199,36 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       expect(find('.badge-container')).to.exist;
       expect(find('.badge-certifiable-container')).to.exist;
     });
+
+    it('should an anchor in the header badge icon linked to the badge card', async function () {
+      campaign = {
+        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
+        customResultPageButtonText: 'Next step',
+        organizationName: 'Dragon & Co',
+        organizationShowNPS: false,
+      };
+      const campaignParticipationBadges = [
+        {
+          altMessage: 'Vous avez validé le badge 1.',
+          isAcquired: true,
+          isCertifiable: true,
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
+          title: 'Badge_1',
+        },
+      ];
+      const campaignParticipationResult = {
+        isShared: false,
+        campaignParticipationBadges,
+      };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+      // Then
+      expect(findAll('.skill-review-share-badge-icons__image')).to.have.length(1);
+      expect(find('a[data-testid="tooltip-badge-anchor"]')).to.have.property('href').that.contains('#Badge_1');
+    });
   });
 
   describe('The trainings block', function () {
