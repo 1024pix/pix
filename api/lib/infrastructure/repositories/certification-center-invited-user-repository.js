@@ -9,12 +9,12 @@ module.exports = {
       .where({ id: certificationCenterInvitationId })
       .first();
     if (!invitation) {
-      throw new NotFoundError(`Not found certification center invitation for ID ${certificationCenterInvitationId}`);
+      throw new NotFoundError(`No certification center invitation found for ID ${certificationCenterInvitationId}`);
     }
 
     const user = await knex('users').select('id').where({ email }).first();
     if (!user) {
-      throw new NotFoundError(`Not found user for email ${email}`);
+      throw new NotFoundError(`No user found for email ${email}`);
     }
 
     return new CertificationCenterInvitedUser({
@@ -22,5 +22,16 @@ module.exports = {
       invitation,
       status: invitation.status,
     });
+  },
+
+  async save(certificationCenterInvitedUser) {
+    await knex('certification-center-memberships').insert({
+      certificationCenterId: certificationCenterInvitedUser.invitation.certificationCenterId,
+      userId: certificationCenterInvitedUser.userId,
+    });
+
+    await knex('certification-center-invitations')
+      .update({ status: certificationCenterInvitedUser.status, updatedAt: new Date() })
+      .where({ id: certificationCenterInvitedUser.invitation.id });
   },
 };

@@ -1,6 +1,6 @@
 const { omit } = require('lodash');
 
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, sinon, knex } = require('../../../test-helper');
 const certificationCenterInvitedUserRepository = require('../../../../lib/infrastructure/repositories/certification-center-invited-user-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
@@ -73,7 +73,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.equal('Not found certification center invitation for ID 3256');
+        expect(error.message).to.equal('No certification center invitation found for ID 3256');
       });
     });
 
@@ -93,8 +93,80 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.equal('Not found user for email inexistantUser@email.net');
+        expect(error.message).to.equal('No user found for email inexistantUser@email.net');
       });
+    });
+  });
+
+  describe('#save', function () {
+    let clock;
+
+    afterEach(async function () {
+      await knex('certification-center-memberships').delete();
+    });
+
+    it('should create membership', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
+      const user = databaseBuilder.factory.buildUser({ id: 6789, email: 'user@example.net' });
+      const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
+        id: 345,
+        email: user.email,
+        certificationCenterId,
+        code: 'ABCDE123',
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      });
+      const certificationCenterInvitedUser = new CertificationCenterInvitedUser({
+        userId: user.id,
+        invitation: certificationCenterInvitation,
+        status: CertificationCenterInvitation.StatusType.ACCEPTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterInvitedUserRepository.save(certificationCenterInvitedUser);
+
+      // then
+      const membershipCreated = await knex('certification-center-memberships').where({ userId: 6789 }).first();
+
+      expect(membershipCreated.userId).to.equal(6789);
+      expect(membershipCreated.certificationCenterId).to.equal(certificationCenterId);
+    });
+
+    it('should mark certification center invitation as accepted', async function () {
+      // given
+      const now = new Date('2021-05-27');
+      clock = sinon.useFakeTimers(now);
+
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
+      const user = databaseBuilder.factory.buildUser({ id: 6789, email: 'user@example.net' });
+      const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
+        id: 345,
+        email: user.email,
+        certificationCenterId,
+        code: 'ABCDE123',
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      });
+      const certificationCenterInvitedUser = new CertificationCenterInvitedUser({
+        userId: user.id,
+        invitation: certificationCenterInvitation,
+        status: CertificationCenterInvitation.StatusType.ACCEPTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterInvitedUserRepository.save(certificationCenterInvitedUser);
+
+      // then
+      const certificationCenterInvitationUpdated = await knex('certification-center-invitations')
+        .where({ id: 345 })
+        .first();
+
+      expect(certificationCenterInvitationUpdated.status).to.equal(CertificationCenterInvitation.StatusType.ACCEPTED);
+      expect(certificationCenterInvitationUpdated.updatedAt).to.deep.equal(now);
+      clock.restore();
     });
   });
 });
