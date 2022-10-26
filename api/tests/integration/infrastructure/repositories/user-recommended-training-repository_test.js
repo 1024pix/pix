@@ -34,7 +34,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       );
     });
 
-    it('should not throw an error on userRecommendedTraing conflict', async function () {
+    it('should not throw an error on userRecommendedTraining conflict', async function () {
       // given
       const userRecommendedTraining = databaseBuilder.factory.buildUserRecommendedTraining({
         userId: databaseBuilder.factory.buildUser().id,
@@ -50,7 +50,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       };
 
       // then
-      expect(saveSameUserRecommendedTraining).not.to.throw();
+      expect(await saveSameUserRecommendedTraining()).not.to.throw;
       const updatedUserRecommendedTraining = await knex('user-recommended-trainings')
         .where({
           id: userRecommendedTraining.id,
