@@ -8,8 +8,7 @@ module.exports = {
     const { session, cleaCertifiedCandidateData } = await usecases.getCleaCertifiedCandidateBySession({ sessionId });
     const csvResult = await certificationResultUtils.getCleaCertifiedCandidateCsv(cleaCertifiedCandidateData);
 
-    const dateWithoutTime = dayjs(session.date).format('DD/MM/YYYY');
-    const dateWithTime = dayjs(dateWithoutTime + ' ' + session.time)
+    const dateWithTime = dayjs(session.date + ' ' + session.time)
       .locale('fr')
       .format('YYYYMMDD_HHmm');
     const fileName = `${dateWithTime}_candidats_certifies_clea_${sessionId}.csv`;
