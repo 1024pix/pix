@@ -5,6 +5,10 @@ module.exports = {
     return new Serializer('target-profile', {
       transform(record) {
         record.oldAreas = record.areas;
+        record.badges = record.badges.map((badge) => {
+          badge.criteria = badge.criteria.map((criteria) => criteria.toDTO());
+          return badge;
+        });
         return record;
       },
       attributes: [
@@ -19,10 +23,39 @@ module.exports = {
         'imageUrl',
         'category',
         'isSimplifiedAccess',
-        'oldAreas',
         'badges',
         'stages',
+        'oldAreas',
       ],
+      badges: {
+        ref: 'id',
+        included: true,
+        attributes: [
+          'altMessage',
+          'imageUrl',
+          'message',
+          'title',
+          'key',
+          'isCertifiable',
+          'isAlwaysVisible',
+          'criteria',
+        ],
+        criteria: {
+          ref: 'id',
+          included: true,
+          attributes: ['threshold', 'scope', 'skillSets', 'cappedTubes'],
+        },
+      },
+      stages: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/admin/target-profiles/${parent.id}/stages`;
+          },
+        },
+      },
       oldAreas: {
         ref: 'id',
         included: true,
@@ -43,31 +76,12 @@ module.exports = {
           },
         },
       },
-      badges: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/admin/target-profiles/${parent.id}/badges`;
-          },
-        },
-      },
-      stages: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/admin/target-profiles/${parent.id}/stages`;
-          },
-        },
-      },
       typeForAttribute(attribute) {
         if (attribute === 'areas') return 'old-areas';
         if (attribute === 'competences') return 'old-competences';
         if (attribute === 'tubes') return 'old-tubes';
         if (attribute === 'skills') return 'old-skills';
+        if (attribute === 'criteria') return 'badge-criteria';
         return undefined;
       },
     }).serialize(targetProfiles);
