@@ -23,7 +23,6 @@ module.exports = function buildChallenge({
   discriminant = 0,
   difficulty = 0,
   responsive = 'Smartphone/Tablette',
-  genealogy = 'Prototype 1',
   focused = false,
   // includes
   answer,
@@ -51,7 +50,6 @@ module.exports = function buildChallenge({
     discriminant,
     difficulty,
     alternativeInstruction,
-    genealogy,
     responsive,
     focused,
     // includes

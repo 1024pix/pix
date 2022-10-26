@@ -133,6 +133,5 @@ function _toDomain({ challengeDataObject, skillDataObject }) {
     discriminant: challengeDataObject.alpha,
     difficulty: challengeDataObject.delta,
     responsive: challengeDataObject.responsive,
-    genealogy: challengeDataObject.genealogy,
   });
 }
