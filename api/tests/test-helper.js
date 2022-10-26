@@ -61,20 +61,6 @@ function generateIdTokenForExternalUser(externalUser) {
   return tokenService.createIdTokenForUserReconciliation(externalUser);
 }
 
-async function insertUserWithRoleSuperAdmin() {
-  const user = databaseBuilder.factory.buildUser.withRole({
-    id: 1234,
-    firstName: 'Super',
-    lastName: 'Papa',
-    email: 'super.papa@example.net',
-    password: 'Password123',
-  });
-
-  await databaseBuilder.commit();
-
-  return user;
-}
-
 async function insertOrganizationUserWithRoleAdmin() {
   const adminUser = databaseBuilder.factory.buildUser();
   const organization = databaseBuilder.factory.buildOrganization();
@@ -222,7 +208,6 @@ module.exports = {
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertOrganizationUserWithRoleAdmin,
-  insertUserWithRoleSuperAdmin,
   knex,
   nock,
   sinon,
