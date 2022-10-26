@@ -117,12 +117,14 @@
                       {{#each this.acquiredCertifiableBadges as |badge|}}
                         <PixTooltip @position="top" @isInline={{true}} @id="tooltip-certifiable-{{badge.key}}">
                           <:triggerElement>
-                            <img
-                              aria-labelledby="tooltip-certifiable-{{badge.key}}"
-                              class="skill-review-share-badge-icons__image"
-                              src="{{badge.imageUrl}}"
-                              alt="{{badge.altMessage}}"
-                            />
+                            <a data-testid="tooltip-badge-anchor" href="#{{badge.title}}">
+                              <img
+                                aria-labelledby="tooltip-certifiable-{{badge.key}}"
+                                class="skill-review-share-badge-icons__image"
+                                src="{{badge.imageUrl}}"
+                                alt="{{badge.altMessage}}"
+                              />
+                            </a>
                           </:triggerElement>
                           <:tooltip>{{badge.title}}</:tooltip>
                         </PixTooltip>
@@ -134,12 +136,14 @@
                       {{#each this.acquiredNotCertifiableBadges as |badge|}}
                         <PixTooltip @position="top" @isInline={{true}} @id="tooltip-{{badge.key}}">
                           <:triggerElement>
-                            <img
-                              aria-labelledby="tooltip-{{badge.key}}"
-                              class="skill-review-share-badge-icons__image"
-                              src="{{badge.imageUrl}}"
-                              alt="{{badge.altMessage}}"
-                            />
+                            <a href="#{{badge.title}}">
+                              <img
+                                aria-labelledby="tooltip-{{badge.key}}"
+                                class="skill-review-share-badge-icons__image"
+                                src="{{badge.imageUrl}}"
+                                alt="{{badge.altMessage}}"
+                              />
+                            </a>
                           </:triggerElement>
                           <:tooltip>{{badge.title}}</:tooltip>
                         </PixTooltip>
