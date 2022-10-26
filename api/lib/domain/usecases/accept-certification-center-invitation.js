@@ -10,4 +10,6 @@ module.exports = async function acceptCertificationCenterInvitation({
   });
 
   certificationCenterInvitedUser.acceptInvitation(code);
+
+  await certificationCenterInvitedUserRepository.save(certificationCenterInvitedUser);
 };

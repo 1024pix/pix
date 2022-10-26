@@ -8,6 +8,7 @@ describe('Unit | UseCase | accept-certification-center-invitation', function () 
     // given
     const certificationCenterInvitedUserRepository = {
       get: sinon.stub(),
+      save: sinon.stub(),
     };
     const code = 'SDFGH123';
     const email = 'user@example.net';
@@ -38,5 +39,41 @@ describe('Unit | UseCase | accept-certification-center-invitation', function () 
       certificationCenterInvitationId: 1234,
       email: 'user@example.net',
     });
+  });
+
+  it('should update the invitation status to accepted with date and create a membership for the user', async function () {
+    // given
+    const certificationCenterInvitedUserRepository = {
+      get: sinon.stub(),
+      save: sinon.stub(),
+    };
+    const code = 'SDFGH123';
+    const email = 'user@example.net';
+    const certificationCenterId = domainBuilder.buildCertificationCenter().id;
+    const certificationCenterInvitation = domainBuilder.buildCertificationCenterInvitation({
+      id: 1234,
+      certificationCenterId,
+    });
+    const user = domainBuilder.buildUser({ email });
+
+    const certificationCenterInvitedUser = new CertificationCenterInvitedUser({
+      userId: user.id,
+      invitation: { code, id: certificationCenterInvitation.id },
+      status: CertificationCenterInvitation.StatusType.PENDING,
+    });
+    certificationCenterInvitedUserRepository.get.resolves(certificationCenterInvitedUser);
+
+    sinon.stub(certificationCenterInvitedUser, 'acceptInvitation').resolves();
+
+    // when
+    await acceptCertificationCenterInvitation({
+      certificationCenterInvitationId: certificationCenterInvitation.id,
+      code,
+      email,
+      certificationCenterInvitedUserRepository,
+    });
+
+    // then
+    expect(certificationCenterInvitedUserRepository.save).to.have.been.calledWith(certificationCenterInvitedUser);
   });
 });
