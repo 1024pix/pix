@@ -163,9 +163,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       // Then
       const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
       expect(correctAnswer).to.exist;
-      expect(correctAnswer.innerText).to.equal(
-        'Réponse incorrecte.\nLa bonne réponse est la réponse : ' + solutionAsText
-      );
+      expect(correctAnswer.innerText).to.equal('Réponse incorrecte.\nLa bonne réponse est : ' + solutionAsText);
     });
 
     it('should inform the user of the correct answer with solution to display when it is not null', async function () {
@@ -183,9 +181,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       // Then
       const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
       expect(correctAnswer).to.exist;
-      expect(correctAnswer.innerText).to.equal(
-        'Réponse incorrecte.\nLa bonne réponse est la réponse : ' + solutionToDisplay
-      );
+      expect(correctAnswer.innerText).to.equal('Réponse incorrecte.\nLa bonne réponse est : ' + solutionToDisplay);
     });
   });
 
