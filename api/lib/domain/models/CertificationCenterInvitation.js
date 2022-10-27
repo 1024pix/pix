@@ -29,6 +29,18 @@ class CertificationCenterInvitation {
 
     validateEntity(validationScheme, this);
   }
+
+  get isPending() {
+    return this.status === statuses.PENDING;
+  }
+
+  get isAccepted() {
+    return this.status === statuses.ACCEPTED;
+  }
+
+  get isCancelled() {
+    return this.status === statuses.CANCELLED;
+  }
 }
 
 CertificationCenterInvitation.StatusType = statuses;
