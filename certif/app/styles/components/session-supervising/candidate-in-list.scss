@@ -18,6 +18,7 @@
   &__full-name {
     color: $pix-warning-40;
     margin-bottom: 4px;
+    text-transform: capitalize;
   }
 
   &__checkbox[type="checkbox"] {
