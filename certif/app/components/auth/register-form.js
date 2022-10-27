@@ -42,6 +42,7 @@ export default class RegisterForm extends Component {
     }
     this.isLoading = true;
 
+    let certificationCenterInvitationResponseRecord;
     const userRecord = this.store.createRecord('user', {
       lastName: this.lastName,
       firstName: this.firstName,
@@ -52,6 +53,18 @@ export default class RegisterForm extends Component {
 
     try {
       await userRecord.save();
+
+      certificationCenterInvitationResponseRecord = this.store.createRecord(
+        'certification-center-invitation-response',
+        {
+          id: this.args.certificationCenterInvitationId,
+          code: this.args.certificationCenterInvitationCode,
+          email: this.email,
+        }
+      );
+      await certificationCenterInvitationResponseRecord.save({
+        adapterOptions: { certificationCenterInvitationId: this.args.certificationCenterInvitationId },
+      });
     } catch (response) {
       const status = get(response, 'errors[0].status');
 
@@ -62,6 +75,7 @@ export default class RegisterForm extends Component {
       }
 
       await userRecord?.deleteRecord();
+      await certificationCenterInvitationResponseRecord?.deleteRecord();
     } finally {
       this.isLoading = false;
     }
