@@ -36,7 +36,7 @@ export default class Badge extends Component {
     return this.args.badge.imageUrl.slice(this.IMAGE_BASE_URL.length);
   }
 
-  get badgeCriteria() {
+  /* get badgeCriteria() {
     this.args.badge.badgeCriteria.forEach((badgeCriterion) => {
       badgeCriterion.skillSets.forEach((skillSet) => {
         const skills = skillSet.skills;
@@ -58,18 +58,32 @@ export default class Badge extends Component {
       });
     });
     return this.args.badge.badgeCriteria;
-  }
+  }*/
 
   get allLevels() {
     return times(ENV.APP.MAX_LEVEL, (index) => index + 1);
+  }
+
+  @action
+  getTubeForSkillSet(skillIds) {
+    return this.args.targetProfile.oldAreas
+      .toArray()
+      .flatMap((area) => area.competences.toArray().flatMap((competence) => competence.tubes.toArray()))
+      .filter((tube) => tube.skills.any((skill) => skillIds.includes(skill.id)))
+      .map((tube) => ({
+        tubeTitle: tube.practicalTitle,
+        skillsWithAllLevels: this.allLevels.map((level) => tube.skills.find((skill) => skill.difficulty === level)),
+      }));
   }
 
   scopeExplanation(criterionScope) {
     switch (criterionScope) {
       case 'SkillSet':
         return 'tous les groupes d‘acquis suivants :';
+      case 'CappedTubes':
+        return 'l‘ensemble des sujets plafonnés par niveau suivants :';
       case 'CampaignParticipation':
-        return 'l‘ensemble des acquis du target profile.';
+        return 'l‘ensemble des acquis du profil-cible.';
     }
   }
 

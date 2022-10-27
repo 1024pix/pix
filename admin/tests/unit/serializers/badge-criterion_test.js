@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Unit | Serializer | BadgeCriterion', function (hooks) {
+module.skip('Unit | Serializer | BadgeCriterion', function (hooks) {
   setupTest(hooks);
 
   test('it serializes records', function (assert) {

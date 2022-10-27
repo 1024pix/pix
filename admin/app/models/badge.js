@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class Badge extends Model {
   @attr('string') key;
@@ -9,13 +9,11 @@ export default class Badge extends Model {
   @attr('boolean') isCertifiable;
   @attr('boolean') isAlwaysVisible;
 
+  @hasMany('badge-criterion') criteria;
+
   // creation only fields
   @attr('number') campaignThreshold;
   @attr('number') skillSetThreshold;
   @attr('string') skillSetName;
   @attr('array') skillSetSkillsIds;
-
-  @belongsTo('target-profile') targetProfile;
-  @hasMany('badge-criterion') badgeCriteria;
-  @hasMany('skill-set') skillSets;
 }

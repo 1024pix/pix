@@ -10,6 +10,10 @@ export default class BadgeRoute extends Route {
   }
 
   model(params) {
-    return this.store.findRecord('badge', params.badge_id);
+    const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
+    return {
+      targetProfile: targetProfile,
+      badge: targetProfile.badges.find((badge) => badge.id === params.badge_id),
+    };
   }
 }

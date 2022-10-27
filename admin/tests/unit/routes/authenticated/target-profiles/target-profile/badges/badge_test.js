@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Route | authenticated/badges/badge', function (hooks) {
+module('Unit | Route | authenticated/target-profiles/target-profile/badges/badge', function (hooks) {
   setupTest(hooks);
 
   module('#beforeModel', function () {
     test('it should check if current user is "SUPER_ADMIN", "SUPPORT", or "METIER"', function (assert) {
       // given
-      const route = this.owner.lookup('route:authenticated/badges/badge');
+      const route = this.owner.lookup('route:authenticated/target-profiles/target-profile/badges/badge');
 
       const restrictAccessToStub = sinon.stub().returns();
       class AccessControlStub extends Service {
