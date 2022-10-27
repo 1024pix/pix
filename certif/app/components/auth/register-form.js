@@ -31,8 +31,12 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  async register() {
-    /* TODO */
+  async register(event) {
+    event.preventDefault();
+    if (!this._isFormValid()) {
+      return;
+    }
+    this.isLoading = true;
   }
 
   @action
@@ -87,5 +91,15 @@ export default class RegisterForm extends Component {
     if (!isInputChecked) {
       this.cguValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.cgu.error');
     }
+  }
+
+  _isFormValid() {
+    return (
+      !isEmpty(this.lastName) &&
+      !isEmpty(this.firstName) &&
+      isEmailValid(this.email) &&
+      isPasswordValid(this.password) &&
+      Boolean(this.cgu)
+    );
   }
 }
