@@ -5,10 +5,12 @@ import { tracked } from '@glimmer/tracking';
 import isEmpty from 'lodash/isEmpty';
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
+import get from 'lodash/get';
 
 export default class RegisterForm extends Component {
   @service intl;
   @service url;
+  @service store;
 
   @tracked isLoading = false;
   @tracked firstName = null;
@@ -33,10 +35,36 @@ export default class RegisterForm extends Component {
   @action
   async register(event) {
     event.preventDefault();
+    this.errorMessage = null;
+
     if (!this._isFormValid()) {
       return;
     }
     this.isLoading = true;
+
+    try {
+      await this.store
+        .createRecord('user', {
+          lastName: this.lastName,
+          firstName: this.firstName,
+          email: this.email,
+          password: this.password,
+          cgu: true,
+        })
+        .save();
+
+      this.password = null;
+    } catch (response) {
+      const status = get(response, 'errors[0].status');
+
+      if (status === '422') {
+        this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.email-already-exists');
+      } else {
+        this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.default');
+      }
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action
