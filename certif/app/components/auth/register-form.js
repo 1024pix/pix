@@ -11,6 +11,7 @@ export default class RegisterForm extends Component {
   @service intl;
   @service url;
   @service store;
+  @service session;
 
   @tracked isLoading = false;
   @tracked firstName = null;
@@ -58,6 +59,8 @@ export default class RegisterForm extends Component {
         certificationCenterInvitationCode: this.args.certificationCenterInvitationCode,
         createdUserEmail: this.email,
       });
+
+      await this._authenticate(this.email, this.password);
 
       this.password = null;
     } catch (response) {
@@ -149,5 +152,10 @@ export default class RegisterForm extends Component {
         email: createdUserEmail,
       })
       .save({ adapterOptions: { certificationCenterInvitationId } });
+  }
+
+  _authenticate(email, password) {
+    const scope = 'pix-certif';
+    return this.session.authenticate('authenticator:oauth2', email, password, scope);
   }
 }
