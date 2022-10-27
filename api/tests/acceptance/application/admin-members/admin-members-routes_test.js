@@ -1,9 +1,4 @@
-const {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
@@ -11,7 +6,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('GET /api/admin/admin-members/me', function () {
     it('should return 200 http status code', async function () {
       // given
-      const admin = databaseBuilder.factory.buildUser.withRole(ROLES.SUPER_ADMIN);
+      const admin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
       const server = await createServer();
 
@@ -51,14 +46,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('GET /api/admin/admin-members', function () {
     it('should return 200 http status code when admin member has role "SUPER_ADMIN"', async function () {
       // given
-      const admin = databaseBuilder.factory.buildUser.withRole({
-        id: 1234,
-        firstName: 'Super',
-        lastName: 'Papa',
-        email: 'super.papa@example.net',
-        password: 'Password123',
-        role: ROLES.SUPER_ADMIN,
-      });
+      const admin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
       await databaseBuilder.commit();
       const server = await createServer();
@@ -80,7 +68,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('PATCH /api/admin/admin-members/{id}', function () {
     it('should return 200 http status code if admin member has role "SUPER_ADMIN"', async function () {
       // given
-      const superAdmin = databaseBuilder.factory.buildUser.withRole();
+      const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRole();
       const pixAdminRole = databaseBuilder.factory.buildPixAdminRole({
         userId: pixAdminUserToUpdate.id,

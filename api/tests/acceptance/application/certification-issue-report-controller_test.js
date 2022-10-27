@@ -1,11 +1,6 @@
-const {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
-  knex,
-} = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 const createServer = require('../../../server');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Acceptance | Controller | certification-issue-report-controller', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {
@@ -41,7 +36,7 @@ describe('Acceptance | Controller | certification-issue-report-controller', func
       // given
       const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const superAdmin = databaseBuilder.factory.buildUser.withRole(ROLES.SUPER_ADMIN);
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
       const certificationIssueReportId = databaseBuilder.factory.buildCertificationIssueReport({

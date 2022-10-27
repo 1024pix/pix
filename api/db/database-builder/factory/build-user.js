@@ -218,7 +218,7 @@ buildUser.withRole = function buildUserWithRole({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
-  role = ROLES.SUPER_ADMIN,
+  role = ROLES.METIER,
   email,
   cgu = true,
   lang = 'fr',
@@ -269,6 +269,49 @@ buildUser.withRole = function buildUserWithRole({
   buildPixAdminRole({ userId: user.id, role, disabledAt, createdAt, updatedAt });
 
   return user;
+};
+
+buildUser.withRoleSuperAdmin = function buildUserWithRoleSuperAdmin({
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
+  email,
+  cgu = true,
+  lang = 'fr',
+  lastTermsOfServiceValidatedAt,
+  lastPixOrgaTermsOfServiceValidatedAt = null,
+  lastPixCertifTermsOfServiceValidatedAt = null,
+  mustValidateTermsOfService = false,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenAssessmentInstructions = false,
+  createdAt = new Date(),
+  updatedAt = new Date(),
+  disabledAt,
+  rawPassword = DEFAULT_PASSWORD,
+  shouldChangePassword = false,
+} = {}) {
+  return buildUser.withRole({
+    role: ROLES.SUPER_ADMIN,
+    id,
+    firstName,
+    lastName,
+    email,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    createdAt,
+    updatedAt,
+    disabledAt,
+    rawPassword,
+    shouldChangePassword,
+  });
 };
 
 buildUser.withMembership = function buildUserWithMemberships({
