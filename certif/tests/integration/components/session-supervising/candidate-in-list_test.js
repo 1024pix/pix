@@ -95,7 +95,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           lastName: 'Racoon',
           birthdate: '1982-07-28',
           extraTimePercentage: null,
-          authorizedToStart: true,
+          authorizedToStart: false,
           assessmentStatus: 'started',
           // eslint-disable-next-line no-restricted-syntax
           startDateTime: new Date('2022-10-19T14:30:15'),
