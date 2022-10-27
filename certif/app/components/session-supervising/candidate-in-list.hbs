@@ -24,7 +24,9 @@
     <div class="session-supervising-candidate-in-list__details">
       {{moment-format @candidate.birthdate "DD/MM/YYYY"}}
       {{#if @candidate.extraTimePercentage}}
-        · Temps majoré :
+        ·
+        {{t "pages.session-supervising.candidate-in-list.extra-time"}}
+        :
         {{@candidate.extraTimePercentage}}%
       {{/if}}
     </div>
@@ -32,14 +34,19 @@
       <span
         class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
       >
-        En cours
+        {{t "pages.session-supervising.candidate-in-list.ongoing"}}
       </span>
+      <span class="session-supervising-candidate-in-list__start-time">{{t
+          "pages.session-supervising.candidate-in-list.start"
+        }}
+        :
+        <time>{{this.candidateStartTime}}</time></span>
     {{/if}}
     {{#if @candidate.hasCompleted}}
       <span
         class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
       >
-        Terminé
+        {{t "pages.session-supervising.candidate-in-list.finished"}}
       </span>
     {{/if}}
   </div>
@@ -47,15 +54,19 @@
     <div class="session-supervising-candidate-in-list__menu">
       <PixIconButton
         @icon="ellipsis-v"
-        aria-label="Afficher les options du candidat"
+        aria-label={{t "pages.session-supervising.candidate-in-list.display-candidate-options"}}
         @triggerAction={{this.toggleMenu}}
       />
-      <Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} aria-label="Options du candidat">
+      <Dropdown::Content
+        @display={{this.isMenuOpen}}
+        @close={{this.closeMenu}}
+        aria-label={{t "pages.session-supervising.candidate-in-list.candidate-options"}}
+      >
         <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
-          Autoriser la reprise du test
+          {{t "pages.session-supervising.candidate-in-list.resume-test-modal.allow-test-resume"}}
         </Dropdown::Item>
         <Dropdown::Item @onClick={{this.askUserToConfirmTestEnd}}>
-          Terminer le test
+          {{t "pages.session-supervising.candidate-in-list.test-end-modal.end-assessment"}}
         </Dropdown::Item>
       </Dropdown::Content>
     </div>

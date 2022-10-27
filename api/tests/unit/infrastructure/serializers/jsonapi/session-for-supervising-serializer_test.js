@@ -39,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'last-name': 'tata',
               'authorized-to-start': true,
               'assessment-status': Assessment.states.STARTED,
+              'start-date-time': new Date('2022-10-01T13:37:00Z'),
             },
             id: '1234',
             type: 'certification-candidate-for-supervising',
@@ -64,6 +65,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             extraTimePercentage: 33,
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
+            startDateTime: new Date('2022-10-01T13:37:00Z'),
           },
         ],
       });

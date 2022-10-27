@@ -80,6 +80,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: 12345,
         sessionId: session.id,
+        createdAt: new Date('2022-10-19T13:37:00Z'),
       });
 
       databaseBuilder.factory.buildAssessment({
@@ -94,18 +95,37 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['sessionId', 'lastName', 'firstName', 'authorizedToStart', 'assessmentStatus'])
+        _.pick(item, ['sessionId', 'lastName', 'firstName', 'authorizedToStart', 'assessmentStatus', 'startDateTime'])
       );
       expect(actualCandidates).to.have.deep.ordered.members([
-        { lastName: 'Jackson', firstName: 'Janet', authorizedToStart: false, assessmentStatus: null },
-        { lastName: 'Jackson', firstName: 'Michael', authorizedToStart: true, assessmentStatus: null },
+        {
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          authorizedToStart: false,
+          assessmentStatus: null,
+          startDateTime: null,
+        },
+        {
+          lastName: 'Jackson',
+          firstName: 'Michael',
+          authorizedToStart: true,
+          assessmentStatus: null,
+          startDateTime: null,
+        },
         {
           lastName: 'Joplin',
           firstName: 'Janis',
           authorizedToStart: true,
           assessmentStatus: Assessment.states.STARTED,
+          startDateTime: '2022-10-19T13:37:00+00:00',
         },
-        { lastName: 'Stardust', firstName: 'Ziggy', authorizedToStart: false, assessmentStatus: null },
+        {
+          lastName: 'Stardust',
+          firstName: 'Ziggy',
+          authorizedToStart: false,
+          assessmentStatus: null,
+          startDateTime: null,
+        },
       ]);
     });
 

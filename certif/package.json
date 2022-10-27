@@ -50,6 +50,7 @@
     "@glimmer/tracking": "^1.1.2",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
+    "dayjs": "^1.11.6",
     "ember-api-actions": "^0.2.9",
     "ember-auto-import": "^1.12.0",
     "ember-cli": "^4.6.0",
@@ -104,5 +105,6 @@
     "sinon": "^14.0.0",
     "stylelint": "^14.10.0",
     "stylelint-config-standard": "^27.0.0"
-  }
+  },
+  "dependencies": {}
 }

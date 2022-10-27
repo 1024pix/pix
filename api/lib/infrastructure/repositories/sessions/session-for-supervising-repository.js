@@ -22,7 +22,8 @@ module.exports = {
             'id', "certification-candidates"."id",
             'extraTimePercentage', "certification-candidates"."extraTimePercentage",
             'authorizedToStart', "certification-candidates"."authorizedToStart",
-            'assessmentStatus', "assessments"."state"
+            'assessmentStatus', "assessments"."state",
+            'startDateTime', "certification-courses"."createdAt"
           ) order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
       `),
       })
