@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
-const Oppsy = require('@hapi/oppsy');
+const Oppsy = require('oppsy');
 
 const settings = require('./lib/config');
 const preResponseUtils = require('./lib/application/pre-response-utils');
