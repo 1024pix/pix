@@ -16,8 +16,7 @@
   "keywords": [],
   "author": "GIP Pix",
   "engines": {
-    "node": "18.11.0",
-    "npm": "8.19.2"
+    "node": "18.11.0"
   },
   "license": "ISC",
   "dependencies": {
