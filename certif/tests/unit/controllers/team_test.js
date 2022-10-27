@@ -139,7 +139,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
   });
 
   module('#membersSelectOptionsSortedByLastName', function () {
-    test('should return an array of members select options ordered by last name', function (assert) {
+    test('should return an array of non referer members select options ordered by last name', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/team');
       const store = this.owner.lookup('service:store');
@@ -147,13 +147,21 @@ module('Unit | Controller | authenticated/team', function (hooks) {
         id: 102,
         firstName: 'Abe',
         lastName: 'Sapiens',
+        isReferer: false,
       });
       const member2 = store.createRecord('member', {
         id: 100,
         firstName: 'Trevor',
         lastName: 'Bruttenholm',
+        isReferer: false,
       });
-      controller.model = { members: [member1, member2], hasCleaHabilitation: true };
+      const member3 = store.createRecord('member', {
+        id: 101,
+        firstName: 'Aby',
+        lastName: 'Gails',
+        isReferer: true,
+      });
+      controller.model = { members: [member1, member2, member3], hasCleaHabilitation: true };
 
       // when then
       assert.deepEqual(controller.membersSelectOptionsSortedByLastName, [
@@ -237,6 +245,93 @@ module('Unit | Controller | authenticated/team', function (hooks) {
         // then
         sinon.assert.notCalled(updateRefererStub);
         assert.true(true);
+      });
+    });
+  });
+
+  module('#shouldDisplayUpdateRefererButton', function () {
+    module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function (hooks) {
+      hooks.beforeEach(function () {
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+      });
+
+      module('when there is only one member', function () {
+        test('should return false', function (assert) {
+          // given
+          const controller = this.owner.lookup('controller:authenticated/team');
+          const store = this.owner.lookup('service:store');
+          const isReferer = store.createRecord('member', {
+            isReferer: true,
+          });
+
+          controller.model = { members: [isReferer], hasCleaHabilitation: true };
+
+          // when then
+          assert.false(controller.shouldDisplayUpdateRefererButton);
+        });
+      });
+      module('when there is at least 2 members', function () {
+        module('when there is a referer', function () {
+          test('should return true', function (assert) {
+            // given
+            const controller = this.owner.lookup('controller:authenticated/team');
+            const store = this.owner.lookup('service:store');
+
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            const isReferer = store.createRecord('member', {
+              isReferer: true,
+            });
+
+            controller.model = { members: [notReferer, isReferer], hasCleaHabilitation: true };
+
+            // when then
+            assert.true(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+        module('when there is no referer', function () {
+          test('should return false', function (assert) {
+            // given
+            const controller = this.owner.lookup('controller:authenticated/team');
+            const store = this.owner.lookup('service:store');
+
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            const notReferer2 = store.createRecord('member', {
+              isReferer: false,
+            });
+
+            controller.model = { members: [notReferer, notReferer2], hasCleaHabilitation: true };
+
+            // when then
+            assert.false(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+      });
+    });
+    module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is not enabled', function (hooks) {
+      hooks.beforeEach(function () {
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: false };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+      });
+
+      test('should return false', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/team');
+        const store = this.owner.lookup('service:store');
+
+        const member = store.createRecord('member');
+        controller.model = { members: [member], hasCleaHabilitation: true };
+
+        // when then
+        assert.false(controller.shouldDisplayUpdateRefererButton);
       });
     });
   });

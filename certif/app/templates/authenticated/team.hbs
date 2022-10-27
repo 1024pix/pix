@@ -1,6 +1,17 @@
 {{page-title (t "pages.team.title")}}
 
-<h1 class="page__title page-title">{{t "pages.team.title"}}</h1>
+<div class="team__header">
+  <h1 class="page__title page-title">{{t "pages.team.title"}}</h1>
+  {{#if this.shouldDisplayUpdateRefererButton}}
+    <PixButton
+      class="team__update-referer-button"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{this.toggleRefererModal}}
+    >{{t "pages.team.update-referer-button"}}</PixButton>
+  {{/if}}
+</div>
+
 {{#if this.shouldDisplayNoRefererSection}}
   <div class="panel team__no-referer-container">
     <div class="team__no-referer-container-grey">

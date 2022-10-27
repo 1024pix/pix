@@ -17,10 +17,19 @@ export default class Team extends Controller {
     );
   }
 
+  get shouldDisplayUpdateRefererButton() {
+    return (
+      this.model.hasCleaHabilitation &&
+      _hasAtLeastTwoMembersAndOneReferer(this.model.members) &&
+      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
+    );
+  }
+
   get membersSelectOptionsSortedByLastName() {
     return this.model.members
       .toArray()
       .sort((member1, member2) => member1.lastName.localeCompare(member2.lastName, 'fr-FR', { sensitivity: 'base' }))
+      .filter((member) => !member.isReferer)
       .map((member) => ({ value: member.id, label: `${member.firstName} ${member.lastName}` }));
   }
 
@@ -49,4 +58,8 @@ export default class Team extends Controller {
 
 function _hasAtLeastOneMemberAndNoReferer(members) {
   return members.length > 0 && !members.toArray().some((member) => member.isReferer);
+}
+
+function _hasAtLeastTwoMembersAndOneReferer(members) {
+  return members.length > 1 && members.toArray().some((member) => member.isReferer);
 }
