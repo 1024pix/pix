@@ -42,27 +42,34 @@ module('Unit | Component | register-form', (hooks) => {
     });
 
     module('when form is valid', () => {
-      test('should call the store', async function (assert) {
+      test('should create pix account, membership and validate invitation', async function (assert) {
         // given
-        component.firstName = 'Alain';
-        component.lastName = 'Ternational';
-        component.email = 'alainternational@example.net';
-        component.password = 'Password123';
-        component.cgu = true;
+        const firstName = 'Alain';
+        const lastName = 'Ternational';
+        const email = 'alainternational@example.net';
+        const password = 'Password123';
+        const cgu = true;
+        const certificationCenterInvitationId = 1234;
+        const certificationCenterInvitationCode = 'AZERTY123';
+        component.firstName = firstName;
+        component.lastName = lastName;
+        component.email = email;
+        component.password = password;
+        component.cgu = cgu;
+        component.args.certificationCenterInvitationId = certificationCenterInvitationId;
+        component.args.certificationCenterInvitationCode = certificationCenterInvitationCode;
 
         // when
         await component.register(eventStub);
 
         // then
-        assert.ok(
-          component.store.createRecord.calledWith('user', {
-            lastName: 'Ternational',
-            firstName: 'Alain',
-            email: 'alainternational@example.net',
-            password: 'Password123',
-            cgu: true,
-          })
-        );
+        sinon.assert.calledWith(component.store.createRecord, 'user', { firstName, lastName, password, email, cgu });
+        sinon.assert.calledWith(component.store.createRecord, 'certification-center-invitation-response', {
+          id: certificationCenterInvitationId,
+          code: certificationCenterInvitationCode,
+          email,
+        });
+        assert.ok(true);
       });
     });
 
