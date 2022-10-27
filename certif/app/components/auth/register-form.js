@@ -53,6 +53,12 @@ export default class RegisterForm extends Component {
         })
         .save();
 
+      await this._acceptCertificationCenterInvitation({
+        certificationCenterInvitationId: this.args.certificationCenterInvitationId,
+        certificationCenterInvitationCode: this.args.certificationCenterInvitationCode,
+        createdUserEmail: this.email,
+      });
+
       this.password = null;
     } catch (response) {
       const status = get(response, 'errors[0].status');
@@ -129,5 +135,19 @@ export default class RegisterForm extends Component {
       isPasswordValid(this.password) &&
       Boolean(this.cgu)
     );
+  }
+
+  _acceptCertificationCenterInvitation({
+    certificationCenterInvitationId,
+    certificationCenterInvitationCode,
+    createdUserEmail,
+  }) {
+    return this.store
+      .createRecord('certification-center-invitation-response', {
+        id: certificationCenterInvitationId + '_' + certificationCenterInvitationCode,
+        code: certificationCenterInvitationCode,
+        email: createdUserEmail,
+      })
+      .save({ adapterOptions: { certificationCenterInvitationId } });
   }
 }
