@@ -45,6 +45,12 @@
     }
   }
 
+  &__start-time {
+    color: $pix-neutral-15;
+    font-size: 0.75rem;
+    margin-left: 4px;
+  }
+
   &__menu {
     position: relative;
   }
