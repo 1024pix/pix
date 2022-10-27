@@ -24,25 +24,22 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
   module('When user is logged in', function () {
     module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function (hooks) {
-      let targetProfile;
-
       hooks.beforeEach(async function () {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-        targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
-        this.server.create('badge', { id: 100, title: 'My badge', imageUrl: 'http://images.pix.fr/badges/ag2r.svg' });
-        this.server.create('badge', { id: 101, title: 'My badge 2', imageUrl: 'http://images.pix.fr/badges/ag2r.svg' });
-
+        const targetProfile = this.server.create('target-profile', { id: 1, name: 'Profil cible du ghetto' });
+        const badge1 = this.server.create('badge', { id: 100, title: 'My badge 1' });
+        const badge2 = this.server.create('badge', { id: 200, title: 'My badge 2' });
+        targetProfile.update({ badges: [badge1, badge2] });
         this.server.create('stage', { title: 'My stage' });
       });
 
       test('should list badges and stages', async function (assert) {
         // when
-        const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
+        const screen = await visit(`/target-profiles/1/insights`);
 
         // then
-        assert.dom(screen.getByLabelText('Informations du badge My badge')).exists();
+        assert.dom(screen.getByLabelText('Informations du badge My badge 1')).exists();
         assert.dom(screen.getByLabelText('Informations du badge My badge 2')).exists();
         assert.dom(screen.getByLabelText('Informations sur le palier My stage')).exists();
       });
@@ -50,40 +47,40 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       module('badges', function () {
         test('should be able to see the details of a badge', async function (assert) {
           // given
-          await visit(`/target-profiles/${targetProfile.id}/insights`);
+          await visit(`/target-profiles/1/insights`);
 
           // when
-          await clickByName('Détails du badge My badge');
+          await clickByName('Détails du badge My badge 1');
 
           //then
-          assert.strictEqual(currentURL(), '/badges/100');
+          assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
         });
 
         test('should redirect to badge creation page on link click', async function (assert) {
           // given
-          await visit(`/target-profiles/${targetProfile.id}/insights`);
+          await visit(`/target-profiles/1/insights`);
 
           // when
           await clickByName('Nouveau résultat thématique');
 
           // then
-          assert.strictEqual(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
+          assert.strictEqual(currentURL(), `/target-profiles/1/badges/new`);
         });
 
         test('should redirect to insights parent page when badge creation is cancelled', async function (assert) {
           // given
-          await visit(`/target-profiles/${targetProfile.id}/badges/new`);
+          await visit(`/target-profiles/1/badges/new`);
 
           // when
           await clickByName('Annuler');
 
           // then
-          assert.strictEqual(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
+          assert.strictEqual(currentURL(), `/target-profiles/1/insights`);
         });
 
         test('should redirect to insights parent page when badge creation is done', async function (assert) {
           // given
-          await visit(`/target-profiles/${targetProfile.id}/badges/new`);
+          await visit(`/target-profiles/1/badges/new`);
 
           // when
           await fillByLabel('Nom du badge :', 'clé_du_badge');
@@ -94,13 +91,13 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
           await clickByName('Créer le badge');
 
           // then
-          assert.strictEqual(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
+          assert.strictEqual(currentURL(), `/target-profiles/1/insights`);
         });
       });
 
       module('stages', function () {
         test('should be able to add a new stage', async function (assert) {
-          const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
+          const screen = await visit(`/target-profiles/1/insights`);
 
           const stageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
           assert.strictEqual(stageCount, 1);
@@ -128,7 +125,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
         test('should reset stage creation data after cancellation', async function (assert) {
           // when
-          const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
+          const screen = await visit(`/target-profiles/1/insights`);
           const stageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
           assert.strictEqual(stageCount, 1);
           await clickByName('Nouveau palier');
@@ -141,7 +138,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
         test('should remove one line of a new stage', async function (assert) {
           // when
-          const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
+          const screen = await visit(`/target-profiles/1/insights`);
           const stageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
           assert.strictEqual(stageCount, 1);
           await clickByName('Nouveau palier');

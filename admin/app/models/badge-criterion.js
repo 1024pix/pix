@@ -1,9 +1,16 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr } from '@ember-data/model';
 
 export default class BadgeCriterion extends Model {
   @attr('string') scope;
   @attr('number') threshold;
+  @attr() skillSets;
+  @attr() cappedTubes;
 
-  @belongsTo('badge') badge;
-  @hasMany('skill-set') skillSets;
+  get isCampaignScope() {
+    return this.scope === 'CampaignParticipation';
+  }
+
+  get isSkillSetScope() {
+    return this.scope === 'SkillSet';
+  }
 }
