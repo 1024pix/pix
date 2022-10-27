@@ -50,6 +50,7 @@ const typesPositiveInteger32bits = [
   'supervisorAccessesId',
   'targetProfileId',
   'targetProfileTemplateId',
+  'trainingId',
   'userId',
   'userOrgaSettingsId',
 ];

@@ -46,6 +46,7 @@ module.exports = [
   require('./application/stages'),
   require('./application/tags'),
   require('./application/target-profiles'),
+  require('./application/trainings'),
   require('./application/frameworks'),
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
