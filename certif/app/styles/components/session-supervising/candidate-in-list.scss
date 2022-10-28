@@ -18,6 +18,7 @@
   &__full-name {
     color: $pix-warning-40;
     margin-bottom: 4px;
+    text-transform: capitalize;
   }
 
   &__checkbox[type="checkbox"] {
@@ -37,6 +38,11 @@
     &--started {
       background-color: $pix-success-5;
       color: $pix-success-80;
+    }
+
+    &--authorized-to-resume {
+      background-color: $pix-tertiary-5;
+      color: $pix-tertiary-80;
     }
 
     &--completed {

@@ -86,32 +86,67 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
   });
 
   module('when the candidate has started the test', function () {
-    test('it displays the "en cours" label, the start time and the options menu button', async function (assert) {
-      // given
-      this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 789,
-        firstName: 'Rocket',
-        lastName: 'Racoon',
-        birthdate: '1982-07-28',
-        extraTimePercentage: null,
-        authorizedToStart: true,
-        assessmentStatus: 'started',
-        // eslint-disable-next-line no-restricted-syntax
-        startDateTime: new Date('2022-10-19T14:30:15'),
+    module('when the candidate has not left the session', function () {
+      test('it displays the "en cours" label, the start time and the options menu button', async function (assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 789,
+          firstName: 'Rocket',
+          lastName: 'Racoon',
+          birthdate: '1982-07-28',
+          extraTimePercentage: null,
+          authorizedToStart: false,
+          assessmentStatus: 'started',
+          // eslint-disable-next-line no-restricted-syntax
+          startDateTime: new Date('2022-10-19T14:30:15'),
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+        `);
+
+        // then
+        assert.dom(screen.getByText('Racoon Rocket')).exists();
+        assert.dom(screen.getByText('28/07/1982')).exists();
+        assert.dom(screen.getByText('En cours')).exists();
+        assert.dom(screen.queryByText('Autorisé à reprendre')).doesNotExist();
+        assert.dom(screen.getByText('14:30')).exists();
+        assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
+        assert
+          .dom(
+            screen.queryByRole('button', {
+              name: 'Afficher les options du candidat',
+            })
+          )
+          .exists();
       });
+    });
 
-      // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+    module('when the candidate has left the session and has been authorized to resume', function () {
+      test('it displays the "Autorisé à reprendre" label, the start time and the options menu button', async function (assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 789,
+          firstName: 'Rocket',
+          lastName: 'Racoon',
+          birthdate: '1982-07-28',
+          extraTimePercentage: null,
+          authorizedToStart: true,
+          assessmentStatus: 'started',
+          // eslint-disable-next-line no-restricted-syntax
+          startDateTime: new Date('2022-10-19T14:30:15'),
+        });
 
-      // then
-      assert.dom(screen.getByText('Racoon Rocket')).exists();
-      assert.dom(screen.getByText('28/07/1982')).exists();
-      assert.dom(screen.getByText('En cours')).exists();
-      assert.dom(screen.getByText('14:30')).exists();
-      assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
+        // when
+        const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+        `);
+
+        // then
+        assert.dom(screen.getByText('Autorisé à reprendre')).exists();
+        assert.dom(screen.queryByText('En cours')).doesNotExist();
+      });
     });
 
     module('when the candidate options button is clicked', function () {

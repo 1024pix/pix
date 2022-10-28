@@ -51,6 +51,56 @@ module('Unit | Model | certification-candidate-for-supervising', function (hooks
     });
   });
 
+  module('#get isAuthorizedToResume', function () {
+    test('it returns true if candidate is authorized to start and has already started', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = { assessmentStatus: 'started', authorizedToStart: true };
+
+      // when
+      const model = store.createRecord('certification-candidate-for-supervising', data);
+
+      // then
+      assert.true(model.isAuthorizedToResume);
+    });
+
+    test('it returns false if candidate is not authorized to start and has already started', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = { assessmentStatus: 'started', authorizedToStart: false };
+
+      // when
+      const model = store.createRecord('certification-candidate-for-supervising', data);
+
+      // then
+      assert.false(model.isAuthorizedToResume);
+    });
+
+    test('it returns false if candidate is authorized to start and has not already started', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = { assessmentStatus: null, authorizedToStart: true };
+
+      // when
+      const model = store.createRecord('certification-candidate-for-supervising', data);
+
+      // then
+      assert.false(model.isAuthorizedToResume);
+    });
+
+    test('it returns false if candidate is not authorized to start and has not already started', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = { assessmentStatus: null, authorizedToStart: false };
+
+      // when
+      const model = store.createRecord('certification-candidate-for-supervising', data);
+
+      // then
+      assert.false(model.isAuthorizedToResume);
+    });
+  });
+
   module('#get hasCompleted', () => {
     test('returns false if assessmentStatus is started', function (assert) {
       // given

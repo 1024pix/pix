@@ -117,6 +117,7 @@
         "extra-time": "Extra time",
         "ongoing": "In progress",
         "finished": "Finished",
+        "authorized-to-resume": "Allowed to resume",
         "display-candidate-options": "Display the candidate's options",
         "candidate-options": "Candidate's options",
         "start": "Start",
