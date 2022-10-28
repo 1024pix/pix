@@ -31,11 +31,19 @@
       {{/if}}
     </div>
     {{#if @candidate.hasStarted}}
-      <span
-        class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
-      >
-        {{t "pages.session-supervising.candidate-in-list.ongoing"}}
-      </span>
+      {{#if @candidate.isAuthorizedToResume}}
+        <span
+          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--authorized-to-resume"
+        >
+          {{t "pages.session-supervising.candidate-in-list.authorized-to-resume"}}
+        </span>
+      {{else}}
+        <span
+          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
+        >
+          {{t "pages.session-supervising.candidate-in-list.ongoing"}}
+        </span>
+      {{/if}}
       <span class="session-supervising-candidate-in-list__start-time">{{t
           "pages.session-supervising.candidate-in-list.start"
         }}
