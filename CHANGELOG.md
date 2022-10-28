@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.281.0 (28/10/2022)
+
+
+### :rocket: Amélioration
+- [#5120](https://github.com/1024pix/pix/pull/5120) [FEATURE] ETQ Pix certif user d'un CDC habilité CléA numérique, JV pouvoir modifier le référent Pix dans mon centre (PIX-5798)
+- [#5093](https://github.com/1024pix/pix/pull/5093) [FEATURE] Ajouter l'heure de début du test de certification du candidat sur l'espace surveillant. (PIX-6014)
+
+### :building_construction: Tech
+- [#5126](https://github.com/1024pix/pix/pull/5126) [TECH] Tracer les requêtes HTTP en cours
+- [#5135](https://github.com/1024pix/pix/pull/5135) [TECH] Ajouter de l'outillage pour créer facilement à la volée des profil-cibles pour les seeds (PIX-6168)
+- [#5131](https://github.com/1024pix/pix/pull/5131) [TECH] Supprimer la route inutilisée : /api/certification-center-memberships (PIX-6154).
+- [#5124](https://github.com/1024pix/pix/pull/5124) [TECH] Supprimer le script de calcul des recommandations des contenus formatifs (PIX-6083)
+
+### :bug: Correction
+- [#5138](https://github.com/1024pix/pix/pull/5138) [BUGFIX] Téléchargement impossible du fichier des résultats CléA dans Pix Certif sans message d'erreur (PIX-6158)
+- [#5143](https://github.com/1024pix/pix/pull/5143) [BUGFIX] Changement de libellé de réponse incorrect (PIX-6177)
+
 ## v3.280.1 (26/10/2022)
 
 
