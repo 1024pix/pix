@@ -13,4 +13,8 @@ export default class BadgeCriterion extends Model {
   get isSkillSetScope() {
     return this.scope === 'SkillSet';
   }
+
+  get isCappedTubesScope() {
+    return this.scope === 'CappedTubes';
+  }
 }

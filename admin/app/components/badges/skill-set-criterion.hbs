@@ -8,7 +8,7 @@
   {{#each @criterion.skillSets as |skillSet|}}
     <li>
       <details>
-        <summary>FIXME METS MON NOM</summary>
+        <summary>{{skillSet.name}}</summary>
         <table class="table-admin skill-sets-table">
           <thead>
             <tr>
@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            {{#each (call (fn this.getTubeForSkillSet skillSet)) as |tube|}}
+            {{#each (call (fn this.getTubeForSkillSet skillSet.skillIds)) as |tube|}}
               <tr>
                 <td>{{tube.tubeTitle}}</td>
                 {{#each tube.skillsWithAllLevels as |skill|}}
