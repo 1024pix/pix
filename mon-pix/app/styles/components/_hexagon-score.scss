@@ -61,6 +61,18 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    .pix-tooltip__content {
+      max-width: 19rem;
+
+      @include device-is('tablet') {
+        max-width: 40rem;
+      }
+
+      @include device-is('desktop') {
+        max-width: 19rem;
+      }
+    }
   }
 }
 
