@@ -65,11 +65,6 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'has-recommended-trainings': true,
           },
           relationships: {
-            memberships: {
-              links: {
-                related: `/api/users/${user.id}/memberships`,
-              },
-            },
             'certification-center-memberships': {
               links: {
                 related: `/api/users/${user.id}/certification-center-memberships`,

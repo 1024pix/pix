@@ -52,11 +52,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
               'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
             },
             relationships: {
-              memberships: {
-                links: {
-                  related: `/api/users/${userModelObject.id}/memberships`,
-                },
-              },
               'certification-center-memberships': {
                 links: {
                   related: `/api/users/${userModelObject.id}/certification-center-memberships`,
