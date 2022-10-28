@@ -67,8 +67,6 @@ module.exports = function (environment) {
       }),
     },
 
-    googleFonts: ['Roboto:300,400,500,600'],
-
     'ember-cli-notifications': {
       autoClear: true,
       includeFontAwesome: true,
