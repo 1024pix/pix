@@ -34,12 +34,12 @@
       {{#each this.availableHabilitations as |habilitation|}}
         {{#if (contains habilitation @certificationCenter.habilitations)}}
           <li aria-label={{concat "Habilité pour " habilitation.label}}>
-            <FaIcon class="granted-habilitation-icon" @icon="check-circle" />
+            <FaIcon class="granted-habilitation-icon" @icon="circle-check" />
             {{habilitation.label}}
           </li>
         {{else}}
           <li aria-label={{concat "Non-habilité pour " habilitation.label}}>
-            <FaIcon class="not-granted-habilitation-icon" @icon="times-circle" />
+            <FaIcon class="not-granted-habilitation-icon" @icon="circle-xmark" />
             {{habilitation.label}}
           </li>
         {{/if}}

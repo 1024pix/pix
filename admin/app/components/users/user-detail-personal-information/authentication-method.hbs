@@ -32,13 +32,13 @@
       <td>
         {{#if this.hasEmailAuthenticationMethod}}
           <FaIcon
-            @icon="check-circle"
+            @icon="circle-check"
             aria-label="L'utilisateur a une méthode de connexion avec adresse e-mail"
             class="authentication-method-table__check"
           />
         {{else}}
           <FaIcon
-            @icon="times-circle"
+            @icon="circle-xmark"
             aria-label="L'utilisateur n'a pas de méthode de connexion avec adresse e-mail"
             class="authentication-method-table__uncheck"
           />
@@ -68,13 +68,13 @@
       <td>
         {{#if this.hasUsernameAuthenticationMethod}}
           <FaIcon
-            @icon="check-circle"
+            @icon="circle-check"
             aria-label="L'utilisateur a une méthode de connexion avec identifiant"
             class="authentication-method-table__check"
           />
         {{else}}
           <FaIcon
-            @icon="times-circle"
+            @icon="circle-xmark"
             aria-label="L'utilisateur n'a pas de méthode de connexion avec identifiant"
             class="authentication-method-table__uncheck"
           />
@@ -99,13 +99,13 @@
       <td>
         {{#if this.hasGarAuthenticationMethod}}
           <FaIcon
-            @icon="check-circle"
+            @icon="circle-check"
             aria-label="L'utilisateur a une méthode de connexion Médiacentre"
             class="authentication-method-table__check"
           />
         {{else}}
           <FaIcon
-            @icon="times-circle"
+            @icon="circle-xmark"
             aria-label="L'utilisateur n'a pas de méthode de connexion Médiacentre"
             class="authentication-method-table__uncheck"
           />
@@ -137,13 +137,13 @@
         <td>
           {{#if oidcAuthenticationMethod.hasAuthenticationMethod}}
             <FaIcon
-              @icon="check-circle"
+              @icon="circle-check"
               aria-label="L'utilisateur a une méthode de connexion {{oidcAuthenticationMethod.name}}"
               class="authentication-method-table__check"
             />
           {{else}}
             <FaIcon
-              @icon="times-circle"
+              @icon="circle-xmark"
               aria-label="L'utilisateur n'a pas de méthode de connexion {{oidcAuthenticationMethod.name}}"
               class="authentication-method-table__uncheck"
             />
