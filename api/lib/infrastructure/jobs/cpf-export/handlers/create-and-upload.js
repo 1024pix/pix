@@ -22,7 +22,7 @@ module.exports = async function createAndUpload({
   });
 
   if (cpfCertificationResults.length == 0) {
-    logger.warn(
+    logger.error(
       `CpfExportBuilderJob: create CPF results, with no certification found (start date: ${startDate}, end date: ${endDate}, limit: ${limit},offset: ${offset})`
     );
     return;
