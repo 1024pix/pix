@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class UserTutorialsSavedRoute extends Route {
+  @service currentUser;
   @service router;
   @service store;
 
@@ -16,7 +17,10 @@ export default class UserTutorialsSavedRoute extends Route {
     const savedTutorials = await this.store.query(
       'tutorial',
       {
-        type: 'saved',
+        userId: this.currentUser.user.id,
+        filter: {
+          type: 'saved',
+        },
         page: {
           number: params.pageNumber,
           size: params.pageSize,

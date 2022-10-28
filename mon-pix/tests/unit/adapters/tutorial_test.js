@@ -25,11 +25,11 @@ describe('Unit | Adapters | Tutorial', function () {
 
     it('should build the tutorial type url', async function () {
       // when
-      const query = { type: 'recommended' };
+      const query = { userId: '123' };
       const url = await adapter.urlForQuery(query, 'tutorial');
 
       // then
-      expect(url.endsWith('users/tutorials/recommended')).to.be.true;
+      expect(url.endsWith('users/123/tutorials')).to.be.true;
     });
   });
 });
