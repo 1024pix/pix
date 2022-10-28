@@ -14,7 +14,7 @@ function getCorrelationContext() {
   const request = get(context, 'request');
   return {
     user_id: extractUserIdFromRequest(request),
-    request_id: get(request, 'info.id', '-'),
+    request_id: get(request, "headers.['x-request-id']", '-'),
   };
 }
 
