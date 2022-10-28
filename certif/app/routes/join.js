@@ -1,9 +1,17 @@
 import Route from '@ember/routing/route';
-
+import { inject as service } from '@ember/service';
 export default class JoinRoute extends Route {
-  model() {
-    return {
-      certificationCenterName: 'PLACEHOLDER_CERTIF_CENTER_NAME',
-    };
+  @service store;
+
+  queryParams = {
+    code: { replace: true },
+    invitationId: { replace: true },
+  };
+
+  model(params) {
+    return this.store.queryRecord('certification-center-invitation', {
+      invitationId: params.invitationId,
+      code: params.code,
+    });
   }
 }
