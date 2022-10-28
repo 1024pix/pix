@@ -54,11 +54,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
               'last-data-protection-policy-seen-at': userModelObject.lastDataProtectionPolicySeenAt,
             },
             relationships: {
-              memberships: {
-                links: {
-                  related: `/api/users/${userModelObject.id}/memberships`,
-                },
-              },
               'certification-center-memberships': {
                 links: {
                   related: `/api/users/${userModelObject.id}/certification-center-memberships`,

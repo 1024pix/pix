@@ -62,28 +62,6 @@ describe('Unit | Router | user-router', function () {
     });
   });
 
-  describe('GET /api/users/{id}/memberships', function () {
-    const method = 'GET';
-
-    it('should exist', async function () {
-      // given
-      sinon.stub(userController, 'getMemberships').returns('ok');
-      sinon
-        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
-        .callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/users/12/memberships';
-
-      // when
-      await httpTestServer.request(method, url);
-
-      // then
-      sinon.assert.calledOnce(userController.getMemberships);
-    });
-  });
-
   describe('PATCH /api/users/{id}/password-update', function () {
     const method = 'PATCH';
     const url = '/api/users/12344/password-update';

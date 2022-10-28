@@ -66,11 +66,6 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'last-data-protection-policy-seen-at': null,
           },
           relationships: {
-            memberships: {
-              links: {
-                related: `/api/users/${user.id}/memberships`,
-              },
-            },
             'certification-center-memberships': {
               links: {
                 related: `/api/users/${user.id}/certification-center-memberships`,

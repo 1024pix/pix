@@ -63,11 +63,6 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
               'has-recommended-trainings': userModelObject.hasRecommendedTrainings,
             },
             relationships: {
-              memberships: {
-                links: {
-                  related: `/api/users/${userModelObject.id}/memberships`,
-                },
-              },
               'certification-center-memberships': {
                 links: {
                   related: `/api/users/${userModelObject.id}/certification-center-memberships`,

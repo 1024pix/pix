@@ -16,7 +16,6 @@ module.exports = {
         'pixCertifTermsOfServiceAccepted',
         'lang',
         'isAnonymous',
-        'memberships',
         'certificationCenterMemberships',
         'pixScore',
         'scorecards',
@@ -30,15 +29,6 @@ module.exports = {
         'trainings',
         'lastDataProtectionPolicySeenAt',
       ],
-      memberships: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/users/${parent.id}/memberships`;
-          },
-        },
-      },
       certificationCenterMemberships: {
         ref: 'id',
         ignoreRelationshipData: true,
