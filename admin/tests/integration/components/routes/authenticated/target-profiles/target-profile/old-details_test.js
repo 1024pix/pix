@@ -95,7 +95,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
       // then
       assert.dom('[data-icon="check"]').exists({ count: 2 });
-      assert.dom('[data-icon="times"]').exists({ count: 14 });
+      assert.dom('[data-icon="xmark"]').exists({ count: 14 });
     });
   });
 });

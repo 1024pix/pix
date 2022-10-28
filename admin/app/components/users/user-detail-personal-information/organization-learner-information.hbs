@@ -37,13 +37,13 @@
           <td class="table-admin-organization-learners-status">
             {{#if organizationLearner.isDisabled}}
               <FaIcon
-                @icon="times-circle"
+                @icon="circle-xmark"
                 class="organization-learners-table__status--isDisabled"
                 aria-label="Inscription désactivée"
               />
             {{else}}
               <FaIcon
-                @icon="check-circle"
+                @icon="circle-check"
                 class="organization-learners-table__status--isEnabled"
                 aria-label="Inscription activée"
               />
