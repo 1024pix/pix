@@ -39,8 +39,9 @@
 
 .logged-user-menu {
   right: 0;
-  top: 49px;
-  width: 400px;
+  margin-right: 10px;
+  top: $navbar-height;
+  min-width: 400px;
 
   &-item {
     color: $pix-neutral-60;
