@@ -25,8 +25,8 @@ function logInfo(data) {
   );
 }
 
-function logError(data) {
-  const context = getCorrelationContext();
+function logError(data, injectedGetCorrelationContext = getCorrelationContext) {
+  const context = injectedGetCorrelationContext();
   logger.error(
     {
       ...context,
