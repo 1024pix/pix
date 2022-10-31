@@ -10,7 +10,7 @@ describe('Acceptance | mes-tutos', function () {
   setupMirage();
   let user;
 
-  describe('When the the new tutorials page is disabled', function () {
+  describe('When the new tutorials page is disabled', function () {
     beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
