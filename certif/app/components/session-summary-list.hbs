@@ -5,35 +5,35 @@
         <thead>
           <tr>
             <th class="table__column table__column--small" scope="col">
-              N° de session
+              {{t "pages.sessions.list.session-summary.session-number"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              Nom du site
+              {{t "pages.sessions.list.session-summary.center-name"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              Salle
+              {{t "pages.sessions.list.session-summary.room"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              Date
+              {{t "pages.sessions.list.session-summary.date"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              Heure
+              {{t "pages.sessions.list.session-summary.time"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              Surveillant(s)
+              {{t "pages.sessions.list.session-summary.supervisor"}}
             </th>
             <th class="table__column table__column" scope="col">
-              Candidats inscrits
+              {{t "pages.sessions.list.session-summary.effective-candidates"}}
             </th>
             <th class="table__column table__column" scope="col">
-              Certifications passées
+              {{t "pages.sessions.list.session-summary.enrolled-candidates"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              Statut
+              {{t "pages.sessions.list.session-summary.status"}}
             </th>
             <th class="table__column table__column--small" scope="col">
               <span class="sr-only">
-                Actions
+                {{t "pages.sessions.list.session-summary.actions"}}
               </span>
             </th>
           </tr>
@@ -42,7 +42,7 @@
         <tbody>
           {{#each @sessionSummaries as |sessionSummary|}}
             <tr
-              aria-label="Session de certification"
+              aria-label="{{t 'pages.sessions.list.session-summary.certification-session'}}"
               {{on "click" (fn @goToSessionDetails sessionSummary.id)}}
               class="tr--clickable"
             >
@@ -51,7 +51,7 @@
                   @route="authenticated.sessions.details"
                   @model={{sessionSummary.id}}
                   class="session-summary-list__link"
-                  aria-label="Session {{sessionSummary.id}}"
+                  aria-label="{{t 'pages.sessions.list.session-summary.session-and-id' sessionId=sessionSummary.id}}"
                 >
                   {{sessionSummary.id}}
                 </LinkTo>
@@ -71,19 +71,24 @@
                       <:triggerElement>
                         <PixIconButton
                           @icon="trash-alt"
-                          aria-label="Supprimer la session {{sessionSummary.id}}"
+                          aria-label={{t
+                            "pages.sessions.list.session-summary.delete-session"
+                            sessionSummaryId=sessionSummary.id
+                          }}
                           disabled={{true}}
                           aria-describedby="tooltip-delete-session-button"
                           @withBackground={{true}}
                         />
                       </:triggerElement>
-                      <:tooltip
-                      >{{"Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer."}}</:tooltip>
+                      <:tooltip>{{t "pages.sessions.list.session-summary.tooltip-label"}}</:tooltip>
                     </PixTooltip>
                   {{else}}
                     <PixIconButton
                       @icon="trash-alt"
-                      aria-label="Supprimer la session {{sessionSummary.id}}"
+                      aria-label={{t
+                        "pages.sessions.list.session-summary.delete-session"
+                        sessionSummaryId=sessionSummary.id
+                      }}
                       disabled={{false}}
                       @withBackground={{true}}
                       @triggerAction={{fn
@@ -101,7 +106,7 @@
       </table>
       {{#if (eq @sessionSummaries.length 0)}}
         <div class="table__empty content-text">
-          Aucune session trouvée
+          {{t "pages.sessions.list.session-summary.empty-table"}}
         </div>
       {{/if}}
     </div>
