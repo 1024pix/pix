@@ -14,12 +14,12 @@ module.exports = async function getCertificationCenterInvitation({
   });
 
   if (foundCertificationCenterInvitation.isCancelled) {
-    throw new CancelledCertificationCenterInvitationError('Invitation was cancelled');
+    throw new CancelledCertificationCenterInvitationError("L'invitation à ce centre de certification a été annulée.");
   }
 
   if (foundCertificationCenterInvitation.isAccepted) {
     throw new AlreadyExistingCertificationCenterInvitationError(
-      `Invitation already accepted with the id ${certificationCenterInvitationId}`
+      `L'invitation avec l'id ${certificationCenterInvitationId} existe déjà.`
     );
   }
 

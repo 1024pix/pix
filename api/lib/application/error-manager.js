@@ -227,6 +227,12 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AlreadyAcceptedOrCancelledOrganizationInvitationError) {
     return new HttpErrors.ConflictError(error.message);
   }
+  if (error instanceof DomainErrors.AlreadyExistingCertificationCenterInvitationError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
+  if (error instanceof DomainErrors.CancelledCertificationCenterInvitationError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.AlreadyExistingCampaignParticipationError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

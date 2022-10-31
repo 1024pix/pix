@@ -69,7 +69,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('This certification center invitation was not found');
+      expect(error.message).to.equal("L'invitation à ce centre de certfication n'existe pas");
     });
   });
 
@@ -95,7 +95,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
 
       // then
       expect(error).to.be.instanceof(AlreadyExistingCertificationCenterInvitationError);
-      expect(error.message).to.equal(`Invitation already accepted with the id ${killuaInvitation.id}`);
+      expect(error.message).to.equal(`L'invitation avec l'id ${killuaInvitation.id} existe déjà.`);
     });
   });
 
@@ -121,7 +121,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
 
       // then
       expect(error).to.be.instanceof(CancelledCertificationCenterInvitationError);
-      expect(error.message).to.equal('Invitation was cancelled');
+      expect(error.message).to.equal("L'invitation à ce centre de certification a été annulée.");
     });
   });
 });
