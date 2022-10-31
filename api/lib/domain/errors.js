@@ -576,6 +576,21 @@ class CertificationCenterMembershipDisableError extends DomainError {
   }
 }
 
+class AlreadyExistingCertificationCenterInvitationError extends DomainError {
+  constructor(message = "L'invitation à un centre de certification existe déjà.") {
+    super(message);
+  }
+}
+
+class CancelledCertificationCenterInvitationError extends DomainError {
+  constructor(
+    message = "L'invitation à ce centre de certification a été annulée.",
+    code = 'CANCELLED_CERTIFICATION_CENTER_INVITATION_CODE'
+  ) {
+    super(message, code);
+  }
+}
+
 class ChallengeAlreadyAnsweredError extends DomainError {
   constructor(message = 'La question a déjà été répondue.') {
     super(message);
@@ -1214,6 +1229,7 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
+  AlreadyExistingCertificationCenterInvitationError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
   ApplicationScopeNotAllowedError,
@@ -1229,6 +1245,7 @@ module.exports = {
   CampaignParticipationDeletedError,
   CampaignTypeError,
   CancelledOrganizationInvitationError,
+  CancelledCertificationCenterInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CertificateVerificationCodeGenerationTooManyTrials,

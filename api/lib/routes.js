@@ -13,6 +13,7 @@ module.exports = [
   require('./application/certification-candidates'),
   require('./application/certification-center-memberships'),
   require('./application/certification-centers'),
+  require('./application/certification-center-invitations'),
   require('./application/certification-courses'),
   require('./application/certification-point-of-contacts'),
   require('./application/certification-livret-scolaire'),
