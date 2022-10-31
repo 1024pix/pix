@@ -24,15 +24,19 @@ class CampaignProfilesCollectionExport {
       constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING
     );
 
-    return bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
-      const placementProfiles = await this._getUsersPlacementProfiles(
-        campaignParticipationResultDataChunk,
-        placementProfileService
-      );
-      const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDatas);
+    return bluebird.map(
+      campaignParticipationResultDataChunks,
+      async (campaignParticipationResultDataChunk) => {
+        const placementProfiles = await this._getUsersPlacementProfiles(
+          campaignParticipationResultDataChunk,
+          placementProfileService
+        );
+        const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDatas);
 
-      this.stream.write(csvLines);
-    });
+        this.stream.write(csvLines);
+      },
+      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+    );
   }
 
   _buildHeader() {
