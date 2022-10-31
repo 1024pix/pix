@@ -24,7 +24,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
     // then
-    assert.dom(screen.getByRole('columnheader', { name: 'Numéro de session' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'N° de session' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Nom du site' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Salle' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Date' })).exists();
