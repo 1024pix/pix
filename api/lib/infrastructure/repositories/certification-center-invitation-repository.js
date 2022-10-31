@@ -44,7 +44,7 @@ module.exports = {
       .first();
 
     if (!certificationCenterInvitation) {
-      throw new NotFoundError('This certification center invitation was not found');
+      throw new NotFoundError("L'invitation à ce centre de certfication n'existe pas");
     }
 
     return _toDomain(certificationCenterInvitation);

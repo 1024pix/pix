@@ -85,6 +85,18 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal("L'invitation de l'organisation existe déjà.");
     });
 
+    it('responds Precondition Failed when a AlreadyExistingCertificationCenterInvitationError error occurs', async function () {
+      routeHandler.throws(
+        new DomainErrors.AlreadyExistingCertificationCenterInvitationError(
+          "L'invitation à un centre de certification existe déjà."
+        )
+      );
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+      expect(responseDetail(response)).to.equal("L'invitation à un centre de certification existe déjà.");
+    });
+
     it('responds Precondition Failed when a AlreadySharedCampaignParticipationError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.AlreadySharedCampaignParticipationError('Ces résultats de campagne ont déjà été partagés.')
@@ -474,6 +486,15 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal("L'invitation à cette organisation a été annulée.");
+      expect(responseTitle(response)).to.equal('Forbidden');
+    });
+
+    it('responds Forbidden when a CancelledCertificationCenterInvitationError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.CancelledCertificationCenterInvitationError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal("L'invitation à ce centre de certification a été annulée.");
       expect(responseTitle(response)).to.equal('Forbidden');
     });
   });
