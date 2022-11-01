@@ -10,7 +10,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../lib/domain/models/Badge').keys;
+} = require('../constants').badges.keys;
 /**
  * @param { import('knex').Knex } knex
  * @returns { Promise<void> }
