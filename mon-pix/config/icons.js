@@ -28,6 +28,7 @@ module.exports = function () {
       'right-from-bracket',
       'right-long',
       'rotate-right',
+      'times-circle',
       'thumbs-up',
       'triangle-exclamation',
       'up-right-from-square',
