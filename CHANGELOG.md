@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.282.0 (02/11/2022)
+
+
+### :rocket: Amélioration
+- [#5144](https://github.com/1024pix/pix/pull/5144) [FEATURE] Ajouter une route permettant de modifier du contenu formatif (PIX-6121).
+- [#5147](https://github.com/1024pix/pix/pull/5147) [FEATURE] Changement du label du numéro de session sur le dashboard des sessions (PIX-5771)
+- [#5081](https://github.com/1024pix/pix/pull/5081) [FEATURE] Nouveau design page fin de parcours (PIX-5987).
+- [#5116](https://github.com/1024pix/pix/pull/5116) [FEATURE] Afficher le nom du centre de certif sur la page double mire d'une invitation (PIX-6104)
+- [#5112](https://github.com/1024pix/pix/pull/5112) [FEATURE] Améliorer le reponsive de l'infobulle sur Pix App (PIX-5611)
+- [#5123](https://github.com/1024pix/pix/pull/5123) [FEATURE] Afficher le statut “Autorisé à reprendre” dans l'espace surveillant (PIX-6019)
+- [#5137](https://github.com/1024pix/pix/pull/5137) [FEATURE] Deplacer la navbar certif (PIX-5744)
+
+### :building_construction: Tech
+- [#5149](https://github.com/1024pix/pix/pull/5149) [TECH] Ajout du thème Noël pour le template de pull request.
+- [#5145](https://github.com/1024pix/pix/pull/5145) [TECH] Montée de version de Pix UI sur Admin
+
+### :bug: Correction
+- [#5148](https://github.com/1024pix/pix/pull/5148) [BUGFIX] Limiter la concurrence pour le création du CSV des résultats de campagne de collecte de profils (PIX-6196).
+
 ## v3.281.0 (28/10/2022)
 
 
