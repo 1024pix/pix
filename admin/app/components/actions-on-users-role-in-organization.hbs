@@ -37,7 +37,7 @@
             aria-label="Annuler"
             class="member-item-actions__button--icon"
           >
-            <FaIcon @icon="times" />
+            <FaIcon @icon="xmark" />
           </PixButton>
         </div>
       {{else}}
@@ -48,7 +48,7 @@
           aria-label="Modifier le rôle"
           @triggerAction={{this.editRoleOfMember}}
         >
-          <FaIcon @icon="edit" />Modifier le rôle
+          <FaIcon @icon="pen-to-square" />Modifier le rôle
         </PixButton>
       {{/if}}
       <PixButton
