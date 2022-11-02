@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {
@@ -94,13 +95,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
 
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 123,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
         partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
         acquired: true,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 456,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
         partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITH_EXTERNAL_JURY',
         acquired: true,
       });

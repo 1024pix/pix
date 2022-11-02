@@ -4,6 +4,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
 const Assessment = require('../../domain/models/Assessment');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 
 module.exports = {
   async findBySessionId(sessionId) {
@@ -66,7 +67,10 @@ function _getBySessionIdQuery(sessionId) {
       this.on(
         'complementary-certification-course-results.complementaryCertificationCourseId',
         'complementary-certification-courses.id'
-      ).andOnVal('complementary-certification-course-results.source', 'PIX');
+      ).andOnVal(
+        'complementary-certification-course-results.source',
+        ComplementaryCertificationCourseResult.sources.PIX
+      );
     })
     .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
