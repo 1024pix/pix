@@ -1,5 +1,4 @@
 import { Factory } from 'ember-cli-mirage';
-import { belongsTo, hasMany } from '@ember-data/model';
 
 export default Factory.extend({
   key() {
@@ -30,11 +29,7 @@ export default Factory.extend({
     return false;
   },
 
-  badgeCriteria() {
-    return [];
-  },
-
-  skillSets() {
+  criteria() {
     return [];
   },
 });
