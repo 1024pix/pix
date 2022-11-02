@@ -11,6 +11,7 @@ const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const ComplementaryCertificationCourseResult = require('../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -213,7 +214,7 @@ describe('Acceptance | API | Certification Course', function () {
         partnerKey: 'PIX_FOOT_1',
         acquired: true,
         complementaryCertificationCourseId: 456,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
       });
 
       const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
@@ -265,14 +266,14 @@ describe('Acceptance | API | Certification Course', function () {
         partnerKey: 'PIX_BOXE_2',
         acquired: true,
         complementaryCertificationCourseId: 654,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 986,
         partnerKey: 'PIX_BOXE_2',
         acquired: false,
         complementaryCertificationCourseId: 654,
-        source: 'EXTERNAL',
+        source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 123 });
       databaseBuilder.factory.buildUser({ id: 66 });
