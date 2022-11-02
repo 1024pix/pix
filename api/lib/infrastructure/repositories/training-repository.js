@@ -54,6 +54,18 @@ module.exports = {
 
     return trainingsDTO.map((training) => _toDomain(training, targetProfileTrainings));
   },
+
+  async update({ id, attributesToUpdate, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const [updatedTraining] = await knexConn(TABLE_NAME)
+      .where({ id })
+      .update({ ...attributesToUpdate, updatedAt: new Date() })
+      .returning('*');
+
+    const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
+
+    return _toDomain(updatedTraining, targetProfileTrainings);
+  },
 };
 
 function _toDomain(training, targetProfileTrainings) {
