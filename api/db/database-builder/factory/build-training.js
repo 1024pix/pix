@@ -7,6 +7,8 @@ function buildTraining({
   type = 'webinaire',
   duration = '06:00:00',
   locale = 'fr-fr',
+  createdAt = new Date(),
+  updatedAt = new Date(),
 } = {}) {
   const values = {
     id,
@@ -15,6 +17,8 @@ function buildTraining({
     type,
     duration,
     locale,
+    createdAt,
+    updatedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'trainings',

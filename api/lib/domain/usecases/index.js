@@ -427,6 +427,7 @@ module.exports = injectDependencies(
     updateStage: require('./update-stage'),
     updateStudentNumber: require('./update-student-number'),
     updateTargetProfile: require('./update-target-profile'),
+    updateTraining: require('./update-training'),
     updateCertificationCenterReferer: require('./update-certification-center-referer'),
     updateUserForAccountRecovery: require('./account-recovery/update-user-for-account-recovery'),
     updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
