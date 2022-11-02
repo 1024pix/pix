@@ -90,6 +90,23 @@
           "label": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
           "enrolled-candidates": "<span>{enrolledCandidatesCount} candidats</span> sont inscrits à cette session",
           "disclaimer": "Attention, cette action est irréversible."
+        },
+        "session-summary": {
+          "session-number": "N° de session",
+          "center-name": "Nom du site",
+          "room": "Salle",
+          "date": "Date",
+          "time": "Heure",
+          "supervisor": "Surveillant(s)",
+          "enrolled-candidates": "Candidats inscrits",
+          "effective-candidates": "Certifications passées",
+          "status": "Statut",
+          "actions": "Actions",
+          "certification-session": "Session de certification",
+          "delete-session": "Supprimer la session {sessionSummaryId}",
+          "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
+          "empty-table": "Aucune session trouvée",
+          "session-and-id": "Session {sessionId}"
         }
       },
       "detail": {
