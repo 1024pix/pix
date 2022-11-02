@@ -19,12 +19,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       altMessage: 'Yellow Alt Message',
       key: 'YELLOW',
       imageUrl: 'yellow.svg',
+      isCertifiable: false,
+      isAlwaysVisible: false,
       badgeCompetences: [],
     };
 
     const badgeResult = new BadgeResult(badge, participationResults);
 
-    expect(badgeResult).to.deep.include({
+    expect(badgeResult).to.deep.equal({
       id: 1,
       title: 'Badge Yellow',
       message: 'Yellow Message',
@@ -32,6 +34,9 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       isAcquired: true,
       key: 'YELLOW',
       imageUrl: 'yellow.svg',
+      isCertifiable: false,
+      isAlwaysVisible: false,
+      skillSetResults: [],
     });
   });
 

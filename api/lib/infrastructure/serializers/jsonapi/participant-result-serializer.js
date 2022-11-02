@@ -33,6 +33,7 @@ module.exports = {
           'skillSetResults',
           'partnerCompetenceResults',
           'isAlwaysVisible',
+          'isCertifiable',
         ],
         skillSetResults: {
           ref: 'id',

@@ -111,6 +111,46 @@
                   @redirectToSignupIfUserIsAnonymous={{this.redirectToSignupIfUserIsAnonymous}}
                   @isFlashCampaign={{this.isFlashCampaign}}
                 />
+                <div class="skill-review-share__badge-icons">
+                  {{#if this.showCertifiableBadges}}
+                    <div class="skill-review-share-badge-icons skill-review-share-badge-icons--certifiable">
+                      {{#each this.acquiredCertifiableBadges as |badge|}}
+                        <PixTooltip @position="top" @isInline={{true}} @id="tooltip-certifiable-{{badge.key}}">
+                          <:triggerElement>
+                            <a href="#{{badge.title}}">
+                              <img
+                                aria-labelledby="tooltip-certifiable-{{badge.key}}"
+                                class="skill-review-share-badge-icons__image"
+                                src="{{badge.imageUrl}}"
+                                alt="{{badge.altMessage}}"
+                              />
+                            </a>
+                          </:triggerElement>
+                          <:tooltip>{{badge.title}}</:tooltip>
+                        </PixTooltip>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+                  {{#if this.showNotCertifiableBadges}}
+                    <div class="skill-review-share-badge-icons skill-review-share-badge-icons--not-certifiable">
+                      {{#each this.acquiredNotCertifiableBadges as |badge|}}
+                        <PixTooltip @position="top" @isInline={{true}} @id="tooltip-{{badge.key}}">
+                          <:triggerElement>
+                            <a href="#{{badge.title}}">
+                              <img
+                                aria-labelledby="tooltip-{{badge.key}}"
+                                class="skill-review-share-badge-icons__image"
+                                src="{{badge.imageUrl}}"
+                                alt="{{badge.altMessage}}"
+                              />
+                            </a>
+                          </:triggerElement>
+                          <:tooltip>{{badge.title}}</:tooltip>
+                        </PixTooltip>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+                </div>
               {{/if}}
             {{/if}}
           </div>
@@ -190,14 +230,28 @@
 
   {{#if this.showDetail}}
     <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
-      {{#if this.showBadges}}
-        {{#unless this.hideBadgesTitle}}
-          <h2 class="skill-review-result-detail__badge-subtitle">
-            {{t "pages.skill-review.badges-title"}}
-          </h2>
-        {{/unless}}
+
+      {{#if this.showCertifiableBadges}}
+        <div class="badge-certifiable-container">
+          {{#each this.acquiredCertifiableBadges as |badge|}}
+            <BadgeCardCertifiable
+              @title={{badge.title}}
+              @message={{badge.message}}
+              @imageUrl={{badge.imageUrl}}
+              @altMessage={{badge.altMessage}}
+              @isAcquired={{badge.isAcquired}}
+              @isCertifiable={{badge.isCertifiable}}
+            />
+          {{/each}}
+        </div>
+      {{/if}}
+
+      {{#if this.showNotCertifiableBadges}}
+        <h2 class="skill-review-result-detail__badge-subtitle">
+          {{t "pages.skill-review.badges-title"}}
+        </h2>
         <div class="badge-container">
-          {{#each this.orderedBadges as |badge|}}
+          {{#each this.acquiredNotCertifiableBadges as |badge|}}
             <BadgeCard
               @title={{badge.title}}
               @message={{badge.message}}

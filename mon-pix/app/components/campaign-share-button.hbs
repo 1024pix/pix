@@ -1,6 +1,7 @@
 {{#if @isShared}}
   {{#if @displayPixLink}}
     <div class="skill-review-share__thanks">
+      <span><FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" /></span>
       {{t "pages.skill-review.already-shared"}}
     </div>
     <a
@@ -16,7 +17,7 @@
 {{else}}
   <PixButton
     class="skill-review-share__button"
-    @backgroundColor="green"
+    @backgroundColor="yellow"
     @shape="rounded"
     @triggerAction={{@shareCampaignParticipation}}
   >

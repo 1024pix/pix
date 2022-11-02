@@ -147,17 +147,29 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
     });
   });
 
-  describe('#showBadges', function () {
-    it('should show badges when acquired', function () {
+  describe('#showNotCertifiableBadges', function () {
+    it('should show not certifiable badges when acquired', function () {
       // given
-      const badges = [{ id: 33, isAcquired: true }];
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
       expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showNotCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
     });
 
     it('should not show badges when not acquired', function () {
@@ -166,7 +178,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
       expect(shouldShowBadges).to.equal(false);
@@ -178,66 +190,96 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const shouldShowBadges = component.showBadges;
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
       expect(shouldShowBadges).to.equal(false);
     });
   });
 
-  describe('#acquiredBadges', function () {
-    it('should only return acquired badges', function () {
+  describe('#showCertifiableBadges', function () {
+    it('should show certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show not certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when not acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when none', function () {
+      // given
+      const badges = [];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+  });
+
+  describe('#acquiredNotCertifiableBadges', function () {
+    it('should only return acquired and not certifiable badges', function () {
       // given
       const badges = [
-        { id: 33, isAcquired: true },
-        { id: 34, isAcquired: false },
+        { id: 33, isAcquired: true, isCertifiable: false },
+        { id: 34, isAcquired: false, isCertifiable: true },
+        { id: 35, isAcquired: true, isCertifiable: true },
+        { id: 36, isAcquired: false, isCertifiable: false },
       ];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const acquiredBadges = component.acquiredBadges;
+      const acquiredBadges = component.acquiredNotCertifiableBadges;
 
       // then
-      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true }]);
+      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true, isCertifiable: false }]);
     });
   });
 
-  describe('#notAcquiredButVisibleBadges', function () {
-    it('should only return not acquired badges', function () {
+  describe('#acquiredCertifiableBadges', function () {
+    it('should only return certifiable acquired badges', function () {
       // given
       const badges = [
-        { id: 33, isAcquired: true },
-        { id: 34, isAcquired: false, isAlwaysVisible: true },
-        { id: 35, isAcquired: false, isAlwaysVisible: false },
+        { id: 33, isAcquired: true, isCertifiable: true },
+        { id: 34, isAcquired: false, isCertifiable: false },
       ];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const notAcquiredBadges = component.notAcquiredButVisibleBadges;
+      const acquiredBadges = component.acquiredCertifiableBadges;
 
       // then
-      expect(notAcquiredBadges).to.deep.equal([{ id: 34, isAcquired: false, isAlwaysVisible: true }]);
-    });
-  });
-
-  describe('#orderedBadges', function () {
-    it('should return badges ordered by if it is acquired or not', function () {
-      // given
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = [
-        { id: 33, isAcquired: true, isAlwaysVisible: true },
-        { id: 34, isAcquired: false, isAlwaysVisible: true },
-        { id: 35, isAcquired: true, isAlwaysVisible: true },
-      ];
-
-      // when
-      const orderedBadges = component.orderedBadges;
-
-      // then
-      expect(orderedBadges).to.deep.equal([
-        { id: 33, isAcquired: true, isAlwaysVisible: true },
-        { id: 35, isAcquired: true, isAlwaysVisible: true },
-        { id: 34, isAcquired: false, isAlwaysVisible: true },
-      ]);
+      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true, isCertifiable: true }]);
     });
   });
 
@@ -549,11 +591,15 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
   describe('#redirectToSignupIfUserIsAnonymous', function () {
     it('should redirect to sign up page on click when user is anonymous', async function () {
       // given
-      const event = { preventDefault: () => {} };
+      const event = {
+        preventDefault: () => {},
+      };
       const session = this.owner.lookup('service:session');
+
       class currentUser extends Service {
         user = { isAnonymous: true };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       session.invalidate = sinon.stub();
@@ -568,10 +614,14 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
 
     it('should redirect to home page when user is not anonymous', async function () {
       // given
-      const event = { preventDefault: () => {} };
+      const event = {
+        preventDefault: () => {},
+      };
+
       class currentUser extends Service {
         user = { isAnonymous: false };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when
@@ -584,9 +634,11 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
     it('prevents default behaviour', async function () {
       // given
       const event = { preventDefault: sinon.stub() };
+
       class currentUser extends Service {
         user = { isAnonymous: false };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when
