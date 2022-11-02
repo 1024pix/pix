@@ -23,12 +23,27 @@ module('Acceptance | Badges | Badge', function (hooks) {
     let badge;
     hooks.beforeEach(async function () {
       const targetProfile = this.server.create('target-profile', { id: 1 });
+      const criterionCampaignParticipation = this.server.create('badge-criterion', {
+        id: 123,
+        scope: 'CampaignParticipation',
+        threshold: 50,
+        skillSets: [],
+        cappedTubes: [],
+      });
+      const criterionCappedTubes = this.server.create('badge-criterion', {
+        id: 456,
+        scope: 'CappedTubes',
+        threshold: 100,
+        skillSets: [],
+        cappedTubes: [],
+      });
       badge = this.server.create('badge', {
         id: 2,
         title: 'My badge',
         imageUrl: 'https://images.pix/fr/badges/AG2R.svg',
         isCertifiable: true,
         isAlwaysVisible: true,
+        criteria: [criterionCampaignParticipation, criterionCappedTubes],
       });
       targetProfile.update({ badges: [badge] });
     });
@@ -55,10 +70,15 @@ module('Acceptance | Badges | Badge', function (hooks) {
         assert.dom(screen.getByText('AG2R.svg', { exact: false })).exists();
         assert.dom(screen.getByText('Certifiable')).exists();
         assert.dom(screen.getByText('Lacunes')).exists();
+        assert.deepEqual(
+          screen.getByTestId('triste').innerText,
+          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil-cible.'
+        );
+        assert.deepEqual(
+          screen.getByTestId('toujourstriste').innerText,
+          "L'évalué doit obtenir 100% sur tous les sujets plafonnés par niveau suivants :"
+        );
       });
-
-      // TODO ajouter test d'affichage de critères (ne faire que cappedtubes et campaignparti, vu que l'autre
-      // saute dans pas longtemps)
     });
 
     module('when admin member has role "CERTIF"', function () {
