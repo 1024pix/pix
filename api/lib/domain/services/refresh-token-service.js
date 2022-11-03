@@ -35,23 +35,6 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uu
 async function createAccessTokenFromRefreshToken({ refreshToken }) {
   const { userId, source } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-
-  const refreshTokenRemainingExpirationSeconds = await refreshTokenTemporaryStorage.ttl(refreshToken);
-  const userRefreshTokenRemainingExpirationSeconds = await userRefreshTokensTemporaryStorage.ttl(refreshToken);
-  const userRefreshTokens = await userRefreshTokensTemporaryStorage.lrange(userId);
-  const refreshTokenFound = userRefreshTokens.find((userRefreshToken) => userRefreshToken === refreshToken);
-
-  if (!refreshTokenFound) {
-    await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
-    if (refreshTokenRemainingExpirationSeconds > userRefreshTokenRemainingExpirationSeconds) {
-      await userRefreshTokensTemporaryStorage.expire({
-        key: userId,
-        expirationDelaySeconds:
-          refreshTokenRemainingExpirationSeconds + REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS,
-      });
-    }
-  }
-
   return tokenService.createAccessTokenFromUser(userId, source);
 }
 
@@ -68,7 +51,6 @@ async function revokeRefreshTokensForUserId({ userId }) {
   await bluebird.mapSeries(refreshTokens, (refreshToken) => {
     return refreshTokenTemporaryStorage.delete(refreshToken);
   });
-  await refreshTokenTemporaryStorage.deleteByPrefix(_prefixForUser(userId));
 }
 
 module.exports = {

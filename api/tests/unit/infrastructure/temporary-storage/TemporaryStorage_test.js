@@ -41,19 +41,6 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     });
   });
 
-  describe('#deleteByPrefix', function () {
-    it('should reject an error (because this class actually mocks an interface)', function () {
-      // given
-      const temporaryStorageInstance = new TemporaryStorage();
-
-      // when
-      const result = temporaryStorageInstance.deleteByPrefix('123:');
-
-      // then
-      expect(result).to.be.rejected;
-    });
-  });
-
   describe('#generateKey', function () {
     it('should return a key from static method', function () {
       // when
@@ -81,14 +68,6 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
         async delete(key) {
           delete store[key];
         }
-
-        async deleteByPrefix(prefix) {
-          for (const key in store) {
-            if (key.startsWith(prefix)) {
-              delete store[key];
-            }
-          }
-        }
       }
 
       const storage = new TestStorage().withPrefix('a-prefix:');
@@ -105,10 +84,6 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
       expect(randomKey).to.exist;
       expect(store['a-prefix:' + randomKey]).to.exist;
       expect(await storage.get(randomKey)).to.equal('random-key-value');
-
-      await storage.save({ key: '123:a-key', value: 'a-value' });
-      await storage.deleteByPrefix('123:');
-      expect(await storage.get('123:a-key')).to.be.undefined;
     });
   });
 

@@ -1,5 +1,4 @@
 const redis = require('redis');
-const redisScan = require('node-redis-scan');
 const Redlock = require('redlock');
 const { promisify } = require('util');
 const logger = require('../logger');
@@ -63,18 +62,5 @@ module.exports = class RedisClient {
 
   async quit() {
     await this._client.quit();
-  }
-
-  async deleteByPrefix(searchedPrefix) {
-    const searchedPrefixWithClientPrefix = `${this._prefix}${searchedPrefix}`;
-    const escapedPrefix = searchedPrefixWithClientPrefix.replace(/[*?[\\\]]/g, '\\$&');
-    const pattern = `${escapedPrefix}*`;
-    const redisWithScan = new redisScan(this._client);
-    const scan = promisify(redisWithScan.scan).bind(redisWithScan);
-    const matchingKeys = await scan(pattern);
-    if (matchingKeys.length > 0) {
-      const del = promisify(this._client.del).bind(this._client);
-      await del(matchingKeys);
-    }
   }
 };
