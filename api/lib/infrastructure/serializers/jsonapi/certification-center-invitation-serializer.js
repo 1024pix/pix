@@ -9,7 +9,7 @@ module.exports = {
 
   serializeForAdmin(invitations) {
     return new Serializer('certification-center-invitations', {
-      attributes: ['certificationCenterId', 'email', 'updatedAt'],
+      attributes: ['email', 'updatedAt'],
     }).serialize(invitations);
   },
 
