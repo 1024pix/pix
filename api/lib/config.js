@@ -196,7 +196,6 @@ module.exports = (function () {
     },
 
     featureToggles: {
-      isPixAppTrainingsPageEnabled: isFeatureEnabled(process.env.FT_TRAININGS_PAGE),
       isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
         process.env.FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS
       ),
