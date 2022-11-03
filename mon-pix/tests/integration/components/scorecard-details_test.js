@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { A } from '@ember/array';
-import { find, findAll, render } from '@ember/test-helpers';
+import { find, findAll } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -143,10 +144,10 @@ describe('Integration | Component | scorecard-details', function () {
 
         // when
         this.set('scorecard', scorecard);
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details__improve-button')).to.exist;
+        expect(screen.getByRole('button', this.intl.t('pages.competence-details.actions.improve.label'))).to.exist;
       });
 
       it('should show the improving countdown if the remaining days before improving are different than 0', async function () {
@@ -220,6 +221,7 @@ describe('Integration | Component | scorecard-details', function () {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
+          name: 'competence1',
           competenceId: 1,
           status: 'NOT_STARTED',
         });
@@ -227,12 +229,17 @@ describe('Integration | Component | scorecard-details', function () {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        const element = find('.scorecard-details__resume-or-start-button');
-        expect(element).to.exist;
-        expect(element.textContent).to.contain('Commencer');
+        expect(
+          screen.getByRole('link', {
+            name: `${this.intl.t('pages.competence-details.actions.start.label')} ${this.intl.t(
+              'pages.competence-details.for-competence',
+              { competence: scorecard.name }
+            )}`,
+          })
+        ).to.exist;
       });
     });
 
@@ -241,6 +248,7 @@ describe('Integration | Component | scorecard-details', function () {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
+          name: 'competence1',
           competenceId: 1,
           status: 'STARTED',
         });
@@ -248,12 +256,17 @@ describe('Integration | Component | scorecard-details', function () {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        const element = find('.scorecard-details__resume-or-start-button');
-        expect(element).to.exist;
-        expect(element.textContent).to.contain('Reprendre');
+        expect(
+          screen.getByRole('link', {
+            name: `${this.intl.t('pages.competence-details.actions.continue.label')} ${this.intl.t(
+              'pages.competence-details.for-competence',
+              { competence: scorecard.name }
+            )}`,
+          })
+        ).to.exist;
       });
 
       it('should not display the tutorial section when there is no tutorial to show', async function () {
