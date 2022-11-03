@@ -10,14 +10,23 @@
   <p class="congratulations-banner__message">
     {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
   </p>
-  {{#each @certificationEligibility.eligibleComplementaryCertifications as |eligibleComplementaryCertification|}}
-    <p>
-      {{t
-        "pages.certification-joiner.congratulation-banner.complementary-certification-eligibility"
-        complementaryCertificationName=eligibleComplementaryCertification
-      }}
-    </p>
-  {{/each}}
+  <div class="congratulations-banner__complementary-certifications">
+    <div class="congratulations-banner-complementary-certifications__icons">
+      {{#each @certificationEligibility.eligibleComplementaryCertifications as |eligibleComplementaryCertification|}}
+        <img src={{eligibleComplementaryCertification.imageUrl}} alt={{eligibleComplementaryCertification.label}} />
+      {{/each}}
+    </div>
+    <div class="congratulations-banner-complementary-certifications__labels">
+      {{#each @certificationEligibility.eligibleComplementaryCertifications as |eligibleComplementaryCertification|}}
+        <p>
+          {{t
+            "pages.certification-joiner.congratulation-banner.complementary-certification-eligibility"
+            complementaryCertificationName=eligibleComplementaryCertification.label
+          }}
+        </p>
+      {{/each}}
+    </div>
+  </div>
   <a
     href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
     class="congratulations-banner__link"
