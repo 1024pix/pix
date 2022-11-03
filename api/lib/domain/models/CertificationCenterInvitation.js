@@ -16,16 +16,18 @@ const validationScheme = Joi.object({
     .optional(),
   certificationCenterId: Joi.number().optional(),
   certificationCenterName: Joi.string().optional(),
+  code: Joi.string().optional(),
 });
 
 class CertificationCenterInvitation {
-  constructor({ id, email, updatedAt, status, certificationCenterId, certificationCenterName } = {}) {
+  constructor({ id, email, updatedAt, status, certificationCenterId, certificationCenterName, code } = {}) {
     this.id = id;
     this.email = email;
     this.updatedAt = updatedAt;
     this.status = status;
     this.certificationCenterId = certificationCenterId;
     this.certificationCenterName = certificationCenterName;
+    this.code = code;
 
     validateEntity(validationScheme, this);
   }

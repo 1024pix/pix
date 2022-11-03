@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
         status: 'pending',
         certificationCenterId: 10,
         certificationCenterName: 'La Raclette des Pixous',
+        code: 'ABCDE',
       };
 
       // when
