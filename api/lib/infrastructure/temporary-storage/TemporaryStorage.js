@@ -21,10 +21,6 @@ class TemporaryStorage {
     throw new Error('Method #delete(key) must be overridden');
   }
 
-  async deleteByPrefix(/* prefix */) {
-    throw new Error('Method #deleteByPrefix(prefix) must be overridden');
-  }
-
   async expire(/* { key, expirationDelaySeconds } */) {
     throw new Error('Method #expire({ key, expirationDelaySeconds }) must be overridden');
   }
@@ -68,10 +64,6 @@ class TemporaryStorage {
 
       delete(key) {
         return storage.delete(prefix + key);
-      },
-
-      deleteByPrefix(searchedPrefix) {
-        return storage.deleteByPrefix(prefix + searchedPrefix);
       },
 
       expire({ key, expirationDelaySeconds }) {

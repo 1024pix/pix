@@ -53,8 +53,6 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
         const accessToken = 'valid-access-token';
         const expirationDelaySeconds = 1;
         sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
-        sinon.stub(userRefreshTokensTemporaryStorage, 'get').resolves([]);
-        sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves(1);
         sinon
           .stub(tokenService, 'createAccessTokenFromUser')
           .withArgs(userId, source)
@@ -65,69 +63,6 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
 
         // then
         expect(result).to.be.deep.equal({ accessToken, expirationDelaySeconds });
-      });
-
-      context('when user refresh token is not in a list', function () {
-        it('should be added to the list of refresh tokens', async function () {
-          // given
-          const userId = 123;
-          const source = 'pix';
-          const refreshToken = 'valid-refresh-token';
-          const accessToken = 'valid-access-token';
-          const expirationDelaySeconds = 1;
-          sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
-          sinon.stub(refreshTokenTemporaryStorage, 'ttl').resolves(120);
-          sinon.stub(userRefreshTokensTemporaryStorage, 'ttl').resolves(119);
-          sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves([]);
-          sinon.stub(userRefreshTokensTemporaryStorage, 'lpush').resolves();
-          sinon.stub(userRefreshTokensTemporaryStorage, 'expire').resolves();
-          sinon
-            .stub(tokenService, 'createAccessTokenFromUser')
-            .withArgs(userId, source)
-            .resolves({ accessToken, expirationDelaySeconds });
-
-          // when
-          await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
-
-          // then
-          expect(refreshTokenTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
-          expect(userRefreshTokensTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
-          expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith(userId);
-          expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWith({ key: userId, value: refreshToken });
-          expect(userRefreshTokensTemporaryStorage.expire).to.have.been.calledWith({
-            key: 123,
-            expirationDelaySeconds: 120 + 60 * 60,
-          });
-        });
-      });
-
-      context('when user refresh token is in a list', function () {
-        it('should not be added to the list of refresh tokens', async function () {
-          // given
-          const userId = 123;
-          const source = 'pix';
-          const refreshToken = 'valid-refresh-token';
-          const accessToken = 'valid-access-token';
-          const expirationDelaySeconds = 1;
-          sinon.stub(refreshTokenTemporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
-          sinon.stub(refreshTokenTemporaryStorage, 'ttl').resolves(120);
-          sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves(['valid-refresh-token']);
-          sinon.stub(userRefreshTokensTemporaryStorage, 'lpush');
-          sinon.stub(userRefreshTokensTemporaryStorage, 'ttl').resolves(120);
-          sinon
-            .stub(tokenService, 'createAccessTokenFromUser')
-            .withArgs(userId, source)
-            .resolves({ accessToken, expirationDelaySeconds });
-
-          // when
-          await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
-
-          // then
-          expect(refreshTokenTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
-          expect(userRefreshTokensTemporaryStorage.ttl).to.have.been.calledWith(refreshToken);
-          expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith(userId);
-          expect(userRefreshTokensTemporaryStorage.lpush).to.have.not.been.calledOnce;
-        });
       });
     });
 
@@ -192,7 +127,6 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       sinon.stub(userRefreshTokensTemporaryStorage, 'lrange').resolves(['123:uuid1', '123:uuid2']);
       sinon.stub(userRefreshTokensTemporaryStorage, 'delete');
       sinon.stub(refreshTokenTemporaryStorage, 'delete');
-      sinon.stub(refreshTokenTemporaryStorage, 'deleteByPrefix');
 
       // when
       await refreshTokenService.revokeRefreshTokensForUserId({ userId: '123' });
@@ -202,7 +136,6 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       expect(userRefreshTokensTemporaryStorage.delete).to.have.been.calledWith('123');
       expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith('123:uuid1');
       expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith('123:uuid2');
-      expect(refreshTokenTemporaryStorage.deleteByPrefix).to.have.been.calledWith('123:');
     });
   });
 });
