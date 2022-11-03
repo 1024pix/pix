@@ -77,6 +77,27 @@
               }}</span>
           {{/if}}
         {{/if}}
+
+        {{#if this.displayResetButton}}
+          <PixButton
+            id="reset-button-finished"
+            class="scorecard-details__reset-button"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @shape="rounded"
+            @triggerAction={{this.openModal}}
+          >
+            {{t "pages.competence-details.actions.reset.label"}}
+            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+          </PixButton>
+        {{/if}}
+
+        {{#if this.displayWaitSentence}}
+          <p class="scorecard-details-content-right__reset-message">{{t
+              "pages.competence-details.actions.reset.description"
+              daysBeforeReset=@scorecard.remainingDaysBeforeReset
+            }}</p>
+        {{/if}}
       {{/if}}
 
       {{#if @scorecard.isStarted}}
@@ -119,6 +140,27 @@
           {{t "pages.competence-details.actions.continue.label"}}
           <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
         </LinkTo>
+
+        {{#if this.displayResetButton}}
+          <PixButton
+            id="reset-button-started"
+            class="scorecard-details__reset-button"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @shape="rounded"
+            @triggerAction={{this.openModal}}
+          >
+            {{t "pages.competence-details.actions.reset.label"}}
+            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+          </PixButton>
+        {{/if}}
+
+        {{#if this.displayWaitSentence}}
+          <p class="scorecard-details-content-right__reset-message">{{t
+              "pages.competence-details.actions.reset.description"
+              daysBeforeReset=@scorecard.remainingDaysBeforeReset
+            }}</p>
+        {{/if}}
       {{/if}}
 
       {{#if @scorecard.isNotStarted}}
@@ -130,27 +172,6 @@
           {{t "pages.competence-details.actions.start.label"}}
           <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
         </LinkTo>
-      {{/if}}
-
-      {{#if this.displayResetButton}}
-        <PixButton
-          id="reset-button"
-          class="scorecard-details__reset-button"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @shape="rounded"
-          @triggerAction={{this.openModal}}
-        >
-          {{t "pages.competence-details.actions.reset.label"}}
-          <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
-        </PixButton>
-      {{/if}}
-
-      {{#if this.displayWaitSentence}}
-        <p class="scorecard-details-content-right__reset-message">{{t
-            "pages.competence-details.actions.reset.description"
-            daysBeforeReset=@scorecard.remainingDaysBeforeReset
-          }}</p>
       {{/if}}
     </div>
   </div>

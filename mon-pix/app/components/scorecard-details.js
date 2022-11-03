@@ -17,6 +17,10 @@ export default class ScorecardDetails extends Component {
     return this.args.scorecard.isStarted && !this.args.scorecard.isMaxLevel;
   }
 
+  get isNotMaxLevel() {
+    return !this.args.scorecard.isMaxLevel;
+  }
+
   get canImprove() {
     return !this.args.scorecard.isFinishedWithMaxLevel;
   }
