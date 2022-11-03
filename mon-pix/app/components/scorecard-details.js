@@ -18,7 +18,7 @@ export default class ScorecardDetails extends Component {
   }
 
   get isProgressable() {
-    return !(this.args.scorecard.isFinished || this.args.scorecard.isMaxLevel || this.args.scorecard.isNotStarted);
+    return this.args.scorecard.isStarted && !this.args.scorecard.isMaxLevel;
   }
 
   get canImprove() {
