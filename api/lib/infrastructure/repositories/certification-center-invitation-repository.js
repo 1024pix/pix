@@ -20,7 +20,6 @@ module.exports = {
     const pendingCertificationCenterInvitations = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .select('id', 'email', 'certificationCenterId', 'updatedAt')
       .where({ certificationCenterId, status: CertificationCenterInvitation.StatusType.PENDING })
-      .orderBy('email')
       .orderBy('updatedAt', 'desc');
     return pendingCertificationCenterInvitations.map(_toDomain);
   },
