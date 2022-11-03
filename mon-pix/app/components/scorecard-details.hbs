@@ -62,34 +62,34 @@
         </div>
       {{/if}}
 
-      {{#if @scorecard.isFinished}}
-        {{#if this.canImprove}}
-          {{#if this.shouldWaitBeforeImproving}}
-            <div class="scorecard-details__improvement-countdown">
-              <span class="scorecard-details-improvement-countdown__label">{{t
-                  "pages.competence-details.actions.improve.description.waiting-text"
-                }}</span>
-              <span class="scorecard-details-improvement-countdown__count">{{t
-                  "pages.competence-details.actions.improve.description.countdown"
-                  daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
-                }}</span>
-            </div>
-          {{else}}
-            <PixButton
-              class="scorecard-details__improve-button"
-              @shape="rounded"
-              @backgroundColor="green"
-              @triggerAction={{this.improveCompetenceEvaluation}}
-            >
-              {{t "pages.competence-details.actions.improve.label"}}
-              <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
-            </PixButton>
-            <span class="scorecard-details__improving-text">{{t
-                "pages.competence-details.actions.improve.improvingText"
+      {{#if (and @scorecard.isFinished this.canImprove)}}
+        {{#if this.shouldWaitBeforeImproving}}
+          <div class="scorecard-details__improvement-countdown">
+            <span class="scorecard-details-improvement-countdown__label">{{t
+                "pages.competence-details.actions.improve.description.waiting-text"
               }}</span>
-          {{/if}}
+            <span class="scorecard-details-improvement-countdown__count">{{t
+                "pages.competence-details.actions.improve.description.countdown"
+                daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
+              }}</span>
+          </div>
+        {{else}}
+          <PixButton
+            class="scorecard-details__improve-button"
+            @shape="rounded"
+            @backgroundColor="green"
+            @triggerAction={{this.improveCompetenceEvaluation}}
+          >
+            {{t "pages.competence-details.actions.improve.label"}}
+            <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
+          </PixButton>
+          <span class="scorecard-details__improving-text">{{t
+              "pages.competence-details.actions.improve.improvingText"
+            }}</span>
         {{/if}}
-      {{else}}
+      {{/if}}
+
+      {{#if (or @scorecard.isStarted @scorecard.isNotStarted)}}
         <LinkTo
           @route="authenticated.competences.resume"
           @model={{@scorecard.competenceId}}
@@ -104,6 +104,7 @@
           {{/if}}
         </LinkTo>
       {{/if}}
+
       {{#if this.displayResetButton}}
         <PixButton
           id="reset-button"
