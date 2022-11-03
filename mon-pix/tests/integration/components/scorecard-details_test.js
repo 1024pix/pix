@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { A } from '@ember/array';
-import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -12,7 +11,8 @@ describe('Integration | Component | scorecard-details', function () {
   describe('Component rendering', function () {
     it('should render component', async function () {
       // given
-      const scorecard = {};
+      const store = this.owner.lookup('service:store');
+      const scorecard = store.createRecord('scorecard', {});
 
       this.set('scorecard', scorecard);
 
@@ -25,12 +25,13 @@ describe('Integration | Component | scorecard-details', function () {
 
     it('should display the scorecard header with area color', async function () {
       // given
-      const scorecard = {
-        area: {
+      const store = this.owner.lookup('service:store');
+      const scorecard = store.createRecord('scorecard', {
+        area: store.createRecord('area', {
           title: 'Area title',
           color: 'jaffa',
-        },
-      };
+        }),
+      });
 
       this.set('scorecard', scorecard);
 
@@ -40,15 +41,16 @@ describe('Integration | Component | scorecard-details', function () {
       // then
       const element = find('.scorecard-details-content-left__area');
       expect(element.getAttribute('class')).to.contains('scorecard-details-content-left__area--jaffa');
-      expect(element.textContent).to.contains(scorecard.area.title);
+      expect(element.textContent).to.contains(scorecard.area.get('title'));
     });
 
     it('should display the competence informations', async function () {
       // given
-      const scorecard = {
+      const store = this.owner.lookup('service:store');
+      const scorecard = store.createRecord('scorecard', {
         name: 'Scorecard name',
         description: 'Scorecard description',
-      };
+      });
 
       this.set('scorecard', scorecard);
 
@@ -62,11 +64,13 @@ describe('Integration | Component | scorecard-details', function () {
 
     it('should display the scorecard level, earnedPix and remainingPixToNextLevel', async function () {
       // given
-      const scorecard = {
+      const store = this.owner.lookup('service:store');
+      const scorecard = store.createRecord('scorecard', {
         level: 2,
         earnedPix: 22,
-        remainingPixToNextLevel: 2,
-      };
+        pixScoreAheadOfNextLevel: 6,
+        status: 'STARTED',
+      });
 
       this.set('scorecard', scorecard);
 
@@ -83,10 +87,12 @@ describe('Integration | Component | scorecard-details', function () {
 
     it('should display a dash instead of the scorecard level and earnedPix if they are set to zero', async function () {
       // given
-      const scorecard = {
+      const store = this.owner.lookup('service:store');
+      const scorecard = store.createRecord('scorecard', {
         level: 0,
         earnedPix: 0,
-      };
+        status: 'COMPLETED',
+      });
 
       this.set('scorecard', scorecard);
 
@@ -103,11 +109,13 @@ describe('Integration | Component | scorecard-details', function () {
 
       beforeEach(function () {
         // given
-        scorecard = {
-          remainingPixToNextLevel: 1,
-          isFinished: true,
+        const store = this.owner.lookup('service:store');
+        scorecard = store.createRecord('scorecard', {
+          pixScoreAheadOfNextLevel: 7,
+          level: 3,
+          status: 'COMPLETED',
           tutorials: [],
-        };
+        });
       });
 
       it('should not display remainingPixToNextLevel', async function () {
@@ -131,6 +139,7 @@ describe('Integration | Component | scorecard-details', function () {
       it('should show the improving button if the remaining days before improving are equal to 0', async function () {
         // given
         scorecard.remainingDaysBeforeImproving = 0;
+        scorecard.pixScoreAheadOfNextLevel = 8;
 
         // when
         this.set('scorecard', scorecard);
@@ -143,6 +152,7 @@ describe('Integration | Component | scorecard-details', function () {
       it('should show the improving countdown if the remaining days before improving are different than 0', async function () {
         // given
         scorecard.remainingDaysBeforeImproving = 3;
+        scorecard.pixScoreAheadOfNextLevel = 3;
 
         // when
         this.set('scorecard', scorecard);
@@ -156,12 +166,13 @@ describe('Integration | Component | scorecard-details', function () {
       context('and the user has reached the max level', async function () {
         beforeEach(async function () {
           // given
-          const scorecard = {
-            remainingPixToNextLevel: 1,
-            isFinishedWithMaxLevel: true,
-            isFinished: true,
+          const store = this.owner.lookup('service:store');
+          const scorecard = store.createRecord('scorecard', {
+            pixScoreAheadOfNextLevel: 7,
+            level: 5,
+            status: 'COMPLETED',
             tutorials: [],
-          };
+          });
 
           this.set('scorecard', scorecard);
 
@@ -189,10 +200,11 @@ describe('Integration | Component | scorecard-details', function () {
     context('When the user did not started a competence', function () {
       it('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function () {
         // given
-        const scorecard = {
-          remainingPixToNextLevel: 1,
-          isNotStarted: true,
-        };
+        const store = this.owner.lookup('service:store');
+        const scorecard = store.createRecord('scorecard', {
+          pixScoreAheadOfNextLevel: 7,
+          status: 'NOT_STARTED',
+        });
 
         this.set('scorecard', scorecard);
 
@@ -206,10 +218,11 @@ describe('Integration | Component | scorecard-details', function () {
 
       it('should display a button stating "Commencer" if scorecard.isStarted is false', async function () {
         // given
-        const scorecard = {
+        const store = this.owner.lookup('service:store');
+        const scorecard = store.createRecord('scorecard', {
           competenceId: 1,
-          isStarted: false,
-        };
+          status: 'NOT_STARTED',
+        });
 
         this.set('scorecard', scorecard);
 
@@ -226,10 +239,11 @@ describe('Integration | Component | scorecard-details', function () {
     context('When the user has started a competence', async function () {
       it('should display a button stating "Reprendre"', async function () {
         // given
-        const scorecard = {
+        const store = this.owner.lookup('service:store');
+        const scorecard = store.createRecord('scorecard', {
           competenceId: 1,
-          isStarted: true,
-        };
+          status: 'STARTED',
+        });
 
         this.set('scorecard', scorecard);
 
@@ -244,10 +258,11 @@ describe('Integration | Component | scorecard-details', function () {
 
       it('should not display the tutorial section when there is no tutorial to show', async function () {
         // given
-        const scorecard = {
+        const store = this.owner.lookup('service:store');
+        const scorecard = store.createRecord('scorecard', {
           competenceId: 1,
-          isStarted: true,
-        };
+          status: 'STARTED',
+        });
 
         this.set('scorecard', scorecard);
 
@@ -261,19 +276,20 @@ describe('Integration | Component | scorecard-details', function () {
       context('and the user has some tutorials', async function () {
         it('should display the tutorial section and the related tutorials', async function () {
           // given
-          const tuto1 = EmberObject.create({
+          const store = this.owner.lookup('service:store');
+          const tuto1 = store.createRecord('tutorial', {
             title: 'Tuto 1.1',
             tubeName: '@first_tube',
             tubePracticalTitle: 'Practical Title',
             duration: '00:15:10',
           });
-          const tuto2 = EmberObject.create({
+          const tuto2 = store.createRecord('tutorial', {
             title: 'Tuto 2.1',
             tubeName: '@second_tube',
             tubePracticalTitle: 'Practical Title',
             duration: '00:04:00',
           });
-          const tuto3 = EmberObject.create({
+          const tuto3 = store.createRecord('tutorial', {
             title: 'Tuto 2.2',
             tubeName: '@second_tube',
             tubePracticalTitle: 'Practical Title',
@@ -282,9 +298,9 @@ describe('Integration | Component | scorecard-details', function () {
 
           const tutorials = A([tuto1, tuto2, tuto3]);
 
-          const scorecard = EmberObject.create({
+          const scorecard = store.createRecord('scorecard', {
             competenceId: 1,
-            isStarted: true,
+            status: 'STARTED',
             tutorials,
           });
 
