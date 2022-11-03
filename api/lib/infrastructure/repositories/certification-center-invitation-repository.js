@@ -49,4 +49,11 @@ module.exports = {
 
     return _toDomain(certificationCenterInvitation);
   },
+
+  async create(invitation) {
+    const [newInvitation] = await knex(CERTIFICATION_CENTER_INVITATIONS)
+      .insert(invitation)
+      .returning(['id', 'email', 'updatedAt']);
+    return _toDomain(newInvitation);
+  },
 };

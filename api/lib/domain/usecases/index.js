@@ -214,6 +214,7 @@ module.exports = injectDependencies(
     createCertificationCenter: require('./create-certification-center'),
     createCertificationCenterMembershipByEmail: require('./create-certification-center-membership-by-email'),
     createCertificationCenterMembershipForScoOrganizationMember: require('./create-certification-center-membership-for-sco-organization-member'),
+    createOrUpdateCertificationCenterInvitationForAdmin: require('./create-or-update-certification-center-invitation-for-admin'),
     createLcmsRelease: require('./create-lcms-release'),
     createMembership: require('./create-membership'),
     createOrUpdateUserOrgaSettings: require('./create-or-update-user-orga-settings'),
