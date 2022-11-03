@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const userTutorialsController = require('./user-tutorials-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async (server) => {
   server.route([
@@ -54,6 +55,36 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération des tutoriels recommandés pour l‘utilisateur courant\n',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/tutorials',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+          }),
+          query: Joi.object({
+            'filter[type]': Joi.string().valid('recommended', 'saved').allow(null).empty(''),
+            'filter[competences]': Joi.string().allow(null).empty(''),
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: userTutorialsController.find,
+        tags: ['api', 'tutorials'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des tutoriels pour l‘utilisateur courant\n',
         ],
       },
     },

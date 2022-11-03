@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class UserTutorialsRecommendedRoute extends Route {
+  @service currentUser;
   @service router;
   @service store;
 
@@ -16,9 +17,10 @@ export default class UserTutorialsRecommendedRoute extends Route {
     const recommendedTutorials = await this.store.query(
       'tutorial',
       {
-        type: 'recommended',
+        userId: this.currentUser.user.id,
         filter: {
           competences: params.competences,
+          type: 'recommended',
         },
         page: {
           number: params.pageNumber,

@@ -5,11 +5,11 @@
 
 <main id="main" class="main" role="main">
   <div class="user-tutorials-content-v2">
-    {{#if @model.savedTutorials.meta.rowCount}}
+    {{#if @model.savedTutorials.meta.pagination.rowCount}}
       <div class="user-tutorials-content-v2__container">
         <Tutorials::Cards @tutorials={{@model.savedTutorials}} @afterRemove={{this.refresh}} />
         <PixPagination
-          @pagination={{@model.savedTutorials.meta}}
+          @pagination={{@model.savedTutorials.meta.pagination}}
           @pageOptions={{this.pageOptions}}
           @isCondensed="true"
         />

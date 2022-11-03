@@ -2,10 +2,10 @@ import ApplicationAdapter from './application';
 
 export default class Tutorial extends ApplicationAdapter {
   urlForQuery(query, ...args) {
-    if (query.type) {
-      const { type } = query;
-      delete query.type;
-      return `${this.host}/${this.namespace}/users/tutorials/${type}`;
+    if (query.userId) {
+      const { userId } = query;
+      delete query.userId;
+      return `${this.host}/${this.namespace}/users/${userId}/tutorials`;
     }
     return super.urlForQuery(query, ...args);
   }
