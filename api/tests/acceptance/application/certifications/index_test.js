@@ -596,7 +596,6 @@ describe('Acceptance | API | Certifications', function () {
           type: 'certification-center-invitations',
           id: certificationCenterInvitation1.id.toString(),
           attributes: {
-            'certification-center-id': certificationCenterId,
             email: 'alex.terieur@example.net',
             'updated-at': now,
           },
@@ -605,7 +604,6 @@ describe('Acceptance | API | Certifications', function () {
           type: 'certification-center-invitations',
           id: certificationCenterInvitation2.id.toString(),
           attributes: {
-            'certification-center-id': certificationCenterId,
             email: 'sarah.pelle@example.net',
             'updated-at': now,
           },

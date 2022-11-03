@@ -51,7 +51,6 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
           type: 'certification-center-invitations',
           id: '7',
           attributes: {
-            'certification-center-id': 666,
             email: 'anne.atole@example.net',
             'updated-at': now,
           },
