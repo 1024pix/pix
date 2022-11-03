@@ -52,4 +52,37 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       .first();
     expect(result.certificationCenterInvitation).to.deep.include({ id: newAddedInvitation.id, email, updatedAt: now });
   });
+
+  it('should update an already existing pending invitation’s', async function () {
+    // given
+    const email = 'some.user@example.net';
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+    const someTimeInThePastDate = new Date('2019-03-12T01:02:03Z');
+    const existingPendingInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
+      email,
+      certificationCenterId,
+      status: CertificationCenterInvitation.StatusType.PENDING,
+      updatedAt: someTimeInThePastDate,
+    }).id;
+
+    await databaseBuilder.commit();
+
+    // when
+    const result = await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
+      email,
+      certificationCenterId,
+    });
+
+    // then
+    const allInvitations = await knex('certification-center-invitations').select('*');
+    expect(allInvitations).to.have.length(1);
+
+    expect(result.certificationCenterInvitation).to.be.instanceOf(CertificationCenterInvitation);
+    expect(result.certificationCenterInvitation).to.deep.include({
+      id: existingPendingInvitationId,
+      email,
+      updatedAt: now,
+    });
+  });
 });
