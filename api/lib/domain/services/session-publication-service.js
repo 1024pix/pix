@@ -3,6 +3,7 @@ const mailService = require('../../domain/services/mail-service');
 const uniqBy = require('lodash/uniqBy');
 const some = require('lodash/some');
 const { SendingEmailToRefererError } = require('../errors');
+const logger = require('../../infrastructure/logger');
 
 async function publishSession({
   publishedAt = new Date(),
@@ -24,9 +25,14 @@ async function publishSession({
   await _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt);
 
   const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
-  const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
 
-  if (hasSomeCleaAcquired && refererEmails.length) {
+  if (hasSomeCleaAcquired) {
+    const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
+    if (!refererEmails.length) {
+      logger.warn(`Publishing session ${session.id} with Clea certifications but no referer. No email will be sent`);
+      return;
+    }
+
     const refererEmailingAttempts = [];
     for (const refererEmail of refererEmails) {
       const refererEmailingAttempt = await mailService.sendNotificationToCertificationCenterRefererForCleaResults({

@@ -164,10 +164,6 @@ module.exports = {
       .where('certification-centers.id', certificationCenterId)
       .where('certification-center-memberships.isReferer', true);
 
-    if (!refererEmails.length) {
-      return null;
-    }
-
     return refererEmails;
   },
 };
