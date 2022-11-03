@@ -47,7 +47,7 @@ const batchOrganizationOptionsWithHeader = {
       value = value.trim();
     }
     if (columnName === 'isManagingStudents') {
-      value = Boolean(value);
+      value = value?.toLowerCase() === 'true';
     }
     if (!isEmpty(value)) {
       if (

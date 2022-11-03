@@ -148,6 +148,8 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
 
         // then
         expect(data[0].isManagingStudents).to.equal(false);
+        expect(data[1].isManagingStudents).to.equal(true);
+        expect(data[2].isManagingStudents).to.equal(false);
       });
 
       it('should convert identityProviderForCampaigns to uppercase', async function () {
