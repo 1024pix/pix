@@ -9,6 +9,6 @@ export default class AuthenticatedCertificationCentersGetInvitationsRoute extend
     const certificationCenterInvitations = await this.store.findAll('certification-center-invitation', {
       adapterOptions: { certificationCenterId },
     });
-    return certificationCenterInvitations;
+    return { certificationCenterId, certificationCenterInvitations };
   }
 }
