@@ -50,10 +50,28 @@ module.exports = {
     return _toDomain(certificationCenterInvitation);
   },
 
+  async findOnePendingByEmailAndCertificationCenterId({ email, certificationCenterId }) {
+    const existingPendingInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
+      .select('id')
+      .where({ email, certificationCenterId, status: CertificationCenterInvitation.StatusType.PENDING })
+      .first();
+
+    return existingPendingInvitation ? _toDomain(existingPendingInvitation) : null;
+  },
+
   async create(invitation) {
     const [newInvitation] = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .insert(invitation)
       .returning(['id', 'email', 'updatedAt']);
     return _toDomain(newInvitation);
+  },
+
+  async update(certificationCenterInvitation) {
+    const [updatedCertificationCenterInvitation] = await knex('certification-center-invitations')
+      .update({ updatedAt: new Date() })
+      .where({ id: certificationCenterInvitation.id })
+      .returning(['id', 'email', 'updatedAt']);
+
+    return _toDomain(updatedCertificationCenterInvitation);
   },
 };
