@@ -1,5 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
+const randomString = require('randomstring');
 
 const statuses = {
   PENDING: 'pending',
@@ -30,6 +31,23 @@ class CertificationCenterInvitation {
     this.code = code;
 
     validateEntity(validationScheme, this);
+  }
+
+  static create({ email, certificationCenterId, updatedAt = new Date(), code = this.generateCode() }) {
+    const certificationCenterToCreate = new CertificationCenterInvitation({
+      email,
+      certificationCenterId,
+      status: CertificationCenterInvitation.StatusType.PENDING,
+      updatedAt,
+      code,
+    });
+    delete certificationCenterToCreate.id;
+    delete certificationCenterToCreate.certificationCenterName;
+    return certificationCenterToCreate;
+  }
+
+  static generateCode() {
+    return randomString.generate({ length: 10, capitalization: 'uppercase' });
   }
 
   get isPending() {
