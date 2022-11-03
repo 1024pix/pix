@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, render } from '@ember/test-helpers';
-import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Congratulations Certification Banner', function () {
@@ -14,12 +14,10 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     this.set('fullName', 'Fifi Brindacier');
 
     // when
-    await render(hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}}/>`);
+    const screen = await render(hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}}/>`);
 
     // then
-    expect(find('.congratulations-banner__message').textContent).to.contains(
-      'Bravo Fifi Brindacier,votre profil est certifiable.'
-    );
+    expect(screen.getByText('Bravo Fifi Brindacier,votre profil est certifiable.')).to.exist;
   });
 
   it('calls the closeBanner method when closing the banner', async function () {
@@ -27,12 +25,12 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     const closeBannerStub = sinon.stub();
     this.set('closeBanner', closeBannerStub);
     this.set('fullName', 'Fifi Brindacier');
-    await render(
+    const screen = await render(
       hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
     );
 
     // when
-    await click('[aria-label="Fermer"]');
+    await click(screen.getByLabelText('Fermer'));
 
     // then
     sinon.assert.calledOnce(closeBannerStub);
@@ -49,13 +47,13 @@ describe('Integration | Component | Congratulations Certification Banner', funct
       this.set('fullName', 'Fifi Brindacier');
 
       // when
-      await render(
+      const screen = await render(
         hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
       );
 
       // then
-      expect(contains('Vous êtes également éligible à la certification CléA Numérique.')).to.exist;
-      expect(contains('Vous êtes également éligible à la certification Pix+ Édu 1er degré Confirmé.')).to.exist;
+      expect(screen.getByText('Vous êtes également éligible à la certification CléA Numérique.')).to.exist;
+      expect(screen.getByText('Vous êtes également éligible à la certification Pix+ Édu 1er degré Confirmé.')).to.exist;
     });
   });
 });
