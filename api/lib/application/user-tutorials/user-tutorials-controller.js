@@ -3,7 +3,7 @@ const userSavedTutorialSerializer = require('../../infrastructure/serializers/js
 const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
 const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
   async add(request, h) {
@@ -30,7 +30,7 @@ module.exports = {
   async findRecommended(request, h) {
     const { userId } = request.auth.credentials;
     const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
     const userRecommendedTutorials = await usecases.findPaginatedFilteredRecommendedTutorials({
       userId,
       filters,
@@ -41,6 +41,19 @@ module.exports = {
     return h.response(
       tutorialSerializer.serialize(userRecommendedTutorials.results, userRecommendedTutorials.pagination)
     );
+  },
+
+  async find(request) {
+    const { userId } = request.auth.credentials;
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+    const { tutorials, meta } = await usecases.findPaginatedFilteredTutorials({
+      userId,
+      filters,
+      page,
+      locale,
+    });
+    return tutorialSerializer.serialize(tutorials, meta);
   },
 
   async removeFromUser(request, h) {

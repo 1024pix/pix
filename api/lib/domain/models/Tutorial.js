@@ -1,3 +1,8 @@
+const TYPES = {
+  RECOMMENDED: 'recommended',
+  SAVED: 'saved',
+};
+
 class Tutorial {
   constructor({ id, duration, format, link, source, title } = {}) {
     this.id = id;
@@ -8,5 +13,7 @@ class Tutorial {
     this.title = title;
   }
 }
+
+Tutorial.TYPES = TYPES;
 
 module.exports = Tutorial;

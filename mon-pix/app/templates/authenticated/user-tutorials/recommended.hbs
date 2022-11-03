@@ -11,11 +11,11 @@
     @onClose={{this.closeSidebar}}
   />
   <div class="user-tutorials-content-v2">
-    {{#if @model.recommendedTutorials.meta.rowCount}}
+    {{#if @model.recommendedTutorials.meta.pagination.rowCount}}
       <div class="user-tutorials-content-v2__container">
         <Tutorials::Cards @tutorials={{@model.recommendedTutorials}} />
         <PixPagination
-          @pagination={{@model.recommendedTutorials.meta}}
+          @pagination={{@model.recommendedTutorials.meta.pagination}}
           @pageOptions={{this.pageOptions}}
           @isCondensed="true"
         />
