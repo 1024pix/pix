@@ -9,24 +9,6 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 describe('Unit | Component | scorecard-details ', function () {
   setupTest();
 
-  describe('#level', function () {
-    it('returns null if the scorecard isNotStarted', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isNotStarted: true } });
-
-      // then
-      expect(component.level).to.equal(null);
-    });
-
-    it('returns the level if the scorecard is not isNotStarted', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { level: 1 } });
-
-      // then
-      expect(component.level).to.equal(1);
-    });
-  });
-
   describe('#isProgressable', function () {
     it('returns false if isMaxLevel', function () {
       // when

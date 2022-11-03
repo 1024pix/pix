@@ -26,7 +26,7 @@
                 <span class="score-label competence-card__score-label--congrats">{{t "common.level"}}</span>
                 <span
                   class="score-value competence-card__score-value competence-card__score-value--congrats"
-                >{{this.level}}</span>
+                >{{@scorecard.level}}</span>
               </div>
             </div>
           {{else}}
@@ -40,7 +40,7 @@
             >
               <div class="competence-card__level">
                 <span class="score-label">{{t "common.level"}}</span>
-                <span class="score-value">{{replace-zero-by-dash this.level}}</span>
+                <span class="score-value">{{replace-zero-by-dash @scorecard.level}}</span>
               </div>
             </CircleChart>
           {{/if}}
