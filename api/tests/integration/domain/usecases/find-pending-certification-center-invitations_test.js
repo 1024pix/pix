@@ -54,11 +54,11 @@ describe('Integration | UseCase | find-pending-certification-center-invitations'
     });
   });
 
-  it('should return pending certification center invitations sorted by email and updatedAt', async function () {
+  it('should return pending certification center invitations sorted by updatedAt', async function () {
     // given
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     const oldestInvitationUpdatedAt = new Date('2022-06-10');
-    const latestInvitationUpdatedAt = new Date('2023-10-15');
+    const latestInvitationUpdatedAt = new Date('2024-10-15');
 
     databaseBuilder.factory.buildCertificationCenterInvitation({
       certificationCenterId,
@@ -93,10 +93,10 @@ describe('Integration | UseCase | find-pending-certification-center-invitations'
     });
 
     // then
-    expect(certificationCenterInvitations[0].email).to.equal('alex.terieur@example.net');
+    expect(certificationCenterInvitations[0].email).to.equal('sarah.pelle@example.net');
+    expect(certificationCenterInvitations[0].updatedAt).to.deep.equal(latestInvitationUpdatedAt);
     expect(certificationCenterInvitations[1].email).to.equal('amede.bu@example.net');
-    expect(certificationCenterInvitations[2].email).to.equal('sarah.pelle@example.net');
-    expect(certificationCenterInvitations[2].updatedAt).to.deep.equal(latestInvitationUpdatedAt);
+    expect(certificationCenterInvitations[2].email).to.equal('alex.terieur@example.net');
     expect(certificationCenterInvitations[3].email).to.equal('sarah.pelle@example.net');
     expect(certificationCenterInvitations[3].updatedAt).to.deep.equal(oldestInvitationUpdatedAt);
   });
