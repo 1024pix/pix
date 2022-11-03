@@ -18,7 +18,7 @@
 
     <div class="scorecard-details-content__right">
 
-      {{#unless @scorecard.isNotStarted}}
+      {{#if (or @scorecard.isStarted @scorecard.isFinished)}}
         <div class="scorecard-details-content-right__score-container">
           {{#if @scorecard.isFinishedWithMaxLevel}}
             <div class="competence-card__congrats">
@@ -50,7 +50,7 @@
             <div class="score-value">{{replace-zero-by-dash @scorecard.earnedPix}}</div>
           </div>
         </div>
-      {{/unless}}
+      {{/if}}
 
       {{#if this.isProgressable}}
         <div class="scorecard-details-content-right__level-info">
