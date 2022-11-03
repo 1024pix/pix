@@ -23,6 +23,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           type: 'feature-toggles',
           attributes: {
             'is-clea-results-retrieval-by-habilitated-certification-centers-enabled': false,
+            'is-massive-session-management-enabled': false,
           },
         },
       };
