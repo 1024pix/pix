@@ -13,10 +13,6 @@ export default class ScorecardDetails extends Component {
 
   @tracked showResetModal = false;
 
-  get level() {
-    return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;
-  }
-
   get isProgressable() {
     return this.args.scorecard.isStarted && !this.args.scorecard.isMaxLevel;
   }
