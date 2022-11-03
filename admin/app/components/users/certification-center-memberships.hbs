@@ -11,6 +11,7 @@
           <th>Nom</th>
           <th>Type</th>
           <th>Identifiant externe</th>
+          <th>Actions</th>
         </tr>
       </thead>
 
@@ -30,6 +31,16 @@
               <td>{{certificationCenterMembership.certificationCenter.name}}</td>
               <td>{{certificationCenterMembership.certificationCenter.type}}</td>
               <td>{{certificationCenterMembership.certificationCenter.externalId}}</td>
+              <td>
+                <PixButton
+                  @size="small"
+                  @backgroundColor="red"
+                  @triggerAction={{fn this.disableCertificationCenterMembership certificationCenterMembership}}
+                  class="member-item-actions__button"
+                >
+                  <FaIcon @icon="trash" />Désactiver
+                </PixButton>
+              </td>
             </tr>
           {{/each}}
         </tbody>

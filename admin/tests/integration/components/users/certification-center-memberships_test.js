@@ -1,8 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Integration | Component | users | certification-center-memberships', function (hooks) {
   setupRenderingTest(hooks);
@@ -46,5 +48,79 @@ module('Integration | Component | users | certification-center-memberships', fun
       // then
       assert.dom(screen.getByText('Centre Kaede')).exists();
     });
+  });
+
+  test('it should be possible to deactivate a certification center membership from a pix certification center user', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const pixCertifUser = store.createRecord('user', { firstName: 'Gaara' });
+    const certificationCenter = store.createRecord('certification-center', {
+      id: 123,
+      name: 'Suna Center',
+      externalId: 'S4BL3',
+      type: 'SCO',
+    });
+
+    const certificationCenterMembership = store.createRecord('certification-center-membership', {
+      id: 456789,
+      certificationCenter,
+      user: pixCertifUser,
+      destroyRecord: sinon.stub().resolves(),
+    });
+    this.set('certificationCenterMemberships', [certificationCenterMembership]);
+
+    const notificationSuccessStub = sinon.stub();
+
+    class NotificationsStub extends Service {
+      success = notificationSuccessStub;
+    }
+    this.owner.register('service:notifications', NotificationsStub);
+
+    // when
+    await render(
+      hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{certificationCenterMemberships}} />`
+    );
+    await clickByName('Désactiver');
+
+    // then
+    assert.ok(certificationCenterMembership.destroyRecord.called);
+    sinon.assert.calledWith(notificationSuccessStub, 'Le membre a correctement été désactivé.');
+  });
+
+  test('it should display an error message when it is not possible to deactivate a certification center membership from a pix certification center user', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const pixCertifUser = store.createRecord('user', { firstName: 'Nagato' });
+    const certificationCenter = store.createRecord('certification-center', {
+      id: '123',
+      name: 'Ame Center',
+      externalId: 'PLU1E',
+      type: 'SCO',
+    });
+
+    const certificationCenterMembership = store.createRecord('certification-center-membership', {
+      id: 456789,
+      certificationCenter,
+      user: pixCertifUser,
+      destroyRecord: sinon.stub().rejects(),
+    });
+    this.set('certificationCenterMemberships', [certificationCenterMembership]);
+
+    const notificationErrorStub = sinon.stub();
+
+    class NotificationsStub extends Service {
+      error = notificationErrorStub;
+    }
+    this.owner.register('service:notifications', NotificationsStub);
+
+    // when
+    await render(
+      hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{certificationCenterMemberships}} />`
+    );
+    await clickByName('Désactiver');
+
+    // then
+    assert.ok(certificationCenterMembership.destroyRecord.called);
+    sinon.assert.calledWith(notificationErrorStub, "Une erreur est survenue, le membre n'a pas été désactivé.");
   });
 });
