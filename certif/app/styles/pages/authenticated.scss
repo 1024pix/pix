@@ -1,6 +1,5 @@
 .app {
   display: flex;
-  min-height: 100%;
   min-height: 100vh;
 
   &__sidebar {
@@ -68,7 +67,6 @@
 .main-content {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   overflow: auto;
 
   &__topbar {
