@@ -17,9 +17,10 @@ module.exports = async function getUserCertificationEligibility({
     userId,
   });
 
-  const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(
-    ({ badge }) => badge.complementaryCertificationBadge.label
-  );
+  const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(({ badge }) => ({
+    label: badge.complementaryCertificationBadge.label,
+    imageUrl: badge.complementaryCertificationBadge.imageUrl,
+  }));
 
   return new CertificationEligibility({
     id: userId,

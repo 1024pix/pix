@@ -48,7 +48,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   });
 
   context(`when badge is not acquired`, function () {
-    it(`should return the user certification eligibility with not eligible badge`, async function () {
+    it('should return the user certification eligibility with not eligible badge', async function () {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -66,34 +66,40 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       // then
       expect(certificationEligibility.eligibleComplementaryCertifications).to.be.empty;
     });
+  });
 
-    context(`when badge is acquired`, function () {
-      it(`should return the user certification eligibility with eligible badge`, async function () {
-        // given
-        const placementProfile = {
-          isCertifiable: () => true,
-        };
-        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-          badge: domainBuilder.buildBadge({
-            key: 'BADGE_KEY',
-            complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-              label: 'BADGE_LABEL',
-            }),
+  context('when badge is acquired', function () {
+    it('should return the user certification eligibility with the eligible badge', async function () {
+      // given
+      const placementProfile = {
+        isCertifiable: () => true,
+      };
+      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        badge: domainBuilder.buildBadge({
+          key: 'BADGE_KEY',
+          complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
+            label: 'BADGE_LABEL',
+            imageUrl: 'http://www.image-url.com',
           }),
-        });
-        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([badgeAcquisition]);
-
-        // when
-        const certificationEligibility = await getUserCertificationEligibility({
-          userId: 2,
-          placementProfileService,
-          certificationBadgesService,
-        });
-
-        // then
-        expect(certificationEligibility.eligibleComplementaryCertifications).contains('BADGE_LABEL');
+        }),
       });
+      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([badgeAcquisition]);
+
+      // when
+      const certificationEligibility = await getUserCertificationEligibility({
+        userId: 2,
+        placementProfileService,
+        certificationBadgesService,
+      });
+
+      // then
+      expect(certificationEligibility.eligibleComplementaryCertifications).to.deep.equal([
+        {
+          label: 'BADGE_LABEL',
+          imageUrl: 'http://www.image-url.com',
+        },
+      ]);
     });
   });
 });
