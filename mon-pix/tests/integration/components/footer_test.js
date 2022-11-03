@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import { contains } from '../../helpers/contains';
 
@@ -23,12 +24,13 @@ describe('Integration | Component | Footer', function () {
     await render(hbs`<Footer />}`);
 
     // then
-    expect(findAll('.footer-navigation__item')).to.have.lengthOf(5);
+    expect(findAll('.footer-navigation__item')).to.have.lengthOf(6);
     expect(contains(this.intl.t('navigation.footer.a11y'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.data-protection-policy'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.eula'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.help-center'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.sitemap'))).to.exist;
+    expect(contains(this.intl.t('navigation.footer.student-data-protection-policy'))).to.exist;
   });
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
@@ -61,5 +63,14 @@ describe('Integration | Component | Footer', function () {
 
     // then
     expect(find('.footer-logos__french-government')).to.exist;
+  });
+
+  it('should display the student data policy', async function () {
+    // given & when
+    const screen = await renderScreen(hbs`<Footer />}`);
+
+    // then
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') })).to
+      .exist;
   });
 });
