@@ -139,4 +139,23 @@ module.exports = {
     });
     return h.response().code(204);
   },
+
+  async sendInvitationForAdmin(request, h) {
+    const certificationCenterId = request.params.certificationCenterId;
+    const invitationInformation = await certificationCenterInvitationSerializer.deserializeForAdmin(request.payload);
+
+    const { certificationCenterInvitation, created } =
+      await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
+        email: invitationInformation.email,
+        locale: invitationInformation.language,
+        certificationCenterId,
+      });
+
+    const serializedCertificationCenterInvitation =
+      certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
+    if (created) {
+      return h.response(serializedCertificationCenterInvitation).created();
+    }
+    return h.response(serializedCertificationCenterInvitation);
+  },
 };
