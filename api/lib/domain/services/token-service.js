@@ -47,10 +47,11 @@ function createAccessTokenFromApplication(
   );
 }
 
-function createTokenForCampaignResults(userId) {
+function createTokenForCampaignResults({ userId, campaignId }) {
   return jsonwebtoken.sign(
     {
       access_id: userId,
+      campaign_id: campaignId,
     },
     settings.authentication.secret,
     { expiresIn: settings.authentication.tokenForCampaignResultLifespan }
@@ -172,9 +173,10 @@ function extractClientId(token, secret = settings.authentication.secret) {
   return decoded.client_id || null;
 }
 
-function extractUserIdForCampaignResults(token) {
+function extractCampaignResultsTokenContent(token) {
   const decoded = getDecodedToken(token);
-  return decoded.access_id || null;
+  if (decoded === false) return null;
+  return { userId: decoded.access_id, campaignId: decoded.campaign_id };
 }
 
 async function extractExternalUserFromIdToken(token) {
@@ -212,5 +214,5 @@ module.exports = {
   extractTokenFromAuthChain,
   extractUserId,
   extractClientId,
-  extractUserIdForCampaignResults,
+  extractCampaignResultsTokenContent,
 };

@@ -17,6 +17,7 @@ const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const { ForbiddenAccess } = require('../../domain/errors');
 
 module.exports = {
   async save(request, h) {
@@ -64,7 +65,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(userId);
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults({ userId, campaignId });
 
     const campaign = await usecases.getCampaign({ campaignId, userId });
     return campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
@@ -72,8 +73,12 @@ module.exports = {
 
   async getCsvAssessmentResults(request) {
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserIdForCampaignResults(token);
+    const { userId, campaignId: extractedCampaignId } = tokenService.extractCampaignResultsTokenContent(token);
     const campaignId = request.params.id;
+
+    if (extractedCampaignId !== campaignId) {
+      throw new ForbiddenAccess();
+    }
 
     const writableStream = new PassThrough();
 
@@ -99,8 +104,12 @@ module.exports = {
 
   async getCsvProfilesCollectionResults(request) {
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserIdForCampaignResults(token);
+    const { userId, campaignId: extractedCampaignId } = tokenService.extractCampaignResultsTokenContent(token);
     const campaignId = request.params.id;
+
+    if (extractedCampaignId !== campaignId) {
+      throw new ForbiddenAccess();
+    }
 
     const writableStream = new PassThrough();
 

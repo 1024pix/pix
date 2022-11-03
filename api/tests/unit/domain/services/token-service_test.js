@@ -13,6 +13,29 @@ const settings = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Domain | Service | Token Service', function () {
+  describe('#createTokenForCampaignResults', function () {
+    it('should create an access token with user id and campaign id', function () {
+      // given
+      const generatedAccessToken = 'Valid-Access-Token';
+      const userId = 123;
+      const campaignId = 456;
+
+      settings.authentication.secret = 'a secret';
+      settings.authentication.tokenForCampaignResultLifespan = 10;
+
+      sinon.stub(jsonwebtoken, 'sign').returns(generatedAccessToken);
+
+      // when
+      const accessTokenForCampaignResults = tokenService.createTokenForCampaignResults({ userId, campaignId });
+
+      // then
+      expect(accessTokenForCampaignResults).to.equal(generatedAccessToken);
+      expect(jsonwebtoken.sign).to.have.been.calledWith({ access_id: userId, campaign_id: campaignId }, 'a secret', {
+        expiresIn: 10,
+      });
+    });
+  });
+
   describe('#createAccessTokenFromUser', function () {
     it('should create access token with user id and source', function () {
       // given
@@ -114,28 +137,32 @@ describe('Unit | Domain | Service | Token Service', function () {
     });
   });
 
-  describe('#extractUserIdForCampaignResults', function () {
-    it('should return userId if the accessToken is valid', function () {
-      // given
-      const userId = 123;
-      const accessToken = tokenService.createTokenForCampaignResults(userId);
+  describe('#extractCampaignResultsTokenContent', function () {
+    context('valid token', function () {
+      it('should return userId and campaignId if the accessToken is valid', function () {
+        // given
+        const accessToken = tokenService.createTokenForCampaignResults({ userId: 123, campaignId: 456 });
 
-      // when
-      const result = tokenService.extractUserIdForCampaignResults(accessToken);
+        // when
+        const { userId, campaignId } = tokenService.extractCampaignResultsTokenContent(accessToken);
 
-      // then
-      expect(result).to.equal(userId);
+        // then
+        expect(userId).to.equal(123);
+        expect(campaignId).to.equal(456);
+      });
     });
 
-    it('should return null if the accessToken is invalid', function () {
-      // given
-      const accessToken = 'WRONG_DATA';
+    context('invalid token', function () {
+      it('should return null', function () {
+        // given
+        const accessToken = 'WRONG_DATA';
 
-      // when
-      const result = tokenService.extractUserIdForCampaignResults(accessToken);
+        // when
+        const result = tokenService.extractCampaignResultsTokenContent(accessToken);
 
-      // then
-      expect(result).to.equal(null);
+        // then
+        expect(result).to.equal(null);
+      });
     });
   });
 
