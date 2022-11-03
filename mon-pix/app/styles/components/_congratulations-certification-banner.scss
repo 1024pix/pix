@@ -45,6 +45,7 @@
 .congratulations-banner__message {
   @include textBannerStyle();
 
+  padding: 0 8px;
   font-size: 1.5rem;
   margin-bottom: 16px;
 }
@@ -56,12 +57,5 @@
 
   &__icon {
     margin: auto 5px;
-  }
-}
-
-@include device-is('mobile') {
-
-  .congratulations-banner__message {
-    padding: 0 8px;
   }
 }
