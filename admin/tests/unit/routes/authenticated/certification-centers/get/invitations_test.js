@@ -42,6 +42,6 @@ module('Unit | Route | authenticated/certification-centers/get/invitations', fun
     const result = await route.model();
 
     // then
-    assert.deepEqual(result, certificationCenterInvitations);
+    assert.deepEqual(result, { certificationCenterId: 777, certificationCenterInvitations });
   });
 });
