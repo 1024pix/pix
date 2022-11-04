@@ -69,7 +69,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal("L'invitation à ce centre de certfication n'existe pas");
+      expect(error.message).to.equal("L'invitation à ce centre de certification n'existe pas");
     });
   });
 
