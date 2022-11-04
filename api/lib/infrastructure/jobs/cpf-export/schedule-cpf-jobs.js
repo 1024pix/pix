@@ -20,7 +20,7 @@ module.exports = async function scheduleCpfJobs(pgBoss) {
 
 async function _processJob(job, handler, params) {
   try {
-    await handler({ ...params });
+    await handler({ ...params, jobId: job.id });
     job.done();
   } catch (error) {
     job.done(error);
