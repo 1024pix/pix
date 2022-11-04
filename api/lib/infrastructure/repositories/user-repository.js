@@ -40,7 +40,9 @@ module.exports = {
   },
 
   getByUsernameOrEmailWithRolesAndPassword(username) {
-    return BookshelfUser.query((qb) => qb.where({ email: username.toLowerCase() }).orWhere({ username: username }))
+    return BookshelfUser.query((qb) =>
+      qb.where({ email: username.toLowerCase() }).orWhere({ username: username.toLowerCase() })
+    )
       .fetch({
         require: false,
         withRelated: [
