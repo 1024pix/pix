@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.283.0 (04/11/2022)
+
+
+### :rocket: Amélioration
+- [#5159](https://github.com/1024pix/pix/pull/5159) [FEATURE] En tant qu'utilisateur Pix Admin, je veux désactiver un membre Pix Certif depuis la page du user (PIX-5712)
+
+### :building_construction: Tech
+- [#5133](https://github.com/1024pix/pix/pull/5133) [TECH] Ajouter des informations dans les logs de pole emploi (PIX-6155).
+- [#5152](https://github.com/1024pix/pix/pull/5152) [TECH] Respecter la norme REST pour remonter les tutoriels (PIX-6103).
+- [#5154](https://github.com/1024pix/pix/pull/5154) [TECH] Supprimer le conditionnement de la page `/mes-formations` (PIX-6205).
+- [#5118](https://github.com/1024pix/pix/pull/5118) [TECH] Ajouter l'id de campagne au token de récupération des résultats de la campagne (PIX-6028)
+
+### :bug: Correction
+- [#5156](https://github.com/1024pix/pix/pull/5156) [BUGFIX] Régler le problème d'interprétation de la valeur de la colonne isManagingStudents du script OGA (PIX-6212)
+
+### :coffee: Autre
+- [#5150](https://github.com/1024pix/pix/pull/5150) [TASK] Api: Retirer le code obsolète qui scan toute la base de données Redis (PIX-6080)
+
 ## v3.282.0 (02/11/2022)
 
 
