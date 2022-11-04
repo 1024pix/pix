@@ -32,5 +32,29 @@ module('Unit | Route | join', function (hooks) {
       // then
       assert.strictEqual(certificationCenterName, 'Ninja School');
     });
+
+    module('when invitation was cancelled', function () {
+      test('should redirect to login route', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:join');
+        const store = this.owner.lookup('service:store');
+
+        sinon.stub(route.router, 'replaceWith');
+        sinon.stub(store, 'queryRecord');
+        const conflictError = { status: '409' };
+        store.queryRecord.rejects({ errors: [conflictError] });
+
+        const params = {
+          invitationId: 2,
+          code: 'ABCDEF',
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        assert.ok(route.router.replaceWith.calledWith('login'));
+      });
+    });
   });
 });
