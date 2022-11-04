@@ -5,7 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
 
-export default class ToggableLoginForm extends Component {
+export default class LoginForm extends Component {
   @service intl;
   @service url;
 
