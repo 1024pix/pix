@@ -42,6 +42,7 @@ const dependencies = {
   certificationCandidateForSupervisingRepository: require('../../infrastructure/repositories/certification-candidate-for-supervising-repository'),
   certificationCandidatesOdsService: require('../../domain/services/certification-candidates-ods-service'),
   certificationCenterInvitationRepository: require('../../infrastructure/repositories/certification-center-invitation-repository'),
+  certificationCenterInvitedUserRepository: require('../../infrastructure/repositories/certification-center-invited-user-repository'),
   certificationCenterMembershipRepository: require('../../infrastructure/repositories/certification-center-membership-repository'),
   certificationCenterForAdminRepository: require('../../infrastructure/repositories/certification-center-for-admin-repository'),
   certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
@@ -170,6 +171,7 @@ const { injectDependencies } = require('../../infrastructure/utils/dependency-in
 module.exports = injectDependencies(
   {
     abortCertificationCourse: require('./abort-certification-course'),
+    acceptCertificationCenterInvitation: require('./accept-certification-center-invitation'),
     acceptOrganizationInvitation: require('./accept-organization-invitation'),
     acceptPixLastTermsOfService: require('./accept-pix-last-terms-of-service'),
     acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
