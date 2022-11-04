@@ -60,7 +60,7 @@ describe('a11y', () => {
       { url: '/mes-tutos/enregistres' },
       { url: '/mes-tutos/recommandes' },
       { url: '/mon-compte/informations-personnelles' },
-      { url: '/mon-compte/langue', skipFailures: true },
+      { url: '/mon-compte/langue' },
       { url: '/mon-compte/methodes-de-connexion' },
       { url: '/plan-du-site'},
     ];
