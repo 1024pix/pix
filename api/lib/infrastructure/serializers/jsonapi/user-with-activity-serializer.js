@@ -3,10 +3,6 @@ const { Serializer } = require('jsonapi-serializer');
 module.exports = {
   serialize(users, meta) {
     return new Serializer('user', {
-      transform(record) {
-        record.profile = null;
-        return record;
-      },
       attributes: [
         'firstName',
         'lastName',
@@ -31,6 +27,7 @@ module.exports = {
         'hasSeenOtherChallengesTooltip',
         'hasAssessmentParticipations',
         'codeForLastProfileToShare',
+        'trainings',
       ],
       memberships: {
         ref: 'id',
@@ -71,6 +68,7 @@ module.exports = {
       profile: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/users/${parent.id}/profile`;
@@ -84,6 +82,16 @@ module.exports = {
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/users/${parent.id}/is-certifiable`;
+          },
+        },
+      },
+      trainings: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related: function (record, current, parent) {
+            return `/api/users/${parent.id}/trainings`;
           },
         },
       },

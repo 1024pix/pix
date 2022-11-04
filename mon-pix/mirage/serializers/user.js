@@ -42,6 +42,9 @@ export default ApplicationSerializer.extend({
       memberships: {
         related: `${userBaseUrl}/memberships`,
       },
+      trainings: {
+        related: `${userBaseUrl}/trainings`,
+      },
     };
   },
 });

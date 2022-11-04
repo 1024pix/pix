@@ -243,6 +243,26 @@ export default Factory.extend({
       user.update({ certifications: certificates });
     },
   }),
+  withSomeTrainings: trait({
+    afterCreate(user, server) {
+      const training = server.create('training', {
+        title: 'Devenir tailleur de citrouille',
+        link: 'http://www.example2.net',
+        type: 'autoformation',
+        duration: '10:00:00',
+        locale: 'fr-fr',
+      });
+      const anotherTraining = server.create('training', {
+        title: 'Apprendre à piloter des chauves-souris',
+        link: 'http://www.example2.net',
+        type: 'webinaire',
+        duration: '10:00:00',
+        locale: 'fr-fr',
+      });
+      const trainings = [training, anotherTraining];
+      user.update({ trainings });
+    },
+  }),
   afterCreate(user, server) {
     _addDefaultIsCertifiable(user, server);
     _addDefaultScorecards(user, server);

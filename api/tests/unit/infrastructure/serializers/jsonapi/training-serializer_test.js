@@ -29,6 +29,41 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
     });
+
+    it('should serialize trainings with pagination', function () {
+      // given
+      const training = domainBuilder.buildTraining();
+      const meta = {
+        pagination: {
+          page: 1,
+          pageSize: 10,
+          rowCount: 1,
+          pageCount: 1,
+        },
+      };
+      const expectedSerializedTraining = {
+        data: {
+          attributes: {
+            title: 'Training 1',
+            link: 'https://example.net',
+            type: 'webinar',
+            duration: {
+              hours: 5,
+            },
+            locale: 'fr-fr',
+          },
+          id: training.id.toString(),
+          type: 'trainings',
+        },
+        meta,
+      };
+
+      // when
+      const json = serializer.serialize(training, meta);
+
+      // then
+      expect(json).to.deep.equal(expectedSerializedTraining);
+    });
   });
 
   describe('#deserialize', function () {

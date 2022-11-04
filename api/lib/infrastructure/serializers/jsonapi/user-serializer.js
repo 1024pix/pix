@@ -4,10 +4,6 @@ const User = require('../../../domain/models/User');
 module.exports = {
   serialize(users, meta) {
     return new Serializer('user', {
-      transform(record) {
-        record.profile = null;
-        return record;
-      },
       attributes: [
         'firstName',
         'lastName',
@@ -31,6 +27,7 @@ module.exports = {
         'hasSeenNewDashboardInfo',
         'hasSeenFocusedChallengeTooltip',
         'hasSeenOtherChallengesTooltip',
+        'trainings',
       ],
       memberships: {
         ref: 'id',
@@ -71,6 +68,7 @@ module.exports = {
       profile: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/users/${parent.id}/profile`;
@@ -93,6 +91,16 @@ module.exports = {
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/users/${parent.id}/is-certifiable`;
+          },
+        },
+      },
+      trainings: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related: function (record, current, parent) {
+            return `/api/users/${parent.id}/trainings`;
           },
         },
       },

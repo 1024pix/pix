@@ -3,6 +3,7 @@ const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
@@ -24,6 +25,7 @@ const updateEmailSerializer = require('../../../../lib/infrastructure/serializer
 const authenticationMethodsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
 const userOrganizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
@@ -605,6 +607,46 @@ describe('Unit | Controller | user-controller', function () {
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
+    });
+  });
+
+  describe('#findPaginatedUserRecommendedTrainings', function () {
+    it('should call the appropriate use-case', async function () {
+      // given
+      const page = Symbol('page');
+      const query = Symbol('query');
+      const locale = 'fr';
+      const request = {
+        auth: {
+          credentials: {
+            userId: 1,
+          },
+        },
+        query,
+        headers: { 'accept-language': locale },
+      };
+      const expectedResult = Symbol('serialized-trainings');
+      const userRecommendedTrainings = Symbol('userRecommendedTrainings');
+      const meta = Symbol('meta');
+      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest').withArgs(request).returns(locale);
+      sinon.stub(queryParamsUtils, 'extractParameters').withArgs(query).returns({ page });
+      sinon.stub(usecases, 'findPaginatedUserRecommendedTrainings').resolves({ userRecommendedTrainings, meta });
+      sinon.stub(trainingSerializer, 'serialize').returns(expectedResult);
+
+      // when
+      const response = await userController.findPaginatedUserRecommendedTrainings(request);
+
+      // then
+      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
+      expect(requestResponseUtils.extractLocaleFromRequest).to.have.been.calledOnce;
+      expect(usecases.findPaginatedUserRecommendedTrainings).to.have.been.calledOnce;
+      expect(usecases.findPaginatedUserRecommendedTrainings).to.have.been.calledWithExactly({
+        userId: 1,
+        locale,
+        page,
+      });
+      expect(trainingSerializer.serialize).to.have.been.calledWithExactly(userRecommendedTrainings, meta);
+      expect(response).to.equal(expectedResult);
     });
   });
 
