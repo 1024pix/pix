@@ -77,11 +77,6 @@ export default function () {
     return user;
   });
 
-  this.get('/users/:id/memberships', (schema, request) => {
-    const userId = request.params.id;
-    return schema.memberships.where({ userId });
-  });
-
   this.patch('/memberships/:id');
 
   this.get('/organizations/:id/campaigns', (schema, request) => {
