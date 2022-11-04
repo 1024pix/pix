@@ -3,11 +3,11 @@ const CpfCertificationResult = require('../../domain/read-models/CpfCertificatio
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 
 module.exports = {
-  async countByTimeRange({ startDate, endDate }) {
-    const queryBuilder = _selectCpfCertificationResults({ startDate, endDate });
-    const clone = queryBuilder.clone();
-    const { rowCount } = await knex.count('*', { as: 'rowCount' }).from(clone.as('query_all_results')).first();
-    return rowCount;
+  async getIdsByTimeRange({ startDate, endDate }) {
+    const ids = await _selectCpfCertificationResults({ startDate, endDate })
+      .pluck('certification-courses.id')
+      .orderBy('certification-courses.id');
+    return ids;
   },
 
   async findByTimeRange({ startDate, endDate, offset, limit }) {
