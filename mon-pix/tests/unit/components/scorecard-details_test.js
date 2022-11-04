@@ -9,62 +9,6 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 describe('Unit | Component | scorecard-details ', function () {
   setupTest();
 
-  describe('#isProgressable', function () {
-    it('returns false if isMaxLevel', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isMaxLevel: true } });
-
-      // then
-      expect(component.isProgressable).to.equal(false);
-    });
-
-    it('returns false if isNotStarted', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isNotStarted: true } });
-
-      // then
-      expect(component.isProgressable).to.equal(false);
-    });
-
-    it('returns false if isFinished', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinished: true } });
-
-      // then
-      expect(component.isProgressable).to.equal(false);
-    });
-
-    it('returns true otherwise', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: {} });
-
-      // then
-      expect(component.isProgressable).to.equal(true);
-    });
-  });
-
-  describe('#canImprove', function () {
-    it('returns true if maxlevel not reached', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', {
-        scorecard: { isFinishedWithMaxLevel: false },
-      });
-
-      // then
-      expect(component.canImprove).to.equal(true);
-    });
-
-    it('returns false if maxlevel reached', function () {
-      // when
-      const component = createGlimmerComponent('component:scorecard-details', {
-        scorecard: { isFinishedWithMaxLevel: true },
-      });
-
-      // then
-      expect(component.canImprove).to.equal(false);
-    });
-  });
-
   describe('#tutorialsGroupedByTubeName', function () {
     it('returns an array of tubes with related tutorials', function () {
       // given
@@ -161,38 +105,6 @@ describe('Unit | Component | scorecard-details ', function () {
 
       // then
       sinon.assert.calledWith(competenceEvaluation.improve, { userId, competenceId, scorecardId });
-    });
-  });
-
-  describe('#shouldWaitBeforeImproving', function () {
-    let component, scorecard;
-
-    beforeEach(() => {
-      const competenceId = 'recCompetenceId';
-      scorecard = EmberObject.create({ competenceId });
-      component = createGlimmerComponent('component:competence-card-default', { scorecard });
-    });
-
-    it('should return true when remaining days before improving are different than 0', () => {
-      // given
-      scorecard.remainingDaysBeforeImproving = 3;
-
-      // when
-      const result = component.shouldWaitBeforeImproving;
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    it('should return false when remaining days before improving are equal to 0', () => {
-      // given
-      scorecard.remainingDaysBeforeImproving = 0;
-
-      // when
-      const result = component.shouldWaitBeforeImproving;
-
-      // then
-      expect(result).to.be.false;
     });
   });
 });

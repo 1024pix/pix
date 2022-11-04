@@ -125,6 +125,64 @@ describe('Unit | Model | Scorecard model', function () {
     });
   });
 
+  describe('isProgressable', function () {
+    context('when the competence is finished', function () {
+      it('should return false', function () {
+        // given
+        scorecard.status = 'COMPLETED';
+
+        // when
+        const isProgressable = scorecard.isProgressable;
+
+        // then
+        expect(isProgressable).to.be.false;
+      });
+    });
+
+    context('when the competence is not started', function () {
+      it('should return false', function () {
+        // given
+        scorecard.status = 'NOT_STARTED';
+
+        // when
+        const isProgressable = scorecard.isProgressable;
+
+        // then
+        expect(isProgressable).to.be.false;
+      });
+    });
+
+    context('when the competence is started', function () {
+      context('and max level is reached', function () {
+        it('should return false', function () {
+          // given
+          scorecard.level = maxReachableLevel;
+          scorecard.status = 'STARTED';
+
+          // when
+          const isProgressable = scorecard.isProgressable;
+
+          // then
+          expect(isProgressable).to.be.false;
+        });
+      });
+
+      context('when max level is not reached', function () {
+        it('should return true', function () {
+          // given
+          scorecard.level = 1;
+          scorecard.status = 'STARTED';
+
+          // when
+          const isProgressable = scorecard.isProgressable;
+
+          // then
+          expect(isProgressable).to.be.true;
+        });
+      });
+    });
+  });
+
   describe('isImprovable', function () {
     context('when the competence is finished with max level', function () {
       it('should return false', function () {
@@ -188,6 +246,158 @@ describe('Unit | Model | Scorecard model', function () {
         });
       }
     );
+  });
+
+  describe('shouldWaitBeforeImproving', function () {
+    context('when the competence is not started', function () {
+      it('should return false', function () {
+        // given
+        scorecard.status = 'NOT_STARTED';
+
+        // when
+        const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
+
+        // then
+        expect(shouldWaitBeforeImproving).to.be.false;
+      });
+    });
+
+    context('when the competence is started', function () {
+      it('should return false', function () {
+        // given
+        scorecard.status = 'STARTED';
+
+        // when
+        const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
+
+        // then
+        expect(shouldWaitBeforeImproving).to.be.false;
+      });
+    });
+
+    context('when the competence is finished', function () {
+      beforeEach(function () {
+        scorecard.status = 'COMPLETED';
+      });
+
+      context('when the max level is reached', function () {
+        it('should return false', function () {
+          // given
+          scorecard.level = maxReachableLevel;
+
+          // when
+          const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
+
+          // then
+          expect(shouldWaitBeforeImproving).to.be.false;
+        });
+      });
+
+      context('when the max level is not reached', function () {
+        context('when there are remaining days before improving', function () {
+          it('should return true', function () {
+            // given
+            scorecard.level = 2;
+            scorecard.remainingDaysBeforeImproving = 1;
+
+            // when
+            const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
+
+            // then
+            expect(shouldWaitBeforeImproving).to.be.true;
+          });
+        });
+
+        context('when there are no remaining days before improving', function () {
+          it('should return false', function () {
+            // given
+            scorecard.level = 2;
+            scorecard.remainingDaysBeforeImproving = 0;
+
+            // when
+            const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
+
+            // then
+            expect(shouldWaitBeforeImproving).to.be.false;
+          });
+        });
+      });
+    });
+  });
+
+  describe('isResettable', function () {
+    context('when the competence is not started', function () {
+      it('should return false', function () {
+        // given
+        scorecard.status = 'NOT_STARTED';
+
+        // when
+        const isResettable = scorecard.isResettable;
+
+        // then
+        expect(isResettable).to.be.false;
+      });
+    });
+
+    context('when the competence is started', function () {
+      context('when there are remaining days before reset', function () {
+        it('should return false', function () {
+          // given
+          scorecard.status = 'STARTED';
+          scorecard.remainingDaysBeforeReset = 2;
+
+          // when
+          const isResettable = scorecard.isResettable;
+
+          // then
+          expect(isResettable).to.be.false;
+        });
+      });
+
+      context('when there are no remaining days before reset', function () {
+        it('should return true', function () {
+          // given
+          scorecard.status = 'STARTED';
+          scorecard.remainingDaysBeforeReset = 0;
+
+          // when
+          const isResettable = scorecard.isResettable;
+
+          // then
+          expect(isResettable).to.be.true;
+        });
+      });
+    });
+
+    context('when the competence is finished', function () {
+      context('when there are remaining days before reset', function () {
+        it('should return true', function () {
+          // given
+          scorecard.status = 'COMPLETED';
+          scorecard.remainingDaysBeforeReset = 1;
+
+          // when
+          const isResettable = scorecard.isResettable;
+
+          // then
+          expect(isResettable).to.be.false;
+        });
+      });
+
+      context('when there are no remaining days before reset', function () {
+        it('should return false', function () {
+          // given
+          scorecard.status = 'COMPLETED';
+          scorecard.remainingDaysBeforeReset = 0;
+
+          // when
+          const isResettable = scorecard.isResettable;
+
+          // then
+          expect(isResettable).to.be.true;
+        });
+      });
+    });
   });
 
   describe('hasNotEarnAnything', function () {

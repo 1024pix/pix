@@ -20,7 +20,7 @@
 
       {{#if @scorecard.isFinished}}
         <div class="scorecard-details-content-right__score-container">
-          {{#if @scorecard.isFinishedWithMaxLevel}}
+          {{#if this.displayCongrats}}
             <div class="competence-card__congrats">
               <div class="competence-card__level competence-card__level--congrats">
                 <span class="score-label competence-card__score-label--congrats">{{t "common.level"}}</span>
@@ -51,31 +51,31 @@
           </div>
         </div>
 
-        {{#if this.canImprove}}
-          {{#if this.shouldWaitBeforeImproving}}
-            <div class="scorecard-details__improvement-countdown">
-              <span class="scorecard-details-improvement-countdown__label">{{t
-                  "pages.competence-details.actions.improve.description.waiting-text"
-                }}</span>
-              <span class="scorecard-details-improvement-countdown__count">{{t
-                  "pages.competence-details.actions.improve.description.countdown"
-                  daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
-                }}</span>
-            </div>
-          {{else}}
-            <PixButton
-              class="scorecard-details__improve-button"
-              @shape="rounded"
-              @backgroundColor="green"
-              @triggerAction={{this.improveCompetenceEvaluation}}
-            >
-              {{t "pages.competence-details.actions.improve.label"}}
-              <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
-            </PixButton>
-            <span class="scorecard-details__improving-text">{{t
-                "pages.competence-details.actions.improve.improvingText"
+        {{#if this.displayImprovingWaitSentence}}
+          <div class="scorecard-details__improvement-countdown">
+            <span class="scorecard-details-improvement-countdown__label">{{t
+                "pages.competence-details.actions.improve.description.waiting-text"
               }}</span>
-          {{/if}}
+            <span class="scorecard-details-improvement-countdown__count">{{t
+                "pages.competence-details.actions.improve.description.countdown"
+                daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
+              }}</span>
+          </div>
+        {{/if}}
+
+        {{#if this.displayImprovingButton}}
+          <PixButton
+            class="scorecard-details__improve-button"
+            @shape="rounded"
+            @backgroundColor="green"
+            @triggerAction={{this.improveCompetenceEvaluation}}
+          >
+            {{t "pages.competence-details.actions.improve.label"}}
+            <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
+          </PixButton>
+          <span class="scorecard-details__improving-text">{{t
+              "pages.competence-details.actions.improve.improvingText"
+            }}</span>
         {{/if}}
 
         {{#if this.displayResetButton}}
@@ -92,7 +92,7 @@
           </PixButton>
         {{/if}}
 
-        {{#if this.displayWaitSentence}}
+        {{#if this.displayResetWaitSentence}}
           <p class="scorecard-details-content-right__reset-message">{{t
               "pages.competence-details.actions.reset.description"
               daysBeforeReset=@scorecard.remainingDaysBeforeReset
@@ -122,7 +122,7 @@
           </div>
         </div>
 
-        {{#if this.isNotMaxLevel}}
+        {{#if this.displayRemainingPixToNextLevel}}
           <div class="scorecard-details-content-right__level-info">
             {{t
               "pages.competence-details.next-level-info"
@@ -155,7 +155,7 @@
           </PixButton>
         {{/if}}
 
-        {{#if this.displayWaitSentence}}
+        {{#if this.displayResetWaitSentence}}
           <p class="scorecard-details-content-right__reset-message">{{t
               "pages.competence-details.actions.reset.description"
               daysBeforeReset=@scorecard.remainingDaysBeforeReset
