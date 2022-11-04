@@ -130,6 +130,13 @@ export default function () {
     const certificationCenterId = request.params.id;
     return schema.certificationCenterInvitations.where({ certificationCenterId });
   });
+  this.post('/admin/certification-centers/:id/invitations', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const email = params.data.attributes.email;
+    const lang = params.data.attributes.lang;
+    const updatedAt = Date.now();
+    return schema.certificationCenterInvitations.create({ email, lang, updatedAt });
+  });
 
   this.delete('/admin/certification-center-memberships/:id', (schema, request) => {
     const certificationCenterMembershipId = request.params.id;
