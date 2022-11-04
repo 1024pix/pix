@@ -25,10 +25,6 @@ export default class BadgeForm extends Component {
 
   skillSetSkills = '';
 
-  constructor(...args) {
-    super(...args);
-  }
-
   @action
   async createBadgeAndCriteria(event) {
     event.preventDefault();
@@ -49,8 +45,9 @@ export default class BadgeForm extends Component {
       const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
 
       await badge.save({
-        adapterOptions: { targetProfileId: this.args.targetProfileId },
+        adapterOptions: { targetProfileId: this.args.targetProfile.id },
       });
+      await this.args.targetProfile.reload();
 
       this.notifications.success('Le résultat thématique a été créé.');
       this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
