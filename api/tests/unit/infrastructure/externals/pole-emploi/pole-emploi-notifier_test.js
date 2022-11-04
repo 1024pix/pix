@@ -22,7 +22,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
 
     const userId = 123;
-    const payload = 'somePayload';
+    let payload;
     const code = 'someCode';
     const data = {
       access_token: 'accessToken',
@@ -45,9 +45,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
       sinon.stub(authenticationMethodRepository, 'updateAuthenticationComplementByUserIdAndIdentityProvider');
       sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+      sinon.stub(monitoringTools, 'logInfoWithCorrelationIds');
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
+      payload = { progression: 0 };
     });
 
     afterEach(function () {
@@ -100,6 +102,27 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           url: settings.poleEmploi.sendingUrl,
           payload,
           headers: expectedHearders,
+        });
+      });
+
+      it('should log the notification to Pole Emploi', async function () {
+        // given
+        payload = { progression: 100 };
+        const expiredDate = moment().add(10, 'm').toDate();
+        const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
+
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+          .resolves(authenticationMethod);
+        httpAgent.post.resolves({ isSuccessful: true, code });
+        // when
+        await notify(userId, payload, poleEmploiSending);
+
+        // then
+        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+          event: 'participation-send-pole-emploi',
+          'pole-emploi-action': 'send-results',
+          'participation-state': 'PARTICIPATION_COMPLETED',
         });
       });
     });
@@ -233,6 +256,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
           // then
           expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+            event: 'participation-send-pole-emploi',
+            'pole-emploi-action': 'refresh-token',
+            'participation-state': 'PARTICIPATION_STARTED',
             message: expectedLoggerMessage,
           });
           expect(result).to.deep.equal(expectedResult);
@@ -240,6 +266,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
         it('should log error and return httpResponse with error if sending to PE fails', async function () {
           // given
+          payload = { dateValidation: new Date() };
+
           const tokenResponse = {
             isSuccessful: true,
             data: {
@@ -282,6 +310,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
           // then
           expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+            event: 'participation-send-pole-emploi',
+            'pole-emploi-action': 'send-results',
+            'participation-state': 'PARTICIPATION_SHARED',
             message: expectedLoggerMessage,
           });
           expect(result).to.deep.equal(expectedResult);
