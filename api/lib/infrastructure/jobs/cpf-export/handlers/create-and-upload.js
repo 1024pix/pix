@@ -14,12 +14,10 @@ module.exports = async function createAndUpload({
 }) {
   const start = new Date();
   const { jobId } = data;
-  const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange(jobId);
+  const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(jobId);
 
   if (cpfCertificationResults.length == 0) {
-    logger.error(
-      `CpfExportBuilderJob: create CPF results, with no certification found (start date: ${startDate}, end date: ${endDate}, limit: ${limit},offset: ${offset})`
-    );
+    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found (jobId ${jobId})`);
     return;
   }
 

@@ -16,9 +16,12 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
   logger.info(
     `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${certificationCourseIdChunks.length} job(s) for ${certificationCourseIds.length} certifications`
   );
-  for (const [index, certificationCourseIdChunk] of certificationCourseIdChunks.entries()) {
+  for (const [index, certificationCourseIds] of certificationCourseIdChunks.entries()) {
     const batchId = `${jobId}#${index}`;
-    await cpfCertificationResultRepository.markCertificationToExport(certificationCourseIdChunk, batchId);
+    await cpfCertificationResultRepository.markCertificationToExport({
+      certificationCourseIds,
+      batchId,
+    });
     pgBoss.send('CpfExportBuilderJob', {
       jobId: batchId,
     });

@@ -36,18 +36,18 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
 
     // then
     expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);
-    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(0)).to.have.been.calledWithExactly(
-      ['1', '2'],
-      '237584-7648#0'
-    );
-    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(1)).to.have.been.calledWithExactly(
-      ['3', '4'],
-      '237584-7648#1'
-    );
-    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(2)).to.have.been.calledWithExactly(
-      ['5'],
-      '237584-7648#2'
-    );
+    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(0)).to.have.been.calledWithExactly({
+      certificationCourseIds: ['1', '2'],
+      batchId: '237584-7648#0',
+    });
+    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(1)).to.have.been.calledWithExactly({
+      certificationCourseIds: ['3', '4'],
+      batchId: '237584-7648#1',
+    });
+    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(2)).to.have.been.calledWithExactly({
+      certificationCourseIds: ['5'],
+      batchId: '237584-7648#2',
+    });
     expect(cpfCertificationResultRepository.getIdsByTimeRange).to.have.been.calledWith({ startDate, endDate });
     expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {
       jobId: '237584-7648#0',
