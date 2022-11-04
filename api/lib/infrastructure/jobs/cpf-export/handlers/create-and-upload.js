@@ -39,7 +39,7 @@ module.exports = async function createAndUpload({
     readableStream: gzipStream,
   });
 
-  await cpfCertificationResultRepository.markCertificationToExport({ certificationCourseIds, filename });
+  await cpfCertificationResultRepository.markCertificationCoursesAsExported({ certificationCourseIds, filename });
   logger.info(`${filename} generated in ${_getTimeInSec(start)}s.`);
 };
 

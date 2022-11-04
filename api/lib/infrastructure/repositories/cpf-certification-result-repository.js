@@ -19,14 +19,12 @@ module.exports = {
     return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
-  async findByJobId(jobId) {},
-
   async markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
     return knex('certification-courses').update({ cpfFilename: filename }).whereIn('id', certificationCourseIds);
   },
 
-  async markCertificationToExport({ certificationCourseIds, filename }) {
-    return knex('certification-courses').update({ cpfFilename: filename }).whereIn('id', certificationCourseIds);
+  async markCertificationToExport({ certificationCourseIds, batchId }) {
+    return knex('certification-courses').update({ cpfFilename: batchId }).whereIn('id', certificationCourseIds);
   },
 };
 

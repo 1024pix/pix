@@ -12,6 +12,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
   beforeEach(function () {
     cpfCertificationResultRepository = {
       getIdsByTimeRange: sinon.stub(),
+      markCertificationToExport: sinon.stub(),
     };
     pgBoss = {
       send: sinon.stub(),
@@ -34,6 +35,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     await planner({ pgBoss, cpfCertificationResultRepository, jobId });
 
     // then
+    expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);
     expect(cpfCertificationResultRepository.getIdsByTimeRange).to.have.been.calledWith({ startDate, endDate });
     expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {
       jobId: '237584-7648#0',
