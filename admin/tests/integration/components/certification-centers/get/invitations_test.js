@@ -8,8 +8,13 @@ module('Integration | Component | Certification Centers | Invitations', function
 
   module('when there is no certification center invitations', function () {
     test('should show "Aucune invitation en attente"', async function (assert) {
-      // give & when
-      const screen = await render(hbs`<CertificationCenters::Invitations />`);
+      // given
+      this.certificationCenterInvitations = [];
+
+      // when
+      const screen = await render(
+        hbs`<CertificationCenters::Invitations @certificationCenterInvitations={{certificationCenterInvitations}} />`
+      );
 
       // then
       assert.dom(screen.getByText('Aucune invitation en attente')).exists();
@@ -22,9 +27,11 @@ module('Integration | Component | Certification Centers | Invitations', function
       const store = this.owner.lookup('service:store');
       const certificationCenterInvitation1 = store.createRecord('certification-center-invitation', {
         email: 'elo.dela@example.net',
+        updatedAt: new Date('2020-02-02'),
       });
       const certificationCenterInvitation2 = store.createRecord('certification-center-invitation', {
         email: 'alain.finis@example.net',
+        updatedAt: new Date('2022-02-02'),
       });
       this.certificationCenterInvitations = [certificationCenterInvitation1, certificationCenterInvitation2];
 
