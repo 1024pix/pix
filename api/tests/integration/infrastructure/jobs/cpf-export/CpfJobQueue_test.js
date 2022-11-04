@@ -38,7 +38,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | CpfJobQueue', funct
     sinon.stub(cpf.plannerJob, 'minimumReliabilityPeriod').value(0);
 
     let seconds = 0;
-    pgBoss.send.callsFake(async (jobName, data) => {
+    pgBoss.send.callsFake(async (_, data) => {
       // On attends x secondes pour que le etapes precedentes soient terminés
       await new Promise((resolve) => setTimeout(() => resolve(), (seconds += 500)));
 
@@ -51,7 +51,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | CpfJobQueue', funct
     });
 
     // when
-    await planner({ pgBoss, cpfCertificationResultRepository });
+    await planner({ pgBoss, cpfCertificationResultRepository, jobId: 'XXX-AAA#01' });
 
     // then
     // attends 12 secondes que tout soit terminé
