@@ -2,6 +2,8 @@ const { expect, sinon } = require('../../../../../test-helper');
 const planner = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner');
 const dayjs = require('dayjs');
 const { cpf } = require('../../../../../../lib/config');
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
 describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
   let cpfCertificationResultRepository;
