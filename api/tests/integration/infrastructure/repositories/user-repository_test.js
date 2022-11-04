@@ -352,21 +352,27 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(foundUser.email).to.equal(expectedUser.email);
       });
 
-      it('should return user informations for the given username', async function () {
+      it('should return user informations for the given username (case insensitive)', async function () {
         // given
-        const expectedUser = new User(userInDB);
+        const savedUser = databaseBuilder.factory.buildUser({
+          username: 'thomas123',
+          firstName: 'Thomas',
+          lastName: 'Dupont',
+          cgu: true,
+        });
+        await databaseBuilder.commit();
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.username);
+        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword('thOMas123');
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
-        expect(foundUser.id).to.equal(expectedUser.id);
-        expect(foundUser.firstName).to.equal(expectedUser.firstName);
-        expect(foundUser.lastName).to.equal(expectedUser.lastName);
-        expect(foundUser.username).to.equal(expectedUser.username);
-        expect(foundUser.email).to.equal(expectedUser.email);
-        expect(foundUser.cgu).to.equal(expectedUser.cgu);
+        expect(foundUser.id).to.equal(savedUser.id);
+        expect(foundUser.firstName).to.equal(savedUser.firstName);
+        expect(foundUser.lastName).to.equal(savedUser.lastName);
+        expect(foundUser.username).to.equal(savedUser.username);
+        expect(foundUser.email).to.equal(savedUser.email);
+        expect(foundUser.cgu).to.equal(savedUser.cgu);
       });
 
       it('should return authenticationMethods associated to the user', async function () {
