@@ -12,7 +12,8 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
   const endDate = dayjs().utc().subtract(plannerJob.minimumReliabilityPeriod, 'months').endOf('month').toDate();
 
   const jobIds = await cpfCertificationResultRepository.getIdsByTimeRange({ startDate, endDate });
-  const jobCount = Math.ceil(jobIds.length / plannerJob.chunkSize);
+  const jobCount = jobIds.split(0, plannerJob.chunkSize);
+
   logger.info(
     `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${jobCount} job(s) for ${jobIds.length} certifications`
   );

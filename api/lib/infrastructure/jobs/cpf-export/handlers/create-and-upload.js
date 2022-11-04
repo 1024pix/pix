@@ -13,13 +13,8 @@ module.exports = async function createAndUpload({
   cpfExternalStorage,
 }) {
   const start = new Date();
-  const { startDate, endDate, limit, offset } = data;
-  const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({
-    startDate,
-    endDate,
-    limit,
-    offset,
-  });
+  const { jobId } = data;
+  const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange(jobId);
 
   if (cpfCertificationResults.length == 0) {
     logger.error(
@@ -44,7 +39,7 @@ module.exports = async function createAndUpload({
     readableStream: gzipStream,
   });
 
-  await cpfCertificationResultRepository.markCertificationCoursesAsExported({ certificationCourseIds, filename });
+  await cpfCertificationResultRepository.markCertificationToExport({ certificationCourseIds, filename });
   logger.info(`${filename} generated in ${_getTimeInSec(start)}s.`);
 };
 

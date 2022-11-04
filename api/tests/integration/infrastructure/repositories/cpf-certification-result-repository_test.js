@@ -836,6 +836,28 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('filename.xml');
     });
   });
+
+  describe('#markCertificationToExport', function () {
+    it('should save batchId in cpfFilename', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfFilename: null });
+      await databaseBuilder.commit();
+
+      // when
+      await cpfCertificationResultRepository.markCertificationCoursesAsExported({
+        certificationCourseIds: [456, 789],
+        filename: '1234-75834#0',
+      });
+
+      // then
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename');
+      expect(certificationCourses.find(({ id }) => id === 123).cpfFilename).to.be.null;
+      expect(certificationCourses.find(({ id }) => id === 456).cpfFilename).to.equal('1234-75834#0');
+      expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('1234-75834#0');
+    });
+  });
 });
 function createCertificationCourseWithCompetenceMarks({
   certificationCourseId = 145,
