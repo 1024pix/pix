@@ -11,7 +11,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
 
   beforeEach(function () {
     cpfCertificationResultRepository = {
-      countByTimeRange: sinon.stub(),
+      getIdsByTimeRange: sinon.stub(),
     };
     pgBoss = {
       send: sinon.stub(),
@@ -28,13 +28,13 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     const startDate = dayjs().utc().subtract(3, 'months').startOf('month').toDate();
     const endDate = dayjs().utc().subtract(2, 'months').endOf('month').toDate();
 
-    cpfCertificationResultRepository.countByTimeRange.resolves(5);
+    cpfCertificationResultRepository.getIdsByTimeRange.resolves(['1', '2', '3', '4', '5']);
 
     // when
     await planner({ pgBoss, cpfCertificationResultRepository, jobId });
 
     // then
-    expect(cpfCertificationResultRepository.countByTimeRange).to.have.been.calledWith({ startDate, endDate });
+    expect(cpfCertificationResultRepository.getIdsByTimeRange).to.have.been.calledWith({ startDate, endDate });
     expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {
       jobId: '237584-7648#0',
     });

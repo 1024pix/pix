@@ -3,8 +3,8 @@ const cpfCertificationResultRepository = require('../../../../lib/infrastructure
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Integration | Repository | CpfCertificationResult', function () {
-  describe('#countByTimeRange', function () {
-    it('should return the total number of certifications', async function () {
+  describe('#getIdsByTimeRange', function () {
+    it('should return the ids of the certifications', async function () {
       // given
       const startDate = new Date('2022-01-01');
       const endDate = new Date('2022-01-10');
@@ -112,17 +112,17 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       await databaseBuilder.commit();
 
       // when
-      const count = await cpfCertificationResultRepository.countByTimeRange({
+      const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
         startDate,
         endDate,
       });
 
       // then
-      expect(count).to.equal(3);
+      expect(ids).to.deep.equals([245, 345, 545]);
     });
 
     context('when the certification course is not published', function () {
-      it('should return 0', async function () {
+      it('should return an empty array', async function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
@@ -131,18 +131,18 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const count = await cpfCertificationResultRepository.countByTimeRange({
+        const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
           startDate,
           endDate,
         });
 
         // then
-        expect(count).equal(0);
+        expect(ids).deep.equal([]);
       });
     });
 
     context('when the certification course is cancelled', function () {
-      it('should return 0', async function () {
+      it('should return an empty array', async function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
@@ -151,18 +151,18 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const count = await cpfCertificationResultRepository.countByTimeRange({
+        const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
           startDate,
           endDate,
         });
 
         // then
-        expect(count).to.equal(0);
+        expect(ids).deep.equal([]);
       });
     });
 
     context('when the latest assessment result is not validated', function () {
-      it('should return 0', async function () {
+      it('should return an empty array', async function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
@@ -174,18 +174,18 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const count = await cpfCertificationResultRepository.countByTimeRange({
+        const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
           startDate,
           endDate,
         });
 
         // then
-        expect(count).to.equal(0);
+        expect(ids).deep.equal([]);
       });
     });
 
     context('when the session date is ouf of bounds', function () {
-      it('should return 0', async function () {
+      it('should return an empty array', async function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
@@ -194,18 +194,18 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const count = await cpfCertificationResultRepository.countByTimeRange({
+        const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
           startDate,
           endDate,
         });
 
         // then
-        expect(count).to.equal(0);
+        expect(ids).deep.equal([]);
       });
     });
 
     context('when the certification course sex is not defined', function () {
-      it('should 0', async function () {
+      it('should return an empty array', async function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
@@ -214,18 +214,18 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const count = await cpfCertificationResultRepository.countByTimeRange({
+        const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
           startDate,
           endDate,
         });
 
         // then
-        expect(count).to.equal(0);
+        expect(ids).deep.equal([]);
       });
     });
 
     context('when the certification course has already been exported', function () {
-      it('should return 0', async function () {
+      it('should return an empty array', async function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
@@ -234,13 +234,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         await databaseBuilder.commit();
 
         // when
-        const count = await cpfCertificationResultRepository.countByTimeRange({
+        const ids = await cpfCertificationResultRepository.getIdsByTimeRange({
           startDate,
           endDate,
         });
 
         // then
-        expect(count).to.equal(0);
+        expect(ids).deep.equal([]);
       });
     });
   });

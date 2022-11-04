@@ -11,10 +11,10 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
     .toDate();
   const endDate = dayjs().utc().subtract(plannerJob.minimumReliabilityPeriod, 'months').endOf('month').toDate();
 
-  const certificationsCount = await cpfCertificationResultRepository.countByTimeRange({ startDate, endDate });
-  const jobCount = Math.ceil(certificationsCount / plannerJob.chunkSize);
+  const jobIds = await cpfCertificationResultRepository.getIdsByTimeRange({ startDate, endDate });
+  const jobCount = Math.ceil(jobIds.length / plannerJob.chunkSize);
   logger.info(
-    `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${jobCount} job(s) for ${certificationsCount} certifications`
+    `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${jobCount} job(s) for ${jobIds.length} certifications`
   );
   times(jobCount, (index) => {
     pgBoss.send('CpfExportBuilderJob', {
