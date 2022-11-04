@@ -3,10 +3,8 @@ import ApplicationAdapter from './application';
 export default class CertificationCenterInvitationAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
-  urlForQuery(query) {
-    const { certificationCenterId } = query.filter;
-    delete query.filter.certificationCenterId;
-
+  urlForFindAll(modelName, { adapterOptions }) {
+    const { certificationCenterId } = adapterOptions;
     return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/invitations`;
   }
 
