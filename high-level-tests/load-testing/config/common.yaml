@@ -6,7 +6,7 @@ config:
     development:
       target: "{{ $processEnvironment.TARGET_DEV_API_URL }}"
     staging:
-      target: https://integration.pix.fr
+      target: https://api.integration.pix.fr
   plugins:
     publish-metrics:
       - type: datadog
