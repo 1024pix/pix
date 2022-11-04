@@ -17,9 +17,10 @@ const authenticationMethodsSerializer = require('../../infrastructure/serializer
 const campaignParticipationForUserManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer');
 const userOrganizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
 const usecases = require('../../domain/usecases');
 
@@ -27,7 +28,7 @@ module.exports = {
   save(request, h) {
     const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
     const user = userSerializer.deserialize(request.payload);
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     const password = request.payload.data.attributes.password;
 
@@ -163,6 +164,18 @@ module.exports = {
     return userForAdminSerializer.serialize(users, pagination);
   },
 
+  async findPaginatedUserRecommendedTrainings(request) {
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+    const { page } = queryParamsUtils.extractParameters(request.query);
+    const { userRecommendedTrainings, meta } = await usecases.findPaginatedUserRecommendedTrainings({
+      userId: request.auth.credentials.userId,
+      locale,
+      page,
+    });
+
+    return trainingSerializer.serialize(userRecommendedTrainings, meta);
+  },
+
   getCampaignParticipations(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
@@ -193,14 +206,14 @@ module.exports = {
 
   getProfile(request) {
     const authenticatedUserId = request.auth.credentials.userId;
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     return usecases.getUserProfile({ userId: authenticatedUserId, locale }).then(profileSerializer.serialize);
   },
 
   getProfileForAdmin(request) {
     const userId = request.params.id;
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     return usecases.getUserProfile({ userId, locale }).then(profileSerializer.serialize);
   },
@@ -208,7 +221,7 @@ module.exports = {
   resetScorecard(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     return usecases
       .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
@@ -227,7 +240,7 @@ module.exports = {
   async getUserProfileSharedForCampaign(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const campaignId = request.params.campaignId;
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({
       userId: authenticatedUserId,
@@ -241,7 +254,7 @@ module.exports = {
   async getUserCampaignAssessmentResult(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const campaignId = request.params.campaignId;
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     const campaignAssessmentResult = await usecases.getUserCampaignAssessmentResult({
       userId: authenticatedUserId,
@@ -266,7 +279,7 @@ module.exports = {
   },
 
   async sendVerificationCode(request, h) {
-    const locale = extractLocaleFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
     const i18n = request.i18n;
     const userId = request.params.id;
     const { newEmail, password } = await emailVerificationSerializer.deserialize(request.payload);

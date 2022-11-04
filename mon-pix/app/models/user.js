@@ -22,6 +22,7 @@ export default class User extends Model {
   @belongsTo('profile', { async: false }) profile;
   @hasMany('certification') certifications;
   @hasMany('scorecard') scorecards;
+  @hasMany('trainings') trainings;
 
   // methods
   get fullName() {

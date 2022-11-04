@@ -917,6 +917,29 @@ exports.register = async function (server) {
         tags: ['api', 'user', 'authentication-methods'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/users/{id}/trainings',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: userController.findPaginatedUserRecommendedTrainings,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Elle permet la récupération des contenus formatifs de l'utilisateur courant.",
+        ],
+        tags: ['api', 'user', 'trainings'],
+      },
+    },
   ]);
 };
 
