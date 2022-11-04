@@ -1,0 +1,32 @@
+.certification-center-invitations {
+  display: flex;
+  justify-content: space-around;
+}
+
+.certification-center-invitations__heading {
+  font-size: 1.125rem;
+}
+
+.certification-center-invitations-form-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.certification-center-invitations-form-container__input {
+  min-width: 18rem;
+  margin-right: 0.4rem;
+
+  &--error {
+    border-right: 1px solid $pix-error-70;
+    border-color: $pix-error-70;
+  }
+}
+
+.certification-center-invitations-form-container__button {
+  margin-left: 6px;
+}
+
+.certification-center-invitations-form-container__error-message {
+  color: $pix-error-70;
+  font-size: 0.85rem;
+}
