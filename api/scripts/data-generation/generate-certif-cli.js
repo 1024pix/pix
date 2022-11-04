@@ -151,7 +151,11 @@ async function main({ centerType, candidateNumber, complementaryCertifications }
 }
 
 async function _getCertificationCenterIdByCenterType(centerType) {
-  const { id } = await knex('certification-centers').select('id').where({ type: centerType }).first();
+  const { id } = await knex('certification-centers')
+    .select('id')
+    .where({ type: centerType })
+    .orderBy('id', 'asc')
+    .first();
   return id;
 }
 
