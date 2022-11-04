@@ -20,6 +20,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
 
   it('should send to CpfExportBuilderJob chunks of certification course ids', async function () {
     // given
+    const jobId = '237584-7648';
     sinon.stub(cpf.plannerJob, 'chunkSize').value(2);
     sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
     sinon.stub(cpf.plannerJob, 'minimumReliabilityPeriod').value(2);
@@ -30,27 +31,18 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     cpfCertificationResultRepository.countByTimeRange.resolves(5);
 
     // when
-    await planner({ pgBoss, cpfCertificationResultRepository });
+    await planner({ pgBoss, cpfCertificationResultRepository, jobId });
 
     // then
     expect(cpfCertificationResultRepository.countByTimeRange).to.have.been.calledWith({ startDate, endDate });
     expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {
-      startDate,
-      endDate,
-      offset: 0,
-      limit: 2,
+      jobId: '237584-7648#0',
     });
     expect(pgBoss.send.secondCall).to.have.been.calledWith('CpfExportBuilderJob', {
-      startDate,
-      endDate,
-      offset: 2,
-      limit: 2,
+      jobId: '237584-7648#1',
     });
     expect(pgBoss.send.thirdCall).to.have.been.calledWith('CpfExportBuilderJob', {
-      startDate,
-      endDate,
-      offset: 4,
-      limit: 2,
+      jobId: '237584-7648#2',
     });
   });
 });
