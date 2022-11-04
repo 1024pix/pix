@@ -2,35 +2,32 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
-
-import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | Footer', function () {
   setupIntlRenderingTest();
 
   it('should display the Pix logo', async function () {
     // when
-    await render(hbs`<Footer />}`);
+    const screen = await render(hbs`<Footer />}`);
 
     // then
-    expect(find('.pix-logo__image')).to.exist;
+    expect(screen.getByAltText(this.intl.t('navigation.homepage'))).to.exist;
   });
 
   it('should display the navigation menu with expected elements', async function () {
     // when
-    await render(hbs`<Footer />}`);
+    const screen = await render(hbs`<Footer />}`);
 
     // then
-    expect(findAll('.footer-navigation__item')).to.have.lengthOf(6);
-    expect(contains(this.intl.t('navigation.footer.a11y'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.data-protection-policy'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.eula'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.help-center'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.sitemap'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.student-data-protection-policy'))).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.data-protection-policy') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') })).to
+      .exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.eula') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.help-center') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') })).to.exist;
   });
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
@@ -43,10 +40,10 @@ describe('Integration | Component | Footer', function () {
     this.owner.register('service:url', UrlServiceStub);
 
     // when
-    await render(hbs`<Footer />`);
+    const screen = await render(hbs`<Footer />`);
 
     // then
-    expect(find('.footer-logos__french-government')).to.not.exist;
+    expect(screen.queryByAltText(this.intl.t('common.french-republic'))).to.not.exist;
   });
 
   it('should display marianne logo when url does have frenchDomainExtension', async function () {
@@ -59,15 +56,15 @@ describe('Integration | Component | Footer', function () {
     this.owner.register('service:url', UrlServiceStub);
 
     // when
-    await render(hbs`<Footer />`);
+    const screen = await render(hbs`<Footer />`);
 
     // then
-    expect(find('.footer-logos__french-government')).to.exist;
+    expect(screen.getByAltText(this.intl.t('common.french-republic'))).to.exist;
   });
 
   it('should display the student data policy', async function () {
     // given & when
-    const screen = await renderScreen(hbs`<Footer />}`);
+    const screen = await render(hbs`<Footer />}`);
 
     // then
     expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') })).to
