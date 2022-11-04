@@ -51,9 +51,11 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       const saveStub = sinon.stub().resolves();
       createRecordStub.returns({ save: saveStub });
       store.createRecord = createRecordStub;
-      this.targetProfileId = 123;
+      const reloadStub = sinon.stub();
+      reloadStub.resolves();
+      this.targetProfile = { id: 123, reload: reloadStub };
 
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
+      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{targetProfile}} />`);
 
       // when
       await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage.svg');
@@ -81,7 +83,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       });
       sinon.assert.calledWith(saveStub, {
         adapterOptions: {
-          targetProfileId: this.targetProfileId,
+          targetProfileId: this.targetProfile.id,
         },
       });
       assert.ok(true);
