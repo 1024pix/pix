@@ -49,7 +49,7 @@ describe('a11y', () => {
 
   describe('Authenticated pages', () => {
     const authenticatedPages = [
-      { url: '/accueil', skipFailures: true },
+      { url: '/accueil' },
       { url: '/campagnes' },
       { url: '/campagnes/NERA/evaluation/resultats' },
       { url: '/certifications', skipFailures: true },
