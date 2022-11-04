@@ -2,13 +2,13 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | toggable-login-form', (hooks) => {
+module('Unit | Component | login-form', (hooks) => {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:auth/toggable-login-form');
+    component = createGlimmerComponent('component:auth/login-form');
   });
 
   module('#updateEmail', () => {

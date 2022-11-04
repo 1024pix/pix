@@ -5,7 +5,7 @@ import { fillByLabel, render } from '@1024pix/ember-testing-library';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
+module('Integration | Component | Auth::LoginForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let emailInputLabel;
@@ -18,7 +18,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
   test('it should display email and password inputs', async function (assert) {
     // when
-    const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+    const screen = await render(hbs`<Auth::LoginForm/>`);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: emailInputLabel })).exists();
@@ -27,7 +27,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
   test('[a11y] it should display a message that all inputs are required', async function (assert) {
     // when
-    const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+    const screen = await render(hbs`<Auth::LoginForm/>`);
 
     // then
     assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
@@ -39,7 +39,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
     test('should display an invalid email error message when focus-out', async function (assert) {
       //given
       const invalidEmail = 'invalidEmail';
-      const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+      const screen = await render(hbs`<Auth::LoginForm/>`);
 
       // when
       await fillByLabel(emailInputLabel, invalidEmail);
@@ -52,7 +52,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
     test('should display an empty password error message when focus-out', async function (assert) {
       //given
-      const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+      const screen = await render(hbs`<Auth::LoginForm/>`);
 
       // when
       await fillByLabel(passwordInputLabel, '');
