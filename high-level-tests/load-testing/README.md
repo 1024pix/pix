@@ -71,3 +71,26 @@ npm ci
 npm start
 npm report
 ```
+
+## Développement
+
+### Test de connectivité
+
+Exécuter le scénario dédié: `arti:staging:test`
+
+Le test effectue:
+
+- sur la plateforme d'intégration;
+- un seul GET sur le endpoint `/api` (sans authentification, qui renvoie la version déployée);
+- il vérifie que le résultat attendu est correct.
+
+```shell
+npm run arti:staging:test
+```
+
+S'il sort en erreur, inspecter les appels HTTP
+Pour cela, préfixer la commande par `DEBUG=http,http:capture,http:response`
+
+```shell
+DEBUG=http,http:capture,http:response npm run arti:staging:test
+```
