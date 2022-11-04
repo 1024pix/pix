@@ -312,14 +312,12 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('This user has already a confirmed email.');
     });
 
-    it('responds Conflict when an AlreadyAcceptedOrCancelledOrganizationInvitationError occurs', async function () {
-      routeHandler.throws(new DomainErrors.AlreadyAcceptedOrCancelledOrganizationInvitationError());
+    it('responds Conflict when an AlreadyAcceptedOrCancelledInvitationError occurs', async function () {
+      routeHandler.throws(new DomainErrors.AlreadyAcceptedOrCancelledInvitationError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseDetail(response)).to.equal(
-        "L'invitation à rejoindre l'organisation a déjà été acceptée ou annulée."
-      );
+      expect(responseDetail(response)).to.equal("L'invitation a déjà été acceptée ou annulée.");
     });
 
     it('responds Bad Request when a SessionWithAbortReasonOnCompletedCertificationCourseError error occurs', async function () {
