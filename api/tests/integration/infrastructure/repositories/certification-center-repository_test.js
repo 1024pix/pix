@@ -781,7 +781,7 @@ describe('Integration | Repository | Certification Center', function () {
 
   describe('#getRefererEmails', function () {
     context('when the certification center has no referer', function () {
-      it('should return null', async function () {
+      it('should return an empty array', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -792,7 +792,7 @@ describe('Integration | Repository | Certification Center', function () {
         const refererEmails = await certificationCenterRepository.getRefererEmails(certificationCenterId);
 
         // then
-        expect(refererEmails).to.be.null;
+        expect(refererEmails).to.be.empty;
       });
     });
 
