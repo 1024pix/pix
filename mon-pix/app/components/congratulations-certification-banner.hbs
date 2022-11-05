@@ -27,14 +27,20 @@
       {{/each}}
     </div>
   </div>
-  <a
-    href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
-    class="congratulations-banner__link"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <FaIcon @icon="arrow-right" class="congratulations-banner__link__icon" />
-    {{t "pages.certification-joiner.congratulation-banner.link.text"}}
-    <FaIcon @icon="up-right-from-square" class="congratulations-banner__link__icon" />
-  </a>
+  <div class="congratulations-banner__links">
+    <a
+      href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
+      class="congratulations-banner-links__link"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{t "pages.certification-joiner.congratulation-banner.link.text"}}
+      <FaIcon @icon="up-right-from-square" class="congratulations-banner-links__link--icon" />
+    </a>
+    <LinkTo @route="authenticated.user-certifications" class="congratulations-banner-links__link">{{t
+        "pages.certification-start.link-to-user-certification"
+      }}
+      <FaIcon @icon="eye" class="congratulations-banner-links__link--icon" />
+    </LinkTo>
+  </div>
 </div>
