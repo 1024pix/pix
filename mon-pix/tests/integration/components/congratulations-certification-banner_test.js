@@ -37,28 +37,53 @@ describe('Integration | Component | Congratulations Certification Banner', funct
   });
 
   describe('When there are eligible complementary certifications', function () {
-    it(`renders complementary certification eligibility messages and pictures`, async function () {
-      // given
-      const store = this.owner.lookup('service:store');
-      const certificationEligibility = store.createRecord('is-certifiable', {
-        eligibleComplementaryCertifications: [
-          { label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com' },
-          { label: 'Pix+ Édu 1er degré Confirmé', imageUrl: 'http://www.image-clea.com' },
-        ],
+    describe('When there is only one eligible complementary certification', function () {
+      it(`renders the complementary certification eligibility special message and picture`, async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationEligibility = store.createRecord('is-certifiable', {
+          eligibleComplementaryCertifications: [{ label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com' }],
+        });
+        this.set('certificationEligibility', certificationEligibility);
+        this.set('fullName', 'Fifi Brindacier');
+
+        // when
+        const screen = await render(
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+        );
+
+        // then
+        expect(screen.getByText('Vous êtes également éligible à la certification complémentaire :')).to.exist;
+        expect(screen.getByText('CléA Numérique')).to.exist;
+        expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
       });
-      this.set('certificationEligibility', certificationEligibility);
-      this.set('fullName', 'Fifi Brindacier');
+    });
 
-      // when
-      const screen = await render(
-        hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
-      );
+    describe('When there are multiple eligible complementary certifications', function () {
+      it(`renders the multiple complementary certification eligibility pluralized message and pictures`, async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationEligibility = store.createRecord('is-certifiable', {
+          eligibleComplementaryCertifications: [
+            { label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com' },
+            { label: 'Pix+ Édu 1er degré Confirmé', imageUrl: 'http://www.image-clea.com' },
+          ],
+        });
+        this.set('certificationEligibility', certificationEligibility);
+        this.set('fullName', 'Fifi Brindacier');
 
-      // then
-      expect(screen.getByText('Vous êtes également éligible à la certification CléA Numérique.')).to.exist;
-      expect(screen.getByText('Vous êtes également éligible à la certification Pix+ Édu 1er degré Confirmé.')).to.exist;
-      expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
-      expect(screen.getByRole('img', { name: 'Pix+ Édu 1er degré Confirmé' })).to.exist;
+        // when
+        const screen = await render(
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+        );
+
+        // then
+        expect(screen.getByText('Vous êtes également éligible aux certifications complémentaires :')).to.exist;
+        expect(screen.getByText('CléA Numérique')).to.exist;
+        expect(screen.getByText('Pix+ Édu 1er degré Confirmé')).to.exist;
+        expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
+        expect(screen.getByRole('img', { name: 'Pix+ Édu 1er degré Confirmé' })).to.exist;
+      });
     });
   });
 });
