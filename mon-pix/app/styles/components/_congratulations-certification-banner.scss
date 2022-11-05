@@ -5,11 +5,16 @@
   color: $pix-neutral-10;
   border-radius: 6px;
   box-sizing: border-box;
-  height: 194px;
+  height: fit-content;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  padding: 24px 16px;
+
+  @include device-is('tablet') {
+    padding: 24px 32px;
+  }
 }
 
 .congratulations-banner p {
@@ -47,15 +52,89 @@
 
   padding: 0 8px;
   font-size: 1.5rem;
-  margin-bottom: 16px;
+  margin: 0 0 24px 0;
 }
 
-.congratulations-banner__link {
+.congratulations-banner__complementary-certifications {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 16px 32px;
+  border-radius: 16px;
+  background-color: $pix-success-5;
+}
+
+.congratulations-banner-complementary-certifications__icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.congratulations-banner-complementary-certifications__icons img {
+  max-height: 64px;
+  margin-right: 16px;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+.congratulations-banner-complementary-certifications__list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  text-align: center;
+  color: $pix-neutral-90;
+}
+
+.congratulations-banner-complementary-certifications-list__message {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 22px;
+}
+
+.congratulations-banner-complementary-certifications-list__labels {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 22px;
+}
+
+.congratulations-banner__links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 80%;
+  margin-top: 24px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+    width: 55%;
+  }
+}
+
+.congratulations-banner-links__link {
   @include textBannerStyle();
 
+  padding: 4px 16px;
+  width: 100%;
+  border: 1px solid $pix-neutral-10;
+  border-radius: 4px;
+  font-family: $font-roboto;
+  font-weight: 500;
   font-size: 0.875rem;
+  margin-bottom: 12px;
 
-  &__icon {
-    margin: auto 5px;
+  &:last-child {
+    margin-bottom: 0;
   }
+
+  @include device-is('tablet') {
+    width: 45%;
+    margin-bottom: 0;
+  }
+}
+
+.congratulations-banner-links__link--icon {
+  margin: auto 5px;
 }
