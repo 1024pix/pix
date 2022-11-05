@@ -256,7 +256,7 @@
           "text": "Comment se certifier ?",
           "url": "https://pix.fr/se-certifier#slice-2"
         },
-        "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+        "message": "Bravo {fullName}, votre profil Pix est certifiable."
       },
       "error-messages": {
         "generic": {
