@@ -251,7 +251,7 @@
     "certification-joiner": {
       "title": "Join a certification session",
       "congratulation-banner": {
-        "complementary-certification-eligibility": "You are also eligible for the {complementaryCertificationName} certification.",
+        "complementary-certification-eligibility": "You are also eligible for the following complementary { count, plural, =1 {certification} other {certifications} } :",
         "link": {
           "text": "How do I certify my digital skills?",
           "url": "https://support.pix.org/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
