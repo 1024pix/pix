@@ -17,7 +17,7 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     const screen = await render(hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}}/>`);
 
     // then
-    expect(screen.getByText('Bravo Fifi Brindacier,votre profil est certifiable.')).to.exist;
+    expect(screen.getByText('Bravo Fifi Brindacier, votre profil Pix est certifiable.')).to.exist;
   });
 
   it('calls the closeBanner method when closing the banner', async function () {
