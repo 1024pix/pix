@@ -360,7 +360,7 @@
   }
 
   &__share-container {
-    padding: 16px 40px 32px 40px;
+    padding: 16px 40px 0 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -442,6 +442,7 @@
   }
 
   &__legal {
+    margin: 4px 0;
     font-family: $font-roboto;
     font-size: 0.85rem;
     color: $pix-neutral-45;
@@ -577,6 +578,10 @@
     font-weight: $font-normal;
     color: $pix-neutral-45;
     line-height: 1.8rem;
+
+    & p {
+      margin: 0;
+    }
   }
 }
 
