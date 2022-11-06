@@ -10,10 +10,10 @@
   background-color: $pix-success-5;
   border-radius: 16px;
   display: flex;
-  flex-basis: 100%;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   padding: 20px 35px;
 
   &--not-acquired {
@@ -31,6 +31,16 @@
   }
 
   @include device-is('tablet') {
-    flex-basis: calc(50% - 10px);
+    height: 253px;
+    flex-grow: 0;
+    width: calc(50% - 10px);
+
+    &:nth-child(even) {
+      margin-left: 20px;
+    }
+
+    &:first-child:last-child {
+      width: 100%;
+    }
   }
 }
