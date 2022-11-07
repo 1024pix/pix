@@ -115,7 +115,8 @@
       "link-help": "https://support.pix.org/en/support/home",
       "skills": "Competences",
       "start-certification": "Certification",
-      "tutorials": "My tutorials"
+      "tutorials": "My tutorials",
+      "trainings": "My trainings"
     },
     "not-logged": {
       "sign-in": "Log in",
@@ -1401,7 +1402,7 @@
       "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
       "secondary": "You can continue answering after this, but the question will not be marked as correct."
     },
-    "training" : {
+    "training": {
       "type": {
         "autoformation": "Autoformation course",
         "webinaire": "Webinar"

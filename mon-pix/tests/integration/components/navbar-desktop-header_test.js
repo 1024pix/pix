@@ -111,6 +111,44 @@ describe('Integration | Component | navbar-desktop-header', function () {
       expect(contains('Mes tutos')).to.exist;
       expect(contains('Certification')).to.exist;
       expect(contains("J'ai un code")).to.exist;
+      expect(contains('Mes formations')).not.to.exist;
+    });
+  });
+
+  context('when user has recommended trainings', function () {
+    beforeEach(async function () {
+      class sessionService extends Service {
+        isAuthenticated = true;
+        data = {
+          authenticated: {
+            token: 'access_token',
+            userId: 1,
+            source: 'pix',
+          },
+        };
+      }
+      this.owner.register('service:session', sessionService);
+      class currentUser extends Service {
+        user = {
+          isAnonymous: false,
+          hasRecommendedTrainings: true,
+        };
+      }
+      this.owner.register('service:currentUser', currentUser);
+      setBreakpoint('desktop');
+      await render(hbs`<NavbarDesktopHeader/>}`);
+    });
+
+    it('should display "My trainings" link', async function () {
+      // then
+      expect(find('.navbar-desktop-header-container__menu')).to.exist;
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(6);
+      expect(contains('Accueil')).to.exist;
+      expect(contains('Compétences')).to.exist;
+      expect(contains('Mes tutos')).to.exist;
+      expect(contains('Certification')).to.exist;
+      expect(contains("J'ai un code")).to.exist;
+      expect(contains('Mes formations')).to.exist;
     });
   });
 
