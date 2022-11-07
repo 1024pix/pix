@@ -19,7 +19,7 @@ export default class User extends Model {
 
   // includes
   @belongsTo('is-certifiable') isCertifiable;
-  @belongsTo('profile', { async: false }) profile;
+  @belongsTo('profile') profile;
   @hasMany('certification') certifications;
   @hasMany('scorecard') scorecards;
   @hasMany('trainings') trainings;
