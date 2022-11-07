@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.284.0 (07/11/2022)
+
+
+### :rocket: Amélioration
+- [#5122](https://github.com/1024pix/pix/pull/5122) [FEATURE] Ajouter la page "/mes-formations" sur Pix App (PIX-5759).
+
+### :building_construction: Tech
+- [#5129](https://github.com/1024pix/pix/pull/5129) [TECH][API] Permettre l'inscription à Pix Certif depuis une invitation (PIX-5009).
+
+### :bug: Correction
+- [#5153](https://github.com/1024pix/pix/pull/5153) [BUGFIX] Eviter une erreur lorsque l'on publie une session sans Referer (PIX-6204)
+- [#5167](https://github.com/1024pix/pix/pull/5167) [BUGFIX] Chercher l'identifiant sans la casse sur Pix App (PIX-6232)
+- [#5168](https://github.com/1024pix/pix/pull/5168) [BUGFIX] Permettre les tests de charge sur l'intégration
+
 ## v3.283.0 (04/11/2022)
 
 
