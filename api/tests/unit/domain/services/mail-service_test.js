@@ -528,7 +528,79 @@ describe('Unit | Service | MailService', function () {
       expect(sendEmailParameters.from).to.equal(senderEmailAddress);
       expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
       expect(sendEmailParameters.to).to.equal('invited@example.net');
-      expect(sendEmailParameters.variables.certificationCenterName).to.equal('Centre Pixou');
+      expect(sendEmailParameters.variables).to.include({
+        certificationCenterName: 'Centre Pixou',
+        pixHomeName: 'pix.fr',
+        pixHomeUrl: 'https://pix.fr',
+        pixCertifHomeUrl: 'https://certif.pix.fr',
+        redirectionUrl: `https://certif.pix.fr/rejoindre?invitationId=7&code=ABCDEFGH01`,
+        supportUrl: 'https://support.pix.fr',
+        ...mainTranslationsMapping.fr['certification-center-invitation-email'].params,
+      });
+    });
+
+    context(`when locale is ${FRENCH_SPOKEN}`, function () {
+      it('should call sendEmail with localized variable options', async function () {
+        // given
+        const locale = FRENCH_SPOKEN;
+
+        // when
+        await mailService.sendCertificationCenterInvitationEmail({
+          email: 'invited@example.net',
+          certificationCenterName: 'Centre Pixi',
+          certificationCenterInvitationId: 7,
+          code: 'AAABBBCCC7',
+          locale,
+        });
+
+        // then
+        const sendEmailParameters = mailer.sendEmail.firstCall.args[0];
+        expect(sendEmailParameters.subject).to.equal(
+          mainTranslationsMapping.fr['certification-center-invitation-email'].subject
+        );
+        expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
+        expect(sendEmailParameters.variables).to.include({
+          certificationCenterName: 'Centre Pixi',
+          pixHomeName: 'pix.org',
+          pixHomeUrl: 'https://pix.org',
+          pixCertifHomeUrl: 'https://certif.pix.org',
+          redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=7&code=AAABBBCCC7`,
+          supportUrl: 'https://support.pix.org',
+          ...mainTranslationsMapping.fr['certification-center-invitation-email'].params,
+        });
+      });
+    });
+
+    context(`when locale is ${ENGLISH_SPOKEN}`, function () {
+      it('should call sendEmail with localized variable options', async function () {
+        // given
+        const locale = ENGLISH_SPOKEN;
+
+        // when
+        await mailService.sendCertificationCenterInvitationEmail({
+          email: 'invited@example.net',
+          certificationCenterName: 'Centre Pixi',
+          certificationCenterInvitationId: 777,
+          code: 'LLLJJJVVV1',
+          locale,
+        });
+
+        // then
+        const sendEmailParameters = mailer.sendEmail.firstCall.args[0];
+        expect(sendEmailParameters.subject).to.equal(
+          mainTranslationsMapping.en['certification-center-invitation-email'].subject
+        );
+        expect(sendEmailParameters.fromName).to.equal('Pix Certif - Noreply');
+        expect(sendEmailParameters.variables).to.include({
+          certificationCenterName: 'Centre Pixi',
+          pixHomeName: 'pix.org',
+          pixHomeUrl: 'https://pix.org/en-gb/',
+          pixCertifHomeUrl: 'https://certif.pix.org?lang=en',
+          redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=777&code=LLLJJJVVV1&lang=en`,
+          supportUrl: 'https://support.pix.org/en/support/home',
+          ...mainTranslationsMapping.en['certification-center-invitation-email'].params,
+        });
+      });
     });
   });
 
