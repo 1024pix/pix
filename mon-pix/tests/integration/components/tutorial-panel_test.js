@@ -57,10 +57,10 @@ describe('Integration | Component | Tutorial Panel', function () {
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
-          expect(find('.tutorial-card-v2')).to.exist;
-          expect(find('.tutorial-card-v2__content')).to.exist;
-          expect(find('.tutorial-card-v2-content__details')).to.exist;
-          expect(find('.tutorial-card-v2-content__actions')).to.exist;
+          expect(find('.tutorial-card')).to.exist;
+          expect(find('.tutorial-card__content')).to.exist;
+          expect(find('.tutorial-card-content__details')).to.exist;
+          expect(find('.tutorial-card-content__actions')).to.exist;
           expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
           expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
           expect(find('[title="Marquer ce tuto comme utile"]')).to.exist;
@@ -79,10 +79,10 @@ describe('Integration | Component | Tutorial Panel', function () {
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
-          expect(find('.tutorial-card-v2')).to.exist;
-          expect(find('.tutorial-card-v2__content')).to.exist;
-          expect(find('.tutorial-card-v2-content__details')).to.exist;
-          expect(find('.tutorial-card-v2-content__actions')).to.not.exist;
+          expect(find('.tutorial-card')).to.exist;
+          expect(find('.tutorial-card__content')).to.exist;
+          expect(find('.tutorial-card-content__details')).to.exist;
+          expect(find('.tutorial-card-content__actions')).to.not.exist;
         });
       });
     });

@@ -29,7 +29,7 @@ describe('Acceptance | Tutorial | Actions', function () {
   describe('Authenticated cases as simple user', function () {
     it('should display tutorial item in competence page with actions', async function () {
       // then
-      expect(find('.tutorial-card-v2')).to.exist;
+      expect(find('.tutorial-card')).to.exist;
       expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
       expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
     });

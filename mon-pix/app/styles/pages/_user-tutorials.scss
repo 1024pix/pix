@@ -1,57 +1,4 @@
 .user-tutorials-banner {
-  position: relative;
-  max-width: 980px;
-  margin: auto;
-  font-family: $font-roboto;
-  font-weight: $font-light;
-  height: 270px;
-  padding: 0 20px;
-  text-align: center;
-
-  @include device-is('tablet') {
-    text-align: left;
-  }
-
-  @include device-is('desktop') {
-    padding: 0;
-  }
-
-  &__icon {
-    display: none;
-
-    @include device-is('tablet') {
-      position: absolute;
-      display: block;
-      bottom: 0;
-      right: 50px;
-    }
-
-    @include device-is('desktop') {
-      right: 70px;
-    }
-  }
-
-  &__title {
-    margin: 0 0 8px;
-    padding-top: 64px;
-    font-size: 3rem;
-    color: $pix-neutral-0;
-  }
-
-  &__description {
-    font-size: 1rem;
-    margin: auto;
-    line-height: 1.688rem;
-    letter-spacing: 0.15px;
-    max-width: 440px;
-
-    @include device-is('tablet') {
-      margin: 0;
-    }
-  }
-}
-
-.user-tutorials-banner-v2 {
   margin: 0 24px;
   font-family: $font-roboto;
   font-weight: $font-light;
@@ -95,7 +42,7 @@
   }
 }
 
-.user-tutorials-content-v2 {
+.user-tutorials-content {
   padding-top: 20px;
   width: 100%;
   min-height: inherit;
@@ -149,8 +96,8 @@
   }
 }
 
-.user-tutorials-saved-empty-v2,
-.user-tutorials-recommended-empty-v2 {
+.user-tutorials-saved-empty,
+.user-tutorials-recommended-empty {
 
   &__title,
   &__description {
@@ -168,21 +115,6 @@
 
   &__link {
     display: inline-flex;
-  }
-}
-
-.user-tutorials-content {
-  max-width: 980px;
-  margin: 24px auto;
-  padding: 0 32px;
-  color: $pix-neutral-90;
-
-  @include device-is('tablet') {
-    padding: 40px 0;
-  }
-
-  &__title {
-    margin: 0 0 32px;
   }
 }
 

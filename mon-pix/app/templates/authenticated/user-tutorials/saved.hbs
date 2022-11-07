@@ -4,9 +4,9 @@
 </header>
 
 <main id="main" class="main" role="main">
-  <div class="user-tutorials-content-v2">
+  <div class="user-tutorials-content">
     {{#if @model.savedTutorials.meta.pagination.rowCount}}
-      <div class="user-tutorials-content-v2__container">
+      <div class="user-tutorials-content__container">
         <Tutorials::Cards @tutorials={{@model.savedTutorials}} @afterRemove={{this.refresh}} />
         <PixPagination
           @pagination={{@model.savedTutorials.meta.pagination}}
