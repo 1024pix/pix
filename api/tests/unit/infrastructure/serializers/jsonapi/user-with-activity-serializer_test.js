@@ -29,6 +29,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
         }),
         hasAssessmentParticipations: false,
         codeForLastProfileToShare: 'SOMECODE',
+        hasRecommendedTrainings: false,
       });
     });
 
@@ -57,6 +58,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
               'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
               'has-assessment-participations': userModelObject.hasAssessmentParticipations,
               'code-for-last-profile-to-share': userModelObject.codeForLastProfileToShare,
+              'has-recommended-trainings': userModelObject.hasRecommendedTrainings,
             },
             relationships: {
               memberships: {
