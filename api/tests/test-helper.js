@@ -93,6 +93,7 @@ async function insertOrganizationUserWithRoleAdmin() {
 const hFake = {
   response(source) {
     return {
+      statusCode: 200,
       source,
       code(c) {
         this.statusCode = c;

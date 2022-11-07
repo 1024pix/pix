@@ -1,0 +1,63 @@
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import isEmailValid from '../../../../utils/email-validator';
+
+export default class AuthenticatedCertificationCentersGetInvitationsController extends Controller {
+  @service accessControl;
+  @service notifications;
+  @service errorResponseHandler;
+  @service store;
+
+  @tracked userEmailToInvite = null;
+  @tracked userEmailToInviteError;
+
+  CUSTOM_ERROR_MESSAGES = {
+    DEFAULT: 'Une erreur s’est produite, veuillez réessayer.',
+  };
+
+  @action
+  onChangeUserEmailToInvite(event) {
+    this.userEmailToInvite = event.target.value;
+  }
+
+  @action
+  async createInvitation(language) {
+    this.isLoading = true;
+    const email = this.userEmailToInvite?.trim();
+    if (!this._isEmailToInviteValid(email)) {
+      this.isLoading = false;
+      return;
+    }
+
+    try {
+      await this.store.queryRecord('certification-center-invitation', {
+        email,
+        language,
+        certificationCenterId: this.model.certificationCenterId,
+      });
+
+      this.notifications.success(`Un email a bien a été envoyé à l'adresse ${email}.`);
+      this.userEmailToInvite = null;
+    } catch (err) {
+      this.errorResponseHandler.notify(err, this.CUSTOM_ERROR_MESSAGES);
+    }
+    this.isLoading = false;
+  }
+
+  _isEmailToInviteValid(email) {
+    if (!email) {
+      this.userEmailToInviteError = 'Ce champ est requis.';
+      return false;
+    }
+
+    if (!isEmailValid(email)) {
+      this.userEmailToInviteError = "L'adresse e-mail saisie n'est pas valide.";
+      return false;
+    }
+
+    this.userEmailToInviteError = null;
+    return true;
+  }
+}

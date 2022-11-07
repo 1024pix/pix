@@ -1,6 +1,7 @@
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
+const randomString = require('randomstring');
 
 describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
   describe('constructor', function () {
@@ -15,6 +16,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
         status: 'pending',
         certificationCenterId: 10,
         certificationCenterName: 'La Raclette des Pixous',
+        code: 'ABCDE',
       };
 
       // when
@@ -113,6 +115,44 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
 
       // /then
       expect(result).to.be.false;
+    });
+  });
+
+  describe('#create', function () {
+    it('should create a new certification center invitation', function () {
+      // given
+      const now = new Date('2022-03-02');
+
+      // when
+      const result = CertificationCenterInvitation.create({
+        certificationCenterId: 7,
+        email: 'new@example.net',
+        updatedAt: now,
+        code: '666AAALLL9',
+      });
+
+      // /then
+      expect(result).to.be.instanceOf(CertificationCenterInvitation);
+      expect(result).to.deep.equal({
+        email: 'new@example.net',
+        certificationCenterId: 7,
+        status: CertificationCenterInvitation.StatusType.PENDING,
+        updatedAt: now,
+        code: '666AAALLL9',
+      });
+    });
+  });
+
+  describe('#generateCode', function () {
+    it('should generate a code with 10 characters', function () {
+      // given
+      sinon.stub(randomString, 'generate');
+
+      // when
+      CertificationCenterInvitation.generateCode();
+
+      // /then
+      expect(randomString.generate).to.have.been.calledWithExactly({ length: 10, capitalization: 'uppercase' });
     });
   });
 });

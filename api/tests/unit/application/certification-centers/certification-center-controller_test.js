@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const certificationCenterInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
 describe('Unit | Controller | certifications-center-controller', function () {
@@ -301,6 +302,95 @@ describe('Unit | Controller | certifications-center-controller', function () {
         isReferer: true,
       });
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('#sendInvitationForAdmin', function () {
+    beforeEach(function () {
+      sinon.stub(certificationCenterInvitationSerializer, 'deserializeForAdmin');
+      sinon.stub(usecases, 'createOrUpdateCertificationCenterInvitationForAdmin');
+      sinon.stub(certificationCenterInvitationSerializer, 'serializeForAdmin');
+    });
+
+    it('should return 201 HTTP status code with data if there isn’t an already pending invitation', async function () {
+      // given
+      const email = 'some.user@example.net';
+      const language = 'fr-fr';
+      const certificationCenterId = 7;
+      const payload = {
+        data: {
+          type: 'certification-center-invitations',
+          attributes: {
+            email,
+            language,
+          },
+        },
+      };
+
+      certificationCenterInvitationSerializer.deserializeForAdmin.withArgs(payload).resolves({
+        email,
+        language,
+      });
+      usecases.createOrUpdateCertificationCenterInvitationForAdmin
+        .withArgs({
+          email,
+          locale: language,
+          certificationCenterId,
+        })
+        .resolves({
+          certificationCenterInvitation: 'an invitation',
+          created: true,
+        });
+      const serializedData = Symbol();
+      certificationCenterInvitationSerializer.serializeForAdmin.withArgs('an invitation').returns(serializedData);
+
+      // when
+      const response = await certificationCenterController.sendInvitationForAdmin(
+        {
+          params: { certificationCenterId },
+          payload,
+        },
+        hFake
+      );
+
+      // then
+      expect(response.source).to.equal(serializedData);
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should return 200 HTTP status code with data if there is already a pending existing invitation', async function () {
+      // given
+      const email = 'some.user@example.net';
+      const language = 'fr-fr';
+
+      certificationCenterInvitationSerializer.deserializeForAdmin.resolves({ email, language });
+      usecases.createOrUpdateCertificationCenterInvitationForAdmin.resolves({
+        certificationCenterInvitation: 'an invitation',
+        created: false,
+      });
+      const serializedData = Symbol();
+      certificationCenterInvitationSerializer.serializeForAdmin.returns(serializedData);
+
+      // when
+      const response = await certificationCenterController.sendInvitationForAdmin(
+        {
+          params: { certificationCenterId: 7 },
+          payload: {
+            data: {
+              type: 'certification-center-invitations',
+              attributes: {
+                email,
+                language,
+              },
+            },
+          },
+        },
+        hFake
+      );
+
+      // then
+      expect(response.source).to.equal(serializedData);
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
