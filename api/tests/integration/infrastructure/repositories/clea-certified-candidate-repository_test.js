@@ -7,12 +7,20 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
       it('returns the list of clea certified candidates', async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
-        const userId = databaseBuilder.factory.buildUser({
-          email: 'jean-mi@coco.fr',
-        }).id;
-        const userId2 = databaseBuilder.factory.buildUser({
-          email: 'marie-mi@coco.fr',
-        }).id;
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId,
+          sessionId,
+          resultRecipientEmail: 'jean-mi@coco.fr',
+        });
+
+        const userId2 = databaseBuilder.factory.buildUser({}).id;
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId: userId2,
+          sessionId,
+          resultRecipientEmail: 'marie-mi@coco.fr',
+        });
+
         const candidateCleaSuccess = {
           firstName: 'Jean-Mi',
           lastName: 'Mi',
@@ -82,7 +90,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
           domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Jean-Mi',
             lastName: 'Mi',
-            email: 'jean-mi@coco.fr',
+            resultRecipientEmail: 'jean-mi@coco.fr',
             birthdate: '2001-02-07',
             birthplace: 'Paris',
             birthPostalCode: null,
@@ -94,7 +102,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
           domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Marie',
             lastName: 'Ri',
-            email: 'marie-mi@coco.fr',
+            resultRecipientEmail: 'marie-mi@coco.fr',
             birthdate: '2001-02-04',
             birthplace: 'Orléans',
             sex: 'F',
@@ -110,9 +118,12 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
         it('returns the list of clea certified candidates only', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
-          const userId = databaseBuilder.factory.buildUser({
-            email: 'jean-mi@coco.fr',
-          }).id;
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCertificationCandidate({
+            userId,
+            sessionId,
+            resultRecipientEmail: 'jean-mi@coco.fr',
+          });
           const candidateCleaSuccess = {
             firstName: 'Jean-Mi',
             lastName: 'Mi',
@@ -174,7 +185,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
             domainBuilder.buildCleaCertifiedCandidate({
               firstName: 'Jean-Mi',
               lastName: 'Mi',
-              email: 'jean-mi@coco.fr',
+              resultRecipientEmail: 'jean-mi@coco.fr',
               birthdate: '2001-02-07',
               birthplace: 'Paris',
               birthPostalCode: null,

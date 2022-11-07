@@ -35,7 +35,7 @@ describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
           domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Jean-Mi',
             lastName: 'Mi',
-            email: 'jean-mi@coco.fr',
+            resultRecipientEmail: 'jean-mi@coco.fr',
             birthdate: '2001-02-07',
             birthplace: 'Paris',
             birthPostalCode: '75015',
@@ -47,7 +47,7 @@ describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
           domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Léane',
             lastName: 'Bern',
-            email: 'princesse-lele@gg.fr',
+            resultRecipientEmail: 'princesse-lele@gg.fr',
             birthdate: '2001-05-10',
             birthplace: 'Paris',
             birthPostalCode: '75019',
@@ -70,7 +70,7 @@ describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
           domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Jean-Mi',
             lastName: 'Mi',
-            email: 'jean-mi@coco.fr',
+            resultRecipientEmail: 'jean-mi@coco.fr',
             birthdate: '2001-02-07',
             birthplace: 'Paris',
             birthPostalCode: '75015',
@@ -82,7 +82,7 @@ describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
           domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Léane',
             lastName: 'Bern',
-            email: 'princesse-lele@gg.fr',
+            resultRecipientEmail: 'princesse-lele@gg.fr',
             birthdate: '2001-05-10',
             birthplace: 'Paris',
             birthPostalCode: '75019',
