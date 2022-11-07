@@ -407,7 +407,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const CleaCertifiedCandidate1 = domainBuilder.buildCleaCertifiedCandidate({
           firstName: 'Léane',
           lastName: 'Bern',
-          email: 'princesse-lele@gg.fr',
+          resultRecipientEmail: 'princesse-lele@gg.fr',
           birthdate: '2001-05-10',
           birthplace: 'Paris',
           birthPostalCode: '75019',
@@ -419,7 +419,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const CleaCertifiedCandidate2 = domainBuilder.buildCleaCertifiedCandidate({
           firstName: 'Jean-Mi',
           lastName: 'Mi',
-          email: 'jean-mi@coco.fr',
+          resultRecipientEmail: 'jean-mi@coco.fr',
           birthdate: '2001-02-07',
           birthplace: 'Paris',
           birthPostalCode: '75015',
@@ -450,7 +450,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           const CleaCertifiedCandidate = domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Léane',
             lastName: 'Bern',
-            email: 'princesse-lele@gg.fr',
+            resultRecipientEmail: 'princesse-lele@gg.fr',
             birthdate: '2001-05-10',
             birthplace: 'STE MARIE',
             birthPostalCode: '97418',
@@ -480,7 +480,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           const CleaCertifiedCandidate = domainBuilder.buildCleaCertifiedCandidate({
             firstName: 'Léane',
             lastName: 'Bern',
-            email: 'princesse-lele@gg.fr',
+            resultRecipientEmail: 'princesse-lele@gg.fr',
             birthdate: '2001-05-10',
             birthplace: 'STE MARIE',
             birthPostalCode: '99416',

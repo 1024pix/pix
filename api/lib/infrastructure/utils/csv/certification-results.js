@@ -121,7 +121,7 @@ function _buildFileDataForCleaCandidates(cleaCertifiedCandidates) {
       [_headers.BIRTHNAME]: candidate.lastName,
       [_headers.USUAL_NAME]: null,
       [_headers.FIRSTNAME]: candidate.firstName,
-      [_headers.EMAIL]: candidate.email,
+      [_headers.EMAIL]: candidate.resultRecipientEmail,
       [_headers.PHONE]: null,
       [_headers.ADDRESS]: null,
       [_headers.ADDITIONAL_ADDRESS]: null,

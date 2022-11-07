@@ -3,7 +3,7 @@ const CleaCertifiedCandidate = require('../../../../lib/domain/read-models/CleaC
 module.exports = function buildCleaCertifiedCandidate({
   firstName = 'Gandhi',
   lastName = 'Matmatah',
-  email = 'matmatahGdu75@dhi.fr',
+  resultRecipientEmail = 'matmatahGdu75@dhi.fr',
   birthplace = 'Perpignan',
   birthdate = '1985-01-20',
   sex = 'F',
@@ -15,7 +15,7 @@ module.exports = function buildCleaCertifiedCandidate({
   return new CleaCertifiedCandidate({
     firstName,
     lastName,
-    email,
+    resultRecipientEmail,
     birthdate,
     birthplace,
     birthPostalCode,
