@@ -13,28 +13,28 @@ export default class ScorecardDetails extends Component {
 
   @tracked showResetModal = false;
 
-  get level() {
-    return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;
+  get displayImprovingWaitSentence() {
+    return !this.args.scorecard.isImprovable;
   }
 
-  get isProgressable() {
-    return !(this.args.scorecard.isFinished || this.args.scorecard.isMaxLevel || this.args.scorecard.isNotStarted);
+  get displayImprovingButton() {
+    return this.args.scorecard.isImprovable;
   }
 
-  get canImprove() {
-    return !this.args.scorecard.isFinishedWithMaxLevel;
+  get displayCongrats() {
+    return this.args.scorecard.isFinishedWithMaxLevel;
   }
 
-  get displayWaitSentence() {
-    return this.args.scorecard.remainingDaysBeforeReset > 0;
+  get displayRemainingPixToNextLevel() {
+    return this.args.scorecard.isProgressable;
+  }
+
+  get displayResetWaitSentence() {
+    return !this.args.scorecard.isResettable;
   }
 
   get displayResetButton() {
-    return this.args.scorecard.remainingDaysBeforeReset === 0;
-  }
-
-  get shouldWaitBeforeImproving() {
-    return this.args.scorecard.remainingDaysBeforeImproving > 0;
+    return this.args.scorecard.isResettable;
   }
 
   get tutorialsGroupedByTubeName() {

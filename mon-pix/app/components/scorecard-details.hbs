@@ -18,15 +18,15 @@
 
     <div class="scorecard-details-content__right">
 
-      {{#unless @scorecard.isNotStarted}}
+      {{#if @scorecard.isFinished}}
         <div class="scorecard-details-content-right__score-container">
-          {{#if @scorecard.isFinishedWithMaxLevel}}
+          {{#if this.displayCongrats}}
             <div class="competence-card__congrats">
               <div class="competence-card__level competence-card__level--congrats">
                 <span class="score-label competence-card__score-label--congrats">{{t "common.level"}}</span>
                 <span
                   class="score-value competence-card__score-value competence-card__score-value--congrats"
-                >{{this.level}}</span>
+                >{{@scorecard.level}}</span>
               </div>
             </div>
           {{else}}
@@ -40,7 +40,7 @@
             >
               <div class="competence-card__level">
                 <span class="score-label">{{t "common.level"}}</span>
-                <span class="score-value">{{replace-zero-by-dash this.level}}</span>
+                <span class="score-value">{{replace-zero-by-dash @scorecard.level}}</span>
               </div>
             </CircleChart>
           {{/if}}
@@ -50,80 +50,128 @@
             <div class="score-value">{{replace-zero-by-dash @scorecard.earnedPix}}</div>
           </div>
         </div>
-      {{/unless}}
 
-      {{#if this.isProgressable}}
-        <div class="scorecard-details-content-right__level-info">
-          {{t
-            "pages.competence-details.next-level-info"
-            remainingPixToNextLevel=@scorecard.remainingPixToNextLevel
-            level=(inc @scorecard.level)
-          }}
-        </div>
+        {{#if this.displayImprovingWaitSentence}}
+          <div class="scorecard-details__improvement-countdown">
+            <span class="scorecard-details-improvement-countdown__label">{{t
+                "pages.competence-details.actions.improve.description.waiting-text"
+              }}</span>
+            <span class="scorecard-details-improvement-countdown__count">{{t
+                "pages.competence-details.actions.improve.description.countdown"
+                daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
+              }}</span>
+          </div>
+        {{/if}}
+
+        {{#if this.displayImprovingButton}}
+          <PixButton
+            class="scorecard-details__improve-button"
+            @shape="rounded"
+            @backgroundColor="green"
+            @triggerAction={{this.improveCompetenceEvaluation}}
+          >
+            {{t "pages.competence-details.actions.improve.label"}}
+            <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
+          </PixButton>
+          <span class="scorecard-details__improving-text">{{t
+              "pages.competence-details.actions.improve.improvingText"
+            }}</span>
+        {{/if}}
+
+        {{#if this.displayResetButton}}
+          <PixButton
+            id="reset-button-finished"
+            class="scorecard-details__reset-button"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @shape="rounded"
+            @triggerAction={{this.openModal}}
+          >
+            {{t "pages.competence-details.actions.reset.label"}}
+            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+          </PixButton>
+        {{/if}}
+
+        {{#if this.displayResetWaitSentence}}
+          <p class="scorecard-details-content-right__reset-message">{{t
+              "pages.competence-details.actions.reset.description"
+              daysBeforeReset=@scorecard.remainingDaysBeforeReset
+            }}</p>
+        {{/if}}
       {{/if}}
 
-      {{#if @scorecard.isFinished}}
-        {{#if this.canImprove}}
-          {{#if this.shouldWaitBeforeImproving}}
-            <div class="scorecard-details__improvement-countdown">
-              <span class="scorecard-details-improvement-countdown__label">{{t
-                  "pages.competence-details.actions.improve.description.waiting-text"
-                }}</span>
-              <span class="scorecard-details-improvement-countdown__count">{{t
-                  "pages.competence-details.actions.improve.description.countdown"
-                  daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
-                }}</span>
+      {{#if @scorecard.isStarted}}
+        <div class="scorecard-details-content-right__score-container">
+          <CircleChart
+            @value={{@scorecard.percentageAheadOfNextLevel}}
+            @sliceColor={{@scorecard.area.color}}
+            @chartClass="circle-chart__content--big"
+            @thicknessClass="circle--thick"
+            role="img"
+            aria-label="{{scorecard-aria-label @scorecard}}"
+          >
+            <div class="competence-card__level">
+              <span class="score-label">{{t "common.level"}}</span>
+              <span class="score-value">{{replace-zero-by-dash @scorecard.level}}</span>
             </div>
-          {{else}}
-            <PixButton
-              class="scorecard-details__improve-button"
-              @shape="rounded"
-              @backgroundColor="green"
-              @triggerAction={{this.improveCompetenceEvaluation}}
-            >
-              {{t "pages.competence-details.actions.improve.label"}}
-              <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
-            </PixButton>
-            <span class="scorecard-details__improving-text">{{t
-                "pages.competence-details.actions.improve.improvingText"
-              }}</span>
-          {{/if}}
+          </CircleChart>
+
+          <div class="scorecard-details-content-right-score-container__pix-earned">
+            <div class="score-label">{{t "common.pix"}}</div>
+            <div class="score-value">{{replace-zero-by-dash @scorecard.earnedPix}}</div>
+          </div>
+        </div>
+
+        {{#if this.displayRemainingPixToNextLevel}}
+          <div class="scorecard-details-content-right__level-info">
+            {{t
+              "pages.competence-details.next-level-info"
+              remainingPixToNextLevel=@scorecard.remainingPixToNextLevel
+              level=(inc @scorecard.level)
+            }}
+          </div>
         {{/if}}
-      {{else}}
+
         <LinkTo
           @route="authenticated.competences.resume"
           @model={{@scorecard.competenceId}}
-          class={{concat
-            "button button--big button--thin button--round button--link button--green "
-            (if @scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")
-          }}
+          class="button button--big button--thin button--round button--link button--green scorecard-details__resume-or-start-button"
         >
-          {{#if @scorecard.isStarted}}
-            {{t "pages.competence-details.actions.continue.label"}}
-            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
-          {{else}}
-            {{t "pages.competence-details.actions.start.label"}}
-            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
-          {{/if}}
-        </LinkTo>
-      {{/if}}
-      {{#if this.displayResetButton}}
-        <PixButton
-          id="reset-button"
-          class="scorecard-details__reset-button"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @shape="rounded"
-          @triggerAction={{this.openModal}}
-        >
-          {{t "pages.competence-details.actions.reset.label"}}
+          {{t "pages.competence-details.actions.continue.label"}}
           <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
-        </PixButton>
-      {{else if this.displayWaitSentence}}
-        <p class="scorecard-details-content-right__reset-message">{{t
-            "pages.competence-details.actions.reset.description"
-            daysBeforeReset=@scorecard.remainingDaysBeforeReset
-          }}</p>
+        </LinkTo>
+
+        {{#if this.displayResetButton}}
+          <PixButton
+            id="reset-button-started"
+            class="scorecard-details__reset-button"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @shape="rounded"
+            @triggerAction={{this.openModal}}
+          >
+            {{t "pages.competence-details.actions.reset.label"}}
+            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+          </PixButton>
+        {{/if}}
+
+        {{#if this.displayResetWaitSentence}}
+          <p class="scorecard-details-content-right__reset-message">{{t
+              "pages.competence-details.actions.reset.description"
+              daysBeforeReset=@scorecard.remainingDaysBeforeReset
+            }}</p>
+        {{/if}}
+      {{/if}}
+
+      {{#if @scorecard.isNotStarted}}
+        <LinkTo
+          @route="authenticated.competences.resume"
+          @model={{@scorecard.competenceId}}
+          class="button button--big button--thin button--round button--link button--green scorecard-details__resume-or-start-button"
+        >
+          {{t "pages.competence-details.actions.start.label"}}
+          <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+        </LinkTo>
       {{/if}}
     </div>
   </div>
