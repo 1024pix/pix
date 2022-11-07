@@ -36,7 +36,7 @@
   }
 
   &__menu-block {
-    margin: 32px;
+    margin: 32px 26px;
     height: max-content;
 
     .user-account-menu {
@@ -90,6 +90,7 @@
     height: max-content;
     padding: 14px 24px;
     margin: 32px 0;
+    max-width: 600px;
 
     @include device-is('mobile') {
       padding: 16px;
