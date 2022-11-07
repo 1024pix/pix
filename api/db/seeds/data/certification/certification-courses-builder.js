@@ -27,6 +27,7 @@ const {
 const {
   generateCertificateVerificationCode,
 } = require('../../../../lib/domain/services/verify-certificate-code-service');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 const ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID = 100;
 const ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID = 101;
@@ -127,7 +128,7 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       candidateData: CANDIDATE_DATA_SUCCESS,
       hasSeenEndTestScreen: true,
       isPublished: true,
-      pixCertificationStatus: 'validated',
+      pixCertificationStatus: AssessmentResult.status.VALIDATED,
     },
     {
       id: CERTIFICATION_COURSE_FAILURE_ID,
@@ -137,7 +138,7 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       candidateData: CANDIDATE_DATA_FAILURE,
       hasSeenEndTestScreen: true,
       isPublished: true,
-      pixCertificationStatus: 'rejected',
+      pixCertificationStatus: AssessmentResult.status.REJECTED,
     },
     {
       id: CERTIFICATION_COURSE_EDU_ID,
@@ -147,7 +148,7 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       candidateData: CANDIDATE_DATA_EDU,
       hasSeenEndTestScreen: true,
       isPublished: true,
-      pixCertificationStatus: 'validated',
+      pixCertificationStatus: AssessmentResult.status.VALIDATED,
     },
   ];
 
