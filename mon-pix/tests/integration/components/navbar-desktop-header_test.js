@@ -140,14 +140,7 @@ describe('Integration | Component | navbar-desktop-header', function () {
     });
 
     it('should display "My trainings" link', async function () {
-      // then
-      expect(find('.navbar-desktop-header-container__menu')).to.exist;
       expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(6);
-      expect(contains('Accueil')).to.exist;
-      expect(contains('Compétences')).to.exist;
-      expect(contains('Mes tutos')).to.exist;
-      expect(contains('Certification')).to.exist;
-      expect(contains("J'ai un code")).to.exist;
       expect(contains('Mes formations')).to.exist;
     });
   });

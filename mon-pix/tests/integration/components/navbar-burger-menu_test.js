@@ -88,4 +88,23 @@ describe('Integration | Component | navbar-burger-menu', function () {
       expect(screen.queryByRole('link', { name: this.intl.t('navigation.user.tests') })).to.not.exist;
     });
   });
+  context('when user has recommended trainings', function () {
+    beforeEach(async function () {
+      class currentUser extends Service {
+        user = {
+          hasRecommendedTrainings: true,
+        };
+      }
+      this.owner.unregister('service:currentUser');
+      this.owner.register('service:currentUser', currentUser);
+    });
+
+    it('should not display "My trainings" link', async function () {
+      // when
+      const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
+
+      // then
+      expect(screen.queryByRole('link', { name: this.intl.t('navigation.user.trainings') })).to.not.exist;
+    });
+  });
 });
