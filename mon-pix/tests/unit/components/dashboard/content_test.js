@@ -336,7 +336,7 @@ describe('Unit | Component | Dashboard | Content', function () {
     it('should return user score', function () {
       // given
       const pixScore = '68';
-      component.currentUser = EmberObject.create({ user: { profile: { pixScore } } });
+      component.currentUser = EmberObject.create({ user: { profile: EmberObject.create({ pixScore }) } });
 
       // when
       const result = component.userScore;
