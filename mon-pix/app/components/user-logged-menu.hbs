@@ -13,7 +13,12 @@
     </button>
 
     {{#if this.canDisplayMenu}}
-      <div class="logged-user-menu" {{on-key "Escape" this.closeMenu}} {{on-click-outside this.closeMenu}}>
+      <div
+        class="logged-user-menu"
+        {{on-click-outside this.closeMenu}}
+        {{on-key "Escape" this.closeMenu}}
+        {{on-key "Tab" this.handleTab}}
+      >
         <div class="logged-user-menu__details">
           <div class="logged-user-menu-details__fullname">{{this.currentUser.user.fullName}}</div>
         </div>
