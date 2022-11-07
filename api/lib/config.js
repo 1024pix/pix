@@ -70,6 +70,7 @@ module.exports = (function () {
       pix: process.env.DOMAIN_PIX || 'https://pix',
       pixApp: process.env.DOMAIN_PIX_APP || 'https://app.pix',
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
+      pixCertif: process.env.DOMAIN_PIX_CERTIF || 'https://certif.pix',
     },
 
     lcms: {
