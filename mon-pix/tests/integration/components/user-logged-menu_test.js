@@ -106,6 +106,16 @@ describe('Integration | Component | user logged menu', function () {
       expect(find('.logged-user-menu')).to.not.exist;
     });
 
+    it('should hide user menu, when it was previously open and user press shift-tab key', async function () {
+      // when
+      await render(hbs`<UserLoggedMenu/>`);
+      await click('.logged-user-name');
+      await triggerKeyEvent('.logged-user-name', 'keydown', 9, { shiftKey: true });
+
+      // then
+      expect(find('.logged-user-menu')).to.not.exist;
+    });
+
     it('should hide user menu, when the menu is opened then closed', async function () {
       // when
       await render(hbs`<UserLoggedMenu/>`);
