@@ -5,10 +5,10 @@ export default class AuthenticatedCertificationCentersGetInvitationsRoute extend
     this.store.unloadAll('certification-center-invitation');
     const { certificationCenter } = this.modelFor('authenticated.certification-centers.get');
     const certificationCenterId = certificationCenter.id;
-    return await this.store.query('certification-center-invitation', {
-      filter: {
-        certificationCenterId,
-      },
+
+    const certificationCenterInvitations = await this.store.findAll('certification-center-invitation', {
+      adapterOptions: { certificationCenterId },
     });
+    return { certificationCenterId, certificationCenterInvitations };
   }
 }

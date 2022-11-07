@@ -2,6 +2,8 @@ const CertificationCenterInvitation = require('../../domain/models/Certification
 const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError } = require('../../domain/errors');
 
+const CERTIFICATION_CENTER_INVITATIONS = 'certification-center-invitations';
+
 function _toDomain(invitationDTO) {
   return new CertificationCenterInvitation({
     id: invitationDTO.id,
@@ -15,17 +17,15 @@ function _toDomain(invitationDTO) {
 
 module.exports = {
   async findPendingByCertificationCenterId({ certificationCenterId }) {
-    const pendingCertificationCenterInvitations = await knex
+    const pendingCertificationCenterInvitations = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .select('id', 'email', 'certificationCenterId', 'updatedAt')
-      .from('certification-center-invitations')
       .where({ certificationCenterId, status: CertificationCenterInvitation.StatusType.PENDING })
-      .orderBy('email')
       .orderBy('updatedAt', 'desc');
     return pendingCertificationCenterInvitations.map(_toDomain);
   },
 
   async getByIdAndCode({ id, code }) {
-    const certificationCenterInvitation = await knex('certification-center-invitations')
+    const certificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .select({
         id: 'certification-center-invitations.id',
         status: 'certification-center-invitations.status',
@@ -48,5 +48,30 @@ module.exports = {
     }
 
     return _toDomain(certificationCenterInvitation);
+  },
+
+  async findOnePendingByEmailAndCertificationCenterId({ email, certificationCenterId }) {
+    const existingPendingInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
+      .select('id')
+      .where({ email, certificationCenterId, status: CertificationCenterInvitation.StatusType.PENDING })
+      .first();
+
+    return existingPendingInvitation ? _toDomain(existingPendingInvitation) : null;
+  },
+
+  async create(invitation) {
+    const [newInvitation] = await knex(CERTIFICATION_CENTER_INVITATIONS)
+      .insert(invitation)
+      .returning(['id', 'email', 'updatedAt']);
+    return _toDomain(newInvitation);
+  },
+
+  async update(certificationCenterInvitation) {
+    const [updatedCertificationCenterInvitation] = await knex('certification-center-invitations')
+      .update({ updatedAt: new Date() })
+      .where({ id: certificationCenterInvitation.id })
+      .returning(['id', 'email', 'updatedAt']);
+
+    return _toDomain(updatedCertificationCenterInvitation);
   },
 };

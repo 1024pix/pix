@@ -1,4 +1,4 @@
-const { Serializer } = require('jsonapi-serializer');
+const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 module.exports = {
   serialize(invitations) {
@@ -9,7 +9,16 @@ module.exports = {
 
   serializeForAdmin(invitations) {
     return new Serializer('certification-center-invitations', {
-      attributes: ['certificationCenterId', 'email', 'updatedAt'],
+      attributes: ['email', 'updatedAt'],
     }).serialize(invitations);
+  },
+
+  deserializeForAdmin(payload) {
+    return new Deserializer().deserialize(payload).then((record) => {
+      return {
+        email: record.email,
+        language: record.language,
+      };
+    });
   },
 };
