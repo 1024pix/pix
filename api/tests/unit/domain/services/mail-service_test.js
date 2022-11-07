@@ -508,6 +508,30 @@ describe('Unit | Service | MailService', function () {
     });
   });
 
+  describe('#sendCertificationCenterInvitationEmail', function () {
+    it('should send an email and set subject, sender, receiver in french as default', async function () {
+      // given & when
+      await mailService.sendCertificationCenterInvitationEmail({
+        email: 'invited@example.net',
+        certificationCenterName: 'Centre Pixou',
+        certificationCenterInvitationId: 7,
+        code: 'ABCDEFGH01',
+        locale: undefined,
+      });
+
+      // then
+      const sendEmailParameters = mailer.sendEmail.firstCall.args[0];
+
+      expect(sendEmailParameters.subject).to.equal(
+        mainTranslationsMapping.fr['certification-center-invitation-email'].subject
+      );
+      expect(sendEmailParameters.from).to.equal(senderEmailAddress);
+      expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
+      expect(sendEmailParameters.to).to.equal('invited@example.net');
+      expect(sendEmailParameters.variables.certificationCenterName).to.equal('Centre Pixou');
+    });
+  });
+
   describe('#sendAccountRecoveryEmail', function () {
     it('should call sendEmail with from, to, template, tags', async function () {
       // given
