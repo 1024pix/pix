@@ -26,6 +26,12 @@ module.exports = {
       .orderBy('id', 'asc');
     return trainings.map(_toDomain);
   },
+
+  async hasRecommendedTrainings(userId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const result = await knexConn(TABLE_NAME).select(1).where({ userId }).first();
+    return Boolean(result);
+  },
 };
 
 function _toDomain(training) {
