@@ -229,9 +229,6 @@ module.exports = (function () {
       logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       temporaryStorage: {
-        expirationDelaySeconds:
-          parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
-        redisUrl: process.env.REDIS_URL,
         idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d'),
       },
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
