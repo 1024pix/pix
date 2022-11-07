@@ -1,5 +1,5 @@
 const TABLE_NAME = 'complementary-certification-badges';
-const { PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../constants').badges.keys;
 
 exports.up = async function (knex) {
   await knex(TABLE_NAME)

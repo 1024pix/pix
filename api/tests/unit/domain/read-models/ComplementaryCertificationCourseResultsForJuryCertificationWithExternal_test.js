@@ -1,4 +1,5 @@
 const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJuryCertificationWithExternal', function () {
@@ -85,13 +86,13 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
           complementaryCertificationCourseId: 1234,
           partnerKey: 'KEY_1',
           acquired: true,
-          source: 'PIX',
+          source: ComplementaryCertificationCourseResult.sources.PIX,
         }),
         domainBuilder.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 1234,
           partnerKey: 'KEY_2',
           acquired: false,
-          source: 'EXTERNAL',
+          source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         }),
       ];
       const badgeKeyAndLabelsGroupedByTargetProfile = [

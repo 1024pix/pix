@@ -1,5 +1,4 @@
 const TABLE_NAME = 'complementary-certification-badges';
-const { keys } = require('../../lib/domain/models/Badge');
 const { noop } = require('lodash');
 const {
   PIX_EMPLOI_CLEA_V1,
@@ -21,7 +20,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = keys;
+} = require('../constants').badges.keys;
 
 const DROIT = 'Pix+ Droit';
 const CLEA = 'CléA Numérique';

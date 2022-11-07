@@ -15,7 +15,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../../lib/domain/models/Badge').keys;
+} = require('../constants').badges.keys;
 
 const PIX_PLUS_EDU = 'Pix+ Édu';
 const PIX_PLUS_DROIT = 'Pix+ Droit';

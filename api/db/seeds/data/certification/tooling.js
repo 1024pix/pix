@@ -5,7 +5,8 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const logger = require('../../../../lib/infrastructure/logger');
-const { keys } = require('../../../../lib/domain/models/Badge');
+const { knex } = require('../../../../db/knex-database-connection');
+const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
 
 let allChallenges = [];
 let allPixCompetences = [];
@@ -41,7 +42,19 @@ async function makeUserPixEduCertifiable({ userId, databaseBuilder }) {
 async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
   await _cacheLearningContent();
   const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
-  const { skillSets } = await badgeRepository.getByKey(keys.PIX_EMPLOI_CLEA_V3);
+  const [badgeKey] = await knex
+    .from('badges')
+    .pluck('badges.key')
+    .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .innerJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId',
+    )
+    .where({ 'complementary-certifications.key': ComplementaryCertification.CLEA })
+    .orderBy('complementary-certification-badges.level', 'desc');
+
+  const { skillSets } = await badgeRepository.getByKey(badgeKey);
   const skillIds = skillSets.flatMap(({ skillIds }) => skillIds);
   return bluebird.mapSeries(skillIds, async (skillId) => {
     const skill = await skillRepository.get(skillId);

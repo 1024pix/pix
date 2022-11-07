@@ -8,7 +8,7 @@ const SOURCES = {
 };
 
 class PartnerCertificationScoring {
-  constructor({ complementaryCertificationCourseId, partnerKey, source = 'PIX' } = {}) {
+  constructor({ complementaryCertificationCourseId, partnerKey, source = SOURCES.PIX } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.partnerKey = partnerKey;
     this.source = source;
