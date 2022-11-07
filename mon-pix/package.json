@@ -125,7 +125,7 @@
     "sinon": "^14.0.1",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "xss": "^1.0.13"
   }
 }
