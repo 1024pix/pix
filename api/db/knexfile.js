@@ -28,7 +28,7 @@ module.exports = {
     client: 'postgresql',
     connection: process.env.DATABASE_URL,
     pool: {
-      min: 1,
+      min: parseInt(process.env.DATABASE_CONNECTION_POOL_MIN_SIZE, 10) || 1,
       max: parseInt(process.env.DATABASE_CONNECTION_POOL_MAX_SIZE, 10) || 4,
     },
     migrations: {
