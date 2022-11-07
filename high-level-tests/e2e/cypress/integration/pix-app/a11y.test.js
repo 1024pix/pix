@@ -49,7 +49,7 @@ describe('a11y', () => {
 
   describe('Authenticated pages', () => {
     const authenticatedPages = [
-      { url: '/accueil', skipFailures: true },
+      { url: '/accueil' },
       { url: '/campagnes' },
       { url: '/campagnes/NERA/evaluation/resultats' },
       { url: '/certifications', skipFailures: true },
@@ -60,9 +60,10 @@ describe('a11y', () => {
       { url: '/mes-tutos/enregistres' },
       { url: '/mes-tutos/recommandes' },
       { url: '/mon-compte/informations-personnelles' },
-      { url: '/mon-compte/langue', skipFailures: true },
+      { url: '/mon-compte/langue' },
       { url: '/mon-compte/methodes-de-connexion' },
-      { url: '/plan-du-site', skipFailures: true },
+      { url: '/plan-du-site' },
+      { url: '/assessments/fake-assessment', skipFailures: true },
     ];
 
     authenticatedPages.forEach(({ url, skipFailures = false }) => {

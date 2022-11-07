@@ -109,7 +109,7 @@
 
     &.active {
       text-decoration: none;
-      color: $pix-primary;
+      color: $pix-primary-70;
     }
 
     &:focus {
@@ -120,7 +120,7 @@
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $pix-primary;
+      color: $pix-primary-70;
     }
   }
 }
