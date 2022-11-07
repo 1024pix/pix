@@ -1,5 +1,5 @@
 const settings = require('../../config');
-const REDIS_URL = settings.poleEmploi.temporaryStorage.redisUrl;
+const REDIS_URL = settings.temporaryStorage.redisUrl;
 
 const InMemoryTemporaryStorage = require('./InMemoryTemporaryStorage');
 const RedisTemporaryStorage = require('./RedisTemporaryStorage');
