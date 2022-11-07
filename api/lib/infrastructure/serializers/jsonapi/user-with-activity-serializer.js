@@ -26,6 +26,7 @@ module.exports = {
         'hasSeenFocusedChallengeTooltip',
         'hasSeenOtherChallengesTooltip',
         'hasAssessmentParticipations',
+        'hasRecommendedTrainings',
         'codeForLastProfileToShare',
         'trainings',
       ],
