@@ -12,6 +12,7 @@ const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/c
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
 const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
+const PIX_CERTIF_NAME_FR = 'Pix Certif - Ne pas répondre';
 const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
@@ -265,6 +266,33 @@ function sendScoOrganizationInvitationEmail({
   });
 }
 
+function sendCertificationCenterInvitationEmail({
+  email,
+  certificationCenterName,
+  certificationCenterInvitationId,
+  code,
+}) {
+  const templateParams = {
+    certificationCenterName,
+    pixHomeName: `pix${settings.domain.tldFr}`,
+    pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    pixCertifHomeUrl: `${settings.domain.pixCertif + settings.domain.tldFr}`,
+    redirectionUrl: `${
+      settings.domain.pixCertif + settings.domain.tldFr
+    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}`,
+    supportUrl: HELPDESK_FRENCH_FRANCE,
+    ...frTranslations['certification-center-invitation-email'].params,
+  };
+  return mailer.sendEmail({
+    subject: frTranslations['certification-center-invitation-email'].subject,
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_CERTIF_NAME_FR,
+    to: email,
+    template: mailer.certificationCenterInvitationTemplateId,
+    variables: templateParams,
+  });
+}
+
 function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const pixName = PIX_NAME_FR;
   const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
@@ -362,6 +390,7 @@ module.exports = {
   sendCertificationResultEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
+  sendCertificationCenterInvitationEmail,
   sendResetPasswordDemandEmail,
   sendVerificationCodeEmail,
   sendCpfEmail,
