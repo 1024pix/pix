@@ -105,7 +105,7 @@
     "ember-truth-helpers": "^3.1.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-ember": "^10.6.1",
+    "eslint-plugin-ember": "^11.2.0",
     "eslint-plugin-i18n-json": "^3.1.0",
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-node": "^11.1.0",
