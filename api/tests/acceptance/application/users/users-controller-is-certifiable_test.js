@@ -6,7 +6,6 @@ const {
   learningContentBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { PIX_EMPLOI_CLEA_V1 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
@@ -171,7 +170,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     });
 
     const cleaBadgeId = databaseBuilder.factory.buildBadge({
-      key: PIX_EMPLOI_CLEA_V1,
+      key: 'PARTNER_KEY',
       isCertifiable: true,
       targetProfileId,
     }).id;
@@ -196,13 +195,13 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     });
 
     const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-      name: 'Cléa Numérique',
+      name: 'PARTNER_CERTIFICATION',
     }).id;
 
     databaseBuilder.factory.buildComplementaryCertificationBadge({
       badgeId: cleaBadgeId,
       complementaryCertificationId,
-      label: 'CléA Numérique',
+      label: 'PARTNER_LABEL',
     });
 
     options = {
@@ -250,7 +249,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
-              'eligible-complementary-certifications': ['CléA Numérique'],
+              'eligible-complementary-certifications': ['PARTNER_LABEL'],
             },
           },
         };

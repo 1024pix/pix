@@ -1,4 +1,5 @@
 const { ReproducibilityRate } = require('../../../../lib/domain/models/ReproducibilityRate');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleComplementaryCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
@@ -161,7 +162,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
               complementaryCertificationCourseId,
               complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              source: 'PIX',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
               reproducibilityRate: new ReproducibilityRate(100),
               hasAcquiredPixCertification: false,
               minimumReproducibilityRate: 100,
@@ -412,7 +413,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
               complementaryCertificationCourseId,
               complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              source: 'PIX',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
               minimumReproducibilityRate: 75,
               certificationCourseId: 123,
               reproducibilityRate: 70,

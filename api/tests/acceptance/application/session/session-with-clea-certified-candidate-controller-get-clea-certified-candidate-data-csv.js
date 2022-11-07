@@ -1,7 +1,6 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
-const { PIX_EMPLOI_CLEA_V3 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Acceptance | Controller | session-with-clea-certified-candidate', function () {
   describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
@@ -21,7 +20,7 @@ describe('Acceptance | Controller | session-with-clea-certified-candidate', func
         id: 1,
         key: CLEA,
       });
-      const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true, key: PIX_EMPLOI_CLEA_V3 });
+      const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true });
       const complementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
         complementaryCertificationId: 1,
         badgeId: badgeClea.id,

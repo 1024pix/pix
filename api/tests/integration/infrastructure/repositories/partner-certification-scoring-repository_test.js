@@ -1,9 +1,7 @@
 const { expect, databaseBuilder, domainBuilder, knex, sinon } = require('../../../test-helper');
 const omit = require('lodash/omit');
 const partnerCertificationScoringRepository = require('../../../../lib/infrastructure/repositories/partner-certification-scoring-repository');
-const Badge = require('../../../../lib/domain/models/Badge');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';
@@ -109,16 +107,18 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       it('should update the PIX source complementary certification course result', async function () {
         // given
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-          name: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+        const badge = databaseBuilder.factory.buildBadge();
+        const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId,
+          badgeId: badge.id,
         }).id;
         const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
           certificationCourseId,
           complementaryCertificationId,
+          complementaryCertificationBadgeId,
         }).id;
-        const badge = databaseBuilder.factory.buildBadge({
-          key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        });
+
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId,
           partnerKey: badge.key,

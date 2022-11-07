@@ -20,7 +20,7 @@ const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 const PIX_EMPLOI_CLEA_BADGE_ID_V3 = 129;
 
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const Badge = require('../../../lib/domain/models/Badge');
+const { badges } = require('../../constants');
 const {
   targetProfileSkillIdsForCleaBadgeV1,
   targetProfileSkillIdsForCleaBadgeV2,
@@ -72,7 +72,7 @@ function _createPixEmploiCleaBadgeV1(databaseBuilder) {
   return _createPixEmploiCleaBadge({
     databaseBuilder,
     id: PIX_EMPLOI_CLEA_BADGE_ID_V1,
-    key: Badge.keys.PIX_EMPLOI_CLEA_V1,
+    key: badges.keys.PIX_EMPLOI_CLEA_V1,
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
     skillIdsForSkillSets: targetProfileSkillIdsForCleaBadgeV1,
   });
@@ -82,7 +82,7 @@ function _createPixEmploiCleaBadgeV2(databaseBuilder) {
   return _createPixEmploiCleaBadge({
     databaseBuilder,
     id: PIX_EMPLOI_CLEA_BADGE_ID_V2,
-    key: Badge.keys.PIX_EMPLOI_CLEA_V2,
+    key: badges.keys.PIX_EMPLOI_CLEA_V2,
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
     skillIdsForSkillSets: targetProfileSkillIdsForCleaBadgeV2,
   });
@@ -92,7 +92,7 @@ function _createPixEmploiCleaBadgeV3(databaseBuilder) {
   return _createPixEmploiCleaBadge({
     databaseBuilder,
     id: PIX_EMPLOI_CLEA_BADGE_ID_V3,
-    key: Badge.keys.PIX_EMPLOI_CLEA_V3,
+    key: badges.keys.PIX_EMPLOI_CLEA_V3,
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
     skillIdsForSkillSets: targetProfileSkillIdsForCleaBadgeV3,
   });

@@ -16,7 +16,7 @@ const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
   PIX_EMPLOI_CLEA_V3,
-} = require('../../lib/domain/models/Badge').keys;
+} = require('../constants').badges.keys;
 
 const bluebird = require('bluebird');
 
