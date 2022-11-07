@@ -10,9 +10,9 @@
     @areas={{this.model.areas}}
     @onClose={{this.closeSidebar}}
   />
-  <div class="user-tutorials-content-v2">
+  <div class="user-tutorials-content">
     {{#if @model.recommendedTutorials.meta.pagination.rowCount}}
-      <div class="user-tutorials-content-v2__container">
+      <div class="user-tutorials-content__container">
         <Tutorials::Cards @tutorials={{@model.recommendedTutorials}} />
         <PixPagination
           @pagination={{@model.recommendedTutorials.meta.pagination}}

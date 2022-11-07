@@ -7,7 +7,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
 import { waitForDialog } from '../../helpers/wait-for';
 
-describe('Acceptance | User-tutorials-v2 | Recommended', function () {
+describe('Acceptance | User-tutorials | Recommended', function () {
   setupApplicationTest();
   setupMirage();
   let user;
@@ -27,8 +27,8 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       await visit('/mes-tutos/recommandes');
 
       //then
-      expect(findAll('.tutorial-card-v2')).to.exist;
-      expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
+      expect(findAll('.tutorial-card')).to.exist;
+      expect(findAll('.tutorial-card')).to.be.lengthOf(10);
       expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
     });
 
@@ -42,7 +42,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         await click(screen.getByLabelText('Enregistrer dans ma liste de tutos'));
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
+        expect(findAll('.tutorial-card')).to.be.lengthOf(1);
         expect(screen.getByLabelText('Retirer de ma liste de tutos')).to.exist;
       });
     });
@@ -57,7 +57,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         await click(screen.getByLabelText('Retirer de ma liste de tutos'));
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
+        expect(findAll('.tutorial-card')).to.be.lengthOf(1);
       });
     });
 
@@ -82,7 +82,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         server.create('area', 'withCompetences');
         server.createList('tutorial', 100);
         const screen = await visit('/mes-tutos/recommandes');
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
+        expect(findAll('.tutorial-card')).to.be.lengthOf(10);
         await click(screen.getByRole('button', { name: 'Filtrer' }));
         await waitForDialog();
         await click(screen.getByRole('button', { name: 'Mon super domaine' }));
@@ -93,7 +93,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
 
         // then
         expect(currentURL()).to.equal('/mes-tutos/recommandes?competences=1&pageNumber=1');
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
+        expect(findAll('.tutorial-card')).to.be.lengthOf(1);
         expect(find('.pix-sidebar--hidden')).to.exist;
       });
 
