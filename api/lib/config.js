@@ -199,6 +199,7 @@ module.exports = (function () {
       isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
         process.env.FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS
       ),
+      isMassiveSessionManagementEnabled: isFeatureEnabled(process.env.FT_MASSIVE_SESSION_MANAGEMENT),
     },
 
     infra: {
