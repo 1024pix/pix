@@ -122,7 +122,7 @@
     "prettier": "^2.7.1",
     "sass": "^1.56.0",
     "showdown": "^2.1.0",
-    "sinon": "^13.0.2",
+    "sinon": "^14.0.1",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "uuid": "^8.3.2",
