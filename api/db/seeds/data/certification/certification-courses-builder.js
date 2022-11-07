@@ -27,6 +27,7 @@ const {
 const {
   generateCertificateVerificationCode,
 } = require('../../../../lib/domain/services/verify-certificate-code-service');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 const ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID = 100;
 const ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID = 101;
@@ -38,7 +39,7 @@ const ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID = 106;
 const ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID = 107;
 const ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID = 108;
 const ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID = 109;
-const ASSESSMENT_EDU_PUBLISHED_SESSION_ID = 110;
+const ASSESSMENT_SUCCESS_EDU_PUBLISHED_SESSION_ID = 110;
 const CERTIFICATION_COURSE_SUCCESS_ID = 200;
 const CERTIFICATION_COURSE_FAILURE_ID = 403;
 const CERTIFICATION_COURSE_EDU_ID = 505;
@@ -72,6 +73,7 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       examinerComment: null,
       hasSeenEndTestScreen: true,
       isPublished: true,
+      pixCertificationStatus: 'validated',
     },
     {
       userId: CERTIF_SUCCESS_USER_ID,
@@ -126,6 +128,7 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       candidateData: CANDIDATE_DATA_SUCCESS,
       hasSeenEndTestScreen: true,
       isPublished: true,
+      pixCertificationStatus: AssessmentResult.status.VALIDATED,
     },
     {
       id: CERTIFICATION_COURSE_FAILURE_ID,
@@ -135,15 +138,17 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       candidateData: CANDIDATE_DATA_FAILURE,
       hasSeenEndTestScreen: true,
       isPublished: true,
+      pixCertificationStatus: AssessmentResult.status.REJECTED,
     },
     {
       id: CERTIFICATION_COURSE_EDU_ID,
       userId: CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
       sessionId: PUBLISHED_SESSION_ID,
-      assessmentId: ASSESSMENT_EDU_PUBLISHED_SESSION_ID,
+      assessmentId: ASSESSMENT_SUCCESS_EDU_PUBLISHED_SESSION_ID,
       candidateData: CANDIDATE_DATA_EDU,
       hasSeenEndTestScreen: true,
       isPublished: true,
+      pixCertificationStatus: AssessmentResult.status.VALIDATED,
     },
   ];
 
@@ -152,9 +157,17 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
   }
 }
 
-async function _buildCertificationCourse(
-  databaseBuilder,
-  { id, assessmentId, userId, sessionId, candidateData, examinerComment, hasSeenEndTestScreen, isPublished },
+async function _buildCertificationCourse(databaseBuilder, {
+  id,
+  assessmentId,
+  userId,
+  sessionId,
+  candidateData,
+  examinerComment,
+  hasSeenEndTestScreen,
+  isPublished,
+  pixCertificationStatus,
+},
 ) {
   const createdAt = new Date('2020-01-31T00:00:00Z');
   const verificationCode = await generateCertificateVerificationCode();
@@ -169,6 +182,7 @@ async function _buildCertificationCourse(
     sessionId,
     userId,
     verificationCode,
+    pixCertificationStatus,
   }).id;
   if (examinerComment) {
     databaseBuilder.factory.buildCertificationIssueReport({
@@ -225,7 +239,7 @@ module.exports = {
   ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID,
   ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID,
   ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID,
-  ASSESSMENT_EDU_PUBLISHED_SESSION_ID,
+  ASSESSMENT_SUCCESS_EDU_PUBLISHED_SESSION_ID,
   CERTIFICATION_COURSE_FAILURE_ID,
   CERTIFICATION_COURSE_SUCCESS_ID,
   CERTIFICATION_COURSE_EDU_ID,
