@@ -325,7 +325,7 @@ describe('Integration | Component | scorecard-details', function () {
           // then
           expect(find('.tutorials')).to.exist;
           expect(findAll('.tube')).to.have.lengthOf(2);
-          expect(findAll('.tutorial-card-v2')).to.have.lengthOf(3);
+          expect(findAll('.tutorial-card')).to.have.lengthOf(3);
         });
       });
     });

@@ -41,7 +41,7 @@ describe('Integration | Component | learning-more-panel', function () {
         await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.have.lengthOf(1);
+        expect(findAll('.tutorial-card')).to.have.lengthOf(1);
       });
     });
   });
