@@ -307,6 +307,7 @@ describe('Integration | Repository | training-repository', function () {
     it('should return paginated trainings related to given userId', async function () {
       // given
       const { userId, id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation();
+      const { id: campaignParticipationId2 } = databaseBuilder.factory.buildCampaignParticipation({ userId });
       const { userId: anotherUserId, id: anotherCampaignParticipationId } =
         databaseBuilder.factory.buildCampaignParticipation();
       const training1 = databaseBuilder.factory.buildTraining();
@@ -318,6 +319,11 @@ describe('Integration | Repository | training-repository', function () {
         userId,
         trainingId: training1.id,
         campaignParticipationId,
+      });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training1.id,
+        campaignParticipationId: campaignParticipationId2,
       });
       databaseBuilder.factory.buildUserRecommendedTraining({
         userId,
