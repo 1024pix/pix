@@ -185,49 +185,53 @@ describe('Unit | Application | Controller | Campaign', function () {
     });
 
     context('when the campaign id is not the same as provided in the access token', function () {
-      it('should thrown an error', async function () {
+      it('should throw an error', async function () {
         // given
         const userId = 1;
         const campaignId = 2;
         const request = _getRequestForCampaignId(campaignId);
 
         sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId: 19 });
+        sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves();
 
         // when
         const error = await catchErr(campaignController.getCsvAssessmentResults)(request);
 
         // then
         expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignAssessmentResultsToStream).to.not.have.been.called;
+      });
+    });
+
+    context('when the access token is invalid', function () {
+      it('should throw an error', async function () {
+        // given
+        const request = _getRequestForCampaignId(1);
+
+        sinon.stub(tokenService, 'extractCampaignResultsTokenContent').throws(new ForbiddenAccess());
+        sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves();
+
+        // when
+        const error = await catchErr(campaignController.getCsvAssessmentResults)(request);
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignAssessmentResultsToStream).to.not.have.been.called;
       });
     });
   });
 
   describe('#getCsvProfilesCollectionResult', function () {
-    const userId = 1;
-    const campaignId = 2;
-
-    let request;
-
-    beforeEach(function () {
-      request = {
-        query: {
-          accessToken: 'token',
-        },
-        params: {
-          id: campaignId,
-        },
-        i18n: {
-          __: sinon.stub(),
-        },
-      };
-
-      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
-      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
-    });
-
     it('should call the use case to get result campaign in csv', async function () {
       // given
-      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'any file name' });
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon
+        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
+        .resolves({ fileName: 'any file name' });
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
 
       // when
       await campaignController.getCsvProfilesCollectionResults(request);
@@ -241,7 +245,14 @@ describe('Unit | Application | Controller | Campaign', function () {
 
     it('should return a response with correct headers', async function () {
       // given
-      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'expected file name' });
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon
+        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
+        .resolves({ fileName: 'expected file name' });
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
 
       // when
       const response = await campaignController.getCsvProfilesCollectionResults(request);
@@ -254,9 +265,14 @@ describe('Unit | Application | Controller | Campaign', function () {
 
     it('should fix invalid header chars in filename', async function () {
       // given
-      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves({
         fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
       });
+      sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId });
 
       // when
       const response = await campaignController.getCsvProfilesCollectionResults(request);
@@ -268,15 +284,38 @@ describe('Unit | Application | Controller | Campaign', function () {
     });
 
     context('when the campaign id is not the same as provided in the access token', function () {
-      it('should thrown an error', async function () {
+      it('should throw an error', async function () {
         // given
-        tokenService.extractCampaignResultsTokenContent.returns({ userId, campaignId: 19 });
+        const userId = 1;
+        const campaignId = 2;
+        const request = _getRequestForCampaignId(campaignId);
+
+        sinon.stub(tokenService, 'extractCampaignResultsTokenContent').returns({ userId, campaignId: 19 });
+        sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
 
         // when
         const error = await catchErr(campaignController.getCsvProfilesCollectionResults)(request);
 
         // then
         expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.not.have.been.called;
+      });
+    });
+
+    context('when the access token is invalid', function () {
+      it('should throw an error', async function () {
+        // given
+        const request = _getRequestForCampaignId(1);
+
+        sinon.stub(tokenService, 'extractCampaignResultsTokenContent').throws(new ForbiddenAccess());
+        sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves();
+
+        // when
+        const error = await catchErr(campaignController.getCsvProfilesCollectionResults)(request);
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.not.have.been.called;
       });
     });
   });
