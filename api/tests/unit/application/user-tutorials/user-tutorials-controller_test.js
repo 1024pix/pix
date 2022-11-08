@@ -58,50 +58,6 @@ describe('Unit | Controller | User-tutorials', function () {
     });
   });
 
-  describe('#findRecommended', function () {
-    it('should call the expected usecase', async function () {
-      // given
-      const userId = 'userId';
-      const extractedParams = {
-        page: {
-          number: '1',
-          size: '200',
-        },
-        filter: {
-          competences: ['competence1', 'competence2'],
-        },
-      };
-      const headers = {
-        'accept-language': 'fr',
-      };
-      sinon.stub(usecases, 'findPaginatedFilteredRecommendedTutorials').returns([]);
-      sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
-      const request = {
-        auth: { credentials: { userId } },
-        'filter[competences]': 'competence1,competence2',
-        'page[number]': '1',
-        'page[size]': '200',
-        headers,
-      };
-
-      // when
-      await userTutorialsController.findRecommended(request, hFake);
-
-      // then
-      const findPaginatedRecommendedTutorialsArgs =
-        usecases.findPaginatedFilteredRecommendedTutorials.firstCall.args[0];
-      expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
-      expect(findPaginatedRecommendedTutorialsArgs.filters).to.deep.equal({
-        competences: ['competence1', 'competence2'],
-      });
-      expect(findPaginatedRecommendedTutorialsArgs.page).to.deep.equal({
-        number: '1',
-        size: '200',
-      });
-      expect(findPaginatedRecommendedTutorialsArgs.locale).to.equal('fr');
-    });
-  });
-
   describe('#find', function () {
     it('should call the expected usecase and return serialized tutorials', async function () {
       // given
