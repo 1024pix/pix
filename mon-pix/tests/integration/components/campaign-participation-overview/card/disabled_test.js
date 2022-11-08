@@ -158,7 +158,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
 
           // when
           const screen = await renderScreen(
-            hbs`<CampaignParticipationOverview::Card::Disabled @model={{campaignParticipationOverview}} />`
+            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
           );
 
           // then

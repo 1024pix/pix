@@ -18,7 +18,7 @@ describe('Integration | Component | routes/campaigns/profiles_collection/send-pr
 
       // when
       await render(
-        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile @isDisabled={{isDisabled}} @campaignParticipation={{campaignParticipation}} />`
+        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile @isDisabled={{this.isDisabled}} @campaignParticipation={{this.campaignParticipation}} />`
       );
 
       expect(contains(this.intl.t('pages.send-profile.form.send'))).to.not.exist;
@@ -35,7 +35,7 @@ describe('Integration | Component | routes/campaigns/profiles_collection/send-pr
 
       // when
       await render(
-        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile @isDisabled={{isDisabled}} @campaignParticipation={{campaignParticipation}} @sendProfile={{sendProfile}} />`
+        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile @isDisabled={{this.isDisabled}} @campaignParticipation={{this.campaignParticipation}} @sendProfile={{this.sendProfile}} />`
       );
       await clickByLabel(this.intl.t('pages.send-profile.form.send'));
 
