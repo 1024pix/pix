@@ -1,8 +1,9 @@
-import { click, find, visit } from '@ember/test-helpers';
+import { click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { visit } from '@1024pix/ember-testing-library';
 
 describe('Acceptance | Compare answers and solutions for QROC questions', function () {
   setupApplicationTest();
@@ -21,15 +22,19 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   });
 
   describe('From the results page', function () {
-    beforeEach(async function () {
-      await visit(`/assessments/${assessment.id}/results`);
-    });
-
     it('should display the REPONSE link from the results screen', async function () {
-      expect(find('.result-item .js-correct-answer').textContent).to.contain('Réponses et tutos');
+      // given & when
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // then
+      expect(screen.getByRole('button', { name: 'Réponses et tutos' })).to.exist;
     });
 
     it('should not yet display the modal nor its content', async function () {
+      // given & when
+      await visit(`/assessments/${assessment.id}/results`);
+
+      // then
       expect(find('.comparison-window')).to.be.null;
       expect(find('.comparison-window__header .comparison-window__result-item-index')).to.be.null;
       expect(find('.comparison-window__header .comparison-window__title .comparison-window__title-text')).to.be.null;
@@ -37,29 +42,48 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   });
 
   describe('Content of the correction modal', function () {
-    beforeEach(async function () {
-      await visit(`/assessments/${assessment.id}/results`);
-      await click('.result-item:nth-child(1) .result-item__correction-button');
-    });
-
     it('should be able to access the modal directly from the url', async function () {
-      expect(find('.comparison-window')).to.exist;
+      // given
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+
+      // then
+      expect(screen.getByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' })).to.exist;
     });
 
     it('should contain an instruction', async function () {
+      // given
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+
+      // then
       expect(find('.comparison-window-content__body .challenge-statement-instruction__text')).to.exist;
     });
 
     it('should contain a correction zone', async function () {
+      // given
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+
+      // then
       expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
     });
 
     it('should contain a zone reserved for feedback panel', async function () {
-      expect(find('.comparison-window__feedback-panel')).to.exist;
-    });
+      // given
+      const screen = await visit(`/assessments/${assessment.id}/results`);
 
-    it('should contain a closing button', async function () {
-      expect(find('.pix-modal__close-link > span')).to.exist;
+      // when
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+
+      // then
+      expect(screen.getByRole('heading', { name: 'Signaler un problème' })).to.exist;
     });
   });
 });
