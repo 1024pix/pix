@@ -1,0 +1,18 @@
+
+version: '3'
+
+services:
+  api:
+    image: pix/api:dev
+    mem_limit: 1g
+    mem_reservation: 128M
+    cpus: 5
+    build: 
+      dockerfile: ../docker/dockerfiles/Dockerfile.hapi
+      context: ../api/
+      target: dev
+    volumes:
+      - ../api:/code 
+      - ./dev/api/node_modules/:/code/node_modules/  
+      - .env:/code/.env 
+    command: ["bash", "-c", "npm install && npm run start:watch"]
