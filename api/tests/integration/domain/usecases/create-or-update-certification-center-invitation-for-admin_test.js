@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+const mailService = require('../../../../lib/domain/services/mail-service');
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
   let clock;
@@ -8,6 +9,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
 
   beforeEach(function () {
     clock = sinon.useFakeTimers(now.getTime());
+    sinon.stub(mailService, 'sendCertificationCenterInvitationEmail');
   });
 
   afterEach(async function () {
@@ -38,6 +40,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     const result = await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
       certificationCenterId,
+      mailService,
     });
 
     // then
@@ -79,6 +82,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     const result = await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
       certificationCenterId,
+      mailService,
     });
 
     // then
@@ -93,6 +97,35 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       certificationCenterName: 'Centre Pixou',
       updatedAt: now,
       code: 'AAALLLPPP1',
+    });
+  });
+
+  it('should send email by calling mail service', async function () {
+    // given
+    const email = 'some.user@example.net';
+
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Pixar' }).id;
+    const certificationCenterInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
+      email,
+      certificationCenterId,
+      code: 'BBBJJJPPP3',
+      status: CertificationCenterInvitation.StatusType.PENDING,
+    }).id;
+    await databaseBuilder.commit();
+
+    // when
+    await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
+      email,
+      certificationCenterId,
+      mailService,
+    });
+
+    // then
+    expect(mailService.sendCertificationCenterInvitationEmail).to.has.been.calledWith({
+      email: 'some.user@example.net',
+      certificationCenterName: 'Pixar',
+      certificationCenterInvitationId,
+      code: 'BBBJJJPPP3',
     });
   });
 });
