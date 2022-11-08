@@ -73,6 +73,7 @@ module.exports = {
     const knexConn = domainTransaction?.knexTransaction || knex;
     const query = knexConn(TABLE_NAME)
       .select('trainings.*')
+      .distinct('trainings.id')
       .join('user-recommended-trainings', 'trainings.id', 'trainingId')
       .where({ userId, locale })
       .orderBy('id', 'asc');

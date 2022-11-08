@@ -113,6 +113,21 @@ function _buildCampaigns({ databaseBuilder }) {
     idPixLabel: null,
     createdAt: new Date('2020-01-07'),
   });
+
+  databaseBuilder.factory.buildCampaign({
+    name: 'Sco - AEFE - Campagne d’évaluation Pix+ Édu avec formations recommandées',
+    code: 'PIXEDUTRA',
+    type: 'ASSESSMENT',
+    organizationId: SCO_AEFE_ID,
+    creatorId: 4,
+    ownerId: 5,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+    assessmentMethod: 'SMART_RANDOM',
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
+  });
 }
 
 function _buildScoAssessmentParticipations({ databaseBuilder }) {
