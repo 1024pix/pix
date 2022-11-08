@@ -38,11 +38,6 @@ module.exports = function (environment) {
       },
     },
 
-    emberKeyboard: {
-      disableInputsInitializer: true,
-      propagation: true,
-    },
-
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
