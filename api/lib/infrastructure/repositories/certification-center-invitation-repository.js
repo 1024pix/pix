@@ -8,6 +8,7 @@ function _toDomain(invitationDTO) {
   return new CertificationCenterInvitation({
     id: invitationDTO.id,
     email: invitationDTO.email,
+    code: invitationDTO.code,
     updatedAt: invitationDTO.updatedAt,
     certificationCenterId: invitationDTO.certificationCenterId,
     certificationCenterName: invitationDTO.certificationCenterName,
@@ -62,7 +63,7 @@ module.exports = {
   async create(invitation) {
     const [newInvitation] = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .insert(invitation)
-      .returning(['id', 'email', 'updatedAt']);
+      .returning(['id', 'email', 'code', 'updatedAt']);
     return _toDomain(newInvitation);
   },
 
@@ -70,7 +71,7 @@ module.exports = {
     const [updatedCertificationCenterInvitation] = await knex('certification-center-invitations')
       .update({ updatedAt: new Date() })
       .where({ id: certificationCenterInvitation.id })
-      .returning(['id', 'email', 'updatedAt']);
+      .returning(['id', 'email', 'code', 'updatedAt']);
 
     return _toDomain(updatedCertificationCenterInvitation);
   },
