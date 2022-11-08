@@ -6,6 +6,7 @@ import Controller from '@ember/controller';
 export default class FillInCertificateVerificationCode extends Controller {
   @service store;
   @service intl;
+  @service router;
 
   certificateVerificationCode = null;
 
@@ -36,7 +37,7 @@ export default class FillInCertificateVerificationCode extends Controller {
       const certification = await this.store.queryRecord('certification', {
         verificationCode: this.certificateVerificationCode.toUpperCase(),
       });
-      this.transitionToRoute('shared-certification', certification);
+      this.router.transitionTo('shared-certification', certification);
       return;
     } catch (error) {
       this.onVerificateCertificationCodeError(error);

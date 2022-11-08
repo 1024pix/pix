@@ -10,7 +10,7 @@ describe('Unit | Controller | terms-of-service', function () {
   describe('#action submit', function () {
     beforeEach(function () {
       controller = this.owner.lookup('controller:terms-of-service');
-      controller.transitionToRoute = sinon.stub();
+      controller.router.transitionTo = sinon.stub();
       controller.currentUser = { user: { save: sinon.stub().resolves() } };
     });
 
@@ -23,7 +23,7 @@ describe('Unit | Controller | terms-of-service', function () {
 
       // then
       sinon.assert.calledWith(controller.currentUser.user.save, { adapterOptions: { acceptPixTermsOfService: true } });
-      sinon.assert.calledWith(controller.transitionToRoute, '');
+      sinon.assert.calledWith(controller.router.transitionTo, '');
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
     });
 
