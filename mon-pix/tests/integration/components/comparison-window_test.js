@@ -32,16 +32,6 @@ describe('Integration | Component | comparison-window', function () {
       this.set('closeComparisonWindow', () => {});
     });
 
-    it('renders', async function () {
-      // when
-      await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
-      );
-
-      // then
-      expect(find('.pix-modal-overlay')).to.exist;
-    });
-
     it('should display challenge illustration and alt', async function () {
       // given
       challenge.set('illustrationUrl', '/images/pix-logo.svg');
@@ -55,17 +45,6 @@ describe('Integration | Component | comparison-window', function () {
       // then
       expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
       expect(find('.challenge-illustration__loaded-image').alt).to.equal(challenge.illustrationAlt);
-    });
-
-    it('should render challenge result in the header', async function () {
-      // when
-      await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
-      );
-
-      // then
-      expect(find('.comparison-window__header')).to.exist;
-      expect(find('.comparison-window-header__result-item-icon')).to.exist;
     });
 
     it('should render challenge instruction', async function () {
@@ -85,33 +64,7 @@ describe('Integration | Component | comparison-window', function () {
       );
 
       //then
-      expect(find('.comparison-window__feedback-panel')).to.exist;
       expect(find('.feedback-panel__form')).to.not.exist;
-    });
-
-    [
-      { status: 'ok', color: 'green', icon: 'circle-check' },
-      { status: 'ko', color: 'red', icon: 'circle-xmark' },
-      { status: 'aband', color: 'grey', icon: 'circle-xmark' },
-      { status: 'partially', color: 'orange', icon: 'circle-check' },
-      { status: 'timedout', color: 'red', icon: 'circle-xmark' },
-    ].forEach(function (data) {
-      it(`should display the good icon in title when answer's result is "${data.status}"`, async function () {
-        // given
-        answer.setProperties({
-          result: data.status,
-          isResultNotOk: data.status !== 'ok',
-        });
-
-        // when
-        await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
-        );
-
-        // then
-        expect(find(`.comparison-window-header__result-item-icon--${data.color}`)).to.exist;
-        expect(find(`.comparison-window-header__result-item-icon svg.fa-${data.icon}`)).to.exist;
-      });
     });
 
     it('should render a tutorial panel with a hint', async function () {

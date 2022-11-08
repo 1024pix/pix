@@ -141,7 +141,6 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await click('.result-item__correction-button');
 
       // then
-      expect(find('.comparison-window-header__title').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcmChallenge.instruction);
 
       const goodAnswer = findAll('.qcm-proposal-label__answer-details')[0];

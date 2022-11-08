@@ -1,4 +1,3 @@
-import resultIcon from 'mon-pix/utils/result-icon';
 import Component from '@glimmer/component';
 
 const TRANSLATION_PREFIX = 'pages.comparison-window.results.';
@@ -50,10 +49,6 @@ export default class ComparisonWindow extends Component {
 
   get answerSuffix() {
     return this._isAutoReply ? 'AutoReply' : '';
-  }
-
-  get resultItemIcon() {
-    return resultIcon(this.resultItem.status);
   }
 
   get resultItem() {
