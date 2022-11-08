@@ -11,9 +11,6 @@ module.exports = function (defaults) {
     babel: {
       sourceMaps: 'inline',
     },
-    'ember-cli-babel': {
-      includePolyfill: true,
-    },
     fingerprint: {
       exclude: ['png', 'svg'],
       extensions: ['js', 'css', 'jpg', 'gif', 'map'],
