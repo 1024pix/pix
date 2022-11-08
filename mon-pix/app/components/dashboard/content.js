@@ -70,7 +70,7 @@ export default class Content extends Component {
   }
 
   get userScore() {
-    return this.currentUser.user.profile.pixScore;
+    return this.currentUser.user.profile.get('pixScore');
   }
 
   @action

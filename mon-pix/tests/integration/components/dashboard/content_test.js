@@ -16,9 +16,9 @@ describe('Integration | Component | Dashboard | Content', function () {
       firstName: 'Banana',
       email: 'banana.split@example.net',
       fullName: 'Banana Split',
-      profile: {
+      profile: EmberObject.create({
         pixScore,
-      },
+      }),
       hasSeenNewDashboardInfo: false,
     };
   }
@@ -28,9 +28,9 @@ describe('Integration | Component | Dashboard | Content', function () {
       firstName: 'Banana',
       email: 'banana.split@example.net',
       fullName: 'Banana Split',
-      profile: {
+      profile: EmberObject.create({
         pixScore,
-      },
+      }),
       hasSeenNewDashboardInfo: false,
       codeForLastProfileToShare: 'SNAP1234',
     };
