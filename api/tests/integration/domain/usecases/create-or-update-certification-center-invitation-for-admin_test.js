@@ -17,7 +17,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
   it('should create a new invitation if there isn’t an already pending existing one with given email', async function () {
     // given
     const email = 'some.user@example.net';
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre des Pixous' }).id;
 
     databaseBuilder.factory.buildCertificationCenterInvitation({
       email: 'another.user@example.net',
@@ -50,14 +50,19 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       .select('*')
       .where({ email, status: CertificationCenterInvitation.StatusType.PENDING })
       .first();
-    expect(result.certificationCenterInvitation).to.deep.include({ id: newAddedInvitation.id, email, updatedAt: now });
+    expect(result.certificationCenterInvitation).to.deep.include({
+      id: newAddedInvitation.id,
+      email,
+      certificationCenterName: 'Centre des Pixous',
+      updatedAt: now,
+    });
     expect(result.certificationCenterInvitation.code).to.exist;
   });
 
   it('should update an already existing pending invitation’s', async function () {
     // given
     const email = 'some.user@example.net';
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre Pixou' }).id;
 
     const someTimeInThePastDate = new Date('2019-03-12T01:02:03Z');
     const existingPendingInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
@@ -85,6 +90,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     expect(result.certificationCenterInvitation).to.deep.include({
       id: existingPendingInvitationId,
       email,
+      certificationCenterName: 'Centre Pixou',
       updatedAt: now,
       code: 'AAALLLPPP1',
     });
