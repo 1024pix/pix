@@ -97,7 +97,7 @@ class ManyOrganizationsFoundError extends DomainError {
   }
 }
 
-class AlreadyExistingOrganizationInvitationError extends DomainError {
+class AlreadyExistingInvitationError extends DomainError {
   constructor(message = "L'invitation de l'organisation existe déjà.") {
     super(message);
   }
@@ -151,7 +151,7 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
-class CancelledOrganizationInvitationError extends DomainError {
+class CancelledInvitationError extends DomainError {
   constructor(
     message = "L'invitation à cette organisation a été annulée.",
     code = 'CANCELLED_ORGANIZATION_INVITATION_CODE'
@@ -573,21 +573,6 @@ class CertificationCenterMembershipCreationError extends DomainError {
 class CertificationCenterMembershipDisableError extends DomainError {
   constructor(message = 'Erreur lors de la mise à jour du membership de centre de certification.') {
     super(message);
-  }
-}
-
-class AlreadyExistingCertificationCenterInvitationError extends DomainError {
-  constructor(message = "L'invitation à un centre de certification existe déjà.") {
-    super(message);
-  }
-}
-
-class CancelledCertificationCenterInvitationError extends DomainError {
-  constructor(
-    message = "L'invitation à ce centre de certification a été annulée.",
-    code = 'CANCELLED_CERTIFICATION_CENTER_INVITATION_CODE'
-  ) {
-    super(message, code);
   }
 }
 
@@ -1223,13 +1208,12 @@ module.exports = {
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
-  AlreadyExistingOrganizationInvitationError,
+  AlreadyExistingInvitationError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
-  AlreadyExistingCertificationCenterInvitationError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
   ApplicationScopeNotAllowedError,
@@ -1244,8 +1228,7 @@ module.exports = {
   CampaignCodeError,
   CampaignParticipationDeletedError,
   CampaignTypeError,
-  CancelledOrganizationInvitationError,
-  CancelledCertificationCenterInvitationError,
+  CancelledInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CertificateVerificationCodeGenerationTooManyTrials,
