@@ -1,6 +1,11 @@
 const CertificationCenterInvitation = require('../models/CertificationCenterInvitation');
 
-module.exports = async function ({ email, certificationCenterId, certificationCenterInvitationRepository }) {
+module.exports = async function ({
+  email,
+  certificationCenterId,
+  certificationCenterInvitationRepository,
+  mailService,
+}) {
   let certificationCenterInvitation, isInvitationCreated;
 
   const alreadyExistingPendingInvitationForThisEmail =
@@ -20,6 +25,13 @@ module.exports = async function ({ email, certificationCenterId, certificationCe
     );
     isInvitationCreated = false;
   }
+
+  await mailService.sendCertificationCenterInvitationEmail({
+    email,
+    certificationCenterName: certificationCenterInvitation.certificationCenterName,
+    certificationCenterInvitationId: certificationCenterInvitation.id,
+    code: certificationCenterInvitation.code,
+  });
 
   return { isInvitationCreated, certificationCenterInvitation };
 };
