@@ -15,10 +15,12 @@ export async function authenticateByUsername(user) {
   await clickByLabel('Je me connecte');
 }
 
+export function generateGarAuthenticationURLHash(user) {
+  return '#aaa.' + btoa(`{"user_id":${user.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb';
+}
+
 export async function authenticateByGAR(user) {
-  await visit(
-    '/?token=aaa.' + btoa(`{"user_id":${user.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb'
-  );
+  await visit('/connexion/gar' + generateGarAuthenticationURLHash(user));
 }
 
 export async function logout() {
