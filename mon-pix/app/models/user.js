@@ -13,6 +13,7 @@ export default class User extends Model {
   @attr('boolean') hasSeenFocusedChallengeTooltip;
   @attr('boolean') hasSeenOtherChallengesTooltip;
   @attr('boolean') hasAssessmentParticipations;
+  @attr('boolean') hasRecommendedTrainings;
   @attr('string') codeForLastProfileToShare;
   @attr('string') lang;
   @attr('boolean') isAnonymous;
