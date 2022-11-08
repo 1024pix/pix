@@ -12,7 +12,7 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
   beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-certificate-verification-code');
     storeStub = { queryRecord: sinon.stub() };
-    controller.transitionToRoute = sinon.stub();
+    controller.router.transitionTo = sinon.stub();
     controller.set('store', storeStub);
     controller.set('errorMessage', null);
     controller.set('certificateVerificationCode', null);
