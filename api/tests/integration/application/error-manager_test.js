@@ -75,26 +75,14 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Le membership existe déjà.');
     });
 
-    it('responds Precondition Failed when a AlreadyExistingOrganizationInvitationError error occurs', async function () {
+    it('responds Precondition Failed when a AlreadyExistingInvitationError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.AlreadyExistingOrganizationInvitationError("L'invitation de l'organisation existe déjà.")
+        new DomainErrors.AlreadyExistingInvitationError("L'invitation de l'organisation existe déjà.")
       );
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
       expect(responseDetail(response)).to.equal("L'invitation de l'organisation existe déjà.");
-    });
-
-    it('responds Precondition Failed when a AlreadyExistingCertificationCenterInvitationError error occurs', async function () {
-      routeHandler.throws(
-        new DomainErrors.AlreadyExistingCertificationCenterInvitationError(
-          "L'invitation à un centre de certification existe déjà."
-        )
-      );
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
-      expect(responseDetail(response)).to.equal("L'invitation à un centre de certification existe déjà.");
     });
 
     it('responds Precondition Failed when a AlreadySharedCampaignParticipationError error occurs', async function () {
@@ -478,21 +466,12 @@ describe('Integration | API | Controller Error', function () {
       expect(responseTitle(response)).to.equal('Forbidden');
     });
 
-    it('responds Forbidden when a CancelledOrganizationInvitationError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CancelledOrganizationInvitationError());
+    it('responds Forbidden when a CancelledInvitationError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.CancelledInvitationError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal("L'invitation à cette organisation a été annulée.");
-      expect(responseTitle(response)).to.equal('Forbidden');
-    });
-
-    it('responds Forbidden when a CancelledCertificationCenterInvitationError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CancelledCertificationCenterInvitationError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
-      expect(responseDetail(response)).to.equal("L'invitation à ce centre de certification a été annulée.");
       expect(responseTitle(response)).to.equal('Forbidden');
     });
   });
