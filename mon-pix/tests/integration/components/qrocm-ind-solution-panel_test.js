@@ -141,7 +141,9 @@ describe('Integration | Component | QROCm ind solution panel', function () {
       //given
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
-      await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+      await render(
+        hbs`{{qrocm-ind-solution-panel challenge=this.challenge answer=this.answer solution=this.solution}}`
+      );
       //then
 
       expect(find(PARAGRAPH)).to.not.exist;
@@ -162,7 +164,9 @@ describe('Integration | Component | QROCm ind solution panel', function () {
 
     it('should display a disabled textarea', async function () {
       // when
-      await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
+      await render(
+        hbs`{{qrocm-ind-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
+      );
 
       // then
       expect(find(INPUT)).to.not.exist;
@@ -182,7 +186,9 @@ describe('Integration | Component | QROCm ind solution panel', function () {
 
     it('should display a disabled input', async function () {
       // when
-      await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
+      await render(
+        hbs`{{qrocm-ind-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
+      );
 
       // then
       expect(find(INPUT)).to.not.exist;

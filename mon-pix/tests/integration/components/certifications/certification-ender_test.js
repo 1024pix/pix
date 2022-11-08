@@ -24,7 +24,7 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
 
     // when
     const screen = await renderScreen(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} />
+      <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />
     `);
 
     // then
@@ -38,11 +38,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
         fullName: 'Jim Halpert',
       };
     }
+
     this.owner.register('service:currentUser', currentUser);
 
     // when
     const screen = await renderScreen(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} />
+      <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />
     `);
 
     // then
@@ -52,7 +53,7 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
   it('should display the remote certification logout message', async function () {
     // when
     const screen = await renderScreen(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} />
+      <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />
     `);
 
     // then
@@ -67,11 +68,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
           fullName: 'Jim Halpert',
         };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when
       const screen = await renderScreen(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} @isEndedBySupervisor={{false}} />
+      <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedBySupervisor={{false}} />
     `);
 
       // then
@@ -87,11 +89,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
           fullName: 'Jim Halpert',
         };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when
       const screen = await renderScreen(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} @isEndedBySupervisor={{true}} />
+      <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedBySupervisor={{true}} />
     `);
 
       // then
@@ -107,11 +110,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
           fullName: 'Jim Halpert',
         };
       }
+
       this.owner.register('service:currentUser', currentUser);
 
       // when
       const screen = await renderScreen(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} @hasBeenEndedDueToFinalization={{true}} />
+      <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} @hasBeenEndedDueToFinalization={{true}} />
     `);
 
       // then

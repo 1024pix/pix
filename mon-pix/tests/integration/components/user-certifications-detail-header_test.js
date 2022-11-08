@@ -35,7 +35,7 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+      screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
     });
 
     it('should show the certification published date', function () {
@@ -83,7 +83,7 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
       // then
       expect(screen.queryByText('Né(e) le 22 janvier 2000 à Paris')).to.not.exist;
@@ -97,6 +97,7 @@ describe('Integration | Component | user certifications detail header', function
           return true;
         }
       }
+
       this.owner.register('service:url', UrlServiceStub);
     });
 
@@ -122,7 +123,7 @@ describe('Integration | Component | user certifications detail header', function
         this.set('certification', certification);
 
         // when
-        const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+        const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
         // then
         expect(
@@ -155,7 +156,7 @@ describe('Integration | Component | user certifications detail header', function
         this.set('certification', certification);
 
         // when
-        const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+        const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
         // then
         expect(
@@ -169,9 +170,11 @@ describe('Integration | Component | user certifications detail header', function
     it('should call file saver with isFrenchDomainExtension set to true in url', async function () {
       // given
       const fileSaverSaveStub = sinon.stub();
+
       class FileSaverStub extends Service {
         save = fileSaverSaveStub;
       }
+
       this.owner.register('service:fileSaver', FileSaverStub);
 
       const store = this.owner.lookup('service:store');
@@ -193,7 +196,7 @@ describe('Integration | Component | user certifications detail header', function
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
       // when
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
@@ -215,6 +218,7 @@ describe('Integration | Component | user certifications detail header', function
           return false;
         }
       }
+
       this.owner.register('service:url', UrlServiceStub);
       const store = this.owner.lookup('service:store');
       const certification = store.createRecord('certification', {
@@ -235,7 +239,7 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
       // then
       expect(
@@ -248,9 +252,11 @@ describe('Integration | Component | user certifications detail header', function
     it('should call file saver with isFrenchDomainExtension set to false in url', async function () {
       // given
       const fileSaverSaveStub = sinon.stub();
+
       class FileSaverStub extends Service {
         save = fileSaverSaveStub;
       }
+
       this.owner.register('service:fileSaver', FileSaverStub);
 
       const store = this.owner.lookup('service:store');
@@ -272,7 +278,7 @@ describe('Integration | Component | user certifications detail header', function
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
       // when
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
@@ -290,9 +296,11 @@ describe('Integration | Component | user certifications detail header', function
     it('should show the error message', async function () {
       // given
       const fileSaverSaveStub = sinon.stub();
+
       class FileSaverStub extends Service {
         save = fileSaverSaveStub;
       }
+
       this.owner.register('service:fileSaver', FileSaverStub);
 
       fileSaverSaveStub.rejects(new Error('an error message'));
@@ -316,7 +324,7 @@ describe('Integration | Component | user certifications detail header', function
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
 
       // when
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
