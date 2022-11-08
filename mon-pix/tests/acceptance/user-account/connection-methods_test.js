@@ -1,5 +1,10 @@
 import { describe, it } from 'mocha';
-import { authenticateByEmail, authenticateByGAR, authenticateByUsername } from '../../helpers/authentication';
+import {
+  authenticateByEmail,
+  authenticateByGAR,
+  authenticateByUsername,
+  generateGarAuthenticationURLHash,
+} from '../../helpers/authentication';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -9,6 +14,8 @@ import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import setupIntl from '../../helpers/setup-intl';
+import PixWindow from 'mon-pix/utils/pix-window';
+import sinon from 'sinon';
 
 describe('Acceptance | user-account | connection-methods', function () {
   setupApplicationTest();
@@ -38,6 +45,7 @@ describe('Acceptance | user-account | connection-methods', function () {
       // given
       const garUser = server.create('user', 'external');
       server.create('authentication-method', 'withGarIdentityProvider', { user: garUser });
+      sinon.stub(PixWindow, 'getLocationHash').returns(generateGarAuthenticationURLHash(garUser));
       await authenticateByGAR(garUser);
 
       // when
@@ -57,11 +65,7 @@ describe('Acceptance | user-account | connection-methods', function () {
       server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
 
       // when
-      await visit(
-        '/?token=aaa.' +
-          btoa(`{"user_id":${user.id},"source":"oidc-source","iat":1545321469,"exp":4702193958}`) +
-          '.bbb'
-      );
+      await authenticateByEmail(user);
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
