@@ -90,7 +90,6 @@
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^1.0.0",
     "ember-mocha": "^0.16.2",
-    "ember-modal-dialog": "^3.0.3",
     "ember-modifier": "^3.1.0",
     "ember-moment": "^9.0.1",
     "ember-page-title": "^7.0.0",
