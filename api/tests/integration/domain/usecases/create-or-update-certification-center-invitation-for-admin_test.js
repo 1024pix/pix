@@ -44,7 +44,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     const allInvitations = await knex('certification-center-invitations').select('*');
     expect(allInvitations).to.have.length(3);
 
-    expect(result.created).to.be.true;
+    expect(result.isInvitationCreated).to.be.true;
     expect(result.certificationCenterInvitation).to.be.instanceOf(CertificationCenterInvitation);
     const newAddedInvitation = await knex('certification-center-invitations')
       .select('*')
@@ -78,6 +78,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     const allInvitations = await knex('certification-center-invitations').select('*');
     expect(allInvitations).to.have.length(1);
 
+    expect(result.isInvitationCreated).to.be.false;
     expect(result.certificationCenterInvitation).to.be.instanceOf(CertificationCenterInvitation);
     expect(result.certificationCenterInvitation).to.deep.include({
       id: existingPendingInvitationId,
