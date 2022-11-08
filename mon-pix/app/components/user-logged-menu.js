@@ -25,4 +25,14 @@ export default class UserLoggedMenu extends Component {
   closeMenu() {
     this.canDisplayMenu = false;
   }
+
+  @action
+  handleTab() {
+    /* `setTimeout(..., 0)` is used to wait the next browser rendering and get the new focused element */
+    setTimeout(() => {
+      if (!document.activeElement.classList.contains('logged-user-menu__link')) {
+        this.closeMenu();
+      }
+    }, 0);
+  }
 }
