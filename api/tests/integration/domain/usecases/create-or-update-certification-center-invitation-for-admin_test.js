@@ -51,6 +51,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       .where({ email, status: CertificationCenterInvitation.StatusType.PENDING })
       .first();
     expect(result.certificationCenterInvitation).to.deep.include({ id: newAddedInvitation.id, email, updatedAt: now });
+    expect(result.certificationCenterInvitation.code).to.exist;
   });
 
   it('should update an already existing pending invitation’s', async function () {
@@ -61,6 +62,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     const someTimeInThePastDate = new Date('2019-03-12T01:02:03Z');
     const existingPendingInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
       email,
+      code: 'AAALLLPPP1',
       certificationCenterId,
       status: CertificationCenterInvitation.StatusType.PENDING,
       updatedAt: someTimeInThePastDate,
@@ -84,6 +86,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       id: existingPendingInvitationId,
       email,
       updatedAt: now,
+      code: 'AAALLLPPP1',
     });
   });
 });
