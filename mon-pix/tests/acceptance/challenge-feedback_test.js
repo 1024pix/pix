@@ -78,13 +78,22 @@ describe('Acceptance | Giving feedback about a challenge', function () {
   });
 
   context('From the comparison modal at the end of the test', function () {
-    it('should be able to give feedback', async () => {
-      // given
+    beforeEach(async function () {
       server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
       await visit(`/assessments/${assessment.id}/checkpoint`);
-
+    });
+    it('should not display the feedback form', async () => {
       // when
       await click('.result-item__correction-button');
+
+      // then
+      assertThatFeedbackFormIsClosed();
+    });
+
+    it('should be able to give feedback', async () => {
+      // when
+      await click('.result-item__correction-button');
+      await click('.feedback-panel__open-button');
 
       // then
       assertThatFeedbackFormIsOpen();

@@ -78,7 +78,7 @@ describe('Integration | Component | comparison-window', function () {
       expect(find('.comparison-window-content-body__instruction')).to.exist;
     });
 
-    it('should render a feedback panel already opened', async function () {
+    it('should render a closed feedback panel', async function () {
       //when
       await render(
         hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
@@ -86,7 +86,7 @@ describe('Integration | Component | comparison-window', function () {
 
       //then
       expect(find('.comparison-window__feedback-panel')).to.exist;
-      expect(find('.feedback-panel__form')).to.exist;
+      expect(find('.feedback-panel__form')).to.not.exist;
     });
 
     [
