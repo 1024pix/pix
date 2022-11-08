@@ -244,6 +244,7 @@ export default Factory.extend({
     },
   }),
   withSomeTrainings: trait({
+    hasRecommendedTrainings: true,
     afterCreate(user, server) {
       const training = server.create('training', {
         title: 'Devenir tailleur de citrouille',
