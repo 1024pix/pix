@@ -103,7 +103,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       });
 
       // then
-      const expectedUrl = '/?token=access-token&user-id=1';
+      const expectedUrl = '/connexion/gar#access-token';
       expect(result).to.deep.equal(expectedUrl);
     });
 
