@@ -267,7 +267,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
     context('When they have trainings', function () {
       it('should display the block', async function () {
-        const trainings = [{ title: 'Training 1' }];
+        const trainings = [{ title: 'Training 1', duration: { hours: 4 } }];
         const campaign = {
           customResultPageText: 'Bravo !',
           organizationLogoUrl: 'www.logo-example.com',
