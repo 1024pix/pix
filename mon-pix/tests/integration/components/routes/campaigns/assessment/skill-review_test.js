@@ -108,7 +108,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     it('should congratulate the user', async function () {
       // Given
       campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false };
+      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false, campaignParticipationBadges: [] };
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
@@ -121,7 +121,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     it("should display the user's flash estimated level", async function () {
       // Given
       campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false };
+      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false, campaignParticipationBadges: [] };
       const expectedPixCount = 257;
       this.set('model', { campaign, campaignParticipationResult });
 
