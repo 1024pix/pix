@@ -6,6 +6,7 @@ const {
   InvalidSessionResultError,
 } = require('../../domain/errors');
 const settings = require('../../config');
+const { ForbiddenAccess } = require('../errors');
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
@@ -175,7 +176,9 @@ function extractClientId(token, secret = settings.authentication.secret) {
 
 function extractCampaignResultsTokenContent(token) {
   const decoded = getDecodedToken(token);
-  if (decoded === false) return null;
+  if (decoded === false) {
+    throw new ForbiddenAccess();
+  }
   return { userId: decoded.access_id, campaignId: decoded.campaign_id };
 }
 
