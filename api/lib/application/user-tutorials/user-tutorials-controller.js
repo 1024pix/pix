@@ -16,17 +16,6 @@ module.exports = {
     return h.response(userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
   },
 
-  async findSaved(request, h) {
-    const { userId } = request.auth.credentials;
-    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
-
-    const userPaginatedSavedTutorials = await usecases.findPaginatedFilteredSavedTutorials({ userId, filters, page });
-
-    return h.response(
-      tutorialSerializer.serialize(userPaginatedSavedTutorials.results, userPaginatedSavedTutorials.meta)
-    );
-  },
-
   async findRecommended(request, h) {
     const { userId } = request.auth.credentials;
     const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
