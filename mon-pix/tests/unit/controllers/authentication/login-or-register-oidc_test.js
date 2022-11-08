@@ -16,10 +16,12 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
       };
+
       class OidcIdentityProvidersStub extends Service {
         'oidc-partner' = oidcPartner;
         list = [oidcPartner];
       }
+
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
 
       const email = 'glace.alo@example.net';
@@ -34,10 +36,9 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
         fullNameFromPix: 'Glace Alo',
         authenticationMethods: [{ identityProvider: 'OIDC_PARTNER' }],
       });
-      controller.store = { createRecord: () => ({ login }) };
       controller.authenticationKey = authenticationKey;
       controller.identityProviderSlug = 'oidc-partner';
-      sinon.spy(controller.store, 'createRecord');
+      sinon.stub(controller.store, 'createRecord').returns({ login });
 
       // when
       await controller.onLogin({ enteredEmail: email, enteredPassword: password });
@@ -63,10 +64,12 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
       };
+
       class OidcIdentityProvidersStub extends Service {
         'oidc-partner' = oidcPartner;
         list = [oidcPartner];
       }
+
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
 
       const email = 'glace.alo@example.net';
