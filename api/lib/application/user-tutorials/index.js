@@ -36,18 +36,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/users/tutorials/recommended',
-      config: {
-        handler: userTutorialsController.findRecommended,
-        tags: ['api', 'tutorials'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des tutoriels recommandés pour l‘utilisateur courant\n',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/{userId}/tutorials',
       config: {
         validate: {
