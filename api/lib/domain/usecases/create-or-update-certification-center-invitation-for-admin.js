@@ -1,8 +1,9 @@
 const CertificationCenterInvitation = require('../models/CertificationCenterInvitation');
 
-module.exports = async function ({
+module.exports = async function createOrUpdateCertificationCenterInvitationForAdmin({
   email,
   certificationCenterId,
+  locale,
   certificationCenterInvitationRepository,
   mailService,
 }) {
