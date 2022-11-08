@@ -5,7 +5,7 @@ const scoOrganizationInvitationSerializer = require('../../../../lib/infrastruct
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 
 const {
-  AlreadyExistingOrganizationInvitationError,
+  AlreadyExistingInvitationError,
   NotFoundError,
   UserNotFoundError,
   OrganizationWithoutEmailError,
@@ -60,9 +60,9 @@ describe('Integration | Application | Organization-invitations | organization-in
     });
 
     context('Error cases', function () {
-      it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async function () {
+      it('should respond an HTTP response with status code 412 when AlreadyExistingInvitationError', async function () {
         // given
-        usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
+        usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingInvitationError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);

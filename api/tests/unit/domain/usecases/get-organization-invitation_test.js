@@ -3,8 +3,8 @@ const getOrganizationInvitation = require('../../../../lib/domain/usecases/get-o
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const {
   NotFoundError,
-  AlreadyExistingOrganizationInvitationError,
-  CancelledOrganizationInvitationError,
+  AlreadyExistingInvitationError,
+  CancelledInvitationError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-organization-invitation', function () {
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
   });
 
   context('when invitation is already accepted', function () {
-    it('should throw an AlreadyExistingOrganizationInvitationError', async function () {
+    it('should throw an AlreadyExistingInvitationError', async function () {
       // given
       const status = OrganizationInvitation.StatusType.ACCEPTED;
       const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
@@ -73,7 +73,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
       });
 
       // then
-      expect(err).to.be.instanceOf(AlreadyExistingOrganizationInvitationError);
+      expect(err).to.be.instanceOf(AlreadyExistingInvitationError);
     });
   });
 
@@ -105,7 +105,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
     });
 
     context('when invitation is cancelled', function () {
-      it('should throw an CancelledOrganizationInvitationError', async function () {
+      it('should throw an CancelledInvitationError', async function () {
         // given
         const status = OrganizationInvitation.StatusType.CANCELLED;
         const organization = domainBuilder.buildOrganization();
@@ -125,7 +125,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
         });
 
         // then
-        expect(error).to.be.instanceOf(CancelledOrganizationInvitationError);
+        expect(error).to.be.instanceOf(CancelledInvitationError);
       });
     });
   });

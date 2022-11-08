@@ -3,8 +3,8 @@ const useCases = require('../../../../lib/domain/usecases');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 const {
   NotFoundError,
-  AlreadyExistingCertificationCenterInvitationError,
-  CancelledCertificationCenterInvitationError,
+  AlreadyExistingInvitationError,
+  CancelledInvitationError,
 } = require('../../../../lib/domain/errors');
 
 describe('Integration | API | getCertificationCenterInvitation', function () {
@@ -94,8 +94,8 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       });
 
       // then
-      expect(error).to.be.instanceof(AlreadyExistingCertificationCenterInvitationError);
-      expect(error.message).to.equal(`L'invitation avec l'id ${killuaInvitation.id} existe déjà.`);
+      expect(error).to.be.instanceof(AlreadyExistingInvitationError);
+      expect(error.message).to.equal(`L'invitation avec l'id ${killuaInvitation.id} a déjà été acceptée.`);
     });
   });
 
@@ -120,8 +120,8 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       });
 
       // then
-      expect(error).to.be.instanceof(CancelledCertificationCenterInvitationError);
-      expect(error.message).to.equal("L'invitation à ce centre de certification a été annulée.");
+      expect(error).to.be.instanceof(CancelledInvitationError);
+      expect(error.message).to.equal(`L'invitation avec l'id ${dekuInvitation.id} a été annulée.`);
     });
   });
 });
