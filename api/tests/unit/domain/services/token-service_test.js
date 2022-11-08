@@ -8,6 +8,7 @@ const {
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
+  ForbiddenAccess,
 } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
@@ -153,15 +154,15 @@ describe('Unit | Domain | Service | Token Service', function () {
     });
 
     context('invalid token', function () {
-      it('should return null', function () {
+      it('should return null', async function () {
         // given
         const accessToken = 'WRONG_DATA';
 
         // when
-        const result = tokenService.extractCampaignResultsTokenContent(accessToken);
+        const error = await catchErr(tokenService.extractCampaignResultsTokenContent)(accessToken);
 
         // then
-        expect(result).to.equal(null);
+        expect(error).to.be.an.instanceof(ForbiddenAccess);
       });
     });
   });
