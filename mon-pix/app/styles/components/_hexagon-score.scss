@@ -118,4 +118,10 @@
   background: none;
   color: inherit;
   border: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: $pix-neutral-80;
+  }
 }
