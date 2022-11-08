@@ -9,6 +9,7 @@ services:
       context: ../api/
       target: dev
     volumes:
+      - ../api:/code
       - .env:/code/.env 
 
   orga:

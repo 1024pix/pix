@@ -7,4 +7,4 @@ COPY . .
 
 RUN npm ci
 
-CMD [ "npm", "run", "start:watch" ]
+CMD [ "npm", "run", "start" ]
