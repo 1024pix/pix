@@ -272,7 +272,6 @@ module.exports = injectDependencies(
     findPaginatedFilteredOrganizationMemberships: require('./find-paginated-filtered-organization-memberships'),
     findPaginatedFilteredOrganizations: require('./find-paginated-filtered-organizations'),
     findPaginatedFilteredRecommendedTutorials: require('./find-paginated-filtered-recommended-tutorials'),
-    findPaginatedFilteredSavedTutorials: require('./find-paginated-filtered-saved-tutorials'),
     findPaginatedFilteredTutorials: require('./find-paginated-filtered-tutorials'),
     findPaginatedFilteredScoParticipants: require('./find-paginated-filtered-sco-participants'),
     findPaginatedFilteredSupParticipants: require('./find-paginated-filtered-sup-participants'),

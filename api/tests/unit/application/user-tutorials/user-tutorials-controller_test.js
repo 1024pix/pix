@@ -102,45 +102,6 @@ describe('Unit | Controller | User-tutorials', function () {
     });
   });
 
-  describe('#findSaved', function () {
-    it('should call the expected usecase', async function () {
-      // given
-      const userId = 'userId';
-      const extractedParams = {
-        page: {
-          number: '1',
-          size: '200',
-        },
-        filter: {
-          competences: ['competence1', 'competence2'],
-        },
-      };
-      sinon.stub(usecases, 'findPaginatedFilteredSavedTutorials').returns([]);
-      sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
-
-      const request = {
-        auth: { credentials: { userId } },
-        'filter[competences]': 'competence1,competence2',
-        'page[number]': '1',
-        'page[size]': '200',
-      };
-
-      // when
-      await userTutorialsController.findSaved(request, hFake);
-
-      // then
-      const findPaginatedFilteredSavedTutorialsArgs = usecases.findPaginatedFilteredSavedTutorials.firstCall.args[0];
-      expect(findPaginatedFilteredSavedTutorialsArgs).to.have.property('userId', userId);
-      expect(findPaginatedFilteredSavedTutorialsArgs.filters).to.deep.equal({
-        competences: ['competence1', 'competence2'],
-      });
-      expect(findPaginatedFilteredSavedTutorialsArgs.page).to.deep.equal({
-        number: '1',
-        size: '200',
-      });
-    });
-  });
-
   describe('#find', function () {
     it('should call the expected usecase and return serialized tutorials', async function () {
       // given
