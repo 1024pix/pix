@@ -1,7 +1,4 @@
-const {
-  AlreadyExistingCertificationCenterInvitationError,
-  CancelledCertificationCenterInvitationError,
-} = require('../../domain/errors');
+const { CancelledInvitationError, AlreadyExistingInvitationError } = require('../errors');
 
 module.exports = async function getCertificationCenterInvitation({
   certificationCenterInvitationId,
@@ -14,12 +11,12 @@ module.exports = async function getCertificationCenterInvitation({
   });
 
   if (foundCertificationCenterInvitation.isCancelled) {
-    throw new CancelledCertificationCenterInvitationError("L'invitation à ce centre de certification a été annulée.");
+    throw new CancelledInvitationError(`L'invitation avec l'id ${certificationCenterInvitationId} a été annulée.`);
   }
 
   if (foundCertificationCenterInvitation.isAccepted) {
-    throw new AlreadyExistingCertificationCenterInvitationError(
-      `L'invitation avec l'id ${certificationCenterInvitationId} existe déjà.`
+    throw new AlreadyExistingInvitationError(
+      `L'invitation avec l'id ${certificationCenterInvitationId} a déjà été acceptée.`
     );
   }
 
