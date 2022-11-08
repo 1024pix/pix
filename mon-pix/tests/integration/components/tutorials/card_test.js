@@ -29,18 +29,16 @@ describe('Integration | Component | Tutorials | Card', function () {
       await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
 
       // then
-      expect(find('.tutorial-card-v2')).to.exist;
-      expect(find('.tutorial-card-v2__content')).to.exist;
-      expect(find('.tutorial-card-v2-content__link'))
-        .to.have.property('textContent')
-        .that.contains('Mon super tutoriel');
-      expect(find('.tutorial-card-v2-content__link')).to.have.property('href').that.equals('https://exemple.net/');
-      expect(find('.tutorial-card-v2-content__details'))
+      expect(find('.tutorial-card')).to.exist;
+      expect(find('.tutorial-card__content')).to.exist;
+      expect(find('.tutorial-card-content__link')).to.have.property('textContent').that.contains('Mon super tutoriel');
+      expect(find('.tutorial-card-content__link')).to.have.property('href').that.equals('https://exemple.net/');
+      expect(find('.tutorial-card-content__details'))
         .to.have.property('textContent')
         .that.contains('mon-tuto')
         .and.contains('vidéo')
         .and.contains('une minute');
-      expect(find('.tutorial-card-v2-content__actions')).to.exist;
+      expect(find('.tutorial-card-content__actions')).to.exist;
       expect(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).to.exist;
       expect(find('[aria-label="Retirer de ma liste de tutos"]')).to.exist;
       expect(find('[title="Ne plus considérer ce tuto comme utile"]')).to.exist;
@@ -68,18 +66,16 @@ describe('Integration | Component | Tutorials | Card', function () {
       await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
 
       // then
-      expect(find('.tutorial-card-v2')).to.exist;
-      expect(find('.tutorial-card-v2__content')).to.exist;
-      expect(find('.tutorial-card-v2-content__link'))
-        .to.have.property('textContent')
-        .that.contains('Mon super tutoriel');
-      expect(find('.tutorial-card-v2-content__link')).to.have.property('href').that.equals('https://exemple.net/');
-      expect(find('.tutorial-card-v2-content__details'))
+      expect(find('.tutorial-card')).to.exist;
+      expect(find('.tutorial-card__content')).to.exist;
+      expect(find('.tutorial-card-content__link')).to.have.property('textContent').that.contains('Mon super tutoriel');
+      expect(find('.tutorial-card-content__link')).to.have.property('href').that.equals('https://exemple.net/');
+      expect(find('.tutorial-card-content__details'))
         .to.have.property('textContent')
         .that.contains('mon-tuto')
         .and.contains('vidéo')
         .and.contains('une minute');
-      expect(find('.tutorial-card-v2-content__actions')).to.not.exist;
+      expect(find('.tutorial-card-content__actions')).to.not.exist;
     });
   });
 });

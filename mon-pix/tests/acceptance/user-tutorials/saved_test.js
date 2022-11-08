@@ -6,7 +6,7 @@ import { find, findAll, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
 
-describe('Acceptance | User-tutorials-v2 | Saved', function () {
+describe('Acceptance | User-tutorials | Saved', function () {
   setupApplicationTest();
   setupMirage();
   let user;
@@ -22,8 +22,8 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
   describe('When there are tutorials saved', function () {
     it('should display paginated tutorial cards', async function () {
       await visit('/mes-tutos/enregistres');
-      expect(findAll('.tutorial-card-v2')).to.exist;
-      expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
+      expect(findAll('.tutorial-card')).to.exist;
+      expect(findAll('.tutorial-card')).to.be.lengthOf(10);
       expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
     });
 
@@ -40,7 +40,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         await click('[aria-label="Retirer de ma liste de tutos"]');
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(9);
+        expect(findAll('.tutorial-card')).to.be.lengthOf(9);
       });
     });
   });

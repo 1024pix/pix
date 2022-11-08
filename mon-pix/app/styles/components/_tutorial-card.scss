@@ -1,4 +1,4 @@
-.tutorial-card-v2 {
+.tutorial-card {
   display: flex;
   min-height: 170px;
   background: $pix-neutral-0;
@@ -14,7 +14,7 @@
   }
 }
 
-.tutorial-card-v2-content {
+.tutorial-card-content {
 
   &__link {
     display: -webkit-box;

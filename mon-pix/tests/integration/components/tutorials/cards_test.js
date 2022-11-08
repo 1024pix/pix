@@ -16,8 +16,8 @@ describe('Integration | Component | Tutorials | Cards', function () {
     await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
 
     // then
-    expect(find('.user-tutorials-content-v2__cards')).to.exist;
-    expect(findAll('.tutorial-card-v2').length).to.equal(0);
+    expect(find('.user-tutorials-content__cards')).to.exist;
+    expect(findAll('.tutorial-card').length).to.equal(0);
   });
 
   it('renders a list of cards if there are tutorials', async function () {
@@ -48,7 +48,7 @@ describe('Integration | Component | Tutorials | Cards', function () {
     await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
 
     // then
-    expect(find('.user-tutorials-content-v2__cards')).to.exist;
-    expect(findAll('.tutorial-card-v2').length).to.equal(2);
+    expect(find('.user-tutorials-content__cards')).to.exist;
+    expect(findAll('.tutorial-card').length).to.equal(2);
   });
 });
