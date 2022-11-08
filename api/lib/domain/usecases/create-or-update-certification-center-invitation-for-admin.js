@@ -11,11 +11,11 @@ module.exports = async function ({ email, certificationCenterId, certificationCe
   if (shouldCreateInvitation) {
     const newInvitation = CertificationCenterInvitation.create({ email, certificationCenterId });
     const certificationCenterInvitationCreated = await certificationCenterInvitationRepository.create(newInvitation);
-    return { created: true, certificationCenterInvitation: certificationCenterInvitationCreated };
+    return { isInvitationCreated: true, certificationCenterInvitation: certificationCenterInvitationCreated };
   }
 
   const updatedCertificationCenterInvitation = await certificationCenterInvitationRepository.update(
     alreadyExistingPendingInvitationForThisEmail
   );
-  return { created: false, certificationCenterInvitation: updatedCertificationCenterInvitation };
+  return { isInvitationCreated: false, certificationCenterInvitation: updatedCertificationCenterInvitation };
 };

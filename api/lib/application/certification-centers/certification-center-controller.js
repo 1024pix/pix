@@ -144,7 +144,7 @@ module.exports = {
     const certificationCenterId = request.params.certificationCenterId;
     const invitationInformation = await certificationCenterInvitationSerializer.deserializeForAdmin(request.payload);
 
-    const { certificationCenterInvitation, created } =
+    const { certificationCenterInvitation, isInvitationCreated } =
       await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
         email: invitationInformation.email,
         locale: invitationInformation.language,
@@ -153,7 +153,7 @@ module.exports = {
 
     const serializedCertificationCenterInvitation =
       certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
-    if (created) {
+    if (isInvitationCreated) {
       return h.response(serializedCertificationCenterInvitation).created();
     }
     return h.response(serializedCertificationCenterInvitation);
