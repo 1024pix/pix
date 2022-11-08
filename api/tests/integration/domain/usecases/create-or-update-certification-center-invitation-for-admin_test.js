@@ -116,6 +116,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     // when
     await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
+      locale: 'en',
       certificationCenterId,
       mailService,
     });
@@ -126,6 +127,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       certificationCenterName: 'Pixar',
       certificationCenterInvitationId,
       code: 'BBBJJJPPP3',
+      locale: 'en',
     });
   });
 });

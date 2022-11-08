@@ -29,6 +29,7 @@ module.exports = async function createOrUpdateCertificationCenterInvitationForAd
 
   await mailService.sendCertificationCenterInvitationEmail({
     email,
+    locale,
     certificationCenterName: certificationCenterInvitation.certificationCenterName,
     certificationCenterInvitationId: certificationCenterInvitation.id,
     code: certificationCenterInvitation.code,
