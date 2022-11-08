@@ -21,12 +21,22 @@ docker-compose up -d
 
 Copier le sample.env en .env et rajouter si besoin des valeurs nécessaires
 
-## exemple utilisation Dev : 
-> Le démarrage de tous les projets en simmultané utilise beaucoup de ressources réseau car les projets sont build au démarrage.
+## exemple utilisation Dev d'API : 
 
 ```sh
-docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml build 
-docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml up mon-pix
+docker-compose -f docker-compose.yaml -f docker-compose-dev-api.yaml build 
+docker-compose -f docker-compose.yaml -f docker-compose-dev-api.yaml up -d 
+```
+
+## exemple utilisation Dev Frontend : 
+> Le démarrage de tous les projets frontend en simmultané utilise beaucoup de ressources réseau car les projets sont build au démarrage.
+
+Pour coder sur pix-orga : 
+
+```sh
+
+docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml build orga
+docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml up -d orga
 ```
 
 ## Réinitialisation de la DB : 
