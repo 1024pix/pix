@@ -2,7 +2,7 @@
 {{#each this.labeledRadios as |labeledRadio index|}}
   <p class="proposal-paragraph qcu-proposals">
     <Input
-      type="radio"
+      @type="radio"
       name="radio"
       class="qcu-proposals__radio"
       value="{{inc index}}"

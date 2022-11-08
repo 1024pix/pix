@@ -24,8 +24,8 @@
             class="input-code"
             @type="text"
             @value={{this.campaignCode}}
-            @maxlength="9"
-            @key-down={{this.clearErrorMessage}}
+            maxlength="9"
+            {{on "keyup" this.clearErrorMessage}}
           />
         </div>
 

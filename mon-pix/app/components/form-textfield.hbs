@@ -13,8 +13,8 @@
       {{if this.isPassword 'form-textfield__input-container--password'}}"
   >
     <Input
+      id={{@textfieldName}}
       @type={{this.textfieldType}}
-      @id={{@textfieldName}}
       @value={{@inputBindingValue}}
       name={{@textfieldName}}
       {{on "focusout" (fn this.onValidate @textfieldName @inputBindingValue)}}
