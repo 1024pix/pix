@@ -4,7 +4,7 @@
       {{#if this.firstStar}}
         <img
           data-test-status="{{this.firstStar.status}}"
-          src="{{this.rootURL}}/images/{{this.firstStar.imageSrc}}"
+          src="/images/{{this.firstStar.imageSrc}}"
           alt="{{t
             'pages.skill-review.stage.starsAcquired'
             acquired=this.acquiredStarsCount
@@ -12,7 +12,7 @@
           }}"
         />
         {{#each this.otherStars as |star|}}
-          <img data-test-status="{{star.status}}" src="{{this.rootURL}}/images/{{star.imageSrc}}" alt="" role="none" />
+          <img data-test-status="{{star.status}}" src="/images/{{star.imageSrc}}" alt="" role="none" />
         {{/each}}
       {{/if}}
     </div>
