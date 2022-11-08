@@ -44,10 +44,12 @@ describe('Unit | Route | login-oidc', function () {
           id: 'oidc-partner',
           code: 'OIDC_PARTNER',
         };
+
         class OidcIdentityProvidersStub extends Service {
           'oidc-partner' = oidcPartner;
           list = [oidcPartner];
         }
+
         this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       });
 
@@ -99,12 +101,13 @@ describe('Unit | Route | login-oidc', function () {
           const route = this.owner.lookup('route:authentication/login-oidc');
           route.set('session', sessionStub);
           route.location.replace = sinon.stub();
+          route.router.urlFor = sinon.stub();
 
           // when
           await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
           // then
-          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXOIDC01/acces');
+          sinon.assert.calledWith(route.router.urlFor, 'campaigns.access', 'PIXOIDC01');
         });
       });
 

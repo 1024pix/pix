@@ -35,7 +35,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
 
       it('call reconciliation for the sup organization learner', async function () {
         // given
-        const supOrganizationLearner = { save: sinon.stub() };
+        const supOrganizationLearner = { save: sinon.stub(), unloadRecord: sinon.stub() };
         storeStub.createRecord
           .withArgs('sup-organization-learner', {
             id: `${component.args.campaignCode}_${component.lastName}`,

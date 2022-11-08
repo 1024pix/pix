@@ -13,6 +13,7 @@ describe('Unit | Route | Entrance', function () {
     route.campaignStorage = { get: sinon.stub(), set: sinon.stub() };
     route.modelFor = sinon.stub();
     route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
+    route.session.requireAuthenticationAndApprovedTermsOfService = sinon.stub();
   });
 
   describe('#beforeModel', function () {
