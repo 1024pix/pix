@@ -52,7 +52,12 @@
           }}
         >
           {{#unless this.displayRegisterForm}}
-            <Auth::LoginForm />
+            <Auth::LoginForm
+              @isWithInvitation={{true}}
+              @certificationCenterInvitationId={{@certificationCenterInvitationId}}
+              @certificationCenterInvitationCode={{@certificationCenterInvitationCode}}
+              @certificationCenterInvitation={{@certificationCenterInvitation}}
+            />
           {{/unless}}
         </div>
       </div>
