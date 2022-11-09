@@ -283,7 +283,6 @@ module.exports = injectDependencies(
     findPendingCertificationCenterInvitations: require('./find-pending-certification-center-invitations'),
     findPendingOrganizationInvitations: require('./find-pending-organization-invitations'),
     findStudentsForEnrollment: require('./find-students-for-enrollment'),
-    findTargetProfileBadges: require('./find-target-profile-badges'),
     findTargetProfileStages: require('./find-target-profile-stages'),
     findTutorials: require('./find-tutorials'),
     findUserCampaignParticipationOverviews: require('./find-user-campaign-participation-overviews'),

@@ -10,15 +10,6 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TABLE_NAME = 'badges';
 
 module.exports = {
-  findByTargetProfileId(targetProfileId) {
-    return BookshelfBadge.where({ targetProfileId })
-      .fetchAll({
-        require: false,
-        withRelated: ['badgeCriteria', 'skillSets'],
-      })
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
-  },
-
   findByCampaignId(campaignId) {
     return BookshelfBadge.query((qb) => {
       qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
