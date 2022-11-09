@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import ENV from 'mon-pix/config/environment';
 
 const BLACK_GAUGE_ICON_PATH = '/images/icons/icon-timeout-black.svg';
