@@ -30,6 +30,12 @@ module.exports = {
     const expiredDate = get(authenticationMethod, 'authenticationComplement.expiredDate');
     const refreshToken = get(authenticationMethod, 'authenticationComplement.refreshToken');
     if (!refreshToken || new Date(expiredDate) <= new Date()) {
+      monitoringTools.logInfoWithCorrelationIds({
+        event: 'participation-send-pole-emploi',
+        'pole-emploi-action': 'refresh-token',
+        'participation-state': participationState(payload),
+        'expired-date': expiredDate,
+      });
       const data = {
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
