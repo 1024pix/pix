@@ -6,6 +6,7 @@ const schema = Joi.object({
   TEST_DATABASE_URL: Joi.string().optional(),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   DATABASE_CONNECTION_POOL_MAX_SIZE: Joi.number().integer().min(0).optional(),
+  DATABASE_CONNECTION_POOL_MIN_SIZE: Joi.number().integer().min(0).optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
   MAILING_PROVIDER: Joi.string().optional().valid('sendinblue'),
   SENDINBLUE_API_KEY: Joi.string().optional(),
