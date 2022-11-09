@@ -6,12 +6,7 @@
   {{#if this.showDisabledBlock}}
     <PixBlock class="skill-review__result-abstract-container">
       <div class="skill-review__disabled-share">
-        <img
-          class="skill-review-disabled-share__image"
-          src="{{this.rootURL}}/images/illustrations/fat-bee.svg"
-          alt=""
-          role="none"
-        />
+        <img class="skill-review-disabled-share__image" src="/images/illustrations/fat-bee.svg" alt="" role="none" />
         <p class="skill-review-disabled-share__text">
           {{t "pages.skill-review.disabled-share" htmlSafe=true}}
         </p>
@@ -207,7 +202,9 @@
             target="_blank"
             rel="noopener noreferrer"
             href={{this.customButtonUrl}}
-          >{{this.customButtonText}}<FaIcon @icon="up-right-from-square" aria-hidden="true" /></a>
+          >{{this.customButtonText}}
+            <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+          </a>
         {{/if}}
       </div>
     </PixBlock>

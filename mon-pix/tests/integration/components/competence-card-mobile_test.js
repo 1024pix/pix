@@ -24,7 +24,7 @@ describe('Integration | Component | competence-card-mobile', function () {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
       expect(find('.competence-card')).to.exist;
@@ -36,7 +36,7 @@ describe('Integration | Component | competence-card-mobile', function () {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
       expect(find('.competence-card__wrapper').getAttribute('class')).to.contains('competence-card__wrapper--jaffa');
@@ -48,7 +48,7 @@ describe('Integration | Component | competence-card-mobile', function () {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
       expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
@@ -60,7 +60,7 @@ describe('Integration | Component | competence-card-mobile', function () {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
       expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
@@ -72,7 +72,7 @@ describe('Integration | Component | competence-card-mobile', function () {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
@@ -86,7 +86,7 @@ describe('Integration | Component | competence-card-mobile', function () {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+          await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
         });
 
         it('should not show congrats design', function () {
@@ -104,7 +104,7 @@ describe('Integration | Component | competence-card-mobile', function () {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
+          await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
         });
 
         it('should show congrats design', function () {

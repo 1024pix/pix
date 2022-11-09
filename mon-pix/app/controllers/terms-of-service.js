@@ -7,6 +7,7 @@ export default class TermsOfServiceController extends Controller {
   @service session;
   @service currentUser;
   @service url;
+  @service router;
 
   @tracked isTermsOfServiceValidated = false;
   @tracked showErrorTermsOfServiceNotSelected = false;
@@ -24,7 +25,7 @@ export default class TermsOfServiceController extends Controller {
       if (this.session.attemptedTransition) {
         this.session.attemptedTransition.retry();
       } else {
-        this.transitionToRoute('');
+        this.router.transitionTo('');
       }
     } else {
       this.showErrorTermsOfServiceNotSelected = true;

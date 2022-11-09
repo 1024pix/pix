@@ -18,9 +18,9 @@ describe('Integration | Component | User-Tutorials | Filters | ItemCheckbox', fu
       await render(
         hbs`<UserTutorials::Filters::ItemCheckbox
               @type="competences"
-              @item={{item}}
-              @currentFilters={{currentFilters}}
-              @handleFilterChange={{handleFilterChange}}
+              @item={{this.item}}
+              @currentFilters={{this.currentFilters}}
+              @handleFilterChange={{this.handleFilterChange}}
             />`
       );
 
@@ -40,9 +40,9 @@ describe('Integration | Component | User-Tutorials | Filters | ItemCheckbox', fu
       await render(
         hbs`<UserTutorials::Filters::ItemCheckbox
               @type="competences"
-              @item={{item}}
-              @currentFilters={{currentFilters}}
-              @handleFilterChange={{handleFilterChange}}
+              @item={{this.item}}
+              @currentFilters={{this.currentFilters}}
+              @handleFilterChange={{this.handleFilterChange}}
             />`
       );
 

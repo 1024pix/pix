@@ -8,6 +8,7 @@ export default class LoginOrRegisterOidcController extends Controller {
 
   @service url;
   @service oidcIdentityProviders;
+  @service store;
 
   @tracked showOidcReconciliation = false;
   @tracked authenticationKey = null;

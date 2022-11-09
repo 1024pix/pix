@@ -14,20 +14,20 @@ describe('Integration | Component | assessment-banner', function () {
 
   it('should not display home link button if not requested', async function () {
     this.set('assessmentTitle', 'My assessment');
-    await render(hbs`{{assessment-banner title=assessmentTitle}}`);
+    await render(hbs`{{assessment-banner title=this.assessmentTitle}}`);
     expect(find('.assessment-banner__home-link')).to.not.exist;
   });
 
   it('should display home link button if requested', async function () {
     this.set('assessmentTitle', 'My assessment');
-    await render(hbs`{{assessment-banner title=assessmentTitle displayHomeLink=true}}`);
+    await render(hbs`{{assessment-banner title=this.assessmentTitle displayHomeLink=true}}`);
     expect(find('.assessment-banner__home-link')).to.exist;
   });
 
   context('When assessment has a title', function () {
     beforeEach(async function () {
       this.set('assessmentTitle', 'My assessment');
-      await render(hbs`{{assessment-banner title=assessmentTitle}}`);
+      await render(hbs`{{assessment-banner title=this.assessmentTitle}}`);
     });
 
     it('should render the banner with accessible title information', function () {
@@ -54,7 +54,7 @@ describe('Integration | Component | assessment-banner', function () {
   context("When assessment doesn't have a title", function () {
     beforeEach(async function () {
       this.set('assessmentTitle', null);
-      await render(hbs`{{assessment-banner title=assessmentTitle}}`);
+      await render(hbs`{{assessment-banner title=this.assessmentTitle}}`);
     });
 
     it('should not render the banner with a title', function () {

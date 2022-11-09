@@ -16,7 +16,7 @@ describe('Integration | Component | pix-toggle', function () {
     this.set('isFirstOn', 'true');
 
     await render(
-      hbs`{{pix-toggle onToggle=onToggle valueFirstLabel=valueFirstLabel valueSecondLabel=valueSecondLabel}}`
+      hbs`{{pix-toggle onToggle=this.onToggle valueFirstLabel=this.valueFirstLabel valueSecondLabel=this.valueSecondLabel}}`
     );
   });
 

@@ -1,12 +1,12 @@
 {{! template-lint-disable no-implicit-this no-action no-curly-component-invocation no-invalid-interactive }}
 <div class="pix-toggle">
   <span
-    class="{{firstButtonClass}}"
+    class="{{this.firstButtonClass}}"
     onToggle={{action "onToggle" "firstButtonClass" on="click"}}
-  >{{valueFirstLabel}}</span>
+  >{{this.valueFirstLabel}}</span>
   <span
-    class="{{secondButtonClass}}"
+    class="{{this.secondButtonClass}}"
     onToggle={{action "onToggle" "secondButtonClass" on="click"}}
-  >{{valueSecondLabel}}</span>
+  >{{this.valueSecondLabel}}</span>
 </div>
 {{yield}}

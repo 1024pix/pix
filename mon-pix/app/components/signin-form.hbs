@@ -1,7 +1,7 @@
 <main class="sign-form__container" role="main">
 
   <a href={{this.showcaseUrl}} class="pix-logo__link">
-    <img class="pix-logo__image" src="{{@rootURL}}/images/pix-logo.svg" alt="{{t 'navigation.homepage'}}" />
+    <img class="pix-logo__image" src="/images/pix-logo.svg" alt="{{t 'navigation.homepage'}}" />
   </a>
 
   <div class="sign-form__header">
@@ -72,7 +72,7 @@
       </div>
 
       <LinkTo @route="authentication.login-oidc" @model="pole-emploi" class="sign-form-body__pole-emploi-connect-link">
-        <img src="{{this.rootURL}}/images/logo/pe-connect-logo.svg" alt="{{t 'pages.sign-in.pole-emploi.link.img'}}" />
+        <img src="/images/logo/pe-connect-logo.svg" alt="{{t 'pages.sign-in.pole-emploi.link.img'}}" />
         <span>{{t "pages.sign-in.pole-emploi.title"}}</span>
       </LinkTo>
     {{/if}}
