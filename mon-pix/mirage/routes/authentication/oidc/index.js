@@ -79,10 +79,14 @@ export default function (config) {
 
   config.post('/oidc/user/check-reconciliation', () => {
     return {
-      'full-name-from-pix': 'LLoyd Cé',
-      'full-name-from-external-identity-provider': 'LLoyd Idp',
-      email: 'lloyd.ce@example.net',
-      'authentication-methods': [{ identityProvider: 'PIX' }],
+      data: {
+        attributes: {
+          'full-name-from-pix': 'LLoyd Cé',
+          'full-name-from-external-identity-provider': 'LLoyd Idp',
+          email: 'lloyd.ce@example.net',
+          'authentication-methods': [{ identityProvider: 'PIX' }],
+        },
+      },
     };
   });
 }
