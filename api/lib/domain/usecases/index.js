@@ -298,7 +298,6 @@ module.exports = injectDependencies(
     getAssessment: require('./get-assessment'),
     getAttendanceSheet: require('./get-attendance-sheet'),
     getAvailableTargetProfilesForOrganization: require('./get-available-target-profiles-for-organization'),
-    getBadgeDetails: require('./get-badge-details'),
     getCampaign: require('./get-campaign'),
     getCampaignDetailsManagement: require('./get-campaign-details-management'),
     getCampaignByCode: require('./get-campaign-by-code'),
