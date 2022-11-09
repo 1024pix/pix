@@ -42,4 +42,4 @@ module.exports = async function sendSharedParticipationResultsToPoleEmploi({
 
     return poleEmploiSendingRepository.create({ poleEmploiSending });
   }
-}
+};

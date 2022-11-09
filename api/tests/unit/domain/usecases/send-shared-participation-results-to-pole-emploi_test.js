@@ -1,10 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const sendSharedParticipationResultsToPoleEmploi = require('../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi');
 
-describe.only('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
-  let event, dependencies, expectedResults;
+describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
+  let dependencies, expectedResults;
   let campaignRepository,
     campaignParticipationRepository,
     campaignParticipationResultRepository,
@@ -99,7 +98,7 @@ describe.only('Unit | Domain | UseCase | send-shared-participation-results-to-po
     sinon.restore();
   });
 
-  context.only('when campaign is of type ASSESSMENT and organization is Pole Emploi', function () {
+  context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function () {
     beforeEach(function () {
       organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
       userRepository.get
@@ -178,7 +177,6 @@ describe.only('Unit | Domain | UseCase | send-shared-participation-results-to-po
 
   context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function () {
     beforeEach(function () {
-      event = new CampaignParticipationResultsShared({ campaignParticipationId });
       const campaign = domainBuilder.buildCampaign({
         id: campaignId,
         type: 'ASSESSMENT',
@@ -198,13 +196,11 @@ describe.only('Unit | Domain | UseCase | send-shared-participation-results-to-po
     });
 
     it('should not notify to Pole Emploi', async function () {
-      //given
-      const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler(
-        dependencies
-      );
-
       // when
-      await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
+      await sendSharedParticipationResultsToPoleEmploi({
+        ...dependencies,
+        campaignParticipationId,
+      });
 
       // then
       sinon.assert.notCalled(poleEmploiNotifier.notify);
@@ -213,7 +209,6 @@ describe.only('Unit | Domain | UseCase | send-shared-participation-results-to-po
 
   context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', function () {
     beforeEach(function () {
-      event = new CampaignParticipationResultsShared({ campaignParticipationId });
       const campaign = domainBuilder.buildCampaign({ id: campaignId, campaignId, type: 'PROFILES_COLLECTION' });
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(
         domainBuilder.buildCampaignParticipation({
@@ -231,13 +226,11 @@ describe.only('Unit | Domain | UseCase | send-shared-participation-results-to-po
     });
 
     it('should not notify to Pole Emploi', async function () {
-      //given
-      const sendSharedParticipationResultsToPoleEmploiHandler = new SendSharedParticipationResultsToPoleEmploiHandler(
-        dependencies
-      );
-
       // when
-      await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
+      await sendSharedParticipationResultsToPoleEmploi({
+        ...dependencies,
+        campaignParticipationId,
+      });
 
       // then
       sinon.assert.notCalled(poleEmploiNotifier.notify);
