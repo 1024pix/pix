@@ -46,13 +46,6 @@ module.exports = {
     return organizationSerializer.serialize(organizations, pagination);
   },
 
-  async findTargetProfileBadges(request) {
-    const targetProfileId = request.params.id;
-
-    const badges = await usecases.findTargetProfileBadges({ targetProfileId });
-    return badgeSerializer.serialize(badges);
-  },
-
   async getContentAsJsonFile(request, h) {
     const targetProfileId = request.params.id;
     const token = request.query.accessToken;
