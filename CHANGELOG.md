@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v3.285.0 (09/11/2022)
+
+
+### :rocket: Amélioration
+- [#5187](https://github.com/1024pix/pix/pull/5187) [FEATURE] Fermer le volet "Signaler un problème" sur Pix App (PIX-6216)
+- [#5175](https://github.com/1024pix/pix/pull/5175) [FEATURE] Permet la configuration du nombre minimum de connexion ouvertes
+- [#5164](https://github.com/1024pix/pix/pull/5164) [FEATURE][CERTIF] Rejoindre un centre de certification avec un compte existant et une invitation (PIX-5008)
+- [#5179](https://github.com/1024pix/pix/pull/5179) [FEATURE] Fermer le menu utilisateur si on tabule en dehors (PIX-5427)
+- [#5176](https://github.com/1024pix/pix/pull/5176) [FEATURE] Supprimer la notion de "v2" dans les tutoriels sur Pix-App (PIX-6102)
+- [#5161](https://github.com/1024pix/pix/pull/5161) [FEATURE] Ajouter le lien "Politique de protection des données des élèves" dans le footer de Pix App (PIX-6203)
+- [#5172](https://github.com/1024pix/pix/pull/5172) [FEATURE] Améliorer l'accessibilité sur Pix-App (PIX-6230)
+- [#5160](https://github.com/1024pix/pix/pull/5160) [FEATURE] Ajout d'un feature toggle pour la gestion massive des sessions (PIX-6130)
+- [#5117](https://github.com/1024pix/pix/pull/5117) [FEATURE] Ajout d'un formulaire pour créer une invitation pour rejoindre un centre de certif depuis Pix Admin (PIX-137)
+
+### :building_construction: Tech
+- [#5194](https://github.com/1024pix/pix/pull/5194) [TECH] Supprimer les routes non utilisées (PIX-6207)
+- [#5184](https://github.com/1024pix/pix/pull/5184) [TECH] Corriger un warning jeté par Ember sur Pix App (PIX-6269).
+- [#5181](https://github.com/1024pix/pix/pull/5181) [TECH] Supprimer le package uuid qui n'est plus utilisé dans mon-pix (PIX-6264)
+- [#5177](https://github.com/1024pix/pix/pull/5177) [TECH] Retirer l'initializer Aria déprécié en vu de Ember4.x (PIX-6258)
+- [#5180](https://github.com/1024pix/pix/pull/5180) [TECH] Retirer le package @ember/jquery qui n'est plus utilisé dans l'application PixApp (PIX-6239)
+- [#5174](https://github.com/1024pix/pix/pull/5174) [TECH] Monter les versions non problématiques de Pix App (PIX-6249)
+- [#5165](https://github.com/1024pix/pix/pull/5165) [TECH] Améliorer la lisibilité du composant `scorecard-details` (PIX-5609).
+- [#5170](https://github.com/1024pix/pix/pull/5170) [TECH] Modifier les seeds de développement pour remplir la nouvelle colonne de la table "certification-courses"
+- [#5151](https://github.com/1024pix/pix/pull/5151) [TECH] Supprime le code specifique de certification complementaire (PIX-6199)
+- [#5173](https://github.com/1024pix/pix/pull/5173) [TECH] Corriger le nom de la constante de l'url redis dans un test
+
+### :bug: Correction
+- [#5192](https://github.com/1024pix/pix/pull/5192) [BUGFIX] On affiche les formations recommandées sans doublon (PIX-6277)
+- [#5185](https://github.com/1024pix/pix/pull/5185) [BUGFIX] Corriger l'affichage de la page de changement de mot de passe
+- [#5188](https://github.com/1024pix/pix/pull/5188) [BUGFIX][ORGA] Retourner une erreur lorsque le token de récupération des résultats d'une campagne n'est plus valide (PIX-6272)
+
 ## v3.284.0 (07/11/2022)
 
 
