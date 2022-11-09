@@ -8,7 +8,6 @@ module.exports = {
   buildAssessmentResult: require('./build-assessment-result'),
   buildAuthenticationMethod: require('./build-authentication-method'),
   buildBadge: require('./build-badge'),
-  buildBadgeWithLearningContent: require('./build-badge-with-learning-content'),
   buildBadgeAcquisition: require('./build-badge-acquisition'),
   buildBadgeCriterion: require('./build-badge-criterion'),
   buildBadgeDetails: require('./build-badge-details'),

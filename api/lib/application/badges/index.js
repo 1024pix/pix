@@ -6,34 +6,6 @@ const identifiersType = require('../../domain/types/identifiers-type');
 exports.register = async function (server) {
   server.route([
     {
-      method: 'GET',
-      path: '/api/admin/badges/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.badgeId,
-          }),
-        },
-        handler: badgesController.getBadge,
-        tags: ['api', 'admin', 'badges'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer un résultat thématique.',
-        ],
-      },
-    },
-    {
       method: 'PATCH',
       path: '/api/admin/badges/{id}',
       config: {
