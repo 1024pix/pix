@@ -175,10 +175,15 @@ describe('Unit | Services | session', function () {
       sessionService._loadCurrentUserAndSetLocale = sinon.stub();
     });
 
+    afterEach(function () {
+      sinon.restore();
+    });
+
     context('when a new external user is authenticated', function () {
       it('should invalidate the current session', async function () {
         // given
         const transition = { to: { queryParams: { externalUser: 'user' } } };
+        sinon.stub(sessionService, 'isAuthenticated').value(true);
 
         // when
         await sessionService.handleUserLanguageAndLocale(transition);
