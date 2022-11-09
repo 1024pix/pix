@@ -175,57 +175,18 @@ describe('Unit | Services | session', function () {
       sessionService._loadCurrentUserAndSetLocale = sinon.stub();
     });
 
-    afterEach(function () {
-      sinon.restore();
-    });
-
-    context('when a new external user is authenticated', function () {
-      it('should invalidate the current session', async function () {
+    context('when an existing external user is authenticated', function () {
+      it('should invalidate the current session and authenticate the existing external user', async function () {
         // given
-        const transition = { to: { queryParams: { externalUser: 'user' } } };
-        sinon.stub(sessionService, 'isAuthenticated').value(true);
+        const transition = { to: { queryParams: { token: 'token' } } };
 
         // when
         await sessionService.handleUserLanguageAndLocale(transition);
 
         // then
         sinon.assert.calledOnce(sessionService._logoutUser);
-      });
-    });
-
-    context('when an anonymous user is authenticated', function () {
-      let transition;
-
-      beforeEach(function () {
-        transition = { to: { queryParams: {} } };
-        sessionService.data = { authenticated: { authenticator: 'authenticator:anonymous' } };
-      });
-
-      context('and access an unauthorized route', function () {
-        it('should be redirect to campagnes page', async function () {
-          // given
-          transition.to.name = 'unknown.route';
-
-          // when
-          await sessionService.handleUserLanguageAndLocale(transition);
-
-          // then
-          sinon.assert.calledOnce(sessionService._logoutUser);
-          sinon.assert.calledWith(routerService.replaceWith, '/campagnes');
-        });
-      });
-
-      context('and access an authorized route', function () {
-        it('should not be redirect to campagnes page', async function () {
-          // given
-          transition.to.name = 'assessments.checkpoint';
-
-          // when
-          await sessionService.handleUserLanguageAndLocale(transition);
-
-          // then
-          sinon.assert.notCalled(routerService.replaceWith);
-        });
+        sinon.assert.calledOnce(oauthAuthenticator.authenticate);
+        sinon.assert.calledWith(oauthAuthenticator.authenticate, { token: 'token' });
       });
     });
   });
