@@ -153,6 +153,25 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         });
       });
 
+      it('logs the attempt to refresh the access token', async function () {
+        // given
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+          .resolves(authenticationMethod);
+        httpAgent.post.resolves({ isSuccessful: true, code, data });
+
+        // when
+        await notify(userId, payload, poleEmploiSending);
+
+        // then
+        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+          event: 'participation-send-pole-emploi',
+          'pole-emploi-action': 'refresh-token',
+          'participation-state': 'PARTICIPATION_STARTED',
+          'expired-date': expiredDate,
+        });
+      });
+
       context('when it succeeds', function () {
         it('should update the authentication method', async function () {
           // given
