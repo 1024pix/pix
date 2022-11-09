@@ -25,7 +25,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.getByText(this.intl.t('pages.skill-review.actions.send'))).to.exist;
@@ -42,7 +42,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         adapter.share = sinon.stub().rejects({ errors: [{ status: '409' }] });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
@@ -63,7 +63,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         adapter.share = sinon.stub().rejects({ errors: [{ status: '412' }] });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
@@ -81,7 +81,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.queryByText(this.intl.t('pages.skill-review.actions.send'))).to.not.exist;
@@ -95,7 +95,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.queryByText(this.intl.t('pages.skill-review.details.title'))).to.not.exist;
@@ -108,11 +108,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     it('should congratulate the user', async function () {
       // Given
       campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false };
+      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false, campaignParticipationBadges: [] };
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.getByText(this.intl.t('pages.skill-review.flash.abstract'))).to.exist;
@@ -121,12 +121,12 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     it("should display the user's flash estimated level", async function () {
       // Given
       campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false };
+      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false, campaignParticipationBadges: [] };
       const expectedPixCount = 257;
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.getByText(this.intl.t('pages.skill-review.flash.pixCount', { count: expectedPixCount }))).to.exist;
@@ -157,7 +157,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(contains('Bravo !')).to.exist;
@@ -203,7 +203,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.getByRole('img', { name: 'Badge 1' })).to.exist;
@@ -236,7 +236,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
       expect(screen.getByRole('link', { name: 'Badge 1' }))
@@ -258,7 +258,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult, trainings });
 
         // when
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // then
         expect(screen.queryByText(this.intl.t('pages.skill-review.trainings.title'))).to.not.exist;
@@ -267,7 +267,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
     context('When they have trainings', function () {
       it('should display the block', async function () {
-        const trainings = [{ title: 'Training 1' }];
+        const trainings = [{ title: 'Training 1', duration: { hours: 4 } }];
         const campaign = {
           customResultPageText: 'Bravo !',
           organizationLogoUrl: 'www.logo-example.com',
@@ -277,7 +277,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult, trainings });
 
         // when
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // then
         expect(screen.getByText(this.intl.t('pages.skill-review.trainings.title'))).to.exist;
@@ -310,7 +310,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult, trainings });
 
         // when
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // then
         expect(findAll('.training-card')).to.have.lengthOf(2);
@@ -334,7 +334,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
             // Then
             expect(screen.getByText(this.intl.t('pages.skill-review.organization-message'))).to.exist;
@@ -353,7 +353,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
             // Then
             expect(screen.getByRole('img', { name: 'Dragon & Co' })).to.exist;
@@ -373,7 +373,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
             // Then
             expect(screen.getByText('Dragon & Co')).to.exist;
@@ -392,7 +392,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
             // Then
             expect(screen.queryByRole('img', { name: 'Dragon & Co' })).to.not.exist;
@@ -412,7 +412,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           this.set('model', { campaign, campaignParticipationResult });
 
           // When
-          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
           // Then
           expect(screen.getByText('some message')).to.exist;
@@ -445,7 +445,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               this.set('model', { campaign, campaignParticipationResult });
 
               // When
-              const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+              const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
               // Then
               expect(screen.getByRole('link', { name: 'Next step' })).to.exist;
@@ -478,7 +478,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               this.set('model', { campaign, campaignParticipationResult });
 
               // When
-              const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+              const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
               // Then
               expect(screen.getByRole('link', { name: 'Next step' })).to.exist;
@@ -507,7 +507,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           this.set('model', { campaign, campaignParticipationResult });
 
           // When
-          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
           // Then
           expect(screen.queryByText('link', { name: 'Next step' })).to.not.exist;
@@ -532,7 +532,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           this.set('model', { campaign, campaignParticipationResult });
 
           // When
-          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
           // Then
           expect(screen.queryByText(this.intl.t('pages.skill-review.organization-message'))).to.not.exist;
@@ -554,7 +554,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText(this.intl.t('pages.skill-review.actions.send'))).to.exist;
@@ -574,7 +574,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText(this.intl.t('pages.skill-review.retry.button'))).to.exist;
@@ -591,7 +591,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.queryByText(this.intl.t('pages.skill-review.retry.button'))).to.not.exist;
@@ -610,7 +610,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText(this.intl.t('pages.skill-review.improve.title'))).to.exist;
@@ -627,7 +627,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.queryByText(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
@@ -648,7 +648,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         adapter.share = sinon.stub().rejects({ errors: [{ status: '409' }] });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
@@ -670,7 +670,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         adapter.share = sinon.stub().rejects({ errors: [{ status: '412' }] });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
@@ -694,7 +694,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.exist;
@@ -713,7 +713,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText(this.intl.t('pages.skill-review.net-promoter-score.link.label'))).to.exist;
@@ -733,7 +733,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.queryByText(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.not.exist;
@@ -753,7 +753,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(contains("Ce parcours a été désactivé par l'organisateur.")).to.exist;
@@ -771,7 +771,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText('Merci, vos résultats ont bien été envoyés !')).to.exist;
@@ -789,7 +789,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
         // Then
         expect(screen.getByText("J'envoie mes résultats")).to.exist;

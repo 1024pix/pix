@@ -19,7 +19,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
       ]);
 
       // when
-      await render(hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} />`);
+      await render(hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} />`);
 
       // then
       expect(find('.tutorials-filters')).to.exist;
@@ -35,7 +35,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
         ]);
         this.set('onSubmit', () => {});
         const screen = await renderScreen(
-          hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} @onSubmit={{onSubmit}} />`
+          hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} @onSubmit={{this.onSubmit}} />`
         );
         await click(screen.getByRole('button', { name: 'Area 1' }));
         const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -58,7 +58,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
           ]);
           this.set('onSubmit', () => {});
           const screen = await renderScreen(
-            hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} @areas={{areas}} @onSubmit={{onSubmit}} />`
+            hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} @onSubmit={{this.onSubmit}} />`
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
           const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -80,7 +80,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
       this.set('isVisible', false);
 
       // when
-      await render(hbs`<UserTutorials::Filters::Sidebar @isVisible={{isVisible}} />`);
+      await render(hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} />`);
 
       // then
       expect(find('.pix-sidebar--hidden')).to.exist;

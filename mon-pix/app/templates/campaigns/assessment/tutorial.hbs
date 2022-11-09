@@ -11,19 +11,19 @@
     </div>
 
     <div class="campaign-tutorial__explanation-icon">
-      <img alt="" role="none" src="{{rootURL}}/images/illustrations/tutorial-campaign/{{@model.icon}}" />
+      <img alt="" role="none" src="/images/illustrations/tutorial-campaign/{{@model.icon}}" />
     </div>
 
     <div class="campaign-tutorial__explanation-text"><p>{{@model.explanation}}</p></div>
 
     <div class="campaign-tutorial__paging">
-      {{#each model.paging as |page-class|}}
-        <div class="dot {{page-class}}"> </div>
+      {{#each @model.paging as |page-class|}}
+        <div class="dot {{page-class}}"></div>
       {{/each}}
 
     </div>
     <div class="campaign-tutorial__next-button">
-      {{#if model.showNextButton}}
+      {{#if @model.showNextButton}}
         <PixButton @type="submit" @triggerAction={{this.nextStep}} class="campaign-tutorial__buttons">{{t
             "pages.tutorial.next"
           }}</PixButton>

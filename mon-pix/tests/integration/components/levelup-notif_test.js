@@ -21,7 +21,7 @@ describe('Integration | Component | levelup-notif', function () {
       title: "Mener une recherche et une veille d'information",
     });
     // when
-    await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{model.title}}/>`);
+    await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{this.model.title}}/>`);
     // then
     expect(find('.levelup-competence__level').innerHTML).to.equal(
       this.intl.t('pages.levelup-notif.obtained-level', { level: this.newLevel })

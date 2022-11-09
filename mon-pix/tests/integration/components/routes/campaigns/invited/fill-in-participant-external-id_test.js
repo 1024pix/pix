@@ -26,7 +26,7 @@ describe('Integration | Component | routes/campaigns/invited/fill-in-participant
 
       // given
       await render(
-        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
+        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{this.campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
       );
 
       // then
@@ -45,7 +45,7 @@ describe('Integration | Component | routes/campaigns/invited/fill-in-participant
 
       // given
       await render(
-        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
+        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{this.campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
       );
 
       // then

@@ -15,6 +15,7 @@ class StudentInformationForAccountRecovery {
 
 export default class FindScoRecordController extends Controller {
   @service intl;
+  @service store;
 
   @tracked accountRecoveryError = {
     message: '',
