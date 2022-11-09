@@ -261,7 +261,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       await click(findAll('.result-item__correction-button')[0]);
 
       // then
-      expect(find('.comparison-window-header__title').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
 
       const goodAnswers = find('.correction-qrocm__solution-text');
@@ -287,7 +286,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       await click(findAll('.result-item__correction-button')[1]);
 
       // then
-      expect(find('.comparison-window-header__title').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmIndChallenge.instruction);
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
@@ -314,7 +312,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       await click(findAll('.result-item__correction-button')[2]);
 
       // then
-      expect(find('.comparison-window-header__title').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
         qrocmIndSelectChallenge.instruction
       );

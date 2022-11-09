@@ -1,9 +1,5 @@
 @charset "utf-8";
 
-/* 3rd-party */
-@import 'ember-modal-dialog/ember-modal-structure';
-@import 'ember-modal-dialog/ember-modal-appearance';
-
 /* Pix UI */
 @import 'pix-design-tokens';
 
@@ -16,7 +12,6 @@
 @import 'globals/inputs';
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
-@import 'globals/pix-modal';
 @import 'globals/buttons';
 @import 'globals/tables';
 @import 'globals/text';

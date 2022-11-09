@@ -198,9 +198,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.result-item__correction-button');
 
         // then
-        expect(find('.comparison-window-header__title').textContent.trim()).to.equal(
-          'Vous n’avez pas la bonne réponse'
-        );
         expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         const goodAnswer = find('.comparison-window-solution__text');
@@ -351,9 +348,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.result-item__correction-button');
 
         // then
-        expect(find('.comparison-window-header__title').textContent.trim()).to.equal(
-          'Vous n’avez pas la bonne réponse'
-        );
         expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         const goodAnswer = find('.comparison-window-solution__text');
@@ -460,9 +454,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.result-item__correction-button');
 
         // then
-        expect(find('.comparison-window-header__title').textContent.trim()).to.equal(
-          'Vous n’avez pas la bonne réponse'
-        );
         expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         const goodAnswer = find('.comparison-window-solution__text');

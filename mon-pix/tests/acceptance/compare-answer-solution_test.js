@@ -1,8 +1,9 @@
-import { click, find, findAll, visit } from '@ember/test-helpers';
+import { click, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { visit } from '@1024pix/ember-testing-library';
 
 describe('Compare answers and solutions for QCM questions', function () {
   setupApplicationTest();
@@ -61,11 +62,14 @@ describe('Compare answers and solutions for QCM questions', function () {
 
   describe('Content of the correction modal', function () {
     it('should be able to open the correction modal', async function () {
-      await visit(`/assessments/${assessment.id}/results`);
-      expect(find('.comparison-window')).to.not.exist;
+      // given & when
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // then
+      expect(screen.queryByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' })).to.not.exist;
 
       await click('.result-item__correction-button');
-      expect(find('.comparison-window')).to.exist;
+      expect(screen.getByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' })).to.exist;
     });
   });
 
