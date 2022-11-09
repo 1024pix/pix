@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import showdown from 'showdown';
 import xss from 'xss';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import ENV from 'mon-pix/config/environment';
 
 function modifyWhiteList() {

@@ -1,4 +1,4 @@
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import isEmpty from 'lodash/isEmpty';
 import ENV from 'mon-pix/config/environment';
