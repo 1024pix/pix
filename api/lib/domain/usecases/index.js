@@ -402,6 +402,7 @@ module.exports = injectDependencies(
     saveJuryComplementaryCertificationCourseResult: require('./save-jury-complementary-certification-course-result'),
     sendEmailForAccountRecovery: require('./account-recovery/send-email-for-account-recovery'),
     sendScoInvitation: require('./send-sco-invitation'),
+    sendSharedParticipationResultsToPoleEmploi: require('./send-shared-participation-results-to-pole-emploi'),
     sendVerificationCode: require('./send-verification-code'),
     shareCampaignResult: require('./share-campaign-result'),
     startCampaignParticipation: require('./start-campaign-participation'),
