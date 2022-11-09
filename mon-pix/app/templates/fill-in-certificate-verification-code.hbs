@@ -26,10 +26,10 @@
             required
             class="input-code"
             @type="text"
-            @id="certificate-verification-code"
+            id="certificate-verification-code"
             @value={{this.certificateVerificationCode}}
-            @maxlength="10"
-            @key-down={{this.clearErrorMessage}}
+            maxlength="10"
+            {{on "keyup" this.clearErrors}}
           />
         </div>
 
