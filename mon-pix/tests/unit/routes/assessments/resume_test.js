@@ -22,7 +22,7 @@ describe('Unit | Route | Assessments | Resume', function () {
     });
 
     route = this.owner.lookup('route:assessments.resume');
-    route.set('store', storeStub);
+    this.owner.register('service:store', storeStub);
     route.router = { replaceWith: sinon.stub() };
   });
 
