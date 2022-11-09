@@ -24,8 +24,8 @@
             class="input-code"
             @type="text"
             @value={{this.campaignCode}}
-            @maxlength="9"
-            @key-down={{this.clearErrorMessage}}
+            maxlength="9"
+            {{on "keyup" this.clearErrorMessage}}
           />
         </div>
 
@@ -92,12 +92,7 @@
 
   <:footer>
     <div class="mediacentre-start-campaign-modal__action-buttons">
-      <LinkTo
-        class="pix-text--link pix-text--small"
-        @route="campaigns.entry-point"
-        @model={{this.campaign.code}}
-        @backgroundColor="transparent-light"
-      >
+      <LinkTo class="pix-text--link pix-text--small" @route="campaigns.entry-point" @model={{this.campaign.code}}>
         {{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.actions.continue"}}
       </LinkTo>
       <PixButton @triggerAction={{this.closeModal}}>
