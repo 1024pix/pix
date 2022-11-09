@@ -21,6 +21,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       imageUrl: 'yellow.svg',
       isCertifiable: false,
       isAlwaysVisible: false,
+      isValid: true,
       badgeCompetences: [],
     };
 
@@ -36,6 +37,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       imageUrl: 'yellow.svg',
       isCertifiable: false,
       isAlwaysVisible: false,
+      isValid: true,
       skillSetResults: [],
     });
   });
