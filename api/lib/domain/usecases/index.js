@@ -114,6 +114,7 @@ const dependencies = {
   pixAuthenticationService: require('../../domain/services/authentication/pix-authentication-service'),
   placementProfileService: require('../../domain/services/placement-profile-service'),
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
+  poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
   prescriberRepository: require('../../infrastructure/repositories/prescriber-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   resetPasswordDemandRepository: require('../../infrastructure/repositories/reset-password-demands-repository'),
