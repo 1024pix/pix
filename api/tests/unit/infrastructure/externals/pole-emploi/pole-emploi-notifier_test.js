@@ -49,7 +49,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
-      payload = { progression: 0 };
+      payload = { test: { progression: 0 } };
     });
 
     afterEach(function () {
@@ -107,7 +107,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       it('should log the notification to Pole Emploi', async function () {
         // given
-        payload = { progression: 100 };
+        payload = { test: { progression: 100 } };
         const expiredDate = moment().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
@@ -266,7 +266,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
         it('should log error and return httpResponse with error if sending to PE fails', async function () {
           // given
-          payload = { dateValidation: new Date() };
+          payload = { test: { dateValidation: new Date() } };
 
           const tokenResponse = {
             isSuccessful: true,

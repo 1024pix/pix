@@ -110,10 +110,10 @@ function _getErrorMessage(data) {
   return message.trim();
 }
 
-function participationState(payload) {
-  if (payload.dateValidation) {
+function participationState({ test }) {
+  if (test.dateValidation) {
     return 'PARTICIPATION_SHARED';
-  } else if (payload.progression === 100) {
+  } else if (test.progression === 100) {
     return 'PARTICIPATION_COMPLETED';
   } else {
     return 'PARTICIPATION_STARTED';
