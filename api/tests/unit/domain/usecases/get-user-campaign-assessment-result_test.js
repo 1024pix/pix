@@ -43,7 +43,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   });
 
   context('when no error to catch is thrown during process', function () {
-    it('should return assessment result based on still valid badges', async function () {
+    it('should return the assessment result with badges validity', async function () {
       // given
       const expectedCampaignAssessmentResult = Symbol('campaign assessment result');
       const badge1 = domainBuilder.buildBadge({ id: 1 });
@@ -66,7 +66,11 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
           userId,
           campaignId,
           locale,
-          badges: [badge1, badge3],
+          badges: [
+            { ...badge1, isValid: true },
+            { ...badge2, isValid: false },
+            { ...badge3, isValid: true },
+          ],
         })
         .resolves(expectedCampaignAssessmentResult);
 
