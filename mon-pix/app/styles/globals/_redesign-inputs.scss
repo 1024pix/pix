@@ -37,17 +37,6 @@ fieldset {
 
 /**
  *
- * Configure Radios of proposals
- *
- **/
-.picture-checkbox-proposal--qcu {
-  position: absolute;
-  left: -11px;
-  top: 3px;
-}
-
-/**
- *
  * Configure Radios of input files
  *
  **/
@@ -56,23 +45,6 @@ fieldset {
   padding-left: 6px;
   position: relative;
   cursor: pointer;
-}
-
-/**
- *
- * Configure Checkboxes that MUST be disabled
- *
- **/
-.picture-checkbox-proposal--comparison {
-  position: absolute;
-  left: -11px;
-  top: 3px;
-}
-
-.picture-checkbox-proposal--qcm {
-  position: absolute;
-  left: -11px;
-  top: 3px;
 }
 
 .qcm-panel__proposal-label {
