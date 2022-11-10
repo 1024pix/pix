@@ -283,29 +283,22 @@ describe('Unit | Controller | user-controller', function () {
   });
 
   describe('#acceptPixCertifTermsOfService', function () {
-    let request;
-    const userId = 1;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId },
-      };
-
-      sinon.stub(usecases, 'acceptPixCertifTermsOfService');
-      sinon.stub(userSerializer, 'serialize');
-    });
-
     it('should accept pix certif terms of service', async function () {
       // given
-      usecases.acceptPixCertifTermsOfService.withArgs({ userId }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
+      const userId = 1;
+      sinon.stub(usecases, 'acceptPixCertifTermsOfService');
 
       // when
-      const response = await userController.acceptPixCertifTermsOfService(request);
+      await userController.acceptPixCertifTermsOfService(
+        {
+          auth: { credentials: { userId } },
+          params: { id: userId },
+        },
+        hFake
+      );
 
       // then
-      expect(response).to.be.equal('ok');
+      sinon.assert.calledWith(usecases.acceptPixCertifTermsOfService, { userId: 1 });
     });
   });
 
