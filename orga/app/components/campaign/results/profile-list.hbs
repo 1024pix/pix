@@ -48,7 +48,6 @@
           {{#each @profiles as |profile|}}
             <tr
               aria-label={{t "pages.profiles-list.table.row-title"}}
-              role="button"
               {{on "click" (fn @onClickParticipant @campaign.id profile.id)}}
               class="tr--clickable"
             >

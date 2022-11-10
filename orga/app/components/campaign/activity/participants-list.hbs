@@ -48,7 +48,6 @@
           {{#each @participations as |participation|}}
             <tr
               aria-label={{t "pages.campaign-activity.table.row-title"}}
-              role="button"
               {{on "click" (fn @onClickParticipant @campaign.id participation.id)}}
               class="tr--clickable"
             >
