@@ -12,6 +12,10 @@
     "DOMAIN_PIX_ORGA": {
       "generator": "template",
       "template": "https://orga-pr%PR_NUMBER%.review.pix"
+    },
+    "DOMAIN_PIX_CERTIF": {
+      "generator": "template",
+      "template": "https://certif-pr%PR_NUMBER%.review.pix"
     }
   },
   "scripts": {
