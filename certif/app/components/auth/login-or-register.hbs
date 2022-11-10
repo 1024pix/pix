@@ -25,7 +25,10 @@
           }}
         >
           {{#if this.displayRegisterForm}}
-            <Auth::RegisterForm />
+            <Auth::RegisterForm
+              @certificationCenterInvitationId={{@certificationCenterInvitationId}}
+              @certificationCenterInvitationCode={{@certificationCenterInvitationCode}}
+            />
           {{/if}}
         </div>
       </div>
