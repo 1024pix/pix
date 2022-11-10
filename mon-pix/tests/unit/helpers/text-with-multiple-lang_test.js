@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import textWithMultipleLang from 'mon-pix/helpers/text-with-multiple-lang';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 describe('Unit | Helper | text with multiple lang', function () {
   let textWithMultipleLangHelper;

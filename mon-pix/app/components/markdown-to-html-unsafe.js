@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import showdown from 'showdown';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import ENV from 'mon-pix/config/environment';
 
 export default class MarkdownToHtmlUnsafe extends Component {
