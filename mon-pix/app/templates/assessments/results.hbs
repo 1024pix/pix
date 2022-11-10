@@ -29,9 +29,9 @@
             }}</span>
         </PixButtonLink>
       {{else}}
-        <LinkTo @route="authenticated" class="assessment-results__index-link__element">
+        <PixButtonLink @route="authenticated" @shape="rounded">
           <span class="assessment-results__link-back">{{t "pages.assessment-results.actions.return-to-homepage"}}</span>
-        </LinkTo>
+        </PixButtonLink>
       {{/if}}
     </div>
   </div>
