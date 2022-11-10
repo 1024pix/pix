@@ -111,14 +111,14 @@ module.exports = {
     return userSerializer.serialize(updatedUser);
   },
 
-  async acceptPixCertifTermsOfService(request) {
+  async acceptPixCertifTermsOfService(request, h) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    const updatedUser = await usecases.acceptPixCertifTermsOfService({
+    await usecases.acceptPixCertifTermsOfService({
       userId: authenticatedUserId,
     });
 
-    return userSerializer.serialize(updatedUser);
+    return h.response().code(204);
   },
 
   async rememberUserHasSeenAssessmentInstructions(request) {

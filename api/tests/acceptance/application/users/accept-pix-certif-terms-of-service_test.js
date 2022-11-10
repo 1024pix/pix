@@ -46,13 +46,12 @@ describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-
   });
 
   describe('Success case', function () {
-    it('should return the user with pixCertifTermsOfServiceAccepted', async function () {
+    it('should return a response with HTTP status code 204', async function () {
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.attributes['pix-certif-terms-of-service-accepted']).to.be.true;
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
