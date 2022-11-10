@@ -143,6 +143,17 @@
 
   &__button {
     padding-top: 10px;
+    color: $pix-primary;
+
+    &:hover,
+    &:focus {
+      color: $pix-primary-70;
+      text-decoration: underline;
+    }
+
+    &:visited {
+      color: $pix-tertiary-70;
+    }
   }
 }
 
