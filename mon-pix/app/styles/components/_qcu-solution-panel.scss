@@ -23,11 +23,6 @@
     }
   }
 
-  & > input[type=radio] {
-    flex-shrink: 0;
-    margin: auto 0;
-  }
-
   &__proposal-item {
     line-height: 1.2rem;
     font-weight: $font-normal;
