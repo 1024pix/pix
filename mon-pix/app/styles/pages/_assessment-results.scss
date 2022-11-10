@@ -20,7 +20,7 @@
 }
 
 /* XXX : See https://github.com/sgmap/pix/issues/211 */
-.assessment-results [data-lines="2"] + div .tooltip-inner {
+.assessment-results [data-lines='2'] + div .tooltip-inner {
   padding-top: 3px;
 }
 
@@ -51,22 +51,6 @@
 .assessment-results__index-link-container {
   display: flex;
   flex-direction: row-reverse;
-}
-
-.assessment-results__index-link__element {
-  width: 275px;
-  height: 46px;
-  border-radius: 23px;
-  background-color: $pix-primary;
-  border: none;
-}
-
-.assessment-results__index-a-link {
-  width: 355px;
-}
-
-.assessment-results__index-link__element:hover {
-  background-color: $pix-primary-60;
 }
 
 .assessment-results__link-back {
