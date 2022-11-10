@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.286.0 (10/11/2022)
+
+
+### :rocket: Amélioration
+- [#5197](https://github.com/1024pix/pix/pull/5197) [FEATURE] Améliorer le design du bloc contenant le score (PIX-6260)
+- [#5163](https://github.com/1024pix/pix/pull/5163) [FEATURE] Redesign de la page de certification (PIX-5986).
+
+### :building_construction: Tech
+- [#5206](https://github.com/1024pix/pix/pull/5206) [TECH] Utiliser `htmlSafe` importé depuis `ember/template` (PIX-6287).
+- [#5201](https://github.com/1024pix/pix/pull/5201) [TECH] Encapsuler le code de l'envoie à Pôle emploi dans un use cases.
+- [#5189](https://github.com/1024pix/pix/pull/5189) [TECH] Retirer les arguments obsolètes des composant natifs Ember (PIX-6271)
+- [#5190](https://github.com/1024pix/pix/pull/5190) [TECH] Suppression du package ember-cli-deprecation-workflow sur Pix App (PIX-6242).
+- [#5198](https://github.com/1024pix/pix/pull/5198) [TECH] Mettre à jour `ember-source` en 3.26.2 (PIX-6251).
+- [#5196](https://github.com/1024pix/pix/pull/5196) [TECH] Supprimer la Pix Modal dépréciée présente sur Pix App (PIX-6228).
+
+### :bug: Correction
+- [#5208](https://github.com/1024pix/pix/pull/5208) [BUGFIX] Corriger le design du bouton de fin de preview (PIX-9298).
+- [#5191](https://github.com/1024pix/pix/pull/5191) [BUGFIX] Correction du double log du monitoring pg-boss
+
 ## v3.285.0 (09/11/2022)
 
 
