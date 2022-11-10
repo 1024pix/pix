@@ -1,17 +1,17 @@
 {{! template-lint-disable builtin-component-arguments }}
 {{#each this.labeledRadios as |labeledRadio index|}}
   <p class="proposal-paragraph qcu-proposals">
-    <Input
-      @type="radio"
-      name="radio"
-      class="qcu-proposals__radio"
-      value="{{inc index}}"
-      data-value="{{inc index}}"
+    <PixRadioButton
       id="radio_{{inc index}}"
+      name="radio"
+      @label={{this.label}}
+      @value={{inc index}}
+      @isDisabled={{@isAnswerFieldDisabled}}
       checked={{get labeledRadio 1}}
       {{on "click" (fn this.radioClicked index)}}
+      data-value="{{inc index}}"
+      class="qcu-proposals__radio"
       data-test="challenge-response-proposal-selector"
-      disabled={{@isAnswerFieldDisabled}}
     />
 
     <label for="radio_{{inc index}}" class="qcu-proposals__label">
