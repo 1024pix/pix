@@ -107,34 +107,28 @@
     </div>
   </div>
 
-  <div class="session-details-row">
+  <div class="session-details-buttons">
     {{#if this.sessionHasStarted}}
-      <div class="session-details-buttons">
-        <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
-          Modifier
+      <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
+        Modifier
+      </PixButtonLink>
+      {{#if this.session.isFinalized}}
+        <p class="session-details-row__session-finalized-warning">
+          Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix
+        </p>
+      {{else}}
+        <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
+          Finaliser la session
         </PixButtonLink>
-      </div>
-      <div class="session-details-buttons session-details-buttons--push-right">
-        {{#if this.session.isFinalized}}
-          <p class="session-details-row__session-finalized-warning">
-            Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix
-          </p>
-        {{else}}
-          <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
-            Finaliser la session
-          </PixButtonLink>
-        {{/if}}
-      </div>
+      {{/if}}
     {{else}}
-      <div class="session-details-buttons">
-        <PixButtonLink
-          @route="authenticated.sessions.update"
-          @model={{this.session.id}}
-          aria-label="Modifier les informations de la session {{this.session.id}}"
-        >
-          Modifier
-        </PixButtonLink>
-      </div>
+      <PixButtonLink
+        @route="authenticated.sessions.update"
+        @model={{this.session.id}}
+        aria-label="Modifier les informations de la session {{this.session.id}}"
+      >
+        Modifier
+      </PixButtonLink>
     {{/if}}
   </div>
 
