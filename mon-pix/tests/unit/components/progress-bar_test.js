@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { beforeEach, afterEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';

@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 export default class ChallengeEmbedSimulator extends Component {
   @tracked
