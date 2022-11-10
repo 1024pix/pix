@@ -5,12 +5,13 @@ module.exports = {
   globals: {
     server: true,
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
+    requireConfigFile: false,
     ecmaVersion: 2018,
     sourceType: 'module',
-    ecmaFeatures: {
-      legacyDecorators: true,
+    babelOptions: {
+      plugins: [['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]],
     },
   },
   plugins: ['ember', 'qunit'],
