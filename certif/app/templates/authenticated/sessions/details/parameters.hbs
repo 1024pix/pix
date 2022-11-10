@@ -11,7 +11,7 @@
                 @clipboardText={{this.session.id}}
                 @success={{this.showSessionIdTooltip}}
                 @classNames="icon-button session-details-content__clipboard-button"
-                aria-label="Copier le code du numéro de session"
+                aria-label={{t "copy-session-number"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
               </CopyButton>
@@ -23,8 +23,8 @@
     </div>
 
     <div class="session-details-content session-details-content--multiple session-details-content--copyable">
-      <h3 class="label-text session-details-content__label">Code d'accès
-        <div class="session-details-content__sub-label">Candidat</div>
+      <h3 class="label-text session-details-content__label">{{t "pages.sessions.detail.parameters.session-access-code"}}
+        <div class="session-details-content__sub-label">{{t "pages.sessions.detail.parameters.session-candidate"}}</div>
       </h3>
       <div class="session-details-content__clipboard" {{on "mouseout" this.removeAccessCodeTooltip}}>
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
@@ -36,7 +36,7 @@
                 @clipboardText={{this.session.accessCode}}
                 @success={{this.showAccessCodeTooltip}}
                 @classNames="icon-button session-details-content__clipboard-button"
-                aria-label="Copier le code d'accès pour le candidat"
+                aria-label={{t "pages.sessions.detail.parameters.copy-access-code-number"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
               </CopyButton>
@@ -50,8 +50,8 @@
     {{#if this.supervisorPasswordShouldBeDisplayed}}
       <div class="session-details-content session-details-content--multiple session-details-content--copyable">
         <h3 class="label-text session-details-content__label">
-          Mot de passe de session
-          <div class="session-details-content__sub-label">Surveillant</div>
+          {{t "pages.sessions.detail.parameters.session-password"}}
+          <div class="session-details-content__sub-label">{{t "pages.session-supervising.header.supervisor"}}</div>
         </h3>
         <div class="session-details-content__clipboard" {{on "mouseout" this.removeSupervisorPasswordTooltip}}>
           <span class="content-text content-text--bold session-details-content__text">
@@ -69,7 +69,7 @@
                   @clipboardText={{this.session.supervisorPassword}}
                   @success={{this.showSupervisorPasswordTooltip}}
                   @classNames="icon-button session-details-content__clipboard-button"
-                  aria-label="Copier le mot de passe de session pour le surveillant"
+                  aria-label={{t "pages.sessions.detail.parameters.copy-session-password-supervisor"}}
                 >
                   <FaIcon @icon="copy" prefix="fas" />
                 </CopyButton>
@@ -82,17 +82,21 @@
     {{/if}}
 
     <div class="session-details-content session-details-content--multiple">
-      <h3 class="label-text session-details-content__label">Nom du site</h3>
+      <h3 class="label-text session-details-content__label">
+        {{t "pages.session-supervising.header.center-name-full"}}
+      </h3>
       <span class="content-text session-details-content__text">{{this.session.address}}</span>
     </div>
 
     <div class="session-details-content session-details-content--multiple">
-      <h3 class="label-text session-details-content__label">Salle</h3>
+      <h3 class="label-text session-details-content__label">{{t "pages.session-supervising.header.room"}}</h3>
       <span class="content-text session-details-content__text">{{this.session.room}}</span>
     </div>
 
     <div class="session-details-content session-details-content--multiple">
-      <h3 class="label-text session-details-content__label">Surveillant(s)</h3>
+      <h3 class="label-text session-details-content__label">
+        {{t "pages.session-supervising.header.multiple-supervisor"}}
+      </h3>
       <span class="content-text session-details-content__text">{{this.session.examiner}}</span>
     </div>
 
@@ -100,7 +104,7 @@
 
   <div class="session-details-row">
     <div class="session-details-content session-details-content--single">
-      <h3 class="label-text session-details-content__label">Observations</h3>
+      <h3 class="label-text session-details-content__label">{{t "pages.sessions.detail.parameters.observations"}}</h3>
       <p class="content-text session-details-content__text">
         {{this.session.description}}
       </p>
@@ -110,24 +114,24 @@
   <div class="session-details-buttons">
     {{#if this.sessionHasStarted}}
       <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
-        Modifier
+        {{t "common.actions.update"}}
       </PixButtonLink>
       {{#if this.session.isFinalized}}
         <p class="session-details-row__session-finalized-warning">
-          Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix
+          {{t "pages.sessions.detail.parameters.finalization-info"}}
         </p>
       {{else}}
         <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
-          Finaliser la session
+          {{t "pages.sessions.detail.parameters.finalizing"}}
         </PixButtonLink>
       {{/if}}
     {{else}}
       <PixButtonLink
         @route="authenticated.sessions.update"
         @model={{this.session.id}}
-        aria-label="Modifier les informations de la session {{this.session.id}}"
+        aria-label={{t "pages.sessions.detail.parameters.session-update" sessionId=this.session.id}}
       >
-        Modifier
+        {{t "common.actions.update"}}
       </PixButtonLink>
     {{/if}}
   </div>
