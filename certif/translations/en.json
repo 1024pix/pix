@@ -2,9 +2,10 @@
   "common": {
     "actions": {
       "cancel": "Annuler",
+      "close": "Fermer",
       "delete": "Supprimer",
       "quit": "Quitter",
-      "close": "Fermer"
+      "update": "Modifier"
     },
     "form": {
       "mandatory-all-fields": "All fields are required."
@@ -120,6 +121,18 @@
           "link-text": "plateforme du CléA numérique.",
           "download-button": "Télécharger la liste des candidats",
           "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée."
+        },
+        "parameters": {
+          "copy-access-code-number": "Copier le code du numéro de session",
+          "copy-session-number": "Copier le code du numéro de session",
+          "copy-session-password-supervisor": "Copier le mot de passe de session pour le surveillant",
+          "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix",
+          "finalizing": "Finaliser la session",
+          "observations": "Observations",
+          "session-access-code": "Code d'accès",
+          "session-candidate": "Candidat",
+          "session-password": "Mot de passe de session",
+          "session-update": "Modifier les informations de la session {sessionId}"
         }
       }
     },
@@ -127,8 +140,10 @@
       "header": {
         "session-id": "Session {sessionId}",
         "center-name": "Center name",
+        "center-name-full": "Center name",
         "room": "Room",
         "supervisor": "Supervisor",
+        "multiple-supervisor": "Supervisor(s)",
         "access-code": "Access code (candidates)"
       },
       "candidate-list": {

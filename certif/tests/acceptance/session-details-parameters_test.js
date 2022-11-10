@@ -3,6 +3,7 @@ import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import { visit } from '@1024pix/ember-testing-library';
+import { setupIntl, t } from 'ember-intl/test-support';
 
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
@@ -11,6 +12,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 module('Acceptance | Session Details Parameters', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
@@ -64,8 +66,20 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             const screen = await visit(`/sessions/${sessionCreated.id}`);
 
             // then
-            assert.dom(screen.getByRole('link', { name: 'Modifier les informations de la session 123' })).exists();
-            assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
+            assert
+              .dom(
+                screen.getByRole('link', {
+                  name: t('pages.sessions.detail.parameters.session-update', { sessionId: 123 }),
+                })
+              )
+              .exists();
+            assert
+              .dom(
+                screen.queryByRole('button', {
+                  name: t('pages.sessions.detail.parameters.finalize'),
+                })
+              )
+              .doesNotExist();
           });
 
           test('it should redirect to finalize page on click on finalize button', async function (assert) {
@@ -75,7 +89,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
             // when
             const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
-            await click(screen.getByRole('link', { name: 'Finaliser la session' }));
+            await click(screen.getByRole('link', { name: t('pages.sessions.detail.parameters.finalizing') }));
 
             // then
             assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
@@ -93,7 +107,9 @@ module('Acceptance | Session Details Parameters', function (hooks) {
               const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
 
               // then
-              const supervisorPasswordElement = screen.queryByText('Mot de passe de session');
+              const supervisorPasswordElement = screen.queryByText(
+                t('pages.sessions.detail.parameters.session-password')
+              );
               assert.dom(supervisorPasswordElement).doesNotExist();
             });
           });
@@ -131,14 +147,8 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           const screen = await visit(`/sessions/${sessionFinalized.id}`);
 
           // then
-          assert
-            .dom(
-              screen.getByText(
-                'Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix'
-              )
-            )
-            .exists();
-          assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
+          assert.dom(screen.getByText(t('pages.sessions.detail.parameters.finalization-info'))).exists();
+          assert.dom(screen.queryByRole('button', { name: t('finalizing') })).doesNotExist();
         });
 
         test('it should throw an error on visiting /finalisation url', async function (assert) {
