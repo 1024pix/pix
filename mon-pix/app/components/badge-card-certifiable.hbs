@@ -1,12 +1,13 @@
 <div
   id="{{@title}}"
-  class="badge-card-certifiable {{unless @isAcquired 'badge-card-certifiable badge-card-certifiable--not-acquired'}}"
+  class="badge-card-certifiable
+    {{unless this.isStillValid 'badge-card-certifiable badge-card-certifiable--not-acquired'}}"
 >
   <div class="badge-card-certifiable__header">
     <div class="badge-card__status">
       <h3>
         <span>
-          {{#if @isAcquired}}
+          {{#if this.isStillValid}}
             <FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" />
           {{else}}
             <FaIcon @icon="times-circle" class="badge-card-status__not-acquired-icon" />
