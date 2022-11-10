@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, render } from '@ember/test-helpers';
-import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Congratulations Certification Banner', function () {
@@ -14,12 +14,10 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     this.set('fullName', 'Fifi Brindacier');
 
     // when
-    await render(hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}}/>`);
+    const screen = await render(hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}}/>`);
 
     // then
-    expect(find('.congratulations-banner__message').textContent).to.contains(
-      'Bravo Fifi Brindacier,votre profil est certifiable.'
-    );
+    expect(screen.getByText('Bravo Fifi Brindacier, votre profil Pix est certifiable.')).to.exist;
   });
 
   it('calls the closeBanner method when closing the banner', async function () {
@@ -27,35 +25,65 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     const closeBannerStub = sinon.stub();
     this.set('closeBanner', closeBannerStub);
     this.set('fullName', 'Fifi Brindacier');
-    await render(
+    const screen = await render(
       hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
     );
 
     // when
-    await click('[aria-label="Fermer"]');
+    await click(screen.getByLabelText('Fermer'));
 
     // then
     sinon.assert.calledOnce(closeBannerStub);
   });
 
   describe('When there are eligible complementary certifications', function () {
-    it(`renders complementary certification eligibility message`, async function () {
-      // given
-      const store = this.owner.lookup('service:store');
-      const certificationEligibility = store.createRecord('is-certifiable', {
-        eligibleComplementaryCertifications: ['CléA Numérique', 'Pix+ Édu 1er degré Confirmé'],
+    describe('When there is only one eligible complementary certification', function () {
+      it(`renders the complementary certification eligibility special message and picture`, async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationEligibility = store.createRecord('is-certifiable', {
+          eligibleComplementaryCertifications: [{ label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com' }],
+        });
+        this.set('certificationEligibility', certificationEligibility);
+        this.set('fullName', 'Fifi Brindacier');
+
+        // when
+        const screen = await render(
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+        );
+
+        // then
+        expect(screen.getByText('Vous êtes également éligible à la certification complémentaire :')).to.exist;
+        expect(screen.getByText('CléA Numérique')).to.exist;
+        expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
       });
-      this.set('certificationEligibility', certificationEligibility);
-      this.set('fullName', 'Fifi Brindacier');
+    });
 
-      // when
-      await render(
-        hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
-      );
+    describe('When there are multiple eligible complementary certifications', function () {
+      it(`renders the multiple complementary certification eligibility pluralized message and pictures`, async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationEligibility = store.createRecord('is-certifiable', {
+          eligibleComplementaryCertifications: [
+            { label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com' },
+            { label: 'Pix+ Édu 1er degré Confirmé', imageUrl: 'http://www.image-clea.com' },
+          ],
+        });
+        this.set('certificationEligibility', certificationEligibility);
+        this.set('fullName', 'Fifi Brindacier');
 
-      // then
-      expect(contains('Vous êtes également éligible à la certification CléA Numérique.')).to.exist;
-      expect(contains('Vous êtes également éligible à la certification Pix+ Édu 1er degré Confirmé.')).to.exist;
+        // when
+        const screen = await render(
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+        );
+
+        // then
+        expect(screen.getByText('Vous êtes également éligible aux certifications complémentaires :')).to.exist;
+        expect(screen.getByText('CléA Numérique')).to.exist;
+        expect(screen.getByText('Pix+ Édu 1er degré Confirmé')).to.exist;
+        expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
+        expect(screen.getByRole('img', { name: 'Pix+ Édu 1er degré Confirmé' })).to.exist;
+      });
     });
   });
 });

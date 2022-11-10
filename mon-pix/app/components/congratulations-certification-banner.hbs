@@ -10,22 +10,45 @@
   <p class="congratulations-banner__message">
     {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
   </p>
-  {{#each @certificationEligibility.eligibleComplementaryCertifications as |eligibleComplementaryCertification|}}
-    <p>
-      {{t
-        "pages.certification-joiner.congratulation-banner.complementary-certification-eligibility"
-        complementaryCertificationName=eligibleComplementaryCertification
+  {{#if this.isEligible}}
+    <div class="congratulations-banner__complementary-certifications">
+      <div class="congratulations-banner-complementary-certifications__icons">
+        {{#each @certificationEligibility.eligibleComplementaryCertifications as |eligibleComplementaryCertification|}}
+          <img src={{eligibleComplementaryCertification.imageUrl}} alt={{eligibleComplementaryCertification.label}} />
+        {{/each}}
+      </div>
+      <div class="congratulations-banner-complementary-certifications__list">
+        <p class="congratulations-banner-complementary-certifications-list__message">
+          {{t
+            "pages.certification-joiner.congratulation-banner.complementary-certification-eligibility"
+            count=@certificationEligibility.eligibleComplementaryCertifications.length
+          }}
+        </p>
+        <ul class="congratulations-banner-complementary-certifications-list__labels">
+          {{#each
+            @certificationEligibility.eligibleComplementaryCertifications
+            as |eligibleComplementaryCertification|
+          }}
+            <li>{{eligibleComplementaryCertification.label}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  {{/if}}
+  <div class="congratulations-banner__links">
+    <a
+      href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
+      class="congratulations-banner-links__link"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{t "pages.certification-joiner.congratulation-banner.link.text"}}
+      <FaIcon @icon="up-right-from-square" class="congratulations-banner-links__link--icon" />
+    </a>
+    <LinkTo @route="authenticated.user-certifications" class="congratulations-banner-links__link">{{t
+        "pages.certification-start.link-to-user-certification"
       }}
-    </p>
-  {{/each}}
-  <a
-    href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
-    class="congratulations-banner__link"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <FaIcon @icon="arrow-right" class="congratulations-banner__link__icon" />
-    {{t "pages.certification-joiner.congratulation-banner.link.text"}}
-    <FaIcon @icon="up-right-from-square" class="congratulations-banner__link__icon" />
-  </a>
+      <FaIcon @icon="eye" class="congratulations-banner-links__link--icon" />
+    </LinkTo>
+  </div>
 </div>
