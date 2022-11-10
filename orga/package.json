@@ -42,7 +42,7 @@
     "@1024pix/pix-ui": "^20.2.2",
     "@ember/optional-features": "^2.0.0",
     "@formatjs/intl-getcanonicallocales": "^2.0.4",
-    "@formatjs/intl-locale": "^2.4.14",
+    "@formatjs/intl-locale": "^3.0.7",
     "@formatjs/intl-pluralrules": "^4.0.6",
     "@fortawesome/ember-fontawesome": "^0.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
