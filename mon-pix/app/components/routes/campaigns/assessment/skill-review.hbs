@@ -107,9 +107,9 @@
                   @isFlashCampaign={{this.isFlashCampaign}}
                 />
                 <div class="skill-review-share__badge-icons">
-                  {{#if this.showCertifiableBadges}}
+                  {{#if this.showValidBadges}}
                     <div class="skill-review-share-badge-icons skill-review-share-badge-icons--certifiable">
-                      {{#each this.acquiredCertifiableBadges as |badge|}}
+                      {{#each this.validBadges as |badge|}}
                         <PixTooltip @position="top" @isInline={{true}} @id="tooltip-certifiable-{{badge.key}}">
                           <:triggerElement>
                             <a href="#{{badge.title}}">
@@ -230,13 +230,14 @@
 
       {{#if this.showCertifiableBadges}}
         <div class="badge-certifiable-container">
-          {{#each this.acquiredCertifiableBadges as |badge|}}
+          {{#each this.certifiableBadgesOrderedByValidity as |badge|}}
             <BadgeCardCertifiable
               @title={{badge.title}}
               @message={{badge.message}}
               @imageUrl={{badge.imageUrl}}
               @altMessage={{badge.altMessage}}
               @isAcquired={{badge.isAcquired}}
+              @isValid={{badge.isValid}}
               @isCertifiable={{badge.isCertifiable}}
             />
           {{/each}}

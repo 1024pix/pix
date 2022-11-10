@@ -34,7 +34,7 @@ export default class SkillReview extends Component {
 
   get _isCleaBadgeAcquired() {
     const pixEmploiClea = 'PIX_EMPLOI_CLEA';
-    return this.acquiredCertifiableBadges.some((badge) => badge.key === pixEmploiClea);
+    return this.validBadges.some((badge) => badge.key === pixEmploiClea);
   }
 
   get showDisabledBlock() {
@@ -46,7 +46,7 @@ export default class SkillReview extends Component {
   }
 
   get showCertifiableBadges() {
-    return this.acquiredCertifiableBadges.length > 0;
+    return this.certifiableBadgesOrderedByValidity.length > 0;
   }
 
   get acquiredNotCertifiableBadges() {
@@ -54,9 +54,26 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => badge.isAcquired && !badge.isCertifiable);
   }
 
-  get acquiredCertifiableBadges() {
+  get certifiableBadgesOrderedByValidity() {
+    return [...this.validBadges, ...this.invalidBadges];
+  }
+
+  get showValidBadges() {
+    return this.validBadges.length > 0;
+  }
+
+  get validBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
-    return badges.filter((badge) => badge.isAcquired && badge.isCertifiable);
+    return badges.filter((badge) => badge.isAcquired && badge.isCertifiable && badge.isValid);
+  }
+
+  get invalidBadges() {
+    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return badges.filter(
+      (badge) =>
+        (badge.isCertifiable && badge.isAcquired && !badge.isValid) ||
+        (badge.isCertifiable && !badge.isAcquired && badge.isAlwaysVisible)
+    );
   }
 
   get showStages() {

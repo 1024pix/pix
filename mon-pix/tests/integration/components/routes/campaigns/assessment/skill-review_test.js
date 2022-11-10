@@ -165,7 +165,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   });
 
   context('when the the campaign has badges', function () {
-    it('should display acquired badges in both the header and main section whether certifiable or not', async function () {
+    it('should display both valid and invalid acquired certifiable badges in both the header and main section', async function () {
       campaign = {
         customResultPageButtonUrl: 'http://www.my-url.net/resultats',
         customResultPageButtonText: 'Next step',
@@ -177,21 +177,27 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           altMessage: 'Vous avez validé le badge 1.',
           isAcquired: true,
           isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: true,
           message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
           title: 'Badge 1',
         },
         {
-          altMessage: 'Vous avez validé le badge 2.',
-          isAcquired: true,
-          isCertifiable: false,
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 2',
+          altMessage: "Vous n'avez pas validé le badge 2.",
+          isAcquired: false,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: false,
+          message: 'Dommage ! Essaie encore.',
           title: 'Badge 2',
         },
         {
-          altMessage: "Vous n'avez pas validé le badge 3",
-          isAcquired: false,
-          isCertifiable: false,
-          message: 'Dommage ! Essaie encore.',
+          altMessage: 'Vous avez validé le badge 3.',
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: true,
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 3',
           title: 'Badge 3',
         },
       ];
@@ -208,9 +214,97 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       // Then
       expect(screen.getByRole('img', { name: 'Badge 1' })).to.exist;
       expect(screen.getByRole('img', { name: 'Vous avez validé le badge 1.' })).to.exist;
-      expect(screen.getByRole('img', { name: 'Badge 2' })).to.exist;
-      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 2.' })).to.exist;
-      expect(screen.queryByRole('img', { name: "Vous n'avez pas validé le badge 3" })).to.not.exist;
+      expect(screen.queryByRole('img', { name: 'Badge 2' })).not.to.exist;
+      expect(screen.queryByRole('img', { name: 'Vous avez validé le badge 2.' })).not.to.exist;
+      expect(screen.queryByRole('img', { name: 'Badge 3' })).not.to.exist;
+      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 3.' })).to.exist;
+    });
+
+    it('should display once acquired but then lost certifiable badges only in the page main section', async function () {
+      campaign = {
+        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
+        customResultPageButtonText: 'Next step',
+        organizationName: 'Dragon & Co',
+        organizationShowNPS: false,
+      };
+      const campaignParticipationBadges = [
+        {
+          altMessage: 'Vous avez validé le badge 1.',
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: false,
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
+          title: 'Badge 1',
+        },
+      ];
+      const campaignParticipationResult = {
+        isShared: true,
+        participantExternalId: '1234G56',
+        campaignParticipationBadges,
+      };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+      // Then
+      expect(screen.queryByRole('img', { name: 'Badge 1' })).not.to.exist;
+      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 1.' })).to.exist;
+    });
+
+    it('should display acquired non certifiable badges in both the header and main section', async function () {
+      campaign = {
+        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
+        customResultPageButtonText: 'Next step',
+        organizationName: 'Dragon & Co',
+        organizationShowNPS: false,
+      };
+      const campaignParticipationBadges = [
+        {
+          altMessage: 'Vous avez validé le badge 1.',
+          isAcquired: true,
+          isCertifiable: false,
+          isValid: true,
+          key: 'Badge_1',
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
+          title: 'Badge 1',
+        },
+        {
+          altMessage: "Vous n'avez pas validé le badge 2.",
+          isAcquired: false,
+          isCertifiable: false,
+          isValid: false,
+          key: 'Badge_2',
+          message: 'Dommage ! Essaie encore.',
+          title: 'Badge 2',
+        },
+        {
+          altMessage: 'Vous avez validé le badge 3.',
+          isAcquired: true,
+          isCertifiable: false,
+          isValid: false,
+          key: 'Badge_3',
+          message: 'Bravo ! Vous maîtrisez les compétences du badge 3',
+          title: 'Badge 3',
+        },
+      ];
+      const campaignParticipationResult = {
+        isShared: false,
+        participantExternalId: '1234G56',
+        campaignParticipationBadges,
+      };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+      // Then
+      expect(screen.getByRole('img', { name: 'Badge 1' })).to.exist;
+      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 1.' })).to.exist;
+      expect(screen.queryByRole('img', { name: 'Badge 2' })).not.to.exist;
+      expect(screen.queryByRole('img', { name: 'Dommage ! Essaie encore.' })).not.to.exist;
+      expect(screen.getByRole('img', { name: 'Badge 3' })).to.exist;
+      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 3.' })).to.exist;
     });
 
     it('should add an anchor in the header badge icon linked to the badge card', async function () {
@@ -225,6 +319,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           altMessage: 'Vous avez validé le badge 1.',
           isAcquired: true,
           isCertifiable: true,
+          isValid: true,
           message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
           title: 'Badge 1',
         },
