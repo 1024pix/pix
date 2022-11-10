@@ -251,12 +251,12 @@
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
-        "complementary-certification-eligibility": "Vous êtes également éligible à la certification {complementaryCertificationName}.",
+        "complementary-certification-eligibility": "Vous êtes également éligible { count, plural, =1 {à la certification complémentaire} other {aux certifications complémentaires} } :",
         "link": {
           "text": "Comment se certifier ?",
           "url": "https://pix.fr/se-certifier#slice-2"
         },
-        "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+        "message": "Bravo {fullName}, votre profil Pix est certifiable."
       },
       "error-messages": {
         "generic": {
