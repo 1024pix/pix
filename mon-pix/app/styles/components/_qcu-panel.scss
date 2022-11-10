@@ -19,11 +19,6 @@
     }
   }
 
-  & > input[type=radio] {
-    flex-shrink: 0;
-    margin: auto 0;
-  }
-
   &__label {
     display: inline-block;
     padding-left: 20px;

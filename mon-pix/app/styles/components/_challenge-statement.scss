@@ -1,4 +1,4 @@
-@import "challenge-embed-simulator";
+@import 'challenge-embed-simulator';
 
 .challenge-statement {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
@@ -151,16 +151,6 @@
   display: inline-block;
   padding: 0 15px;
   margin: 5px;
-
-  input[type=radio]::before {
-    top: -4px;
-    left: -4px;
-  }
-
-  input[type=radio]:checked::after {
-    top: -19px;
-    left: 2px;
-  }
 }
 
 .challenge-statement__file-option-label {
