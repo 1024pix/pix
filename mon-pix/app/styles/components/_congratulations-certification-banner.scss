@@ -82,9 +82,14 @@
 .congratulations-banner-complementary-certifications__list {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   margin-top: 16px;
   text-align: center;
   color: $pix-neutral-90;
+
+  @include device-is('tablet') {
+    align-items: center;
+  }
 }
 
 .congratulations-banner-complementary-certifications-list__message {
@@ -97,6 +102,8 @@
   margin: 0;
   font-size: 1rem;
   line-height: 22px;
+  width: fit-content;
+  text-align: left;
 }
 
 .congratulations-banner__links {
