@@ -35,6 +35,12 @@
       </li>
 
       <li class="sitemap-content-items__link">
+        <LinkTo @route="authenticated.user-trainings">
+          {{t "navigation.main.trainings"}}
+        </LinkTo>
+      </li>
+
+      <li class="sitemap-content-items__link">
         <LinkTo @route="fill-in-campaign-code">
           {{t "navigation.main.code"}}
         </LinkTo>

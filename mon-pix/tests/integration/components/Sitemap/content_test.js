@@ -30,7 +30,7 @@ describe('Integration | Component | Content', function () {
     await render(hbs`<Sitemap::Content />`);
 
     // then
-    expect(findAll('.sitemap-content-items__link')).to.have.lengthOf(10);
+    expect(findAll('.sitemap-content-items__link')).to.have.lengthOf(11);
     expect(contains(this.intl.t('pages.sitemap.title'))).to.exist;
     expect(contains(this.intl.t('navigation.main.dashboard'))).to.exist;
     expect(contains(this.intl.t('navigation.main.skills'))).to.exist;

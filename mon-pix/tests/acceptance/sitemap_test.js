@@ -1,4 +1,5 @@
-import { findAll, visit } from '@ember/test-helpers';
+import { findAll } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -42,6 +43,11 @@ describe('Acceptance | Sitemap', function () {
       // then
       const cguPolicyLink = findAll('a[data-test-resource-link]')[1];
       expect(cguPolicyLink.getAttribute('href')).to.contains('/politique-protection-donnees-personnelles-app');
+    });
+
+    it('should contain a link to pix.fr/mes-formations', async function () {
+      // then
+      expect(find('a[href="/mes-formations"]')).to.exist;
     });
   });
 });
