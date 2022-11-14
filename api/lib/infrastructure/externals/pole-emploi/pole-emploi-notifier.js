@@ -30,6 +30,12 @@ module.exports = {
     const expiredDate = get(authenticationMethod, 'authenticationComplement.expiredDate');
     const refreshToken = get(authenticationMethod, 'authenticationComplement.refreshToken');
     if (!refreshToken || new Date(expiredDate) <= new Date()) {
+      monitoringTools.logInfoWithCorrelationIds({
+        event: 'participation-send-pole-emploi',
+        'pole-emploi-action': 'refresh-token',
+        'participation-state': participationState(payload),
+        'expired-date': expiredDate,
+      });
       const data = {
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
@@ -110,10 +116,10 @@ function _getErrorMessage(data) {
   return message.trim();
 }
 
-function participationState(payload) {
-  if (payload.dateValidation) {
+function participationState({ test }) {
+  if (test.dateValidation) {
     return 'PARTICIPATION_SHARED';
-  } else if (payload.progression === 100) {
+  } else if (test.progression === 100) {
     return 'PARTICIPATION_COMPLETED';
   } else {
     return 'PARTICIPATION_STARTED';

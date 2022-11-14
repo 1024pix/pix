@@ -31,7 +31,7 @@ module.exports = async function sendSharedParticipationResultsToPoleEmploi({
       participationResult,
     });
 
-    const response = await poleEmploiNotifier.notify(user.id, payload.toString());
+    const response = await poleEmploiNotifier.notify(user.id, payload);
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationShared({
       campaignParticipationId,

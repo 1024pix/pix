@@ -1,6 +1,7 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
+const PoleEmploiPayload = require('../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const { handlePoleEmploiParticipationStarted } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-started', function () {
@@ -32,11 +33,11 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
       poleEmploiNotifier,
     };
 
-    expectedResults = JSON.stringify({
+    expectedResults = new PoleEmploiPayload({
       campagne: {
         nom: 'Campagne Pôle Emploi',
-        dateDebut: '2020-01-01T00:00:00.000Z',
-        dateFin: '2020-02-01T00:00:00.000Z',
+        dateDebut: new Date('2020-01-01'),
+        dateFin: new Date('2020-02-01'),
         type: 'EVALUATION',
         codeCampagne: 'CODEPE123',
         urlCampagne: 'https://app.pix.fr/campagnes/CODEPE123',
@@ -52,7 +53,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
         progression: 0,
         typeTest: 'DI',
         referenceExterne: 55667788,
-        dateDebut: '2020-01-02T00:00:00.000Z',
+        dateDebut: new Date('2020-01-02'),
         dateProgression: null,
         dateValidation: null,
         evaluation: null,
@@ -121,7 +122,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
           .stub(PoleEmploiSending, 'buildForParticipationStarted')
           .withArgs({
             campaignParticipationId,
-            payload: expectedResults,
+            payload: expectedResults.toString(),
             isSuccessful: expectedResponse.isSuccessful,
             responseCode: expectedResponse.code,
           })
