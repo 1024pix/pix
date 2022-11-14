@@ -1,5 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
+const PoleEmploiPayload = require('../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const sendSharedParticipationResultsToPoleEmploi = require('../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi');
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
@@ -35,11 +36,11 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
       poleEmploiNotifier,
     };
 
-    expectedResults = JSON.stringify({
+    expectedResults = new PoleEmploiPayload({
       campagne: {
         nom: 'Campagne Pôle Emploi',
-        dateDebut: '2020-01-01T00:00:00.000Z',
-        dateFin: '2020-02-01T00:00:00.000Z',
+        dateDebut: new Date('2020-01-01'),
+        dateFin: new Date('2020-02-01'),
         type: 'EVALUATION',
         codeCampagne: 'CODEPE123',
         urlCampagne: 'https://app.pix.fr/campagnes/CODEPE123',
@@ -55,9 +56,9 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
         progression: 100,
         typeTest: 'DI',
         referenceExterne: 55667788,
-        dateDebut: '2020-01-02T00:00:00.000Z',
-        dateProgression: '2020-01-03T00:00:00.000Z',
-        dateValidation: '2020-01-03T00:00:00.000Z',
+        dateDebut: new Date('2020-01-02'),
+        dateProgression: new Date('2020-01-03'),
+        dateValidation: new Date('2020-01-03'),
         evaluation: 70,
         uniteEvaluation: 'A',
         elementsEvalues: [
@@ -158,7 +159,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
         .stub(PoleEmploiSending, 'buildForParticipationShared')
         .withArgs({
           campaignParticipationId,
-          payload: expectedResults,
+          payload: expectedResults.toString(),
           isSuccessful: expectedResponse.isSuccessful,
           responseCode: expectedResponse.code,
         })
