@@ -23,6 +23,8 @@ describe('Unit | Instance Initializer | session', function () {
   afterEach(function () {
     run(this.instance, 'destroy');
     run(this.application, 'destroy');
+
+    sinon.restore();
   });
 
   context('when a session exists', function () {
@@ -31,6 +33,35 @@ describe('Unit | Instance Initializer | session', function () {
         // given
         const key = 'ember_simple_auth-session';
         sinon.stub(PixWindow, 'getLocationHref').returns('/connexion/gar#access_token');
+        window.localStorage.setItem(
+          key,
+          JSON.stringify({
+            authenticated: {
+              authenticator: 'authenticator:oauth2',
+              token_type: 'bearer',
+              access_token: 'access_token',
+              user_id: 1,
+              refresh_token: 'refresh_token',
+              expires_in: 45,
+              expires_at: 1667837187635,
+            },
+          })
+        );
+
+        // when
+        await this.instance.boot();
+
+        // then
+        const session = window.localStorage.getItem(key);
+        expect(session).to.be.null;
+      });
+    });
+
+    context('when current URL contains externalUser as query parameter', function () {
+      it('should remove the current session before the application loads', async function () {
+        // given
+        const key = 'ember_simple_auth-session';
+        sinon.stub(PixWindow, 'getLocationHref').returns('/campagnes?externalUser=EXTERNAL_USER_TOKEN');
         window.localStorage.setItem(
           key,
           JSON.stringify({
