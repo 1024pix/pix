@@ -4,7 +4,7 @@ import Controller from '@ember/controller';
 
 export default class ResultsController extends Controller {
   @tracked isShowingModal = false;
-  @tracked answer = null;
+  @tracked answer = {};
 
   @action
   async openComparisonWindow(answer) {

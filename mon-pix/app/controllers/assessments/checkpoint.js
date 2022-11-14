@@ -9,7 +9,7 @@ export default class CheckpointController extends Controller {
   @service intl;
   @service currentUser;
 
-  @tracked answer = null;
+  @tracked answer = {};
   @tracked challenge = null;
   @tracked finalCheckpoint = false;
   @tracked isShowingModal = false;

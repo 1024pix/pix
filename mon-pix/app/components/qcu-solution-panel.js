@@ -11,9 +11,13 @@ export default class QcuSolutionPanel extends Component {
   }
 
   get solutionAsText() {
+    if (!this.args.solution) {
+      return '';
+    }
     if (this.args.solutionToDisplay) {
       return this.args.solutionToDisplay;
     }
+
     const answersProposedByUser = this.labeledRadios;
     const correctAnswerIndex = this.solutionArray.indexOf(true);
     const solutionAndStatus = answersProposedByUser[correctAnswerIndex];
