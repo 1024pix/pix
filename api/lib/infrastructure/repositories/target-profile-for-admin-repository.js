@@ -11,46 +11,10 @@ const skillRepository = require('./skill-repository');
 const challengeRepository = require('./challenge-repository');
 const TargetProfileForAdminOldFormat = require('../../domain/models/TargetProfileForAdminOldFormat');
 const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat');
+const { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails');
 
 module.exports = {
-  async isNewFormat(targetProfileId) {
-    const hasAtLeastOneTube = await knex('target-profile_tubes')
-      .select('id')
-      .where('targetProfileId', targetProfileId)
-      .first();
-    return Boolean(hasAtLeastOneTube);
-  },
-
-  async getAsOldFormat({ id, locale = FRENCH_FRANCE }) {
-    const targetProfileDTO = await knex('target-profiles')
-      .select(
-        'target-profiles.id',
-        'target-profiles.name',
-        'target-profiles.outdated',
-        'target-profiles.isPublic',
-        'target-profiles.imageUrl',
-        'target-profiles.createdAt',
-        'target-profiles.description',
-        'target-profiles.comment',
-        'target-profiles.ownerOrganizationId',
-        'target-profiles.category',
-        'target-profiles.isSimplifiedAccess'
-      )
-      .where('id', id)
-      .first();
-
-    if (targetProfileDTO == null) {
-      throw new NotFoundError("Le profil cible n'existe pas");
-    }
-
-    const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
-    if (_.isEmpty(skillIds)) {
-      throw new TargetProfileInvalidError();
-    }
-    return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
-  },
-
-  async getAsNewFormat({ id, locale = FRENCH_FRANCE }) {
+  async get({ id, locale = FRENCH_FRANCE }) {
     const targetProfileDTO = await knex('target-profiles')
       .select(
         'target-profiles.id',
@@ -76,7 +40,12 @@ module.exports = {
       .select('tubeId', 'level')
       .where('targetProfileId', targetProfileDTO.id);
     if (_.isEmpty(tubesData)) {
-      throw new TargetProfileInvalidError();
+      // OLD target profile
+      const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
+      if (_.isEmpty(skillIds)) {
+        throw new TargetProfileInvalidError();
+      }
+      return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
     }
     return _toDomainNewFormat(targetProfileDTO, tubesData, locale);
   },
@@ -84,9 +53,10 @@ module.exports = {
 
 async function _toDomainOldFormat(targetProfileDTO, skillIds, locale) {
   const { areas, competences, tubes, skills } = await _getLearningContent_old(skillIds, locale);
-
+  const badges = await _findBadges(targetProfileDTO.id);
   return new TargetProfileForAdminOldFormat({
     ...targetProfileDTO,
+    badges,
     areas,
     competences,
     tubes,
@@ -100,9 +70,11 @@ async function _toDomainNewFormat(targetProfileDTO, tubesData, locale) {
     tubesData,
     locale
   );
+  const badges = await _findBadges(targetProfileDTO.id);
 
   return new TargetProfileForAdminNewFormat({
     ...targetProfileDTO,
+    badges,
     areas,
     competences,
     thematics,
@@ -175,4 +147,65 @@ async function _getLearningContent_new(targetProfileId, tubesData, locale) {
     thematics,
     tubes,
   };
+}
+
+async function _findBadges(targetProfileId) {
+  const badgeDTOs = await knex('badges').select('*').where({ targetProfileId }).orderBy('id');
+  const badges = [];
+  for (const badgeDTO of badgeDTOs) {
+    const badgeCriteriaDTO = await knex('badge-criteria').select('*').where({ badgeId: badgeDTO.id }).orderBy('id');
+    const criteria = [];
+    for (const badgeCriterionDTO of badgeCriteriaDTO) {
+      if (badgeCriterionDTO.scope === SCOPES.CAMPAIGN_PARTICIPATION) {
+        criteria.push(
+          new BadgeCriterion({
+            ...badgeCriterionDTO,
+            skillSets: [],
+            cappedTubes: [],
+          })
+        );
+      }
+      if (badgeCriterionDTO.scope === SCOPES.SKILL_SET) {
+        const skillSetsDTO = await knex('skill-sets')
+          .select('name', 'skillIds')
+          .whereIn('id', badgeCriterionDTO.skillSetIds);
+        const skillSets = [];
+        for (const { name, skillIds } of skillSetsDTO) {
+          skillSets.push(new SkillSet({ name, skillIds }));
+        }
+        criteria.push(
+          new BadgeCriterion({
+            ...badgeCriterionDTO,
+            skillSets,
+            cappedTubes: [],
+          })
+        );
+      }
+      if (badgeCriterionDTO.scope === SCOPES.CAPPED_TUBES) {
+        const cappedTubes = [];
+        for (const cappedTubeDTO of badgeCriterionDTO.cappedTubes) {
+          cappedTubes.push(
+            new CappedTube({
+              tubeId: cappedTubeDTO.id,
+              level: cappedTubeDTO.level,
+            })
+          );
+        }
+        criteria.push(
+          new BadgeCriterion({
+            ...badgeCriterionDTO,
+            skillSets: [],
+            cappedTubes,
+          })
+        );
+      }
+    }
+    badges.push(
+      new BadgeDetails({
+        ...badgeDTO,
+        criteria,
+      })
+    );
+  }
+  return badges;
 }

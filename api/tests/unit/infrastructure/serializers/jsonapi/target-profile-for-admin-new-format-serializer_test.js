@@ -1,11 +1,51 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
 const TargetProfileForAdminNewFormat = require('../../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+const { SCOPES } = require('../../../../../lib/domain/models/BadgeDetails');
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-serializer', function () {
   describe('#serialize', function () {
     it('should serialize target profile new format to JSONAPI', function () {
       // given
+      const badge1Criteria1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
+        id: 1000,
+        threshold: 80,
+        arrayOfSkillIds: [['rec123', 'recABC'], ['rec456']],
+      });
+      const badge1Criteria2 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation({
+        id: 2000,
+        threshold: 70,
+      });
+      const badge1 = domainBuilder.buildBadgeDetails({
+        id: 100,
+        altMessage: 'some altMessage badge1',
+        imageUrl: 'some imageUrl badge1',
+        message: 'some message badge1',
+        title: 'some title badge1',
+        key: 'some key badge1',
+        isCertifiable: true,
+        isAlwaysVisible: false,
+        criteria: [badge1Criteria1, badge1Criteria2],
+      });
+      const badge2Criteria1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CappedTubes({
+        id: 3000,
+        threshold: 50,
+        cappedTubesDTO: [
+          { tubeId: 'tube1', level: 2 },
+          { tubeId: 'tube2', level: 8 },
+        ],
+      });
+      const badge2 = domainBuilder.buildBadgeDetails({
+        id: 200,
+        altMessage: 'some altMessage badge2',
+        imageUrl: 'some imageUrl badge2',
+        message: 'some message badge2',
+        title: 'some title badge2',
+        key: 'some key badge2',
+        isCertifiable: false,
+        isAlwaysVisible: true,
+        criteria: [badge2Criteria1],
+      });
       const area = domainBuilder.buildArea({
         id: 'recArea1',
         title: 'Super domaine',
@@ -32,6 +72,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         imageUrl: 'some/image/url',
         category: 'OTHER',
         isSimplifiedAccess: true,
+        badges: [badge1, badge2],
         areas: [area, area2],
         competences: [
           domainBuilder.buildCompetence({
@@ -117,15 +158,22 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             'max-level': 7,
           },
           relationships: {
-            badges: {
-              links: {
-                related: '/api/admin/target-profiles/132/badges',
-              },
-            },
             stages: {
               links: {
                 related: '/api/admin/target-profiles/132/stages',
               },
+            },
+            badges: {
+              data: [
+                {
+                  type: 'badges',
+                  id: '100',
+                },
+                {
+                  type: 'badges',
+                  id: '200',
+                },
+              ],
             },
             'new-areas': {
               data: [
@@ -142,6 +190,98 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
           },
         },
         included: [
+          {
+            type: 'badge-criteria',
+            id: '1000',
+            attributes: {
+              threshold: 80,
+              scope: SCOPES.SKILL_SET,
+              'skill-sets': [
+                {
+                  name: 'skillSetName#rec123',
+                  skillIds: ['rec123', 'recABC'],
+                },
+                {
+                  name: 'skillSetName#rec456',
+                  skillIds: ['rec456'],
+                },
+              ],
+              'capped-tubes': [],
+            },
+          },
+          {
+            type: 'badge-criteria',
+            id: '2000',
+            attributes: {
+              threshold: 70,
+              scope: SCOPES.CAMPAIGN_PARTICIPATION,
+              'skill-sets': [],
+              'capped-tubes': [],
+            },
+          },
+          {
+            type: 'badges',
+            id: '100',
+            attributes: {
+              'alt-message': 'some altMessage badge1',
+              'image-url': 'some imageUrl badge1',
+              message: 'some message badge1',
+              title: 'some title badge1',
+              key: 'some key badge1',
+              'is-certifiable': true,
+              'is-always-visible': false,
+            },
+            relationships: {
+              criteria: {
+                data: [
+                  {
+                    type: 'badge-criteria',
+                    id: '1000',
+                  },
+                  {
+                    type: 'badge-criteria',
+                    id: '2000',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'badge-criteria',
+            id: '3000',
+            attributes: {
+              threshold: 50,
+              scope: SCOPES.CAPPED_TUBES,
+              'skill-sets': [],
+              'capped-tubes': [
+                { tubeId: 'tube1', level: 2 },
+                { tubeId: 'tube2', level: 8 },
+              ],
+            },
+          },
+          {
+            type: 'badges',
+            id: '200',
+            attributes: {
+              'alt-message': 'some altMessage badge2',
+              'image-url': 'some imageUrl badge2',
+              message: 'some message badge2',
+              title: 'some title badge2',
+              key: 'some key badge2',
+              'is-certifiable': false,
+              'is-always-visible': true,
+            },
+            relationships: {
+              criteria: {
+                data: [
+                  {
+                    type: 'badge-criteria',
+                    id: '3000',
+                  },
+                ],
+              },
+            },
+          },
           {
             type: 'new-tubes',
             id: 'recTube1',

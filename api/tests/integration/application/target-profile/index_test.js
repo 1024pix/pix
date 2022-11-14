@@ -35,6 +35,7 @@ describe('Integration | Application | Route | target-profile-router', function (
         imageUrl: 'some/image/url',
         category: 'OTHER',
         isSimplifiedAccess: true,
+        badges: [],
         areas: [area],
         competences: [
           domainBuilder.buildCompetence({
@@ -97,9 +98,7 @@ describe('Integration | Application | Route | target-profile-router', function (
           },
           relationships: {
             badges: {
-              links: {
-                related: '/api/admin/target-profiles/132/badges',
-              },
+              data: [],
             },
             stages: {
               links: {

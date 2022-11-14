@@ -2,7 +2,7 @@
 
   <section class="insights__section">
     <h2 class="insights-section__title">Résultats thématiques</h2>
-    <TargetProfiles::Badges @badges={{@model.badges}} />
+    <TargetProfiles::Badges @badges={{@model.targetProfile.badges}} />
     <div class="insights-section__button">
       <PixButtonLink
         @backgroundColor="transparent-light"

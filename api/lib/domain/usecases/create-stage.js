@@ -13,11 +13,10 @@ module.exports = async function createStage({
   }
 
   if (stage.level != null) {
-    if (!(await targetProfileForAdminRepository.isNewFormat(targetProfileId))) {
+    const targetProfile = await targetProfileForAdminRepository.get({ id: targetProfileId });
+    if (!targetProfile.canAddStageOfTypeLevel) {
       throw new InvalidStageError('niveau interdit sur un profil cible par acquis');
     }
-
-    const targetProfile = await targetProfileForAdminRepository.getAsNewFormat({ id: targetProfileId });
 
     _checkMaxLevel(stage, targetProfile);
   }

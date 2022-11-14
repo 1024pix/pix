@@ -1,6 +1,11 @@
 <header class="page-header">
   <div class="page-title">
-    <p>Résultat Thématique<span class="wire">&nbsp;>&nbsp;</span>{{@badge.id}}</p>
+    <p>
+      <LinkTo @route="authenticated.target-profiles.target-profile.insights">{{@targetProfile.name}}</LinkTo>
+      <span class="wire">&nbsp;>&nbsp;</span>
+      Résultat thématique
+      {{@badge.id}}
+    </p>
   </div>
 </header>
 
@@ -89,7 +94,7 @@
         <div>
           <ul class="badge-data__list">
             <li>ID : {{@badge.id}}</li>
-            <li>Nom du badge : {{@badge.title}}</li>
+            <li>Nom du résultat thématique : {{@badge.title}}</li>
             <li>Nom de l'image : {{this.imageName}}</li>
             <li>Clé : {{@badge.key}}</li>
             <li>Message : {{@badge.message}}</li>
@@ -121,53 +126,15 @@
     </div>
 
     <div class="page-section__details table-admin">
-      {{#each this.badgeCriteria as |criterion|}}
-        <p>L‘évalué doit obtenir
-          <strong>{{criterion.threshold}}%</strong>
-          sur
-          {{call (fn this.scopeExplanation criterion.scope)}}</p>
-
-        {{#if criterion.skillSets}}
-          <ul class="badge-criteria-competences">
-            {{#each criterion.skillSets as |skillSet|}}
-              <li>
-                <details>
-                  <summary>{{skillSet.name}}</summary>
-                  <table class="table-admin skill-sets-table">
-                    <thead>
-                      <tr>
-                        <th class="table__column table__column--wide">Sujet</th>
-                        {{#each this.allLevels as |level|}}
-                          <th class="table__column table__column--small table__column--center">Niveau {{level}}</th>
-                        {{/each}}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {{#each skillSet.tubes as |tube|}}
-                        <tr>
-                          <td>{{tube.practicalTitle}}</td>
-                          {{#each tube.skillsWithAllLevels as |skill|}}
-                            <td class="table__column--center skill-column">
-                              {{#if skill}}
-                                <PixTooltip @position="bottom">
-                                  <:triggerElement>
-                                    <FaIcon @icon="check" class="skill-column--check" aria-label={{skill.name}} />
-                                  </:triggerElement>
-                                  <:tooltip>{{concat skill.id " " skill.name}}</:tooltip>
-                                </PixTooltip>
-                              {{else}}
-                                <FaIcon @icon="xmark" class="skill-column--uncheck" />
-                              {{/if}}
-                            </td>
-                          {{/each}}
-                        </tr>
-                      {{/each}}
-                    </tbody>
-                  </table>
-                </details>
-              </li>
-            {{/each}}
-          </ul>
+      {{#each @badge.criteria as |criterion|}}
+        {{#if criterion.isCampaignScope}}
+          <Badges::CampaignCriterion @criterion={{criterion}} />
+        {{/if}}
+        {{#if criterion.isSkillSetScope}}
+          <Badges::SkillSetCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
+        {{/if}}
+        {{#if criterion.isCappedTubesScope}}
+          <Badges::CappedTubesCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
         {{/if}}
       {{/each}}
     </div>

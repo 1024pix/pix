@@ -13,8 +13,8 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
 
   context('when the user does not have the authorization to get the content', function () {
     beforeEach(function () {
-      targetProfileForAdminRepository = { getAsNewFormat: sinon.stub() };
-      targetProfileForAdminRepository.getAsNewFormat.rejects(new Error('I should not be called'));
+      targetProfileForAdminRepository = { get: sinon.stub() };
+      targetProfileForAdminRepository.get.rejects(new Error('I should not be called'));
       sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
       learningContentConversionService.findActiveSkillsForCappedTubes.rejects(new Error('I should not be called'));
     });
@@ -67,8 +67,8 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
           },
         ],
       });
-      targetProfileForAdminRepository = { getAsNewFormat: sinon.stub() };
-      targetProfileForAdminRepository.getAsNewFormat.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
+      targetProfileForAdminRepository = { get: sinon.stub() };
+      targetProfileForAdminRepository.get.withArgs({ id: 123 }).resolves(targetProfileForAdmin);
       const skillsForTube1 = [domainBuilder.buildSkill({ id: 'skill1Tube1', tubeId: 'recTube1' })];
       const skillsForTube2 = [
         domainBuilder.buildSkill({ id: 'skill1Tube2', tubeId: 'recTube2' }),
