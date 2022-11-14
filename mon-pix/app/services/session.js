@@ -61,10 +61,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleUserLanguageAndLocale(transition = null) {
-    await this._checkForURLAuthentication(transition);
-
-    const locale = transition.to.queryParams.lang;
-    await this._loadCurrentUserAndSetLocale(locale);
+    await this._loadCurrentUserAndSetLocale(transition?.to?.queryParams?.lang);
   }
 
   requireAuthenticationAndApprovedTermsOfService(transition, authenticationRoute) {
@@ -78,17 +75,6 @@ export default class CurrentSessionService extends SessionService {
 
   setAttemptedTransition(transition) {
     this.attemptedTransition = transition;
-  }
-
-  async _checkForURLAuthentication(transition) {
-    if (transition.to.queryParams && transition.to.queryParams.externalUser) {
-      // Logout user when a new external user is authenticated
-      // without redirecting the user to the login page.
-      if (this.isAuthenticated) {
-        this.skipRedirectAfterSessionInvalidation = true;
-        await this._logoutUser();
-      }
-    }
   }
 
   async _loadCurrentUserAndSetLocale(locale = null) {
