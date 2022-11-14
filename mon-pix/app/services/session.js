@@ -85,14 +85,10 @@ export default class CurrentSessionService extends SessionService {
     if (transition.to.queryParams && transition.to.queryParams.externalUser) {
       // Logout user when a new external user is authenticated
       // without redirecting the user to the login page.
-      this.skipRedirectAfterSessionInvalidation = true;
-      await this._logoutUser();
-    }
-
-    if (transition.to.queryParams && transition.to.queryParams.token) {
-      // Logout user when existing external user is authenticated.
-      await this._logoutUser();
-      return super.authenticate('authenticator:oauth2', { token: transition.to.queryParams.token });
+      if (this.isAuthenticated) {
+        this.skipRedirectAfterSessionInvalidation = true;
+        await this._logoutUser();
+      }
     }
   }
 
