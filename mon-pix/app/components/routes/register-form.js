@@ -25,35 +25,48 @@ const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
 const isStringValid = (value) => !!value.trim();
 
+class LastName {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class FirstName {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class Email {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class Password {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class DayOfBirth {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class MonthOfBirth {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class YearOfBirth {
+  @tracked status = 'default';
+  @tracked message = null;
+}
 class FormValidation {
-  lastName = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  firstName = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  dayOfBirth = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  monthOfBirth = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  yearOfBirth = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  email = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  password = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
+  lastName = new LastName();
+  firstName = new FirstName();
+  email = new Email();
+  password = new Password();
+  dayOfBirth = new DayOfBirth();
+  monthOfBirth = new MonthOfBirth();
+  yearOfBirth = new YearOfBirth();
 }
 
 export default class RegisterForm extends Component {
