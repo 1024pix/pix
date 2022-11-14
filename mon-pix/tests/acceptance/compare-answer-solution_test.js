@@ -69,7 +69,9 @@ describe('Compare answers and solutions for QCM questions', function () {
       expect(screen.queryByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' })).to.not.exist;
 
       await click('.result-item__correction-button');
-      expect(screen.getByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' })).to.exist;
+
+      expect(find('.pix-modal__overlay--hidden')).to.not.exist;
+      expect(find('.pix-modal__overlay')).to.exist;
     });
   });
 
