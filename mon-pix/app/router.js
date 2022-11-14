@@ -120,6 +120,7 @@ Router.map(function () {
     this.route('login', { path: '' });
     this.route('login-oidc', { path: '/:identity_provider_slug' });
     this.route('login-or-register-oidc', { path: '/oidc' });
+    this.route('login-gar', { path: '/gar' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE

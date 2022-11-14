@@ -237,7 +237,7 @@ describe('Acceptance | Controller | saml-controller', function () {
 
       // then
       expect(response.statusCode).to.equal(302);
-      expect(response.headers.location).to.match(/^\/\?token=[-_a-zA-Z0-9.]+&user-id=[0-9]+$/);
+      expect(response.headers.location).to.match(/^\/connexion\/gar#[-_a-zA-Z0-9.]+$/);
     });
   });
 });
