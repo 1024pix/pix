@@ -98,15 +98,12 @@ Router.map(function () {
         this.route('insights');
         this.route('badges', function () {
           this.route('new');
+          this.route('badge', { path: '/:badge_id' });
         });
         this.route('stages', function () {
           this.route('stage', { path: '/:stage_id' });
         });
       });
-    });
-
-    this.route('badges', function () {
-      this.route('badge', { path: '/:badge_id' });
     });
 
     this.route('tools');
