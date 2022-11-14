@@ -13,7 +13,7 @@ describe('Unit | Services | session', function () {
 
   beforeEach(function () {
     sessionService = this.owner.lookup('service:session');
-    sessionService.currentUser = { load: sinon.stub() };
+    sessionService.currentUser = { load: sinon.stub(), user: null };
     sessionService.currentDomain = { getExtension: sinon.stub() };
     sessionService.intl = { setLocale: sinon.stub() };
     sessionService.moment = { setLocale: sinon.stub() };
@@ -171,22 +171,100 @@ describe('Unit | Services | session', function () {
   });
 
   describe('#handleUserLanguageAndLocale', function () {
-    beforeEach(function () {
-      sessionService._loadCurrentUserAndSetLocale = sinon.stub();
+    context('when the language is specified in the query parameters', function () {
+      context('when the current domain extension is "org"', function () {
+        context('when no user is loaded', function () {
+          it('should set the current language with the value from the query parameter', async function () {
+            // given
+            const transition = { to: { queryParams: { lang: 'de' } } };
+            sessionService.currentDomain.getExtension.returns('org');
+
+            // when
+            await sessionService.handleUserLanguageAndLocale(transition);
+
+            // then
+            sinon.assert.calledWith(sessionService.intl.setLocale, ['de', 'fr']);
+            sinon.assert.calledWith(sessionService.moment.setLocale, 'de');
+          });
+        });
+
+        context('when user is loaded', function () {
+          context('when there is no error', function () {
+            it('should set the current language with the value from the query parameter', async function () {
+              // given
+              const transition = { to: { queryParams: { lang: 'de' } } };
+              sessionService.currentDomain.getExtension.returns('org');
+              sessionService.currentUser.user = { lang: 'ru', save: sinon.stub() };
+
+              // when
+              await sessionService.handleUserLanguageAndLocale(transition);
+
+              // then
+              sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
+              sinon.assert.calledWith(sessionService.intl.setLocale, ['de', 'fr']);
+              sinon.assert.calledWith(sessionService.moment.setLocale, 'de');
+              expect(sessionService.currentUser.user.lang).to.equal('de');
+            });
+          });
+
+          context('when an error occurs', function () {
+            context('with an HTTP status code 400', function () {
+              it('should set the current language with the user language value', async function () {
+                // given
+                const transition = { to: { queryParams: { lang: 'de' } } };
+                sessionService.currentDomain.getExtension.returns('org');
+                sessionService.currentUser.user = {
+                  lang: 'ru',
+                  save: sinon.stub().throws({ errors: [{ status: '400' }] }),
+                  rollbackAttributes: function () {
+                    sessionService.currentUser.user.lang = 'ru';
+                  },
+                };
+
+                // when
+                await sessionService.handleUserLanguageAndLocale(transition);
+
+                // then
+                sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
+                sinon.assert.calledWith(sessionService.intl.setLocale, ['ru', 'fr']);
+                sinon.assert.calledWith(sessionService.moment.setLocale, 'ru');
+              });
+            });
+          });
+        });
+      });
     });
 
-    context('when an existing external user is authenticated', function () {
-      it('should invalidate the current session and authenticate the existing external user', async function () {
-        // given
-        const transition = { to: { queryParams: { token: 'token' } } };
+    context('when the language is not specified in the query parameters', function () {
+      context('when the current domain extension is "org"', function () {
+        context('when no user is loaded', function () {
+          it('should set the current language with the default locale value', async function () {
+            // given
+            sessionService.currentDomain.getExtension.returns('org');
 
-        // when
-        await sessionService.handleUserLanguageAndLocale(transition);
+            // when
+            await sessionService.handleUserLanguageAndLocale();
 
-        // then
-        sinon.assert.calledOnce(sessionService._logoutUser);
-        sinon.assert.calledOnce(oauthAuthenticator.authenticate);
-        sinon.assert.calledWith(oauthAuthenticator.authenticate, { token: 'token' });
+            // then
+            sinon.assert.calledWith(sessionService.intl.setLocale, ['fr', 'fr']);
+            sinon.assert.calledWith(sessionService.moment.setLocale, 'fr');
+          });
+        });
+
+        context('when user is loaded', function () {
+          it('should set the current language with the user language value', async function () {
+            // given
+            sessionService.currentDomain.getExtension.returns('org');
+            sessionService.currentUser.user = { lang: 'ru' };
+
+            // when
+            await sessionService.handleUserLanguageAndLocale();
+
+            // then
+            sinon.assert.calledWith(sessionService.intl.setLocale, ['ru', 'fr']);
+            sinon.assert.calledWith(sessionService.moment.setLocale, 'ru');
+          });
+        });
       });
     });
   });
