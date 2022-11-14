@@ -93,7 +93,9 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.equal('No user found for email inexistantUser@email.net');
+        expect(error.message).to.equal(
+          'No user found for email inexistantUser@email.net for this certification center invitation'
+        );
       });
     });
   });

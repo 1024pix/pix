@@ -14,7 +14,7 @@ module.exports = {
 
     const user = await knex('users').select('id').where({ email }).first();
     if (!user) {
-      throw new NotFoundError(`No user found for email ${email}`);
+      throw new NotFoundError(`No user found for email ${email} for this certification center invitation`);
     }
 
     return new CertificationCenterInvitedUser({
