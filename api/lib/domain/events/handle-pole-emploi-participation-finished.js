@@ -38,8 +38,7 @@ async function handlePoleEmploiParticipationFinished({
       participation,
       assessment,
     });
-
-    const response = await poleEmploiNotifier.notify(user.id, payload.toString());
+    const response = await poleEmploiNotifier.notify(user.id, payload);
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
       campaignParticipationId,

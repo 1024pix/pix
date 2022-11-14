@@ -34,7 +34,7 @@ async function handlePoleEmploiParticipationStarted({
       participation,
     });
 
-    const response = await poleEmploiNotifier.notify(user.id, payload.toString());
+    const response = await poleEmploiNotifier.notify(user.id, payload);
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationStarted({
       campaignParticipationId,
