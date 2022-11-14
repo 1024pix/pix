@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.287.0 (14/11/2022)
+
+
+### :rocket: Amélioration
+- [#5128](https://github.com/1024pix/pix/pull/5128) [FEATURE] Afficher le détail d'un RT lorsque ses critères sont des sujets plafonnés en niveau (PIX-5701)
+
+### :building_construction: Tech
+- [#5216](https://github.com/1024pix/pix/pull/5216) [TECH] Monter `ember-source` en 3.28.8 sur Pix App (PIX-6307).
+- [#5209](https://github.com/1024pix/pix/pull/5209) [TECH] Montée de version des packages Pix Orga (PIX-6297)
+- [#5211](https://github.com/1024pix/pix/pull/5211) [TECH] Remplacer la librairie déprécié babel-eslint par son successeur @babel/eslint-parser (PIX-6300)
+- [#5212](https://github.com/1024pix/pix/pull/5212) [TECH] Mettre à jour `ember-template-lint` sur Pix App (PIX-6301).
+- [#5215](https://github.com/1024pix/pix/pull/5215) [TECH] Supprimer l'intégration de JQuery sur Pix App (PIX-6306).
+- [#5210](https://github.com/1024pix/pix/pull/5210) [TECH] Remplacer le composant Ember `<Input>` de type radio en `<PixRadioButton>` dans les QCU (PIX-6299) 
+
+### :bug: Correction
+- [#5158](https://github.com/1024pix/pix/pull/5158) [BUGFIX] Double scroll bar sur l'onglet "Candidats" dans Pix Certif (PIX-6039)
+- [#5182](https://github.com/1024pix/pix/pull/5182) [BUGFIX][MON-PIX] Ne pas rediriger un utilisateur GAR sur la page de connexion (lors de la re-connexion, sur navigateur SAFARI) (PIX-6131)
+
 ## v3.286.0 (10/11/2022)
 
 
