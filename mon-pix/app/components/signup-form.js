@@ -14,27 +14,37 @@ const ERROR_INPUT_MESSAGE_MAP = {
   password: 'pages.sign-up.fields.password.error',
 };
 
+class LastName {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class FirstName {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class Email {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class Password {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
+class Cgu {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
 class SignupFormValidation {
-  lastName = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  firstName = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  email = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  password = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
-  cgu = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
+  lastName = new LastName();
+  firstName = new FirstName();
+  email = new Email();
+  password = new Password();
+  cgu = new Cgu();
 }
 
 export default class SignupForm extends Component {

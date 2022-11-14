@@ -5,15 +5,17 @@ import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
+class ValidationForm {
+  @tracked status = 'default';
+  @tracked message = null;
+}
+
 export default class ResetPasswordForm extends Component {
   @service url;
   @service intl;
 
   @tracked hasSucceeded = false;
-  validation = {
-    @tracked status: 'default',
-    @tracked message: null,
-  };
+  @tracked validation = new ValidationForm();
 
   get showcaseUrl() {
     return this.url.showcaseUrl;
