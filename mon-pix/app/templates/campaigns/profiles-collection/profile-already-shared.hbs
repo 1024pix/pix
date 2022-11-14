@@ -33,7 +33,7 @@
         <LinkTo
           @route="campaigns.entry-point"
           @model={{@model.campaign.code}}
-          @query={{hash retry=true}}
+          @query={{this.query}}
           class="button button--link profile-already-shared-retry__button"
         >{{t "pages.profile-already-shared.retry.button"}}</LinkTo>
       </div>
