@@ -145,6 +145,46 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
           // then
           assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.errors.status.403'))).exists();
         });
+        module('When invitation has already been accepted by user', function () {
+          test('it should call authentication service with appropriate parameters', async function (assert) {
+            // given
+            const acceptCertificationCenterInvitationStub = sinon.stub();
+            acceptCertificationCenterInvitationStub.rejects({ errors: [{ code: 412, status: '412' }] });
+            this.set('certificationCenterInvitation', {
+              id: '56',
+              status: 'PENDING',
+              certificationCenterName: 'Some Center',
+              email: 'marie.tim@example.net',
+              accept: acceptCertificationCenterInvitationStub,
+            });
+
+            SessionStub.prototype.authenticate = function (authenticator, email, password, scope) {
+              this.authenticator = authenticator;
+              this.email = email;
+              this.password = password;
+              this.scope = scope;
+              return resolve();
+            };
+
+            const sessionServiceObserver = this.owner.lookup('service:session');
+
+            await render(
+              hbs`<Auth::LoginForm @isWithInvitation=true @certificationCenterInvitationId='1' @certificationCenterInvitationCode='C0D3' @certificationCenterInvitation={{this.certificationCenterInvitation}}/>`
+            );
+
+            await fillByLabel(emailInputLabel, 'pix@example.net');
+            await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
+
+            // when
+            await clickByName(loginLabel);
+
+            // then
+            assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+            assert.strictEqual(sessionServiceObserver.email, 'pix@example.net');
+            assert.strictEqual(sessionServiceObserver.password, 'JeMeLoggue1024');
+            assert.strictEqual(sessionServiceObserver.scope, 'pix-certif');
+          });
+        });
       });
     });
   });
