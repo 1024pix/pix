@@ -1,19 +1,18 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
 import { authenticateByEmail } from '../helpers/authentication';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | terms-of-service', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | terms-of-service', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  describe('When user log in and must validate Pix latest terms of service', async function () {
-    it('should be redirected to terms-of-services page', async function () {
+  module('When user log in and must validate Pix latest terms of service', async function () {
+    test('should be redirected to terms-of-services page', async function (assert) {
       // given
       const user = server.create('user', {
         email: 'with-email',
@@ -27,12 +26,12 @@ describe('Acceptance | terms-of-service', function () {
       await authenticateByEmail(user);
 
       // then
-      expect(currentURL()).to.equal('/cgu');
+      assert.equal(currentURL(), '/cgu');
     });
   });
 
-  describe('when the user has validated terms of service', async function () {
-    it('should redirect to default page when user validate the terms of service', async function () {
+  module('when the user has validated terms of service', async function () {
+    test('should redirect to default page when user validate the terms of service', async function (assert) {
       // given
       const user = server.create('user', {
         email: 'with-email',
@@ -48,7 +47,7 @@ describe('Acceptance | terms-of-service', function () {
       await clickByLabel(this.intl.t('pages.terms-of-service.form.button'));
 
       // then
-      expect(currentURL()).to.equal('/accueil');
+      assert.equal(currentURL(), '/accueil');
     });
   });
 });

@@ -1,93 +1,92 @@
 import { blur, click, fillIn, find } from '@ember/test-helpers';
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 const TEXTAREA = 'textarea.feedback-panel__field--content';
 const DROPDOWN = '.feedback-panel__dropdown';
 
-describe('Acceptance | Giving feedback about a challenge', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Giving feedback about a challenge', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
   let firstChallenge;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     firstChallenge = server.create('challenge', 'forCompetenceEvaluation');
     server.create('challenge', 'forCompetenceEvaluation');
   });
 
-  context('From a challenge', function () {
-    beforeEach(async function () {
+  module('From a challenge', function (hooks) {
+    hooks.beforeEach(async function () {
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should be able to directly send a feedback', async function () {
+    test('should be able to directly send a feedback', async function (assert) {
       // then
-      expect(find('.feedback-panel')).to.exist;
+      assert.dom('.feedback-panel').exists();
     });
 
-    context('when the feedback-panel button is clicked', function () {
-      beforeEach(async function () {
+    module('when the feedback-panel button is clicked', function (hooks) {
+      hooks.beforeEach(async function () {
         await click('.feedback-panel__open-button');
       });
 
-      it('should open the feedback form', function () {
+      test('should open the feedback form', function (assert) {
         // then
-        expect(find('.feedback-panel__form')).to.exist;
+        assert.dom('.feedback-panel__form').exists();
       });
 
-      context('and the form is filled but not sent', function () {
-        beforeEach(async function () {
+      module('and the form is filled but not sent', function (hooks) {
+        hooks.beforeEach(async function () {
           await fillIn(DROPDOWN, 'accessibility');
           await fillIn(TEXTAREA, 'TEST_CONTENT');
           await blur(TEXTAREA);
         });
 
-        context('and the challenge is skipped', function () {
-          beforeEach(async function () {
+        module('and the challenge is skipped', function (hooks) {
+          hooks.beforeEach(async function () {
             await click('.challenge-actions__action-skip');
           });
 
-          it('should not display the feedback form', function () {
+          test('should not display the feedback form', function (assert) {
             // then
-            expect(find('.feedback-panel__form')).to.not.exist;
+            assert.dom('.feedback-panel__form').doesNotExist();
           });
 
-          it('should always reset the feedback form between two consecutive challenges', async function () {
+          test('should always reset the feedback form between two consecutive challenges', async function (assert) {
             await click('.feedback-panel__open-button');
             await fillIn(DROPDOWN, 'accessibility');
-            expect(find(TEXTAREA).value).to.equal('');
+            assert.equal(find(TEXTAREA).value, '');
           });
         });
       });
     });
   });
 
-  context('From the comparison modal at the end of the test', function () {
-    beforeEach(async function () {
+  module('From the comparison modal at the end of the test', function (hooks) {
+    hooks.beforeEach(async function () {
       server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
-    it('should not display the feedback form', async function () {
+    test('should not display the feedback form', async function (assert) {
       // when
       await click('.result-item__correction-button');
 
       // then
-      expect(find('.feedback-panel__form')).to.not.exist;
+      assert.dom('.feedback-panel__form').doesNotExist();
     });
 
-    it('should be able to give feedback', async function () {
+    test('should be able to give feedback', async function (assert) {
       // when
       await click('.result-item__correction-button');
       await click('.feedback-panel__open-button');
 
       // then
-      expect(find('.feedback-panel__form')).to.exist;
+      assert.dom('.feedback-panel__form').exists();
     });
   });
 });

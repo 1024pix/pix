@@ -1,24 +1,23 @@
 import { click, currentURL, find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Navbar', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Navbar', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    beforeEach(async function () {
+  module('Authenticated cases as simple user', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
@@ -36,15 +35,15 @@ describe('Acceptance | Navbar', function () {
         targetedNavigationItem: 2,
       },
     ].forEach((userNavigation) => {
-      it(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function () {
+      test(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function (assert) {
         // given
         await visit(userNavigation.initialRoute);
 
-        expect(
-          find('.navbar-desktop-header-container__menu').children[0].children[
-            userNavigation.initialNavigationItem
-          ].children[0].getAttribute('class')
-        ).to.contain('active');
+        assert.ok(
+          find('.navbar-desktop-header-container__menu')
+            .children[0].children[userNavigation.initialNavigationItem].children[0].getAttribute('class')
+            .includes('active')
+        );
 
         // when
         await click(
@@ -53,16 +52,16 @@ describe('Acceptance | Navbar', function () {
         );
 
         // then
-        expect(currentURL()).to.equal(userNavigation.expectedRoute);
-        expect(
-          find('.navbar-desktop-header-container__menu').children[0].children[
-            userNavigation.targetedNavigationItem
-          ].children[0].getAttribute('class')
-        ).to.contain('active');
+        assert.equal(currentURL(), userNavigation.expectedRoute);
+        assert.ok(
+          find('.navbar-desktop-header-container__menu')
+            .children[0].children[userNavigation.targetedNavigationItem].children[0].getAttribute('class')
+            .includes('active')
+        );
       });
     });
 
-    it('should not display while in campaign', async function () {
+    test('should not display while in campaign', async function (assert) {
       // given
       const campaign = server.create('campaign', 'withOneChallenge');
 
@@ -70,8 +69,8 @@ describe('Acceptance | Navbar', function () {
       await resumeCampaignOfTypeAssessmentByCode(campaign.code, false);
 
       // then
-      expect(find('.navbar-desktop-header')).to.not.exist;
-      expect(find('.navbar-mobile-header')).to.not.exist;
+      assert.dom('.navbar-desktop-header').doesNotExist();
+      assert.dom('.navbar-mobile-header').doesNotExist();
     });
   });
 });

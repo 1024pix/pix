@@ -1,17 +1,16 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | inaccessible-campaign', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | inaccessible-campaign', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
+  test('should not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
     // given
     this.owner.register('service:url', Service.extend({ isFrenchDomainExtension: false }));
 
@@ -19,10 +18,10 @@ describe('Integration | Component | inaccessible-campaign', function () {
     await render(hbs`<InaccessibleCampaign></InaccessibleCampaign>`);
 
     // then
-    expect(find('.campaign-landing-page__marianne-logo')).to.not.exist;
+    assert.dom('.campaign-landing-page__marianne-logo').doesNotExist();
   });
 
-  it('should display marianne logo when url does have frenchDomainExtension', async function () {
+  test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
     // given
     this.owner.register('service:url', Service.extend({ isFrenchDomainExtension: true }));
 
@@ -30,6 +29,6 @@ describe('Integration | Component | inaccessible-campaign', function () {
     await render(hbs`<InaccessibleCampaign></InaccessibleCampaign>`);
 
     // then
-    expect(find('.campaign-landing-page__marianne-logo')).to.exist;
+    assert.dom('.campaign-landing-page__marianne-logo').exists();
   });
 });

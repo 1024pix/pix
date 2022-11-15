@@ -1,69 +1,68 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | form-textfield', function () {
-  setupTest();
+module('Unit | Component | form-textfield', function (hooks) {
+  setupTest(hooks);
 
   let component;
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:form-textfield');
   });
 
-  describe('#textfieldType', function () {
+  module('#textfieldType', function () {
     [
       { type: 'text', inputId: 'shi' },
       { type: 'text', inputId: '' },
       { type: 'email', inputId: 'email' },
       { type: 'password', inputId: 'password' },
     ].forEach((data) => {
-      it(`should return ${data.type} when input id is ${data.inputId}`, function () {
+      test(`should return ${data.type} when input id is ${data.inputId}`, function (assert) {
         // given
         component.args.textfieldName = data.inputId;
         // when
         const inputType = component.textfieldType;
         // then
-        expect(inputType).to.equal(data.type);
+        assert.equal(inputType, data.type);
       });
     });
   });
 
-  describe('#validationStatus', function () {
-    it('should return default values when validationStatus is "default"', function () {
+  module('#validationStatus', function () {
+    test('should return default values when validationStatus is "default"', function (assert) {
       // When
       component.args.validationStatus = 'default';
 
       // Then
-      expect(component.hasIcon).to.equal(false);
-      expect(component.iconType).to.equal('');
-      expect(component.inputValidationStatus).to.equal('form-textfield__input--default');
-      expect(component.inputContainerStatusClass).to.equal('form-textfield__input-container--default');
-      expect(component.validationMessageClass).to.equal('form-textfield__message--default');
+      assert.equal(component.hasIcon, false);
+      assert.equal(component.iconType, '');
+      assert.equal(component.inputValidationStatus, 'form-textfield__input--default');
+      assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--default');
+      assert.equal(component.validationMessageClass, 'form-textfield__message--default');
     });
 
-    it('should return error values when validationStatus is "error"', function () {
+    test('should return error values when validationStatus is "error"', function (assert) {
       // When
       component.args.validationStatus = 'error';
 
       // Then
-      expect(component.hasIcon).to.equal(true);
-      expect(component.iconType).to.equal('error');
-      expect(component.inputValidationStatus).to.equal('form-textfield__input--error');
-      expect(component.inputContainerStatusClass).to.equal('form-textfield__input-container--error');
-      expect(component.validationMessageClass).to.equal('form-textfield__message--error');
+      assert.equal(component.hasIcon, true);
+      assert.equal(component.iconType, 'error');
+      assert.equal(component.inputValidationStatus, 'form-textfield__input--error');
+      assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--error');
+      assert.equal(component.validationMessageClass, 'form-textfield__message--error');
     });
 
-    it('should return success values when validationStatus is "success"', function () {
+    test('should return success values when validationStatus is "success"', function (assert) {
       // When
       component.args.validationStatus = 'success';
 
       // Then
-      expect(component.hasIcon).to.equal(true);
-      expect(component.iconType).to.equal('success');
-      expect(component.inputValidationStatus).to.equal('form-textfield__input--success');
-      expect(component.inputContainerStatusClass).to.equal('form-textfield__input-container--success');
-      expect(component.validationMessageClass).to.equal('form-textfield__message--success');
+      assert.equal(component.hasIcon, true);
+      assert.equal(component.iconType, 'success');
+      assert.equal(component.inputValidationStatus, 'form-textfield__input--success');
+      assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--success');
+      assert.equal(component.validationMessageClass, 'form-textfield__message--success');
     });
   });
 });

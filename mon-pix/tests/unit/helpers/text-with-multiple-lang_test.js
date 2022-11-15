@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import textWithMultipleLang from 'mon-pix/helpers/text-with-multiple-lang';
 import { htmlSafe } from '@ember/template';
 
-describe('Unit | Helper | text with multiple lang', function () {
+module('Unit | Helper | text with multiple lang', function (hooks) {
   let textWithMultipleLangHelper;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     textWithMultipleLangHelper = new textWithMultipleLang();
     textWithMultipleLangHelper.intl = { locales: ['fr', 'en'] };
   });
@@ -25,12 +24,10 @@ describe('Unit | Helper | text with multiple lang', function () {
       outputText: '<div>one string</div>',
     },
   ].forEach((expected) => {
-    it(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function () {
+    test(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function (assert) {
       textWithMultipleLangHelper.intl.t = () => expected.lang;
 
-      expect(textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString()).to.equal(
-        expected.outputText
-      );
+      assert.equal(textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString(), expected.outputText);
     });
   });
 });

@@ -1,32 +1,31 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | sup-organization-learner', function () {
-  setupTest();
+module('Unit | Adapters | sup-organization-learner', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:sup-organization-learner');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', function () {
-    it('should redirect to /sup-organization-learners/association', async function () {
+  module('#urlForCreateRecord', function () {
+    test('should redirect to /sup-organization-learners/association', async function (assert) {
       // when
       const url = await adapter.urlForCreateRecord('sup-organization-learner');
 
       // then
-      expect(url.endsWith('/sup-organization-learners/association')).to.be.true;
+      assert.equal(url.endsWith('/sup-organization-learners/association'), true);
     });
   });
 
-  describe('#createRecord', function () {
+  module('#createRecord', function (hooks) {
     let expectedUrl, expectedMethod, expectedData, snapshot;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       expectedUrl = 'http://localhost:3000/api/sup-organization-learners/association';
       expectedMethod = 'POST';
       expectedData = {
@@ -61,12 +60,13 @@ describe('Unit | Adapters | sup-organization-learner', function () {
       };
     });
 
-    it('should serialize data', async function () {
+    test('should serialize data', async function (assert) {
       // when
       await adapter.createRecord(null, { modelName: 'sup-organization-learner' }, snapshot);
 
       // then
       sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+      assert.ok(true);
     });
   });
 });

@@ -1,9 +1,9 @@
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns | join | student-sco', function () {
-  setupTest();
+module('Unit | Controller | campaigns | join | student-sco', function (hooks) {
+  setupTest(hooks);
 
   let controller;
   let sessionStub;
@@ -11,7 +11,7 @@ describe('Unit | Controller | campaigns | join | student-sco', function () {
   const campaignCode = 'AZERTY999';
   const expectedUserId = 1;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.join.student-sco');
 
     sessionStub = {
@@ -31,8 +31,8 @@ describe('Unit | Controller | campaigns | join | student-sco', function () {
     controller.set('currentUser', currentUserStub);
   });
 
-  describe('#addGarAuthenticationMethodToUser', function () {
-    it('should add GAR authentication method and clear IdToken', async function () {
+  module('#addGarAuthenticationMethodToUser', function () {
+    test('should add GAR authentication method and clear IdToken', async function (assert) {
       // given
       const externalUserToken = 'ABCD';
 
@@ -58,9 +58,10 @@ describe('Unit | Controller | campaigns | join | student-sco', function () {
       sinon.assert.calledOnce(expectedExternalUserAuthenticationRequest.save);
       sinon.assert.calledWith(sessionStub.set, 'data.externalUser', null);
       sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', null);
+      assert.ok(true);
     });
 
-    it('should reconcile user', async function () {
+    test('should reconcile user', async function (assert) {
       // given
       const expectedExternalUserAuthenticationRequest = {
         save: sinon.stub(),
@@ -87,6 +88,7 @@ describe('Unit | Controller | campaigns | join | student-sco', function () {
       // then
       sinon.assert.calledWith(storeStub.createRecord, expectedStoreOptions.arg1, expectedStoreOptions.arg2);
       sinon.assert.calledWith(saveStub, expectedSaveOptions);
+      assert.ok(true);
     });
   });
 });

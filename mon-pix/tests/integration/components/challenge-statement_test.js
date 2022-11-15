@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | ChallengeStatement', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | ChallengeStatement', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   function addChallengeToContext(component, challenge) {
     component.set('challenge', challenge);
@@ -22,7 +21,7 @@ describe('Integration | Component | ChallengeStatement', function () {
                           @assessment={{this.assessment}}/>`);
   }
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     class currentUser extends Service {
       user = {
         hasSeenFocusedChallengeTooltip: false,
@@ -38,9 +37,9 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Instruction section:', function () {
+  module('Instruction section:', function () {
     // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
-    it('should render challenge instruction if it exists', async function () {
+    test('should render challenge instruction if it exists', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -52,10 +51,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('La consigne de mon test');
+      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), 'La consigne de mon test');
     });
 
-    it('should render a tag for focused challenge with tooltip', async function () {
+    test('should render a tag for focused challenge with tooltip', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -68,10 +67,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.tooltip__tag')).to.exist;
+      assert.dom('.tooltip__tag').exists();
     });
 
-    it('should render a tag for other challenge with tooltip', async function () {
+    test('should render a tag for other challenge with tooltip', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -84,10 +83,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.tooltip__tag')).to.exist;
+      assert.dom('.tooltip__tag').exists();
     });
 
-    it('should not render challenge instruction if it does not exist', async function () {
+    test('should not render challenge instruction if it does not exist', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {});
@@ -96,10 +95,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement-instruction__text')).to.not.exist;
+      assert.dom('.challenge-statement-instruction__text').doesNotExist();
     });
 
-    it('should add title "destination (nouvelle fenêtre)" to external links', async function () {
+    test('should add title "destination (nouvelle fenêtre)" to external links', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -111,11 +110,11 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement-instruction__text a[title="lien 1 (nouvelle fenêtre)"]')).to.exist;
-      expect(find('.challenge-statement-instruction__text a[title="lien 2 (nouvelle fenêtre)"]')).to.exist;
+      assert.dom('.challenge-statement-instruction__text a[title="lien 1 (nouvelle fenêtre)"]').exists();
+      assert.dom('.challenge-statement-instruction__text a[title="lien 2 (nouvelle fenêtre)"]').exists();
     });
 
-    it('should display a specific style', async function () {
+    test('should display a specific style', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -129,11 +128,11 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.tooltip__tag--focused')).to.exist;
-      expect(find('.tooltip__tag--regular')).to.not.exist;
+      assert.dom('.tooltip__tag--focused').exists();
+      assert.dom('.tooltip__tag--regular').doesNotExist();
     });
 
-    it('should not display focused challenges specific style', async function () {
+    test('should not display focused challenges specific style', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -147,11 +146,11 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.tooltip__tag--regular')).to.exist;
-      expect(find('.tooltip__tag--focused')).to.not.exist;
+      assert.dom('.tooltip__tag--regular').exists();
+      assert.dom('.tooltip__tag--focused').doesNotExist();
     });
 
-    it('should have a screen reader only warning if challenge has an embed', async function () {
+    test('should have a screen reader only warning if challenge has an embed', async function (assert) {
       // given
       addChallengeToContext(this, {
         hasValidEmbedDocument: true,
@@ -164,12 +163,14 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement__instruction-section > .sr-only').textContent).to.contains(
-        this.intl.t('pages.challenge.statement.sr-only.embed')
+      assert.ok(
+        find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
+          this.intl.t('pages.challenge.statement.sr-only.embed')
+        )
       );
     });
 
-    it('should have a screen reader only warning if challenge has an alternative instruction', async function () {
+    test('should have a screen reader only warning if challenge has an alternative instruction', async function (assert) {
       // given
       addChallengeToContext(this, {
         id: 'rec_challenge',
@@ -182,8 +183,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement__instruction-section > .sr-only').textContent).to.contains(
-        this.intl.t('pages.challenge.statement.sr-only.alternative-instruction')
+      assert.ok(
+        find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
+          this.intl.t('pages.challenge.statement.sr-only.alternative-instruction')
+        )
       );
     });
   });
@@ -193,8 +196,8 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Alternative instruction section:', function () {
-    it('should hide alternative instruction zone if no alternative instruction', async function () {
+  module('Alternative instruction section:', function () {
+    test('should hide alternative instruction zone if no alternative instruction', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -207,10 +210,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement__alternative-instruction')).to.not.exist;
+      assert.dom('.challenge-statement__alternative-instruction').doesNotExist();
     });
 
-    it('should show alternative instruction zone if there is an alternative instruction', async function () {
+    test('should show alternative instruction zone if there is an alternative instruction', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -223,10 +226,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement__alternative-instruction')).to.exist;
+      assert.dom('.challenge-statement__alternative-instruction').exists();
     });
 
-    it('should display alternative instruction text on button click', async function () {
+    test('should display alternative instruction text on button click', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -240,10 +243,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await click('.challenge-statement__alternative-instruction button');
 
       // then
-      expect(find('.challenge-statement__alternative-instruction-text')).to.exist;
+      assert.dom('.challenge-statement__alternative-instruction-text').exists();
     });
 
-    it('should hide alternative instruction text on second button click', async function () {
+    test('should hide alternative instruction text on second button click', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -258,7 +261,7 @@ describe('Integration | Component | ChallengeStatement', function () {
       await click('.challenge-statement__alternative-instruction button');
 
       // then
-      expect(find('.challenge-statement__alternative-instruction-text')).to.not.exist;
+      assert.dom('.challenge-statement__alternative-instruction-text').doesNotExist();
     });
   });
 
@@ -267,8 +270,8 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Illustration section', function () {
-    it('should display challenge illustration (and alt) if it exists', async function () {
+  module('Illustration section', function () {
+    test('should display challenge illustration (and alt) if it exists', async function (assert) {
       // given
       const challenge = {
         illustrationUrl: '/images/pix-logo.svg',
@@ -282,11 +285,11 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
-      expect(find('.challenge-illustration__loaded-image').alt).to.equal(challenge.illustrationAlt);
+      assert.ok(find('.challenge-illustration__loaded-image').src.includes(challenge.illustrationUrl));
+      assert.equal(find('.challenge-illustration__loaded-image').alt, challenge.illustrationAlt);
     });
 
-    it('should not display challenge illustration if it does not exist', async function () {
+    test('should not display challenge illustration if it does not exist', async function (assert) {
       // given
       addChallengeToContext(this, {});
       addAssessmentToContext(this, { id: '267845' });
@@ -295,7 +298,7 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('challenge-statement__illustration-section')).to.not.exist;
+      assert.dom('challenge-statement__illustration-section').doesNotExist();
     });
   });
 
@@ -304,9 +307,9 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Attachments section:', function () {
-    describe('if challenge has no file', function () {
-      it('should not display attachements section', async function () {
+  module('Attachments section:', function () {
+    module('if challenge has no file', function () {
+      test('should not display attachements section', async function (assert) {
         addChallengeToContext(this, {
           attachments: [],
           hasAttachment: false,
@@ -318,12 +321,12 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(find('.challenge-statement__attachments-section')).to.not.exist;
+        assert.dom('.challenge-statement__attachments-section').doesNotExist();
       });
     });
 
-    describe('if challenge has only one file', function () {
-      it('should display only one link button', async function () {
+    module('if challenge has only one file', function () {
+      test('should display only one link button', async function (assert) {
         // given
         addChallengeToContext(this, {
           attachments: ['http://challenge.file.url'],
@@ -338,12 +341,12 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(find('.challenge-statement__action-link')).to.exist;
-        expect(find('.challenge-statement__action-link').href).to.equal('http://challenge.file.url/');
+        assert.dom('.challenge-statement__action-link').exists();
+        assert.equal(find('.challenge-statement__action-link').href, 'http://challenge.file.url/');
       });
     });
 
-    describe('if challenge has multiple files', function () {
+    module('if challenge has multiple files', function () {
       const file1 = 'http://file.1.docx';
       const file2 = 'file.2.odt';
       const challenge = {
@@ -367,7 +370,7 @@ describe('Integration | Component | ChallengeStatement', function () {
         id: 'rec_challenge',
       };
 
-      it('should display as many radio button as attachments', async function () {
+      test('should display as many radio button as attachments', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
         addAssessmentToContext(this, { id: '267845' });
@@ -376,10 +379,10 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(findAll('.challenge-statement__file-option_input')).to.have.lengthOf(challenge.attachments.length);
+        assert.dom('.challenge-statement__file-option_input').exists({ count: challenge.attachments.length });
       });
 
-      it('should display radio buttons with right label', async function () {
+      test('should display radio buttons with right label', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
         addAssessmentToContext(this, { id: '267845' });
@@ -388,11 +391,11 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(findAll('.challenge-statement__file-option-label')[0].textContent.trim()).to.equal('fichier .docx');
-        expect(findAll('.challenge-statement__file-option-label')[1].textContent.trim()).to.equal('fichier .odt');
+        assert.equal(findAll('.challenge-statement__file-option-label')[0].textContent.trim(), 'fichier .docx');
+        assert.equal(findAll('.challenge-statement__file-option-label')[1].textContent.trim(), 'fichier .odt');
       });
 
-      it('should select first attachment as default selected radio button', async function () {
+      test('should select first attachment as default selected radio button', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
         addAssessmentToContext(this, { id: '267845' });
@@ -401,11 +404,11 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(findAll('.challenge-statement__file-option_input')[0].checked).to.be.true;
-        expect(findAll('.challenge-statement__file-option_input')[1].checked).to.be.false;
+        assert.equal(findAll('.challenge-statement__file-option_input')[0].checked, true);
+        assert.equal(findAll('.challenge-statement__file-option_input')[1].checked, false);
       });
 
-      it('should select first attachment as default selected radio button when QROC', async function () {
+      test('should select first attachment as default selected radio button when QROC', async function (assert) {
         // given
         addChallengeToContext(this, challengeQROC);
         addAssessmentToContext(this, { id: '267845' });
@@ -414,11 +417,11 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(findAll('.challenge-statement__file-option_input')[0].checked).to.be.true;
-        expect(findAll('.challenge-statement__file-option_input')[1].checked).to.be.false;
+        assert.equal(findAll('.challenge-statement__file-option_input')[0].checked, true);
+        assert.equal(findAll('.challenge-statement__file-option_input')[1].checked, false);
       });
 
-      it('should display attachements paragraph text', async function () {
+      test('should display attachements paragraph text', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
         addAssessmentToContext(this, { id: '267845' });
@@ -427,12 +430,13 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(find('span[data-test-id="challenge-statement__text-content"]').textContent.trim()).to.equal(
+        assert.equal(
+          find('span[data-test-id="challenge-statement__text-content"]').textContent.trim(),
           'Choisissez le type de fichier que vous voulez utiliser'
         );
       });
 
-      it('should display help icon next to attachements paragraph', async function () {
+      test('should display help icon next to attachements paragraph', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
         addAssessmentToContext(this, { id: '267845' });
@@ -441,10 +445,10 @@ describe('Integration | Component | ChallengeStatement', function () {
         await renderChallengeStatement(this);
 
         // then
-        expect(find('.challenge-statement__help-icon')).to.exist;
+        assert.dom('.challenge-statement__help-icon').exists();
       });
 
-      it('should display instructions regarding downloading issues', async function () {
+      test('should display instructions regarding downloading issues', async function (assert) {
         // given
         addChallengeToContext(this, challenge);
         addAssessmentToContext(this, { id: '267845' });
@@ -452,7 +456,7 @@ describe('Integration | Component | ChallengeStatement', function () {
         // when
         await renderChallengeStatement(this);
         // then
-        expect(find('.challenge-statement__action-help')).to.exist;
+        assert.dom('.challenge-statement__action-help').exists();
       });
     });
   });
@@ -462,8 +466,8 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Embed simulator section:', function () {
-    it('should be displayed when the challenge has a valid Embed object', async function () {
+  module('Embed simulator section:', function () {
+    test('should be displayed when the challenge has a valid Embed object', async function (assert) {
       // given
       addChallengeToContext(this, { hasValidEmbedDocument: true, id: 'rec_challenge' });
       addAssessmentToContext(this, { id: '267845' });
@@ -472,10 +476,10 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-embed-simulator')).to.exist;
+      assert.dom('.challenge-embed-simulator').exists();
     });
 
-    it('should not be displayed when the challenge does not have a valid Embed object', async function () {
+    test('should not be displayed when the challenge does not have a valid Embed object', async function (assert) {
       // given
       addChallengeToContext(this, { hasValidEmbedDocument: false, id: 'rec_challenge' });
       addAssessmentToContext(this, { id: '267845' });
@@ -484,7 +488,7 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-embed-simulator')).to.not.exist;
+      assert.dom('.challenge-embed-simulator').doesNotExist();
     });
   });
 });

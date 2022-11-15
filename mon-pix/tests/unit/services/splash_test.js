@@ -1,6 +1,5 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 function createSplash() {
   const splash = document.createElement('div');
@@ -19,36 +18,36 @@ function hasSplash() {
   return document.getElementById('app-splash') != null;
 }
 
-describe('Unit | Service | splash', function () {
-  setupTest();
+module('Unit | Service | splash', function (hooks) {
+  setupTest(hooks);
 
-  describe('#hide', function () {
-    context('when a splash is present in the DOM', function () {
-      it('removes the splash from the DOM', function () {
+  module('#hide', function (hooks) {
+    module('when a splash is present in the DOM', function () {
+      test('removes the splash from the DOM', function (assert) {
         // Given
         const splash = this.owner.lookup('service:splash');
         createSplash();
-        expect(hasSplash()).to.be.true;
+        assert.equal(hasSplash(), true);
         // When
         splash.hide();
         // Then
-        expect(hasSplash()).to.be.false;
+        assert.equal(hasSplash(), false);
       });
     });
 
-    context('when there is no splash', function () {
-      it('does nothing', function () {
+    module('when there is no splash', function () {
+      test('does nothing', function (assert) {
         // Given
         const splash = this.owner.lookup('service:splash');
-        expect(hasSplash()).to.be.false;
+        assert.equal(hasSplash(), false);
         // When
         splash.hide();
         // Then
-        expect(hasSplash()).to.be.false;
+        assert.equal(hasSplash(), false);
       });
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
       removeSplash();
     });
   });

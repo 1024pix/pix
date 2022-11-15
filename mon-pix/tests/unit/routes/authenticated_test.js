@@ -1,11 +1,11 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | authenticated', function () {
-  setupTest();
+module('Unit | Route | authenticated', function (hooks) {
+  setupTest(hooks);
 
-  it('should check if user is authenticated', function () {
+  test('should check if user is authenticated', function (assert) {
     // given
     const route = this.owner.lookup('route:authenticated');
     const sessionService = this.owner.lookup('service:session');
@@ -17,5 +17,6 @@ describe('Unit | Route | authenticated', function () {
 
     // then
     sinon.assert.calledWith(sessionService.requireAuthenticationAndApprovedTermsOfService, transition);
+    assert.ok(true);
   });
 });

@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Component | qrocm-dep-solution-panel', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('#blocks', function () {
-    it('should return an array with data to display', function () {
+  module('#blocks', function () {
+    test('should return an array with data to display', function (assert) {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const answer = { value: "smiley1: ':)' smiley2: ''", result: 'ko' };
@@ -44,12 +43,12 @@ describe('Unit | Component | qrocm-dep-solution-panel', function () {
       const blocks = component.blocks;
 
       //Then
-      expect(blocks).to.be.deep.equal(expectedBlocksData);
+      assert.deepEqual(blocks, expectedBlocksData);
     });
   });
 
-  describe('#answerIsCorrect', function () {
-    it('should return true', function () {
+  module('#answerIsCorrect', function () {
+    test('should return true', function (assert) {
       //Given
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ok' } });
 
@@ -57,10 +56,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function () {
       const answerIsCorrect = component.answerIsCorrect;
 
       //Then
-      expect(answerIsCorrect).to.be.true;
+      assert.equal(answerIsCorrect, true);
     });
 
-    it('should return false', function () {
+    test('should return false', function (assert) {
       //Given
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ko' } });
 
@@ -68,12 +67,12 @@ describe('Unit | Component | qrocm-dep-solution-panel', function () {
       const answerIsCorrect = component.answerIsCorrect;
 
       //Then
-      expect(answerIsCorrect).to.be.false;
+      assert.equal(answerIsCorrect, false);
     });
   });
 
-  describe('#understandableSolution', function () {
-    it('should return the expected answers', function () {
+  module('#understandableSolution', function () {
+    test('should return the expected answers', function (assert) {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
@@ -86,10 +85,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function () {
       const understandableSolution = component.understandableSolution;
 
       //Then
-      expect(understandableSolution).to.be.equal('horizontalité et cadre');
+      assert.equal(understandableSolution, 'horizontalité et cadre');
     });
 
-    it('should return examples of good answers', function () {
+    test('should return examples of good answers', function (assert) {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
@@ -102,7 +101,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function () {
       const understandableSolution = component.understandableSolution;
 
       //Then
-      expect(understandableSolution).to.be.equal('tag ou marche ou ...');
+      assert.equal(understandableSolution, 'tag ou marche ou ...');
     });
   });
 });

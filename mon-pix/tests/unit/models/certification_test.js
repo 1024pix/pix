@@ -1,32 +1,31 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 
-describe('Unit | Model | certification', function () {
-  setupTest();
+module('Unit | Model | certification', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('#hasAcquiredComplementaryCertifications', function () {
-    it('should be true when certification has certified badge image', function () {
+  module('#hasAcquiredComplementaryCertifications', function () {
+    test('should be true when certification has certified badge image', function (assert) {
       const model = store.createRecord('certification', { certifiedBadgeImages: ['/some/img'] });
-      expect(model.hasAcquiredComplementaryCertifications).to.be.true;
+      assert.equal(model.hasAcquiredComplementaryCertifications, true);
     });
 
-    it('should be false when certification has no certified badge image', function () {
+    test('should be false when certification has no certified badge image', function (assert) {
       const model = store.createRecord('certification', { certifiedBadgeImages: [] });
-      expect(model.hasAcquiredComplementaryCertifications).to.be.false;
+      assert.equal(model.hasAcquiredComplementaryCertifications, false);
     });
   });
 
-  describe('#shouldDisplayProfessionalizingWarning', function () {
-    context('when domain is french', function () {
-      beforeEach(function () {
+  module('#shouldDisplayProfessionalizingWarning', function () {
+    module('when domain is french', function (hooks) {
+      hooks.beforeEach(function () {
         class UrlServiceStub extends Service {
           get isFrenchDomainExtension() {
             return true;
@@ -36,25 +35,25 @@ describe('Unit | Model | certification', function () {
         this.owner.register('service:url', UrlServiceStub);
       });
 
-      it('should be true when deliveredAt >= 2022-01-01 ', function () {
+      test('should be true when deliveredAt >= 2022-01-01 ', function (assert) {
         // given
         const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
 
         // when / then
-        expect(model.shouldDisplayProfessionalizingWarning).to.be.true;
+        assert.equal(model.shouldDisplayProfessionalizingWarning, true);
       });
 
-      it('should be false when when deliveredAt < 2022-01-01', function () {
+      test('should be false when when deliveredAt < 2022-01-01', function (assert) {
         // given
         const model = store.createRecord('certification', { deliveredAt: '2021-01-01' });
 
         // when / then
-        expect(model.shouldDisplayProfessionalizingWarning).to.be.false;
+        assert.equal(model.shouldDisplayProfessionalizingWarning, false);
       });
     });
 
-    context('when domain is not french', function () {
-      it('should be false', function () {
+    module('when domain is not french', function () {
+      test('should be false', function (assert) {
         // given
         class UrlServiceStub extends Service {
           get isFrenchDomainExtension() {
@@ -66,7 +65,7 @@ describe('Unit | Model | certification', function () {
         const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
 
         // when / then
-        expect(model.shouldDisplayProfessionalizingWarning).to.be.false;
+        assert.equal(model.shouldDisplayProfessionalizingWarning, false);
       });
     });
   });

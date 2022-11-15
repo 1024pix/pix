@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | authentication | login-or-register-oidc', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | authentication | login-or-register-oidc', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     this.set('identityProviderSlug', 'oidc-partner');
 
     const oidcPartner = {
@@ -28,94 +27,88 @@ describe('Integration | Component | authentication | login-or-register-oidc', fu
     this.set('familyName', 'TITEGOUTTE');
   });
 
-  it('should display heading', async function () {
+  test('should display heading', async function (assert) {
     // given & when
     const screen = await render(
       hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} />`
     );
 
     // then
-    expect(
+    assert.ok(
       screen.getByRole('heading', {
         name: this.intl.t('pages.login-or-register-oidc.title'),
         level: 1,
       })
-    ).to.exist;
+    );
   });
 
-  context('on login form', function () {
-    it('should display elements for OIDC identity provider', async function () {
+  module('on login form', function () {
+    test('should display elements for OIDC identity provider', async function (assert) {
       // given & when
       const screen = await render(
         hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @givenName={{this.givenName}} @familyName={{this.familyName}}/>`
       );
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.login-or-register-oidc.register-form.title'),
           level: 2,
         })
-      ).to.exist;
-      expect(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.register-form.button') })
-      ).to.exist;
-      expect(screen.getByText('Partenaire OIDC')).to.exist;
-      expect(
+      );
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.register-form.button') }));
+      assert.ok(screen.getByText('Partenaire OIDC'));
+      assert.ok(
         screen.getByText(
           this.intl.t('pages.login-or-register-oidc.register-form.information.given-name', {
             givenName: 'Mélusine',
           })
         )
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByText(
           this.intl.t('pages.login-or-register-oidc.register-form.information.family-name', {
             familyName: 'TITEGOUTTE',
           })
         )
-      ).to.exist;
-      expect(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
+      );
+      assert.ok(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
     });
   });
 
-  context('on register form', function () {
-    it('should display elements for OIDC identity provider', async function () {
+  module('on register form', function () {
+    test('should display elements for OIDC identity provider', async function (assert) {
       // given & when
       const screen = await render(
         hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @givenName={{this.givenName}} @familyName={{this.familyName}}/>`
       );
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.login-or-register-oidc.register-form.title'),
           level: 2,
         })
-      ).to.exist;
-      expect(
-        screen.getByRole('textbox', { name: this.intl.t('pages.login-or-register-oidc.login-form.email') })
-      ).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('pages.sign-in.forgotten-password') })).to.exist;
-      expect(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.login-form.button') })
-      ).to.exist;
-      expect(
+      );
+      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.login-or-register-oidc.login-form.email') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-in.forgotten-password') }));
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.login-form.button') }));
+      assert.ok(
         screen.getByText(
           this.intl.t('pages.login-or-register-oidc.register-form.information.given-name', {
             givenName: 'Mélusine',
           })
         )
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByText(
           this.intl.t('pages.login-or-register-oidc.register-form.information.family-name', {
             familyName: 'TITEGOUTTE',
           })
         )
-      ).to.exist;
+      );
     });
   });
 });

@@ -1,17 +1,16 @@
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Service | file-saver', function () {
-  setupTest();
+module('Unit | Service | file-saver', function (hooks) {
+  setupTest(hooks);
   let fileSaver;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     fileSaver = this.owner.lookup('service:file-saver');
   });
 
-  describe('#save', function () {
+  module('#save', function (hooks) {
     const id = 123456;
     const url = `/attestation/${id}`;
     const token = 'mytoken';
@@ -25,7 +24,7 @@ describe('Unit | Service | file-saver', function () {
     let downloadFileForIEBrowserStub;
     let downloadFileForModernBrowsersStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       fileSaver = this.owner.lookup('service:file-saver');
       blobStub = sinon.stub().resolves(responseContent);
       jsonStub = sinon.stub();
@@ -33,8 +32,8 @@ describe('Unit | Service | file-saver', function () {
       downloadFileForModernBrowsersStub = sinon.stub().returns();
     });
 
-    describe('when response does have a fileName info in headers', function () {
-      it('should give fileName from response', async function () {
+    module('when response does have a fileName info in headers', function () {
+      test('should give fileName from response', async function (assert) {
         // given
         const headers = {
           get: sinon.stub(),
@@ -56,11 +55,12 @@ describe('Unit | Service | file-saver', function () {
         // then
         const expectedArgs = { fileContent: responseContent, fileName: responseFileName };
         sinon.assert.calledWith(downloadFileForModernBrowsersStub, expectedArgs);
+        assert.ok(true);
       });
     });
 
-    describe('when response does not have a fileName info in headers', function () {
-      it('should give default fileName', async function () {
+    module('when response does not have a fileName info in headers', function () {
+      test('should give default fileName', async function (assert) {
         // given
         const response = { ok: true, blob: blobStub, json: jsonStub };
         fetchStub = sinon.stub().resolves(response);
@@ -78,11 +78,12 @@ describe('Unit | Service | file-saver', function () {
         // then
         const expectedArgs = { fileContent: responseContent, fileName: defaultFileName };
         sinon.assert.calledWith(downloadFileForModernBrowsersStub, expectedArgs);
+        assert.ok(true);
       });
     });
 
-    describe('when the response is an error', function () {
-      it('should throw an error with the response error detail as message', async function () {
+    module('when the response is an error', function () {
+      test('should throw an error with the response error detail as message', async function (assert) {
         // given
         jsonStub.resolves({ errors: [{ detail: 'the error message' }] });
         const response = { ok: false, json: jsonStub };
@@ -99,7 +100,7 @@ describe('Unit | Service | file-saver', function () {
             downloadFileForModernBrowsers: downloadFileForModernBrowsersStub,
           });
         } catch (error) {
-          expect(error.message).to.equal('the error message');
+          assert.equal(error.message, 'the error message');
         }
       });
     });

@@ -1,18 +1,17 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
 import { visit } from '@1024pix/ember-testing-library';
 
-describe('Acceptance | Existing Participation', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Existing Participation', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  describe('Authenticated cases as simple user', function () {
-    it('displays an error message', async function () {
+  module('Authenticated cases as simple user', function () {
+    test('displays an error message', async function (assert) {
       // given
       const user = server.create('user', 'withEmail');
       server.create('campaign', { code: '123' });
@@ -26,12 +25,12 @@ describe('Acceptance | Existing Participation', function () {
       const screen = await visit('/campagnes/123/participation-existante');
 
       //then
-      expect(screen.getByText("Le parcours n'est pas accessible pour vous.")).to.exist;
-      expect(screen.getByText('Il y a déjà une participation associée au nom de')).to.exist;
-      expect(screen.getByText('First Last.')).to.exist;
-      expect(
+      assert.ok(screen.getByText("Le parcours n'est pas accessible pour vous."));
+      assert.ok(screen.getByText('Il y a déjà une participation associée au nom de'));
+      assert.ok(screen.getByText('First Last.'));
+      assert.ok(
         screen.getByText("Rapprochez-vous de votre enseignant pour qu'il supprime votre participation dans Pix Orga.")
-      ).to.exist;
+      );
     });
   });
 });

@@ -1,14 +1,14 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import { run } from '@ember/runloop';
 import ENV from 'mon-pix/config/environment';
 
-describe('Unit | Model | account recovery demand', function () {
-  setupTest();
+module('Unit | Model | account recovery demand', function (hooks) {
+  setupTest(hooks);
 
-  describe('#send', function () {
-    it('sends account recovery email', async function () {
+  module('#send', function () {
+    test('sends account recovery email', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('account-recovery-demand');
@@ -45,9 +45,10 @@ describe('Unit | Model | account recovery demand', function () {
         },
       };
       sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
+      assert.ok(true);
     });
 
-    it('updates password', async function () {
+    test('updates password', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('account-recovery-demand');
@@ -78,6 +79,7 @@ describe('Unit | Model | account recovery demand', function () {
         },
       };
       sinon.assert.calledWith(adapter.ajax, url, 'PATCH', payload);
+      assert.ok(true);
     });
   });
 });

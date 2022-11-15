@@ -1,22 +1,21 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | organization-learner-identity', function () {
-  setupTest();
+module('Unit | Adapters | organization-learner-identity', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:organization-learner-identity');
   });
 
-  describe('#urlForQueryRecord', function () {
-    it('should redirect to /api/organization-learners', async function () {
+  module('#urlForQueryRecord', function () {
+    test('should redirect to /api/organization-learners', async function (assert) {
       // when
       const url = await adapter.urlForQueryRecord();
       // then
-      expect(url.endsWith('/organization-learners')).to.be.true;
+      assert.equal(url.endsWith('/organization-learners'), true);
     });
   });
 });

@@ -1,54 +1,53 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | sco-organization-learner', function () {
-  setupTest();
+module('Unit | Adapters | sco-organization-learner', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:sco-organization-learner');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', function () {
-    context('when is for searchMatchingStudent', function () {
-      it('should redirect to /sco-organization-learners/possibilities ', async function () {
+  module('#urlForCreateRecord', function () {
+    module('when is for searchMatchingStudent', function () {
+      test('should redirect to /sco-organization-learners/possibilities ', async function (assert) {
         // when
         const snapshot = { adapterOptions: { searchForMatchingStudent: true } };
         const url = await adapter.urlForCreateRecord('sco-organization-learner', snapshot);
 
         // then
-        expect(url.endsWith('/sco-organization-learners/possibilities')).to.be.true;
+        assert.equal(url.endsWith('/sco-organization-learners/possibilities'), true);
       });
     });
-    context('when is for tryReconciliation', function () {
-      it('should redirect to /sco-organization-learners/association/auto', async function () {
+    module('when is for tryReconciliation', function () {
+      test('should redirect to /sco-organization-learners/association/auto', async function (assert) {
         // when
         const snapshot = { adapterOptions: { tryReconciliation: true } };
         const url = await adapter.urlForCreateRecord('sco-organization-learner', snapshot);
 
         // then
-        expect(url.endsWith('/sco-organization-learners/association/auto')).to.be.true;
+        assert.equal(url.endsWith('/sco-organization-learners/association/auto'), true);
       });
     });
 
-    it('should redirect to /sco-organization-learners/association', async function () {
+    test('should redirect to /sco-organization-learners/association', async function (assert) {
       // when
       const url = await adapter.urlForCreateRecord('sco-organization-learner', {});
 
       // then
-      expect(url.endsWith('/sco-organization-learners/association')).to.be.true;
+      assert.equal(url.endsWith('/sco-organization-learners/association'), true);
     });
   });
 
-  describe('#createRecord', function () {
-    context('when is for searchMatchingStudent', function () {
+  module('#createRecord', function () {
+    module('when is for searchMatchingStudent', function (hooks) {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         expectedUrl = 'http://localhost:3000/api/sco-organization-learners/possibilities';
         expectedMethod = 'PUT';
         expectedData = {
@@ -81,19 +80,20 @@ describe('Unit | Adapters | sco-organization-learner', function () {
         };
       });
 
-      it('should change method to PUT', async function () {
+      test('should change method to PUT', async function (assert) {
         // when
         await adapter.createRecord(null, { modelName: 'sco-organization-learner' }, snapshot);
 
         // then
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+        assert.ok(true);
       });
     });
 
-    context('when tryReconciliation is true', function () {
+    module('when tryReconciliation is true', function (hooks) {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         expectedUrl = 'http://localhost:3000/api/sco-organization-learners/association/auto';
         expectedMethod = 'POST';
         expectedData = {
@@ -127,12 +127,13 @@ describe('Unit | Adapters | sco-organization-learner', function () {
         };
       });
 
-      it('should remove user details', async function () {
+      test('should remove user details', async function (assert) {
         // when
         await adapter.createRecord(null, { modelName: 'sco-organization-learner' }, snapshot);
 
         // then
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+        assert.ok(true);
       });
     });
   });

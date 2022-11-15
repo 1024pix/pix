@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import { find, render, triggerEvent } from '@ember/test-helpers';
 
-describe('Integration | Component | challenge-illustration', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | challenge-illustration', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const IMG_SRC = 'http://www.example.com/this-is-an-example.png';
   const IMG_ALT = "texte alternatif à l'image";
@@ -19,15 +18,15 @@ describe('Integration | Component | challenge-illustration', function () {
     return find('.challenge-illustration__placeholder');
   }
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     // when
     await render(hbs`<ChallengeIllustration/>`);
 
     // then
-    expect(find('div[data-test-id="challenge-illustration"]')).to.exist;
+    assert.dom('div[data-test-id="challenge-illustration"]').exists();
   });
 
-  it('should display placeholder and hidden image, then only image when it has loaded', async function () {
+  test('should display placeholder and hidden image, then only image when it has loaded', async function (assert) {
     // given
     this.set('src', IMG_SRC);
     this.set('alt', IMG_ALT);
@@ -36,15 +35,15 @@ describe('Integration | Component | challenge-illustration', function () {
     await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}}/>`);
 
     // then
-    expect(findImageElement()).to.exist;
-    expect(findImageElement().className).to.include(HIDDEN_CLASS_NAME);
-    expect(findImageElement().getAttribute('alt')).to.equal(IMG_ALT);
-    expect(findImageElement().getAttribute('src')).to.equal(IMG_SRC);
-    expect(findImagePlaceholderElement()).to.exist;
+    assert.ok(findImageElement());
+    assert.ok(findImageElement().className.includes(HIDDEN_CLASS_NAME));
+    assert.equal(findImageElement().getAttribute('alt'), IMG_ALT);
+    assert.equal(findImageElement().getAttribute('src'), IMG_SRC);
+    assert.ok(findImagePlaceholderElement());
 
     await triggerEvent(findImageElement(), 'load');
-    expect(findImageElement()).to.exist;
-    expect(findImageElement().className).to.not.include(HIDDEN_CLASS_NAME);
-    expect(findImagePlaceholderElement()).to.not.exist;
+    assert.ok(findImageElement());
+    assert.notOk(findImageElement().className.includes(HIDDEN_CLASS_NAME));
+    assert.notOk(findImagePlaceholderElement());
   });
 });

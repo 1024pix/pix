@@ -1,20 +1,19 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | levelup-notif', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | levelup-notif', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     //when
     await render(hbs`<LevelupNotif />`);
     //then
-    expect(find('.levelup__competence')).to.exist;
+    assert.dom('.levelup__competence').exists();
   });
 
-  it('displays the new reached level and associated competence name', async function () {
+  test('displays the new reached level and associated competence name', async function (assert) {
     // given
     this.set('newLevel', 2);
     this.set('model', {
@@ -23,9 +22,10 @@ describe('Integration | Component | levelup-notif', function () {
     // when
     await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{this.model.title}}/>`);
     // then
-    expect(find('.levelup-competence__level').innerHTML).to.equal(
+    assert.equal(
+      find('.levelup-competence__level').innerHTML,
       this.intl.t('pages.levelup-notif.obtained-level', { level: this.newLevel })
     );
-    expect(find('.levelup-competence__name').innerHTML).to.equal("Mener une recherche et une veille d'information");
+    assert.equal(find('.levelup-competence__name').innerHTML, "Mener une recherche et une veille d'information");
   });
 });

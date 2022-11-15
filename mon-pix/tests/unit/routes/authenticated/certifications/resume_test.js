@@ -1,13 +1,13 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Certification | Resume', function () {
-  setupTest();
+module('Unit | Route | Certification | Resume', function (hooks) {
+  setupTest(hooks);
 
-  describe('#model', function () {
+  module('#model', function (hooks) {
     const certificationCourseId = 'certification-course-id';
     let certificationCourse;
     let assessment;
@@ -18,7 +18,7 @@ describe('Unit | Route | Certification | Resume', function () {
     let route;
     const params = { certification_course_id: certificationCourseId };
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       assessment = EmberObject.create({ id: 123 });
       getAssessmentStub = sinon.stub().returns(assessment);
       queryStub = sinon.stub().resolves({
@@ -32,20 +32,22 @@ describe('Unit | Route | Certification | Resume', function () {
       route.router = { replaceWith: sinon.stub() };
     });
 
-    it('should peekRecord the certification course', async function () {
+    test('should peekRecord the certification course', async function (assert) {
       // when
       await route.model(params);
 
       // then
       sinon.assert.calledWith(peekRecordStub, 'certification-course', certificationCourseId);
+      assert.ok(true);
     });
 
-    it('should resume the assessment linked to the certification course', async function () {
+    test('should resume the assessment linked to the certification course', async function (assert) {
       // when
       await route.model(params);
 
       // then
       sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', assessment);
+      assert.ok(true);
     });
   });
 });

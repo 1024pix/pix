@@ -1,18 +1,18 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Resume', function () {
-  setupTest();
+module('Unit | Route | Assessments | Resume', function (hooks) {
+  setupTest(hooks);
 
   let route;
   let storeStub;
   let findRecordStub;
   let queryRecordStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     // define stubs
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
@@ -26,44 +26,44 @@ describe('Unit | Route | Assessments | Resume', function () {
     route.router = { replaceWith: sinon.stub() };
   });
 
-  describe('#redirect', function () {
+  module('#redirect', function (hooks) {
     let assessment;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       const answers = EmberObject.create();
       answers.reload = sinon.stub().resolves();
       assessment = EmberObject.create({ id: 123, isDemo: true, competenceId: 'recCompetenceId', answers });
       assessment.save = sinon.stub().resolves();
     });
 
-    context('when the next challenge exists', function () {
+    module('when the next challenge exists', function (hooks) {
       let nextChallenge;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         nextChallenge = EmberObject.create({ id: 456 });
         queryRecordStub.resolves(nextChallenge);
         route.assessmentHasNoMoreQuestions = false;
       });
 
-      context('when assessment is a CAMPAIGN', function () {
-        beforeEach(function () {
+      module('when assessment is a CAMPAIGN', function (hooks) {
+        hooks.beforeEach(function () {
           assessment.isForCampaign = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
         });
 
-        context('when checkpoint is reached', function () {
-          beforeEach(function () {
+        module('when checkpoint is reached', function (hooks) {
+          hooks.beforeEach(function () {
             assessment.answers = [{}, {}, {}, {}, {}];
             assessment.answers.reload = sinon.stub().resolves();
           });
 
-          context('when user has seen checkpoint', function () {
-            beforeEach(function () {
+          module('when user has seen checkpoint', function (hooks) {
+            hooks.beforeEach(function () {
               route.hasSeenCheckpoint = true;
             });
 
-            it('should redirect to the challenge view', function () {
+            test('should redirect to the challenge view', function (assert) {
               // when
               const promise = route.redirect(assessment);
 
@@ -71,16 +71,17 @@ describe('Unit | Route | Assessments | Resume', function () {
               return promise.then(() => {
                 sinon.assert.calledOnce(route.router.replaceWith);
                 sinon.assert.calledWith(route.router.replaceWith, 'assessments.challenge', 123);
+                assert.ok(true);
               });
             });
           });
 
-          context('when user has not seen checkpoint', function () {
-            beforeEach(function () {
+          module('when user has not seen checkpoint', function (hooks) {
+            hooks.beforeEach(function () {
               route.hasSeenCheckpoint = false;
             });
 
-            it('should redirect to assessment checkpoint page', function () {
+            test('should redirect to assessment checkpoint page', function (assert) {
               // when
               const promise = route.redirect(assessment);
 
@@ -88,13 +89,14 @@ describe('Unit | Route | Assessments | Resume', function () {
               return promise.then(() => {
                 sinon.assert.calledOnce(route.router.replaceWith);
                 sinon.assert.calledWith(route.router.replaceWith, 'assessments.checkpoint', 123);
+                assert.ok(true);
               });
             });
           });
         });
 
-        context('when checkpoint is not reached', function () {
-          it('should redirect to the challenge view', function () {
+        module('when checkpoint is not reached', function () {
+          test('should redirect to the challenge view', function (assert) {
             // when
             const promise = route.redirect(assessment);
 
@@ -102,16 +104,17 @@ describe('Unit | Route | Assessments | Resume', function () {
             return promise.then(() => {
               sinon.assert.calledOnce(route.router.replaceWith);
               sinon.assert.calledWith(route.router.replaceWith, 'assessments.challenge', 123);
+              assert.ok(true);
             });
           });
         });
       });
 
-      context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function () {
-        beforeEach(function () {
+      module('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function (hooks) {
+        hooks.beforeEach(function () {
           assessment.isPlacement = true;
         });
-        it('should redirect to the challenge view', function () {
+        test('should redirect to the challenge view', function (assert) {
           // when
           const promise = route.redirect(assessment);
 
@@ -119,53 +122,55 @@ describe('Unit | Route | Assessments | Resume', function () {
           return promise.then(() => {
             sinon.assert.calledOnce(route.router.replaceWith);
             sinon.assert.calledWith(route.router.replaceWith, 'assessments.challenge', 123);
+            assert.ok(true);
           });
         });
       });
     });
 
-    context('when the next challenge does not exist (is null)', function () {
-      beforeEach(function () {
+    module('when the next challenge does not exist (is null)', function (hooks) {
+      hooks.beforeEach(function () {
         queryRecordStub.resolves(null);
         route.assessmentHasNoMoreQuestions = true;
       });
 
-      context('when assessment is a CAMPAIGN', function () {
-        beforeEach(function () {
+      module('when assessment is a CAMPAIGN', function (hooks) {
+        hooks.beforeEach(function () {
           assessment.isForCampaign = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
           assessment.codeCampaign = 'konami';
         });
 
-        context('when assessment is not completed', function () {
-          beforeEach(function () {
+        module('when assessment is not completed', function (hooks) {
+          hooks.beforeEach(function () {
             assessment.state = 'started';
             assessment.isCompleted = false;
           });
 
-          context('when user has seen checkpoint', function () {
-            beforeEach(function () {
+          module('when user has seen checkpoint', function (hooks) {
+            hooks.beforeEach(function () {
               route.hasSeenCheckpoint = true;
             });
 
-            it('should redirect to campaigns.assessment.skill-review page', function () {
+            test('should redirect to campaigns.assessment.skill-review page', function (assert) {
               // when
               const promise = route.redirect(assessment);
 
               // then
               return promise.then(() => {
                 sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
+                assert.ok(true);
               });
             });
           });
 
-          context('when user has not seen checkpoint', function () {
-            beforeEach(function () {
+          module('when user has not seen checkpoint', function (hooks) {
+            hooks.beforeEach(function () {
               route.hasSeenCheckpoint = false;
             });
 
-            it('should redirect to assessment last checkpoint page', function () {
+            test('should redirect to assessment last checkpoint page', function (assert) {
               // when
               const promise = route.redirect(assessment);
 
@@ -175,50 +180,53 @@ describe('Unit | Route | Assessments | Resume', function () {
                 sinon.assert.calledWith(route.router.replaceWith, 'assessments.checkpoint', 123, {
                   queryParams: { finalCheckpoint: true, newLevel: null, competenceLeveled: null },
                 });
+                assert.ok(true);
               });
             });
           });
         });
 
-        context('when assessment is completed', function () {
-          beforeEach(function () {
+        module('when assessment is completed', function (hooks) {
+          hooks.beforeEach(function () {
             assessment.state = 'completed';
             assessment.isCompleted = true;
           });
 
-          it('should redirect to campaigns.assessment.skill-review page', function () {
+          test('should redirect to campaigns.assessment.skill-review page', function (assert) {
             // when
             route.redirect(assessment);
 
             // then
             sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
+            assert.ok(true);
           });
         });
       });
 
-      context('when assessment is a CERTIFICATION', function () {
-        beforeEach(function () {
+      module('when assessment is a CERTIFICATION', function (hooks) {
+        hooks.beforeEach(function () {
           assessment.isCertification = true;
           assessment.certificationNumber = 666;
         });
 
-        it('should redirect to certifications.results page', function () {
+        test('should redirect to certifications.results page', function (assert) {
           // when
           const promise = route.redirect(assessment);
 
           // then
           return promise.then(() => {
             sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.results', 666);
+            assert.ok(true);
           });
         });
       });
 
-      context('when assessment is a COMPETENCE_EVALUATION', function () {
-        beforeEach(function () {
+      module('when assessment is a COMPETENCE_EVALUATION', function (hooks) {
+        hooks.beforeEach(function () {
           assessment.isCompetenceEvaluation = true;
         });
 
-        it('should redirect to competences.results page', function () {
+        test('should redirect to competences.results page', function (assert) {
           // when
           const competenceId = 'recCompetenceId';
           const promise = route.redirect(assessment);
@@ -226,18 +234,20 @@ describe('Unit | Route | Assessments | Resume', function () {
           // then
           return promise.then(() => {
             sinon.assert.calledWith(route.router.replaceWith, 'authenticated.competences.results', competenceId, 123);
+            assert.ok(true);
           });
         });
       });
 
-      context('when assessment is a DEMO', function () {
-        it('should redirect to assessments.results page', function () {
+      module('when assessment is a DEMO', function () {
+        test('should redirect to assessments.results page', function (assert) {
           // when
           const promise = route.redirect(assessment);
 
           // then
           return promise.then(() => {
             sinon.assert.calledWith(route.router.replaceWith, 'assessments.results', 123);
+            assert.ok(true);
           });
         });
       });

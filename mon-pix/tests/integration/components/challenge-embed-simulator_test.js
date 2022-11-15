@@ -1,34 +1,33 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
 
-describe('Integration | Component | Challenge Embed Simulator', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Challenge Embed Simulator', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Acknowledgment overlay', function () {
-    it('should be displayed when component has just been rendered', async function () {
+  module('Acknowledgment overlay', function () {
+    test('should be displayed when component has just been rendered', async function (assert) {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      expect(find('.embed__acknowledgment-overlay')).to.exist;
+      assert.dom('.embed__acknowledgment-overlay').exists();
     });
   });
 
-  describe('Launch simulator button', function () {
-    it('should have text "Je lance l\'application"', async function () {
+  module('Launch simulator button', function () {
+    test('should have text "Je lance l\'application"', async function (assert) {
       // when
       const screen = await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      expect(screen.getByText(this.intl.t('pages.challenge.embed-simulator.actions.launch'))).to.exist;
+      assert.ok(screen.getByText(this.intl.t('pages.challenge.embed-simulator.actions.launch')));
     });
 
-    it('should close the acknowledgment overlay when clicked', async function () {
+    test('should close the acknowledgment overlay when clicked', async function (assert) {
       // given
       await render(hbs`<ChallengeEmbedSimulator />`);
 
@@ -36,30 +35,30 @@ describe('Integration | Component | Challenge Embed Simulator', function () {
       await clickByLabel(this.intl.t('pages.challenge.embed-simulator.actions.launch'));
 
       // then
-      expect(find('.embed__acknowledgment-overlay')).to.not.exist;
+      assert.dom('.embed__acknowledgment-overlay').doesNotExist();
     });
   });
 
-  describe('Reload simulator button', function () {
-    it('should have text "Réinitialiser"', async function () {
+  module('Reload simulator button', function () {
+    test('should have text "Réinitialiser"', async function (assert) {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      expect(find('.embed__reboot').textContent.trim()).to.equal('Réinitialiser');
+      assert.equal(find('.embed__reboot').textContent.trim(), 'Réinitialiser');
     });
   });
 
-  describe('Blur effect on simulator panel', function () {
-    it('should be active when component is first rendered', async function () {
+  module('Blur effect on simulator panel', function () {
+    test('should be active when component is first rendered', async function (assert) {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      expect(find('.embed__simulator').classList.contains('blurred')).to.be.true;
+      assert.equal(find('.embed__simulator').classList.contains('blurred'), true);
     });
 
-    it('should be removed when simulator was launched', async function () {
+    test('should be removed when simulator was launched', async function (assert) {
       // given
       await render(hbs`<ChallengeEmbedSimulator />`);
 
@@ -67,12 +66,12 @@ describe('Integration | Component | Challenge Embed Simulator', function () {
       await clickByLabel(this.intl.t('pages.challenge.embed-simulator.actions.launch'));
 
       // then
-      expect(find('.embed__simulator').classList.contains('blurred')).to.be.false;
+      assert.equal(find('.embed__simulator').classList.contains('blurred'), false);
     });
   });
 
-  describe('Embed simulator', function () {
-    beforeEach(async function () {
+  module('Embed simulator', function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       this.set('embedDocument', {
         url: 'http://embed-simulator.url',
@@ -86,16 +85,16 @@ describe('Integration | Component | Challenge Embed Simulator', function () {
       // then
     });
 
-    it('should have an height that is the one defined in the referential', function () {
-      expect(find('.challenge-embed-simulator').style.cssText).to.equal('height: 200px;');
+    test('should have an height that is the one defined in the referential', function (assert) {
+      assert.equal(find('.challenge-embed-simulator').style.cssText, 'height: 200px;');
     });
 
-    it('should define a title attribute on the iframe element that is the one defined in the referential for field "Embed title"', function () {
-      expect(find('.embed__iframe').title).to.equal('Embed simulator');
+    test('should define a title attribute on the iframe element that is the one defined in the referential for field "Embed title"', function (assert) {
+      assert.equal(find('.embed__iframe').title, 'Embed simulator');
     });
 
-    it('should define a src attribute on the iframe element that is the one defined in the referential for field "Embed URL"', function () {
-      expect(find('.embed__iframe').src).to.equal('http://embed-simulator.url/');
+    test('should define a src attribute on the iframe element that is the one defined in the referential for field "Embed URL"', function (assert) {
+      assert.equal(find('.embed__iframe').src, 'http://embed-simulator.url/');
     });
   });
 });

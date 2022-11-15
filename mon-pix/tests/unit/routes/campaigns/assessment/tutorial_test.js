@@ -1,23 +1,22 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import setupIntl from '../../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Route | campaigns | evaluation | tutorial', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Route | campaigns | evaluation | tutorial', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let route;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:campaigns.assessment.tutorial');
     route.router = { transitionTo: sinon.stub() };
   });
 
-  describe('#model', function () {
-    it('should initialize tutorial page with the first one', function () {
+  module('#model', function () {
+    test('should initialize tutorial page with the first one', function (assert) {
       // given
       const params = { code: 'AZERTY' };
       route.paramsFor = sinon.stub().returns(params);
@@ -26,14 +25,14 @@ describe('Unit | Route | campaigns | evaluation | tutorial', function () {
       const tutorialPage = route.model();
 
       // then
-      expect(tutorialPage.title).to.equal(this.intl.t('pages.tutorial.pages.page0.title'));
-      expect(tutorialPage.showNextButton).to.equal(true);
-      expect(tutorialPage.paging[0]).to.equal('dot__active');
+      assert.equal(tutorialPage.title, this.intl.t('pages.tutorial.pages.page0.title'));
+      assert.equal(tutorialPage.showNextButton, true);
+      assert.equal(tutorialPage.paging[0], 'dot__active');
     });
   });
 
-  describe('#next', function () {
-    it('should refresh the tutorial to show the next page', function () {
+  module('#next', function () {
+    test('should refresh the tutorial to show the next page', function (assert) {
       // given
       route.refresh = sinon.stub();
       route.set('tutorialPageId', 0);
@@ -42,11 +41,12 @@ describe('Unit | Route | campaigns | evaluation | tutorial', function () {
       route.send('next');
 
       // then
-      expect(route.get('tutorialPageId')).to.equal(1);
+      assert.equal(route.get('tutorialPageId'), 1);
       sinon.assert.calledWith(route.refresh);
+      assert.ok(true);
     });
 
-    it('should stay on the same tutorial page since it is the last page', function () {
+    test('should stay on the same tutorial page since it is the last page', function (assert) {
       // given
       route.refresh = sinon.stub();
       route.set('tutorialPageId', 4);
@@ -55,13 +55,14 @@ describe('Unit | Route | campaigns | evaluation | tutorial', function () {
       route.send('next');
 
       // then
-      expect(route.get('tutorialPageId')).to.equal(4);
+      assert.equal(route.get('tutorialPageId'), 4);
       sinon.assert.notCalled(route.refresh);
+      assert.ok(true);
     });
   });
 
-  describe('#submit', function () {
-    it('should transition to start-or-resume route', async function () {
+  module('#submit', function () {
+    test('should transition to start-or-resume route', async function (assert) {
       // given
       const userServiceStub = Service.create({
         user: { save: sinon.stub() },
@@ -77,6 +78,7 @@ describe('Unit | Route | campaigns | evaluation | tutorial', function () {
         adapterOptions: { rememberUserHasSeenAssessmentInstructions: true },
       });
       sinon.assert.calledWith(route.router.transitionTo, 'campaigns.assessment.start-or-resume', 'AZERTY123');
+      assert.ok(true);
     });
   });
 });

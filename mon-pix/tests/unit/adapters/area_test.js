@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapter | Area', function () {
-  setupTest();
+module('Unit | Adapter | Area', function (hooks) {
+  setupTest(hooks);
 
-  describe('#urlForFindAll', function () {
-    it('should build url for find all', function () {
+  module('#urlForFindAll', function () {
+    test('should build url for find all', function (assert) {
       // given
       const adapter = this.owner.lookup('adapter:area');
 
@@ -14,7 +13,7 @@ describe('Unit | Adapter | Area', function () {
       const url = adapter.urlForFindAll();
 
       // then
-      expect(url.endsWith('api/frameworks/pix/areas-for-user')).to.be.true;
+      assert.equal(url.endsWith('api/frameworks/pix/areas-for-user'), true);
     });
   });
 });

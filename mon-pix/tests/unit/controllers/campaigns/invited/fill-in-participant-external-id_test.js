@@ -1,9 +1,9 @@
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId', function () {
-  setupTest();
+module('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId', function (hooks) {
+  setupTest(hooks);
 
   const model = {
     code: 'CODECAMPAIGN',
@@ -12,24 +12,25 @@ describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId'
 
   let controller;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns/invited/fill-in-participant-external-id');
     controller.set('model', model);
     controller.router = { transitionTo: sinon.stub() };
   });
 
-  describe('#onSubmitParticipantExternalId', function () {
-    it('should transition to route campaigns.entrance when participant external id is fulfilled', function () {
+  module('#onSubmitParticipantExternalId', function () {
+    test('should transition to route campaigns.entrance when participant external id is fulfilled', function (assert) {
       // when
       controller.actions.onSubmitParticipantExternalId.call(controller, participantExternalId);
 
       // then
       sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entrance', controller.model);
+      assert.ok(true);
     });
   });
 
-  describe('#onCancel', function () {
-    it('should transition to landing page', function () {
+  module('#onCancel', function () {
+    test('should transition to landing page', function (assert) {
       // when
       controller.actions.onCancel.call(controller);
 
@@ -39,6 +40,7 @@ describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId'
         'campaigns.campaign-landing-page',
         controller.get('model.code')
       );
+      assert.ok(true);
     });
   });
 });

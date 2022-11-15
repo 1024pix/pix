@@ -1,22 +1,21 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
 
-describe('Unit | Service | competence-evaluation', function () {
-  setupTest();
+module('Unit | Service | competence-evaluation', function (hooks) {
+  setupTest(hooks);
   let competenceEvaluationService;
 
-  describe('#improve()', function () {
+  module('#improve()', function (hooks) {
     const competenceId = 'recCompetenceId';
     const userId = 'userId';
     const scorecardId = 'scorecardId';
     let store, router;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       // given
       competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
       store = Service.create({
@@ -28,29 +27,31 @@ describe('Unit | Service | competence-evaluation', function () {
       competenceEvaluationService.set('store', store);
     });
 
-    context('nominal case', function () {
-      beforeEach(async function () {
+    module('nominal case', function (hooks) {
+      hooks.beforeEach(async function () {
         // when
         await competenceEvaluationService.improve({ userId, competenceId });
       });
 
-      it('creates a competence-evaluation for improving', async function () {
+      test('creates a competence-evaluation for improving', async function (assert) {
         // then
         sinon.assert.calledWith(store.queryRecord, 'competence-evaluation', {
           improve: true,
           userId,
           competenceId,
         });
+        assert.ok(true);
       });
 
-      it('redirects to competences.resume route', async function () {
+      test('redirects to competences.resume route', async function (assert) {
         // then
         sinon.assert.calledWith(router.transitionTo, 'authenticated.competences.resume', competenceId);
+        assert.ok(true);
       });
     });
 
-    context('when improving fails with ImproveCompetenceEvaluationForbidden error', async function () {
-      beforeEach(async function () {
+    module('when improving fails with ImproveCompetenceEvaluationForbidden error', async function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
@@ -65,16 +66,17 @@ describe('Unit | Service | competence-evaluation', function () {
         await competenceEvaluationService.improve({ userId, competenceId, scorecardId });
       });
 
-      it('does not redirect to competence.resume route', async function () {
+      test('does not redirect to competence.resume route', async function (assert) {
         // then
         sinon.assert.notCalled(router.transitionTo);
+        assert.ok(true);
       });
     });
 
-    context('when improving fails with another error', async function () {
+    module('when improving fails with another error', async function (hooks) {
       const error = new Error();
 
-      beforeEach(async function () {
+      hooks.beforeEach(async function () {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
@@ -85,25 +87,27 @@ describe('Unit | Service | competence-evaluation', function () {
         competenceEvaluationService.set('store', store);
       });
 
-      it('throws error', async function () {
+      test('throws error', async function (assert) {
         // when
         try {
           await competenceEvaluationService.improve({ userId, competenceId });
         } catch (err) {
           // then
-          expect(err).to.equal(err);
+          assert.equal(err, err);
           return;
         }
         sinon.assert.fail('Improve Competence Evaluation should have throw an error.');
+        assert.ok(true);
       });
 
-      it('does not redirect to competence.resume route', async function () {
+      test('does not redirect to competence.resume route', async function (assert) {
         // when
         try {
           await competenceEvaluationService.improve({ userId, competenceId });
           // eslint-disable-next-line no-empty
         } catch (err) {}
         sinon.assert.notCalled(router.transitionTo);
+        assert.ok(true);
       });
     });
   });

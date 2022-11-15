@@ -1,24 +1,23 @@
 import { run } from '@ember/runloop';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | Profile model', function () {
-  setupTest();
+module('Unit | Model | Profile model', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('profile');
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 
-  describe('@areas', function () {
-    it('should return an array of unique areas code', function () {
+  module('@areas', function () {
+    test('should return an array of unique areas code', function (assert) {
       return run(() => {
         // given
         const area1 = store.createRecord('area', { code: 1 });
@@ -35,7 +34,10 @@ describe('Unit | Model | Profile model', function () {
         const areas = model.areas;
 
         // then
-        expect(areas.map((area) => area.get('code'))).to.deep.equal([1, 2]);
+        assert.deepEqual(
+          areas.map((area) => area.get('code')),
+          [1, 2]
+        );
       });
     });
   });

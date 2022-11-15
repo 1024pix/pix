@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | checkpoint-continue', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | checkpoint-continue', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`<CheckpointContinue />`);
-    expect(find('.checkpoint__continue')).to.exist;
+    assert.dom('.checkpoint__continue').exists();
   });
 });

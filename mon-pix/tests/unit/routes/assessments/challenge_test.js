@@ -1,10 +1,10 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberService from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Challenge', function () {
-  setupTest();
+module('Unit | Route | Assessments | Challenge', function (hooks) {
+  setupTest(hooks);
 
   let route;
   let storeStub;
@@ -31,7 +31,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
     },
   };
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub().resolves(model.challenge);
     findRecordStub = sinon.stub();
@@ -49,16 +49,17 @@ describe('Unit | Route | Assessments | Challenge', function () {
     route.modelFor = sinon.stub().returns(assessment);
   });
 
-  describe('#model', function () {
-    it('should correctly call the store to find assessment and challenge', async function () {
+  module('#model', function () {
+    test('should correctly call the store to find assessment and challenge', async function (assert) {
       // when
       await route.model(params);
 
       // then
       sinon.assert.calledWith(route.modelFor, 'assessments');
       sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessment.id });
+      assert.ok(true);
     });
-    it('should call queryRecord to find answer', async function () {
+    test('should call queryRecord to find answer', async function (assert) {
       // given
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
@@ -71,9 +72,10 @@ describe('Unit | Route | Assessments | Challenge', function () {
         assessmentId: assessment.id,
         challengeId: model.challenge.id,
       });
+      assert.ok(true);
     });
-    context('when the assessment is a Preview', async function () {
-      beforeEach(function () {
+    module('when the assessment is a Preview', async function (hooks) {
+      hooks.beforeEach(function () {
         const assessmentForPreview = {
           answers: [],
           type: 'PREVIEW',
@@ -82,7 +84,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         route.modelFor.returns(assessmentForPreview);
       });
 
-      it('should call findRecord to find the asked challenge', async function () {
+      test('should call findRecord to find the asked challenge', async function (assert) {
         // given
         const params = {
           challengeId: 'recId',
@@ -95,9 +97,10 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
         // then
         sinon.assert.calledWith(findRecordStub, 'challenge', 'recId');
+        assert.ok(true);
       });
 
-      it('should not call for next challenge', async function () {
+      test('should not call for next challenge', async function (assert) {
         // given
         const params = {
           challengeId: null,
@@ -109,11 +112,12 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
         // then
         sinon.assert.notCalled(findRecordStub);
+        assert.ok(true);
       });
     });
 
-    context('when the asked challenges is already answered', async function () {
-      beforeEach(function () {
+    module('when the asked challenges is already answered', async function (hooks) {
+      hooks.beforeEach(function () {
         const assessmentWithAnswers = {
           answers: [
             {
@@ -130,7 +134,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         storeStub.findRecord.resolves({ id: 'recId' });
       });
 
-      it('should call findRecord to find the asked challenge', async function () {
+      test('should call findRecord to find the asked challenge', async function (assert) {
         // given
         const params = {
           challengeId: 'recId',
@@ -142,6 +146,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
         // then
         sinon.assert.calledWith(findRecordStub, 'challenge', 'oldRecId');
+        assert.ok(true);
       });
     });
   });

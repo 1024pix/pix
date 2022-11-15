@@ -1,19 +1,18 @@
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
-import { expect } from 'chai';
-import { it, describe, context } from 'mocha';
+import { test, module } from 'qunit';
 
-describe('Acceptance | OIDC | authentication flow', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | OIDC | authentication flow', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  context('when user is logged in to external provider', function () {
-    context('when user logs out with logout url', function () {
-      it('should redirect the user to logout url', async function () {
+  module('when user is logged in to external provider', function () {
+    module('when user logs out with logout url', function () {
+      test('should redirect the user to logout url', async function (assert) {
         // given
         const screen = await visit('/connexion/oidc-partner?code=code&state=state');
         await click(
@@ -26,12 +25,12 @@ describe('Acceptance | OIDC | authentication flow', function () {
         await click(screen.getByRole('link', { name: 'Se déconnecter' }));
 
         // then
-        expect(currentURL()).to.equal('/deconnexion');
+        assert.equal(currentURL(), '/deconnexion');
       });
     });
 
-    context('when user have a pix account', function () {
-      it('should redirect user to reconciliation page', async function () {
+    module('when user have a pix account', function () {
+      test('should redirect user to reconciliation page', async function (assert) {
         // given
         server.create('user', {
           email: 'lloyd.ce@example.net',
@@ -51,11 +50,11 @@ describe('Acceptance | OIDC | authentication flow', function () {
         await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: "Attention ! Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
           })
-        ).to.exist;
+        );
       });
     });
   });

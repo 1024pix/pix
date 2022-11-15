@@ -1,95 +1,94 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | user', function () {
-  setupTest();
+module('Unit | Adapters | user', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:user');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#queryRecord', function () {
-    it('should build /me url', async function () {
+  module('#queryRecord', function () {
+    test('should build /me url', async function (assert) {
       // when
       const url = await adapter.urlForQueryRecord({ me: true }, 'user');
 
       // then
-      expect(url.endsWith('/users/me')).to.be.true;
+      assert.equal(url.endsWith('/users/me'), true);
     });
 
-    it('should build classic url', async function () {
+    test('should build classic url', async function (assert) {
       // when
       const url = await adapter.urlForQueryRecord({}, 'user');
 
       // then
-      expect(url.endsWith('/users')).to.be.true;
+      assert.equal(url.endsWith('/users'), true);
     });
   });
 
-  describe('#urlForUpdateRecord', function () {
-    it('should redirect to /api/users/{id}/pix-terms-of-service-acceptance', async function () {
+  module('#urlForUpdateRecord', function () {
+    test('should redirect to /api/users/{id}/pix-terms-of-service-acceptance', async function (assert) {
       // when
       const snapshot = { adapterOptions: { acceptPixTermsOfService: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123/pix-terms-of-service-acceptance')).to.be.true;
+      assert.equal(url.endsWith('/users/123/pix-terms-of-service-acceptance'), true);
     });
 
-    it('should build update url from user id', async function () {
+    test('should build update url from user id', async function (assert) {
       // when
       const snapshot = { adapterOptions: {} };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123')).to.be.true;
+      assert.equal(url.endsWith('/users/123'), true);
     });
 
-    it('should redirect to remember-user-has-seen-assessment-instructions', async function () {
+    test('should redirect to remember-user-has-seen-assessment-instructions', async function (assert) {
       // when
       const snapshot = { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions')).to.be.true;
+      assert.equal(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions'), true);
     });
 
-    it('should redirect to has-seen-challenge-tooltip', async function () {
+    test('should redirect to has-seen-challenge-tooltip', async function (assert) {
       // when
       const snapshot = { adapterOptions: { tooltipChallengeType: 'focused' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123/has-seen-challenge-tooltip/focused')).to.be.true;
+      assert.equal(url.endsWith('/users/123/has-seen-challenge-tooltip/focused'), true);
     });
 
-    it('should include temporaryKey if present in adapterOptions', async function () {
+    test('should include temporaryKey if present in adapterOptions', async function (assert) {
       // when
       const snapshot = { adapterOptions: { updatePassword: true, temporaryKey: 'temp=&key' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key')).to.be.true;
+      assert.equal(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key'), true);
     });
 
-    it('should redirect to lang', async function () {
+    test('should redirect to lang', async function (assert) {
       // when
       const options = { adapterOptions: { lang: 'en' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', options);
 
       // then
-      expect(url.endsWith('/users/123/lang/en')).to.be.true;
+      assert.equal(url.endsWith('/users/123/lang/en'), true);
     });
   });
 
-  describe('#createRecord', function () {
-    context('when campaignCode adapterOption is defined', function () {
-      it('should add campaign-code meta', async function () {
+  module('#createRecord', function () {
+    module('when campaignCode adapterOption is defined', function () {
+      test('should add campaign-code meta', async function (assert) {
         // given
         const campaignCode = 'AZERTY123';
         const expectedUrl = 'http://localhost:3000/api/users';
@@ -113,6 +112,7 @@ describe('Unit | Adapters | user', function () {
 
         // then
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+        assert.ok(true);
       });
     });
   });

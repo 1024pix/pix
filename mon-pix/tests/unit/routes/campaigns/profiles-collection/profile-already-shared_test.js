@@ -1,9 +1,9 @@
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Campaign | Profiles Collection | Profile already shared', function () {
-  setupTest();
+module('Unit | Route | Campaign | Profiles Collection | Profile already shared', function (hooks) {
+  setupTest(hooks);
 
   let route;
   const campaign = { id: 123456, code: 'NEW_CODE' };
@@ -13,7 +13,7 @@ describe('Unit | Route | Campaign | Profiles Collection | Profile already shared
   };
   const currentUserStub = { user };
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:campaigns.profiles-collection.profile-already-shared');
     route.modelFor = sinon.stub().returns(campaign);
     route.router = { transitionTo: sinon.stub() };
@@ -21,30 +21,32 @@ describe('Unit | Route | Campaign | Profiles Collection | Profile already shared
     route.currentUser = currentUserStub;
   });
 
-  describe('#model', function () {
-    context('when no participation', function () {
-      beforeEach(function () {
+  module('#model', function () {
+    module('when no participation', function (hooks) {
+      hooks.beforeEach(function () {
         storeStub.queryRecord.rejects({ errors: [{ status: '412' }] });
       });
 
-      it('should redirect to start or resume', async function () {
+      test('should redirect to start or resume', async function (assert) {
         await route.model();
 
         sinon.assert.calledWith(route.router.transitionTo, 'campaigns.entry-point', 'NEW_CODE');
+        assert.ok(true);
       });
     });
 
-    context('when participation exists', function () {
-      beforeEach(function () {
+    module('when participation exists', function (hooks) {
+      hooks.beforeEach(function () {
         storeStub.queryRecord
           .withArgs('sharedProfileForCampaign', { campaignId: campaign.id, userId: user.id })
           .resolves(campaign);
       });
 
-      it('should not redirect', async function () {
+      test('should not redirect', async function (assert) {
         await route.model();
 
         sinon.assert.notCalled(route.router.transitionTo);
+        assert.ok(true);
       });
     });
   });

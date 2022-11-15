@@ -1,15 +1,14 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | User-Tests', function () {
-  setupTest();
+module('Unit | Route | User-Tests', function (hooks) {
+  setupTest(hooks);
 
-  describe('#model', function () {
-    it('should returns the model that contains campaignParticipationOverviews', async function () {
+  module('#model', function () {
+    test('should returns the model that contains campaignParticipationOverviews', async function (assert) {
       // given
       const currentUserStub = Service.create({ user: { id: 1 } });
       const store = this.owner.lookup('service:store');
@@ -33,26 +32,28 @@ describe('Unit | Route | User-Tests', function () {
       const model = await route.model();
 
       // then
-      expect(model).to.deep.equal(campaignParticipationOverviews);
+      assert.deepEqual(model, campaignParticipationOverviews);
     });
   });
 
-  describe('redirect', function () {
-    it('should redirect to default page if there is no campaign participation', function () {
+  module('redirect', function () {
+    test('should redirect to default page if there is no campaign participation', function (assert) {
       const route = this.owner.lookup('route:authenticated/user-tests');
       sinon.stub(route.router, 'replaceWith');
 
       route.redirect([], {});
       sinon.assert.calledWithExactly(route.router.replaceWith, '');
+      assert.ok(true);
     });
 
-    it('should continue on user-tests if there is some campaign participations', function () {
+    test('should continue on user-tests if there is some campaign participations', function (assert) {
       const route = this.owner.lookup('route:authenticated/user-tests');
       sinon.stub(route.router, 'replaceWith');
       const campaignParticipationOverviews = [EmberObject.create({ id: 10 })];
 
       route.redirect(campaignParticipationOverviews, {});
       sinon.assert.notCalled(route.router.replaceWith);
+      assert.ok(true);
     });
   });
 });

@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | account-recovery | find-sco-record', function () {
-  setupTest();
+module('Unit | Controller | account-recovery | find-sco-record', function (hooks) {
+  setupTest(hooks);
 
-  context('#submitStudentInformation', function () {
-    context('when submitting recover account student information form', function () {
-      it('should submit student information', async function () {
+  module('#submitStudentInformation', function () {
+    module('when submitting recover account student information form', function () {
+      test('should submit student information', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         const studentInformation = { firstName: 'Jules' };
@@ -25,10 +24,11 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
         // then
         sinon.assert.calledWithExactly(createRecord, 'student-information', studentInformation);
         sinon.assert.calledOnce(submitStudentInformationStub);
+        assert.ok(true);
       });
 
-      context('when two students used same account', function () {
-        it('should hide student information form and show conflict error', async function () {
+      module('when two students used same account', function () {
+        test('should hide student information form and show conflict error', async function (assert) {
           // given
           const errors = { errors: [{ status: '409' }] };
           const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
@@ -43,13 +43,13 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
           await controller.submitStudentInformation(studentInformation);
 
           // then
-          expect(controller.showStudentInformationForm).to.be.false;
-          expect(controller.showErrors).to.be.true;
+          assert.equal(controller.showStudentInformationForm, false);
+          assert.equal(controller.showErrors, true);
         });
       });
 
-      context('when user account is found without any conflict', function () {
-        it('should hide student information form and show recover account confirmation step', async function () {
+      module('when user account is found without any conflict', function () {
+        test('should hide student information form and show recover account confirmation step', async function (assert) {
           // given
           const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
           const studentInformation = { firstName: 'Jules' };
@@ -64,16 +64,16 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
           await controller.submitStudentInformation(studentInformation);
 
           // then
-          expect(controller.showStudentInformationForm).to.be.false;
-          expect(controller.showConfirmationStep).to.be.true;
+          assert.equal(controller.showStudentInformationForm, false);
+          assert.equal(controller.showConfirmationStep, true);
         });
       });
     });
   });
 
-  context('#sendEmail', function () {
-    context('when user clicks on "C\'est parti!" button', function () {
-      it('should send account recovery email', async function () {
+  module('#sendEmail', function () {
+    module('when user clicks on "C\'est parti!" button', function () {
+      test('should send account recovery email', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         const studentInformationForAccountRecovery = {
@@ -100,13 +100,14 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
           expectedAccountRecoveryDemandAttributes
         );
         sinon.assert.calledOnce(sendEmailStub);
+        assert.ok(true);
       });
     });
   });
 
-  context('#continueAccountRecoveryBackupEmailConfirmation', function () {
-    context('when confirm recover account student information form', function () {
-      it('should show recovery account backup email confirmation', async function () {
+  module('#continueAccountRecoveryBackupEmailConfirmation', function () {
+    module('when confirm recover account student information form', function () {
+      test('should show recovery account backup email confirmation', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         controller.showStudentInformationForm = true;
@@ -115,9 +116,9 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
         await controller.continueAccountRecoveryBackupEmailConfirmation();
 
         // then
-        expect(controller.showStudentInformationForm).to.be.false;
-        expect(controller.showConfirmationStep).to.be.false;
-        expect(controller.showBackupEmailConfirmationForm).to.be.true;
+        assert.equal(controller.showStudentInformationForm, false);
+        assert.equal(controller.showConfirmationStep, false);
+        assert.equal(controller.showBackupEmailConfirmationForm, true);
       });
     });
   });

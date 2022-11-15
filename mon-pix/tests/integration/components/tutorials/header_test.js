@@ -1,49 +1,48 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
 
-describe('Integration | Component | Tutorials | Header', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Tutorials | Header', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     class RouterStub extends Service {
       currentRouteName = 'authenticated.user-tutorials.recommended';
     }
     this.owner.register('service:router', RouterStub);
   });
 
-  it('renders the header', async function () {
+  test('renders the header', async function (assert) {
     // when
     const screen = await render(hbs`<Tutorials::Header />`);
 
     // then
-    expect(contains(this.intl.t('pages.user-tutorials.title'))).to.exist;
-    expect(contains(this.intl.t('pages.user-tutorials.description'))).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.recommended') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.saved') })).to.exist;
+    assert.ok(contains(this.intl.t('pages.user-tutorials.title')));
+    assert.ok(contains(this.intl.t('pages.user-tutorials.description')));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.recommended') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.saved') }));
   });
 
-  describe('when shouldShowFilterButton is true', function () {
-    it('should render filter button', async function () {
+  module('when shouldShowFilterButton is true', function () {
+    test('should render filter button', async function (assert) {
       // when
       const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{true}}/>`);
 
       // then
-      expect(screen.getByRole('button', { name: 'Filtrer' })).to.exist;
+      assert.ok(screen.getByRole('button', { name: 'Filtrer' }));
     });
   });
 
-  describe('when shouldShowFilterButton is false', function () {
-    it('should render filter button', async function () {
+  module('when shouldShowFilterButton is false', function () {
+    test('should render filter button', async function (assert) {
       // when
       const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{false}}/>`);
 
       // then
-      expect(screen.queryByRole('button', { name: 'Filtrer' })).to.not.exist;
+      assert.notOk(screen.queryByRole('button', { name: 'Filtrer' }));
     });
   });
 });

@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { A } from '@ember/array';
 import { find, findAll } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | scorecard-details', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | scorecard-details', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
-    it('should render component', async function () {
+  module('Component rendering', function () {
+    test('should render component', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const scorecard = store.createRecord('scorecard', {});
@@ -21,10 +20,10 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.scorecard-details__content')).to.exist;
+      assert.dom('.scorecard-details__content').exists();
     });
 
-    it('should display the scorecard header with area color', async function () {
+    test('should display the scorecard header with area color', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const scorecard = store.createRecord('scorecard', {
@@ -41,11 +40,11 @@ describe('Integration | Component | scorecard-details', function () {
 
       // then
       const element = find('.scorecard-details-content-left__area');
-      expect(element.getAttribute('class')).to.contains('scorecard-details-content-left__area--jaffa');
-      expect(element.textContent).to.contains(scorecard.area.get('title'));
+      assert.ok(element.getAttribute('class').includes('scorecard-details-content-left__area--jaffa'));
+      assert.ok(element.textContent.includes(scorecard.area.get('title')));
     });
 
-    it('should display the competence informations', async function () {
+    test('should display the competence informations', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const scorecard = store.createRecord('scorecard', {
@@ -59,11 +58,11 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.scorecard-details-content-left__name').textContent).to.contain(scorecard.name);
-      expect(find('.scorecard-details-content-left__description').textContent).to.contain(scorecard.description);
+      assert.ok(find('.scorecard-details-content-left__name').textContent.includes(scorecard.name));
+      assert.ok(find('.scorecard-details-content-left__description').textContent.includes(scorecard.description));
     });
 
-    it('should display the scorecard level, earnedPix and remainingPixToNextLevel', async function () {
+    test('should display the scorecard level, earnedPix and remainingPixToNextLevel', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const scorecard = store.createRecord('scorecard', {
@@ -79,14 +78,16 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.score-value').textContent).to.contain(scorecard.level);
-      expect(findAll('.score-value')[1].textContent).to.contain(scorecard.earnedPix);
-      expect(find('.scorecard-details-content-right__level-info').textContent).to.contain(
-        `${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`
+      assert.ok(find('.score-value').textContent.includes(scorecard.level));
+      assert.ok(findAll('.score-value')[1].textContent.includes(scorecard.earnedPix));
+      assert.ok(
+        find('.scorecard-details-content-right__level-info').textContent.includes(
+          `${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`
+        )
       );
     });
 
-    it('should display a dash instead of the scorecard level and earnedPix if they are set to zero', async function () {
+    test('should display a dash instead of the scorecard level and earnedPix if they are set to zero', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const scorecard = store.createRecord('scorecard', {
@@ -101,14 +102,14 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.score-value').textContent).to.contain('–');
-      expect(find('.score-value').textContent).to.contain('–');
+      assert.ok(find('.score-value').textContent.includes('–'));
+      assert.ok(find('.score-value').textContent.includes('–'));
     });
 
-    context('When the user has finished a competence', async function () {
+    module('When the user has finished a competence', async function (hooks) {
       let scorecard;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         // given
         const store = this.owner.lookup('service:store');
         scorecard = store.createRecord('scorecard', {
@@ -119,25 +120,25 @@ describe('Integration | Component | scorecard-details', function () {
         });
       });
 
-      it('should not display remainingPixToNextLevel', async function () {
+      test('should not display remainingPixToNextLevel', async function (assert) {
         // when
         this.set('scorecard', scorecard);
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
+        assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
       });
 
-      it('should not display a button', async function () {
+      test('should not display a button', async function (assert) {
         // when
         this.set('scorecard', scorecard);
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details__resume-or-start-button')).to.not.exist;
+        assert.dom('.scorecard-details__resume-or-start-button').doesNotExist();
       });
 
-      it('should show the improving button if the remaining days before improving are equal to 0', async function () {
+      test('should show the improving button if the remaining days before improving are equal to 0', async function (assert) {
         // given
         scorecard.remainingDaysBeforeImproving = 0;
         scorecard.pixScoreAheadOfNextLevel = 8;
@@ -147,10 +148,10 @@ describe('Integration | Component | scorecard-details', function () {
         const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(screen.getByRole('button', this.intl.t('pages.competence-details.actions.improve.label'))).to.exist;
+        assert.ok(screen.getByRole('button', this.intl.t('pages.competence-details.actions.improve.label')));
       });
 
-      it('should show the improving countdown if the remaining days before improving are different than 0', async function () {
+      test('should show the improving countdown if the remaining days before improving are different than 0', async function (assert) {
         // given
         scorecard.remainingDaysBeforeImproving = 3;
         scorecard.pixScoreAheadOfNextLevel = 3;
@@ -160,12 +161,12 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details__improvement-countdown')).to.exist;
-        expect(find('.scorecard-details__improvement-countdown').textContent).to.contains('3 jours');
+        assert.dom('.scorecard-details__improvement-countdown').exists();
+        assert.ok(find('.scorecard-details__improvement-countdown').textContent.includes('3 jours'));
       });
 
-      context('and the user has reached the max level', async function () {
-        beforeEach(async function () {
+      module('and the user has reached the max level', async function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           const store = this.owner.lookup('service:store');
           const scorecard = store.createRecord('scorecard', {
@@ -181,25 +182,25 @@ describe('Integration | Component | scorecard-details', function () {
           await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
         });
 
-        it('should not display remainingPixToNextLevel', function () {
+        test('should not display remainingPixToNextLevel', function (assert) {
           // then
-          expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
+          assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
         });
 
-        it('should show congrats design', function () {
+        test('should show congrats design', function (assert) {
           // then
-          expect(find('.competence-card__congrats')).to.exist;
+          assert.dom('.competence-card__congrats').exists();
         });
 
-        it('should not show the improving button', function () {
+        test('should not show the improving button', function (assert) {
           // then
-          expect(find('.scorecard-details__improve-button')).to.not.exist;
+          assert.dom('.scorecard-details__improve-button').doesNotExist();
         });
       });
     });
 
-    context('When the user did not started a competence', function () {
-      it('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function () {
+    module('When the user did not started a competence', function () {
+      test('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
@@ -213,11 +214,11 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details-content-right__score-container')).to.not.exist;
-        expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
+        assert.dom('.scorecard-details-content-right__score-container').doesNotExist();
+        assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
       });
 
-      it('should display a button stating "Commencer" if scorecard.isStarted is false', async function () {
+      test('should display a button stating "Commencer" if scorecard.isStarted is false', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
@@ -232,19 +233,19 @@ describe('Integration | Component | scorecard-details', function () {
         const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('link', {
             name: `${this.intl.t('pages.competence-details.actions.start.label')} ${this.intl.t(
               'pages.competence-details.for-competence',
               { competence: scorecard.name }
             )}`,
           })
-        ).to.exist;
+        );
       });
     });
 
-    context('When the user has started a competence', async function () {
-      it('should display a button stating "Reprendre"', async function () {
+    module('When the user has started a competence', async function () {
+      test('should display a button stating "Reprendre"', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
@@ -259,17 +260,17 @@ describe('Integration | Component | scorecard-details', function () {
         const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('link', {
             name: `${this.intl.t('pages.competence-details.actions.continue.label')} ${this.intl.t(
               'pages.competence-details.for-competence',
               { competence: scorecard.name }
             )}`,
           })
-        ).to.exist;
+        );
       });
 
-      it('should not display the tutorial section when there is no tutorial to show', async function () {
+      test('should not display the tutorial section when there is no tutorial to show', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
@@ -283,11 +284,11 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.tutorials')).to.not.exist;
+        assert.dom('.tutorials').doesNotExist();
       });
 
-      context('and the user has some tutorials', async function () {
-        it('should display the tutorial section and the related tutorials', async function () {
+      module('and the user has some tutorials', async function () {
+        test('should display the tutorial section and the related tutorials', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const tuto1 = store.createRecord('tutorial', {
@@ -323,9 +324,9 @@ describe('Integration | Component | scorecard-details', function () {
           await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
           // then
-          expect(find('.tutorials')).to.exist;
-          expect(findAll('.tube')).to.have.lengthOf(2);
-          expect(findAll('.tutorial-card')).to.have.lengthOf(3);
+          assert.dom('.tutorials').exists();
+          assert.dom('.tube').exists({ count: 2 });
+          assert.dom('.tutorial-card').exists({ count: 3 });
         });
       });
     });

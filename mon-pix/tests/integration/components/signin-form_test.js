@@ -1,6 +1,5 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -13,52 +12,52 @@ import { clickByLabel } from '../../helpers/click-by-label';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
-describe('Integration | Component | signin form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | signin form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Rendering', async function () {
-    it('should display an input for identifiant field', async function () {
+  module('Rendering', async function () {
+    test('should display an input for identifiant field', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
 
       // then
-      expect(document.querySelector('input#login')).to.exist;
+      assert.ok(document.querySelector('input#login'));
     });
 
-    it('should display an input for password field', async function () {
+    test('should display an input for password field', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
 
       // then
-      expect(document.querySelector('input#password')).to.exist;
+      assert.ok(document.querySelector('input#password'));
     });
 
-    it('should display a submit button to authenticate', async function () {
+    test('should display a submit button to authenticate', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
 
       // then
-      expect(contains(this.intl.t('pages.sign-in.actions.submit')));
+      assert.ok(contains(this.intl.t('pages.sign-in.actions.submit')));
     });
 
-    it('should display a link to password reset view', async function () {
+    test('should display a link to password reset view', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
 
       // then
-      expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
+      assert.ok(document.querySelector('a.sign-form-body__forgotten-password-link'));
     });
 
-    it('should not display any error by default', async function () {
+    test('should not display any error by default', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
 
       // then
-      expect(document.querySelector('div.sign-form__error-message')).to.not.exist;
+      assert.notOk(document.querySelector('div.sign-form__error-message'));
     });
 
-    context('When error api occurs', function () {
-      it('should display related error message if unauthorized error', async function () {
+    module('When error api occurs', function () {
+      test('should display related error message if unauthorized error', async function (assert) {
         // given
         const expectedErrorMessage = ApiErrorMessages.LOGIN_UNAUTHORIZED.MESSAGE;
         class sessionService extends Service {
@@ -73,10 +72,10 @@ describe('Integration | Component | signin form', function () {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        expect(find('div[id="sign-in-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+        assert.equal(find('div[id="sign-in-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
       });
 
-      it('should display related error message if bad request error', async function () {
+      test('should display related error message if bad request error', async function (assert) {
         // given
         const expectedErrorMessage = ApiErrorMessages.BAD_REQUEST.MESSAGE;
         class sessionService extends Service {
@@ -91,10 +90,10 @@ describe('Integration | Component | signin form', function () {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        expect(find('div[id="sign-in-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+        assert.equal(find('div[id="sign-in-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
       });
 
-      it('should display an error if api cannot be reached', async function () {
+      test('should display an error if api cannot be reached', async function (assert) {
         // given
         const stubCatchedApiErrorInternetDisconnected = undefined;
         class sessionService extends Service {
@@ -109,15 +108,16 @@ describe('Integration | Component | signin form', function () {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
-        expect(find('div[id="sign-in-error-message"]').textContent.trim()).to.equal(
+        assert.ok(document.querySelector('div.sign-form__notification-message--error'));
+        assert.equal(
+          find('div[id="sign-in-error-message"]').textContent.trim(),
           this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE)
         );
       });
     });
 
-    context('when domain is pix.org', function () {
-      it('should not display Pole Emploi button', async function () {
+    module('when domain is pix.org', function () {
+      test('should not display Pole Emploi button', async function (assert) {
         // given
         const linkText = this.intl.t('pages.sign-in.pole-emploi.title');
 
@@ -133,12 +133,12 @@ describe('Integration | Component | signin form', function () {
         await render(hbs`<SigninForm />`);
 
         // then
-        expect(contains(linkText)).not.exist;
+        assert.notOk(contains(linkText));
       });
     });
 
-    context('when domain is pix.fr', function () {
-      it('should display a Pole emploi button', async function () {
+    module('when domain is pix.fr', function () {
+      test('should display a Pole emploi button', async function (assert) {
         // given
         class UrlServiceStub extends Service {
           get isFrenchDomainExtension() {
@@ -153,13 +153,13 @@ describe('Integration | Component | signin form', function () {
         await render(hbs`<SigninForm />`);
 
         // then
-        expect(contains(linkText)).to.exist;
+        assert.ok(contains(linkText));
       });
     });
   });
 
-  describe('Behaviours', function () {
-    it('should authenticate user when she submitted sign-in form', async function () {
+  module('Behaviours', function () {
+    test('should authenticate user when she submitted sign-in form', async function (assert) {
       // given
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
@@ -179,6 +179,7 @@ describe('Integration | Component | signin form', function () {
 
       // Then
       sinon.assert.calledOnce(session.authenticateUser);
+      assert.ok(true);
     });
   });
 });

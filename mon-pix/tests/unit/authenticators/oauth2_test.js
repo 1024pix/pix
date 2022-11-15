@@ -1,13 +1,12 @@
-import { setupTest } from 'ember-mocha';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 import ENV from '../../../config/environment';
 
-describe('Unit | Authenticator | oauth2', function () {
-  setupTest();
+module('Unit | Authenticator | oauth2', function (hooks) {
+  setupTest(hooks);
 
-  it('should have token and token revocation endpoints', function () {
+  test('should have token and token revocation endpoints', function (assert) {
     // Given
     const serverTokenEndpoint = `${ENV.APP.API_HOST}/api/token`;
     const serverTokenRevocationEndpoint = `${ENV.APP.API_HOST}/api/revoke`;
@@ -16,7 +15,7 @@ describe('Unit | Authenticator | oauth2', function () {
     const authenticator = this.owner.lookup('authenticator:oauth2');
 
     // Then
-    expect(authenticator.serverTokenEndpoint).equal(serverTokenEndpoint);
-    expect(authenticator.serverTokenRevocationEndpoint).equal(serverTokenRevocationEndpoint);
+    assert.equal(authenticator.serverTokenEndpoint, serverTokenEndpoint);
+    assert.equal(authenticator.serverTokenRevocationEndpoint, serverTokenRevocationEndpoint);
   });
 });

@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import PixWindow from 'mon-pix/utils/pix-window';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Utilities | pix-window', function () {
-  setupTest();
+module('Unit | Utilities | pix-window', function (hooks) {
+  setupTest(hooks);
 
-  afterEach(function () {
+  hooks.afterEach(function () {
     sinon.restore();
   });
 
-  context('GET window.location.href', function () {
-    it('should return an URL', function () {
+  module('GET window.location.href', function () {
+    test('should return an URL', function (assert) {
       // given
       sinon.stub(PixWindow, 'getLocationHref').returns('http://domain.com/timely#hash');
 
@@ -20,12 +19,12 @@ describe('Unit | Utilities | pix-window', function () {
       const url = PixWindow.getLocationHref();
 
       // then
-      expect(url).to.equal('http://domain.com/timely#hash');
+      assert.equal(url, 'http://domain.com/timely#hash');
     });
   });
 
-  context('GET window.location.hash', function () {
-    it('should return the hash found in the URL', function () {
+  module('GET window.location.hash', function () {
+    test('should return the hash found in the URL', function (assert) {
       // given
       sinon.stub(PixWindow, 'getLocationHash').returns('#hash');
 
@@ -33,7 +32,7 @@ describe('Unit | Utilities | pix-window', function () {
       const hash = PixWindow.getLocationHash();
 
       // then
-      expect(hash).to.equal('#hash');
+      assert.equal(hash, '#hash');
     });
   });
 });

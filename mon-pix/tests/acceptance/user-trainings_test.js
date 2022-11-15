@@ -1,17 +1,16 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, currentURL, find, findAll } from '@ember/test-helpers';
+import { visit, currentURL, find } from '@ember/test-helpers';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | mes-formations', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | mes-formations', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  describe('When user has recommended trainings', function () {
-    it('should display menu item "Mes formations"', async function () {
+  module('When user has recommended trainings', function () {
+    test('should display menu item "Mes formations"', async function (assert) {
       // given
       user = server.create('user', 'withEmail', 'withSomeTrainings');
 
@@ -21,12 +20,12 @@ describe('Acceptance | mes-formations', function () {
 
       // then
       const menuItem = find('[href="/mes-formations"]');
-      expect(menuItem.textContent).to.contain('Mes formations');
+      assert.ok(menuItem.textContent.includes('Mes formations'));
     });
   });
 
-  describe('When the user tries to reach /mes-formations', function () {
-    it('the user-trainings page is displayed to the user', async function () {
+  module('When the user tries to reach /mes-formations', function () {
+    test('the user-trainings page is displayed to the user', async function (assert) {
       // given
       user = server.create('user', 'withEmail', 'withSomeTrainings');
 
@@ -35,17 +34,19 @@ describe('Acceptance | mes-formations', function () {
       await visit('/mes-formations');
 
       // then
-      expect(currentURL()).to.equal('/mes-formations');
-      expect(find('.user-trainings-banner__title')).to.exist;
-      expect(find('.user-trainings-banner__title').textContent).to.contain('Mes formations');
-      expect(find('.user-trainings-banner__description')).to.exist;
-      expect(find('.user-trainings-banner__description').textContent).to.contain(
-        'Continuez à progresser grâce aux formations recommandées à l’issue de vos parcours d’évaluation.'
+      assert.equal(currentURL(), '/mes-formations');
+      assert.dom('.user-trainings-banner__title').exists();
+      assert.ok(find('.user-trainings-banner__title').textContent.includes('Mes formations'));
+      assert.dom('.user-trainings-banner__description').exists();
+      assert.ok(
+        find('.user-trainings-banner__description').textContent.includes(
+          'Continuez à progresser grâce aux formations recommandées à l’issue de vos parcours d’évaluation.'
+        )
       );
-      expect(find('.user-trainings-content__container')).to.exist;
-      expect(find('.user-trainings-content-list__item')).to.exist;
-      expect(findAll('.user-trainings-content-list__item')).to.be.lengthOf(2);
-      expect(find('.pix-pagination__navigation')).to.exist;
+      assert.dom('.user-trainings-content__container').exists();
+      assert.dom('.user-trainings-content-list__item').exists();
+      assert.dom('.user-trainings-content-list__item').exists({ count: 2 });
+      assert.dom('.pix-pagination__navigation').exists();
     });
   });
 });

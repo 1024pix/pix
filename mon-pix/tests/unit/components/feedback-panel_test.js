@@ -1,29 +1,28 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | feedback-panel', function () {
+module('Unit | Component | feedback-panel', function (hooks) {
   let component;
 
-  setupTest();
+  setupTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     // given
     component = createGlimmerComponent('component:feedback-panel');
   });
 
-  describe('#toggleFeedbackForm', function () {
-    it('should open form', function () {
+  module('#toggleFeedbackForm', function () {
+    test('should open form', function (assert) {
       // when
       component.toggleFeedbackForm();
 
       // then
-      expect(component.isFormOpened).to.be.true;
+      assert.equal(component.isFormOpened, true);
     });
 
-    it('should close and reset form', function () {
+    test('should close and reset form', function (assert) {
       // given
       component.isFormOpened = true;
       component.emptyTextBoxMessageError = '10, 9, 8, ...';
@@ -33,14 +32,14 @@ describe('Unit | Component | feedback-panel', function () {
       component.toggleFeedbackForm();
 
       // then
-      expect(component.isFormOpened).to.be.false;
-      expect(component.isFormSubmitted).to.be.false;
-      expect(component.emptyTextBoxMessageError).to.be.null;
+      assert.equal(component.isFormOpened, false);
+      assert.equal(component.isFormSubmitted, false);
+      assert.notOk(component.emptyTextBoxMessageError);
     });
   });
 
-  describe('#isSendButtonDisabled', function () {
-    it('should return false when the feedback has not already been sent', function () {
+  module('#isSendButtonDisabled', function () {
+    test('should return false when the feedback has not already been sent', function (assert) {
       // given
       component._sendButtonStatus = 'unrecorded';
 
@@ -48,10 +47,10 @@ describe('Unit | Component | feedback-panel', function () {
       const result = component.isSendButtonDisabled;
 
       // then
-      expect(result).to.equal(false);
+      assert.equal(result, false);
     });
 
-    it('should return false when the feedback has already been sent', function () {
+    test('should return false when the feedback has already been sent', function (assert) {
       // given
       component._sendButtonStatus = 'recorded';
 
@@ -59,10 +58,10 @@ describe('Unit | Component | feedback-panel', function () {
       const result = component.isSendButtonDisabled;
 
       // then
-      expect(result).to.equal(false);
+      assert.equal(result, false);
     });
 
-    it('should return true when the send operation is in progress', function () {
+    test('should return true when the send operation is in progress', function (assert) {
       // given
       component._sendButtonStatus = 'pending';
 
@@ -70,15 +69,15 @@ describe('Unit | Component | feedback-panel', function () {
       const result = component.isSendButtonDisabled;
 
       // then
-      expect(result).to.equal(true);
+      assert.equal(result, true);
     });
   });
 
-  describe('#sendFeedback', function () {
+  module('#sendFeedback', function (hooks) {
     let feedback;
     let store;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       feedback = {
         save: sinon.stub().resolves(null),
       };
@@ -87,7 +86,7 @@ describe('Unit | Component | feedback-panel', function () {
       };
     });
 
-    it('should re-initialise the form correctly', async function () {
+    test('should re-initialise the form correctly', async function (assert) {
       // given
       component._category = 'CATEGORY';
       component.content = 'TEXT';
@@ -97,9 +96,9 @@ describe('Unit | Component | feedback-panel', function () {
       await component.sendFeedback();
 
       // then
-      expect(component._category).to.be.null;
-      expect(component.content).to.be.null;
-      expect(component.nextCategory).to.be.null;
+      assert.notOk(component._category);
+      assert.notOk(component.content);
+      assert.notOk(component.nextCategory);
     });
   });
 });

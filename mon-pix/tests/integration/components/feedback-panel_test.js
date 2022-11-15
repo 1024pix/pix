@@ -1,7 +1,6 @@
 import { resolve } from 'rsvp';
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { blur, click, find, findAll, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -29,8 +28,8 @@ async function setContent(content) {
   await blur(TEXTAREA);
 }
 
-describe('Integration | Component | feedback-panel', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | feedback-panel', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   class StoreStub extends Service {
     createRecord() {
@@ -42,8 +41,8 @@ describe('Integration | Component | feedback-panel', function () {
     }
   }
 
-  describe('Default rendering', function () {
-    beforeEach(async function () {
+  module('Default rendering', function (hooks) {
+    hooks.beforeEach(async function () {
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
 
@@ -56,12 +55,12 @@ describe('Integration | Component | feedback-panel', function () {
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
     });
 
-    it('should not display the feedback form', async function () {
+    test('should not display the feedback form', async function (assert) {
       // then
-      expect(find('.feedback-panel__form')).not.to.exist;
+      assert.dom('.feedback-panel__form').doesNotExist();
     });
 
-    it('should display the "mercix" view when clicking on send button', async function () {
+    test('should display the "mercix" view when clicking on send button', async function (assert) {
       // given
       await click(OPEN_FEEDBACK_BUTTON);
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -71,111 +70,111 @@ describe('Integration | Component | feedback-panel', function () {
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
-      expect(find('.feedback-panel__view--form')).to.not.exist;
-      expect(find('.feedback-panel__view--mercix')).to.exist;
+      assert.dom('.feedback-panel__view--form').doesNotExist();
+      assert.dom('.feedback-panel__view--mercix').exists();
     });
 
-    context('when selecting a category', function () {
-      it('should display a second dropdown with the list of questions when category have a nested level', async function () {
+    module('when selecting a category', function () {
+      test('should display a second dropdown with the list of questions when category have a nested level', async function (assert) {
         // when
         await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
 
         // then
-        expect(findAll(DROPDOWN).length).to.equal(2);
-        expect(find(TEXTAREA)).to.not.exist;
-        expect(find(BUTTON_SEND)).to.not.exist;
+        assert.equal(findAll(DROPDOWN).length, 2);
+        assert.dom(TEXTAREA).doesNotExist();
+        assert.dom(BUTTON_SEND).doesNotExist();
       });
 
-      it('should directly display the message box and the submit button when category has a textarea', async function () {
+      test('should directly display the message box and the submit button when category has a textarea', async function (assert) {
         // when
         await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
-        expect(findAll(DROPDOWN).length).to.equal(1);
-        expect(find(TEXTAREA)).to.exist;
-        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
+        assert.equal(findAll(DROPDOWN).length, 1);
+        assert.dom(TEXTAREA).exists();
+        assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
       });
 
-      it('should directly display the tuto without the textbox or the send button when category has a tutorial', async function () {
+      test('should directly display the tuto without the textbox or the send button when category has a tutorial', async function (assert) {
         // when
         await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
 
         // then
-        expect(findAll(DROPDOWN).length).to.equal(2);
-        expect(find(BUTTON_SEND)).to.not.exist;
-        expect(find(TEXTAREA)).to.not.exist;
+        assert.equal(findAll(DROPDOWN).length, 2);
+        assert.dom(BUTTON_SEND).doesNotExist();
+        assert.dom(TEXTAREA).doesNotExist();
       });
 
-      it('should show the correct feedback action when selecting two different categories', async function () {
+      test('should show the correct feedback action when selecting two different categories', async function (assert) {
         // when
         await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
-        expect(findAll(DROPDOWN).length).to.equal(1);
-        expect(find(TUTORIAL_AREA)).to.not.exist;
-        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
-        expect(find(TEXTAREA)).to.exist;
+        assert.equal(findAll(DROPDOWN).length, 1);
+        assert.dom(TUTORIAL_AREA).doesNotExist();
+        assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
+        assert.dom(TEXTAREA).exists();
       });
 
-      it('should hide the second dropdown when category has fewer levels after a deeper category', async function () {
+      test('should hide the second dropdown when category has fewer levels after a deeper category', async function (assert) {
         // when
         await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
-        expect(findAll(DROPDOWN).length).to.equal(1);
-        expect(find(TUTORIAL_AREA)).to.not.exist;
-        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
-        expect(find(TEXTAREA)).to.exist;
+        assert.equal(findAll(DROPDOWN).length, 1);
+        assert.dom(TUTORIAL_AREA).doesNotExist();
+        assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
+        assert.dom(TEXTAREA).exists();
       });
 
-      it('should display tutorial with textarea with selecting related category and subcategory', async function () {
+      test('should display tutorial with textarea with selecting related category and subcategory', async function (assert) {
         // when
         await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL);
         await fillIn(SUBCATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL);
 
         // then
-        expect(findAll(DROPDOWN).length).to.equal(2);
-        expect(find(TUTORIAL_AREA)).to.exist;
-        expect(find(TEXTAREA)).to.exist;
-        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
+        assert.equal(findAll(DROPDOWN).length, 2);
+        assert.dom(TUTORIAL_AREA).exists();
+        assert.dom(TEXTAREA).exists();
+        assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
       });
     });
   });
 
-  context('When assessment is not of type certification', function () {
-    beforeEach(async function () {
+  module('When assessment is not of type certification', function (hooks) {
+    hooks.beforeEach(async function () {
       await render(hbs`<FeedbackPanel />`);
     });
 
-    it('should display the feedback panel', function () {
-      expect(find('.feedback-panel__view--link')).to.exist;
+    test('should display the feedback panel', function (assert) {
+      assert.dom('.feedback-panel__view--link').exists();
     });
 
-    it('should toggle the form view when clicking on the toggle link', async function () {
+    test('should toggle the form view when clicking on the toggle link', async function (assert) {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
       // then
-      expect(find('.feedback-panel__view--form')).to.exist;
+      assert.dom('.feedback-panel__view--form').exists();
 
       // then when
       await click(OPEN_FEEDBACK_BUTTON);
 
       // then
-      expect(find('.feedback-panel__view--form')).to.not.exist;
+      assert.dom('.feedback-panel__view--form').doesNotExist();
     });
   });
 
-  context('When assessment is of type certification', function () {
-    beforeEach(async function () {
+  module('When assessment is of type certification', function (hooks) {
+    hooks.beforeEach(async function () {
       const assessment = {
         isCertification: true,
       };
@@ -184,17 +183,17 @@ describe('Integration | Component | feedback-panel', function () {
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @context={{this.context}} />`);
     });
 
-    it('should display the feedback certification section', async function () {
+    test('should display the feedback certification section', async function (assert) {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
       // then
-      expect(find('.feedback-certification-section__div')).to.exist;
+      assert.dom('.feedback-certification-section__div').exists();
     });
   });
 
-  context('When FeedbackPanel is rendered initially opened (e.g. in a comparison-window)', function () {
-    beforeEach(async function () {
+  module('When FeedbackPanel is rendered initially opened (e.g. in a comparison-window)', function (hooks) {
+    hooks.beforeEach(async function () {
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
 
@@ -207,20 +206,20 @@ describe('Integration | Component | feedback-panel', function () {
       );
     });
 
-    it('should display the "form" view', async function () {
-      expect(find('.feedback-panel__view--form')).to.exist;
-      expect(findAll(DROPDOWN).length).to.equal(1);
+    test('should display the "form" view', async function (assert) {
+      assert.dom('.feedback-panel__view--form').exists();
+      assert.equal(findAll(DROPDOWN).length, 1);
     });
 
-    it('should not be able to hide the form view', async function () {
+    test('should not be able to hide the form view', async function (assert) {
       // then
-      expect(find(OPEN_FEEDBACK_BUTTON).disabled).to.be.true;
-      expect(find('.feedback-panel__form')).to.exist;
+      assert.equal(find(OPEN_FEEDBACK_BUTTON).disabled, true);
+      assert.dom('.feedback-panel__form').exists();
     });
   });
 
-  context('When FeedbackPanel is rendered initially closed (e.g. in a challenge)', function () {
-    beforeEach(async function () {
+  module('When FeedbackPanel is rendered initially closed (e.g. in a challenge)', function (hooks) {
+    hooks.beforeEach(async function () {
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
 
@@ -231,27 +230,27 @@ describe('Integration | Component | feedback-panel', function () {
       await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display the "form" view', async function () {
-      expect(find('.feedback-panel__view--form')).to.exist;
-      expect(findAll(DROPDOWN).length).to.equal(1);
+    test('should display the "form" view', async function (assert) {
+      assert.dom('.feedback-panel__view--form').exists();
+      assert.equal(findAll(DROPDOWN).length, 1);
     });
 
-    it('should be able to hide the form view', async function () {
+    test('should be able to hide the form view', async function (assert) {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
       // then
-      expect(find('.feedback-panel__form')).not.to.exist;
+      assert.dom('.feedback-panel__form').doesNotExist();
     });
   });
 
-  describe('Error management', function () {
-    beforeEach(async function () {
+  module('Error management', function (hooks) {
+    hooks.beforeEach(async function () {
       await render(hbs`<FeedbackPanel />`);
       await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display error if "content" is empty', async function () {
+    test('should display error if "content" is empty', async function (assert) {
       // given
       await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
@@ -259,10 +258,10 @@ describe('Integration | Component | feedback-panel', function () {
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
-      expect(find('.feedback-panel__alert')).to.exist;
+      assert.dom('.feedback-panel__alert').exists();
     });
 
-    it('should display error if "content" is blank', async function () {
+    test('should display error if "content" is blank', async function (assert) {
       // given
       await setContent('');
 
@@ -270,10 +269,10 @@ describe('Integration | Component | feedback-panel', function () {
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
-      expect(find('.feedback-panel__alert')).to.exist;
+      assert.dom('.feedback-panel__alert').exists();
     });
 
-    it('should not display error if "form" view (with error) was closed and re-opened', async function () {
+    test('should not display error if "form" view (with error) was closed and re-opened', async function (assert) {
       // given
       await setContent('   ');
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
@@ -283,7 +282,7 @@ describe('Integration | Component | feedback-panel', function () {
       await click(OPEN_FEEDBACK_BUTTON);
 
       // then
-      expect(find('.feedback-panel__alert')).to.not.exist;
+      assert.dom('.feedback-panel__alert').doesNotExist();
     });
   });
 });

@@ -1,23 +1,22 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | external-user', function () {
-  setupTest();
+module('Unit | Adapters | external-user', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:external-user');
   });
 
-  describe('#urlForCreateRecord', function () {
-    it('should redirect to /api/sco-organization-learners/external', async function () {
+  module('#urlForCreateRecord', function () {
+    test('should redirect to /api/sco-organization-learners/external', async function (assert) {
       // when
       const url = await adapter.urlForCreateRecord();
 
       // then
-      expect(url.endsWith('/sco-organization-learners/external')).to.be.true;
+      assert.equal(url.endsWith('/sco-organization-learners/external'), true);
     });
   });
 });

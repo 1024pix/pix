@@ -1,16 +1,15 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 import { visit } from '@1024pix/ember-testing-library';
 
-describe('Acceptance | personal-information', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | personal-information', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-  context('When user is connected', function () {
-    it('should display user personal information', async function () {
+  module('When user is connected', function () {
+    test('should display user personal information', async function (assert) {
       // given
       const user = server.create('user', {
         firstName: 'John',
@@ -27,8 +26,8 @@ describe('Acceptance | personal-information', function () {
 
       // then
       const userNames = screen.getAllByText(user.firstName).length;
-      expect(userNames).to.equal(2);
-      expect(screen.getByText(user.lastName)).to.exist;
+      assert.equal(userNames, 2);
+      assert.ok(screen.getByText(user.lastName));
     });
   });
 });

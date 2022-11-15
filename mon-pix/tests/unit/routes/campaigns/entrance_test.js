@@ -1,14 +1,14 @@
 import EmberObject from '@ember/object';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Entrance', function () {
-  setupTest();
+module('Unit | Route | Entrance', function (hooks) {
+  setupTest(hooks);
 
   let route, campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:campaigns.entrance');
     route.campaignStorage = { get: sinon.stub(), set: sinon.stub() };
     route.modelFor = sinon.stub();
@@ -16,43 +16,46 @@ describe('Unit | Route | Entrance', function () {
     route.session.requireAuthenticationAndApprovedTermsOfService = sinon.stub();
   });
 
-  describe('#beforeModel', function () {
-    it('should redirect to entry point when /entree is directly set in the url', async function () {
+  module('#beforeModel', function () {
+    test('should redirect to entry point when /entree is directly set in the url', async function (assert) {
       //when
       await route.beforeModel({ from: null });
 
       //then
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
+      assert.ok(true);
     });
 
-    it('should continue en entrance route when from is set', async function () {
+    test('should continue en entrance route when from is set', async function (assert) {
       //when
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
       sinon.assert.notCalled(route.router.replaceWith);
+      assert.ok(true);
     });
   });
 
-  describe('#model', function () {
-    it('should load model', async function () {
+  module('#model', function () {
+    test('should load model', async function (assert) {
       //when
       await route.model();
 
       //then
       sinon.assert.calledWith(route.modelFor, 'campaigns');
+      assert.ok(true);
     });
   });
 
-  describe('#afterModel', function () {
+  module('#afterModel', function (hooks) {
     let campaignParticipationStub;
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       campaignParticipationStub = { save: sinon.stub(), deleteRecord: sinon.stub() };
       route.store = { createRecord: sinon.stub().returns(campaignParticipationStub), queryRecord: sinon.stub() };
       route.currentUser = { user: {} };
     });
 
-    it('should save new campaign participation', async function () {
+    test('should save new campaign participation', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -64,9 +67,10 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.called(campaignParticipationStub.save);
+      assert.ok(true);
     });
 
-    it('should save another campaign participation when retry is allowed', async function () {
+    test('should save another campaign participation when retry is allowed', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -80,9 +84,10 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.called(campaignParticipationStub.save);
+      assert.ok(true);
     });
 
-    it('should resume and not create any new campaign participation when some is already existing', async function () {
+    test('should resume and not create any new campaign participation when some is already existing', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -94,9 +99,10 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.notCalled(route.store.createRecord);
+      assert.ok(true);
     });
 
-    it('should abort campaign participation creation when something went wrong', async function () {
+    test('should abort campaign participation creation when something went wrong', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -110,9 +116,10 @@ describe('Unit | Route | Entrance', function () {
         // eslint-disable-next-line no-empty
       } catch (err) {}
       sinon.assert.called(campaignParticipationStub.deleteRecord);
+      assert.ok(true);
     });
 
-    it('should abort campaign participation creation and redirect to fill-in-participant-external-id when something went wrong with it', async function () {
+    test('should abort campaign participation creation and redirect to fill-in-participant-external-id when something went wrong with it', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -132,9 +139,10 @@ describe('Unit | Route | Entrance', function () {
         'campaigns.invited.fill-in-participant-external-id',
         campaign.code
       );
+      assert.ok(true);
     });
 
-    it('should abort campaign participation and redirect to already participated', async function () {
+    test('should abort campaign participation and redirect to already participated', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -148,9 +156,10 @@ describe('Unit | Route | Entrance', function () {
       await route.afterModel(campaign);
 
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.existing-participation', campaign.code);
+      assert.ok(true);
     });
 
-    it('should redirect to profiles-collection when campaign is of type PROFILES COLLECTION', async function () {
+    test('should redirect to profiles-collection when campaign is of type PROFILES COLLECTION', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -163,9 +172,10 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.profiles-collection.start-or-resume');
+      assert.ok(true);
     });
 
-    it('should redirect to assessment when campaign is of type ASSESSMENT', async function () {
+    test('should redirect to assessment when campaign is of type ASSESSMENT', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -178,6 +188,7 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.start-or-resume');
+      assert.ok(true);
     });
   });
 });

@@ -1,23 +1,22 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | user model', function () {
-  setupTest();
+module('Unit | Model | user model', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('user');
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 
-  describe('#fullName', function () {
-    it('should concatenate user first and last name', function () {
+  module('#fullName', function () {
+    test('should concatenate user first and last name', function (assert) {
       // given
       const model = store.createRecord('user');
       model.firstName = 'Manu';
@@ -27,7 +26,7 @@ describe('Unit | Model | user model', function () {
       const fullName = model.fullName;
 
       // then
-      expect(fullName).to.equal('Manu Phillip');
+      assert.equal(fullName, 'Manu Phillip');
     });
   });
 });

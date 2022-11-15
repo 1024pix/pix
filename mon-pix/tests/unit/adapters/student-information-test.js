@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapter | student information', function () {
-  setupTest();
+module('Unit | Adapter | student information', function (hooks) {
+  setupTest(hooks);
 
-  describe('#buildURL', function () {
-    it('should build recover account base URL when called with according requestType', function () {
+  module('#buildURL', function () {
+    test('should build recover account base URL when called with according requestType', function (assert) {
       // when
       const adapter = this.owner.lookup('adapter:student-information');
       const url = adapter.buildURL(123, 'student-information', null, 'account-recovery');
 
       // then
-      expect(url.endsWith('/sco-organization-learners/')).to.be.true;
+      assert.equal(url.endsWith('/sco-organization-learners/'), true);
     });
   });
 });

@@ -1,25 +1,24 @@
-import { expect } from 'chai';
-import { beforeEach, afterEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import { htmlSafe } from '@ember/template';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
-describe('Unit | Component | progress-bar', function () {
-  setupTest();
+module('Unit | Component | progress-bar', function (hooks) {
+  setupTest(hooks);
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:progress-bar');
   });
 
-  afterEach(function () {
+  hooks.afterEach(function () {
     sinon.restore();
   });
 
-  describe('@currentStepIndex', function () {
-    it('should return the current step index from service', function () {
+  module('@currentStepIndex', function () {
+    test('should return the current step index from service', function (assert) {
       // given
       const expectedCurrentStepIndex = 2;
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(expectedCurrentStepIndex);
@@ -28,12 +27,12 @@ describe('Unit | Component | progress-bar', function () {
       const currentStepNumber = component.currentStepIndex;
 
       // then
-      expect(currentStepNumber).to.deep.equal(expectedCurrentStepIndex);
+      assert.deepEqual(currentStepNumber, expectedCurrentStepIndex);
     });
   });
 
-  describe('@maxStepsNumber', function () {
-    it('should return the maxStepsNumber from service', function () {
+  module('@maxStepsNumber', function () {
+    test('should return the maxStepsNumber from service', function (assert) {
       // given
       const expectedMaxStepsNumber = 5;
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(expectedMaxStepsNumber);
@@ -42,12 +41,12 @@ describe('Unit | Component | progress-bar', function () {
       const maxStepsNumber = component.maxStepsNumber;
 
       // then
-      expect(maxStepsNumber).to.deep.equal(expectedMaxStepsNumber);
+      assert.deepEqual(maxStepsNumber, expectedMaxStepsNumber);
     });
   });
 
-  describe('@currentStepNumber', function () {
-    it('should return the currentStepNumber from service', function () {
+  module('@currentStepNumber', function () {
+    test('should return the currentStepNumber from service', function (assert) {
       // given
       const expectedCurrentStepNumber = 3;
       sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(expectedCurrentStepNumber);
@@ -56,12 +55,12 @@ describe('Unit | Component | progress-bar', function () {
       const currentStepNumber = component.currentStepNumber;
 
       // then
-      expect(currentStepNumber).to.deep.equal(expectedCurrentStepNumber);
+      assert.deepEqual(currentStepNumber, expectedCurrentStepNumber);
     });
   });
 
-  describe('@steps', function () {
-    it('should return the steps specifics', function () {
+  module('@steps', function () {
+    test('should return the steps specifics', function (assert) {
       // given
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(4);
@@ -70,7 +69,7 @@ describe('Unit | Component | progress-bar', function () {
       const steps = component.steps;
 
       // then
-      expect(steps).to.deep.equal([
+      assert.deepEqual(steps, [
         { stepnum: 1, status: 'active', background: htmlSafe('background: #4f5fff;') },
         { stepnum: 2, status: 'active', background: htmlSafe('background: #6256ff;') },
         { stepnum: 3, status: 'active', background: htmlSafe('background: #754dff;') },
@@ -79,8 +78,8 @@ describe('Unit | Component | progress-bar', function () {
     });
   });
 
-  describe('@progressionWidth', function () {
-    it('should return the progressionWidth', function () {
+  module('@progressionWidth', function () {
+    test('should return the progressionWidth', function (assert) {
       // given
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
@@ -88,10 +87,10 @@ describe('Unit | Component | progress-bar', function () {
       const progressionWidth = component.progressionWidth;
 
       // then
-      expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
+      assert.deepEqual(progressionWidth, htmlSafe('width: 50.85%;'));
     });
 
-    it('should return the initial progressionWidth', function () {
+    test('should return the initial progressionWidth', function (assert) {
       // given
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(0);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
@@ -100,7 +99,7 @@ describe('Unit | Component | progress-bar', function () {
       const progressionWidth = component.progressionWidth;
 
       // then
-      expect(progressionWidth).to.deep.equal(htmlSafe('width: 16px;'));
+      assert.deepEqual(progressionWidth, htmlSafe('width: 16px;'));
     });
   });
 });

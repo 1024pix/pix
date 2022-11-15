@@ -1,19 +1,18 @@
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | user-certifications-detail-competences-list', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user-certifications-detail-competences-list', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let resultCompetenceTree;
   const PARENT_SELECTOR = '.user-certifications-detail-competences-list';
   const CONTENT_SELECTOR = '.user-certifications-detail-competence';
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     // given
     this.maxReachableLevelOnCertificationDate = 5;
     resultCompetenceTree = EmberObject.create({
@@ -49,20 +48,20 @@ describe('Integration | Component | user-certifications-detail-competences-list'
       @maxReachableLevelOnCertificationDate={{this.maxReachableLevelOnCertificationDate}} />`);
   });
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     // then
-    expect(find(PARENT_SELECTOR)).to.exist;
+    assert.dom(PARENT_SELECTOR).exists();
   });
 
-  it('should have "Compétences certifiées (niveaux sur 5)" as a title', async function () {
+  test('should have "Compétences certifiées (niveaux sur 5)" as a title', async function (assert) {
     // then
-    expect(find(`${PARENT_SELECTOR} h2`).innerText).to.equal('Compétences certifiées (niveaux sur 5)');
+    assert.equal(find(`${PARENT_SELECTOR} h2`).innerText, 'Compétences certifiées (niveaux sur 5)');
   });
 
-  context('when area has a list of competences', function () {
-    it('should include one area detail per area', function () {
+  module('when area has a list of competences', function () {
+    test('should include one area detail per area', function (assert) {
       // then
-      expect(findAll(CONTENT_SELECTOR)).to.have.lengthOf(resultCompetenceTree.areas.length);
+      assert.dom(CONTENT_SELECTOR).exists({ count: resultCompetenceTree.areas.length });
     });
   });
 });

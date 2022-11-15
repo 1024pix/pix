@@ -1,24 +1,23 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | competence-card-mobile', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | competence-card-mobile', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
+  module('Component rendering', function (hooks) {
     let area;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       area = EmberObject.create({
         code: 1,
         color: 'jaffa',
       });
     });
 
-    it('should render component', async function () {
+    test('should render component', async function (assert) {
       // given
       const scorecard = { area };
       this.set('scorecard', scorecard);
@@ -27,10 +26,10 @@ describe('Integration | Component | competence-card-mobile', function () {
       await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
-      expect(find('.competence-card')).to.exist;
+      assert.dom('.competence-card').exists();
     });
 
-    it('should display the competence card header with scorecard color', async function () {
+    test('should display the competence card header with scorecard color', async function (assert) {
       // given
       const scorecard = { area };
       this.set('scorecard', scorecard);
@@ -39,10 +38,10 @@ describe('Integration | Component | competence-card-mobile', function () {
       await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
-      expect(find('.competence-card__wrapper').getAttribute('class')).to.contains('competence-card__wrapper--jaffa');
+      assert.ok(find('.competence-card__wrapper').getAttribute('class').includes('competence-card__wrapper--jaffa'));
     });
 
-    it('should display the area name', async function () {
+    test('should display the area name', async function (assert) {
       // given
       const scorecard = { area: EmberObject.create({ code: 1, title: 'First Area' }) };
       this.set('scorecard', scorecard);
@@ -51,10 +50,10 @@ describe('Integration | Component | competence-card-mobile', function () {
       await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
-      expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
+      assert.equal(find('.competence-card__area-name').textContent, scorecard.area.title);
     });
 
-    it('should display the competence name', async function () {
+    test('should display the competence name', async function (assert) {
       // given
       const scorecard = { area, name: 'First Competence' };
       this.set('scorecard', scorecard);
@@ -63,10 +62,10 @@ describe('Integration | Component | competence-card-mobile', function () {
       await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
-      expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
+      assert.equal(find('.competence-card__competence-name').textContent, scorecard.name);
     });
 
-    it('should display the level', async function () {
+    test('should display the level', async function (assert) {
       // given
       const scorecard = { area, level: 3 };
       this.set('scorecard', scorecard);
@@ -75,12 +74,12 @@ describe('Integration | Component | competence-card-mobile', function () {
       await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
 
       // then
-      expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
+      assert.equal(find('.score-value').textContent, scorecard.level.toString());
     });
 
-    context('when user can continue the competence', async function () {
-      context('and the user has reached the maximum level', function () {
-        beforeEach(async function () {
+    module('when user can continue the competence', async function () {
+      module('and the user has reached the maximum level', function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           const scorecard = { area, isFinishedWithMaxLevel: false, isStarted: true };
           this.set('scorecard', scorecard);
@@ -89,16 +88,16 @@ describe('Integration | Component | competence-card-mobile', function () {
           await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
         });
 
-        it('should not show congrats design', function () {
+        test('should not show congrats design', function (assert) {
           // then
-          expect(find('.competence-card__congrats')).to.not.exist;
+          assert.dom('.competence-card__congrats').doesNotExist();
         });
       });
     });
 
-    context('when user has finished the competence', async function () {
-      context('and the user has reached the maximum level', function () {
-        beforeEach(async function () {
+    module('when user has finished the competence', async function () {
+      module('and the user has reached the maximum level', function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           const scorecard = { area, isFinishedWithMaxLevel: true };
           this.set('scorecard', scorecard);
@@ -107,9 +106,9 @@ describe('Integration | Component | competence-card-mobile', function () {
           await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
         });
 
-        it('should show congrats design', function () {
+        test('should show congrats design', function (assert) {
           // then
-          expect(find('.competence-card__congrats')).to.exist;
+          assert.dom('.competence-card__congrats').exists();
         });
       });
     });

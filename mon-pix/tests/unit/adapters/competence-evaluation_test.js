@@ -1,58 +1,57 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | competence-evaluation', function () {
-  setupTest();
+module('Unit | Adapters | competence-evaluation', function (hooks) {
+  setupTest(hooks);
 
-  describe('#urlForFindAll', function () {
+  module('#urlForFindAll', function (hooks) {
     let adapter;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       adapter = this.owner.lookup('adapter:competence-evaluation');
     });
 
-    it('should build url for fetching competence-evaluations based on assessment route', async function () {
+    test('should build url for fetching competence-evaluations based on assessment route', async function (assert) {
       // when
       const assessmentId = 123;
       const url = await adapter.urlForFindAll('competenceEvaluation', { adapterOptions: { assessmentId } });
 
       // then
-      expect(url.endsWith(`/assessments/${assessmentId}/competence-evaluations`)).to.be.true;
+      assert.equal(url.endsWith(`/assessments/${assessmentId}/competence-evaluations`), true);
     });
   });
 
-  describe('#urlQueryForRecord', function () {
+  module('#urlQueryForRecord', function (hooks) {
     let adapter;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       adapter = this.owner.lookup('adapter:competence-evaluation');
       adapter.ajax = sinon.stub().resolves();
     });
 
-    it('should build /startOrResume url', async function () {
+    test('should build /startOrResume url', async function (assert) {
       // when
       const url = await adapter.urlForQueryRecord({ startOrResume: true }, 'competenceEvaluation');
 
       // then
-      expect(url.endsWith('/competence-evaluations/start-or-resume')).to.be.true;
+      assert.equal(url.endsWith('/competence-evaluations/start-or-resume'), true);
     });
 
-    it('should build classic url', async function () {
+    test('should build classic url', async function (assert) {
       // when
       const url = await adapter.urlForQueryRecord({}, 'competenceEvaluation');
 
       // then
-      expect(url.endsWith('/competence-evaluations')).to.be.true;
+      assert.equal(url.endsWith('/competence-evaluations'), true);
     });
 
-    it('should build /improve url', async function () {
+    test('should build /improve url', async function (assert) {
       // when
       const url = await adapter.urlForQueryRecord({ improve: true }, 'competenceEvaluation');
 
       // then
-      expect(url.endsWith('/competence-evaluations/improve')).to.be.true;
+      assert.equal(url.endsWith('/competence-evaluations/improve'), true);
     });
   });
 });

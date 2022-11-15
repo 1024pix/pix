@@ -1,22 +1,21 @@
 import sinon from 'sinon';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | competence-card-default ', function () {
-  setupTest();
+module('Unit | Component | competence-card-default ', function (hooks) {
+  setupTest(hooks);
 
-  describe('#improveCompetenceEvaluation', function () {
+  module('#improveCompetenceEvaluation', function () {
     const competenceId = 'recCompetenceId';
     const userId = 'userId';
     const scorecardId = 'scorecardId';
     const scorecard = EmberObject.create({ competenceId, id: scorecardId });
     let competenceEvaluation, component;
 
-    it('calls competenceEvaluation service for improving', async function () {
+    test('calls competenceEvaluation service for improving', async function (assert) {
       // given
       component = createGlimmerComponent('component:competence-card-default', { scorecard });
       competenceEvaluation = Service.create({ improve: sinon.stub() });
@@ -28,19 +27,20 @@ describe('Unit | Component | competence-card-default ', function () {
 
       // then
       sinon.assert.calledWith(competenceEvaluation.improve, { userId, competenceId, scorecardId });
+      assert.ok(true);
     });
   });
 
-  describe('#shouldWaitBeforeImproving', function () {
+  module('#shouldWaitBeforeImproving', function (hooks) {
     let component, scorecard;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       const competenceId = 'recCompetenceId';
       scorecard = EmberObject.create({ competenceId });
       component = createGlimmerComponent('component:competence-card-default', { scorecard, interactive: true });
     });
 
-    it('should return true when remaining days before improving are different than 0', function () {
+    test('should return true when remaining days before improving are different than 0', function (assert) {
       // given
       scorecard.remainingDaysBeforeImproving = 3;
 
@@ -48,10 +48,10 @@ describe('Unit | Component | competence-card-default ', function () {
       const result = component.shouldWaitBeforeImproving;
 
       // then
-      expect(result).to.be.true;
+      assert.equal(result, true);
     });
 
-    it('should return false when remaining days before improving are equal to 0', function () {
+    test('should return false when remaining days before improving are equal to 0', function (assert) {
       // given
       scorecard.remainingDaysBeforeImproving = 0;
 
@@ -59,7 +59,7 @@ describe('Unit | Component | competence-card-default ', function () {
       const result = component.shouldWaitBeforeImproving;
 
       // then
-      expect(result).to.be.false;
+      assert.equal(result, false);
     });
   });
 });

@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Route | update-expired-password', function () {
-  setupTest();
+module('Unit | Route | update-expired-password', function (hooks) {
+  setupTest(hooks);
 
-  it('should retrieve a reset expired password demand', async function () {
+  test('should retrieve a reset expired password demand', async function (assert) {
     // given
     const route = this.owner.lookup('route:update-expired-password');
     const peekAllStub = sinon.stub();
@@ -26,6 +25,6 @@ describe('Unit | Route | update-expired-password', function () {
     const model = await route.model();
 
     // then
-    expect(model).to.equal(resetExpiredPasswordDemand);
+    assert.equal(model, resetExpiredPasswordDemand);
   });
 });

@@ -1,6 +1,5 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -19,8 +18,8 @@ const classByResultKey = {
   aband: 'aband',
 };
 
-describe('Integration | Component | QROCm dep solution panel', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | QROCm dep solution panel', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
   const challenge = EmberObject.create({
@@ -32,15 +31,15 @@ describe('Integration | Component | QROCm dep solution panel', function () {
 
   [{ format: 'petit' }, { format: 'phrase' }, { format: 'paragraphe' }, { format: 'unreferenced_format' }].forEach(
     (data) => {
-      describe(`Whatever the format (testing ${data.format} format)`, function () {
-        beforeEach(function () {
+      module(`Whatever the format (testing ${data.format} format)`, function (hooks) {
+        hooks.beforeEach(function () {
           this.set('solution', solution);
           this.set('challenge', challenge);
           this.challenge.set('format', data.format);
         });
 
-        describe('When the answer is correct', function () {
-          beforeEach(async function () {
+        module('When the answer is correct', function (hooks) {
+          hooks.beforeEach(async function () {
             // given
             const answer = EmberObject.create({
               id: 'answer_id',
@@ -57,23 +56,23 @@ describe('Integration | Component | QROCm dep solution panel', function () {
             );
           });
 
-          it('should display the correct answer in green bold', function () {
+          test('should display the correct answer in green bold', function (assert) {
             // then
             const firstAnswerInput = findAll(ANSWER)[0];
-            expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
+            assert.equal(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct'), true);
           });
 
-          it('should not have solution block', function () {
+          test('should not have solution block', function (assert) {
             // then
             const solutionBlockList = findAll(SOLUTION_BLOCK);
-            expect(solutionBlockList).to.have.lengthOf(0);
+            assert.equal(solutionBlockList.length, 0);
           });
         });
 
-        describe('When there is no answer', function () {
+        module('When there is no answer', function (hooks) {
           const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
 
-          beforeEach(async function () {
+          hooks.beforeEach(async function () {
             // given
             const answer = EmberObject.create({
               id: 'answer_id',
@@ -90,23 +89,23 @@ describe('Integration | Component | QROCm dep solution panel', function () {
             );
           });
 
-          it('should display one solution in bold green', async function () {
+          test('should display one solution in bold green', async function (assert) {
             // then
             const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
-            expect(noAnswerSolutionBlockList).to.have.lengthOf(1);
+            assert.equal(noAnswerSolutionBlockList.length, 1);
           });
 
-          it('should display the empty answer with the default message "Pas de réponse" in italic', async function () {
+          test('should display the empty answer with the default message "Pas de réponse" in italic', async function (assert) {
             // then
             const firstAnswerInput = findAll(ANSWER)[0];
-            expect(firstAnswerInput).to.exist;
-            expect(firstAnswerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
-            expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
+            assert.ok(firstAnswerInput);
+            assert.equal(firstAnswerInput.value, EMPTY_DEFAULT_MESSAGE);
+            assert.equal(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband'), true);
           });
         });
 
-        describe('When the answer is wrong', function () {
-          beforeEach(async function () {
+        module('When the answer is wrong', function (hooks) {
+          hooks.beforeEach(async function () {
             // given
             const answer = EmberObject.create({
               id: 'answer_id',
@@ -118,7 +117,7 @@ describe('Integration | Component | QROCm dep solution panel', function () {
             this.set('answer', answer);
           });
 
-          it('should display one solution in bold green', async function () {
+          test('should display one solution in bold green', async function (assert) {
             // when
             await render(
               hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
@@ -128,11 +127,11 @@ describe('Integration | Component | QROCm dep solution panel', function () {
             const wrongSolutionBlock = find(SOLUTION_BLOCK);
             const wrongSolutionText = find(SOLUTION_TEXT);
 
-            expect(wrongSolutionBlock).to.exist;
-            expect(wrongSolutionText).to.exist;
+            assert.ok(wrongSolutionBlock);
+            assert.ok(wrongSolutionText);
           });
 
-          it('should display the solutionToDisplay if exist', async function () {
+          test('should display the solutionToDisplay if exist', async function (assert) {
             // when
             const solutionToDisplay = 'Ceci est la solution !';
             this.set('solutionToDisplay', solutionToDisplay);
@@ -141,11 +140,11 @@ describe('Integration | Component | QROCm dep solution panel', function () {
             );
 
             // then
-            expect(find(SOLUTION_BLOCK)).to.exist;
-            expect(find(SOLUTION_TEXT).textContent).to.contains(solutionToDisplay);
+            assert.dom(SOLUTION_BLOCK).exists();
+            assert.ok(find(SOLUTION_TEXT).textContent.includes(solutionToDisplay));
           });
 
-          it('should display the wrong answer in standard style since we do not handle single wrong answer yet', async function () {
+          test('should display the wrong answer in standard style since we do not handle single wrong answer yet', async function (assert) {
             // when
             await render(
               hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
@@ -154,16 +153,16 @@ describe('Integration | Component | QROCm dep solution panel', function () {
             // then
             const firstAnswerInput = findAll(ANSWER)[0];
 
-            expect(firstAnswerInput).to.exist;
-            expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.false;
+            assert.ok(firstAnswerInput);
+            assert.equal(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong'), false);
           });
         });
       });
     }
   );
 
-  describe('When format is neither a paragraph nor a sentence', function () {
-    beforeEach(function () {
+  module('When format is neither a paragraph nor a sentence', function (hooks) {
+    hooks.beforeEach(function () {
       const answer = EmberObject.create({
         id: 'answer_id',
         value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
@@ -176,7 +175,7 @@ describe('Integration | Component | QROCm dep solution panel', function () {
       this.set('challenge', challenge);
     });
 
-    it(`should display a disabled input with expected size`, async function () {
+    test(`should display a disabled input with expected size`, async function (assert) {
       //given
       const answerSize = 'rightAnswer1'.length;
       //when
@@ -185,16 +184,16 @@ describe('Integration | Component | QROCm dep solution panel', function () {
       );
 
       //then
-      expect(find(PARAGRAPH)).to.not.exist;
-      expect(find(SENTENCE)).to.not.exist;
-      expect(find(INPUT).tagName).to.equal('INPUT');
-      expect(find(INPUT).getAttribute('size')).to.equal(answerSize.toString());
-      expect(find(INPUT).hasAttribute('disabled')).to.be.true;
+      assert.dom(PARAGRAPH).doesNotExist();
+      assert.dom(SENTENCE).doesNotExist();
+      assert.equal(find(INPUT).tagName, 'INPUT');
+      assert.equal(find(INPUT).getAttribute('size'), answerSize.toString());
+      assert.equal(find(INPUT).hasAttribute('disabled'), true);
     });
   });
 
-  describe('When format is a paragraph', function () {
-    beforeEach(function () {
+  module('When format is a paragraph', function (hooks) {
+    hooks.beforeEach(function () {
       const answer = EmberObject.create({
         id: 'answer_id',
         value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
@@ -208,22 +207,22 @@ describe('Integration | Component | QROCm dep solution panel', function () {
       this.challenge.set('format', 'paragraphe');
     });
 
-    it('should display a disabled textarea', async function () {
+    test('should display a disabled textarea', async function (assert) {
       // when
       await render(
         hbs`{{qrocm-dep-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
       );
 
       // then
-      expect(find(INPUT)).to.not.exist;
-      expect(find(SENTENCE)).to.not.exist;
-      expect(find(PARAGRAPH).tagName).to.equal('TEXTAREA');
-      expect(find(PARAGRAPH).hasAttribute('disabled')).to.be.true;
+      assert.dom(INPUT).doesNotExist();
+      assert.dom(SENTENCE).doesNotExist();
+      assert.equal(find(PARAGRAPH).tagName, 'TEXTAREA');
+      assert.equal(find(PARAGRAPH).hasAttribute('disabled'), true);
     });
   });
 
-  describe('When format is a sentence', function () {
-    beforeEach(function () {
+  module('When format is a sentence', function (hooks) {
+    hooks.beforeEach(function () {
       const answer = EmberObject.create({
         id: 'answer_id',
         value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
@@ -237,17 +236,17 @@ describe('Integration | Component | QROCm dep solution panel', function () {
       this.challenge.set('format', 'phrase');
     });
 
-    it('should display a disabled input', async function () {
+    test('should display a disabled input', async function (assert) {
       // when
       await render(
         hbs`{{qrocm-dep-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
       );
 
       // then
-      expect(find(INPUT)).to.not.exist;
-      expect(find(PARAGRAPH)).to.not.exist;
-      expect(find(SENTENCE).tagName).to.equal('INPUT');
-      expect(find(SENTENCE).hasAttribute('disabled')).to.be.true;
+      assert.dom(INPUT).doesNotExist();
+      assert.dom(PARAGRAPH).doesNotExist();
+      assert.equal(find(SENTENCE).tagName, 'INPUT');
+      assert.equal(find(SENTENCE).hasAttribute('disabled'), true);
     });
   });
 });

@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render, triggerEvent } from '@ember/test-helpers';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
@@ -8,21 +7,21 @@ import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-describe('Integration | Component | user-account | email-with-validation-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user-account | email-with-validation-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('when editing e-mail', function () {
-    it('should display save and cancel button', async function () {
+  module('when editing e-mail', function () {
+    test('should display save and cancel button', async function (assert) {
       // when
       await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
       // then
-      expect(contains(this.intl.t('common.actions.cancel'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'))).to.exist;
+      assert.ok(contains(this.intl.t('common.actions.cancel')));
+      assert.ok(contains(this.intl.t('pages.user-account.account-update-email-with-validation.save-button')));
     });
 
-    context('when the user cancel edition', function () {
-      it('should call disableEmailEditionMode', async function () {
+    module('when the user cancel edition', function () {
+      test('should call disableEmailEditionMode', async function (assert) {
         // given
         const disableEmailEditionMode = sinon.stub();
         this.set('disableEmailEditionMode', disableEmailEditionMode);
@@ -36,12 +35,13 @@ describe('Integration | Component | user-account | email-with-validation-form', 
 
         // then
         sinon.assert.called(disableEmailEditionMode);
+        assert.ok(true);
       });
     });
 
-    context('when the user fills inputs with errors', function () {
-      context('in new email input', function () {
-        it('should display an invalid error message when focus-out', async function () {
+    module('when the user fills inputs with errors', function () {
+      module('in new email input', function () {
+        test('should display an invalid error message when focus-out', async function (assert) {
           // given
           const invalidEmail = 'invalidEmail';
 
@@ -55,22 +55,22 @@ describe('Integration | Component | user-account | email-with-validation-form', 
           await triggerEvent('#newEmail', 'focusout');
 
           // then
-          expect(
+          assert.ok(
             contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))
-          ).to.exist;
+          );
         });
       });
     });
   });
 
-  context('when the user submits new email and password', function () {
+  module('when the user submits new email and password', function (hooks) {
     let store;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       store = this.owner.lookup('service:store');
     });
 
-    it('should call the show verification code method only once', async function () {
+    test('should call the show verification code method only once', async function (assert) {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
@@ -93,9 +93,10 @@ describe('Integration | Component | user-account | email-with-validation-form', 
 
       // then
       sinon.assert.calledOnce(this.showVerificationCode);
+      assert.ok(true);
     });
 
-    it('should display email already exists error if response status is 400', async function () {
+    test('should display email already exists error if response status is 400', async function (assert) {
       // given
       const emailAlreadyExist = 'email@example.net';
       const password = 'password';
@@ -117,14 +118,14 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(
+      assert.ok(
         contains(
           this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist')
         )
-      ).to.exist;
+      );
     });
 
-    it('should display error message from server if response status is 400 or 403', async function () {
+    test('should display error message from server if response status is 400 or 403', async function (assert) {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
@@ -146,12 +147,12 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(
+      assert.ok(
         contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password'))
-      ).to.exist;
+      );
     });
 
-    it('should display invalid email format error if response status is 422', async function () {
+    test('should display invalid email format error if response status is 422', async function (assert) {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
@@ -173,12 +174,12 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(
+      assert.ok(
         contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))
-      ).to.exist;
+      );
     });
 
-    it('should display empty password error if response status is 422', async function () {
+    test('should display empty password error if response status is 422', async function (assert) {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
@@ -200,9 +201,9 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(
+      assert.ok(
         contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'))
-      ).to.exist;
+      );
     });
   });
 });

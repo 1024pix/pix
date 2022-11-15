@@ -1,5 +1,4 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
@@ -10,14 +9,14 @@ import { contains } from '../../../helpers/contains';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../helpers/click-by-label';
 
-describe('Integration | Component | account-recovery::backup-email-confirmation-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | account-recovery::backup-email-confirmation-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const firstName = 'Philippe';
   const existingEmail = 'philippe@example.net';
 
-  context('when the user already has an email associated with his account', function () {
-    it('should render recover account backup email confirmation form with the existing email', async function () {
+  module('when the user already has an email associated with his account', function () {
+    test('should render recover account backup email confirmation form with the existing email', async function (assert) {
       // given
       const resetErrors = sinon.stub();
       this.set('resetErrors', resetErrors);
@@ -30,47 +29,47 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       );
 
       // then
-      expect(
+      assert.ok(
         screen.getByText(
           this.intl.t(
             'pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'
           )
         )
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByText(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message'),
           { exact: false }
         )
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByText(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message'),
           { exact: false }
         )
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByRole('link', {
           name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message'),
         })
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByRole('textbox', {
           name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
         })
-      ).to.exist;
+      );
 
       const submitButton = screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
       });
 
-      expect(submitButton).to.exist;
-      expect(submitButton.disabled).to.be.true;
+      assert.ok(submitButton);
+      assert.equal(submitButton.disabled, true);
     });
   });
 
-  context('when the user does not have an email associated with his account', async function () {
-    it('should render recover account backup email confirmation form', async function () {
+  module('when the user does not have an email associated with his account', async function () {
+    test('should render recover account backup email confirmation form', async function (assert) {
       // given
       const resetErrors = sinon.stub();
       this.set('resetErrors', resetErrors);
@@ -82,33 +81,31 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       );
 
       // then
-      expect(
+      assert.ok(
         contains(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
             firstName,
           })
         )
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         contains(
           this.intl.t(
             'pages.account-recovery.find-sco-record.backup-email-confirmation.email-sent-to-choose-password-message'
           )
         )
-      ).to.exist;
-      expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'))
-      ).to.exist;
-      expect(
+      );
+      assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email')));
+      assert.notOk(
         contains(
           this.intl.t(
             'pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'
           )
         )
-      ).to.not.exist;
+      );
     });
 
-    it('should enable submission on backup email confirmation form', async function () {
+    test('should enable submission on backup email confirmation form', async function (assert) {
       // given
       const email = 'Philipe@example.net';
       const resetErrors = sinon.stub();
@@ -140,9 +137,10 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
       // then
       sinon.assert.calledWithExactly(sendEmail, email);
+      assert.ok(true);
     });
 
-    it('should disable submission on backup email confirmation form when is loading', async function () {
+    test('should disable submission on backup email confirmation form when is loading', async function (assert) {
       // given
       const email = 'Philipe@example.net';
 
@@ -159,12 +157,12 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
         name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         hidden: true,
       });
-      expect(submitButton.disabled).to.be.true;
+      assert.equal(submitButton.disabled, true);
     });
   });
 
-  context('form validation', function () {
-    it('should show an error when email is empty', async function () {
+  module('form validation', function () {
+    test('should show an error when email is empty', async function (assert) {
       // given
       const resetErrors = sinon.stub();
       this.set('resetErrors', resetErrors);
@@ -182,12 +180,12 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await triggerEvent('#email', 'focusout');
 
       // then
-      expect(
+      assert.ok(
         contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'))
-      ).to.exist;
+      );
     });
 
-    it('should show an error when email is not valid', async function () {
+    test('should show an error when email is not valid', async function (assert) {
       // given
       const resetErrors = sinon.stub();
       this.set('resetErrors', resetErrors);
@@ -205,14 +203,14 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await triggerEvent('#email', 'focusout');
 
       // then
-      expect(
+      assert.ok(
         contains(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format')
         )
-      ).to.exist;
+      );
     });
 
-    it('should valid form when email is valid', async function () {
+    test('should valid form when email is valid', async function (assert) {
       // given
       const resetErrors = sinon.stub();
       this.set('resetErrors', resetErrors);
@@ -232,14 +230,14 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       );
 
       // then
-      expect(
+      assert.notOk(
         contains(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format')
         )
-      ).to.not.exist;
-      expect(
+      );
+      assert.notOk(
         contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'))
-      ).to.not.exist;
+      );
     });
   });
 });

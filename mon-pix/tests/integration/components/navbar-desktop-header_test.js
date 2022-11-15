@@ -1,18 +1,17 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
 import { contains } from '../../helpers/contains';
 
-describe('Integration | Component | navbar-desktop-header', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | navbar-desktop-header', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('when user is not logged', function () {
-    beforeEach(async function () {
+  module('when user is not logged', function (hooks) {
+    hooks.beforeEach(async function () {
       class sessionService extends Service {
         isAuthenticated = false;
       }
@@ -21,39 +20,39 @@ describe('Integration | Component | navbar-desktop-header', function () {
       await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    it('should be rendered', function () {
+    test('should be rendered', function (assert) {
       // then
-      expect(find('.navbar-desktop-header__container')).to.exist;
+      assert.dom('.navbar-desktop-header__container').exists();
     });
 
-    it('should display the Pix logo', function () {
+    test('should display the Pix logo', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-logo')).to.exist;
-      expect(find('.pix-logo')).to.exist;
+      assert.dom('.navbar-desktop-header-logo').exists();
+      assert.dom('.pix-logo').exists();
     });
 
-    it('should not display the navigation menu', function () {
+    test('should not display the navigation menu', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-container__menu')).to.not.exist;
+      assert.dom('.navbar-desktop-header-container__menu').doesNotExist();
     });
 
-    it('should display link to signup page', function () {
+    test('should display link to signup page', function (assert) {
       // then
-      expect(find('.navbar-menu-signup-link')).to.exist;
+      assert.dom('.navbar-menu-signup-link').exists();
     });
 
-    it('should display link to login page', function () {
+    test('should display link to login page', function (assert) {
       // then
-      expect(find('.navbar-menu-signin-link')).to.exist;
+      assert.dom('.navbar-menu-signin-link').exists();
     });
 
-    it('should not display the link "J\'ai un code"', function () {
-      expect(contains("J'ai un code")).not.to.exist;
+    test('should not display the link "J\'ai un code"', function (assert) {
+      assert.notOk(contains("J'ai un code"));
     });
   });
 
-  context('When user is logged', function () {
-    beforeEach(async function () {
+  module('When user is logged', function (hooks) {
+    hooks.beforeEach(async function () {
       class sessionService extends Service {
         isAuthenticated = true;
         data = {
@@ -73,50 +72,50 @@ describe('Integration | Component | navbar-desktop-header', function () {
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
 
-    it('should be rendered', function () {
-      expect(find('.navbar-desktop-header')).to.exist;
+    test('should be rendered', function (assert) {
+      assert.dom('.navbar-desktop-header').exists();
     });
 
-    it('should display the link "J\'ai un code"', function () {
-      expect(contains("J'ai un code")).to.exist;
+    test('should display the link "J\'ai un code"', function (assert) {
+      assert.ok(contains("J'ai un code"));
     });
 
-    it('should display the Pix logo', function () {
+    test('should display the Pix logo', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-logo')).to.exist;
-      expect(find('.pix-logo')).to.exist;
+      assert.dom('.navbar-desktop-header-logo').exists();
+      assert.dom('.pix-logo').exists();
     });
 
-    it('should display logged user details informations', function () {
+    test('should display logged user details informations', function (assert) {
       // then
-      expect(find('.logged-user-details')).to.exist;
+      assert.dom('.logged-user-details').exists();
     });
 
-    it('should not display link to signup page', function () {
+    test('should not display link to signup page', function (assert) {
       // then
-      expect(find('.navbar-menu-signup-link')).to.not.exist;
+      assert.dom('.navbar-menu-signup-link').doesNotExist();
     });
 
-    it('should not display link to login page', function () {
+    test('should not display link to login page', function (assert) {
       // then
-      expect(find('.navbar-menu-signin-link')).to.not.exist;
+      assert.dom('.navbar-menu-signin-link').doesNotExist();
     });
 
-    it('should display the navigation menu with expected elements', function () {
+    test('should display the navigation menu with expected elements', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(5);
-      expect(contains('Accueil')).to.exist;
-      expect(contains('Compétences')).to.exist;
-      expect(contains('Mes tutos')).to.exist;
-      expect(contains('Certification')).to.exist;
-      expect(contains("J'ai un code")).to.exist;
-      expect(contains('Mes formations')).not.to.exist;
+      assert.dom('.navbar-desktop-header-container__menu').exists();
+      assert.dom('.navbar-desktop-header-menu__item').exists({ count: 5 });
+      assert.ok(contains('Accueil'));
+      assert.ok(contains('Compétences'));
+      assert.ok(contains('Mes tutos'));
+      assert.ok(contains('Certification'));
+      assert.ok(contains("J'ai un code"));
+      assert.notOk(contains('Mes formations'));
     });
   });
 
-  context('when user has recommended trainings', function () {
-    beforeEach(async function () {
+  module('when user has recommended trainings', function (hooks) {
+    hooks.beforeEach(async function () {
       class sessionService extends Service {
         isAuthenticated = true;
         data = {
@@ -139,14 +138,14 @@ describe('Integration | Component | navbar-desktop-header', function () {
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
 
-    it('should display "My trainings" link', async function () {
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(6);
-      expect(contains('Mes formations')).to.exist;
+    test('should display "My trainings" link', async function (assert) {
+      assert.dom('.navbar-desktop-header-menu__item').exists({ count: 6 });
+      assert.ok(contains('Mes formations'));
     });
   });
 
-  context('when user comes from external platform', function () {
-    beforeEach(async function () {
+  module('when user comes from external platform', function (hooks) {
+    hooks.beforeEach(async function () {
       class sessionService extends Service {
         isAuthenticated = false;
         data = {
@@ -159,39 +158,39 @@ describe('Integration | Component | navbar-desktop-header', function () {
       await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    it('should be rendered', function () {
+    test('should be rendered', function (assert) {
       // then
-      expect(find('.navbar-desktop-header__container')).to.exist;
+      assert.dom('.navbar-desktop-header__container').exists();
     });
 
-    it('should display the Pix logo', function () {
+    test('should display the Pix logo', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-logo')).to.exist;
-      expect(find('.pix-logo')).to.exist;
+      assert.dom('.navbar-desktop-header-logo').exists();
+      assert.dom('.pix-logo').exists();
     });
 
-    it('should not display the navigation menu', function () {
+    test('should not display the navigation menu', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-container__menu')).to.not.exist;
+      assert.dom('.navbar-desktop-header-container__menu').doesNotExist();
     });
 
-    it('should not display link to signup page', function () {
+    test('should not display link to signup page', function (assert) {
       // then
-      expect(find('.navbar-menu-signup-link')).to.not.exist;
+      assert.dom('.navbar-menu-signup-link').doesNotExist();
     });
 
-    it('should not display link to login page', function () {
+    test('should not display link to login page', function (assert) {
       // then
-      expect(find('.navbar-menu-signin-link')).to.not.exist;
+      assert.dom('.navbar-menu-signin-link').doesNotExist();
     });
 
-    it('should not display the join campaign link', function () {
-      expect(contains("J'ai un code")).not.to.exist;
+    test('should not display the join campaign link', function (assert) {
+      assert.notOk(contains("J'ai un code"));
     });
   });
 
-  context('when logged user is anonymous', function () {
-    beforeEach(async function () {
+  module('when logged user is anonymous', function (hooks) {
+    hooks.beforeEach(async function () {
       class sessionService extends Service {
         isAuthenticated = true;
       }
@@ -205,38 +204,38 @@ describe('Integration | Component | navbar-desktop-header', function () {
       await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    it('should be rendered', function () {
+    test('should be rendered', function (assert) {
       // then
-      expect(find('.navbar-desktop-header__container')).to.exist;
+      assert.dom('.navbar-desktop-header__container').exists();
     });
 
-    it('should display the Pix logo', function () {
+    test('should display the Pix logo', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-logo')).to.exist;
-      expect(find('.pix-logo')).to.exist;
+      assert.dom('.navbar-desktop-header-logo').exists();
+      assert.dom('.pix-logo').exists();
     });
 
-    it('should not display the navigation menu', function () {
+    test('should not display the navigation menu', function (assert) {
       // then
-      expect(find('.navbar-desktop-header-container__menu')).to.not.exist;
+      assert.dom('.navbar-desktop-header-container__menu').doesNotExist();
     });
 
-    it('should not display link to signup page', function () {
+    test('should not display link to signup page', function (assert) {
       // then
-      expect(find('.navbar-menu-signup-link')).to.not.exist;
+      assert.dom('.navbar-menu-signup-link').doesNotExist();
     });
 
-    it('should not display link to login page', function () {
+    test('should not display link to login page', function (assert) {
       // then
-      expect(find('.navbar-menu-signin-link')).to.not.exist;
+      assert.dom('.navbar-menu-signin-link').doesNotExist();
     });
 
-    it('should not display the join campaign link', function () {
-      expect(contains("J'ai un code")).not.to.exist;
+    test('should not display the join campaign link', function (assert) {
+      assert.notOk(contains("J'ai un code"));
     });
   });
 
-  it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
+  test('should not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
     // given
     this.set('isFrenchDomainUrl', false);
 
@@ -244,10 +243,10 @@ describe('Integration | Component | navbar-desktop-header', function () {
     await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    expect(find('.navbar-desktop-header-logo__marianne')).to.not.exist;
+    assert.dom('.navbar-desktop-header-logo__marianne').doesNotExist();
   });
 
-  it('should display marianne logo when url does have frenchDomainExtension', async function () {
+  test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
     // given
     this.set('isFrenchDomainUrl', true);
 
@@ -255,6 +254,6 @@ describe('Integration | Component | navbar-desktop-header', function () {
     await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    expect(find('.navbar-desktop-header-logo__marianne')).to.exist;
+    assert.dom('.navbar-desktop-header-logo__marianne').exists();
   });
 });

@@ -1,5 +1,4 @@
-import { describe, beforeEach } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { click, fillIn, render, find } from '@ember/test-helpers';
@@ -9,27 +8,27 @@ import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../../helpers/click-by-label';
 
-describe('Integration | Component | routes/login-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | routes/login-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should ask for login and password', async function () {
+  test('should ask for login and password', async function (assert) {
     // when
     await render(hbs`<Routes::LoginForm/>`);
 
     // then
-    expect(find('#login')).to.exist;
-    expect(find('#password')).to.exist;
+    assert.dom('#login').exists();
+    assert.dom('#password').exists();
   });
 
-  it('should not display error message', async function () {
+  test('should not display error message', async function (assert) {
     // when
     await render(hbs`<Routes::LoginForm/>`);
 
     // then
-    expect(find('div[id="error-message"]')).to.not.exist;
+    assert.dom('div[id="error-message"]').doesNotExist();
   });
 
-  it('should display an error message when authentication fails', async function () {
+  test('should display an error message when authentication fails', async function (assert) {
     // given
     class SessionStub extends Service {
       authenticate = sinon.stub().rejects();
@@ -43,31 +42,32 @@ describe('Integration | Component | routes/login-form', function () {
     await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
     // then
-    expect(find('div[id="login-error-message"]')).to.exist;
-    expect(find('#login-error-message').textContent).to.equal(
+    assert.dom('div[id="login-error-message"]').exists();
+    assert.equal(
+      find('#login-error-message').textContent,
       "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
     );
   });
 
-  it('should display password when user click', async function () {
+  test('should display password when user click', async function (assert) {
     // when
     await render(hbs`<Routes::LoginForm/>`);
     await click('.form-textfield-icon__button');
 
     // then
-    expect(find('#password').getAttribute('type')).to.equal('text');
+    assert.equal(find('#password').getAttribute('type'), 'text');
   });
 
-  it('should change icon when user click on it', async function () {
+  test('should change icon when user click on it', async function (assert) {
     // when
     await render(hbs`<Routes::LoginForm/>`);
     await click('.form-textfield-icon__button');
 
     // then
-    expect(find('.fa-eye')).to.exist;
+    assert.dom('.fa-eye').exists();
   });
 
-  it('should not change icon when user keeps typing his password', async function () {
+  test('should not change icon when user keeps typing his password', async function (assert) {
     // when
     await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#password', 'début du mot de passe');
@@ -75,11 +75,11 @@ describe('Integration | Component | routes/login-form', function () {
     await fillIn('#password', 'fin du mot de passe');
 
     // then
-    expect(find('.fa-eye')).to.exist;
+    assert.dom('.fa-eye').exists();
   });
 
-  context('when there is no invitation', function () {
-    it('should call authentication service with appropriate parameters', async function () {
+  module('when there is no invitation', function () {
+    test('should call authentication service with appropriate parameters', async function (assert) {
       // given
       class SessionStub extends Service {
         authenticate = sinon.stub().resolves();
@@ -94,17 +94,18 @@ describe('Integration | Component | routes/login-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      expect(find('.form-textfield__input--error')).to.not.exist;
+      assert.dom('.form-textfield__input--error').doesNotExist();
       sinon.assert.calledWith(sessionServiceObserver.authenticate, 'authenticator:oauth2', {
         login: 'pix@example.net',
         password: 'JeMeLoggue1024',
         scope: 'mon-pix',
       });
+      assert.ok(true);
     });
   });
 
-  context('when there is an invitation', function () {
-    it('should be ok and call authentication service with appropriate parameters', async function () {
+  module('when there is an invitation', function () {
+    test('should be ok and call authentication service with appropriate parameters', async function (assert) {
       // given
       class SessionStub extends Service {
         authenticate = sinon.stub().resolves();
@@ -120,17 +121,18 @@ describe('Integration | Component | routes/login-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      expect(find('.form-textfield__input--error')).to.not.exist;
+      assert.dom('.form-textfield__input--error').doesNotExist();
       sinon.assert.calledWith(sessionServiceObserver.authenticate, 'authenticator:oauth2', {
         login: 'pix@example.net',
         password: 'JeMeLoggue1024',
         scope: 'mon-pix',
       });
+      assert.ok(true);
     });
   });
 
-  context('when password is a one time password', function () {
-    it('should redirect to "update-expired-password" route', async function () {
+  module('when password is a one time password', function () {
+    test('should redirect to "update-expired-password" route', async function (assert) {
       // given
       class StoreStub extends Service {
         createRecord = sinon.stub().resolves();
@@ -168,15 +170,16 @@ describe('Integration | Component | routes/login-form', function () {
 
       // then
       sinon.assert.calledWith(routerObserver.replaceWith, 'update-expired-password');
+      assert.ok(true);
     });
   });
 
-  context('when external user IdToken exist', function () {
+  module('when external user IdToken exist', function (hooks) {
     const externalUserToken = 'ABCD';
 
     let addGarAuthenticationMethodToUserStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       class StoreStub extends Service {
         createRecord = sinon.stub().resolves();
       }
@@ -193,7 +196,7 @@ describe('Integration | Component | routes/login-form', function () {
       addGarAuthenticationMethodToUserStub = sinon.stub();
     });
 
-    it('should display the specific error message if update fails with http error 4xx', async function () {
+    test('should display the specific error message if update fails with http error 4xx', async function (assert) {
       // given
       const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
       const apiReturn = {
@@ -219,10 +222,10 @@ describe('Integration | Component | routes/login-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+      assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
 
-    it('should display the default error message if update fails with other http error', async function () {
+    test('should display the default error message if update fails with other http error', async function (assert) {
       // given
       const expectedErrorMessage =
         'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
@@ -249,10 +252,10 @@ describe('Integration | Component | routes/login-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+      assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
 
-    it('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function () {
+    test('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function (assert) {
       // given
       const expectedErrorMessage =
         "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@exmaple.net";
@@ -283,7 +286,7 @@ describe('Integration | Component | routes/login-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+      assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
   });
 });
