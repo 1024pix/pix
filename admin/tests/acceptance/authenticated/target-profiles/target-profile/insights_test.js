@@ -27,7 +27,11 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       hooks.beforeEach(async function () {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const targetProfile = this.server.create('target-profile', { id: 1, name: 'Profil cible du ghetto' });
+        const targetProfile = this.server.create('target-profile', {
+          id: 1,
+          name: 'Profil cible du ghetto',
+          isNewFormat: false,
+        });
         const badge1 = this.server.create('badge', { id: 100, title: 'My badge 1' });
         const badge2 = this.server.create('badge', { id: 200, title: 'My badge 2' });
         targetProfile.update({ badges: [badge1, badge2] });

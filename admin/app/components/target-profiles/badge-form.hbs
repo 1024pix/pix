@@ -1,6 +1,6 @@
 <form {{on "submit" this.createBadgeAndCriteria}} class="badge-form">
-  <section class="page-section">
-    <h2>Création d'un résultat thématique</h2>
+  <h2>Création d'un résultat thématique</h2>
+  <Card class="create-target-profile__card" @title="Informations">
     <div class="badge-form__text-field">
       <label for="title">Nom du badge : </label>
       <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
@@ -63,7 +63,23 @@
         id="isAlwaysVisible"
       />
     </div>
-  </section>
-
-  <TargetProfiles::BadgeForm::OldCriteria @badge={{this.badge}} @skillSetSkills={{this.skillSetSkills}} />
+  </Card>
+  {{#if @targetProfile.isNewFormat}}
+    <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.newAreas}} />
+    <div class="badge-form__action-buttons">
+      <PixButtonLink
+        class="badge-form-action-buttons__cancel"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @route="authenticated.target-profiles.target-profile.insights"
+      >
+        Annuler
+      </PixButtonLink>
+      <PixButton @backgroundColor="green" @type="submit">
+        Enregistrer le RT
+      </PixButton>
+    </div>
+  {{else}}
+    <TargetProfiles::BadgeForm::OldCriteria @badge={{this.badge}} @skillSetSkills={{this.skillSetSkills}} />
+  {{/if}}
 </form>
