@@ -1,5 +1,5 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
-const createServer = require('../../../server');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | Campaign Management Controller', function () {
   let server;
