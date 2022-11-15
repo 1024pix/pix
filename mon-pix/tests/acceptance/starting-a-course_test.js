@@ -1,21 +1,20 @@
 import { currentURL, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Starting a course', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Starting a course', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let demoCourse;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     server.createList('challenge', 3, 'forDemo');
     demoCourse = server.create('course', { nbChallenges: 3 });
   });
 
-  it('should be able to start a test directly from the course endpoint', async function () {
+  test('should be able to start a test directly from the course endpoint', async function (assert) {
     await visit(`/courses/${demoCourse.id}`);
-    expect(currentURL().startsWith('/assessments/'));
+    assert.ok(currentURL().startsWith('/assessments/'));
   });
 });

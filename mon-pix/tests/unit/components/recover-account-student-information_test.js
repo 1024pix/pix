@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | account-recovery/student-information-form', function () {
-  setupTest();
+module('Unit | Component | account-recovery/student-information-form', function (hooks) {
+  setupTest(hooks);
 
-  describe('#_isIneInaValid', function () {
-    describe('when ine or ina is empty', function () {
-      it('should return false', function () {
+  module('#_isIneInaValid', function () {
+    module('when ine or ina is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = '';
@@ -17,12 +16,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isIneInaValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when ine or ina is invalid', function () {
-      it('should return false', function () {
+    module('when ine or ina is invalid', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = 'ABCDE';
@@ -31,12 +30,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isIneInaValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when ine is valid', function () {
-      it('should return true', function () {
+    module('when ine is valid', function () {
+      test('should return true', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = '123456789AA';
@@ -45,12 +44,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isIneInaValid;
 
         // then
-        expect(result).to.be.true;
+        assert.equal(result, true);
       });
     });
 
-    describe('when ina is valid', function () {
-      it('should return true', function () {
+    module('when ina is valid', function () {
+      test('should return true', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = '1234567890B';
@@ -59,14 +58,14 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isIneInaValid;
 
         // then
-        expect(result).to.be.true;
+        assert.equal(result, true);
       });
     });
   });
 
-  describe('#isFormValid', function () {
-    describe('when lastName is empty', function () {
-      it('should return false', function () {
+  module('#isFormValid', function () {
+    module('when lastName is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.lastName = '';
@@ -75,12 +74,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component.isFormValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when firstName is empty', function () {
-      it('should return false', function () {
+    module('when firstName is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.firstName = '';
@@ -89,12 +88,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component.isFormValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when monthOfBirth is empty', function () {
-      it('should return false', function () {
+    module('when monthOfBirth is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.monthOfBirth = '';
@@ -103,12 +102,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component.isFormValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when dayOfBirth is empty', function () {
-      it('should return false', function () {
+    module('when dayOfBirth is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.dayOfBirth = '';
@@ -117,12 +116,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component.isFormValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when yearOfBirth is empty', function () {
-      it('should return false', function () {
+    module('when yearOfBirth is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '';
@@ -131,12 +130,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component.isFormValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when form is valid', function () {
-      it('should return true', function () {
+    module('when form is valid', function () {
+      test('should return true', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '2000';
@@ -150,14 +149,14 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component.isFormValid;
 
         // then
-        expect(result).to.be.true;
+        assert.equal(result, true);
       });
     });
   });
 
-  describe('#_isDayOfBirthValid', function () {
-    describe('when dayOfBirth is empty', function () {
-      it('should return false', function () {
+  module('#_isDayOfBirthValid', function () {
+    module('when dayOfBirth is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.dayOfBirth = '';
@@ -166,12 +165,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isDayOfBirthValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when dayOfBirth is valid', function () {
-      it('should return true', function () {
+    module('when dayOfBirth is valid', function () {
+      test('should return true', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.dayOfBirth = '5';
@@ -180,14 +179,14 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isDayOfBirthValid;
 
         // then
-        expect(result).to.be.true;
+        assert.equal(result, true);
       });
     });
   });
 
-  describe('#_isMonthOfBirthValid', function () {
-    describe('when monthOfBirth is empty', function () {
-      it('should return false', function () {
+  module('#_isMonthOfBirthValid', function () {
+    module('when monthOfBirth is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.monthOfBirth = '';
@@ -196,12 +195,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isMonthOfBirthValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when monthOfBirth is valid', function () {
-      it('should return true', function () {
+    module('when monthOfBirth is valid', function () {
+      test('should return true', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.monthOfBirth = '5';
@@ -210,14 +209,14 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isMonthOfBirthValid;
 
         // then
-        expect(result).to.be.true;
+        assert.equal(result, true);
       });
     });
   });
 
-  describe('#_isYearOfBirthValid', function () {
-    describe('when yearOfBirth is empty', function () {
-      it('should return false', function () {
+  module('#_isYearOfBirthValid', function () {
+    module('when yearOfBirth is empty', function () {
+      test('should return false', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '';
@@ -226,12 +225,12 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isYearOfBirthValid;
 
         // then
-        expect(result).to.be.false;
+        assert.equal(result, false);
       });
     });
 
-    describe('when yearOfBirth is valid', function () {
-      it('should return true', function () {
+    module('when yearOfBirth is valid', function () {
+      test('should return true', function (assert) {
         // given
         const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '2000';
@@ -240,13 +239,13 @@ describe('Unit | Component | account-recovery/student-information-form', functio
         const result = component._isYearOfBirthValid;
 
         // then
-        expect(result).to.be.true;
+        assert.equal(result, true);
       });
     });
   });
 
-  describe('#_formatBirthdate', function () {
-    it('should return valid birthdate format', function () {
+  module('#_formatBirthdate', function () {
+    test('should return valid birthdate format', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/student-information-form');
       component.dayOfBirth = '2';
@@ -257,7 +256,7 @@ describe('Unit | Component | account-recovery/student-information-form', functio
       const result = component._formatBirthdate;
 
       // then
-      expect(result).to.equal('2004-05-02');
+      assert.equal(result, '2004-05-02');
     });
   });
 });

@@ -1,21 +1,20 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card | Archived', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | CampaignParticipationOverview | Card | Archived', function (hooks) {
+  setupIntlRenderingTest(hooks);
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('when card has "ARCHIVED" status', function () {
-    context('when the participation is not completed', function () {
-      it('should render explanatory text given started status', async function () {
+  module('when card has "ARCHIVED" status', function () {
+    module('when the participation is not completed', function () {
+      test('should render explanatory text given started status', async function (assert) {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
@@ -33,18 +32,16 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         );
 
         // then
-        expect(contains('My organization')).to.exist;
-        expect(contains('My campaign')).to.exist;
-        expect(
-          contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')
-        ).to.exist;
-        expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase())).to.exist;
-        expect(
+        assert.ok(contains('My organization'));
+        assert.ok(contains('My campaign'));
+        assert.ok(contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.'));
+        assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase()));
+        assert.ok(
           contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }))
-        ).to.exist;
+        );
       });
 
-      it('should render explanatory text given to_share status', async function () {
+      test('should render explanatory text given to_share status', async function (assert) {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
@@ -62,18 +59,16 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         );
 
         // then
-        expect(contains('My organization')).to.exist;
-        expect(contains('My campaign')).to.exist;
-        expect(
-          contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')
-        ).to.exist;
-        expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase())).to.exist;
-        expect(
+        assert.ok(contains('My organization'));
+        assert.ok(contains('My campaign'));
+        assert.ok(contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.'));
+        assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase()));
+        assert.ok(
           contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }))
-        ).to.exist;
+        );
       });
 
-      it('should not display go to details link', async function () {
+      test('should not display go to details link', async function (assert) {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
@@ -91,12 +86,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         );
 
         // then
-        expect(contains('Voir le détail')).to.not.exist;
+        assert.notOk(contains('Voir le détail'));
       });
     });
 
-    context('when the participation is completed', function () {
-      it('should display go to details link', async function () {
+    module('when the participation is completed', function () {
+      test('should display go to details link', async function (assert) {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
@@ -115,11 +110,11 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         );
 
         // then
-        expect(contains('Voir le détail')).to.exist;
+        assert.ok(contains('Voir le détail'));
       });
 
-      context('when the participation has a mastery percentage', function () {
-        it('should render the result with percentage', async function () {
+      module('when the participation has a mastery percentage', function () {
+        test('should render the result with percentage', async function (assert) {
           // given
           const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
             createdAt: '2020-01-01',
@@ -138,12 +133,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
           );
 
           // then
-          expect(contains('56 % de réussite')).to.exist;
+          assert.ok(contains('56 % de réussite'));
         });
       });
 
-      context('when the campaign has stages', function () {
-        it('should render the result with stars', async function () {
+      module('when the campaign has stages', function () {
+        test('should render the result with stars', async function (assert) {
           // given
           const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
             createdAt: '2020-01-01',
@@ -165,7 +160,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
           );
 
           // then
-          expect(screen.getByLabelText('1 étoile sur 3')).to.exist;
+          assert.ok(screen.getByLabelText('1 étoile sur 3'));
         });
       });
     });

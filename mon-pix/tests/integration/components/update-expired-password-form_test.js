@@ -1,7 +1,6 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { fillIn, find, render, triggerEvent } from '@ember/test-helpers';
+import { fillIn, render, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -11,19 +10,19 @@ import { clickByLabel } from '../../helpers/click-by-label';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
-describe('Integration | Component | update-expired-password-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | update-expired-password-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     // when
     await render(hbs`{{update-expired-password-form}}`);
 
     //then
-    expect(find('.update-expired-password-form__container')).to.exist;
+    assert.dom('.update-expired-password-form__container').exists();
   });
 
-  context('successful cases', function () {
-    it('should save the new password, when button is clicked', async function () {
+  module('successful cases', function () {
+    test('should save the new password, when button is clicked', async function (assert) {
       // given
       const resetExpiredPasswordDemand = EmberObject.create({
         login: 'toto',
@@ -43,13 +42,13 @@ describe('Integration | Component | update-expired-password-form', function () {
       await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
-      expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
-      expect(find('.password-reset-demand-form__body')).to.exist;
+      assert.dom(PASSWORD_INPUT_CLASS).doesNotExist();
+      assert.dom('.password-reset-demand-form__body').exists();
     });
   });
 
-  context('errors cases', function () {
-    it('should display an error, when saving fails', async function () {
+  module('errors cases', function () {
+    test('should display an error, when saving fails', async function (assert) {
       // given
       const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
 
@@ -71,7 +70,7 @@ describe('Integration | Component | update-expired-password-form', function () {
       await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
-      expect(contains(expectedErrorMessage)).to.exist;
+      assert.ok(contains(expectedErrorMessage));
     });
   });
 });

@@ -1,16 +1,15 @@
-import { click, find } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit } from '@1024pix/ember-testing-library';
 
-describe('Acceptance | Compare answers and solutions for QROC questions', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Compare answers and solutions for QROC questions', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     const challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
     server.create('answer', {
@@ -21,28 +20,28 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
   });
 
-  describe('From the results page', function () {
-    it('should display the REPONSE link from the results screen', async function () {
+  module('From the results page', function () {
+    test('should display the REPONSE link from the results screen', async function (assert) {
       // given & when
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // then
-      expect(screen.getByRole('button', { name: 'Réponses et tutos' })).to.exist;
+      assert.ok(screen.getByRole('button', { name: 'Réponses et tutos' }));
     });
 
-    it('should not yet display the modal nor its content', async function () {
+    test('should not yet display the modal nor its content', async function (assert) {
       // given & when
       await visit(`/assessments/${assessment.id}/results`);
 
       // then
-      expect(find('.comparison-window')).to.be.null;
-      expect(find('.comparison-window__header .comparison-window__result-item-index')).to.be.null;
-      expect(find('.comparison-window__header .comparison-window__title .comparison-window__title-text')).to.be.null;
+      assert.dom('.comparison-window').doesNotExist();
+      assert.dom('.comparison-window__header .comparison-window__result-item-index').doesNotExist();
+      assert.dom('.comparison-window__header .comparison-window__title .comparison-window__title-text').doesNotExist();
     });
   });
 
-  describe('Content of the correction modal', function () {
-    it('should be able to access the modal directly from the url', async function () {
+  module('Content of the correction modal', function () {
+    test('should be able to access the modal directly from the url', async function (assert) {
       // given
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
@@ -50,11 +49,11 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      expect(find('.pix-modal__overlay--hidden')).to.not.exist;
-      expect(find('.pix-modal__overlay')).to.exist;
+      assert.dom('.pix-modal__overlay--hidden').doesNotExist();
+      assert.dom('.pix-modal__overlay').exists();
     });
 
-    it('should contain an instruction', async function () {
+    test('should contain an instruction', async function (assert) {
       // given
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
@@ -62,10 +61,10 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      expect(find('.comparison-window-content__body .challenge-statement-instruction__text')).to.exist;
+      assert.dom('.comparison-window-content__body .challenge-statement-instruction__text').exists();
     });
 
-    it('should contain a correction zone', async function () {
+    test('should contain a correction zone', async function (assert) {
       // given
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
@@ -73,10 +72,10 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
+      assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').exists();
     });
 
-    it('should contain a zone reserved for feedback panel', async function () {
+    test('should contain a zone reserved for feedback panel', async function (assert) {
       // given
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
@@ -84,7 +83,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      expect(find('.feedback-panel__open-button')).to.exist;
+      assert.dom('.feedback-panel__open-button').exists();
     });
   });
 });

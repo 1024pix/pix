@@ -1,13 +1,13 @@
 import Service from '@ember/service';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | campaigns/invited/student-sco', function () {
-  setupTest();
+module('Unit | Route | campaigns/invited/student-sco', function (hooks) {
+  setupTest(hooks);
 
-  describe('#afterModel', function () {
-    it('should redirect to campaigns.invited.fill-in-participant-external-id when an association already exists', async function () {
+  module('#afterModel', function () {
+    test('should redirect to campaigns.invited.fill-in-participant-external-id when an association already exists', async function (assert) {
       // given
       const route = this.owner.lookup('route:campaigns.invited.student-sco');
       const campaign = { code: 'campaignCode' };
@@ -35,6 +35,7 @@ describe('Unit | Route | campaigns/invited/student-sco', function () {
         'campaigns.invited.fill-in-participant-external-id',
         campaign.code
       );
+      assert.ok(true);
     });
   });
 });

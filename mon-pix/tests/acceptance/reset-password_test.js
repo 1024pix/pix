@@ -1,18 +1,17 @@
 import { currentURL, fillIn, find, visit } from '@ember/test-helpers';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Reset Password Form', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Reset Password Form', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  it('can visit /changer-mot-de-passe when temporaryKey exists', async function () {
+  test('can visit /changer-mot-de-passe when temporaryKey exists', async function (assert) {
     // given
     server.create('user', {
       id: 1000,
@@ -31,10 +30,10 @@ describe('Acceptance | Reset Password Form', function () {
     await visit('/changer-mot-de-passe/temporaryKey');
 
     // then
-    expect(currentURL()).to.equal('/changer-mot-de-passe/temporaryKey');
+    assert.equal(currentURL(), '/changer-mot-de-passe/temporaryKey');
   });
 
-  it('should stay on changer-mot-de-passe, and show success message, when password is successfully reset', async function () {
+  test('should stay on changer-mot-de-passe, and show success message, when password is successfully reset', async function (assert) {
     // given
     server.create('user', {
       id: 1000,
@@ -56,11 +55,11 @@ describe('Acceptance | Reset Password Form', function () {
     await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
     // then
-    expect(currentURL()).to.equal('/changer-mot-de-passe/brandone-reset-key');
-    expect(find('.sign-form__body').textContent).to.contain('Votre mot de passe a été modifié avec succès');
+    assert.equal(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
+    assert.ok(find('.sign-form__body').textContent.includes('Votre mot de passe a été modifié avec succès'));
   });
 
-  it('should allow connected user to visit reset-password page', async function () {
+  test('should allow connected user to visit reset-password page', async function (assert) {
     // given
     const user = server.create('user', {
       id: 1000,
@@ -81,6 +80,6 @@ describe('Acceptance | Reset Password Form', function () {
     await visit('/changer-mot-de-passe/brandone-reset-key');
 
     // then
-    expect(currentURL()).to.equal('/changer-mot-de-passe/brandone-reset-key');
+    assert.equal(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
   });
 });

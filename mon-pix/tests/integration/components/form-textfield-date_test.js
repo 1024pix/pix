@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { fillIn, find, findAll, render, settled, triggerEvent } from '@ember/test-helpers';
+import { fillIn, find, render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | form textfield date', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | form textfield date', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const LABEL = '.form-textfield__label';
   const LABEL_TEXT = 'date';
@@ -19,8 +18,8 @@ describe('Integration | Component | form textfield date', function () {
   const INPUT_SUCCESS_CLASS = 'form-textfield__input--success';
   const INPUT_ERROR_CLASS = 'form-textfield__input--error';
 
-  describe('#Component rendering', function () {
-    beforeEach(async function () {
+  module('#Component rendering', function (hooks) {
+    hooks.beforeEach(async function () {
       this.set('label', 'date');
       this.set('dayValidationStatus', '');
       this.set('monthValidationStatus', '');
@@ -56,10 +55,10 @@ describe('Integration | Component | form textfield date', function () {
       { expectedRendering: 'div', item: MESSAGE, expectedLength: 3 },
       { expectedRendering: 'input', item: INPUT, expectedLength: 3 },
     ].forEach(function ({ expectedRendering, item, expectedLength }) {
-      it(`Should render a ${expectedRendering}`, function () {
+      test(`Should render a ${expectedRendering}`, function (assert) {
         // Then
-        expect(findAll(item)).to.have.length(expectedLength);
-        expect(find(item).nodeName).to.equal(expectedRendering.toUpperCase());
+        assert.dom(item).exists({ count: expectedLength });
+        assert.equal(find(item).nodeName, expectedRendering.toUpperCase());
       });
     });
 
@@ -69,15 +68,15 @@ describe('Integration | Component | form textfield date', function () {
       { item: `${MESSAGE}#monthValidationMessage`, expectedRendering: 'div.message', expectedText: 'month message' },
       { item: `${MESSAGE}#yearValidationMessage`, expectedRendering: 'div.message', expectedText: 'year message' },
     ].forEach(function ({ item, expectedRendering, expectedText }) {
-      it(`Should render a ${expectedRendering}`, function () {
+      test(`Should render a ${expectedRendering}`, function (assert) {
         // Then
-        expect(find(item).textContent).to.contains(expectedText);
+        assert.ok(find(item).textContent.includes(expectedText));
       });
     });
   });
 
-  describe('#Component Interactions', function () {
-    it('should handle action <validate> when input lost focus', async function () {
+  module('#Component Interactions', function () {
+    test('should handle action <validate> when input lost focus', async function (assert) {
       // given
       const isActionValidateHandled = { day: false, month: false, year: false };
       const inputValueToValidate = { day: null, month: null, year: null };
@@ -129,14 +128,14 @@ describe('Integration | Component | form textfield date', function () {
       await triggerEvent('#year', 'focusout');
 
       // then
-      expect(isActionValidateHandled.day).to.be.true;
-      expect(isActionValidateHandled.month).to.be.true;
-      expect(isActionValidateHandled.year).to.be.true;
-      expect(inputValueToValidate).to.deep.equal(expectedInputValue);
+      assert.equal(isActionValidateHandled.day, true);
+      assert.equal(isActionValidateHandled.month, true);
+      assert.equal(isActionValidateHandled.year, true);
+      assert.deepEqual(inputValueToValidate, expectedInputValue);
     });
 
-    describe('#When validationStatus gets "default", Component should ', function () {
-      beforeEach(async function () {
+    module('#When validationStatus gets "default", Component should ', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'date');
         this.set('dayValidationStatus', 'default');
         this.set('monthValidationStatus', 'default');
@@ -167,26 +166,26 @@ describe('Integration | Component | form textfield date', function () {
         />`);
       });
 
-      it("return true if any svg doesn't exist", function () {
+      test("return true if any svg doesn't exist", function (assert) {
         // then
-        expect(findAll('img')).to.have.lengthOf(0);
+        assert.dom('img').doesNotExist();
       });
 
-      it(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function () {
+      test(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function (assert) {
         const input = find(INPUT);
         // then
-        expect(input.getAttribute('class')).to.contain(INPUT_DEFAULT_CLASS);
-        expect(input.value).to.contain('');
+        assert.ok(input.getAttribute('class').includes(INPUT_DEFAULT_CLASS));
+        assert.ok(input.value.includes(''));
       });
 
-      it('should not show a div for message validation status when validationStatus is default', function () {
+      test('should not show a div for message validation status when validationStatus is default', function (assert) {
         // then
-        expect(find(MESSAGE)).to.not.exist;
+        assert.dom(MESSAGE).doesNotExist();
       });
     });
 
-    describe('#When validationStatus gets "error", Component should ', function () {
-      beforeEach(async function () {
+    module('#When validationStatus gets "error", Component should ', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'date');
         this.set('dayValidationStatus', 'error');
         this.set('monthValidationStatus', 'error');
@@ -217,11 +216,11 @@ describe('Integration | Component | form textfield date', function () {
         />`);
       });
 
-      it('return true if any img does exist', function () {
+      test('return true if any img does exist', function (assert) {
         // then
         return settled().then(() => {
-          expect(findAll('img')).to.have.lengthOf(3);
-          expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
+          assert.dom('img').exists({ count: 3 });
+          assert.ok(find('img').getAttribute('class').includes('form-textfield-icon__state--error'));
         });
       });
 
@@ -229,15 +228,15 @@ describe('Integration | Component | form textfield date', function () {
         { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS },
         { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS },
       ].forEach(({ item, itemSelector, expectedClass }) => {
-        it(`contain an ${item} with an additional class ${expectedClass}`, function () {
+        test(`contain an ${item} with an additional class ${expectedClass}`, function (assert) {
           // then
-          expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+          assert.ok(find(itemSelector).getAttribute('class').includes(expectedClass));
         });
       });
     });
 
-    describe('#When validationStatus gets "success", Component should ', function () {
-      beforeEach(async function () {
+    module('#When validationStatus gets "success", Component should ', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'date');
         this.set('dayValidationStatus', 'success');
         this.set('monthValidationStatus', 'success');
@@ -267,19 +266,19 @@ describe('Integration | Component | form textfield date', function () {
         />`);
       });
 
-      it('return true if any img does exist', function () {
+      test('return true if any img does exist', function (assert) {
         // then
-        expect(findAll('img')).to.have.lengthOf(3);
-        expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--success');
+        assert.dom('img').exists({ count: 3 });
+        assert.ok(find('img').getAttribute('class').includes('form-textfield-icon__state--success'));
       });
 
       [
         { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS },
         { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS },
       ].forEach(({ item, itemSelector, expectedClass }) => {
-        it(`contain an ${item} with an additional class ${expectedClass}`, function () {
+        test(`contain an ${item} with an additional class ${expectedClass}`, function (assert) {
           // then
-          expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+          assert.ok(find(itemSelector).getAttribute('class').includes(expectedClass));
         });
       });
     });

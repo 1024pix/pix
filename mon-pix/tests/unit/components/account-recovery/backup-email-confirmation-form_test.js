@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | account-recovery | backup-email-confirmation-form', function () {
-  setupTest();
+module('Unit | Component | account-recovery | backup-email-confirmation-form', function (hooks) {
+  setupTest(hooks);
 
-  describe('#submitBackupEmailConfirmationForm', function () {
-    it('should call sendEmail', function () {
+  module('#submitBackupEmailConfirmationForm', function () {
+    test('should call sendEmail', function (assert) {
       // given
       const sendEmail = sinon.stub();
       const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form', {
@@ -23,11 +22,12 @@ describe('Unit | Component | account-recovery | backup-email-confirmation-form',
 
       // then
       sinon.assert.calledWith(sendEmail, 'john.doe@example.net');
+      assert.ok(true);
     });
   });
 
-  describe('#isSubmitButtonEnabled', function () {
-    it('should return false if email is empty', function () {
+  module('#isSubmitButtonEnabled', function () {
+    test('should return false if email is empty', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form');
       component.email = '';
@@ -36,10 +36,10 @@ describe('Unit | Component | account-recovery | backup-email-confirmation-form',
       const result = component.isSubmitButtonEnabled;
 
       // then
-      expect(result).to.be.false;
+      assert.equal(result, false);
     });
 
-    it('should return false if email is not valid', function () {
+    test('should return false if email is not valid', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form');
       component.email = 'wrongemail';
@@ -48,10 +48,10 @@ describe('Unit | Component | account-recovery | backup-email-confirmation-form',
       const result = component.isSubmitButtonEnabled;
 
       // then
-      expect(result).to.be.false;
+      assert.equal(result, false);
     });
 
-    it('should return true if email is valid', function () {
+    test('should return true if email is valid', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form');
       component.email = 'user@example.net';
@@ -60,7 +60,7 @@ describe('Unit | Component | account-recovery | backup-email-confirmation-form',
       const result = component.isSubmitButtonEnabled;
 
       // then
-      expect(result).to.be.true;
+      assert.equal(result, true);
     });
   });
 });

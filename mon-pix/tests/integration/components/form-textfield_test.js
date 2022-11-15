@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, fillIn, find, findAll, render, settled, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, find, render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | form textfield', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | form textfield', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const LABEL = '.form-textfield__label';
   const LABEL_TEXT = 'NOM';
@@ -20,8 +19,8 @@ describe('Integration | Component | form textfield', function () {
   const INPUT_SUCCESS_CLASS = 'form-textfield__input--success';
   const INPUT_ERROR_CLASS = 'form-textfield__input--error';
 
-  describe('#Component rendering', function () {
-    beforeEach(async function () {
+  module('#Component rendering', function (hooks) {
+    hooks.beforeEach(async function () {
       this.set('label', 'nom');
       this.set('validationStatus', '');
       this.set('validationMessage', MESSAGE_TEXT);
@@ -38,10 +37,10 @@ describe('Integration | Component | form textfield', function () {
       { expectedRendering: 'div', item: MESSAGE, expectedLength: 1 },
       { expectedRendering: 'input', item: INPUT, expectedLength: 1 },
     ].forEach(function ({ expectedRendering, item, expectedLength }) {
-      it(`should render a ${expectedRendering}`, function () {
+      test(`should render a ${expectedRendering}`, function (assert) {
         // Then
-        expect(findAll(item)).to.have.length(expectedLength);
-        expect(find(item).nodeName).to.equal(expectedRendering.toUpperCase());
+        assert.dom(item).exists({ count: expectedLength });
+        assert.equal(find(item).nodeName, expectedRendering.toUpperCase());
       });
     });
 
@@ -49,15 +48,15 @@ describe('Integration | Component | form textfield', function () {
       { item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT },
       { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT },
     ].forEach(function ({ item, expectedRendering, expectedText }) {
-      it(`should render a ${expectedRendering}`, function () {
+      test(`should render a ${expectedRendering}`, function (assert) {
         // Then
-        expect(find(item).textContent.toUpperCase()).to.contains(expectedText);
+        assert.ok(find(item).textContent.toUpperCase().includes(expectedText));
       });
     });
   });
 
-  describe('#Component Interactions', function () {
-    it('should handle action <validate> when input lost focus', async function () {
+  module('#Component Interactions', function () {
+    test('should handle action <validate> when input lost focus', async function (assert) {
       // given
       let isActionValidateHandled = false;
       let inputValueToValidate;
@@ -82,13 +81,13 @@ describe('Integration | Component | form textfield', function () {
       await triggerEvent(INPUT, 'focusout');
       // then
       return settled().then(() => {
-        expect(isActionValidateHandled).to.be.true;
-        expect(inputValueToValidate).to.deep.equal(expectedInputValue);
+        assert.equal(isActionValidateHandled, true);
+        assert.deepEqual(inputValueToValidate, expectedInputValue);
       });
     });
 
-    describe('#When validationStatus gets "default", Component should ', function () {
-      beforeEach(async function () {
+    module('#When validationStatus gets "default", Component should ', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'nom');
         this.set('validationStatus', 'default');
         this.set('textfieldName', 'firstname');
@@ -100,21 +99,21 @@ describe('Integration | Component | form textfield', function () {
         );
       });
 
-      it("return true if any svg doesn't exist", function () {
+      test("return true if any svg doesn't exist", function (assert) {
         // then
-        expect(findAll('img')).to.have.lengthOf(0);
+        assert.dom('img').doesNotExist();
       });
 
-      it(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function () {
+      test(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function (assert) {
         const input = find(INPUT);
         // then
-        expect(input.getAttribute('class')).to.contain(INPUT_DEFAULT_CLASS);
-        expect(input.value).to.contain('');
+        assert.ok(input.getAttribute('class').includes(INPUT_DEFAULT_CLASS));
+        assert.ok(input.value.includes(''));
       });
     });
 
-    describe('#When validationStatus gets "error", Component should ', function () {
-      beforeEach(async function () {
+    module('#When validationStatus gets "error", Component should ', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'nom');
         this.set('validationStatus', 'error');
         this.set('textfieldName', 'firstname');
@@ -126,11 +125,11 @@ describe('Integration | Component | form textfield', function () {
         );
       });
 
-      it('return true if any img does exist', function () {
+      test('return true if any img does exist', function (assert) {
         // then
         return settled().then(() => {
-          expect(findAll('img')).to.have.lengthOf(1);
-          expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
+          assert.dom('img').exists({ count: 1 });
+          assert.ok(find('img').getAttribute('class').includes('form-textfield-icon__state--error'));
         });
       });
 
@@ -138,15 +137,15 @@ describe('Integration | Component | form textfield', function () {
         { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS },
         { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS },
       ].forEach(({ item, itemSelector, expectedClass }) => {
-        it(`contain an ${item} with an additional class ${expectedClass}`, function () {
+        test(`contain an ${item} with an additional class ${expectedClass}`, function (assert) {
           // then
-          expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+          assert.ok(find(itemSelector).getAttribute('class').includes(expectedClass));
         });
       });
     });
 
-    describe('#When validationStatus gets "success", Component should ', function () {
-      beforeEach(async function () {
+    module('#When validationStatus gets "success", Component should ', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'nom');
         this.set('validationStatus', 'success');
         this.set('validationMessage', 'message');
@@ -158,25 +157,25 @@ describe('Integration | Component | form textfield', function () {
         );
       });
 
-      it('return true if any img does exist', function () {
+      test('return true if any img does exist', function (assert) {
         // then
-        expect(findAll('img')).to.have.lengthOf(1);
-        expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--success');
+        assert.dom('img').exists({ count: 1 });
+        assert.ok(find('img').getAttribute('class').includes('form-textfield-icon__state--success'));
       });
 
       [
         { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS },
         { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS },
       ].forEach(({ item, itemSelector, expectedClass }) => {
-        it(`contain an ${item} with an additional class ${expectedClass}`, function () {
+        test(`contain an ${item} with an additional class ${expectedClass}`, function (assert) {
           // then
-          expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+          assert.ok(find(itemSelector).getAttribute('class').includes(expectedClass));
         });
       });
     });
 
-    describe('#When password is hidden', function () {
-      beforeEach(async function () {
+    module('#When password is hidden', function (hooks) {
+      hooks.beforeEach(async function () {
         this.set('label', 'Mot de passe');
         this.set('validationStatus', 'default');
         this.set('validationMessage', 'message');
@@ -188,29 +187,29 @@ describe('Integration | Component | form textfield', function () {
         );
       });
 
-      it('should change type when user click on eye icon', async function () {
+      test('should change type when user click on eye icon', async function (assert) {
         // when
         await click('.form-textfield-icon__button');
 
         // then
-        expect(find('input').getAttribute('type')).to.equal('text');
+        assert.equal(find('input').getAttribute('type'), 'text');
       });
 
-      it('should change icon when user click on it', async function () {
+      test('should change icon when user click on it', async function (assert) {
         // when
-        expect(find('.fa-eye-slash')).to.exist;
+        assert.dom('.fa-eye-slash').exists();
         await click('.form-textfield-icon__button');
 
         // then
-        expect(find('.fa-eye')).to.exist;
+        assert.dom('.fa-eye').exists();
       });
 
-      it('should not change icon when user keeps typing his password', async function () {
+      test('should not change icon when user keeps typing his password', async function (assert) {
         // given
         await fillIn(INPUT, 'test');
 
         // when
-        expect(find('.fa-eye-slash')).to.exist;
+        assert.dom('.fa-eye-slash').exists();
         await click('.form-textfield-icon__button');
         await fillIn(INPUT, 'test');
       });

@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | form-textfield-date', function () {
-  setupTest();
+module('Unit | Component | form-textfield-date', function (hooks) {
+  setupTest(hooks);
 
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:form-textfield-date');
   });
 
-  describe('When validationStatus gets "default", Component computed property: ', function () {
+  module('When validationStatus gets "default", Component computed property: ', function () {
     [{ field: 'day' }, { field: 'month' }, { field: 'year' }].forEach(({ field }) => {
       [
         { property: `${field}HasIcon`, expectedValue: false },
@@ -20,20 +19,20 @@ describe('Unit | Component | form-textfield-date', function () {
         { property: `${field}InputContainerStatusClass`, expectedValue: 'form-textfield__input-container--default' },
         { property: `${field}ValidationMessageClass`, expectedValue: 'form-textfield__message--default' },
       ].forEach(({ property, expectedValue }) => {
-        it(`${property} should return ${expectedValue}`, function () {
+        test(`${property} should return ${expectedValue}`, function (assert) {
           // When
           component.args[`${field}ValidationStatus`] = 'default';
           component.args[`${field}ValidationMessage`] = '';
           const propertyValue = component[property];
 
           // Then
-          expect(propertyValue).to.equal(expectedValue);
+          assert.equal(propertyValue, expectedValue);
         });
       });
     });
   });
 
-  describe('When validationStatus gets "error", Component computed property: ', function () {
+  module('When validationStatus gets "error", Component computed property: ', function () {
     [{ field: 'day' }, { field: 'month' }, { field: 'year' }].forEach(({ field }) => {
       [
         { property: `${field}HasIcon`, expectedValue: true },
@@ -41,20 +40,20 @@ describe('Unit | Component | form-textfield-date', function () {
         { property: `${field}InputContainerStatusClass`, expectedValue: 'form-textfield__input-container--error' },
         { property: `${field}ValidationMessageClass`, expectedValue: 'form-textfield__message--error' },
       ].forEach(({ property, expectedValue }) => {
-        it(`${property} should return ${expectedValue}`, function () {
+        test(`${property} should return ${expectedValue}`, function (assert) {
           // When
           component.args[`${field}ValidationStatus`] = 'error';
           component.args[`${field}ValidationMessage`] = 'error message';
           const propertyValue = component[property];
 
           // Then
-          expect(propertyValue).to.equal(expectedValue);
+          assert.equal(propertyValue, expectedValue);
         });
       });
     });
   });
 
-  describe('When validationStatus gets "success", Component computed property: ', function () {
+  module('When validationStatus gets "success", Component computed property: ', function () {
     [{ field: 'day' }, { field: 'month' }, { field: 'year' }].forEach(({ field }) => {
       [
         { property: `${field}HasIcon`, expectedValue: true },
@@ -62,14 +61,14 @@ describe('Unit | Component | form-textfield-date', function () {
         { property: `${field}InputContainerStatusClass`, expectedValue: 'form-textfield__input-container--success' },
         { property: `${field}ValidationMessageClass`, expectedValue: 'form-textfield__message--success' },
       ].forEach(({ property, expectedValue }) => {
-        it(`${property} should return ${expectedValue}`, function () {
+        test(`${property} should return ${expectedValue}`, function (assert) {
           // When
           component.args[`${field}ValidationStatus`] = 'success';
           component.args[`${field}ValidationMessage`] = '';
           const propertyValue = component[property];
 
           // Then
-          expect(propertyValue).to.equal(expectedValue);
+          assert.equal(propertyValue, expectedValue);
         });
       });
     });

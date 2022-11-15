@@ -1,15 +1,15 @@
-import { setupTest } from 'ember-mocha';
-import { describe, it } from 'mocha';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import PixWindow from 'mon-pix/utils/pix-window';
 
-describe('Unit | Routes | authentication | login-gar', function () {
-  setupTest();
+module('Unit | Routes | authentication | login-gar', function (hooks) {
+  setupTest(hooks);
 
-  describe('#beforeModel', function () {
-    context('when a token is set as an hash of an url', function () {
-      it('should authenticate the user', async function () {
+  module('#beforeModel', function () {
+    module('when a token is set as an hash of an url', function () {
+      test('should authenticate the user', async function (assert) {
         // given
         const route = this.owner.lookup('route:authentication/login-gar');
         const sessionStub = Service.create({
@@ -24,6 +24,7 @@ describe('Unit | Routes | authentication | login-gar', function () {
 
         // then
         sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:gar', 'access_token');
+        assert.ok(true);
       });
     });
   });

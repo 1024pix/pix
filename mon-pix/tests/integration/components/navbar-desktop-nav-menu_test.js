@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | navbar desktop menu', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | navbar desktop menu', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should be rendered', async function () {
+  test('should be rendered', async function (assert) {
     // when
     await render(hbs`<NavbarDesktopMenu/>`);
 
     // then
-    expect(find('.navbar-desktop-menu')).to.exist;
+    assert.dom('.navbar-desktop-menu').exists();
   });
 });

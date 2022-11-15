@@ -1,8 +1,7 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-describe('Unit | Utility | proposals as blocks', function () {
+module('Unit | Utility | proposals as blocks', function () {
   const testData = [
     {
       data: '',
@@ -146,8 +145,8 @@ describe('Unit | Utility | proposals as blocks', function () {
   ];
 
   testData.forEach(({ data, expected }) => {
-    it(`"${data}" retourne ${JSON.stringify(expected)}`, function () {
-      expect(proposalsAsBlocks(data)).to.deep.equal(expected);
+    test(`"${data}" retourne ${JSON.stringify(expected)}`, function (assert) {
+      assert.deepEqual(proposalsAsBlocks(data), expected);
     });
   });
 });

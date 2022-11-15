@@ -1,31 +1,30 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | Campaign-Participation-Overview', function () {
-  setupTest();
+module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('#status', function () {
-    context('when the campaign is not archived', function () {
-      context('when the participation status is "started"', function () {
-        it('should return the status "ONGOING"', function () {
+  module('#status', function () {
+    module('when the campaign is not archived', function () {
+      module('when the participation status is "started"', function () {
+        test('should return the status "ONGOING"', function (assert) {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             status: 'STARTED',
           });
           // when / then
-          expect(model.cardStatus).to.equal('ONGOING');
+          assert.equal(model.cardStatus, 'ONGOING');
         });
       });
 
-      context('when the particiaption status is "TO_SHARE" and the participation is not shared"', function () {
-        it('should return the status "TO_SHARE"', function () {
+      module('when the particiaption status is "TO_SHARE" and the participation is not shared"', function () {
+        test('should return the status "TO_SHARE"', function (assert) {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             status: 'TO_SHARE',
@@ -33,12 +32,12 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
             disabledAt: null,
           });
           // when / then
-          expect(model.cardStatus).to.equal('TO_SHARE');
+          assert.equal(model.cardStatus, 'TO_SHARE');
         });
       });
 
-      context('when the participation status is "SHARED" and the participation is shared"', function () {
-        it('should return the status "ENDED"', function () {
+      module('when the participation status is "SHARED" and the participation is shared"', function () {
+        test('should return the status "ENDED"', function (assert) {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             status: 'SHARED',
@@ -46,13 +45,13 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
             isShared: true,
           });
           // when / then
-          expect(model.cardStatus).to.equal('ENDED');
+          assert.equal(model.cardStatus, 'ENDED');
         });
       });
     });
 
-    context('when the participation is disabled"', function () {
-      it('should return the status "disabled"', function () {
+    module('when the participation is disabled"', function () {
+      test('should return the status "disabled"', function (assert) {
         // given
         const model = store.createRecord('campaign-participation-overview', {
           status: 'SHARED',
@@ -60,7 +59,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
           disabledAt: new Date('2021-01-01'),
         });
         // when / then
-        expect(model.cardStatus).to.equal('DISABLED');
+        assert.equal(model.cardStatus, 'DISABLED');
       });
     });
   });

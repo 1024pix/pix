@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | User-Tutorials | Filters | ItemCheckbox', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('when currentFilters contains item', function () {
-    it('should show checked checkbox', async function () {
+  module('when currentFilters contains item', function () {
+    test('should show checked checkbox', async function (assert) {
       // given
       this.set('item', { id: 'competencesId', name: 'Ma super compétence' });
       this.set('currentFilters', { competences: ['competencesId'] });
@@ -25,12 +24,12 @@ describe('Integration | Component | User-Tutorials | Filters | ItemCheckbox', fu
       );
 
       // then
-      expect(find('input').checked).to.be.true;
+      assert.equal(find('input').checked, true);
     });
   });
 
-  describe('when currentFilters not contains item', function () {
-    it('should show not checked checkbox', async function () {
+  module('when currentFilters not contains item', function () {
+    test('should show not checked checkbox', async function (assert) {
       // given
       this.set('item', { id: 'competencesId', name: 'Ma super compétence' });
       this.set('currentFilters', { competences: [] });
@@ -47,7 +46,7 @@ describe('Integration | Component | User-Tutorials | Filters | ItemCheckbox', fu
       );
 
       // then
-      expect(find('input').checked).to.be.false;
+      assert.equal(find('input').checked, false);
     });
   });
 });

@@ -1,24 +1,23 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { fillIn, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QROCm proposal', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | QROCm proposal', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`<QrocmProposal />`);
 
-    expect(find('.qrocm-proposal')).to.exist;
+    assert.dom('.qrocm-proposal').exists();
   });
 
-  describe('When block type is select', function () {
-    beforeEach(function () {
+  module('When block type is select', function (hooks) {
+    hooks.beforeEach(function () {
       this.set('proposals', '${potato§La patate#samurai options=["salad", "tomato", "onion"]}');
     });
 
-    it('should display a selector with related options', async function () {
+    test('should display a selector with related options', async function (assert) {
       // given
       const placeholderValue = '';
       const expectedOptionValues = [placeholderValue, 'salad', 'tomato', 'onion'];
@@ -31,12 +30,12 @@ describe('Integration | Component | QROCm proposal', function () {
       const options = findAll('select[data-test="challenge-response-proposal-selector"] option');
       const optionValues = options.map((option) => option.value);
 
-      expect(selector.tagName).to.equal('SELECT');
-      expect(selector.getAttribute('aria-label')).to.equal('La patate');
-      expect(optionValues).to.deep.equal(expectedOptionValues);
+      assert.equal(selector.tagName, 'SELECT');
+      assert.equal(selector.getAttribute('aria-label'), 'La patate');
+      assert.deepEqual(optionValues, expectedOptionValues);
     });
 
-    it('should select option', async function () {
+    test('should select option', async function (assert) {
       // given
       this.set('answersValue', { potato: null });
 
@@ -45,13 +44,13 @@ describe('Integration | Component | QROCm proposal', function () {
       await fillIn('select[data-test="challenge-response-proposal-selector"]', 'tomato');
 
       // then
-      expect(this.answersValue['potato']).to.equal('tomato');
+      assert.equal(this.answersValue['potato'], 'tomato');
     });
   });
 
-  describe('When block type is input', function () {
-    describe('When format is a paragraph', function () {
-      it('should display a textarea', async function () {
+  module('When block type is input', function () {
+    module('When format is a paragraph', function () {
+      test('should display a textarea', async function (assert) {
         // given
         this.set('proposals', '${myInput}');
         this.set('format', 'paragraphe');
@@ -60,12 +59,12 @@ describe('Integration | Component | QROCm proposal', function () {
         await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
         // then
-        expect(find('.challenge-response__proposal--paragraph').tagName).to.equal('TEXTAREA');
+        assert.equal(find('.challenge-response__proposal--paragraph').tagName, 'TEXTAREA');
       });
     });
 
-    describe('When format is a sentence', function () {
-      it('should display a input', async function () {
+    module('When format is a sentence', function () {
+      test('should display a input', async function (assert) {
         // given
         this.set('proposals', '${myInput}');
         this.set('format', 'phrase');
@@ -74,17 +73,17 @@ describe('Integration | Component | QROCm proposal', function () {
         await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
         // then
-        expect(find('.challenge-response__proposal--sentence').tagName).to.equal('INPUT');
+        assert.equal(find('.challenge-response__proposal--sentence').tagName, 'INPUT');
       });
     });
 
-    describe('When format is a neither a paragraph nor a sentence', function () {
+    module('When format is a neither a paragraph nor a sentence', function () {
       [
         { format: 'petit', expectedSize: '11' },
         { format: 'mots', expectedSize: '20' },
         { format: 'unreferenced_format', expectedSize: '20' },
       ].forEach((data) => {
-        it(`should display an input with expected size (${data.expectedSize}) when format is ${data.format}`, async function () {
+        test(`should display an input with expected size (${data.expectedSize}) when format is ${data.format}`, async function (assert) {
           // given
           this.set('proposals', '${myInput}');
           this.set('format', data.format);
@@ -93,22 +92,22 @@ describe('Integration | Component | QROCm proposal', function () {
           await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
           // then
-          expect(find('.challenge-response__proposal--paragraph')).to.not.exist;
-          expect(find('.challenge-response__proposal').tagName).to.equal('INPUT');
-          expect(find('.challenge-response__proposal').getAttribute('size')).to.equal(data.expectedSize);
+          assert.dom('.challenge-response__proposal--paragraph').doesNotExist();
+          assert.equal(find('.challenge-response__proposal').tagName, 'INPUT');
+          assert.equal(find('.challenge-response__proposal').getAttribute('size'), data.expectedSize);
         });
       });
     });
 
-    describe('Whatever the format', function () {
+    module('Whatever the format', function () {
       [
         { format: 'mots', cssClass: '.challenge-response__proposal', inputType: 'input' },
         { format: 'phrase', cssClass: '.challenge-response__proposal--sentence', inputType: 'input' },
         { format: 'paragraphe', cssClass: '.challenge-response__proposal--paragraph', inputType: 'textarea' },
         { format: 'unreferenced_format', cssClass: '.challenge-response__proposal', inputType: 'input' },
       ].forEach((data) => {
-        describe(`Component behavior when the user clicks on the ${data.inputType}`, function () {
-          it('should not display autocompletion answers', async function () {
+        module(`Component behavior when the user clicks on the ${data.inputType}`, function () {
+          test('should not display autocompletion answers', async function (assert) {
             // given
             const proposals = '${myInput}';
             this.set('proposals', proposals);
@@ -121,7 +120,7 @@ describe('Integration | Component | QROCm proposal', function () {
             );
 
             // then
-            expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('nope');
+            assert.equal(find(`${data.cssClass}`).getAttribute('autocomplete'), 'nope');
           });
         });
       });
@@ -130,10 +129,10 @@ describe('Integration | Component | QROCm proposal', function () {
         { proposals: '${input}', expectedAriaLabel: ['Réponse 1'] },
         { proposals: '${rep1}, ${rep2} ${rep3}', expectedAriaLabel: ['Réponse 1', 'Réponse 2', 'Réponse 3'] },
       ].forEach((data) => {
-        describe(`Component aria-label accessibility when proposal is ${data.proposals}`, function () {
+        module(`Component aria-label accessibility when proposal is ${data.proposals}`, function (hooks) {
           let allInputElements;
 
-          beforeEach(async function () {
+          hooks.beforeEach(async function () {
             // given
             this.set('proposals', data.proposals);
             this.set('answerValue', '');
@@ -148,27 +147,27 @@ describe('Integration | Component | QROCm proposal', function () {
             allInputElements = findAll('.challenge-response__proposal');
           });
 
-          it('should have an aria-label', async function () {
+          test('should have an aria-label', async function (assert) {
             // then
-            expect(allInputElements.length).to.be.equal(data.expectedAriaLabel.length);
+            assert.equal(allInputElements.length, data.expectedAriaLabel.length);
             allInputElements.forEach((element, index) => {
-              expect(element.getAttribute('aria-label')).to.contains(data.expectedAriaLabel[index]);
+              assert.ok(element.getAttribute('aria-label').includes(data.expectedAriaLabel[index]));
             });
           });
 
-          it('should not have a label', async function () {
+          test('should not have a label', async function (assert) {
             // then
-            expect(find('label')).to.be.null;
+            assert.dom('label').doesNotExist();
           });
         });
       });
 
       [{ proposals: 'texte : ${rep1}\nautre texte : ${rep2}', expectedLabel: ['texte :', 'autre texte :'] }].forEach(
         (data) => {
-          describe(`Component label accessibility when proposal is ${data.proposals}`, function () {
+          module(`Component label accessibility when proposal is ${data.proposals}`, function (hooks) {
             let allLabelElements, allInputElements;
 
-            beforeEach(async function () {
+            hooks.beforeEach(async function () {
               // given
               this.set('proposals', data.proposals);
               this.set('answerValue', '');
@@ -184,26 +183,26 @@ describe('Integration | Component | QROCm proposal', function () {
               allInputElements = findAll('.challenge-response__proposal');
             });
 
-            it('should have a label', async function () {
+            test('should have a label', async function (assert) {
               // then
-              expect(allLabelElements.length).to.be.equal(allInputElements.length);
-              expect(allLabelElements.length).to.be.equal(data.expectedLabel.length);
+              assert.equal(allLabelElements.length, allInputElements.length);
+              assert.equal(allLabelElements.length, data.expectedLabel.length);
               allLabelElements.forEach((element, index) => {
-                expect(element.textContent.trim()).to.equal(data.expectedLabel[index]);
+                assert.equal(element.textContent.trim(), data.expectedLabel[index]);
               });
             });
 
-            it('should not have an aria-label', async function () {
+            test('should not have an aria-label', async function (assert) {
               // then
-              expect(find('.challenge-response__proposal').getAttribute('aria-label')).to.be.null;
+              assert.notOk(find('.challenge-response__proposal').getAttribute('aria-label'));
             });
 
-            it('should connect the label with the input', async function () {
+            test('should connect the label with the input', async function (assert) {
               // then
-              expect(allInputElements.length).to.equal(allLabelElements.length);
+              assert.equal(allInputElements.length, allLabelElements.length);
               const allInputElementsId = allInputElements.map((inputElement) => inputElement.getAttribute('id'));
               const allLabelElementsFor = allLabelElements.map((labelElement) => labelElement.getAttribute('for'));
-              expect(allInputElementsId).to.deep.equal(allLabelElementsFor);
+              assert.deepEqual(allInputElementsId, allLabelElementsFor);
             });
           });
         }

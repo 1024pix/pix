@@ -1,13 +1,12 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Tutorials | Cards', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Tutorials | Cards', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders no cards if there are no tutorials', async function () {
+  test('renders no cards if there are no tutorials', async function (assert) {
     // given
     const tutorials = [];
     this.set('tutorials', tutorials);
@@ -16,11 +15,11 @@ describe('Integration | Component | Tutorials | Cards', function () {
     await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
 
     // then
-    expect(find('.user-tutorials-content__cards')).to.exist;
-    expect(findAll('.tutorial-card').length).to.equal(0);
+    assert.dom('.user-tutorials-content__cards').exists();
+    assert.equal(findAll('.tutorial-card').length, 0);
   });
 
-  it('renders a list of cards if there are tutorials', async function () {
+  test('renders a list of cards if there are tutorials', async function (assert) {
     // given
     const tutorial1 = {
       title: 'Mon super tutoriel',
@@ -48,7 +47,7 @@ describe('Integration | Component | Tutorials | Cards', function () {
     await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
 
     // then
-    expect(find('.user-tutorials-content__cards')).to.exist;
-    expect(findAll('.tutorial-card').length).to.equal(2);
+    assert.dom('.user-tutorials-content__cards').exists();
+    assert.equal(findAll('.tutorial-card').length, 2);
   });
 });

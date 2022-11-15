@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | user-account | email-verification-code', function () {
-  setupTest();
+module('Unit | Component | user-account | email-verification-code', function (hooks) {
+  setupTest(hooks);
 
-  context('#onSubmitCode', function () {
-    it('should send entered code for verification and redirect to account page with successful message', async function () {
+  module('#onSubmitCode', function () {
+    test('should send entered code for verification and redirect to account page with successful message', async function (assert) {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const code = '918435';
@@ -26,9 +25,10 @@ describe('Unit | Component | user-account | email-verification-code', function (
       sinon.assert.calledOnce(verifyCode);
       sinon.assert.calledOnce(component.args.disableEmailEditionMode);
       sinon.assert.calledOnce(component.args.displayEmailUpdateMessage);
+      assert.ok(true);
     });
 
-    it('should update the user email when code verification is successful', async function () {
+    test('should update the user email when code verification is successful', async function (assert) {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const code = '918435';
@@ -44,12 +44,12 @@ describe('Unit | Component | user-account | email-verification-code', function (
       await component.onSubmitCode(code);
 
       // then
-      expect(component.currentUser.user.email).to.equal(newEmail);
+      assert.equal(component.currentUser.user.email, newEmail);
     });
   });
 
-  context('#resendVerificationCodeByEmail', function () {
-    it('should be loading while resending email', function () {
+  module('#resendVerificationCodeByEmail', function () {
+    test('should be loading while resending email', function (assert) {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const newEmail = 'toto@example.net';
@@ -63,10 +63,10 @@ describe('Unit | Component | user-account | email-verification-code', function (
       component.resendVerificationCodeByEmail();
 
       // then
-      expect(component.isResending).to.be.true;
+      assert.equal(component.isResending, true);
     });
 
-    it('should show success message after resending', async function () {
+    test('should show success message after resending', async function (assert) {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const newEmail = 'toto@example.net';
@@ -80,8 +80,8 @@ describe('Unit | Component | user-account | email-verification-code', function (
       await component.resendVerificationCodeByEmail();
 
       // then
-      expect(component.isEmailSent).to.be.true;
-      expect(component.isResending).to.be.false;
+      assert.equal(component.isEmailSent, true);
+      assert.equal(component.isResending, false);
     });
   });
 });

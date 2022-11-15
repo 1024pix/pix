@@ -1,19 +1,18 @@
 import { click, currentURL } from '@ember/test-helpers';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { clickByLabel } from '../helpers/click-by-label';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
 
-describe('Acceptance | User account', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | User account', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-  describe('When in profile', function () {
-    it('should open tests page when click on menu', async function () {
+  module('When in profile', function () {
+    test('should open tests page when click on menu', async function (assert) {
       //given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
@@ -24,10 +23,10 @@ describe('Acceptance | User account', function () {
       await clickByLabel('Mes parcours');
 
       // then
-      expect(currentURL()).to.equal('/mes-parcours');
+      assert.equal(currentURL(), '/mes-parcours');
     });
 
-    it('should open certifications page when click on menu', async function () {
+    test('should open certifications page when click on menu', async function (assert) {
       //given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
@@ -38,10 +37,10 @@ describe('Acceptance | User account', function () {
       await clickByLabel('Mes certifications');
 
       // then
-      expect(currentURL()).to.equal('/mes-certifications');
+      assert.equal(currentURL(), '/mes-certifications');
     });
 
-    it('should contain link to support.pix.org/fr/support/home', async function () {
+    test('should contain link to support.pix.org/fr/support/home', async function (assert) {
       // given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
@@ -55,10 +54,10 @@ describe('Acceptance | User account', function () {
       const helplink = screen.getByRole('link', { name: 'Aide' }).getAttribute('href');
 
       // then
-      expect(helplink).to.equal('https://support.pix.org/fr/support/home');
+      assert.equal(helplink, 'https://support.pix.org/fr/support/home');
     });
 
-    it('should open My account page when click on menu', async function () {
+    test('should open My account page when click on menu', async function (assert) {
       //given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
@@ -71,7 +70,7 @@ describe('Acceptance | User account', function () {
       await clickByLabel('Mon compte');
 
       // then
-      expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
+      assert.equal(currentURL(), '/mon-compte/informations-personnelles');
     });
   });
 });

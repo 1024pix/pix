@@ -1,55 +1,54 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import setupIntl from '../../../helpers/setup-intl';
 import EmberObject from '@ember/object';
 
-describe('Unit | Controller | Assessments | Checkpoint', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let controller;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:assessments/checkpoint');
   });
 
-  describe('#nextPageButtonText', function () {
-    it('should propose to continue the assessment if it is not the final checkpoint', function () {
+  module('#nextPageButtonText', function () {
+    test('should propose to continue the assessment if it is not the final checkpoint', function (assert) {
       // when
       controller.set('finalCheckpoint', false);
 
       // then
-      expect(controller.nextPageButtonText).to.equal('Continuer');
+      assert.equal(controller.nextPageButtonText, 'Continuer');
     });
 
-    it('should propose to see the results of the assessment if it is the final checkpoint', function () {
+    test('should propose to see the results of the assessment if it is the final checkpoint', function (assert) {
       // when
       controller.set('finalCheckpoint', true);
 
       // then
-      expect(controller.nextPageButtonText).to.equal('Voir mes résultats');
+      assert.equal(controller.nextPageButtonText, 'Voir mes résultats');
     });
   });
 
-  describe('#finalCheckpoint', function () {
-    it('should equal false by default', function () {
+  module('#finalCheckpoint', function () {
+    test('should equal false by default', function (assert) {
       // then
-      expect(controller.finalCheckpoint).to.be.false;
+      assert.equal(controller.finalCheckpoint, false);
     });
   });
 
-  describe('#completionPercentage', function () {
-    it('should equal 100 if it is the final checkpoint', function () {
+  module('#completionPercentage', function () {
+    test('should equal 100 if it is the final checkpoint', function (assert) {
       // when
       controller.set('finalCheckpoint', true);
 
       // then
-      expect(controller.completionPercentage).to.equal(100);
+      assert.equal(controller.completionPercentage, 100);
     });
 
-    it('should equal the progression completionPercentage', function () {
+    test('should equal the progression completionPercentage', function (assert) {
       // when
       const model = EmberObject.create({
         progression: {
@@ -59,34 +58,34 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
       controller.set('model', model);
 
       // then
-      expect(controller.completionPercentage).to.equal(73);
+      assert.equal(controller.completionPercentage, 73);
     });
   });
 
-  describe('#shouldDisplayAnswers', function () {
-    it('should be true when answers are present', function () {
+  module('#shouldDisplayAnswers', function () {
+    test('should be true when answers are present', function (assert) {
       // when
       const model = {
         answersSinceLastCheckpoints: [0, 1, 2],
       };
       controller.set('model', model);
       // then
-      expect(controller.shouldDisplayAnswers).to.be.true;
+      assert.equal(controller.shouldDisplayAnswers, true);
     });
 
-    it('should be false when answers are absent', function () {
+    test('should be false when answers are absent', function (assert) {
       // when
       const model = {
         answersSinceLastCheckpoints: [],
       };
       controller.set('model', model);
       // then
-      expect(controller.shouldDisplayAnswers).to.be.false;
+      assert.equal(controller.shouldDisplayAnswers, false);
     });
   });
 
-  describe('#displayHomeLink', function () {
-    it('should not display home link when user is anonymous', function () {
+  module('#displayHomeLink', function () {
+    test('should not display home link when user is anonymous', function (assert) {
       // given
       controller.currentUser = Service.create({ user: { isAnonymous: true } });
 
@@ -94,10 +93,10 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
       controller.displayHomeLink;
 
       // then
-      expect(controller.displayHomeLink).to.be.false;
+      assert.equal(controller.displayHomeLink, false);
     });
 
-    it('should display home link when user is not anonymous', function () {
+    test('should display home link when user is not anonymous', function (assert) {
       // given
       controller.currentUser = Service.create({ user: { isAnonymous: false } });
 
@@ -105,39 +104,39 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
       controller.displayHomeLink;
 
       // then
-      expect(controller.displayHomeLink).to.be.true;
+      assert.equal(controller.displayHomeLink, true);
     });
   });
 
-  describe('#showLevelup', function () {
-    it('should display level up pop-in when user has level up', function () {
+  module('#showLevelup', function () {
+    test('should display level up pop-in when user has level up', function (assert) {
       // given
       controller.newLevel = true;
       const model = { showLevelup: true };
       controller.model = model;
 
       // then
-      expect(controller.showLevelup).to.be.true;
+      assert.equal(controller.showLevelup, true);
     });
 
-    it('should not display level up pop-in when user has not leveled up', function () {
+    test('should not display level up pop-in when user has not leveled up', function (assert) {
       // given
       controller.newLevel = false;
       const model = { showLevelup: true };
       controller.model = model;
 
       // then
-      expect(controller.showLevelup).to.be.false;
+      assert.equal(controller.showLevelup, false);
     });
 
-    it('should not display level up pop-in when it is not in assessment with level up', function () {
+    test('should not display level up pop-in when it is not in assessment with level up', function (assert) {
       // given
       controller.newLevel = true;
       const model = { showLevelup: false };
       controller.model = model;
 
       // then
-      expect(controller.showLevelup).to.be.false;
+      assert.equal(controller.showLevelup, false);
     });
   });
 });

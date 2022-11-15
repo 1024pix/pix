@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | pix-choice-chip', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | pix-choice-chip', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     //when
     await render(hbs`<ChoiceChip>Test</ChoiceChip>`);
 
     //then
-    expect(find('.pix-choice-chip')).to.exist;
+    assert.dom('.pix-choice-chip').exists();
   });
 });

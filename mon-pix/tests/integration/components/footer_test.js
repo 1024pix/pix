@@ -1,36 +1,34 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@1024pix/ember-testing-library';
 
-describe('Integration | Component | Footer', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Footer', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should display the Pix logo', async function () {
+  test('should display the Pix logo', async function (assert) {
     // when
     const screen = await render(hbs`<Footer />}`);
 
     // then
-    expect(screen.getByAltText(this.intl.t('navigation.homepage'))).to.exist;
+    assert.ok(screen.getByAltText(this.intl.t('navigation.homepage')));
   });
 
-  it('should display the navigation menu with expected elements', async function () {
+  test('should display the navigation menu with expected elements', async function (assert) {
     // when
     const screen = await render(hbs`<Footer />}`);
 
     // then
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.data-protection-policy') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') })).to
-      .exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.eula') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.help-center') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') })).to.exist;
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.data-protection-policy') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.eula') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.help-center') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') }));
   });
 
-  it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
+  test('should not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
     // given
     class UrlServiceStub extends Service {
       get isFrenchDomainExtension() {
@@ -43,10 +41,10 @@ describe('Integration | Component | Footer', function () {
     const screen = await render(hbs`<Footer />`);
 
     // then
-    expect(screen.queryByAltText(this.intl.t('common.french-republic'))).to.not.exist;
+    assert.notOk(screen.queryByAltText(this.intl.t('common.french-republic')));
   });
 
-  it('should display marianne logo when url does have frenchDomainExtension', async function () {
+  test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
     // given
     class UrlServiceStub extends Service {
       get isFrenchDomainExtension() {
@@ -59,15 +57,14 @@ describe('Integration | Component | Footer', function () {
     const screen = await render(hbs`<Footer />`);
 
     // then
-    expect(screen.getByAltText(this.intl.t('common.french-republic'))).to.exist;
+    assert.ok(screen.getByAltText(this.intl.t('common.french-republic')));
   });
 
-  it('should display the student data policy', async function () {
+  test('should display the student data policy', async function (assert) {
     // given & when
     const screen = await render(hbs`<Footer />}`);
 
     // then
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') })).to
-      .exist;
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') }));
   });
 });

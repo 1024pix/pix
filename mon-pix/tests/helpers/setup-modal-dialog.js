@@ -1,4 +1,4 @@
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
 export default function setupModalDialog(options) {
   const hooks = setupTest(options);

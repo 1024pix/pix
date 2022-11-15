@@ -1,27 +1,26 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupApplicationTest } from 'ember-mocha';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { waitForDialog } from '../helpers/wait-for';
 
-describe('Acceptance | Fill in campaign code page', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Fill in campaign code page', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let user;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('When connected', function () {
-    it('should disconnect when cliking on the link', async function () {
+  module('When connected', function () {
+    test('should disconnect when cliking on the link', async function (assert) {
       // given
       await authenticateByEmail(user);
       const screen = await visit('/campagnes');
@@ -30,13 +29,13 @@ describe('Acceptance | Fill in campaign code page', function () {
       await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
 
       // then
-      expect(screen.queryByText(user.firstName)).to.not.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') })).to.exist;
+      assert.notOk(screen.queryByText(user.firstName));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') }));
     });
   });
 
-  describe('Explanation link', function () {
-    it('should redirect on the right support page', async function () {
+  module('Explanation link', function () {
+    test('should redirect on the right support page', async function (assert) {
       // given
       await authenticateByEmail(user);
       await visit('/campagnes');
@@ -45,18 +44,18 @@ describe('Acceptance | Fill in campaign code page', function () {
       await clickByLabel(this.intl.t('pages.fill-in-campaign-code.explanation-message'));
 
       // then
-      expect(
-        find(
+      assert
+        .dom(
           '[href="https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-"]'
         )
-      ).to.exist;
-      expect(find('[target="_blank"]')).to.exist;
+        .exists();
+      assert.dom('[target="_blank"]').exists();
     });
   });
 
-  describe('when user is not connected to his Mediacentre', function () {
-    context('and starts a campaign with GAR as identity provider', function () {
-      it('should not redirect the user and display a modal', async function () {
+  module('when user is not connected to his Mediacentre', function () {
+    module('and starts a campaign with GAR as identity provider', function () {
+      test('should not redirect the user and display a modal', async function (assert) {
         // given
         const campaign = server.create('campaign', {
           identityProvider: 'GAR',
@@ -70,14 +69,12 @@ describe('Acceptance | Fill in campaign code page', function () {
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
-        expect(currentURL()).to.equal('/campagnes');
-        expect(
-          screen.getByText(this.intl.t('pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title'))
-        ).to.exist;
+        assert.equal(currentURL(), '/campagnes');
+        assert.ok(screen.getByText(this.intl.t('pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title')));
       });
 
-      context('and wants to continue', function () {
-        it('should be redirected to the campaign entry page', async function () {
+      module('and wants to continue', function () {
+        test('should be redirected to the campaign entry page', async function (assert) {
           // given
           const campaign = server.create('campaign', {
             identityProvider: 'GAR',
@@ -93,12 +90,12 @@ describe('Acceptance | Fill in campaign code page', function () {
           await click(screen.getByRole('link', { name: 'Continuer' }));
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
       });
 
-      context('and wants to connect to his Mediacentre', function () {
-        it('should stay on the same page after closing the modal', async function () {
+      module('and wants to connect to his Mediacentre', function () {
+        test('should stay on the same page after closing the modal', async function (assert) {
           // given
           const campaign = server.create('campaign', {
             identityProvider: 'GAR',
@@ -114,13 +111,13 @@ describe('Acceptance | Fill in campaign code page', function () {
           await click(screen.getByRole('button', { name: 'Quitter' }));
 
           // then
-          expect(currentURL()).to.equal('/campagnes');
+          assert.equal(currentURL(), '/campagnes');
         });
       });
     });
 
-    context('and starts a campaign without GAR as identity provider', function () {
-      it('should redirect the user to the campaign entry page', async function () {
+    module('and starts a campaign without GAR as identity provider', function () {
+      test('should redirect the user to the campaign entry page', async function (assert) {
         // given
         const campaign = server.create('campaign');
 
@@ -130,7 +127,7 @@ describe('Acceptance | Fill in campaign code page', function () {
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
       });
     });
   });

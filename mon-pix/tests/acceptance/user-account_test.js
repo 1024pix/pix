@@ -1,57 +1,56 @@
 import { currentURL, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | User account page', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | User account page', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  context('When user is not connected', function () {
-    it('should be redirected to connection page', async function () {
+  module('When user is not connected', function () {
+    test('should be redirected to connection page', async function (assert) {
       // given / when
       await visit('/mon-compte');
 
       // then
-      expect(currentURL()).to.equal('/connexion');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 
-  context('When user is connected', function () {
+  module('When user is connected', function (hooks) {
     let user;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       // given
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
     });
 
-    it('should display my account page', async function () {
+    test('should display my account page', async function (assert) {
       // when
       await visit('/mon-compte');
 
       // then
-      expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
+      assert.equal(currentURL(), '/mon-compte/informations-personnelles');
     });
 
-    describe('My account menu', function () {
-      it('should display my account menu', async function () {
+    module('My account menu', function () {
+      test('should display my account menu', async function (assert) {
         // when
         await visit('/mon-compte');
 
         // then
-        expect(contains(this.intl.t('pages.user-account.personal-information.menu-link-title'))).to.exist;
-        expect(contains(this.intl.t('pages.user-account.connexion-methods.menu-link-title'))).to.exist;
-        expect(contains(this.intl.t('pages.user-account.language.menu-link-title'))).to.exist;
+        assert.ok(contains(this.intl.t('pages.user-account.personal-information.menu-link-title')));
+        assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.menu-link-title')));
+        assert.ok(contains(this.intl.t('pages.user-account.language.menu-link-title')));
       });
 
-      it('should display personal information on click on "Informations personnelles"', async function () {
+      test('should display personal information on click on "Informations personnelles"', async function (assert) {
         // given
         await visit('/mon-compte');
 
@@ -59,10 +58,10 @@ describe('Acceptance | User account page', function () {
         await clickByLabel(this.intl.t('pages.user-account.personal-information.menu-link-title'));
 
         // then
-        expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
+        assert.equal(currentURL(), '/mon-compte/informations-personnelles');
       });
 
-      it('should display connection methods on click on "Méthodes de connexion"', async function () {
+      test('should display connection methods on click on "Méthodes de connexion"', async function (assert) {
         // given
         await visit('/mon-compte');
 
@@ -70,10 +69,10 @@ describe('Acceptance | User account page', function () {
         await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
 
         // then
-        expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
+        assert.equal(currentURL(), '/mon-compte/methodes-de-connexion');
       });
 
-      it('should display language on click on "Choisir ma langue"', async function () {
+      test('should display language on click on "Choisir ma langue"', async function (assert) {
         // given
         await visit('/mon-compte');
 
@@ -81,7 +80,7 @@ describe('Acceptance | User account page', function () {
         await clickByLabel(this.intl.t('pages.user-account.language.menu-link-title'));
 
         // then
-        expect(currentURL()).to.equal('/mon-compte/langue');
+        assert.equal(currentURL(), '/mon-compte/langue');
       });
     });
   });

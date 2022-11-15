@@ -1,10 +1,9 @@
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns/profiles-collection/send-profile', function () {
-  setupTest();
+module('Unit | Controller | campaigns/profiles-collection/send-profile', function (hooks) {
+  setupTest(hooks);
 
   const campaignParticipation = {
     id: 8654,
@@ -26,7 +25,7 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
   let controller;
   let currentUserStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.profiles-collection.send-profile');
     currentUserStub = { load: sinon.stub() };
 
@@ -36,56 +35,57 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
     currentUserStub.load.resolves();
   });
 
-  describe('#isDisabled', function () {
-    it('should return false if campaignParticipation is not deleted and campaign is not archived', function () {
+  module('#isDisabled', function () {
+    test('should return false if campaignParticipation is not deleted and campaign is not archived', function (assert) {
       // given
       controller.model.campaignParticipation.deletedAt = null;
       controller.model.campaign.isArchived = false;
 
       // then
-      expect(controller.isDisabled).to.equal(false);
+      assert.equal(controller.isDisabled, false);
     });
-    it('should return true if campaignParticipation is deleted', function () {
+    test('should return true if campaignParticipation is deleted', function (assert) {
       // given
       controller.model.campaignParticipation.deletedAt = new Date();
       controller.model.campaign.isArchived = false;
 
       // then
-      expect(controller.isDisabled).to.equal(true);
+      assert.equal(controller.isDisabled, true);
     });
-    it('should return true if campaign is archived', function () {
+    test('should return true if campaign is archived', function (assert) {
       // given
       controller.model.campaign.isArchived = true;
       controller.model.campaignParticipation.deletedAt = null;
 
       // then
-      expect(controller.isDisabled).to.equal(true);
+      assert.equal(controller.isDisabled, true);
     });
   });
 
-  describe('#sendProfile', function () {
-    it('should set isShared to true', function () {
+  module('#sendProfile', function () {
+    test('should set isShared to true', function (assert) {
       // when
       controller.actions.sendProfile.call(controller);
 
       // then
-      expect(controller.model.campaignParticipation.isShared).to.equal(true);
+      assert.equal(controller.model.campaignParticipation.isShared, true);
     });
 
-    it('should call load from currentUser', async function () {
+    test('should call load from currentUser', async function (assert) {
       // when
       await controller.actions.sendProfile.call(controller);
 
       // then
       sinon.assert.called(currentUserStub.load);
+      assert.ok(true);
     });
 
-    it('should not be loading nor in error', async function () {
+    test('should not be loading nor in error', async function (assert) {
       // when
       await controller.actions.sendProfile.call(controller);
 
       // then
-      expect(controller.errorMessage).to.equal(null);
+      assert.equal(controller.errorMessage, null);
     });
   });
 });

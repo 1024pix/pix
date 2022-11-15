@@ -1,9 +1,8 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { standardizeNumber, standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
-describe('Unit | Utility | standardizeNumber', function () {
-  describe('standardizeNumber', function () {
+module('Unit | Utility | standardizeNumber', function () {
+  module('standardizeNumber', function () {
     const testData = [
       { number: 2, size: 2, expected: '02' },
       { number: 12, size: undefined, expected: '12' },
@@ -14,13 +13,13 @@ describe('Unit | Utility | standardizeNumber', function () {
     ];
 
     testData.forEach(({ number, size, expected }) => {
-      it(`When number is ${number} with size ${size} it should return ${expected}`, function () {
-        expect(standardizeNumber(number, size)).to.equal(expected);
+      test(`When number is ${number} with size ${size} it should return ${expected}`, function (assert) {
+        assert.equal(standardizeNumber(number, size), expected);
       });
     });
   });
 
-  describe('standardizeNumberInTwoDigitFormat', function () {
+  module('standardizeNumberInTwoDigitFormat', function () {
     const testData = [
       { number: 2, expected: '02' },
       { number: 12, expected: '12' },
@@ -29,8 +28,8 @@ describe('Unit | Utility | standardizeNumber', function () {
     ];
 
     testData.forEach(({ number, expected }) => {
-      it(`When number is ${number} it should return ${expected}`, function () {
-        expect(standardizeNumberInTwoDigitFormat(number)).to.equal(expected);
+      test(`When number is ${number} it should return ${expected}`, function (assert) {
+        assert.equal(standardizeNumberInTwoDigitFormat(number), expected);
       });
     });
   });

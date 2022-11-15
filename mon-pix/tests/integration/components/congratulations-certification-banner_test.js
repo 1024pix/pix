@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | Congratulations Certification Banner', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Congratulations Certification Banner', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders a banner indicating the user certifiability', async function () {
+  test('renders a banner indicating the user certifiability', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     this.set('fullName', 'Fifi Brindacier');
@@ -22,10 +21,10 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     );
 
     // then
-    expect(screen.getByText('Bravo Fifi Brindacier, votre profil Pix est certifiable.')).to.exist;
+    assert.ok(screen.getByText('Bravo Fifi Brindacier, votre profil Pix est certifiable.'));
   });
 
-  it('calls the closeBanner method when closing the banner', async function () {
+  test('calls the closeBanner method when closing the banner', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const closeBannerStub = sinon.stub();
@@ -42,11 +41,12 @@ describe('Integration | Component | Congratulations Certification Banner', funct
 
     // then
     sinon.assert.calledOnce(closeBannerStub);
+    assert.ok(true);
   });
 
-  describe('When there are eligible complementary certifications', function () {
-    describe('When there is only one eligible complementary certification', function () {
-      it(`renders the complementary certification eligibility special message and picture`, async function () {
+  module('When there are eligible complementary certifications', function () {
+    module('When there is only one eligible complementary certification', function () {
+      test(`renders the complementary certification eligibility special message and picture`, async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const certificationEligibility = store.createRecord('is-certifiable', {
@@ -62,14 +62,14 @@ describe('Integration | Component | Congratulations Certification Banner', funct
         );
 
         // then
-        expect(screen.getByText('Vous êtes également éligible à la certification complémentaire :')).to.exist;
-        expect(screen.getByText('CléA Numérique')).to.exist;
-        expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
+        assert.ok(screen.getByText('Vous êtes également éligible à la certification complémentaire :'));
+        assert.ok(screen.getByText('CléA Numérique'));
+        assert.ok(screen.getByRole('img', { name: 'CléA Numérique' }));
       });
     });
 
-    describe('When there are multiple eligible complementary certifications', function () {
-      it(`renders the multiple complementary certification eligibility pluralized message and pictures`, async function () {
+    module('When there are multiple eligible complementary certifications', function () {
+      test(`renders the multiple complementary certification eligibility pluralized message and pictures`, async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const certificationEligibility = store.createRecord('is-certifiable', {
@@ -88,11 +88,11 @@ describe('Integration | Component | Congratulations Certification Banner', funct
         );
 
         // then
-        expect(screen.getByText('Vous êtes également éligible aux certifications complémentaires :')).to.exist;
-        expect(screen.getByText('CléA Numérique')).to.exist;
-        expect(screen.getByText('Pix+ Édu 1er degré Confirmé')).to.exist;
-        expect(screen.getByRole('img', { name: 'CléA Numérique' })).to.exist;
-        expect(screen.getByRole('img', { name: 'Pix+ Édu 1er degré Confirmé' })).to.exist;
+        assert.ok(screen.getByText('Vous êtes également éligible aux certifications complémentaires :'));
+        assert.ok(screen.getByText('CléA Numérique'));
+        assert.ok(screen.getByText('Pix+ Édu 1er degré Confirmé'));
+        assert.ok(screen.getByRole('img', { name: 'CléA Numérique' }));
+        assert.ok(screen.getByRole('img', { name: 'Pix+ Édu 1er degré Confirmé' }));
       });
     });
   });

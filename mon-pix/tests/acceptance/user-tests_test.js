@@ -1,26 +1,25 @@
 import { currentURL, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { contains } from '../helpers/contains';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | User tests', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | User tests', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    beforeEach(async function () {
+  module('Authenticated cases as simple user', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('can visit /mes-parcours', async function () {
+    test('can visit /mes-parcours', async function (assert) {
       //given
       server.create('campaign-participation-overview', {
         assessmentState: 'started',
@@ -34,10 +33,10 @@ describe('Acceptance | User tests', function () {
       await visit('/mes-parcours');
 
       // then
-      expect(currentURL()).to.equal('/mes-parcours');
+      assert.equal(currentURL(), '/mes-parcours');
     });
 
-    it('should display user participation cards', async function () {
+    test('should display user participation cards', async function (assert) {
       // given
       server.create('campaign-participation-overview', {
         assessmentState: 'started',
@@ -58,16 +57,16 @@ describe('Acceptance | User tests', function () {
       await visit('/mes-parcours');
 
       // then
-      expect(contains('Campaign 1')).to.exist;
-      expect(contains('Campaign 2')).to.exist;
+      assert.ok(contains('Campaign 1'));
+      assert.ok(contains('Campaign 2'));
     });
   });
 
-  describe('Not authenticated cases', function () {
-    it('should redirect to home, when user is not authenticated', async function () {
+  module('Not authenticated cases', function () {
+    test('should redirect to home, when user is not authenticated', async function (assert) {
       // when
       await visit('/mes-parcours');
-      expect(currentURL()).to.equal('/connexion');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 });

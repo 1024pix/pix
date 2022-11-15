@@ -1,15 +1,15 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
 import Service from '@ember/service';
 
-describe('Unit | Controller | account-recovery | update-sco-record', function () {
-  setupTest();
+module('Unit | Controller | account-recovery | update-sco-record', function (hooks) {
+  setupTest(hooks);
 
-  describe('#updateRecord', function () {
-    context('when user is already authenticated', function () {
-      it('should update account-recovery-demand, invalidate the session and authenticate user', async function () {
+  module('#updateRecord', function () {
+    module('when user is already authenticated', function () {
+      test('should update account-recovery-demand, invalidate the session and authenticate user', async function (assert) {
         // given
         const email = 'user@example.net';
         const password = 'Password123';
@@ -47,11 +47,12 @@ describe('Unit | Controller | account-recovery | update-sco-record', function ()
           password,
           scope,
         });
+        assert.ok(true);
       });
     });
 
-    context('when user is not already authenticated', function () {
-      it('should update account-recovery-demand and authenticate user', async function () {
+    module('when user is not already authenticated', function () {
+      test('should update account-recovery-demand and authenticate user', async function (assert) {
         // given
         const email = 'user@example.net';
         const password = 'Password123';
@@ -89,6 +90,7 @@ describe('Unit | Controller | account-recovery | update-sco-record', function ()
           password,
           scope,
         });
+        assert.ok(true);
       });
     });
   });

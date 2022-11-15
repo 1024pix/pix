@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | routes/campaigns/invited/associate-sup-student-form', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let component;
   let storeStub;
   let eventStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     storeStub = { createRecord: sinon.stub() };
     eventStub = { preventDefault: sinon.stub() };
     component = createComponent('component:routes/campaigns/invited/associate-sup-student-form', {
@@ -22,9 +21,9 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
     component.store = storeStub;
   });
 
-  describe('#submit', function () {
-    context('when form data are correct', function () {
-      beforeEach(function () {
+  module('#submit', function () {
+    module('when form data are correct', function (hooks) {
+      hooks.beforeEach(function () {
         component.studentNumber = 'F001';
         component.firstName = 'firstName';
         component.lastName = 'lastName';
@@ -33,7 +32,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         component.yearOfBirth = '2010';
       });
 
-      it('call reconciliation for the sup organization learner', async function () {
+      test('call reconciliation for the sup organization learner', async function (assert) {
         // given
         const supOrganizationLearner = { save: sinon.stub(), unloadRecord: sinon.stub() };
         storeStub.createRecord
@@ -52,11 +51,12 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
 
         // then
         sinon.assert.calledOnce(supOrganizationLearner.save);
+        assert.ok(true);
       });
     });
 
-    context('when form data have errors', function () {
-      it('should display an error when student number is not correct', async function () {
+    module('when form data have errors', function () {
+      test('should display an error when student number is not correct', async function (assert) {
         // given
         component.studentNumber = '';
 
@@ -64,10 +64,10 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        expect(component.errors.studentNumber).to.equal('Votre numéro étudiant n’est pas renseigné.');
+        assert.equal(component.errors.studentNumber, 'Votre numéro étudiant n’est pas renseigné.');
       });
 
-      it('should display an error when first name is not correct', async function () {
+      test('should display an error when first name is not correct', async function (assert) {
         // given
         component.firstName = '';
 
@@ -75,10 +75,10 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        expect(component.errors.firstName).to.equal('Votre prénom n’est pas renseigné.');
+        assert.equal(component.errors.firstName, 'Votre prénom n’est pas renseigné.');
       });
 
-      it('should display an error when last name is not correct', async function () {
+      test('should display an error when last name is not correct', async function (assert) {
         // given
         component.lastName = '';
 
@@ -86,10 +86,10 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        expect(component.errors.lastName).to.equal('Votre nom n’est pas renseigné.');
+        assert.equal(component.errors.lastName, 'Votre nom n’est pas renseigné.');
       });
 
-      it('should display an error when day of birth is not correct', async function () {
+      test('should display an error when day of birth is not correct', async function (assert) {
         // given
         component.dayOfBirth = '';
 
@@ -97,10 +97,10 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        expect(component.errors.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
+        assert.equal(component.errors.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
       });
 
-      it('should display an error when month of birth is not correct', async function () {
+      test('should display an error when month of birth is not correct', async function (assert) {
         // given
         component.monthOfBirth = '';
 
@@ -108,10 +108,10 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        expect(component.errors.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
+        assert.equal(component.errors.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
       });
 
-      it('should display an error when year of birth is not correct', async function () {
+      test('should display an error when year of birth is not correct', async function (assert) {
         // given
         component.yearOfBirth = '';
 
@@ -119,7 +119,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        expect(component.errors.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
+        assert.equal(component.errors.yearOfBirth, 'Votre année de naissance n’est pas valide.');
       });
     });
   });

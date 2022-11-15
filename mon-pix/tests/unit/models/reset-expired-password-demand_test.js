@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon/pkg/sinon-esm';
 import ENV from '../../../config/environment';
 
-describe('Unit | Model | Reset-expired-password-demand', function () {
-  setupTest();
+module('Unit | Model | Reset-expired-password-demand', function (hooks) {
+  setupTest(hooks);
 
-  describe('#updateExpiredPassword', function () {
-    it('should update password and return username', async function () {
+  module('#updateExpiredPassword', function () {
+    test('should update password and return username', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('reset-expired-password-demand');
@@ -43,7 +42,8 @@ describe('Unit | Model | Reset-expired-password-demand', function () {
         },
       };
       sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
-      expect(result).to.equal('oui.oui0912');
+      assert.equal(result, 'oui.oui0912');
+      assert.ok(true);
     });
   });
 });

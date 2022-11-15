@@ -1,25 +1,24 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Service | current-user', function () {
-  setupTest();
+module('Unit | Service | current-user', function (hooks) {
+  setupTest(hooks);
 
   let storeStub;
   let sessionStub;
 
-  describe('user is authenticated', function () {
+  module('user is authenticated', function (hooks) {
     const user = { id: 1 };
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       sessionStub = Service.create({ isAuthenticated: true });
       storeStub = Service.create({
         queryRecord: sinon.stub().resolves(user),
       });
     });
 
-    it('should load the current user', async function () {
+    test('should load the current user', async function (assert) {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -29,16 +28,16 @@ describe('Unit | Service | current-user', function () {
       await currentUser.load();
 
       // Then
-      expect(currentUser.user).to.equal(user);
+      assert.equal(currentUser.user, user);
     });
   });
 
-  describe('user is not authenticated', function () {
-    beforeEach(function () {
+  module('user is not authenticated', function (hooks) {
+    hooks.beforeEach(function () {
       sessionStub = Service.create({ isAuthenticated: false });
     });
 
-    it('should do nothing', async function () {
+    test('should do nothing', async function (assert) {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -47,12 +46,12 @@ describe('Unit | Service | current-user', function () {
       await currentUser.load();
 
       // Then
-      expect(currentUser.user).to.be.undefined;
+      assert.notOk(currentUser.user);
     });
   });
 
-  describe('user token is expired', function () {
-    beforeEach(function () {
+  module('user token is expired', function (hooks) {
+    hooks.beforeEach(function () {
       sessionStub = Service.create({
         isAuthenticated: true,
         invalidate: sinon.stub().resolves('invalidate'),
@@ -62,7 +61,7 @@ describe('Unit | Service | current-user', function () {
       });
     });
 
-    it('should redirect to login', async function () {
+    test('should redirect to login', async function (assert) {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -71,7 +70,7 @@ describe('Unit | Service | current-user', function () {
       const result = await currentUser.load();
 
       // Then
-      expect(result).to.equal('invalidate');
+      assert.equal(result, 'invalidate');
     });
   });
 });

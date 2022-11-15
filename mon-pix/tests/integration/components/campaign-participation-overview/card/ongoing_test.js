@@ -1,19 +1,18 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card | Ongoing ', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | CampaignParticipationOverview | Card | Ongoing ', function (hooks) {
+  setupIntlRenderingTest(hooks);
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should render card info when card has "ONGOING" status', async function () {
+  test('should render card info when card has "ONGOING" status', async function (assert) {
     // given
     const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
@@ -28,11 +27,10 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ongoi
     await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />`);
 
     // then
-    expect(contains('My organization')).to.exist;
-    expect(contains('My campaign')).to.exist;
-    expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.started').toUpperCase())).to.exist;
-    expect(contains(this.intl.t('pages.campaign-participation-overview.card.resume'))).to.exist;
-    expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' }))).to
-      .exist;
+    assert.ok(contains('My organization'));
+    assert.ok(contains('My campaign'));
+    assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.tag.started').toUpperCase()));
+    assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.resume')));
+    assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' })));
   });
 });

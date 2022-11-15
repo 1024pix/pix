@@ -1,49 +1,52 @@
 import EmberObject from '@ember/object';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | campaign-landing-page', function () {
-  setupTest();
+module('Unit | Route | campaign-landing-page', function (hooks) {
+  setupTest(hooks);
 
   let route, campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:campaigns.campaign-landing-page');
     route.modelFor = sinon.stub();
     route.router = { replaceWith: sinon.stub() };
   });
 
-  describe('#beforeModel', function () {
-    it('should redirect to entry point when /entree is directly set in the url', async function () {
+  module('#beforeModel', function () {
+    test('should redirect to entry point when /entree is directly set in the url', async function (assert) {
       //when
       await route.beforeModel({ from: null });
 
       //then
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
+      assert.ok(true);
     });
 
-    it('should continue en entrance route when from is set', async function () {
+    test('should continue en entrance route when from is set', async function (assert) {
       //when
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
       sinon.assert.notCalled(route.router.replaceWith);
+      assert.ok(true);
     });
   });
 
-  describe('#model', function () {
-    it('should load model', async function () {
+  module('#model', function () {
+    test('should load model', async function (assert) {
       //when
       await route.model();
 
       //then
       sinon.assert.calledWith(route.modelFor, 'campaigns');
+      assert.ok(true);
     });
   });
 
-  describe('#afterModel', function () {
-    it('should redirect to access route when campaign is for absolute novice', async function () {
+  module('#afterModel', function () {
+    test('should redirect to access route when campaign is for absolute novice', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
@@ -55,6 +58,7 @@ describe('Unit | Route | campaign-landing-page', function () {
 
       //then
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.access', campaign.code);
+      assert.ok(true);
     });
   });
 });

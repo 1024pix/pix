@@ -1,20 +1,19 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | campaign-participation-overviews', function () {
-  setupTest();
+module('Unit | Adapters | campaign-participation-overviews', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:campaign-participation-overview');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForQueryRecord', function () {
-    it('should query campaign-participation-overviews with adapterOptions', async function () {
+  module('#urlForQueryRecord', function () {
+    test('should query campaign-participation-overviews with adapterOptions', async function (assert) {
       // given
       const params = {
         userId: 1,
@@ -33,8 +32,8 @@ describe('Unit | Adapters | campaign-participation-overviews', function () {
       const url = await adapter.urlForQuery(params, 'campaign-participation-overview');
 
       // then
-      expect(params).to.deep.equal(paramsAfterQuery);
-      expect(url.endsWith('/api/users/1/campaign-participation-overviews')).to.be.true;
+      assert.deepEqual(params, paramsAfterQuery);
+      assert.equal(url.endsWith('/api/users/1/campaign-participation-overviews'), true);
     });
   });
 });

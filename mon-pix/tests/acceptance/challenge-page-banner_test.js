@@ -1,38 +1,37 @@
 import { click, find } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Challenge page banner', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Challenge page banner', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
   let campaign;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { title: 'SomeTitle' });
     await authenticateByEmail(user);
   });
 
-  context('When user is starting a campaign assessment', function () {
-    it('should display a campaign banner', async function () {
+  module('When user is starting a campaign assessment', function () {
+    test('should display a campaign banner', async function (assert) {
       // when
       await visit(`campagnes/${campaign.code}`);
       await click('.campaign-landing-page__start-button');
       await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
       // then
-      expect(find('.assessment-banner'));
+      assert.ok(find('.assessment-banner'));
     });
 
-    it('should display accessibility information in the banner', async function () {
+    test('should display accessibility information in the banner', async function (assert) {
       // given
       server.create('campaign-participation', { campaign, user, isShared: false, createdAt: Date.now() });
 
@@ -43,10 +42,10 @@ describe('Acceptance | Challenge page banner', function () {
       const a11yText = title.firstChild.textContent;
 
       // then
-      expect(a11yText).to.equal("Épreuve pour l'évaluation : ");
+      assert.equal(a11yText, "Épreuve pour l'évaluation : ");
     });
 
-    it('should display the campaign name in the banner', async function () {
+    test('should display the campaign name in the banner', async function (assert) {
       // given
       server.create('campaign-participation', { campaign, user, isShared: false, createdAt: Date.now() });
 
@@ -57,7 +56,7 @@ describe('Acceptance | Challenge page banner', function () {
       const campaignName = title.lastChild.textContent;
 
       // then
-      expect(campaignName).to.equal(campaign.title);
+      assert.equal(campaignName, campaign.title);
     });
   });
 });

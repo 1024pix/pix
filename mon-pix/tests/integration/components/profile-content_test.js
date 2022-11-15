@@ -1,21 +1,20 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
-describe('Integration | Component | Profile-content', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Profile-content', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('On component rendering', function () {
+  module('On component rendering', function (hooks) {
     let model;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       this.owner.register(
         'service:session',
         Service.extend({
@@ -59,8 +58,8 @@ describe('Integration | Component | Profile-content', function () {
       };
     });
 
-    context('When user is on tablet/desktop ', function () {
-      it('should be rendered in tablet/desktop mode with big cards', async function () {
+    module('When user is on tablet/desktop ', function () {
+      test('should be rendered in tablet/desktop mode with big cards', async function (assert) {
         // when
         setBreakpoint('tablet');
         this.set('model', model);
@@ -68,14 +67,14 @@ describe('Integration | Component | Profile-content', function () {
         await render(hbs`{{profile-content model=this.model media=this.media}}`);
 
         // then
-        expect(find('.competence-card')).to.exist;
-        expect(find('.score-label')).to.exist;
-        expect(find('.competence-card__interactions')).to.exist;
+        assert.dom('.competence-card').exists();
+        assert.dom('.score-label').exists();
+        assert.dom('.competence-card__interactions').exists();
       });
     });
 
-    context('When user is on mobile', function () {
-      it('should be rendered in mobile mode with small cards', async function () {
+    module('When user is on mobile', function () {
+      test('should be rendered in mobile mode with small cards', async function (assert) {
         // when
         setBreakpoint('mobile');
         this.set('model', model);
@@ -83,9 +82,9 @@ describe('Integration | Component | Profile-content', function () {
         await render(hbs`{{profile-content model=this.model media=this.media}}`);
 
         // then
-        expect(find('.competence-card')).to.exist;
-        expect(find('.score-label')).to.not.exist;
-        expect(find('.competence-card__interactions')).to.not.exist;
+        assert.dom('.competence-card').exists();
+        assert.dom('.score-label').doesNotExist();
+        assert.dom('.competence-card__interactions').doesNotExist();
       });
     });
   });

@@ -1,16 +1,15 @@
 import { currentURL, visit } from '@ember/test-helpers';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Page | Not Found Redirection', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Page | Not Found Redirection', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-  it('should redirect to home page when URL is a nonexistant page', async function () {
+  test('should redirect to home page when URL is a nonexistant page', async function (assert) {
     await visit('/plop');
 
-    expect(currentURL()).to.eq('/connexion');
+    assert.equal(currentURL(), '/connexion');
   });
 });

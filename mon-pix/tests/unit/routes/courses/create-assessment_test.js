@@ -1,11 +1,11 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Courses | Create Assessment', function () {
-  setupTest();
+module('Unit | Route | Courses | Create Assessment', function (hooks) {
+  setupTest(hooks);
 
   let route;
   let createRecordStub;
@@ -13,7 +13,7 @@ describe('Unit | Route | Courses | Create Assessment', function () {
   let course;
   let createdAssessment;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     course = EmberObject.create({ id: 1, type: 'DEMO' });
     createdAssessment = EmberObject.create({ id: 1234 });
     createRecordStub = sinon.stub().returns({
@@ -25,21 +25,23 @@ describe('Unit | Route | Courses | Create Assessment', function () {
     route.router = { replaceWith: sinon.stub() };
   });
 
-  describe('#afterModel', function () {
-    it('should call the creation of a new assessment', async function () {
+  module('#afterModel', function () {
+    test('should call the creation of a new assessment', async function (assert) {
       // when
       await route.afterModel(course);
 
       // then
       sinon.assert.calledWith(createRecordStub, 'assessment', { course, type: course.type });
+      assert.ok(true);
     });
 
-    it('should redirect to resume assessment route', async function () {
+    test('should redirect to resume assessment route', async function (assert) {
       // when
       await route.afterModel(course);
 
       // then
       sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', createdAssessment.id);
+      assert.ok(true);
     });
   });
 });

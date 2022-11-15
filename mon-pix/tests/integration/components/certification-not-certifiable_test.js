@@ -1,19 +1,20 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | certification-not-certifiable', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | certification-not-certifiable', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`{{certification-not-certifiable}}`);
 
-    expect(find('.certification-not-certifiable__title').textContent.trim()).to.equal(
+    assert.equal(
+      find('.certification-not-certifiable__title').textContent.trim(),
       "Votre profil n'est pas encore certifiable."
     );
-    expect(find('.certification-not-certifiable__text').textContent.trim()).to.equal(
+    assert.equal(
+      find('.certification-not-certifiable__text').textContent.trim(),
       'Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.'
     );
   });

@@ -1,19 +1,19 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Helper | scorecard-aria-label', function () {
-  setupTest();
+module('Unit | Helper | scorecard-aria-label', function (hooks) {
+  setupTest(hooks);
 
-  describe('#compute', function () {
+  module('#compute', function (hooks) {
     let intlServiceStub, component;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       class IntlServiceStub extends Service {
         t() {}
       }
@@ -24,7 +24,7 @@ describe('Unit | Helper | scorecard-aria-label', function () {
       component = createGlimmerComponent('component:scorecard-aria-label');
     });
 
-    it('should return that competence is not started', async function () {
+    test('should return that competence is not started', async function (assert) {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: true,
@@ -35,9 +35,10 @@ describe('Unit | Helper | scorecard-aria-label', function () {
 
       // then
       sinon.assert.calledWith(intlServiceStub.t, 'pages.profile.competence-card.image-info.no-level');
+      assert.ok(true);
     });
 
-    it('should return that first level of competence is started but not finished', async function () {
+    test('should return that first level of competence is started but not finished', async function (assert) {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: false,
@@ -57,9 +58,10 @@ describe('Unit | Helper | scorecard-aria-label', function () {
         'pages.profile.competence-card.image-info.first-level',
         expectedTranslationsParams
       );
+      assert.ok(true);
     });
 
-    it('should return current level and percentage completed of the next level', async function () {
+    test('should return current level and percentage completed of the next level', async function (assert) {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: false,
@@ -80,6 +82,7 @@ describe('Unit | Helper | scorecard-aria-label', function () {
         'pages.profile.competence-card.image-info.level',
         expectedTranslationsParams
       );
+      assert.ok(true);
     });
   });
 });

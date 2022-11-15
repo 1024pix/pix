@@ -1,23 +1,22 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
-import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { contains } from '../../../helpers/contains';
 
-describe('Integration | Component | Dashboard | Content', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Dashboard | Content', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const pixScore = 105;
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should render component', async function () {
+  test('should render component', async function (assert) {
     // given
     class CurrentUserStub extends Service {
       user = store.createRecord('user', {
@@ -42,11 +41,11 @@ describe('Integration | Component | Dashboard | Content', function () {
     await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
     // then
-    expect(find('.dashboard-content')).to.exist;
+    assert.dom('.dashboard-content').exists();
   });
 
-  describe('campaign-participation-overview rendering', function () {
-    beforeEach(function () {
+  module('campaign-participation-overview rendering', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
           firstName: 'Banana',
@@ -62,7 +61,7 @@ describe('Integration | Component | Dashboard | Content', function () {
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
-    it('should render campaign participation when there is at least one campaign participation overviews', async function () {
+    test('should render campaign participation when there is at least one campaign participation overviews', async function (assert) {
       // given
       const campaignParticipationOverview = EmberObject.create({
         isShared: false,
@@ -81,10 +80,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-campaign-participation-overviews]')).to.exist;
+      assert.dom('section[data-test-campaign-participation-overviews]').exists();
     });
 
-    it('should render campaign participations link', async function () {
+    test('should render campaign participations link', async function (assert) {
       // given
       const campaignParticipationOverview = EmberObject.create({
         isShared: false,
@@ -103,10 +102,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(contains('Tous mes parcours')).to.exist;
+      assert.ok(contains('Tous mes parcours'));
     });
 
-    it('should not render campaign participations when there is no campaign participation overviews', async function () {
+    test('should not render campaign participations when there is no campaign participation overviews', async function (assert) {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -118,12 +117,12 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-campaign-participation-overviews]')).to.not.exist;
+      assert.dom('section[data-test-campaign-participation-overviews]').doesNotExist();
     });
   });
 
-  describe('recommended competence-card rendering', function () {
-    beforeEach(function () {
+  module('recommended competence-card rendering', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
           firstName: 'Banana',
@@ -139,7 +138,7 @@ describe('Integration | Component | Dashboard | Content', function () {
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
-    it('should render competence-card when there is at least one competence-card not started', async function () {
+    test('should render competence-card when there is at least one competence-card not started', async function (assert) {
       // given
       const scorecard = { isNotStarted: true };
       this.set('model', {
@@ -152,10 +151,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-recommended-competences]')).to.exist;
+      assert.dom('section[data-test-recommended-competences]').exists();
     });
 
-    it('should not render competence-card when there is no competence-card', async function () {
+    test('should not render competence-card when there is no competence-card', async function (assert) {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -167,10 +166,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-recommended-competences]')).to.not.exist;
+      assert.dom('section[data-test-recommended-competences]').doesNotExist();
     });
 
-    it('should render the four first non started competence cards from the received arguments', async function () {
+    test('should render the four first non started competence cards from the received arguments', async function (assert) {
       // given
       const scorecards = [
         { id: 1, index: '1.1', isNotStarted: true },
@@ -190,12 +189,12 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(findAll('.competence-card')).to.have.length(4);
+      assert.dom('.competence-card').exists({ count: 4 });
     });
   });
 
-  describe('improvable competence-card rendering', function () {
-    beforeEach(function () {
+  module('improvable competence-card rendering', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
           firstName: 'Banana',
@@ -211,7 +210,7 @@ describe('Integration | Component | Dashboard | Content', function () {
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
-    it('should render competence-card when there is at least one competence-card not started', async function () {
+    test('should render competence-card when there is at least one competence-card not started', async function (assert) {
       // given
       const scorecard = { isImprovable: true };
       this.set('model', {
@@ -224,10 +223,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
+      assert.ok(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle')));
     });
 
-    it('should not render competence-card when there is no competence-card', async function () {
+    test('should not render competence-card when there is no competence-card', async function (assert) {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -239,10 +238,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.not.exist;
+      assert.notOk(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle')));
     });
 
-    it('should render the four first non improvable competence cards from the received arguments', async function () {
+    test('should render the four first non improvable competence cards from the received arguments', async function (assert) {
       // given
       const scorecards = [
         { id: 1, index: '1.1', isImprovable: true },
@@ -262,12 +261,12 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(findAll('.competence-card')).to.have.length(4);
+      assert.dom('.competence-card').exists({ count: 4 });
     });
   });
 
-  describe('started competence-card rendering', function () {
-    beforeEach(function () {
+  module('started competence-card rendering', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
           firstName: 'Banana',
@@ -283,7 +282,7 @@ describe('Integration | Component | Dashboard | Content', function () {
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
-    it('should render competence-card when there is at least one competence-card started', async function () {
+    test('should render competence-card when there is at least one competence-card started', async function (assert) {
       // given
       const scorecard = { isStarted: true };
       this.set('model', {
@@ -296,10 +295,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-started-competences]')).to.exist;
+      assert.dom('section[data-test-started-competences]').exists();
     });
 
-    it('should not render competence-card when there is no competence-card', async function () {
+    test('should not render competence-card when there is no competence-card', async function (assert) {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -311,10 +310,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-started-competences]')).to.not.exist;
+      assert.dom('section[data-test-started-competences]').doesNotExist();
     });
 
-    it('should render the four first started competence cards from the received arguments', async function () {
+    test('should render the four first started competence cards from the received arguments', async function (assert) {
       // given
       const scorecards = [
         { id: 1, index: '1.1', isStarted: true },
@@ -334,12 +333,12 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(findAll('.competence-card')).to.have.length(4);
+      assert.dom('.competence-card').exists({ count: 4 });
     });
   });
 
-  describe('new dashboard info rendering', function () {
-    it('should display NewInformation on dashboard if user has not close it before', async function () {
+  module('new dashboard info rendering', function () {
+    test('should display NewInformation on dashboard if user has not close it before', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
@@ -364,10 +363,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('.new-information')).to.exist;
+      assert.dom('.new-information').exists();
     });
 
-    it('should not display NewInformation on dashboard if user has close it before', async function () {
+    test('should not display NewInformation on dashboard if user has close it before', async function (assert) {
       // given
       class HasSeenNewDashboardInformationCurrentUserStub extends Service {
         user = store.createRecord('user', {
@@ -392,10 +391,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('section[data-test-new-dashboard-info]')).not.to.exist;
+      assert.dom('section[data-test-new-dashboard-info]').doesNotExist();
     });
 
-    it('should display link on new dashboard banner when domain is pix.fr', async function () {
+    test('should display link on new dashboard banner when domain is pix.fr', async function (assert) {
       // given
       class UrlStub extends Service {
         get isFrenchDomainExtension() {
@@ -427,11 +426,11 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('.new-information')).to.exist;
-      expect(find('.new-information-content-text__link')).to.exist;
+      assert.dom('.new-information').exists();
+      assert.dom('.new-information-content-text__link').exists();
     });
 
-    it('should hide link on new dashboard banner when domain is pix.org', async function () {
+    test('should hide link on new dashboard banner when domain is pix.org', async function (assert) {
       // given
       class UrlStub extends Service {
         get isFrenchDomainExtension() {
@@ -463,13 +462,13 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('.new-information')).to.exist;
-      expect(find('.new-information-content-text__link')).not.to.exist;
+      assert.dom('.new-information').exists();
+      assert.dom('.new-information-content-text__link').doesNotExist();
     });
   });
 
-  describe('empty dashboard info rendering', function () {
-    it('should display Empty Dashboard Information if user has nothing to do', async function () {
+  module('empty dashboard info rendering', function () {
+    test('should display Empty Dashboard Information if user has nothing to do', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
@@ -494,10 +493,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('section[data-test-empty-dashboard]')).to.exist;
+      assert.dom('section[data-test-empty-dashboard]').exists();
     });
 
-    it('should not display Empty Dashboard Information on dashboard if user has competence to continue', async function () {
+    test('should not display Empty Dashboard Information on dashboard if user has competence to continue', async function (assert) {
       // given
       class HasSeenNewDashboardInformationCurrentUserStub extends Service {
         user = store.createRecord('user', {
@@ -525,12 +524,12 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('section[data-test-empty-dashboard]')).not.to.exist;
+      assert.dom('section[data-test-empty-dashboard]').doesNotExist();
     });
   });
 
-  describe('user pix score rendering', function () {
-    it('should display user score', async function () {
+  module('user pix score rendering', function () {
+    test('should display user score', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
@@ -555,13 +554,13 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('.dashboard-content__score')).to.exist;
-      expect(find('.hexagon-score-content__pix-score').textContent).to.contains(pixScore);
+      assert.dom('.dashboard-content__score').exists();
+      assert.ok(find('.hexagon-score-content__pix-score').textContent.includes(pixScore));
     });
   });
 
-  describe('participation to a profile collection campaign to resume', function () {
-    it('should display the banner to resume participation', async function () {
+  module('participation to a profile collection campaign to resume', function () {
+    test('should display the banner to resume participation', async function (assert) {
       // given
       class CurrentUserWithCodeStub extends Service {
         user = store.createRecord('user', {
@@ -587,10 +586,10 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(contains(this.intl.t('pages.dashboard.campaigns.resume.action'))).to.exist;
+      assert.ok(contains(this.intl.t('pages.dashboard.campaigns.resume.action')));
     });
 
-    it('should not display the banner when there is no code', async function () {
+    test('should not display the banner when there is no code', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
@@ -615,7 +614,7 @@ describe('Integration | Component | Dashboard | Content', function () {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(contains(this.intl.t('pages.dashboard.campaigns.resume.action'))).not.to.exist;
+      assert.notOk(contains(this.intl.t('pages.dashboard.campaigns.resume.action')));
     });
   });
 });

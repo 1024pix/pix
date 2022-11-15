@@ -1,9 +1,8 @@
 import EmberObject from '@ember/object';
 import ProgressionTrackerMixin from 'mon-pix/mixins/progression-tracker';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 
-describe('Unit | Mixin | progression-tracker', function () {
+module('Unit | Mixin | progression-tracker', function () {
   const steps = ['one', 'two', 'three'];
   const initialProgression = [
     EmberObject.create({ name: 'one', status: 'completed' }),
@@ -16,35 +15,35 @@ describe('Unit | Mixin | progression-tracker', function () {
     EmberObject.create({ name: 'three', status: null }),
   ];
 
-  it('it should move automatically to the first step when initialized', function () {
+  test('it should move automatically to the first step when initialized', function (assert) {
     const ProgressionTrackerObject = EmberObject.extend(ProgressionTrackerMixin);
     const s = ProgressionTrackerObject.create({ steps });
-    expect(s.progression).to.deep.equal(initialProgression);
+    assert.deepEqual(s.progression, initialProgression);
   });
 
-  it('it should move forward to other step and update the state', function () {
+  test('it should move forward to other step and update the state', function (assert) {
     const ProgressionTrackerObject = EmberObject.extend(ProgressionTrackerMixin);
     const s = ProgressionTrackerObject.create({ steps });
     s.next();
-    expect(s.progression).to.deep.equal(testProgression);
-    expect(s.activeStep).to.equal('two');
+    assert.deepEqual(s.progression, testProgression);
+    assert.equal(s.activeStep, 'two');
   });
 
-  it('it should move backward to other step and update the state', function () {
+  test('it should move backward to other step and update the state', function (assert) {
     const ProgressionTrackerObject = EmberObject.extend(ProgressionTrackerMixin);
     const s = ProgressionTrackerObject.create({ steps });
     s.next();
     s.next();
     s.prev();
-    expect(s.progression).to.deep.equal(testProgression);
-    expect(s.activeStep).to.equal('two');
+    assert.deepEqual(s.progression, testProgression);
+    assert.equal(s.activeStep, 'two');
   });
 
-  it('it should not mutate the steps passed in', function () {
+  test('it should not mutate the steps passed in', function (assert) {
     const ProgressionTrackerObject = EmberObject.extend(ProgressionTrackerMixin);
     const s = ProgressionTrackerObject.create({ steps });
     s.next();
     s.next();
-    expect(s.steps).to.deep.equal(['one', 'two', 'three']);
+    assert.deepEqual(s.steps, ['one', 'two', 'three']);
   });
 });

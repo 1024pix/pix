@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -9,11 +8,11 @@ import sinon from 'sinon';
 import { clickByLabel } from '../../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
 
-describe('Integration | Component | user-account | email-verification-code', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user-account | email-verification-code', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('resend code message', function () {
-    it('should not display resend code message at the beginning', async function () {
+  module('resend code message', function () {
+    test('should not display resend code message at the beginning', async function (assert) {
       // given
       this.set('email', 'toto@example.net');
 
@@ -22,29 +21,24 @@ describe('Integration | Component | user-account | email-verification-code', fun
 
       // then
       const resendCodeMessage = screen.getByText(this.intl.t('pages.user-account.email-verification.did-not-receive'));
-      expect(resendCodeMessage).not.to.have.class('visible');
+      assert.dom(resendCodeMessage).doesNotHaveClass('visible');
     });
 
-    it(`should display a resend code message after ${ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND} milliseconds`, async function () {
+    test(`should display a resend code message after ${ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND} milliseconds`, async function (assert) {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
       this.set('email', email);
       this.set('password', password);
 
-      const clock = sinon.useFakeTimers();
-
       // when
       await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`);
-      clock.tick(ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
 
-      expect(contains(this.intl.t('pages.user-account.email-verification.did-not-receive'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code'))).to.exist;
-
-      clock.restore();
+      assert.ok(contains(this.intl.t('pages.user-account.email-verification.did-not-receive')));
+      assert.ok(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code')));
     });
 
-    it('should prevent multiple requests to resend verification code', async function () {
+    test('should prevent multiple requests to resend verification code', async function (assert) {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
@@ -53,33 +47,28 @@ describe('Integration | Component | user-account | email-verification-code', fun
 
       const store = this.owner.lookup('service:store');
       store.createRecord = sinon.stub();
-      store.createRecord
-        .withArgs('email-verification-code', { password, newEmail: email })
-        .returns({ sendNewEmail: () => new Promise(() => {}) });
-
-      const clock = sinon.useFakeTimers();
+      store.createRecord.withArgs('email-verification-code', { password, newEmail: email }).returns({
+        sendNewEmail: () => new Promise(() => {}),
+      });
 
       // when
       const screen = await render(
         hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
       );
 
-      clock.tick(ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
-
       await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
 
       // then
-      expect(
+      assert.equal(
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
           hidden: true,
-        }).disabled
-      ).to.be.true;
-
-      clock.restore();
+        }).disabled,
+        true
+      );
     });
 
-    it('should show confirmation message when resending code message', async function () {
+    test('should show confirmation message when resending code message', async function (assert) {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
@@ -93,24 +82,19 @@ describe('Integration | Component | user-account | email-verification-code', fun
         .withArgs('email-verification-code', { password, newEmail: email })
         .returns({ sendNewEmail: sendNewEmailStub });
 
-      const clock = sinon.useFakeTimers();
-
       // when
       await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`);
-      clock.tick(ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
 
       await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
 
       // then
-      expect(contains(this.intl.t('pages.user-account.email-verification.confirmation-message'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code'))).to.not.exist;
-
-      clock.restore();
+      assert.ok(contains(this.intl.t('pages.user-account.email-verification.confirmation-message')));
+      assert.notOk(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code')));
     });
   });
 
-  context('after entering code', function () {
-    it('should show invalid code message when receiving 403', async function () {
+  module('after entering code', function () {
+    test('should show invalid code message when receiving 403', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const disableEmailEditionMode = sinon.stub();
@@ -133,10 +117,10 @@ describe('Integration | Component | user-account | email-verification-code', fun
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      expect(contains(this.intl.t('pages.user-account.email-verification.errors.incorrect-code'))).to.exist;
+      assert.ok(contains(this.intl.t('pages.user-account.email-verification.errors.incorrect-code')));
     });
 
-    it('should show demand expired message when receiving 403', async function () {
+    test('should show demand expired message when receiving 403', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const disableEmailEditionMode = sinon.stub();
@@ -166,12 +150,12 @@ describe('Integration | Component | user-account | email-verification-code', fun
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      expect(
+      assert.ok(
         contains(this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired'))
-      ).to.exist;
+      );
     });
 
-    it('should show email already exists message when receiving 400', async function () {
+    test('should show email already exists message when receiving 400', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const disableEmailEditionMode = sinon.stub();
@@ -201,10 +185,10 @@ describe('Integration | Component | user-account | email-verification-code', fun
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      expect(contains(this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist'))).to.exist;
+      assert.ok(contains(this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist')));
     });
 
-    it('should show error message when receiving 500', async function () {
+    test('should show error message when receiving 500', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const disableEmailEditionMode = sinon.stub();
@@ -227,7 +211,7 @@ describe('Integration | Component | user-account | email-verification-code', fun
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      expect(contains(this.intl.t('pages.user-account.email-verification.errors.unknown-error'))).to.exist;
+      assert.ok(contains(this.intl.t('pages.user-account.email-verification.errors.unknown-error')));
     });
   });
 });

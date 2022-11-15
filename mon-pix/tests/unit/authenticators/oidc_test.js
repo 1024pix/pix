@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
-import { beforeEach, describe, it } from 'mocha';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import * as fetch from 'fetch';
 
-describe('Unit | Authenticator | oidc', function () {
-  setupTest();
+module('Unit | Authenticator | oidc', function (hooks) {
+  setupTest(hooks);
 
-  describe('#authenticate', function () {
+  module('#authenticate', function (hooks) {
     const userId = 1;
     const source = 'oidc-externe';
     const hasLogoutUrl = true;
@@ -47,7 +46,7 @@ describe('Unit | Authenticator | oidc', function () {
       }`) +
       '.bbb';
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       sinon.stub(fetch, 'default').resolves({
         json: sinon.stub().resolves({ access_token: accessToken, logout_url_uuid: logoutUrlUuid }),
         ok: true,
@@ -66,11 +65,11 @@ describe('Unit | Authenticator | oidc', function () {
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
       sinon.restore();
     });
 
-    it('should fetch token with authentication key', async function () {
+    test('should fetch token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
@@ -91,7 +90,7 @@ describe('Unit | Authenticator | oidc', function () {
         },
       });
       sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/users`, request);
-      expect(token).to.deep.equal({
+      assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
         source,
@@ -99,9 +98,10 @@ describe('Unit | Authenticator | oidc', function () {
         user_id: userId,
         identityProviderCode,
       });
+      assert.ok(true);
     });
 
-    it('should fetch token with code, redirectUri, and state in body', async function () {
+    test('should fetch token with code, redirectUri, and state in body', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
@@ -117,7 +117,7 @@ describe('Unit | Authenticator | oidc', function () {
       // then
       request.body = body;
       sinon.assert.calledWith(fetch.default, 'http://localhost:3000/api/oidc/token', request);
-      expect(token).to.deep.equal({
+      assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
         source,
@@ -125,10 +125,11 @@ describe('Unit | Authenticator | oidc', function () {
         user_id: userId,
         identityProviderCode,
       });
+      assert.ok(true);
     });
 
-    context('when user is authenticated', function () {
-      it('should invalidate session', async function () {
+    module('when user is authenticated', function () {
+      test('should invalidate session', async function (assert) {
         // given
         const sessionStub = Service.create({
           isAuthenticated: true,
@@ -151,13 +152,14 @@ describe('Unit | Authenticator | oidc', function () {
         request.body = body;
         sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
         sinon.assert.calledOnce(sessionStub.invalidate);
+        assert.ok(true);
       });
     });
   });
 
-  describe('#invalidate', function () {
-    context('when user has logout url in their session', function () {
-      it('should set alternativeRootURL with the redirect logout url', async function () {
+  module('#invalidate', function () {
+    module('when user has logout url in their session', function () {
+      test('should set alternativeRootURL with the redirect logout url', async function (assert) {
         // given
         const sessionStub = Service.create({
           isAuthenticated: true,
@@ -183,7 +185,7 @@ describe('Unit | Authenticator | oidc', function () {
         });
 
         // then
-        expect(authenticator.session.alternativeRootURL).to.equal(redirectLogoutUrl);
+        assert.equal(authenticator.session.alternativeRootURL, redirectLogoutUrl);
         sinon.restore();
       });
     });

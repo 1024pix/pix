@@ -1,8 +1,7 @@
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 
 import setupIntl from '../../helpers/setup-intl';
@@ -20,22 +19,22 @@ const VALIDATION_MAP = {
   },
 };
 
-describe('Unit | Component | Update Expired Password Form', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | Update Expired Password Form', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = this.owner.lookup('component:update-expired-password-form');
   });
 
-  describe('#validatePassword', function () {
-    it('should set validation status to default, when component is used', function () {
-      expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
+  module('#validatePassword', function () {
+    test('should set validation status to default, when component is used', function (assert) {
+      assert.deepEqual(component.validation, VALIDATION_MAP.default);
     });
 
-    it('should set validation status to error, when there is an validation error on password field', function () {
+    test('should set validation status to error, when there is an validation error on password field', function (assert) {
       //given
       const wrongPassword = 'pix123';
       component.newPassword = wrongPassword;
@@ -44,10 +43,10 @@ describe('Unit | Component | Update Expired Password Form', function () {
       component.send('validatePassword');
 
       // then
-      expect(component.validation).to.deep.equal(VALIDATION_MAP.error);
+      assert.deepEqual(component.validation, VALIDATION_MAP.error);
     });
 
-    it('should set validation status to success, when password is valid', function () {
+    test('should set validation status to success, when password is valid', function (assert) {
       //given
       const goodPassword = 'Pix12345';
       component.newPassword = goodPassword;
@@ -56,16 +55,16 @@ describe('Unit | Component | Update Expired Password Form', function () {
       component.send('validatePassword');
 
       // then
-      expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
+      assert.deepEqual(component.validation, VALIDATION_MAP.default);
     });
   });
 
-  describe('#handleUpdatePasswordAndAuthenticate', function () {
+  module('#handleUpdatePasswordAndAuthenticate', function (hooks) {
     const login = 'beth.rave1203';
     const newPassword = 'Pix67890';
     const scope = 'mon-pix';
 
-    beforeEach(() => {
+    hooks.beforeEach(() => {
       const sessionStub = Service.create({
         authenticate: sinon.stub().resolves(),
       });
@@ -80,24 +79,25 @@ describe('Unit | Component | Update Expired Password Form', function () {
       component.newPassword = newPassword;
     });
 
-    describe('When user password is saved', function () {
-      it('should update validation with success data', async function () {
+    module('When user password is saved', function () {
+      test('should update validation with success data', async function (assert) {
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
+        assert.deepEqual(component.validation, VALIDATION_MAP.default);
       });
 
-      it('should remove user password from the store', async function () {
+      test('should remove user password from the store', async function (assert) {
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
         sinon.assert.called(component.resetExpiredPasswordDemand.unloadRecord);
+        assert.ok(true);
       });
 
-      it('should authenticate with username and newPassword', async function () {
+      test('should authenticate with username and newPassword', async function (assert) {
         // given
         const expectedAuthenticator = 'authenticator:oauth2';
         const expectedParameters = {
@@ -111,11 +111,12 @@ describe('Unit | Component | Update Expired Password Form', function () {
 
         // then
         sinon.assert.calledWith(component.session.authenticate, expectedAuthenticator, expectedParameters);
+        assert.ok(true);
       });
     });
 
-    describe('When update password is rejected by api', function () {
-      it('should set validation with errors data if http 400 error', async function () {
+    module('When update password is rejected by api', function () {
+      test('should set validation with errors data if http 400 error', async function (assert) {
         // given
         const response = {
           errors: [{ status: '400' }],
@@ -126,10 +127,10 @@ describe('Unit | Component | Update Expired Password Form', function () {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.validation).to.deep.equal(VALIDATION_MAP.error);
+        assert.deepEqual(component.validation, VALIDATION_MAP.error);
       });
 
-      it('should set error message if http 401 error', async function () {
+      test('should set error message if http 401 error', async function (assert) {
         // given
         const expectedErrorMessage = component.intl.t('api-error-messages.login-unauthorized-error');
         const response = {
@@ -141,10 +142,10 @@ describe('Unit | Component | Update Expired Password Form', function () {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.errorMessage).to.equal(expectedErrorMessage);
+        assert.equal(component.errorMessage, expectedErrorMessage);
       });
 
-      it('should set validation with errors data', async function () {
+      test('should set validation with errors data', async function (assert) {
         // given
         const expectedErrorMessage = component.intl.t('api-error-messages.internal-server-error');
         component.resetExpiredPasswordDemand.updateExpiredPassword.rejects();
@@ -153,12 +154,12 @@ describe('Unit | Component | Update Expired Password Form', function () {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.errorMessage).to.equal(expectedErrorMessage);
+        assert.equal(component.errorMessage, expectedErrorMessage);
       });
     });
 
-    describe('When authentication after update fails', function () {
-      it('should set authenticationHasFailed to true', async function () {
+    module('When authentication after update fails', function () {
+      test('should set authenticationHasFailed to true', async function (assert) {
         // given
         component.session.authenticate.rejects();
 
@@ -166,7 +167,7 @@ describe('Unit | Component | Update Expired Password Form', function () {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.authenticationHasFailed).to.equal(true);
+        assert.equal(component.authenticationHasFailed, true);
       });
     });
   });

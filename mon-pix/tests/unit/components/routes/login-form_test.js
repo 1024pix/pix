@@ -1,11 +1,10 @@
-import { beforeEach, describe } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | routes/login-form', function () {
-  setupTest();
+module('Unit | Component | routes/login-form', function (hooks) {
+  setupTest(hooks);
 
   let sessionStub;
   let storeStub;
@@ -16,7 +15,7 @@ describe('Unit | Component | routes/login-form', function () {
 
   const eventStub = { preventDefault: sinon.stub() };
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     sessionStub = {
       authenticate: sinon.stub().resolves(),
       isAuthenticated: sinon.stub().returns(true),
@@ -40,18 +39,18 @@ describe('Unit | Component | routes/login-form', function () {
     component.args.addGarAuthenticationMethodToUser = addGarAuthenticationMethodToUserStub;
   });
 
-  describe('#authenticate', function () {
-    context('when user is a Pix user', function () {
-      it('should not notify error when authentication succeeds', async function () {
+  module('#authenticate', function () {
+    module('when user is a Pix user', function () {
+      test('should not notify error when authentication succeeds', async function (assert) {
         // when
         await component.authenticate(eventStub);
 
         // then
-        expect(component.isErrorMessagePresent).to.be.false;
-        expect(component.hasUpdateUserError).to.be.false;
+        assert.equal(component.isErrorMessagePresent, false);
+        assert.equal(component.hasUpdateUserError, false);
       });
 
-      it('should notify error when authentication fails', async function () {
+      test('should notify error when authentication fails', async function (assert) {
         // given
         sessionStub.authenticate.rejects(new Error());
 
@@ -59,12 +58,12 @@ describe('Unit | Component | routes/login-form', function () {
         await component.authenticate(eventStub);
 
         // then
-        expect(component.isErrorMessagePresent).to.be.true;
-        expect(component.hasUpdateUserError).to.be.false;
+        assert.equal(component.isErrorMessagePresent, true);
+        assert.equal(component.hasUpdateUserError, false);
       });
 
-      context('when user should change password', function () {
-        it('should save reset password token and redirect to update-expired-password', async function () {
+      module('when user should change password', function () {
+        test('should save reset password token and redirect to update-expired-password', async function (assert) {
           // given
           const expectedRouteName = 'update-expired-password';
           sessionStub.authenticate.rejects({
@@ -86,20 +85,21 @@ describe('Unit | Component | routes/login-form', function () {
             passwordResetToken: 'PASSWORD_RESET_TOKEN',
           });
           sinon.assert.calledWith(component.router.replaceWith, expectedRouteName);
+          assert.ok(true);
         });
       });
     });
 
-    context('when user is external with an existing token id', function () {
+    module('when user is external with an existing token id', function (hooks) {
       const externalUserToken = 'ABCD';
       const expectedUserId = 1;
 
-      beforeEach(() => {
+      hooks.beforeEach(() => {
         sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
         sessionStub.get.withArgs('data.expectedUserId').returns(expectedUserId);
       });
 
-      it('should display an error message when update user authentication method fails', async function () {
+      test('should display an error message when update user authentication method fails', async function (assert) {
         // given
         addGarAuthenticationMethodToUserStub.rejects(new Error());
 
@@ -107,12 +107,12 @@ describe('Unit | Component | routes/login-form', function () {
         await component.authenticate(eventStub);
 
         // then
-        expect(component.isErrorMessagePresent).to.be.false;
-        expect(component.hasUpdateUserError).to.be.true;
+        assert.equal(component.isErrorMessagePresent, false);
+        assert.equal(component.hasUpdateUserError, true);
       });
 
-      context('when user should change password', function () {
-        it('should save reset password token and redirect to update-expired-password', async function () {
+      module('when user should change password', function () {
+        test('should save reset password token and redirect to update-expired-password', async function (assert) {
           // given
           const response = {
             errors: [
@@ -132,6 +132,7 @@ describe('Unit | Component | routes/login-form', function () {
             passwordResetToken: 'PASSWORD_RESET_TOKEN',
           });
           sinon.assert.calledWith(component.router.replaceWith, 'update-expired-password');
+          assert.ok(true);
         });
       });
     });

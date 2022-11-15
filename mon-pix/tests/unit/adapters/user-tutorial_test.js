@@ -1,20 +1,19 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | user-saved-tutorial', function () {
-  setupTest();
+module('Unit | Adapters | user-saved-tutorial', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:user-saved-tutorial');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#createRecord', function () {
-    it('should call API to create a user-tutorial with skill-id from tutorial', async function () {
+  module('#createRecord', function () {
+    test('should call API to create a user-tutorial with skill-id from tutorial', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const skillId = 'skillId';
@@ -44,11 +43,12 @@ describe('Unit | Adapters | user-saved-tutorial', function () {
         'PUT',
         expectedOptions
       );
+      assert.ok(true);
     });
   });
 
-  describe('#urlForDeleteRecord', function () {
-    it('should return API to delete a user-tutorial', async function () {
+  module('#urlForDeleteRecord', function () {
+    test('should return API to delete a user-tutorial', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { id: tutorialId };
@@ -61,7 +61,7 @@ describe('Unit | Adapters | user-saved-tutorial', function () {
       const url = adapter.urlForDeleteRecord(null, 'user-saved-tutorial', snapshot);
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/tutorials/tutorialId');
+      assert.equal(url, 'http://localhost:3000/api/users/tutorials/tutorialId');
     });
   });
 });

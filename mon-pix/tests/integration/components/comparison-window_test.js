@@ -1,19 +1,18 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | comparison-window', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | comparison-window', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('rendering', function () {
+  module('rendering', function (hooks) {
     let answer;
     let challenge;
     let correction;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       answer = EmberObject.create({
         value: '1,2',
         result: 'ko',
@@ -32,7 +31,7 @@ describe('Integration | Component | comparison-window', function () {
       this.set('closeComparisonWindow', () => {});
     });
 
-    it('should display challenge illustration and alt', async function () {
+    test('should display challenge illustration and alt', async function (assert) {
       // given
       challenge.set('illustrationUrl', '/images/pix-logo.svg');
       challenge.set('illustrationAlt', 'texte alternatif');
@@ -43,31 +42,31 @@ describe('Integration | Component | comparison-window', function () {
       );
 
       // then
-      expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
-      expect(find('.challenge-illustration__loaded-image').alt).to.equal(challenge.illustrationAlt);
+      assert.ok(find('.challenge-illustration__loaded-image').src.includes(challenge.illustrationUrl));
+      assert.equal(find('.challenge-illustration__loaded-image').alt, challenge.illustrationAlt);
     });
 
-    it('should render challenge instruction', async function () {
+    test('should render challenge instruction', async function (assert) {
       // when
       await render(
         hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
       );
 
       // then
-      expect(find('.comparison-window-content-body__instruction')).to.exist;
+      assert.dom('.comparison-window-content-body__instruction').exists();
     });
 
-    it('should render a closed feedback panel', async function () {
+    test('should render a closed feedback panel', async function (assert) {
       //when
       await render(
         hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
       );
 
       //then
-      expect(find('.feedback-panel__form')).to.not.exist;
+      assert.dom('.feedback-panel__form').doesNotExist();
     });
 
-    it('should render a tutorial panel with a hint', async function () {
+    test('should render a tutorial panel with a hint', async function (assert) {
       // given
       answer.set('result', 'ko');
       correction.set('hint', 'Conseil : mangez des épinards.');
@@ -78,11 +77,11 @@ describe('Integration | Component | comparison-window', function () {
       );
 
       // then
-      expect(find('.tutorial-panel__hint-title')).to.contain.text('Pour réussir la prochaine fois');
-      expect(find('.tutorial-panel__hint-content')).to.contain.text('Conseil : mangez des épinards.');
+      assert.dom('.tutorial-panel__hint-title').hasText('Pour réussir la prochaine fois');
+      assert.dom('.tutorial-panel__hint-content').hasText('Conseil : mangez des épinards.');
     });
 
-    it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', async function () {
+    test('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', async function (assert) {
       // given
       correction.setProperties({
         learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
@@ -94,11 +93,11 @@ describe('Integration | Component | comparison-window', function () {
       );
 
       // then
-      expect(find('.learning-more-panel__container')).to.exist;
+      assert.dom('.learning-more-panel__container').exists();
     });
 
-    context('when the answer is OK', function () {
-      it('should neither display “Bientot ici des tutos“ nor hints nor any tutorials', async function () {
+    module('when the answer is OK', function () {
+      test('should neither display “Bientot ici des tutos“ nor hints nor any tutorials', async function (assert) {
         // given
         answer.setProperties({
           result: 'ok',
@@ -111,14 +110,14 @@ describe('Integration | Component | comparison-window', function () {
         );
 
         // then
-        expect(find('.tutorial-panel')).to.not.exist;
-        expect(find('.learning-more-panel__container')).to.not.exist;
-        expect(find('.comparison-window__default-message-container')).to.not.exist;
+        assert.dom('.tutorial-panel').doesNotExist();
+        assert.dom('.learning-more-panel__container').doesNotExist();
+        assert.dom('.comparison-window__default-message-container').doesNotExist();
       });
     });
 
-    context('the correction has no hints nor tutorials at all', function () {
-      it('should render “Bientot des tutos”', async function () {
+    module('the correction has no hints nor tutorials at all', function () {
+      test('should render “Bientot des tutos”', async function (assert) {
         // given
         correction.setProperties({
           solution: '2,3',
@@ -131,12 +130,12 @@ describe('Integration | Component | comparison-window', function () {
         );
 
         // then
-        expect(find('.comparison-windows-content-body-default-message-container__default-message-title')).to.exist;
+        assert.dom('.comparison-windows-content-body-default-message-container__default-message-title').exists();
       });
     });
 
-    context('when the correction has a hint or a tutorial or a learninMoreTutorial', function () {
-      it('should not render a hint or a tutorial', async function () {
+    module('when the correction has a hint or a tutorial or a learninMoreTutorial', function () {
+      test('should not render a hint or a tutorial', async function (assert) {
         // given
         correction.setProperties({
           learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
@@ -148,25 +147,25 @@ describe('Integration | Component | comparison-window', function () {
         );
 
         // then
-        expect(find('.tutorial-panel')).to.exist;
-        expect(find('.tutorial-panel__hint-container')).to.not.exist;
-        expect(find('.tutorial-panel__tutorial-item')).to.not.exist;
+        assert.dom('.tutorial-panel').exists();
+        assert.dom('.tutorial-panel__hint-container').doesNotExist();
+        assert.dom('.tutorial-panel__tutorial-item').doesNotExist();
       });
     });
 
-    describe('solution rendering', function () {
-      it('should not render corrected answers when challenge has no type', async function () {
+    module('solution rendering', function () {
+      test('should not render corrected answers when challenge has no type', async function (assert) {
         // when
         await render(
           hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
         );
         // then
-        expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.not.exist;
+        assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').doesNotExist();
       });
 
-      describe('when challenge type is QROC', function () {
-        describe('and challenge is not autoReply', async function () {
-          it('should display answers', async function () {
+      module('when challenge type is QROC', function () {
+        module('and challenge is not autoReply', async function () {
+          test('should display answers', async function (assert) {
             // given
             challenge = EmberObject.create({ type: 'QROC', autoReply: false });
             answer.set('challenge', challenge);
@@ -177,12 +176,12 @@ describe('Integration | Component | comparison-window', function () {
             );
 
             // then
-            expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
+            assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').exists();
           });
         });
 
-        describe('and challenge is autoReply', async function () {
-          it('should hide answers when correction has no solutionToDisplay', async function () {
+        module('and challenge is autoReply', async function () {
+          test('should hide answers when correction has no solutionToDisplay', async function (assert) {
             // given
             challenge = EmberObject.create({ type: 'QROC', autoReply: true });
             answer.set('challenge', challenge);
@@ -193,10 +192,10 @@ describe('Integration | Component | comparison-window', function () {
             );
 
             // then
-            expect(find('.correction-qroc-box__answer')).to.not.exist;
+            assert.dom('.correction-qroc-box__answer').doesNotExist();
           });
 
-          it('should display answers when correction has solutionToDisplay', async function () {
+          test('should display answers when correction has solutionToDisplay', async function (assert) {
             // given
             challenge = EmberObject.create({ type: 'QROC', autoReply: true });
             correction = EmberObject.create({ solution: 'solution', solutionToDisplay: 'solutionToDisplay' });
@@ -209,12 +208,12 @@ describe('Integration | Component | comparison-window', function () {
             );
 
             // then
-            expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
+            assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').exists();
           });
         });
       });
 
-      it('should render corrected answers when challenge type is QROCM-ind', async function () {
+      test('should render corrected answers when challenge type is QROCM-ind', async function (assert) {
         // given
         challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
         correction.set('solution', '');
@@ -224,10 +223,10 @@ describe('Integration | Component | comparison-window', function () {
           hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
         );
         // then
-        expect(find('div[data-test-id="comparison-window__corrected-answers--qrocm"]')).to.exist;
+        assert.dom('div[data-test-id="comparison-window__corrected-answers--qrocm"]').exists();
       });
 
-      it('should render corrected answers when challenge type is QCM', async function () {
+      test('should render corrected answers when challenge type is QCM', async function (assert) {
         // given
         challenge = EmberObject.create({ type: 'QCM' });
         answer.set('challenge', challenge);
@@ -236,7 +235,7 @@ describe('Integration | Component | comparison-window', function () {
           hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
         );
         // then
-        expect(find('.qcm-solution-panel')).to.exist;
+        assert.dom('.qcm-solution-panel').exists();
       });
     });
   });

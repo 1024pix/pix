@@ -1,33 +1,32 @@
-import { fillIn, find, currentURL, visit } from '@ember/test-helpers';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { fillIn, currentURL, visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Reset Password', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Reset Password', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  it('can visit /mot-passe-oublie', async function () {
+  test('can visit /mot-passe-oublie', async function (assert) {
     // when
     await visit('/mot-de-passe-oublie');
 
     // then
-    expect(currentURL()).to.equal('/mot-de-passe-oublie');
+    assert.equal(currentURL(), '/mot-de-passe-oublie');
   });
 
-  it('display a form to reset the email', async function () {
+  test('display a form to reset the email', async function (assert) {
     // when
     await visit('/mot-de-passe-oublie');
 
     // then
-    expect(find('.sign-form__container')).to.exist;
+    assert.dom('.sign-form__container').exists();
   });
 
-  it('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', async function () {
+  test('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', async function (assert) {
     // given
     this.server.create('user', {
       id: 1,
@@ -42,11 +41,11 @@ describe('Acceptance | Reset Password', function () {
     // when
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
-    expect(currentURL()).to.equal('/mot-de-passe-oublie');
-    expect(find('.password-reset-demand-form__body')).to.exist;
+    assert.equal(currentURL(), '/mot-de-passe-oublie');
+    assert.dom('.password-reset-demand-form__body').exists();
   });
 
-  it('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', async function () {
+  test('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', async function (assert) {
     // given
     this.server.create('user', {
       id: 1,
@@ -61,7 +60,7 @@ describe('Acceptance | Reset Password', function () {
     // when
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
-    expect(currentURL()).to.equal('/mot-de-passe-oublie');
-    expect(find('.sign-form__notification-message--error')).to.exist;
+    assert.equal(currentURL(), '/mot-de-passe-oublie');
+    assert.dom('.sign-form__notification-message--error').exists();
   });
 });

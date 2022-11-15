@@ -1,19 +1,18 @@
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import pick from 'lodash/pick';
 
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | signup-form', function () {
-  setupTest();
+module('Unit | Component | signup-form', function (hooks) {
+  setupTest(hooks);
 
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     class SessionStub extends Service {
       attemptedTransition = {
         from: {
@@ -27,8 +26,8 @@ describe('Unit | Component | signup-form', function () {
     component = createGlimmerComponent('component:signup-form');
   });
 
-  describe('#signup', function () {
-    it('should save user without spaces', function () {
+  module('#signup', function () {
+    test('should save user without spaces', function (assert) {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',
@@ -50,10 +49,10 @@ describe('Unit | Component | signup-form', function () {
 
       // then
       const user = component.args.user;
-      expect(pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
+      assert.deepEqual(pick(user, ['firstName', 'lastName', 'email']), expectedUser);
     });
 
-    it('should authenticate user after sign up', async function () {
+    test('should authenticate user after sign up', async function (assert) {
       const userWithSpaces = EmberObject.create({
         firstName: 'Chris',
         lastName: 'MylastName',
@@ -72,9 +71,10 @@ describe('Unit | Component | signup-form', function () {
 
       // then
       sinon.assert.calledWith(authenticateStub, userWithSpaces.email, userWithSpaces.password);
+      assert.ok(true);
     });
 
-    it('should send campaignCode when is defined', function () {
+    test('should send campaignCode when is defined', function (assert) {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',
@@ -93,6 +93,7 @@ describe('Unit | Component | signup-form', function () {
 
       // then
       sinon.assert.calledWith(userWithSpaces.save, { adapterOptions: { campaignCode } });
+      assert.ok(true);
     });
   });
 });

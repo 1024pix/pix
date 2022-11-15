@@ -1,23 +1,23 @@
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns | join | sco-mediacentre', function () {
-  setupTest();
+module('Unit | Controller | campaigns | join | sco-mediacentre', function (hooks) {
+  setupTest(hooks);
 
   let controller;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.join.sco-mediacentre');
     controller.set('model', { code: 'AZERTY999' });
   });
 
-  describe('#createAndReconcile', function () {
+  module('#createAndReconcile', function (hooks) {
     let externalUser;
     let sessionStub;
     let currentUserStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       externalUser = { save: sinon.stub() };
       sessionStub = {
         set: sinon.stub(),
@@ -28,7 +28,7 @@ describe('Unit | Controller | campaigns | join | sco-mediacentre', function () {
       controller.set('currentUser', currentUserStub);
     });
 
-    it('should authenticate the user', async function () {
+    test('should authenticate the user', async function (assert) {
       // given
       const accessToken = 'access-token';
       externalUser.save.resolves({ accessToken });
@@ -43,6 +43,7 @@ describe('Unit | Controller | campaigns | join | sco-mediacentre', function () {
       sinon.assert.calledOnce(externalUser.save);
       sinon.assert.calledWith(sessionStub.set, 'data.externalUser', null);
       sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:oauth2', { token: accessToken });
+      assert.ok(true);
     });
   });
 });

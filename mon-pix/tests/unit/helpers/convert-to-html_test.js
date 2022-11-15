@@ -1,37 +1,36 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import ConvertToHtml from 'mon-pix/helpers/convert-to-html';
 
-describe('Unit | Helper | ConvertToHtml', function () {
-  describe('#compute', function () {
+module('Unit | Helper | ConvertToHtml', function () {
+  module('#compute', function (hooks) {
     let helper;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       helper = new ConvertToHtml();
     });
 
-    it('should return html formatted result', function () {
+    test('should return html formatted result', function (assert) {
       const boldSentence = new Array(['**a bold sentence**']);
       const result = helper.compute(boldSentence);
-      expect(result).to.equal('<p><strong>a bold sentence</strong></p>');
+      assert.equal(result, '<p><strong>a bold sentence</strong></p>');
     });
 
-    it('should return a string without html/css artifacts', function () {
+    test('should return a string without html/css artifacts', function (assert) {
       const input = new Array(['**a bold sentence**<style>width:10px</style>']);
       const result = helper.compute(input);
-      expect(result).to.equal('<p><strong>a bold sentence</strong></p>');
+      assert.equal(result, '<p><strong>a bold sentence</strong></p>');
     });
 
-    it('should return an empty string when called with an argument that is not an array', function () {
+    test('should return an empty string when called with an argument that is not an array', function (assert) {
       const badArgument = 'bad argument';
       const result = helper.compute(badArgument);
-      expect(result).to.equal('');
+      assert.equal(result, '');
     });
 
-    it('should return an empty string when called with an empty argument', function () {
+    test('should return an empty string when called with an empty argument', function (assert) {
       const emptyArgument = new Array(['']);
       const result = helper.compute(emptyArgument);
-      expect(result).to.equal('');
+      assert.equal(result, '');
     });
   });
 });

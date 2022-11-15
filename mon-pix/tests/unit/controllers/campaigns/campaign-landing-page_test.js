@@ -1,19 +1,19 @@
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | Landing Page', function () {
-  setupTest();
+module('Unit | Controller | Campaigns | Landing Page', function (hooks) {
+  setupTest(hooks);
 
   let controller;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns/campaign-landing-page');
     controller.router = { transitionTo: sinon.stub() };
   });
 
-  describe('#startCampaignParticipation', function () {
-    it('should redirect to route campaigns.access', function () {
+  module('#startCampaignParticipation', function () {
+    test('should redirect to route campaigns.access', function (assert) {
       // given
       controller.set('model', { code: 'konami' });
 
@@ -22,6 +22,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function () {
 
       // then
       sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.access', 'konami');
+      assert.ok(true);
     });
   });
 });

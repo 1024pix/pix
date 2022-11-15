@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | timed-challenge-instructions', function () {
-  setupTest();
+module('Unit | Component | timed-challenge-instructions', function (hooks) {
+  setupTest(hooks);
 
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:timed-challenge-instructions');
   });
 
-  describe('Component rendering', function () {
-    describe('#allocatedTime', function () {
+  module('Component rendering', function () {
+    module('#allocatedTime', function () {
       [
         { input: '', expected: '' },
         { input: ' ', expected: '' },
@@ -30,7 +29,7 @@ describe('Unit | Component | timed-challenge-instructions', function () {
         { input: 122, expected: '2 minutes et 2 secondes' },
         { input: 130, expected: '2 minutes et 10 secondes' },
       ].forEach((data) => {
-        it(`should return "${data.expected}" when passing ${data.input}`, function () {
+        test(`should return "${data.expected}" when passing ${data.input}`, function (assert) {
           // given
           component.args.time = data.input;
 
@@ -38,7 +37,7 @@ describe('Unit | Component | timed-challenge-instructions', function () {
           const allocatedTime = component.allocatedTime;
 
           // then
-          expect(allocatedTime).to.equal(data.expected);
+          assert.equal(allocatedTime, data.expected);
         });
       });
     });
