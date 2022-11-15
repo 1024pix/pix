@@ -56,6 +56,20 @@ describe('Unit | Service | Validation Treatments', function () {
   });
 
   describe('#applyPreTreatments', function () {
+    const str = '\u0065\u0301'
+
+    it('should return a copy of the given string with utf8 nfc normaliztion. \u0065\u0301 -> \u00e9', function () {
+      // given
+      const unnormalizedStr = '\u0065\u0301';
+      const normalizedStr = '\u00e9';
+
+      // when
+      const actual = applyPreTreatments(unnormalizedStr);
+
+      // then
+      expect(actual).to.equal(normalizedStr);
+    });
+
     it('should return a copy of the given string with unbreakable spaces replaced by normal spaces', function () {
       // given
       const stringWithUnbreakableSpaces = ' Shi Foo-Bar ';

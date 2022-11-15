@@ -4,6 +4,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const logger = require('../../infrastructure/logger');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
+const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
@@ -36,7 +37,7 @@ function _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solut
     smallestLevenshteinDistance = Math.min(smallestLevenshteinDistance, levenshteinDistance);
   });
   const ratio = smallestLevenshteinDistance / answer.length;
-  return ratio <= 0.25;
+  return ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE;
 }
 
 function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
