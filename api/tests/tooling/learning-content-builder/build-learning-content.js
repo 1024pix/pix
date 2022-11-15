@@ -16,7 +16,7 @@ const buildLearningContent = function (learningContent) {
     const areas = framework.areas.map((area) => {
       const competences = area.competences.map((competence) => {
         const competenceSkills = [];
-        function mapTubes(pTubes) {
+        function mapTubes(pTubes, thematicId) {
           if (!pTubes) return [];
           return pTubes.map((tube) => {
             const skills = tube.skills.map((skill) => {
@@ -84,6 +84,8 @@ const buildLearningContent = function (learningContent) {
               isMobileCompliant: tube.isMobileCompliant,
               isTabletCompliant: tube.isTabletCompliant,
               competenceId: competence.id,
+              thematicId,
+              skillIds: skills.map((skill) => skill.id),
             };
           });
         }
@@ -91,7 +93,7 @@ const buildLearningContent = function (learningContent) {
         allTubes.push(tubes);
         const thematics =
           competence.thematics?.map((thematic) => {
-            const tubes = mapTubes(thematic.tubes);
+            const tubes = mapTubes(thematic.tubes, thematic.id);
             allTubes.push(tubes);
             return {
               id: thematic.id,
