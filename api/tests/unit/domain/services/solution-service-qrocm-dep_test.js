@@ -78,6 +78,11 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         solution: 'Google:\n- 987\nYahoo:\n- 123.00',
       },
       {
+        when: 'Both answers are correct with 1 solution that contains spaces before and after',
+        answer: 'num1: "  foo "\nnum2: "    bar "',
+        solution: 'Google:\n- foo\nYahoo:\n- bar',
+      },
+      {
         when: 'Both answers are correct with 2 solutions',
         answer: 'num1: Google\nnum2: Yahoo',
         solution: twoPossibleSolutions,
@@ -101,6 +106,16 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         when: 'Both answers are correct, with levenshtein 0 < x =< 0.25, uppercase, space and punctuation errors',
         answer: 'num1: GooGLe!!! earch  \nnum2:  Yahoo  n-?swer  ',
         solution: twoPossibleSolutions,
+      },
+      {
+        when: 'Both answers are correct with 2 answers that contains spaces before and after',
+        answer: 'num1: "    GoogLe Search  "\nnum2: "  Yahoo Answer  "',
+        solution: 'Google:\n- "GoogLe Search"\nYahoo:\n- "Yahoo Answer"',
+      },
+      {
+        when: 'Both answers are correct with 2 solution that contains spaces before and after',
+        answer: 'num1: "GoogLe Search"\nnum2: "Yahoo Answer"',
+        solution: 'Google:\n- "   Google Search  "\nYahoo:\n- " Yahoo Answer    "',
       },
       {
         when: 'All answers are correct, with 3 solutions',
@@ -729,6 +744,41 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
         deactivations: { t3: true },
+      },
+    ];
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    allCases.forEach(function (testCase) {
+      it(
+        testCase.when +
+          ', should return ' +
+          testCase.output +
+          ' when answer is "' +
+          testCase.answer +
+          '" and solution is "' +
+          testCase.solution +
+          '"',
+        function () {
+          const solution = {
+            value: testCase.solution,
+            scoring: testCase.scoring,
+            deactivations: testCase.deactivations,
+          };
+          expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+        }
+      );
+    });
+  });
+
+  describe('match, t3, t2, t1 deactivated', function () {
+    const allCases = [
+      {
+        when: 'no stress',
+        output: ANSWER_OK,
+        answer: 'num1: pqrs\nnum2: efgh',
+        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
+        scoring: '1: acquix\n2: acquix',
+        deactivations: { t1: true, t2: true, t3: true },
       },
     ];
 
