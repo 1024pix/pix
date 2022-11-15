@@ -2,7 +2,7 @@
   <PixButtonLink
     @route="assessments.resume"
     @model={{@assessmentId}}
-    @query={{hash hasSeenCheckpoint=true assessmentHasNoMoreQuestions=@finalCheckpoint}}
+    @query={{this.query}}
     @backgroundColor="yellow"
     class="checkpoint__continue-button"
   >

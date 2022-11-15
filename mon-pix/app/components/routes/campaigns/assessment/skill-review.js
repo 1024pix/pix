@@ -17,6 +17,12 @@ export default class SkillReview extends Component {
   @tracked showGlobalErrorMessage = false;
   @tracked isShareButtonClicked = false;
 
+  get query() {
+    return {
+      retry: true,
+    };
+  }
+
   get title() {
     return this.args.model.campaign.title || this.intl.t('pages.skill-review.title');
   }
