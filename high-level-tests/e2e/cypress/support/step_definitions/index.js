@@ -14,6 +14,8 @@ Given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'answers');
   cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'pix-admin-roles');
+  cy.task('db:fixture', 'trainings');
+  cy.task('db:fixture', 'target-profile-trainings');
 });
 
 Given('tous les comptes sont créés', () => {
