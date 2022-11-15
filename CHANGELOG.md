@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.288.0 (15/11/2022)
+
+
+### :rocket: Amélioration
+- [#5217](https://github.com/1024pix/pix/pull/5217) [FEATURE] Changer les dates de certification affichées dans le bandeau des centres SCO (PIX-6308)
+
+### :building_construction: Tech
+- [#5199](https://github.com/1024pix/pix/pull/5199) [TECH] Logger les tentative de rafraichir le token (PIX-6283).
+
+### :bug: Correction
+- [#5223](https://github.com/1024pix/pix/pull/5223) [BUGFIX] Correction d'une regression d'affichage des Tooltips sur PixOrga (PIX-6326)
+- [#5169](https://github.com/1024pix/pix/pull/5169) [BUGFIX] Correction de l'affichage des RT certifiants de fin de parcours (PIX-6231).
+- [#5214](https://github.com/1024pix/pix/pull/5214) [BUGFIX] Alignement de la liste de RT certifiables (PIX-6302).
+
 ## v3.287.0 (14/11/2022)
 
 
