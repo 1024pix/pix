@@ -1,10 +1,10 @@
 const _ = require('lodash');
 
-const { databaseBuilder, expect, sinon } = require('../../test-helper');
+const { databaseBuilder, expect, sinon } = require('../../../test-helper');
 
 const samlify = require('samlify');
-const createServer = require('../../../server');
-const settings = require('../../../lib/config');
+const createServer = require('../../../../server');
+const settings = require('../../../../lib/config');
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
 UjEPMA0GA1UECAwGRlJBTkNFMQ4wDAYDVQQHDAVQQVJJUzEMMAoGA1UECgwDUElY
