@@ -1,6 +1,6 @@
-const createServer = require('../../../server');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const createServer = require('../../../../server');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const {
   expect,
   databaseBuilder,
@@ -9,7 +9,7 @@ const {
   generateValidRequestAuthorizationHeader,
   knex,
   insertUserWithRoleSuperAdmin,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
