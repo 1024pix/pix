@@ -4,9 +4,9 @@ const {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | Campaign Stats Controller', function () {
   let server;
