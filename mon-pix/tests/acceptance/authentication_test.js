@@ -1,13 +1,10 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
+import { fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { currentSession } from 'ember-simple-auth/test-support';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
-import { startCampaignByCode } from '../helpers/campaign';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
-import { Response } from 'miragejs';
 
 module('Acceptance | Authentication', function (hooks) {
   setupApplicationTest(hooks);
