@@ -63,6 +63,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           badgeCompetences: [{ id: 31, name: 'BadgeC1', color: 'BadgeColor', skillIds: ['skill1'] }],
           isAlwaysVisible: true,
           isCertifiable: false,
+          isValid: true,
         },
       ];
 
@@ -156,6 +157,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               'is-acquired': true,
               'is-always-visible': true,
               'is-certifiable': false,
+              'is-valid': true,
             },
             id: '3',
             type: 'campaignParticipationBadges',

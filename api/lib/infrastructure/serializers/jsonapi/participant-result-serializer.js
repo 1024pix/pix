@@ -34,6 +34,7 @@ module.exports = {
           'partnerCompetenceResults',
           'isAlwaysVisible',
           'isCertifiable',
+          'isValid',
         ],
         skillSetResults: {
           ref: 'id',

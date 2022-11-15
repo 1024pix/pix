@@ -17,12 +17,14 @@ module.exports = async function getUserCampaignAssessmentResult({
       knowledgeElementRepository,
       badgeForCalculationRepository
     );
-    const stillValidBadges = badges.filter((badge) => stillValidBadgeIds.includes(badge.id));
+
+    const badgesWithValidity = badges.map((badge) => ({ ...badge, isValid: stillValidBadgeIds.includes(badge.id) }));
+
     const assessmentResult = await participantResultRepository.getByUserIdAndCampaignId({
       userId,
       campaignId,
       locale,
-      badges: stillValidBadges,
+      badges: badgesWithValidity,
     });
 
     return assessmentResult;
