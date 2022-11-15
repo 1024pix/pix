@@ -9,7 +9,7 @@ module.exports = {
       .select(
         'certification-courses.firstName',
         'certification-courses.lastName',
-        'users.email',
+        'certification-candidates.resultRecipientEmail',
         'certification-courses.birthdate',
         'certification-courses.birthplace',
         'certification-courses.birthPostalCode',
@@ -18,7 +18,11 @@ module.exports = {
         'certification-courses.sex',
         'certification-courses.createdAt'
       )
-      .innerJoin('users', 'certification-courses.userId', 'users.id')
+      .innerJoin('certification-candidates', function () {
+        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
+          'certification-candidates.userId': 'certification-courses.userId',
+        });
+      })
       .innerJoin(
         'complementary-certification-courses',
         'complementary-certification-courses.certificationCourseId',

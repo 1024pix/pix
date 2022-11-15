@@ -2,7 +2,7 @@ class CleaCertifiedCandidate {
   constructor({
     firstName,
     lastName,
-    email,
+    resultRecipientEmail,
     birthdate,
     birthplace,
     birthPostalCode,
@@ -13,7 +13,7 @@ class CleaCertifiedCandidate {
   } = {}) {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.email = email;
+    this.resultRecipientEmail = resultRecipientEmail;
     this.birthdate = birthdate;
     this.birthplace = birthplace;
     this.birthPostalCode = birthPostalCode;
