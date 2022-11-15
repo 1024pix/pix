@@ -1,6 +1,6 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
-const createServer = require('../../../server');
-const Feedback = require('../../../lib/infrastructure/orm-models/Feedback');
+const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
+const createServer = require('../../../../server');
+const Feedback = require('../../../../lib/infrastructure/orm-models/Feedback');
 
 describe('Acceptance | Controller | feedback-controller', function () {
   let server;
