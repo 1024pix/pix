@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const createServer = require('../../../server');
+const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | cache-controller', function () {
   let server;
