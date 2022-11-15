@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -11,11 +11,11 @@ const {
   knex,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
-const settings = require('../../../lib/config');
-const Membership = require('../../../lib/domain/models/Membership');
-const createServer = require('../../../server');
+const settings = require('../../../../lib/config');
+const Membership = require('../../../../lib/domain/models/Membership');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;
