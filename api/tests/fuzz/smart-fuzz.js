@@ -47,6 +47,7 @@ module.exports = async ({ defaultHeaders, server }) => {
     const { statusCode } = testResponse;
 
     if (statusCode >= 500) {
+      // eslint-disable-next-line no-console
       console.log(url, method, validPayload, statusCode);
       throw new Error(`Fuzz test caused a ${statusCode} response.`);
     }
