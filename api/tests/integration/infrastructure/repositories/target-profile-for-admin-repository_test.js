@@ -463,6 +463,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               practicalTitle_i18n: {
                 fr: 'practicalTitleFR2',
               },
+              thematicId: 'recThemA',
             },
           ],
         };
@@ -634,6 +635,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube1',
               competenceId: 'recCompA',
+              thematicId: 'recThemA',
               name: 'tubeName1',
               practicalTitle_i18n: {
                 fr: 'practicalTitleFR1',
@@ -644,6 +646,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube2',
               competenceId: 'recCompA',
+              thematicId: 'recThemB',
               name: 'tubeName2',
               practicalTitle_i18n: {
                 fr: 'practicalTitleFR2',
@@ -654,6 +657,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube3',
               competenceId: 'recCompB',
+              thematicId: 'recThemC',
               name: 'tubeName3',
               practicalTitle_i18n: {
                 fr: 'practicalTitleFR3',
@@ -664,6 +668,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube4',
               competenceId: 'recCompB',
+              thematicId: 'recThemD',
               name: 'tubeName4',
               practicalTitle_i18n: {
                 fr: 'practicalTitleFR4',
@@ -872,6 +877,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube1',
               competenceId: 'recCompA',
+              thematicId: 'recThemA',
               name: 'tubeName1',
               practicalTitle_i18n: {
                 fr: 'practicalTitleFR1',
