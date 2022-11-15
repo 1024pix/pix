@@ -1,7 +1,8 @@
 .badge-form {
 
-  label {
-    font-weight: $font-semi-bold;
+  h2 {
+    font-weight: 500;
+    margin-bottom: 16px;
   }
 
   &__label {
@@ -35,7 +36,6 @@
   &__action-buttons {
     display: flex;
     padding-top: 24px;
-    border-top: 1px solid $pix-neutral-22;
   }
 
   &-action-buttons__cancel {
@@ -61,7 +61,45 @@
     }
   }
 
-  h4 {
-    margin-top: 37px;
+  &-criterion {
+    border: 1px solid #A5ADBA;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    background: $pix-neutral-5;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    &__add {
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  &-criteria-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    label {
+      margin-bottom: 0;
+    }
+  }
+}
+
+input {
+
+  &.badge-form-criterion__threshold {
+    width: 134px;
+    margin-bottom: 16px;
   }
 }
