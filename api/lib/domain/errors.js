@@ -369,6 +369,12 @@ class DeprecatedCertificationIssueReportSubcategoryError extends DomainError {
   }
 }
 
+class SendingEmailError extends DomainError {
+  constructor() {
+    super("Échec lors de l'envoi de l'email.");
+  }
+}
+
 class SendingEmailToRefererError extends DomainError {
   constructor(failedEmailReferers) {
     super(
@@ -1322,6 +1328,7 @@ module.exports = {
   OrganizationLearnerDisabledError,
   OrganizationLearnerNotFound,
   OrganizationLearnersCouldNotBeSavedError,
+  SendingEmailError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
