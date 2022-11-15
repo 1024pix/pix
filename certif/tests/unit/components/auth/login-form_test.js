@@ -78,7 +78,6 @@ module('Unit | Component | login-form', (hooks) => {
           });
           assert.false(component.isErrorMessagePresent);
           assert.strictEqual(component.errorMessage, null);
-          assert.ok(true);
         });
 
         test('should authenticate user after accepting organization invitation', async function (assert) {
@@ -94,11 +93,10 @@ module('Unit | Component | login-form', (hooks) => {
 
           // then
           assert.ok(_authenticateStub.calledWith(component.password, component.email));
-          assert.ok(true);
         });
 
-        module('When there is an error in accepting invitation but not accepted error', function () {
-          test('it should display a message error', async function (assert) {
+        module('When there is an error in accepting invitation', function () {
+          test('it should display a message error when it is not a 412 error', async function (assert) {
             // given
             component.args.certificationCenterInvitation = {
               accept: sinon.stub().rejects({ errors: [{ status: '400' }] }),
@@ -111,6 +109,21 @@ module('Unit | Component | login-form', (hooks) => {
             assert.strictEqual(component.errorMessage, this.intl.t('common.api-errors-messages.bad-request'));
             assert.false(component.isLoading);
             assert.true(component.isErrorMessagePresent);
+          });
+
+          test('should authenticate if error is status 412', async function (assert) {
+            // given
+            component.args.certificationCenterInvitation = {
+              accept: sinon.stub().rejects({ errors: [{ status: '412' }] }),
+            };
+            const _authenticateStub = sinon.stub().resolves();
+            component._authenticate = _authenticateStub;
+
+            // when
+            await component.authenticate(eventStub);
+
+            // then
+            assert.ok(_authenticateStub.calledWith(component.password, component.email));
           });
         });
       });
