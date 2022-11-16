@@ -4,24 +4,24 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Displaying a QCM challenge', () => {
+describe('Acceptance | Displaying a QCM challenge', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
   let qcmChallenge;
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     qcmChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCM');
   });
 
-  describe('When challenge is not already answered', () => {
-    beforeEach(async () => {
+  describe('When challenge is not already answered', function () {
+    beforeEach(async function () {
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should render challenge information and question', () => {
+    it('should render challenge information and question', function () {
       // then
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcmChallenge.instruction);
 
@@ -42,7 +42,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.challenge-response__alert')).to.not.exist;
     });
 
-    it('should display the alert box if user validates without checking a checkbox', async () => {
+    it('should display the alert box if user validates without checking a checkbox', async function () {
       // when
       await click('.challenge-actions__action-validate');
 
@@ -53,7 +53,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       );
     });
 
-    it('should hide the alert error after the user interact with checkboxes', async () => {
+    it('should hide the alert error after the user interact with checkboxes', async function () {
       // given
       await click('.challenge-actions__action-validate');
 
@@ -64,7 +64,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.challenge-response__alert')).to.not.exist;
     });
 
-    it('should go to checkpoint when user validated', async () => {
+    it('should go to checkpoint when user validated', async function () {
       // given
       await click(findAll('.proposal-text')[1]);
 
@@ -76,8 +76,8 @@ describe('Acceptance | Displaying a QCM challenge', () => {
     });
   });
 
-  describe('When challenge is already answered', () => {
-    beforeEach(async () => {
+  describe('When challenge is already answered', function () {
+    beforeEach(async function () {
       // given
       server.create('answer', {
         value: '2, 4',
@@ -90,7 +90,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should mark checkboxes corresponding to the answer and propose to continue', async () => {
+    it('should mark checkboxes corresponding to the answer and propose to continue', async function () {
       // then
       expect(findAll('input[type="checkbox"]')[0].checked).to.be.false;
       expect(findAll('input[type="checkbox"]')[1].checked).to.be.true;
@@ -105,9 +105,9 @@ describe('Acceptance | Displaying a QCM challenge', () => {
     });
   });
 
-  describe('When challenge is already answered and user wants to see answers', () => {
+  describe('When challenge is already answered and user wants to see answers', function () {
     let correction, tutorial, learningMoreTutorial;
-    beforeEach(async () => {
+    beforeEach(async function () {
       // given
       tutorial = server.create('tutorial');
       learningMoreTutorial = server.create('tutorial');
@@ -129,14 +129,14 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
-    it('should show the result of previous challenge in checkpoint', async () => {
+    it('should show the result of previous challenge in checkpoint', async function () {
       // then
       expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
       expect(find('.result-item__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
       expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
     });
 
-    it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+    it('should show details of challenge result in pop-in, with tutorials and feedbacks', async function () {
       // when
       await click('.result-item__correction-button');
 

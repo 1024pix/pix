@@ -16,7 +16,7 @@ describe('Unit | Model | result-competence model', function () {
     expect(model).to.be.ok;
   });
 
-  describe('#area relationship', () => {
+  describe('#area relationship', function () {
     it('should exist', function () {
       // given
       const competence = store.modelFor('result-competence');

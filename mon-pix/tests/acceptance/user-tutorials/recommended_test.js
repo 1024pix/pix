@@ -18,7 +18,7 @@ describe('Acceptance | User-tutorials | Recommended', function () {
     await server.db.tutorials.remove();
   });
 
-  describe('When there are recommended tutorials', () => {
+  describe('When there are recommended tutorials', function () {
     it('should display paginated tutorial cards', async function () {
       // given
       server.createList('tutorial', 100);

@@ -23,7 +23,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
   });
 
   describe('#submit', function () {
-    context('when form data are correct', () => {
+    context('when form data are correct', function () {
       beforeEach(function () {
         component.studentNumber = 'F001';
         component.firstName = 'firstName';
@@ -55,7 +55,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
       });
     });
 
-    context('when form data have errors', () => {
+    context('when form data have errors', function () {
       it('should display an error when student number is not correct', async function () {
         // given
         component.studentNumber = '';

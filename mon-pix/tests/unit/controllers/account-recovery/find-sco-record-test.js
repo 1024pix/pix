@@ -6,7 +6,7 @@ import sinon from 'sinon';
 describe('Unit | Controller | account-recovery | find-sco-record', function () {
   setupTest();
 
-  context('#submitStudentInformation', () => {
+  context('#submitStudentInformation', function () {
     context('when submitting recover account student information form', function () {
       it('should submit student information', async function () {
         // given
@@ -71,7 +71,7 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
     });
   });
 
-  context('#sendEmail', () => {
+  context('#sendEmail', function () {
     context('when user clicks on "C\'est parti!" button', function () {
       it('should send account recovery email', async function () {
         // given
@@ -104,7 +104,7 @@ describe('Unit | Controller | account-recovery | find-sco-record', function () {
     });
   });
 
-  context('#continueAccountRecoveryBackupEmailConfirmation', () => {
+  context('#continueAccountRecoveryBackupEmailConfirmation', function () {
     context('when confirm recover account student information form', function () {
       it('should show recovery account backup email confirmation', async function () {
         // given

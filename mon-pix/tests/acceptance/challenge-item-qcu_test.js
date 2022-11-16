@@ -4,24 +4,24 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Displaying a QCU challenge', () => {
+describe('Acceptance | Displaying a QCU challenge', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
   let qcuChallenge;
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     qcuChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
   });
 
-  describe('When challenge is not already answered', () => {
-    beforeEach(async () => {
+  describe('When challenge is not already answered', function () {
+    beforeEach(async function () {
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should render challenge information and question', () => {
+    it('should render challenge information and question', function () {
       // then
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcuChallenge.instruction);
 
@@ -41,7 +41,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(find('.challenge-reponse__alert')).to.not.exist;
     });
 
-    it('should display the alert box if user validates without checking a radio button', async () => {
+    it('should display the alert box if user validates without checking a radio button', async function () {
       // when
       await click('.challenge-actions__action-validate');
 
@@ -52,7 +52,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       );
     });
 
-    it('should hide the alert error after the user interact with radio button', async () => {
+    it('should hide the alert error after the user interact with radio button', async function () {
       // given
       await click('.challenge-actions__action-validate');
 
@@ -63,7 +63,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(find('.challenge-response__alert')).to.not.exist;
     });
 
-    it('should go to checkpoint when user selects an answer and validates', async () => {
+    it('should go to checkpoint when user selects an answer and validates', async function () {
       // when
       await click(findAll('.proposal-text')[1]);
       await click('.challenge-actions__action-validate');
@@ -73,8 +73,8 @@ describe('Acceptance | Displaying a QCU challenge', () => {
     });
   });
 
-  describe('When challenge is already answered', () => {
-    beforeEach(async () => {
+  describe('When challenge is already answered', function () {
+    beforeEach(async function () {
       // given
       server.create('answer', {
         value: '2',
@@ -87,7 +87,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should mark radio button corresponding to the answer and propose to continue', async () => {
+    it('should mark radio button corresponding to the answer and propose to continue', async function () {
       // then
       const radioButtons = findAll('input[type=radio][name="radio"]');
       expect(radioButtons[0].checked).to.be.false;
@@ -103,9 +103,9 @@ describe('Acceptance | Displaying a QCU challenge', () => {
     });
   });
 
-  describe('When challenge is already answered and user wants to see answers', () => {
+  describe('When challenge is already answered and user wants to see answers', function () {
     let correction, tutorial, learningMoreTutorial;
-    beforeEach(async () => {
+    beforeEach(async function () {
       // given
       tutorial = server.create('tutorial');
       learningMoreTutorial = server.create('tutorial');
@@ -127,14 +127,14 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
-    it('should show the result of previous challenge in checkpoint', async () => {
+    it('should show the result of previous challenge in checkpoint', async function () {
       // then
       expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
       expect(find('.result-item__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
       expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
     });
 
-    it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+    it('should show details of challenge result in pop-in, with tutorials and feedbacks', async function () {
       // when
       await click('.result-item__correction-button');
 

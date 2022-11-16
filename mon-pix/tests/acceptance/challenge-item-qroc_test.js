@@ -4,20 +4,20 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Displaying a QROC challenge', () => {
+describe('Acceptance | Displaying a QROC challenge', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
   let qrocChallenge;
 
-  describe('with input format', () => {
-    beforeEach(async () => {
+  describe('with input format', function () {
+    beforeEach(async function () {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
     });
 
-    describe('When challenge is an auto validated embed (autoReply=true)', () => {
-      beforeEach(async () => {
+    describe('When challenge is an auto validated embed (autoReply=true)', function () {
+      beforeEach(async function () {
         // given
         server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
         server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
@@ -27,12 +27,12 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.challenge-actions__action-skip-text');
       });
 
-      it('should render challenge information and question', () => {
+      it('should render challenge information and question', function () {
         // then
         expect(find('.challenge-response__proposal')).to.not.exist;
       });
 
-      it('should display the alert box when user validates without successfully finishing the embed', async () => {
+      it('should display the alert box when user validates without successfully finishing the embed', async function () {
         // when
         expect(find('.challenge-response__alert')).to.not.exist;
         await click(find('.challenge-actions__action-validate'));
@@ -44,7 +44,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         );
       });
 
-      it('should go to the next challenge when user validates after finishing successfully the embed', async () => {
+      it('should go to the next challenge when user validates after finishing successfully the embed', async function () {
         // when
         const event = document.createEvent('Event');
         event.initEvent('message', true, true);
@@ -58,8 +58,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When challenge is an embed (without autoreply)', () => {
-      beforeEach(async () => {
+    describe('When challenge is an embed (without autoreply)', function () {
+      beforeEach(async function () {
         // given
         server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withEmbed');
 
@@ -68,7 +68,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.challenge-actions__action-skip-text');
       });
 
-      it('should display the alert box when user validates without successfully answering', async () => {
+      it('should display the alert box when user validates without successfully answering', async function () {
         // when
         const event = document.createEvent('Event');
         event.initEvent('message', true, true);
@@ -84,13 +84,13 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When challenge is not already answered', () => {
-      beforeEach(async () => {
+    describe('When challenge is not already answered', function () {
+      beforeEach(async function () {
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should render challenge information and question', () => {
+      it('should render challenge information and question', function () {
         // then
         expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
@@ -102,7 +102,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__alert')).to.not.exist;
       });
 
-      it('should display the alert box if user validates without write an answer in input', async () => {
+      it('should display the alert box if user validates without write an answer in input', async function () {
         // when
         await fillIn('input[data-uid="qroc-proposal-uid"]', '');
         expect(find('.challenge-response__alert')).to.not.exist;
@@ -115,7 +115,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         );
       });
 
-      it('should hide the alert error after the user interact with input text', async () => {
+      it('should hide the alert error after the user interact with input text', async function () {
         // given
         await click('.challenge-actions__action-validate');
 
@@ -127,7 +127,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__alert')).to.not.exist;
       });
 
-      it('should go to checkpoint when user validated', async () => {
+      it('should go to checkpoint when user validated', async function () {
         // when
         await fillIn('input[data-uid="qroc-proposal-uid"]', 'Test');
         await click('.challenge-actions__action-validate');
@@ -137,8 +137,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When challenge is already answered', () => {
-      beforeEach(async () => {
+    describe('When challenge is already answered', function () {
+      beforeEach(async function () {
         // given
         server.create('answer', {
           value: 'Reponse',
@@ -151,7 +151,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should set the input value with the current answer and propose to continue', async () => {
+      it('should set the input value with the current answer and propose to continue', async function () {
         // then
         expect(find('.challenge-response__proposal').value).to.equal('Reponse');
         expect(find('.challenge-response__proposal').disabled).to.be.true;
@@ -162,9 +162,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When challenge is already answered and user wants to see answers', () => {
+    describe('When challenge is already answered and user wants to see answers', function () {
       let correction, tutorial, learningMoreTutorial;
-      beforeEach(async () => {
+      beforeEach(async function () {
         // given
         tutorial = server.create('tutorial');
         learningMoreTutorial = server.create('tutorial');
@@ -186,14 +186,14 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await visit(`/assessments/${assessment.id}/checkpoint`);
       });
 
-      it('should show the result of previous challenge in checkpoint', async () => {
+      it('should show the result of previous challenge in checkpoint', async function () {
         // then
         expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
         expect(find('.result-item__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
         expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
       });
 
-      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async function () {
         // when
         await click('.result-item__correction-button');
 
@@ -218,7 +218,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When there is two challenges with download file', () => {
+    describe('When there is two challenges with download file', function () {
       let qrocWithFile1Challenge, qrocWithFile2Challenge;
 
       beforeEach(async function () {
@@ -254,19 +254,19 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
-  describe('with text-area format', () => {
-    beforeEach(async () => {
+  describe('with text-area format', function () {
+    beforeEach(async function () {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withTextArea');
     });
 
-    describe('When challenge is not already answered', () => {
-      beforeEach(async () => {
+    describe('When challenge is not already answered', function () {
+      beforeEach(async function () {
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should render challenge information and question', () => {
+      it('should render challenge information and question', function () {
         // then
         expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
@@ -277,7 +277,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__alert')).to.not.exist;
       });
 
-      it('should display the alert box if user validates without write an answer in input', async () => {
+      it('should display the alert box if user validates without write an answer in input', async function () {
         // when
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', '');
         expect(find('.challenge-response__alert')).to.not.exist;
@@ -290,7 +290,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         );
       });
 
-      it('should hide the alert error after the user interact with input text', async () => {
+      it('should hide the alert error after the user interact with input text', async function () {
         // given
         await click('.challenge-actions__action-validate');
 
@@ -302,7 +302,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__alert')).to.not.exist;
       });
 
-      it('should go to checkpoint when user validated', async () => {
+      it('should go to checkpoint when user validated', async function () {
         // when
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'Test');
         await click('.challenge-actions__action-validate');
@@ -312,9 +312,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When challenge is already answered and user wants to see answers', () => {
+    describe('When challenge is already answered and user wants to see answers', function () {
       let correction, tutorial, learningMoreTutorial;
-      beforeEach(async () => {
+      beforeEach(async function () {
         // given
         tutorial = server.create('tutorial');
         learningMoreTutorial = server.create('tutorial');
@@ -336,14 +336,14 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await visit(`/assessments/${assessment.id}/checkpoint`);
       });
 
-      it('should show the result of previous challenge in checkpoint', async () => {
+      it('should show the result of previous challenge in checkpoint', async function () {
         // then
         expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
         expect(find('.result-item__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
         expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
       });
 
-      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async function () {
         // when
         await click('.result-item__correction-button');
 
@@ -369,19 +369,19 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
-  describe('with select format', () => {
-    beforeEach(async () => {
+  describe('with select format', function () {
+    beforeEach(async function () {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCWithSelect');
     });
 
-    describe('When challenge is not already answered', () => {
-      beforeEach(async () => {
+    describe('When challenge is not already answered', function () {
+      beforeEach(async function () {
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should render challenge information and question', () => {
+      it('should render challenge information and question', function () {
         // then
         expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(1);
@@ -391,7 +391,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__alert')).to.not.exist;
       });
 
-      it('should hide the alert error after the user interact with input text', async () => {
+      it('should hide the alert error after the user interact with input text', async function () {
         // given
         await click('.challenge-actions__action-validate');
         expect(find('.challenge-response__alert')).to.exist;
@@ -405,7 +405,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__alert')).to.not.exist;
       });
 
-      it('should go to checkpoint when user validated', async () => {
+      it('should go to checkpoint when user validated', async function () {
         // when
         const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
         const optionToFillIn = selectOptions[1];
@@ -418,9 +418,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
     });
 
-    describe('When challenge is already answered and user wants to see answers', () => {
+    describe('When challenge is already answered and user wants to see answers', function () {
       let correction, tutorial, learningMoreTutorial;
-      beforeEach(async () => {
+      beforeEach(async function () {
         // given
         tutorial = server.create('tutorial');
         learningMoreTutorial = server.create('tutorial');
@@ -442,14 +442,14 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await visit(`/assessments/${assessment.id}/checkpoint`);
       });
 
-      it('should show the result of previous challenge in checkpoint', async () => {
+      it('should show the result of previous challenge in checkpoint', async function () {
         // then
         expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
         expect(find('.result-item__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
         expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
       });
 
-      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async function () {
         // when
         await click('.result-item__correction-button');
 

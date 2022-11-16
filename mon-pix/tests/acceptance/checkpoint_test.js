@@ -5,7 +5,7 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | Checkpoint', () => {
+describe('Acceptance | Checkpoint', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
@@ -14,7 +14,7 @@ describe('Acceptance | Checkpoint', () => {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
-  describe('With answers', () => {
+  describe('With answers', function () {
     const NB_ANSWERS = 3;
 
     beforeEach(function () {
@@ -29,7 +29,7 @@ describe('Acceptance | Checkpoint', () => {
       }
     });
 
-    it('should display questions and links to solutions', async () => {
+    it('should display questions and links to solutions', async function () {
       // when
       await visit(`/assessments/${assessment.id}/checkpoint`);
 
@@ -42,8 +42,8 @@ describe('Acceptance | Checkpoint', () => {
     });
   });
 
-  describe('Without answers', () => {
-    it('should display a message indicating that there is no answers to provide', async () => {
+  describe('Without answers', function () {
+    it('should display a message indicating that there is no answers to provide', async function () {
       // when
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
@@ -60,8 +60,8 @@ describe('Acceptance | Checkpoint', () => {
     });
   });
 
-  describe('When user is anonymous', () => {
-    it('should not display home link', async () => {
+  describe('When user is anonymous', function () {
+    it('should not display home link', async function () {
       //given
       const user = server.create('user', 'withEmail', {
         isAnonymous: true,

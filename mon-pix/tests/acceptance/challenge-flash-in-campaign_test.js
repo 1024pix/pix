@@ -6,7 +6,7 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import environment from '../../config/environment';
 
-describe('Acceptance | Flash', () => {
+describe('Acceptance | Flash', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
@@ -15,13 +15,13 @@ describe('Acceptance | Flash', () => {
     assessment = server.create('assessment', 'ofFlashCampaignType');
   });
 
-  describe('Campaign', () => {
+  describe('Campaign', function () {
     beforeEach(function () {
       // In reality we should have 48 challenges but we just use one in this test.
       server.create('challenge', 'forCampaign');
     });
 
-    it('should display 1/48 counter on first challenge', async () => {
+    it('should display 1/48 counter on first challenge', async function () {
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
 

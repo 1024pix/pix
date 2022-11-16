@@ -738,8 +738,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
       });
     });
 
-    context('When user is logged as anonymous and campaign is simplified access', () => {
-      beforeEach(async () => {
+    context('When user is logged as anonymous and campaign is simplified access', function () {
+      beforeEach(async function () {
         campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
         await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
       });
@@ -867,7 +867,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           });
         });
 
-        context('When user is already reconciled and has no GAR authentication method yet', () => {
+        context('When user is already reconciled and has no GAR authentication method yet', function () {
           const externalUserToken =
             'aaa.' +
             btoa(
@@ -1028,7 +1028,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
 
-          context('When user should change password', () => {
+          context('When user should change password', function () {
             it('should begin campaign participation after updating password expired', async function () {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');

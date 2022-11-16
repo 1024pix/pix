@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Service | errors', function () {
   setupTest();
 
-  describe('#push', () => {
+  describe('#push', function () {
     it('should add error in errors array', function () {
       // given
       const service = this.owner.lookup('service:errors');
@@ -19,7 +19,7 @@ describe('Unit | Service | errors', function () {
     });
   });
 
-  describe('#shift', () => {
+  describe('#shift', function () {
     it('should return first error and remove it', function () {
       // given
       const service = this.owner.lookup('service:errors');
@@ -37,7 +37,7 @@ describe('Unit | Service | errors', function () {
     });
   });
 
-  describe('#hasErrors', () => {
+  describe('#hasErrors', function () {
     it('should return true if there is errors', function () {
       // given
       const service = this.owner.lookup('service:errors');

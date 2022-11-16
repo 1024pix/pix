@@ -60,7 +60,7 @@ describe('Acceptance | Reset Password Form', function () {
     expect(find('.sign-form__body').textContent).to.contain('Votre mot de passe a été modifié avec succès');
   });
 
-  it('should allow connected user to visit reset-password page', async () => {
+  it('should allow connected user to visit reset-password page', async function () {
     // given
     const user = server.create('user', {
       id: 1000,

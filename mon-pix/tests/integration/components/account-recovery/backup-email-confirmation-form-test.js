@@ -163,7 +163,7 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
     });
   });
 
-  context('form validation', () => {
+  context('form validation', function () {
     it('should show an error when email is empty', async function () {
       // given
       const resetErrors = sinon.stub();
