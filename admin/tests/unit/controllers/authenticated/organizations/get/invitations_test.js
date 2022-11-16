@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/organizations/get/invitations', function (hooks) {
   setupTest(hooks);
@@ -75,6 +76,30 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.userEmailToInviteError, "L'adresse e-mail saisie n'est pas valide.");
+    });
+
+    test('it should send a notification error if an error occured', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/organizations/get/invitations');
+      const store = this.owner.lookup('service:store');
+      const anError = Symbol('an error');
+      store.queryRecord = sinon.stub().rejects(anError);
+      controller.userEmailToInvite = 'anemail@exmpla.net';
+      controller.model = { organization: { id: 1 } };
+
+      const notifyStub = sinon.stub();
+      class ErrorResponseHandler extends Service {
+        notify = notifyStub;
+      }
+      this.owner.register('service:error-response-handler', ErrorResponseHandler);
+      const customErrors = Symbol('custom errors');
+      controller.CUSTOM_ERROR_MESSAGES = customErrors;
+
+      // when
+      await controller.createOrganizationInvitation('fr', 'MEMBER');
+
+      // then
+      assert.ok(notifyStub.calledWithExactly(anError, customErrors));
     });
   });
 });

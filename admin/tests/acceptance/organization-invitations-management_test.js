@@ -57,7 +57,7 @@ module('Acceptance | organization invitations management', function (hooks) {
 
       this.server.post(
         '/admin/organizations/:id/invitations',
-        () => new Response(500, {}, { errors: [{ status: '500' }] })
+        () => new Response({}, 500, { errors: [{ status: '500' }] })
       );
 
       // when
