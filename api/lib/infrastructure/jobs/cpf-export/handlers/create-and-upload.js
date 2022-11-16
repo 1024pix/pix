@@ -13,18 +13,11 @@ module.exports = async function createAndUpload({
   cpfExternalStorage,
 }) {
   const start = new Date();
-  const { startDate, endDate, limit, offset } = data;
-  const cpfCertificationResults = await cpfCertificationResultRepository.findByTimeRange({
-    startDate,
-    endDate,
-    limit,
-    offset,
-  });
+  const { jobId } = data;
+  const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(jobId);
 
   if (cpfCertificationResults.length == 0) {
-    logger.warn(
-      `CpfExportBuilderJob: create CPF results, with no certification found (start date: ${startDate}, end date: ${endDate}, limit: ${limit},offset: ${offset})`
-    );
+    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found (jobId ${jobId})`);
     return;
   }
 
