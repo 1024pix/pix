@@ -1,6 +1,7 @@
 const randomString = require('randomstring');
 const Membership = require('../models/Membership');
 const mailService = require('../../domain/services/mail-service');
+const { SendingEmailError } = require('../errors');
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
@@ -32,7 +33,7 @@ const createOrganizationInvitation = async ({
 
   const organization = await organizationRepository.get(organizationId);
 
-  await mailService.sendOrganizationInvitationEmail({
+  const mailerResponse = await mailService.sendOrganizationInvitationEmail({
     email,
     organizationName: organization.name,
     organizationInvitationId: organizationInvitation.id,
@@ -40,6 +41,9 @@ const createOrganizationInvitation = async ({
     locale,
     tags,
   });
+  if (mailerResponse?.status === 'FAILURE') {
+    throw new SendingEmailError();
+  }
 
   return await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
 };

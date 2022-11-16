@@ -1,7 +1,9 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, sinon, catchErr } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const { SendingEmailError } = require('../../../../lib/domain/errors');
+const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
   let clock;
@@ -129,5 +131,33 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       code: 'BBBJJJPPP3',
       locale: 'en',
     });
+  });
+
+  it('should throw an error if email was not send', async function () {
+    // given
+    const email = 'some.user@example.net';
+
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Pixar' }).id;
+    databaseBuilder.factory.buildCertificationCenterInvitation({
+      email,
+      certificationCenterId,
+      code: 'BBBJJJPPP3',
+      status: CertificationCenterInvitation.StatusType.PENDING,
+    }).id;
+    await databaseBuilder.commit();
+
+    const mailerResponse = EmailingAttempt.failure(email);
+    mailService.sendCertificationCenterInvitationEmail.resolves(mailerResponse);
+
+    // when
+    const result = await catchErr(useCases.createOrUpdateCertificationCenterInvitationForAdmin)({
+      email,
+      locale: 'fr',
+      certificationCenterId,
+      mailService,
+    });
+
+    // then
+    expect(result).to.be.an.instanceOf(SendingEmailError);
   });
 });

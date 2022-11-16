@@ -1,3 +1,4 @@
+const { SendingEmailError } = require('../errors');
 const CertificationCenterInvitation = require('../models/CertificationCenterInvitation');
 
 module.exports = async function createOrUpdateCertificationCenterInvitationForAdmin({
@@ -27,13 +28,16 @@ module.exports = async function createOrUpdateCertificationCenterInvitationForAd
     isInvitationCreated = false;
   }
 
-  await mailService.sendCertificationCenterInvitationEmail({
+  const mailerResponse = await mailService.sendCertificationCenterInvitationEmail({
     email,
     locale,
     certificationCenterName: certificationCenterInvitation.certificationCenterName,
     certificationCenterInvitationId: certificationCenterInvitation.id,
     code: certificationCenterInvitation.code,
   });
+  if (mailerResponse?.status === 'FAILURE') {
+    throw new SendingEmailError();
+  }
 
   return { isInvitationCreated, certificationCenterInvitation };
 };
