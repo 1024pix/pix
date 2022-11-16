@@ -274,9 +274,9 @@ export default function () {
   });
 
   this.post('/certification-center-invitations/:id/accept', (schema) => {
-    const certificationPointOfContact = schema.certificationPointOfContacts.find(12345);
+    const certificationPointOfContact = schema.certificationPointOfContacts.first();
     const allowedCertificationCenterAccess = schema.allowedCertificationCenterAccesses.create({
-      name: 'Super Centre de Certif',
+      name: 'Collège Truffaut',
       type: 'SCO',
       externalId: 'ABC123',
       isRelatedToManagingStudentsOrganization: false,
