@@ -1,29 +1,19 @@
 {{#if this.displayNewYearOrganizationLearnersImportBanner}}
   <PixBanner @type="information">
-    <Ui::TranslateExtended
-      @key="banners.import.message"
-      @options={{hash
-        faIcon=(component "fa-icon" icon="up-right-from-square")
-        linkTo=(component
-          "link-to"
-          (t "banners.import.link-to")
-          "authenticated.sco-organization-participants"
-          class="link link--banner link--bold link--underlined"
-        )
-        documentationLink=this.importDocumentationLink
-        externalLinkClasses='"link link--banner link--bold link--underlined"'
-      }}
-    />
+    {{t
+      "banners.import.message"
+      documentationLink=this.importDocumentationLink
+      linkClasses="link link--banner link--bold link--underlined"
+      htmlSafe=true
+    }}
   </PixBanner>
 {{else if this.displayNewYearCampaignsBanner}}
   <PixBanner @type="information">
-    <Ui::TranslateExtended
-      @key="banners.campaigns.message"
-      @options={{hash
-        faIcon=(component "fa-icon" icon="up-right-from-square")
-        documentationLink=this.campaignDocumentationLink
-        externalLinkClasses='"link link--banner link--bold link--underlined"'
-      }}
-    />
+    {{t
+      "banners.campaigns.message"
+      documentationLink=this.campaignDocumentationLink
+      linkClasses="link link--banner link--bold link--underlined"
+      htmlSafe=true
+    }}
   </PixBanner>
 {{/if}}

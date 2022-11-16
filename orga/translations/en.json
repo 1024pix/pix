@@ -48,11 +48,10 @@
   },
   "banners": {
     "campaigns": {
-      "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'More info {faIcon}'</a>'"
+      "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'More info'</a>'"
     },
     "import": {
-      "link-to": "import the students database",
-      "message": "'<strong>'Start of school year:'</strong>' the admin must {linkTo} to start using Pix Orga. '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more {faIcon}'</a>"
+      "message": "'<strong>'Start of school year:'</strong>' the admin must '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'import the students database'</a>' to start using Pix Orga. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"
     }
   },
   "cards": {
