@@ -9,7 +9,7 @@ describe('Unit | Component | signin-form', function () {
   setupTest();
 
   describe('#signin', () => {
-    context('when user should change password', () => {
+    context('when user should change password', function () {
       it('should save reset password token and redirect to update-expired-password', async () => {
         // given
         const eventStub = { preventDefault: sinon.stub() };
@@ -43,7 +43,7 @@ describe('Unit | Component | signin-form', function () {
       });
     });
 
-    context('when user sign in', () => {
+    context('when user sign in', function () {
       it('should authenticate the user even if email contains spaces', async () => {
         // given
         const foundUser = EmberObject.create({ id: 12 });

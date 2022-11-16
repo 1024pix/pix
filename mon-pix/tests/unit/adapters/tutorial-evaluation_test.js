@@ -13,7 +13,7 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', () => {
+  describe('#urlForCreateRecord', function () {
     it('should redirect to /api/users/tutorials/${tutorialId}/evaluate', async function () {
       // given
       const tutorialId = 'tutorialId';
@@ -27,7 +27,7 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
     });
   });
 
-  describe('#urlForUpdateRecord', () => {
+  describe('#urlForUpdateRecord', function () {
     it('should redirect to /api/users/tutorials/${tutorialId}/evaluate', async function () {
       // given
       const tutorialId = 'tutorialId';
@@ -41,7 +41,7 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
     });
   });
 
-  describe('#createRecord', () => {
+  describe('#createRecord', function () {
     it('should call API to create a tutorial-evaluation', async function () {
       // given
       const tutorialId = 'tutorialId';
@@ -63,7 +63,7 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
     });
   });
 
-  describe('#updateRecord', () => {
+  describe('#updateRecord', function () {
     it('should call API to create a tutorial-evaluation', async function () {
       // given
       const tutorialId = 'tutorialId';

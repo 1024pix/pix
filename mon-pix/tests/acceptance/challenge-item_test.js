@@ -6,7 +6,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
 import { click, find, triggerEvent, visit } from '@ember/test-helpers';
 
-describe('Acceptance | Displaying a challenge of any type', () => {
+describe('Acceptance | Displaying a challenge of any type', function () {
   setupApplicationTest();
   setupMirage();
 
@@ -29,7 +29,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
         describe('when user has not answered the question', function () {
           describe('when user has not seen the challenge tooltip yet', function () {
-            beforeEach(async () => {
+            beforeEach(async function () {
               // given
               const user = server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: false,
@@ -43,7 +43,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
             });
 
-            it('should display a tooltip', async () => {
+            it('should display a tooltip', async function () {
               // then
               expect(find('.tooltip-tag__information')).to.exist;
             });
@@ -59,7 +59,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               expect(find('.challenge__focused-out-overlay')).to.exist;
             });
 
-            describe('when user closes tooltip', () => {
+            describe('when user closes tooltip', function () {
               beforeEach(async function () {
                 // given
                 assessment = server.create('assessment', 'ofCompetenceEvaluationType');
@@ -70,12 +70,12 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                 await click('.tooltip-tag-information__button');
               });
 
-              it('should hide a tooltip', async () => {
+              it('should hide a tooltip', async function () {
                 // then
                 expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
               });
 
-              it('should enable input and buttons', async () => {
+              it('should enable input and buttons', async function () {
                 // then
                 expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
                 expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
@@ -124,7 +124,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           });
 
           describe('when user has already seen challenge tooltip', function () {
-            beforeEach(async () => {
+            beforeEach(async function () {
               const user = server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: true,
               });
@@ -240,7 +240,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         });
 
         describe('when user has already focusedout the challenge', function () {
-          beforeEach(async () => {
+          beforeEach(async function () {
             // given
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
@@ -253,7 +253,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should enable input and buttons', async () => {
+          it('should enable input and buttons', async function () {
             // then
             expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
             expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
@@ -274,7 +274,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await authenticateByEmail(user);
           });
 
-          describe('when user goes to another assessment', () => {
+          describe('when user goes to another assessment', function () {
             it('should not display a warning alert saying it has been focused out', async function () {
               // given
               const assessment1 = server.create(
@@ -296,7 +296,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             });
           });
 
-          describe('when user returns to the same assessment', () => {
+          describe('when user returns to the same assessment', function () {
             it('should display a warning alert saying it has been focused out', async function () {
               // given
               const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
@@ -324,7 +324,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         describe(`when ${data.challengeType} challenge is not focused`, function () {
           describe('when user has not answered the question', function () {
             describe('when user has not seen the challenge tooltip yet', function () {
-              beforeEach(async () => {
+              beforeEach(async function () {
                 // given
                 const user = server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: false,
@@ -338,12 +338,12 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                 await visit(`/assessments/${assessment.id}/challenges/0`);
               });
 
-              it('should display a tooltip', async () => {
+              it('should display a tooltip', async function () {
                 // then
                 expect(find('.tooltip-tag__information')).to.exist;
               });
 
-              describe('when user closes tooltip', () => {
+              describe('when user closes tooltip', function () {
                 beforeEach(async function () {
                   // given
                   assessment = server.create('assessment', 'ofCompetenceEvaluationType');
@@ -354,23 +354,24 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                   await click('.tooltip-tag-information__button');
                 });
 
-                it('should hide a tooltip', async () => {
+                it('should hide a tooltip', async function () {
                   // then
                   expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
                 });
 
-                it('should enable input and buttons', async () => {
+                it('should enable input and buttons', async function () {
                   // then
                   expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
                   expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-                  expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not
-                    .exist;
+                  expect(
+                    find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')
+                  ).to.not.exist;
                 });
               });
             });
 
             describe('when user has already seen challenge tooltip', function () {
-              beforeEach(async () => {
+              beforeEach(async function () {
                 const user = server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: true,
                 });

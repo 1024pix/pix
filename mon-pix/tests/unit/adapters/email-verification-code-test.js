@@ -7,7 +7,7 @@ import sinon from 'sinon';
 describe('Unit | Adapter | Email-Verification-Code', function () {
   setupTest();
 
-  describe('#buildURL', () => {
+  describe('#buildURL', function () {
     it('should call API to send email verification code', async function () {
       // given
       const adapter = this.owner.lookup('adapter:email-verification-code');

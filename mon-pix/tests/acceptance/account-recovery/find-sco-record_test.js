@@ -72,7 +72,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
     ).to.exist;
   });
 
-  context('when submitting information form with valid data', () => {
+  context('when submitting information form with valid data', function () {
     it('should hide student information form and show recover account confirmation step', async function () {
       // given
       server.create('user', { id: 1, firstName, lastName, username });
@@ -84,8 +84,9 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
       // then
       expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.not.exist;
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })))
-        .to.exist;
+      expect(
+        contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
+      ).to.exist;
     });
 
     it('should redirect to error page when user has already left SCO', async function () {
@@ -113,7 +114,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
     });
 
-    context('click on "Cancel" button', () => {
+    context('click on "Cancel" button', function () {
       it('should return to student information form', async function () {
         // given
         server.create('user', { id: 1, firstName, lastName, username });
@@ -134,7 +135,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
     });
   });
 
-  context('when submitting information form with invalid data', () => {
+  context('when submitting information form with invalid data', function () {
     it('should show a not found error', async function () {
       // given & when
       await visit('/recuperer-mon-compte');
@@ -142,8 +143,9 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
       // then
       expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.not-found'))).to
-        .exist;
+      expect(
+        contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.not-found'))
+      ).to.exist;
     });
   });
 
@@ -176,8 +178,8 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
     });
   });
 
-  context('when confirming student information', () => {
-    context('click on "Confirm" button', () => {
+  context('when confirming student information', function () {
+    context('click on "Confirm" button', function () {
       it('should hide recover account confirmation step and show recover account backup email confirmation', async function () {
         // given
         server.create('user', { id: 1, firstName, lastName, username });
@@ -350,7 +352,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       });
     });
 
-    context('click on "Cancel" button', () => {
+    context('click on "Cancel" button', function () {
       it('should return to student information form', async function () {
         // given
 

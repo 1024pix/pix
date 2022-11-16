@@ -6,7 +6,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Adapters | competence-evaluation', function () {
   setupTest();
 
-  describe('#urlForFindAll', () => {
+  describe('#urlForFindAll', function () {
     let adapter;
 
     beforeEach(function () {
@@ -23,7 +23,7 @@ describe('Unit | Adapters | competence-evaluation', function () {
     });
   });
 
-  describe('#urlQueryForRecord', () => {
+  describe('#urlQueryForRecord', function () {
     let adapter;
 
     beforeEach(function () {

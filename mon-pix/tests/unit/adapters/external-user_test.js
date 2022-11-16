@@ -11,7 +11,7 @@ describe('Unit | Adapters | external-user', function () {
     adapter = this.owner.lookup('adapter:external-user');
   });
 
-  describe('#urlForCreateRecord', () => {
+  describe('#urlForCreateRecord', function () {
     it('should redirect to /api/sco-organization-learners/external', async function () {
       // when
       const url = await adapter.urlForCreateRecord();

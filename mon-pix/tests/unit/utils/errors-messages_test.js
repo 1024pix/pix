@@ -7,8 +7,8 @@ describe('Unit | Utility | errors-messages', function () {
   const JOIN_SHORT_CODES_ERRORS = ['R11', 'R12', 'R13', 'R31', 'R32', 'R33', 'R70'];
   const REGISTER_SHORT_CODES_ERRORS = ['S51', 'S52', 'S53', 'S61', 'S62', 'S63'];
 
-  describe('#getJoinErrorsMessageByShortCode', () => {
-    it('should retrieve all messages by shortCode with value', () => {
+  describe('#getJoinErrorsMessageByShortCode', function () {
+    it('should retrieve all messages by shortCode with value', function () {
       // given
       const expectedMessages = JOIN_SHORT_CODES_ERRORS.map(
         (shortCode) => 'api-error-messages.join-error.' + shortCode.toLowerCase()
@@ -22,8 +22,8 @@ describe('Unit | Utility | errors-messages', function () {
     });
   });
 
-  describe('#getRegisteErrorsMessageByShortCode', () => {
-    it('should retrieve all messages by shortCode with values', () => {
+  describe('#getRegisteErrorsMessageByShortCode', function () {
+    it('should retrieve all messages by shortCode with values', function () {
       // given
       const expectedMessages = REGISTER_SHORT_CODES_ERRORS.map(
         (shortCode) => 'api-error-messages.register-error.' + shortCode.toLowerCase()

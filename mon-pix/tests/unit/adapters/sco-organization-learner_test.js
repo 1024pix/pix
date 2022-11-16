@@ -13,7 +13,7 @@ describe('Unit | Adapters | sco-organization-learner', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', () => {
+  describe('#urlForCreateRecord', function () {
     context('when is for searchMatchingStudent', function () {
       it('should redirect to /sco-organization-learners/possibilities ', async function () {
         // when
@@ -44,11 +44,11 @@ describe('Unit | Adapters | sco-organization-learner', function () {
     });
   });
 
-  describe('#createRecord', () => {
-    context('when is for searchMatchingStudent', () => {
+  describe('#createRecord', function () {
+    context('when is for searchMatchingStudent', function () {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(() => {
+      beforeEach(function () {
         expectedUrl = 'http://localhost:3000/api/sco-organization-learners/possibilities';
         expectedMethod = 'PUT';
         expectedData = {
@@ -81,7 +81,7 @@ describe('Unit | Adapters | sco-organization-learner', function () {
         };
       });
 
-      it('should change method to PUT', async () => {
+      it('should change method to PUT', async function () {
         // when
         await adapter.createRecord(null, { modelName: 'sco-organization-learner' }, snapshot);
 
@@ -90,10 +90,10 @@ describe('Unit | Adapters | sco-organization-learner', function () {
       });
     });
 
-    context('when tryReconciliation is true', () => {
+    context('when tryReconciliation is true', function () {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(() => {
+      beforeEach(function () {
         expectedUrl = 'http://localhost:3000/api/sco-organization-learners/association/auto';
         expectedMethod = 'POST';
         expectedData = {

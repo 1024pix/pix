@@ -13,7 +13,7 @@ describe('Unit | Adapters | shared-profile-for-campaign', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForQueryRecord', () => {
+  describe('#urlForQueryRecord', function () {
     it('should build query url from campaign and user ids', async function () {
       const query = { campaignId: 'campaignId1', userId: 'userId1' };
       const url = await adapter.urlForQueryRecord(query);

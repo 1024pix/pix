@@ -11,7 +11,7 @@ describe('Unit | Adapters | organization-learner-identity', function () {
     adapter = this.owner.lookup('adapter:organization-learner-identity');
   });
 
-  describe('#urlForQueryRecord', () => {
+  describe('#urlForQueryRecord', function () {
     it('should redirect to /api/organization-learners', async function () {
       // when
       const url = await adapter.urlForQueryRecord();

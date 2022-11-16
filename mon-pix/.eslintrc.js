@@ -40,6 +40,7 @@ module.exports = {
     'mocha/no-exclusive-tests': 'error',
     'mocha/no-identical-title': 'error',
     'mocha/no-skipped-tests': 'warn',
+    'mocha/no-mocha-arrows': 'error',
     /* Recommended rules */
     'ember/no-mixins': 'off',
     'i18n-json/sorted-keys': [

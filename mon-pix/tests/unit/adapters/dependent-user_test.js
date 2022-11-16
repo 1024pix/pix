@@ -11,7 +11,7 @@ describe('Unit | Adapters | dependent-user', function () {
     adapter = this.owner.lookup('adapter:dependent-user');
   });
 
-  describe('#urlForCreateRecord', () => {
+  describe('#urlForCreateRecord', function () {
     it('should redirect to /api/sco-organization-learners/dependent', async function () {
       // when
       const url = await adapter.urlForCreateRecord();

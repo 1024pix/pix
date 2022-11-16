@@ -37,7 +37,7 @@ describe('Acceptance | Giving feedback about a challenge', function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should be able to directly send a feedback', async () => {
+    it('should be able to directly send a feedback', async function () {
       assertThatFeedbackPanelExist();
     });
 
@@ -82,7 +82,7 @@ describe('Acceptance | Giving feedback about a challenge', function () {
       server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
-    it('should not display the feedback form', async () => {
+    it('should not display the feedback form', async function () {
       // when
       await click('.result-item__correction-button');
 
@@ -90,7 +90,7 @@ describe('Acceptance | Giving feedback about a challenge', function () {
       assertThatFeedbackFormIsClosed();
     });
 
-    it('should be able to give feedback', async () => {
+    it('should be able to give feedback', async function () {
       // when
       await click('.result-item__correction-button');
       await click('.feedback-panel__open-button');

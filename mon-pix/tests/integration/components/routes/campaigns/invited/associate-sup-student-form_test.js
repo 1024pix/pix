@@ -36,7 +36,7 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
     this.owner.register('service:store', storeStub);
   });
 
-  context('when user fill the form correctly', () => {
+  context('when user fill the form correctly', function () {
     it('should save form', async function () {
       // when
       await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
@@ -70,7 +70,7 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
     });
   });
 
-  context('when the server responds an error', () => {
+  context('when the server responds an error', function () {
     it('should display server error', async function () {
       // given
       saveStub.rejects();

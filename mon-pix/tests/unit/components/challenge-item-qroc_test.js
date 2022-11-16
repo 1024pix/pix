@@ -9,7 +9,7 @@ describe('Unit | Component | Challenge item QROC', function () {
 
   let component;
   describe('#_receiveEmbedMessage', function () {
-    beforeEach(() => {
+    beforeEach(function () {
       const challenge = EmberObject.create({
         autoReply: true,
         id: 'rec_123',

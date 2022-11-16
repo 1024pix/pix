@@ -15,7 +15,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
   });
 
   describe('when card has "ARCHIVED" status', function () {
-    context('when the participation is not completed', () => {
+    context('when the participation is not completed', function () {
       it('should render explanatory text given started status', async function () {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
@@ -36,11 +36,13 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         // then
         expect(contains('My organization')).to.exist;
         expect(contains('My campaign')).to.exist;
-        expect(contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')).to
-          .exist;
+        expect(
+          contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')
+        ).to.exist;
         expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase())).to.exist;
-        expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' })))
-          .to.exist;
+        expect(
+          contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }))
+        ).to.exist;
       });
 
       it('should render explanatory text given to_share status', async function () {
@@ -63,11 +65,13 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         // then
         expect(contains('My organization')).to.exist;
         expect(contains('My campaign')).to.exist;
-        expect(contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')).to
-          .exist;
+        expect(
+          contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')
+        ).to.exist;
         expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase())).to.exist;
-        expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' })))
-          .to.exist;
+        expect(
+          contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }))
+        ).to.exist;
       });
 
       it('should not display go to details link', async function () {
@@ -115,7 +119,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         expect(contains('Voir le détail')).to.exist;
       });
 
-      context('when the participation has a mastery percentage', () => {
+      context('when the participation has a mastery percentage', function () {
         it('should render the result with percentage', async function () {
           // given
           const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
@@ -139,7 +143,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         });
       });
 
-      context('when the campaign has stages', () => {
+      context('when the campaign has stages', function () {
         it('should render the result with stars', async function () {
           // given
           const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {

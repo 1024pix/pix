@@ -117,7 +117,7 @@ describe('Unit | Model | Challenge', function () {
   describe('Computed property #hasValidEmbedDocument', function () {
     let embedOptions;
 
-    beforeEach(() => {
+    beforeEach(function () {
       embedOptions = {
         embedUrl: 'https://embed.url',
         embedTitle: 'Embed title',

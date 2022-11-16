@@ -11,7 +11,7 @@ describe('Unit | Adapters | assessment', function () {
     adapter = this.owner.lookup('adapter:assessment');
   });
 
-  describe('#urlForUpdateRecord', () => {
+  describe('#urlForUpdateRecord', function () {
     it('should build update url from assessment id', async function () {
       // given
       const options = { adapterOptions: {} };
