@@ -8,9 +8,16 @@ export default class InvitationsController extends Controller {
   @tracked userEmailToInvite = null;
   @tracked userEmailToInviteError;
   @tracked email = null;
+
   @service notifications;
   @service store;
   @service accessControl;
+  @service errorResponseHandler;
+
+  CUSTOM_ERROR_MESSAGES = {
+    DEFAULT: 'Une erreur s’est produite, veuillez réessayer.',
+    STATUS_503: 'Le service d’envoi d’email est momentanément indisponible, veuillez réessayer ultérieurement.',
+  };
 
   @action
   async createOrganizationInvitation(lang, role) {
@@ -31,8 +38,8 @@ export default class InvitationsController extends Controller {
 
       this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
       this.userEmailToInvite = null;
-    } catch (e) {
-      this.notifications.error('Une erreur s’est produite, veuillez réessayer.');
+    } catch (err) {
+      this.errorResponseHandler.notify(err, this.CUSTOM_ERROR_MESSAGES);
     }
     this.isLoading = false;
   }

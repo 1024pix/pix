@@ -1,13 +1,16 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, sinon, catchErr } = require('../../../test-helper');
 
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const mailService = require('../../../../lib/domain/services/mail-service');
 
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
 
 const { createOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
+const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+const { SendingEmailError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Service | Organization-Invitation Service', function () {
   describe('#createOrganizationInvitation', function () {
@@ -74,6 +77,31 @@ describe('Integration | Service | Organization-Invitation Service', function () 
         updatedAt: now,
       };
       expect(_.omit(result, 'organizationName')).to.deep.equal(expectedOrganizationInvitation);
+    });
+
+    it('should throw an error if email was not send', async function () {
+      // given
+      const email = 'invitation@example.net';
+      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        status: OrganizationInvitation.StatusType.PENDING,
+        email,
+      });
+      await databaseBuilder.commit();
+
+      const mailerResponse = EmailingAttempt.failure(email);
+      sinon.stub(mailService, 'sendOrganizationInvitationEmail');
+      mailService.sendOrganizationInvitationEmail.resolves(mailerResponse);
+
+      // when
+      const result = await catchErr(createOrganizationInvitation)({
+        organizationId: organizationInvitation.organizationId,
+        email,
+        organizationRepository,
+        organizationInvitationRepository,
+      });
+
+      // then
+      expect(result).to.be.an.instanceOf(SendingEmailError);
     });
   });
 });

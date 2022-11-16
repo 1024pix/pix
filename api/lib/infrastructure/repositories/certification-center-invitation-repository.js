@@ -8,6 +8,7 @@ function _toDomain(invitationDTO) {
   return new CertificationCenterInvitation({
     id: invitationDTO.id,
     email: invitationDTO.email,
+    code: invitationDTO.code,
     updatedAt: invitationDTO.updatedAt,
     certificationCenterId: invitationDTO.certificationCenterId,
     certificationCenterName: invitationDTO.certificationCenterName,
@@ -62,16 +63,27 @@ module.exports = {
   async create(invitation) {
     const [newInvitation] = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .insert(invitation)
-      .returning(['id', 'email', 'updatedAt']);
-    return _toDomain(newInvitation);
+      .returning(['id', 'email', 'code', 'certificationCenterId', 'updatedAt']);
+
+    const { name: certificationCenterName } = await knex('certification-centers')
+      .select('name')
+      .where({ id: newInvitation.certificationCenterId })
+      .first();
+
+    return _toDomain({ ...newInvitation, certificationCenterName });
   },
 
   async update(certificationCenterInvitation) {
     const [updatedCertificationCenterInvitation] = await knex('certification-center-invitations')
       .update({ updatedAt: new Date() })
       .where({ id: certificationCenterInvitation.id })
-      .returning(['id', 'email', 'updatedAt']);
+      .returning(['id', 'email', 'code', 'certificationCenterId', 'updatedAt']);
 
-    return _toDomain(updatedCertificationCenterInvitation);
+    const { name: certificationCenterName } = await knex('certification-centers')
+      .select('name')
+      .where({ id: updatedCertificationCenterInvitation.certificationCenterId })
+      .first();
+
+    return _toDomain({ ...updatedCertificationCenterInvitation, certificationCenterName });
   },
 };

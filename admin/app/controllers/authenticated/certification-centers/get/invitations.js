@@ -15,6 +15,7 @@ export default class AuthenticatedCertificationCentersGetInvitationsController e
 
   CUSTOM_ERROR_MESSAGES = {
     DEFAULT: 'Une erreur s’est produite, veuillez réessayer.',
+    STATUS_503: 'Le service d’envoi d’email est momentanément indisponible, veuillez réessayer ultérieurement.',
   };
 
   @action

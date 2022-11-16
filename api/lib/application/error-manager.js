@@ -188,6 +188,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SupervisorAccessNotAuthorizedError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
+  if (error instanceof DomainErrors.SendingEmailError) {
+    return new HttpErrors.ServiceUnavailableError(error.message);
+  }
   if (error instanceof DomainErrors.SendingEmailToRefererError) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }
