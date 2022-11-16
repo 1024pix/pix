@@ -28,7 +28,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
   it('should build an xml export file and upload it to an external storage', async function () {
     // given
-    const certificationCourseIds = [12, 20];
+    const jobId = '555-444#01';
 
     const cpfCertificationResults = [
       domainBuilder.buildCpfCertificationResult({ id: 12 }),
@@ -36,7 +36,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
     ];
 
     cpfCertificationResultRepository = {
-      findByTimeRange: sinon.stub(),
+      findByBatchId: sinon.stub(),
       markCertificationCoursesAsExported: sinon.stub(),
     };
 
@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       upload: sinon.stub(),
     };
 
-    cpfCertificationResultRepository.findByTimeRange.resolves(cpfCertificationResults);
+    cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves(cpfCertificationResults);
 
     const cpfCertificationXmlExportService = proxyquire(
       '../../../../../../lib/domain/services/cpf-certification-xml-export-service',
@@ -69,7 +69,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
     // when
     await createAndUpload({
-      data: { certificationCourseIds },
+      data: { jobId },
       cpfCertificationResultRepository,
       cpfCertificationXmlExportService,
       cpfExternalStorage,
@@ -77,7 +77,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
     // then
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
-      certificationCourseIds,
+      certificationCourseIds: [12, 20],
       filename: expectedFileName,
     });
   });
