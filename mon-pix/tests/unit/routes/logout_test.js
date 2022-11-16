@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
-describe('Unit | Route | logout', () => {
+describe('Unit | Route | logout', function () {
   setupTest();
 
   let sessionStub;
@@ -41,7 +41,7 @@ describe('Unit | Route | logout', () => {
     sinon.assert.calledOnce(campaignStorageStub.clearAll);
   });
 
-  describe('when user is authenticated', () => {
+  describe('when user is authenticated', function () {
     it('should disconnect the authenticated user no matter the connexion source', function () {
       // given
       const invalidateStub = sinon.stub();
@@ -119,7 +119,7 @@ describe('Unit | Route | logout', () => {
     });
   });
 
-  describe('when user is not authenticated', () => {
+  describe('when user is not authenticated', function () {
     it('should redirect to home', function () {
       // given
       const route = this.owner.lookup('route:logout');

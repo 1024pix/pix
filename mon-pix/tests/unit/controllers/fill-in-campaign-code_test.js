@@ -27,7 +27,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     controller.set('campaignCode', null);
   });
 
-  describe('#startCampaign', () => {
+  describe('#startCampaign', function () {
     context('campaign does not have GAR as identity provider', function () {
       it('should not show GAR modal', async function () {
         // given
@@ -177,7 +177,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
   });
 
   describe('get firstTitle', () => {
-    context('When user is not authenticated', () => {
+    context('When user is not authenticated', function () {
       it('should return the not connected first title', () => {
         // given
         sessionStub.isAuthenticated = false;
@@ -191,7 +191,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       });
     });
 
-    context('When user is authenticated', () => {
+    context('When user is authenticated', function () {
       it('should return the connected first title with user firstName', () => {
         // given
         sessionStub.isAuthenticated = true;
@@ -207,7 +207,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       });
     });
 
-    context('When user is anonymous', () => {
+    context('When user is anonymous', function () {
       it('should return the not connected first title', () => {
         // given
         sessionStub.isAuthenticated = true;

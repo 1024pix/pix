@@ -14,8 +14,8 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
   setupMirage();
   let campaign;
 
-  context('When user logged as anonymous, and the access to campaign is simplified', () => {
-    beforeEach(async () => {
+  context('When user logged as anonymous, and the access to campaign is simplified', function () {
+    beforeEach(async function () {
       campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
     });

@@ -13,7 +13,7 @@ describe('Unit | Adapters | user-saved-tutorial', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#createRecord', () => {
+  describe('#createRecord', function () {
     it('should call API to create a user-tutorial with skill-id from tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
@@ -47,7 +47,7 @@ describe('Unit | Adapters | user-saved-tutorial', function () {
     });
   });
 
-  describe('#urlForDeleteRecord', () => {
+  describe('#urlForDeleteRecord', function () {
     it('should return API to delete a user-tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';

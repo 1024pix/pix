@@ -11,9 +11,9 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('#status', () => {
+  describe('#status', function () {
     context('when the campaign is not archived', function () {
-      context('when the participation status is "started"', () => {
+      context('when the participation status is "started"', function () {
         it('should return the status "ONGOING"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -24,7 +24,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
         });
       });
 
-      context('when the particiaption status is "TO_SHARE" and the participation is not shared"', () => {
+      context('when the particiaption status is "TO_SHARE" and the participation is not shared"', function () {
         it('should return the status "TO_SHARE"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -37,7 +37,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
         });
       });
 
-      context('when the participation status is "SHARED" and the participation is shared"', () => {
+      context('when the participation status is "SHARED" and the participation is shared"', function () {
         it('should return the status "ENDED"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -51,7 +51,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
       });
     });
 
-    context('when the participation is disabled"', () => {
+    context('when the participation is disabled"', function () {
       it('should return the status "disabled"', function () {
         // given
         const model = store.createRecord('campaign-participation-overview', {

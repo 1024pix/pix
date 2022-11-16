@@ -8,7 +8,7 @@ describe('Unit | Component | form-textfield-date', function () {
 
   let component;
 
-  beforeEach(() => {
+  beforeEach(function () {
     component = createGlimmerComponent('component:form-textfield-date');
   });
 

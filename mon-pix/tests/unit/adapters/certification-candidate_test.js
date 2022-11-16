@@ -13,7 +13,7 @@ describe('Unit | Adapters | certification-candidate', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', () => {
+  describe('#urlForCreateRecord', function () {
     it('should build create url from certification-candidate id', async function () {
       // when
       const options = { adapterOptions: {} };

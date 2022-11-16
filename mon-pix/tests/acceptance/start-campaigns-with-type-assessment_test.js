@@ -319,7 +319,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', functi
         });
       });
 
-      context('When the participation is shared', () => {
+      context('When the participation is shared', function () {
         context('when the campaign allows multiple participations', function () {
           beforeEach(async function () {
             campaign = server.create('campaign', { type: ASSESSMENT, multipleSendings: true });
@@ -346,7 +346,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', functi
           });
         });
 
-        context('when the campaign does not allow multiple participations', () => {
+        context('when the campaign does not allow multiple participations', function () {
           beforeEach(async function () {
             campaign = server.create('campaign', { type: ASSESSMENT, multipleSendings: false });
             const assessment = server.create('assessment', {

@@ -6,7 +6,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Adapters | Tutorial', function () {
   setupTest();
 
-  describe('#urlForQuery', () => {
+  describe('#urlForQuery', function () {
     let adapter;
 
     beforeEach(function () {

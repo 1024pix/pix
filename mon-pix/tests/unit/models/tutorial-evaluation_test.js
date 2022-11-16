@@ -11,7 +11,7 @@ describe('Unit | Model | tutorial-evaluation model', function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('#nextStatus', () => {
+  describe('#nextStatus', function () {
     it('should return "NEUTRAL" when current status is "LIKED"', function () {
       // given
       const model = store.createRecord('tutorial-evaluation');
@@ -31,7 +31,7 @@ describe('Unit | Model | tutorial-evaluation model', function () {
     });
   });
 
-  describe('#isLiked', () => {
+  describe('#isLiked', function () {
     it('should return true if status is "LIKED"', function () {
       // given
       const model = store.createRecord('tutorial-evaluation');
