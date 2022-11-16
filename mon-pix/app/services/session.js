@@ -61,11 +61,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleUserLanguageAndLocale(transition = null) {
-    await this._checkForURLAuthentication(transition);
-    await this._checkAnonymousAccess(transition);
-
-    const locale = transition.to.queryParams.lang;
-    await this._loadCurrentUserAndSetLocale(locale);
+    await this._loadCurrentUserAndSetLocale(transition?.to?.queryParams?.lang);
   }
 
   requireAuthenticationAndApprovedTermsOfService(transition, authenticationRoute) {
@@ -79,38 +75,6 @@ export default class CurrentSessionService extends SessionService {
 
   setAttemptedTransition(transition) {
     this.attemptedTransition = transition;
-  }
-
-  async _checkForURLAuthentication(transition) {
-    if (transition.to.queryParams && transition.to.queryParams.externalUser) {
-      // Logout user when a new external user is authenticated
-      // without redirecting the user to the login page.
-      if (this.isAuthenticated) {
-        this.skipRedirectAfterSessionInvalidation = true;
-        await this._logoutUser();
-      }
-    }
-  }
-
-  async _checkAnonymousAccess(transition) {
-    const allowedRoutesForAnonymousAccess = [
-      'fill-in-campaign-code',
-      'campaigns.assessment.tutorial',
-      'campaigns.start-or-resume',
-      'campaigns.campaign-landing-page',
-      'assessments.challenge',
-      'campaigns.assessment.skill-review',
-      'assessments.checkpoint',
-    ];
-    const isUserAnonymous = get(this, 'data.authenticated.authenticator') === 'authenticator:anonymous';
-    const isRouteAccessNotAllowedForAnonymousUser = !allowedRoutesForAnonymousAccess.includes(
-      get(transition, 'to.name')
-    );
-
-    if (isUserAnonymous && isRouteAccessNotAllowedForAnonymousUser) {
-      await this._logoutUser();
-      this.router.replaceWith('/campagnes');
-    }
   }
 
   async _loadCurrentUserAndSetLocale(locale = null) {
