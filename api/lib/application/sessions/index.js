@@ -802,7 +802,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/import',
       config: {
-        handler: sessionController.getSessionsCreationFile,
+        handler: sessionController.getSessionsImportTemplate,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
