@@ -163,6 +163,20 @@
     },
     "subject": "Invitation to join Pix Orga"
   },
+  "certification-center-invitation-email": {
+    "subject": "Invitation à rejoindre Pix Certif",
+    "params": {
+      "title": "Invitation à rejoindre l’espace",
+      "yourCertificationCenter": "Votre centre de certification",
+      "acceptInvitation": "Accepter l’invitation",
+      "oneTimeLink": "Ce lien est à usage unique",
+      "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
+      "moreAbout": "En savoir plus sur",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "needHelp": "Besoin d’aide, contactez-nous",
+      "here": "ici"
+    }
+  },
   "pix-account-creation-email": {
     "params": {
       "askForHelp": "Any questions? We’re here to help, contact us",

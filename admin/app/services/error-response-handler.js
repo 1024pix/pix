@@ -13,6 +13,7 @@ export default class ErrorResponseHandlerService extends Service {
     STATUS_412: 'Les préconditions ne sont pas réunies.',
     STATUS_404: 'Non trouvé.',
     STATUS_400: 'Mauvaise requête.',
+    STATUS_503: 'Service momentanément indisponible',
   };
 
   notify(errorResponse, customErrorMessageByStatus) {
@@ -38,6 +39,9 @@ export default class ErrorResponseHandlerService extends Service {
           break;
         case '400':
           this.notifications.error(customErrorMessageByStatus?.STATUS_400 || this.ERROR_MESSAGES_BY_STATUS.STATUS_400);
+          break;
+        case '503':
+          this.notifications.error(customErrorMessageByStatus?.STATUS_503 || this.ERROR_MESSAGES_BY_STATUS.STATUS_503);
           break;
         default:
           this.notifications.error(customErrorMessageByStatus?.DEFAULT || this.ERROR_MESSAGES_BY_STATUS.DEFAULT);

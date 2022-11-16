@@ -55,6 +55,10 @@ class Mailer {
     return mailing[this._providerName].templates.organizationInvitationScoTemplateId;
   }
 
+  get certificationCenterInvitationTemplateId() {
+    return mailing[this._providerName].templates.certificationCenterInvitationTemplateId;
+  }
+
   get certificationResultTemplateId() {
     return mailing[this._providerName].templates.certificationResultTemplateId;
   }

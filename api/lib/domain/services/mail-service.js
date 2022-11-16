@@ -12,6 +12,8 @@ const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/c
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
 const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
+const PIX_CERTIF_NAME_FR = 'Pix Certif - Ne pas répondre';
+const PIX_CERTIF_NAME_EN = 'Pix Certif - Noreply';
 const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
@@ -265,6 +267,78 @@ function sendScoOrganizationInvitationEmail({
   });
 }
 
+function sendCertificationCenterInvitationEmail({
+  email,
+  certificationCenterName,
+  certificationCenterInvitationId,
+  code,
+  locale,
+}) {
+  let templateParams, fromName, subject;
+  const frenchFranceTemplateParams = {
+    certificationCenterName,
+    pixHomeName: `pix${settings.domain.tldFr}`,
+    pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    pixCertifHomeUrl: `${settings.domain.pixCertif + settings.domain.tldFr}`,
+    redirectionUrl: `${
+      settings.domain.pixCertif + settings.domain.tldFr
+    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}`,
+    supportUrl: HELPDESK_FRENCH_FRANCE,
+    ...frTranslations['certification-center-invitation-email'].params,
+  };
+  const frenchSpokenTemplateParams = {
+    certificationCenterName,
+    pixHomeName: `pix${settings.domain.tldOrg}`,
+    pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
+    pixCertifHomeUrl: `${settings.domain.pixCertif + settings.domain.tldOrg}`,
+    redirectionUrl: `${
+      settings.domain.pixCertif + settings.domain.tldOrg
+    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}`,
+    supportUrl: HELPDESK_FRENCH_SPOKEN,
+    ...frTranslations['certification-center-invitation-email'].params,
+  };
+  const englishSpokenTemplateParams = {
+    certificationCenterName,
+    pixHomeName: `pix${settings.domain.tldOrg}`,
+    pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
+    pixCertifHomeUrl: `${settings.domain.pixCertif + settings.domain.tldOrg}?lang=en`,
+    redirectionUrl: `${
+      settings.domain.pixCertif + settings.domain.tldOrg
+    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}&lang=en`,
+    supportUrl: HELPDESK_ENGLISH_SPOKEN,
+    ...enTranslations['certification-center-invitation-email'].params,
+  };
+
+  switch (locale) {
+    case FRENCH_SPOKEN:
+      templateParams = frenchSpokenTemplateParams;
+      subject = frTranslations['certification-center-invitation-email'].subject;
+      fromName = PIX_CERTIF_NAME_FR;
+      break;
+
+    case ENGLISH_SPOKEN:
+      templateParams = englishSpokenTemplateParams;
+      fromName = PIX_CERTIF_NAME_EN;
+      subject = enTranslations['certification-center-invitation-email'].subject;
+      break;
+
+    default:
+      templateParams = frenchFranceTemplateParams;
+      subject = frTranslations['certification-center-invitation-email'].subject;
+      fromName = PIX_CERTIF_NAME_FR;
+      break;
+  }
+
+  return mailer.sendEmail({
+    subject,
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName,
+    to: email,
+    template: mailer.certificationCenterInvitationTemplateId,
+    variables: templateParams,
+  });
+}
+
 function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const pixName = PIX_NAME_FR;
   const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
@@ -362,6 +436,7 @@ module.exports = {
   sendCertificationResultEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
+  sendCertificationCenterInvitationEmail,
   sendResetPasswordDemandEmail,
   sendVerificationCodeEmail,
   sendCpfEmail,

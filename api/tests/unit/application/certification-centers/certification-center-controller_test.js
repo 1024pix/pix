@@ -339,7 +339,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         })
         .resolves({
           certificationCenterInvitation: 'an invitation',
-          created: true,
+          isInvitationCreated: true,
         });
       const serializedData = Symbol();
       certificationCenterInvitationSerializer.serializeForAdmin.withArgs('an invitation').returns(serializedData);
@@ -366,7 +366,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       certificationCenterInvitationSerializer.deserializeForAdmin.resolves({ email, language });
       usecases.createOrUpdateCertificationCenterInvitationForAdmin.resolves({
         certificationCenterInvitation: 'an invitation',
-        created: false,
+        isInvitationCreated: false,
       });
       const serializedData = Symbol();
       certificationCenterInvitationSerializer.serializeForAdmin.returns(serializedData);
