@@ -13,7 +13,7 @@ describe('Unit | Adapters | user', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#queryRecord', () => {
+  describe('#queryRecord', function () {
     it('should build /me url', async function () {
       // when
       const url = await adapter.urlForQueryRecord({ me: true }, 'user');
@@ -31,7 +31,7 @@ describe('Unit | Adapters | user', function () {
     });
   });
 
-  describe('#urlForUpdateRecord', () => {
+  describe('#urlForUpdateRecord', function () {
     it('should redirect to /api/users/{id}/pix-terms-of-service-acceptance', async function () {
       // when
       const snapshot = { adapterOptions: { acceptPixTermsOfService: true } };
@@ -87,8 +87,8 @@ describe('Unit | Adapters | user', function () {
     });
   });
 
-  describe('#createRecord', () => {
-    context('when campaignCode adapterOption is defined', () => {
+  describe('#createRecord', function () {
+    context('when campaignCode adapterOption is defined', function () {
       it('should add campaign-code meta', async () => {
         // given
         const campaignCode = 'AZERTY123';

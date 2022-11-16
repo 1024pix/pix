@@ -41,8 +41,8 @@ describe('Unit | Component | routes/login-form', function () {
   });
 
   describe('#authenticate', () => {
-    context('when user is a Pix user', () => {
-      it('should not notify error when authentication succeeds', async () => {
+    context('when user is a Pix user', function () {
+      it('should not notify error when authentication succeeds', async function () {
         // when
         await component.authenticate(eventStub);
 
@@ -51,7 +51,7 @@ describe('Unit | Component | routes/login-form', function () {
         expect(component.hasUpdateUserError).to.be.false;
       });
 
-      it('should notify error when authentication fails', async () => {
+      it('should notify error when authentication fails', async function () {
         // given
         sessionStub.authenticate.rejects(new Error());
 
@@ -63,8 +63,8 @@ describe('Unit | Component | routes/login-form', function () {
         expect(component.hasUpdateUserError).to.be.false;
       });
 
-      context('when user should change password', () => {
-        it('should save reset password token and redirect to update-expired-password', async () => {
+      context('when user should change password', function () {
+        it('should save reset password token and redirect to update-expired-password', async function () {
           // given
           const expectedRouteName = 'update-expired-password';
           sessionStub.authenticate.rejects({
@@ -90,7 +90,7 @@ describe('Unit | Component | routes/login-form', function () {
       });
     });
 
-    context('when user is external with an existing token id', () => {
+    context('when user is external with an existing token id', function () {
       const externalUserToken = 'ABCD';
       const expectedUserId = 1;
 
@@ -99,7 +99,7 @@ describe('Unit | Component | routes/login-form', function () {
         sessionStub.get.withArgs('data.expectedUserId').returns(expectedUserId);
       });
 
-      it('should display an error message when update user authentication method fails', async () => {
+      it('should display an error message when update user authentication method fails', async function () {
         // given
         addGarAuthenticationMethodToUserStub.rejects(new Error());
 
@@ -111,8 +111,8 @@ describe('Unit | Component | routes/login-form', function () {
         expect(component.hasUpdateUserError).to.be.true;
       });
 
-      context('when user should change password', () => {
-        it('should save reset password token and redirect to update-expired-password', async () => {
+      context('when user should change password', function () {
+        it('should save reset password token and redirect to update-expired-password', async function () {
           // given
           const response = {
             errors: [

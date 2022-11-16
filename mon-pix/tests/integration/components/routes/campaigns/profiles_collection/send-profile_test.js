@@ -10,7 +10,7 @@ import hbs from 'htmlbars-inline-precompile';
 describe('Integration | Component | routes/campaigns/profiles_collection/send-profile', function () {
   setupIntlRenderingTest();
 
-  context('when isDisabled is true', () => {
+  context('when isDisabled is true', function () {
     it('should not display the share results button', async function () {
       // given
       this.set('isDisabled', true);
@@ -25,7 +25,7 @@ describe('Integration | Component | routes/campaigns/profiles_collection/send-pr
     });
   });
 
-  context('when isDisabled is false', () => {
+  context('when isDisabled is false', function () {
     it('should call sendProfile property', async function () {
       // given
       const sendProfile = sinon.stub();

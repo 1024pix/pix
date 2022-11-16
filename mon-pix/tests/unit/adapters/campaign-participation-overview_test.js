@@ -13,7 +13,7 @@ describe('Unit | Adapters | campaign-participation-overviews', function () {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForQueryRecord', () => {
+  describe('#urlForQueryRecord', function () {
     it('should query campaign-participation-overviews with adapterOptions', async function () {
       // given
       const params = {

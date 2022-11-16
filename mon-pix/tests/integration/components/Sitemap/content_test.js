@@ -10,7 +10,7 @@ describe('Integration | Component | Content', function () {
 
   let model;
 
-  beforeEach(() => {
+  beforeEach(function () {
     model = {
       scorecards: [
         {

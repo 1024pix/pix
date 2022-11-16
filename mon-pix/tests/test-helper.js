@@ -27,7 +27,7 @@ chai.use(chaiDom);
 setApplication(Application.create(config.APP));
 start();
 
-afterEach(() => {
+afterEach(function () {
   sessionStorage.clear();
   window.localStorage.removeItem('hasConfirmedFocusChallengeScreen');
 });

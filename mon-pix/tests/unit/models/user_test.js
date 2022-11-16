@@ -16,7 +16,7 @@ describe('Unit | Model | user model', function () {
     expect(model).to.be.ok;
   });
 
-  describe('#fullName', () => {
+  describe('#fullName', function () {
     it('should concatenate user first and last name', function () {
       // given
       const model = store.createRecord('user');

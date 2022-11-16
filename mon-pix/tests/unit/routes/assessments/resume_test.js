@@ -108,7 +108,7 @@ describe('Unit | Route | Assessments | Resume', function () {
       });
 
       context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function () {
-        beforeEach(() => {
+        beforeEach(function () {
           assessment.isPlacement = true;
         });
         it('should redirect to the challenge view', function () {
@@ -197,7 +197,7 @@ describe('Unit | Route | Assessments | Resume', function () {
       });
 
       context('when assessment is a CERTIFICATION', function () {
-        beforeEach(() => {
+        beforeEach(function () {
           assessment.isCertification = true;
           assessment.certificationNumber = 666;
         });
@@ -214,7 +214,7 @@ describe('Unit | Route | Assessments | Resume', function () {
       });
 
       context('when assessment is a COMPETENCE_EVALUATION', function () {
-        beforeEach(() => {
+        beforeEach(function () {
           assessment.isCompetenceEvaluation = true;
         });
 

@@ -17,7 +17,7 @@ describe('Unit | Model | Profile model', function () {
     expect(model).to.be.ok;
   });
 
-  describe('@areas', () => {
+  describe('@areas', function () {
     it('should return an array of unique areas code', function () {
       return run(() => {
         // given

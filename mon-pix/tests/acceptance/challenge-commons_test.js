@@ -94,8 +94,8 @@ describe('Acceptance | Common behavior to all challenges', function () {
     });
   });
 
-  describe('When user is anonymous', () => {
-    it('should not display home link', async () => {
+  describe('When user is anonymous', function () {
+    it('should not display home link', async function () {
       //given
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
