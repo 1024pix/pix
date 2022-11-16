@@ -350,7 +350,7 @@ module.exports = {
     return h.response().code(204);
   },
 
-  getSessionsCreationFile(_, h) {
+  getSessionsImportTemplate(_, h) {
     const headers = getHeaders();
     return h.response(headers).header('Content-Type', 'text/csv; charset=utf-8').code(200);
   },
