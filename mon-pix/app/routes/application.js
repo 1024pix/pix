@@ -3,12 +3,13 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class ApplicationRoute extends Route {
-  @service splash;
-  @service session;
-  @service intl;
-  @service headData;
+  @service authentication;
   @service featureToggles;
+  @service headData;
+  @service intl;
   @service oidcIdentityProviders;
+  @service session;
+  @service splash;
 
   activate() {
     this.splash.hide();
@@ -32,6 +33,8 @@ export default class ApplicationRoute extends Route {
     await this.featureToggles.load().catch();
 
     await this.oidcIdentityProviders.load().catch();
+
+    await this.authentication.handleAnonymousAuthentication(transition);
 
     await this.session.handleUserLanguageAndLocale(transition);
   }
