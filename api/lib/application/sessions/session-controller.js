@@ -348,6 +348,10 @@ module.exports = {
 
     return h.response().code(204);
   },
+
+  getSessionsCreationFile(request, h) {
+    return h.response().header('Content-Type', 'text/csv; charset=utf-8').code(200);
+  },
 };
 
 function _logSessionBatchPublicationErrors(result) {
