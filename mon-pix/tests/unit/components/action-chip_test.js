@@ -6,7 +6,7 @@ import sinon from 'sinon';
 describe('Unit | Component | action-chip', function () {
   setupTest();
 
-  describe('triggerAction', () => {
+  describe('triggerAction', function () {
     it('should trigger the triggerAction when triggerAction is called and isTriggering is false', async function () {
       // given
       const triggerAction = sinon.spy();

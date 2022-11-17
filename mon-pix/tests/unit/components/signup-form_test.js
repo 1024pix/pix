@@ -27,8 +27,8 @@ describe('Unit | Component | signup-form', function () {
     component = createGlimmerComponent('component:signup-form');
   });
 
-  describe('#signup', () => {
-    it('should save user without spaces', () => {
+  describe('#signup', function () {
+    it('should save user without spaces', function () {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',
@@ -53,7 +53,7 @@ describe('Unit | Component | signup-form', function () {
       expect(pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
     });
 
-    it('should authenticate user after sign up', async () => {
+    it('should authenticate user after sign up', async function () {
       const userWithSpaces = EmberObject.create({
         firstName: 'Chris',
         lastName: 'MylastName',
@@ -74,7 +74,7 @@ describe('Unit | Component | signup-form', function () {
       sinon.assert.calledWith(authenticateStub, userWithSpaces.email, userWithSpaces.password);
     });
 
-    it('should send campaignCode when is defined', () => {
+    it('should send campaignCode when is defined', function () {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',

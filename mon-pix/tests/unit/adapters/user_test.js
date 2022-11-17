@@ -89,7 +89,7 @@ describe('Unit | Adapters | user', function () {
 
   describe('#createRecord', function () {
     context('when campaignCode adapterOption is defined', function () {
-      it('should add campaign-code meta', async () => {
+      it('should add campaign-code meta', async function () {
         // given
         const campaignCode = 'AZERTY123';
         const expectedUrl = 'http://localhost:3000/api/users';

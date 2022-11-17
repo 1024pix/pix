@@ -122,7 +122,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       });
     });
 
-    it('should set error when campaign code is empty', async () => {
+    it('should set error when campaign code is empty', async function () {
       // given
       controller.set('campaignCode', '');
 
@@ -133,7 +133,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       expect(controller.get('errorMessage')).to.equal('Veuillez saisir un code.');
     });
 
-    it('should set error when no campaign found with code', async () => {
+    it('should set error when no campaign found with code', async function () {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
@@ -154,7 +154,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       );
     });
 
-    it('should set error when student is not authorized in campaign', async () => {
+    it('should set error when student is not authorized in campaign', async function () {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
@@ -176,9 +176,9 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
-  describe('get firstTitle', () => {
+  describe('get firstTitle', function () {
     context('When user is not authenticated', function () {
-      it('should return the not connected first title', () => {
+      it('should return the not connected first title', function () {
         // given
         sessionStub.isAuthenticated = false;
         const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
@@ -192,7 +192,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
 
     context('When user is authenticated', function () {
-      it('should return the connected first title with user firstName', () => {
+      it('should return the connected first title with user firstName', function () {
         // given
         sessionStub.isAuthenticated = true;
         const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-connected', {
@@ -208,7 +208,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
 
     context('When user is anonymous', function () {
-      it('should return the not connected first title', () => {
+      it('should return the not connected first title', function () {
         // given
         sessionStub.isAuthenticated = true;
         currentUserStub.user.isAnonymous = true;
@@ -223,8 +223,8 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
-  describe('get isUserAuthenticatedByPix', () => {
-    it('should return session.isAuthenticated', () => {
+  describe('get isUserAuthenticatedByPix', function () {
+    it('should return session.isAuthenticated', function () {
       // given
       sessionStub.isAuthenticated = true;
 
@@ -236,8 +236,8 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
-  describe('get isUserAuthenticatedByGAR', () => {
-    it('returns true if an external user token is present', () => {
+  describe('get isUserAuthenticatedByGAR', function () {
+    it('returns true if an external user token is present', function () {
       // given
       sessionStub.get.withArgs('data.externalUser').returns('TOKEN_FROM_GAR');
       controller.set('session', sessionStub);
@@ -249,7 +249,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       expect(isUserAuthenticatedByGAR).to.equal(true);
     });
 
-    it('returns false if there is no external user token in session', () => {
+    it('returns false if there is no external user token in session', function () {
       // given
       sessionStub.get.withArgs('data.externalUser').returns(undefined);
       controller.set('session', sessionStub);
@@ -262,8 +262,8 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
-  describe('get showWarningMessage', () => {
-    it('should return true if user is authenticated and not anonymous', () => {
+  describe('get showWarningMessage', function () {
+    it('should return true if user is authenticated and not anonymous', function () {
       // given
       sessionStub.isAuthenticated = true;
       currentUserStub.user.isAnonymous = false;
@@ -275,7 +275,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       expect(showWarningMessage).to.be.true;
     });
 
-    it('should return false if user is not authenticated', () => {
+    it('should return false if user is not authenticated', function () {
       // given
       sessionStub.isAuthenticated = false;
 
@@ -286,7 +286,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       expect(showWarningMessage).to.be.false;
     });
 
-    it('should return false if user is authenticated and anonymous', () => {
+    it('should return false if user is authenticated and anonymous', function () {
       // given
       sessionStub.isAuthenticated = true;
       currentUserStub.user.isAnonymous = true;
@@ -299,8 +299,8 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     });
   });
 
-  describe('#disconnect', () => {
-    it('should invalidate the session', () => {
+  describe('#disconnect', function () {
+    it('should invalidate the session', function () {
       // when
       controller.disconnect();
 
