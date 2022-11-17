@@ -1,7 +1,7 @@
 .register-form {
   max-width: 360px;
   font-size: 0.875rem;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   &__cgu-label {
     font-family: $font-roboto;

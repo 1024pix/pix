@@ -32,5 +32,20 @@ module('Unit | Controller | terms-of-service', function (hooks) {
       sinon.assert.calledWith(controller.transitionToRoute, 'authenticated.sessions.list');
       assert.ok(controller);
     });
+
+    module('when an error occurs', function () {
+      test('it should display a notification error', async function (assert) {
+        // given
+        controller.notifications = { error: sinon.stub() };
+        controller.currentUser = { certificationPointOfContact: { save: sinon.stub().rejects() } };
+
+        // when
+        await controller.send('submit');
+
+        // then
+        sinon.assert.calledOnce(controller.notifications.error);
+        assert.ok(controller);
+      });
+    });
   });
 });

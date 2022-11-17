@@ -26,7 +26,7 @@ export default function () {
     const params = parseQueryString(request.requestBody);
     const foundUser = schema.certificationPointOfContacts.findBy({ email: params.username });
 
-    if (foundUser && params.password === 'secret') {
+    if (foundUser && ['secret', 'Pa$$w0rd'].includes(params.password)) {
       return {
         expires_in: 3600,
         token_type: 'Bearer token type',
@@ -205,7 +205,7 @@ export default function () {
     const certificationPointOfContact = schema.certificationPointOfContacts.find(certificationPointOfContactId);
     certificationPointOfContact.update({ pixCertifTermsOfServiceAccepted: true });
 
-    return certificationPointOfContact;
+    return new Response(204);
   });
 
   this.get('feature-toggles', (schema) => {
@@ -257,5 +257,47 @@ export default function () {
     const member = schema.members.find(memberId);
     await member.update({ isReferer: true });
     return new Response(204);
+  });
+
+  this.get('/certification-center-invitations/:id', (schema, request) => {
+    const certificationCenterInvitationId = request.params.id;
+    return schema.certificationCenterInvitations.find(certificationCenterInvitationId);
+  });
+
+  this.post('/certification-center-invitations/:id/accept', (schema) => {
+    const certificationPointOfContact = schema.certificationPointOfContacts.find(12345);
+    const allowedCertificationCenterAccess = schema.allowedCertificationCenterAccesses.create({
+      name: 'Super Centre de Certif',
+      type: 'SCO',
+      externalId: 'ABC123',
+      isRelatedToManagingStudentsOrganization: false,
+      isAccessBlockedCollege: false,
+      isAccessBlockedLycee: false,
+      isAccessBlockedAEFE: false,
+      isAccessBlockedAgri: false,
+    });
+
+    certificationPointOfContact.update({ allowedCertificationCenterAccesses: [allowedCertificationCenterAccess] });
+
+    return new Response(204);
+  });
+
+  this.post('/users', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const attributes = requestBody.data.attributes;
+    const user = {
+      firstName: attributes['first-name'],
+      lastName: attributes['last-name'],
+      email: attributes.email,
+      password: 'secret',
+    };
+
+    schema.certificationPointOfContacts.create({ id: 12345, ...user });
+
+    return schema.users.create({
+      id: 12345,
+      ...user,
+      cgu: attributes.cgu,
+    });
   });
 }
