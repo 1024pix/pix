@@ -10,6 +10,21 @@ describe('Acceptance | mes-formations', function () {
   setupMirage();
   let user;
 
+  describe('When user has recommended trainings', function () {
+    it('should display menu item "Mes formations"', async function () {
+      // given
+      user = server.create('user', 'withEmail', 'withSomeTrainings');
+
+      // when
+      await authenticateByEmail(user);
+      await visit('/');
+
+      // then
+      const menuItem = find('[href="/mes-formations"]');
+      expect(menuItem.textContent).to.contain('Mes formations');
+    });
+  });
+
   describe('When the user tries to reach /mes-formations', function () {
     it('the user-trainings page is displayed to the user', async function () {
       // given

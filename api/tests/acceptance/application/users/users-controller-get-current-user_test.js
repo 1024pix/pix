@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
     const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'SOMECODE' });
     const assessmentCampaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
     expectedCode = campaign.code;
-    databaseBuilder.factory.buildCampaignParticipation({
+    const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
       campaignId: campaign.id,
       status: 'TO_SHARE',
       userId: user.id,
@@ -24,6 +24,8 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
       campaignId: assessmentCampaign.id,
       userId: user.id,
     });
+    const { id: trainingId } = databaseBuilder.factory.buildTraining();
+    databaseBuilder.factory.buildUserRecommendedTraining({ userId: user.id, trainingId, campaignParticipationId });
 
     options = {
       method: 'GET',
@@ -60,6 +62,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
             'has-assessment-participations': true,
             'code-for-last-profile-to-share': expectedCode,
+            'has-recommended-trainings': true,
           },
           relationships: {
             memberships: {
