@@ -758,7 +758,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
         const currentUserId = session.data.authenticated['user_id'];
 
         // then
-        expect(currentUserId).to.be.finite;
+        expect(Number.isFinite(currentUserId)).to.be.true;
         expect(previousUserId).not.to.equal(currentUserId);
       });
     });
