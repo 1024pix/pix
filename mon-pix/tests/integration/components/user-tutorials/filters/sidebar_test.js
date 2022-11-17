@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { find, findAll, render, click } from '@ember/test-helpers';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { find, findAll, click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -34,7 +34,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
           { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
         ]);
         this.set('onSubmit', () => {});
-        const screen = await renderScreen(
+        const screen = await render(
           hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} @onSubmit={{this.onSubmit}} />`
         );
         await click(screen.getByRole('button', { name: 'Area 1' }));
@@ -57,7 +57,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
             { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
           ]);
           this.set('onSubmit', () => {});
-          const screen = await renderScreen(
+          const screen = await render(
             hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} @onSubmit={{this.onSubmit}} />`
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
