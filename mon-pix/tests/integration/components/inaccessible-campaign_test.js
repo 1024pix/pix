@@ -1,8 +1,8 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { expect } from 'chai';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { find, render } from '@ember/test-helpers';
