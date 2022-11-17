@@ -40,7 +40,7 @@ describe('Unit | Component | routes/login-form', function () {
     component.args.addGarAuthenticationMethodToUser = addGarAuthenticationMethodToUserStub;
   });
 
-  describe('#authenticate', () => {
+  describe('#authenticate', function () {
     context('when user is a Pix user', function () {
       it('should not notify error when authentication succeeds', async function () {
         // when

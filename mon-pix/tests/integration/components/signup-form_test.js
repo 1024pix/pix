@@ -643,7 +643,7 @@ describe('Integration | Component | SignupForm', function () {
     });
   });
 
-  describe('Loading management', () => {
+  describe('Loading management', function () {
     it('should not display any loading spinner by default', async function () {
       // given
       this.set('user', userEmpty);

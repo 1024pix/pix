@@ -2,8 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import PixWindow from 'mon-pix/utils/pix-window';
 import sinon from 'sinon';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Utilities | pix-window', function () {
+  setupTest();
+
   afterEach(function () {
     sinon.restore();
   });

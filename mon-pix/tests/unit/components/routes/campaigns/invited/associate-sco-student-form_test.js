@@ -150,7 +150,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
         expect(component.errorMessage.string).to.equal(expectedErrorMessage);
       });
 
-      describe('When student is already reconciled', () => {
+      describe('When student is already reconciled', function () {
         it('should open information modal and set reconciliationError', async function () {
           // given
           const error = { status: '409', meta: { userId: 1 } };
@@ -191,7 +191,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
         });
       });
 
-      describe('When student mistyped its information, has an error, and correct it', () => {
+      describe('When student mistyped its information, has an error, and correct it', function () {
         it('should reconcile', async function () {
           // given
           const error = { status: '409', meta: { userId: 1 } };
@@ -212,7 +212,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
         });
       });
 
-      describe('When user has an invalid reconciliation', () => {
+      describe('When user has an invalid reconciliation', function () {
         it('should return a bad request error and display the invalid reconciliation error message', async function () {
           // given
           const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');
@@ -228,7 +228,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
         });
       });
 
-      describe('When user is trying to reconcile on another account', () => {
+      describe('When user is trying to reconcile on another account', function () {
         it('should open information modal and set reconciliationError', async function () {
           // given
           const error = { status: '422', code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER' };

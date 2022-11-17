@@ -176,7 +176,7 @@ describe('Integration | Component | form textfield', function () {
     });
 
     describe('#When password is hidden', function () {
-      this.beforeEach(async function () {
+      beforeEach(async function () {
         this.set('label', 'Mot de passe');
         this.set('validationStatus', 'default');
         this.set('validationMessage', 'message');
