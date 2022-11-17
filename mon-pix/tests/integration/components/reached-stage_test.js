@@ -23,7 +23,13 @@ describe('Integration | Component | reached-stage', function () {
     // then
     expect(find('.reached-stage-score__stars')).to.exist;
     expect(find('.reached-stage-score__percentage-text').textContent.trim()).to.equal('50\u00A0% de réussite');
-    _expectStars(this.reachedStageStarCount, this.stageCount);
+
+    const fullStarCount = this.reachedStageStarCount > 0 ? this.reachedStageStarCount - 1 : 0;
+    const fullStarElement = findAll(".reached-stage-score__stars img[data-test-status='acquired']");
+    const emptyStarElement = findAll(".reached-stage-score__stars img[data-test-status='unacquired']");
+
+    expect(fullStarElement.length).to.equal(fullStarCount);
+    expect(emptyStarElement.length).to.equal(this.stageCount - this.reachedStageStarCount);
   });
 
   describe('stars rendering', function () {
@@ -46,17 +52,13 @@ describe('Integration | Component | reached-stage', function () {
         );
 
         // then
-        _expectStars(starCount, stageCount);
+        const fullStarCount = starCount > 0 ? starCount - 1 : 0;
+        const fullStarElement = findAll(".reached-stage-score__stars img[data-test-status='acquired']");
+        const emptyStarElement = findAll(".reached-stage-score__stars img[data-test-status='unacquired']");
+
+        expect(fullStarElement.length).to.equal(fullStarCount);
+        expect(emptyStarElement.length).to.equal(stageCount - starCount);
       });
     });
   });
 });
-
-function _expectStars(starCount, stageCount) {
-  const fullStarCount = starCount > 0 ? starCount - 1 : 0;
-  const fullStarElement = findAll(".reached-stage-score__stars img[data-test-status='acquired']");
-  const emptyStarElement = findAll(".reached-stage-score__stars img[data-test-status='unacquired']");
-
-  expect(fullStarElement.length).to.equal(fullStarCount);
-  expect(emptyStarElement.length).to.equal(stageCount - starCount);
-}
