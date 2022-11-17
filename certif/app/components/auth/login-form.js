@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
+import get from 'lodash/get';
 
 export default class LoginForm extends Component {
   @service intl;
@@ -52,6 +53,13 @@ export default class LoginForm extends Component {
         });
         await this._authenticate(password, email);
       } catch (errorResponse) {
+        const errorStatus = get(errorResponse, 'errors[0].status');
+        const invitationIsAlreadyAcceptedOrUserIsAlreadyMember = errorStatus === '412';
+        if (invitationIsAlreadyAcceptedOrUserIsAlreadyMember) {
+          await this._authenticate(password, email);
+          return;
+        }
+
         this.errorMessage = this._handleResponseError(errorResponse);
         this.isErrorMessagePresent = true;
       } finally {
@@ -62,7 +70,16 @@ export default class LoginForm extends Component {
 
   async _authenticate(password, email) {
     const scope = 'pix-certif';
-    await this.session.authenticate('authenticator:oauth2', email, password, scope);
+
+    try {
+      await this.session.authenticate('authenticator:oauth2', email, password, scope);
+    } catch (errorResponse) {
+      const errors = get(errorResponse, 'responseJSON');
+      this.errorMessage = this._handleResponseError(errors);
+      this.isErrorMessagePresent = true;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action
