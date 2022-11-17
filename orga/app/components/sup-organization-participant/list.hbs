@@ -82,13 +82,13 @@
             <td class="ellipsis">{{student.studentNumber}}</td>
             <td class="ellipsis">{{student.lastName}}</td>
             <td class="ellipsis">{{student.firstName}}</td>
-            <td class="table__column--center">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+            <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY"}}</td>
             <td class="ellipsis">{{student.group}}</td>
             <td class="table__column--right">{{student.participationCount}}</td>
             <td class="table__column--center">
               {{#if student.lastParticipationDate}}
                 <div class="organization-participant-list-page__last-participation">
-                  <span>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
+                  <span>{{dayjs-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
                   <Ui::LastParticipationDateTooltip
                     @id={{index}}
                     @campaignName={{student.campaignName}}
@@ -101,7 +101,7 @@
             <td class="table__column--center">
               <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
               {{#if student.certifiableAt}}
-                <span class="organization-participant-list-page__certifiable-at">{{moment-format
+                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
                     student.certifiableAt
                     "DD/MM/YYYY"
                     allow-empty=true

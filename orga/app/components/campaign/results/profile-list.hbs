@@ -65,7 +65,7 @@
               {{/if}}
               <td class="table__column--center">
                 {{#if profile.sharedAt}}
-                  {{moment-format profile.sharedAt "DD/MM/YYYY"}}
+                  {{dayjs-format profile.sharedAt "DD/MM/YYYY"}}
                 {{else}}
                   <span class="table__column--highlight">{{t
                       "pages.profiles-list.table.column.sending-date.on-hold"
