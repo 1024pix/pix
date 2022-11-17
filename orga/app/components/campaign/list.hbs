@@ -47,7 +47,7 @@
             {{#unless @listOnlyCampaignsOfCurrentUser}}
               <td class="table__column--truncated hide-on-mobile">{{campaign.ownerFullName}}</td>
             {{/unless}}
-            <td class="hide-on-mobile">{{moment-format campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
+            <td class="hide-on-mobile">{{dayjs-format campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
             <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>
           </tr>

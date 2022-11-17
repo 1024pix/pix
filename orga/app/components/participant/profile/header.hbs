@@ -34,7 +34,7 @@
         <dt class="label-text panel-header-data-content__label">
           {{t "pages.campaign-individual-results.start-date"}}
         </dt>
-        <dd class="value-text panel-header-data-content__value">{{moment-format
+        <dd class="value-text panel-header-data-content__value">{{dayjs-format
             @campaignProfile.createdAt
             "DD MMM YYYY"
           }}</dd>
@@ -44,7 +44,7 @@
           <dt class="label-text panel-header-data-content__label">
             {{t "pages.campaign-individual-results.shared-date"}}
           </dt>
-          <dd class="value-text panel-header-data-content__value">{{moment-format
+          <dd class="value-text panel-header-data-content__value">{{dayjs-format
               @campaignProfile.sharedAt
               "DD MMM YYYY"
             }}</dd>
