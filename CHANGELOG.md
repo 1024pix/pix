@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.289.0 (17/11/2022)
+
+
+### :rocket: Amélioration
+- [#5219](https://github.com/1024pix/pix/pull/5219) [FEATURE] Ajouter la page "Mes formations" au plan du site (PIX-6281).
+- [#5178](https://github.com/1024pix/pix/pull/5178) [FEATURE] Ajout du lien vers la page mes formations dans le menu (PIX-5760)
+- [#5162](https://github.com/1024pix/pix/pull/5162) [FEATURE] Créer un fichier CSV d'import des sessions en masse (PIX-6132)
+- [#5183](https://github.com/1024pix/pix/pull/5183) [FEATURE] Envoyer un email à la création d'une invitation à Pix Certif (PIX-5707)
+- [#5204](https://github.com/1024pix/pix/pull/5204) [FEATURE] Refonte des RT non obtenus en fin de parcours (PIX-6246).
+
+### :building_construction: Tech
+- [#5233](https://github.com/1024pix/pix/pull/5233) [TECH] Ajouter la règle lint no-mocha-arrows sur Pix App (PIX-6335).
+- [#5205](https://github.com/1024pix/pix/pull/5205) [TECH] Déplacer la gestion de l'authentification anonyme dans un service (PIX-6029)
+- [#5226](https://github.com/1024pix/pix/pull/5226) [TECH] Déplacement de tests d'acceptance des controllers dans des sous dossiers
+- [#5200](https://github.com/1024pix/pix/pull/5200) [TECH] Utiliser la dernière version mineure de NodeJs automatiquement
+- [#5225](https://github.com/1024pix/pix/pull/5225) [TECH] Déplacement de tests d'acceptance des controllers dans des sous dossiers.
+- [#5221](https://github.com/1024pix/pix/pull/5221) [TECH] Retirer le "helper" hash pour migrer vers Ember 4.x (PIX-6253)
+
+### :bug: Correction
+- [#5232](https://github.com/1024pix/pix/pull/5232) [BUGFIX] Inversion des colonnes "certifications passées" et "candidats inscrits" (PIX-6333).
+- [#5171](https://github.com/1024pix/pix/pull/5171) [BUGFIX] Permettre de lancer plusieurs job d'envoi CPF en même temps (PIX-6181)
+- [#5207](https://github.com/1024pix/pix/pull/5207) [BUGFIX] Position du menu de la top nav (PIX-6273)
+- [#5186](https://github.com/1024pix/pix/pull/5186) [BUGFIX] Utiliser l'email de destinataire pour l'envoi des resultats CLéA (PIX-6248)
+
+### :coffee: Autre
+- [#5218](https://github.com/1024pix/pix/pull/5218) [BUFGIX] Corriger le style du bouton pour commencer une compétence sur Pix-App
+
 ## v3.288.0 (15/11/2022)
 
 
