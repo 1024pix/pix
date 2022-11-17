@@ -107,12 +107,9 @@ describe('Unit | Route | Entrance', function () {
       //when
       try {
         await route.afterModel(campaign);
-      } catch (err) {
-        // then
-        sinon.assert.called(campaignParticipationStub.deleteRecord);
-        return;
-      }
-      sinon.assert.fail('entrance afterModel route should have throw an error.');
+        // eslint-disable-next-line no-empty
+      } catch (err) {}
+      sinon.assert.called(campaignParticipationStub.deleteRecord);
     });
 
     it('should abort campaign participation creation and redirect to fill-in-participant-external-id when something went wrong with it', async function () {

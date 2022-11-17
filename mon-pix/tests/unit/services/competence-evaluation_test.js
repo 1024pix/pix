@@ -101,12 +101,9 @@ describe('Unit | Service | competence-evaluation', function () {
         // when
         try {
           await competenceEvaluationService.improve({ userId, competenceId });
-        } catch (err) {
-          // then
-          sinon.assert.notCalled(router.transitionTo);
-          return;
-        }
-        sinon.assert.fail('Improve Competence Evaluation should have throw an error.');
+          // eslint-disable-next-line no-empty
+        } catch (err) {}
+        sinon.assert.notCalled(router.transitionTo);
       });
     });
   });
