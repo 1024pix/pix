@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Service from '@ember/service';
 
 module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
   setupTest(hooks);
@@ -10,14 +9,11 @@ module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
     assert.expect(1);
     // given
     const route = this.owner.lookup('route:authenticated/campaigns/campaign');
+    const store = this.owner.lookup('service:store');
     const params = { campaign_id: 'liste' };
 
-    const findRecordStub = sinon.stub();
-    const storeStub = Service.create({
-      findRecord: findRecordStub,
-    });
-    route.set('store', storeStub);
-    findRecordStub.rejects({ errors: [{ status: '400' }] });
+    sinon.stub(store, 'findRecord');
+    store.findRecord.rejects({ errors: [{ status: '400' }] });
 
     // then
     const expectedRedirection = 'not-found';

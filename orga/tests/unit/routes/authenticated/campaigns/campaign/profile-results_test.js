@@ -6,25 +6,16 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
   setupTest(hooks);
 
   let route;
+  let store;
 
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/campaigns/campaign/profile-results');
+    store = this.owner.lookup('service:store');
   });
 
   module('fetchProfileSummaries', function (hooks) {
-    let store;
-    let storeStub;
-
     hooks.beforeEach(function () {
-      storeStub = {
-        query: sinon.stub(),
-      };
-      store = route.store;
-      route.store = storeStub;
-    });
-
-    hooks.afterEach(function () {
-      route.store = store;
+      sinon.stub(store, 'query');
     });
 
     test('if finds profile summaries from stores', function (assert) {
@@ -40,7 +31,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
         },
       ];
 
-      storeStub.query
+      store.query
         .withArgs('CampaignProfilesCollectionParticipationSummary', {
           page: {
             number: params.pageNumber,
@@ -62,19 +53,8 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
   });
 
   module('loading', function (hooks) {
-    let store;
-    let storeStub;
-
     hooks.beforeEach(function () {
-      storeStub = {
-        query: sinon.stub(),
-      };
-      store = route.store;
-      route.store = storeStub;
-    });
-
-    hooks.afterEach(function () {
-      route.store = store;
+      sinon.stub(store, 'query');
     });
 
     module('when the transition comes from "authenticated.campaigns.campaign.profile-results"', function () {
