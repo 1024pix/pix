@@ -1,7 +1,10 @@
 <div class="session-list__header">
   <h1 class="page-title">Sessions de certification</h1>
   {{#if this.shouldRenderImportTemplateButton}}
-    <PixButton aria-label="Télécharger le template d'import en masse">
+    <PixButton
+      aria-label="Télécharger le template d'import en masse"
+      @triggerAction={{this.downloadSessionImportTemplate}}
+    >
       Template import en masse
     </PixButton>
   {{/if}}
