@@ -26,6 +26,7 @@ describe('Acceptance | Controller | session-controller-get-import-template', fun
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('text/csv; charset=utf-8');
+        expect(response.headers['content-disposition']).to.include('filename=import-sessions');
       });
     });
   });
