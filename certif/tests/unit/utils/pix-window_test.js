@@ -22,4 +22,17 @@ module('Unit | Utilities | pix-window', function (hooks) {
       assert.deepEqual(location, {});
     });
   });
+
+  module('GET window.location.pathname', function () {
+    test('should return the path of the URL', function (assert) {
+      // given
+      sinon.stub(PixWindow, 'getLocation').returns({ pathname: '/path/name' });
+
+      // when
+      const location = PixWindow.getLocation();
+
+      // then
+      assert.strictEqual(location.pathname, '/path/name');
+    });
+  });
 });
