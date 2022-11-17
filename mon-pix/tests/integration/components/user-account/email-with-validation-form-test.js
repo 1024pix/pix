@@ -8,7 +8,7 @@ import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-describe('Integration | Component | user-account | email-with-validation-form', () => {
+describe('Integration | Component | user-account | email-with-validation-form', function () {
   setupIntlRenderingTest();
 
   context('when editing e-mail', function () {

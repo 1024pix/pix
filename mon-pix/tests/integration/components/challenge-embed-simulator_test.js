@@ -19,7 +19,7 @@ describe('Integration | Component | Challenge Embed Simulator', function () {
     });
   });
 
-  describe('Launch simulator button', () => {
+  describe('Launch simulator button', function () {
     it('should have text "Je lance l\'application"', async function () {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);
@@ -40,7 +40,7 @@ describe('Integration | Component | Challenge Embed Simulator', function () {
     });
   });
 
-  describe('Reload simulator button', () => {
+  describe('Reload simulator button', function () {
     it('should have text "Réinitialiser"', async function () {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);

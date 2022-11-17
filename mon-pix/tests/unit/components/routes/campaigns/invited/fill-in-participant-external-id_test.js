@@ -30,8 +30,8 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
     });
   });
 
-  describe('#submit', () => {
-    it('should succeed when participantExternalId is correct', async () => {
+  describe('#submit', function () {
+    it('should succeed when participantExternalId is correct', async function () {
       // given
       component.participantExternalId = participantExternalId;
 
@@ -43,7 +43,7 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    it('should display error when participant external id is empty', async () => {
+    it('should display error when participant external id is empty', async function () {
       // given
       component.participantExternalId = '';
 
@@ -54,7 +54,7 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
       expect(component.errorMessage).to.equal(`Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
     });
 
-    it('should display error when participant external id exceed 255 characters', async () => {
+    it('should display error when participant external id exceed 255 characters', async function () {
       // given
       component.participantExternalId =
         '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
@@ -69,8 +69,8 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
     });
   });
 
-  describe('#cancel', () => {
-    it('should abort and call its parent method', async () => {
+  describe('#cancel', function () {
+    it('should abort and call its parent method', async function () {
       // when
       await component.actions.cancel.call(component);
 
