@@ -5,10 +5,13 @@ import { tracked } from '@glimmer/tracking';
 import isEmpty from 'lodash/isEmpty';
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
+import get from 'lodash/get';
 
 export default class RegisterForm extends Component {
   @service intl;
   @service url;
+  @service store;
+  @service session;
 
   @tracked isLoading = false;
   @tracked firstName = null;
@@ -31,8 +34,54 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  async register() {
-    /* TODO */
+  async register(event) {
+    event.preventDefault();
+    this.errorMessage = null;
+
+    if (!this._isFormValid()) {
+      return;
+    }
+    this.isLoading = true;
+
+    let certificationCenterInvitationResponseRecord;
+    const userRecord = this.store.createRecord('user', {
+      lastName: this.lastName,
+      firstName: this.firstName,
+      email: this.email,
+      password: this.password,
+      cgu: true,
+    });
+
+    try {
+      await userRecord.save();
+
+      certificationCenterInvitationResponseRecord = this.store.createRecord(
+        'certification-center-invitation-response',
+        {
+          id: this.args.certificationCenterInvitationId,
+          code: this.args.certificationCenterInvitationCode,
+          email: this.email,
+        }
+      );
+      await certificationCenterInvitationResponseRecord.save({
+        adapterOptions: { certificationCenterInvitationId: this.args.certificationCenterInvitationId },
+      });
+
+      await this._authenticate(this.email, this.password);
+    } catch (response) {
+      const status = get(response, 'errors[0].status');
+
+      if (status === '422') {
+        this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.email-already-exists');
+      } else {
+        this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.default');
+      }
+
+      await userRecord?.deleteRecord();
+      await certificationCenterInvitationResponseRecord?.deleteRecord();
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action
@@ -87,5 +136,20 @@ export default class RegisterForm extends Component {
     if (!isInputChecked) {
       this.cguValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.cgu.error');
     }
+  }
+
+  _isFormValid() {
+    return (
+      !isEmpty(this.lastName) &&
+      !isEmpty(this.firstName) &&
+      isEmailValid(this.email) &&
+      isPasswordValid(this.password) &&
+      Boolean(this.cgu)
+    );
+  }
+
+  _authenticate(email, password) {
+    const scope = 'pix-certif';
+    return this.session.authenticate('authenticator:oauth2', email, password, scope);
   }
 }
