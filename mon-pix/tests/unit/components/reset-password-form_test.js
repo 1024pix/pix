@@ -10,7 +10,7 @@ describe('Unit | Component | reset password form', function () {
   setupTest();
   setupIntl();
 
-  describe('#validatePassword', () => {
+  describe('#validatePassword', function () {
     it('should set validation status to default, when component is rendered', function () {
       const component = createGlimmerComponent('component:reset-password-form');
       expect(component.validation.status).to.equal('default');
@@ -41,7 +41,7 @@ describe('Unit | Component | reset password form', function () {
     });
   });
 
-  describe('#handleResetPassword', () => {
+  describe('#handleResetPassword', function () {
     const userWithGoodPassword = EmberObject.create({
       firstName: 'toto',
       lastName: 'riri',
@@ -49,7 +49,7 @@ describe('Unit | Component | reset password form', function () {
       save: () => resolve(),
     });
 
-    describe('When user password is saved', () => {
+    describe('When user password is saved', function () {
       it('should update validation with success data', async function () {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
@@ -85,7 +85,7 @@ describe('Unit | Component | reset password form', function () {
       });
     });
 
-    describe('When user password saving fails', () => {
+    describe('When user password saving fails', function () {
       [
         {
           status: '400',
@@ -104,7 +104,7 @@ describe('Unit | Component | reset password form', function () {
           message: 'api-error-messages.internal-server-error',
         },
       ].forEach((testCase) => {
-        it(`it should display ${testCase.message} when http status is ${testCase.status}`, async () => {
+        it(`it should display ${testCase.message} when http status is ${testCase.status}`, async function () {
           // given
           const userWithBadPassword = EmberObject.create({
             firstName: 'toto',

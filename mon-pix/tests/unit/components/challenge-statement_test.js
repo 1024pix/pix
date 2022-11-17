@@ -47,8 +47,8 @@ describe('Unit | Component | challenge statement', function () {
     });
   });
 
-  describe('#orderedAttachments', () => {
-    it('should return empty array if no attachments', () => {
+  describe('#orderedAttachments', function () {
+    it('should return empty array if no attachments', function () {
       // given
       const challenge = EmberObject.create({});
       const component = createGlimmerComponent('component:challenge-statement', { challenge });
@@ -60,7 +60,7 @@ describe('Unit | Component | challenge statement', function () {
       expect(orderedAttachments.length).to.equal(0);
     });
 
-    it('should return files using the preferred formats first, then the others', () => {
+    it('should return files using the preferred formats first, then the others', function () {
       // given
       const attachments = ['https://dl.airtable.com/test.odp', 'https://dl.airtable.com/test.docx'];
       const challenge = EmberObject.create({ attachments });
@@ -75,7 +75,7 @@ describe('Unit | Component | challenge statement', function () {
       expect(orderedAttachments[1]).to.contains('odp');
     });
 
-    it('should return the attachments ordered alphabetically in each group', () => {
+    it('should return the attachments ordered alphabetically in each group', function () {
       // given
       const attachments = [
         'https://dl.airtable.com/test1.ods',

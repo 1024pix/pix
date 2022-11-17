@@ -18,8 +18,8 @@ describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId'
     controller.router = { transitionTo: sinon.stub() };
   });
 
-  describe('#onSubmitParticipantExternalId', () => {
-    it('should transition to route campaigns.entrance when participant external id is fulfilled', () => {
+  describe('#onSubmitParticipantExternalId', function () {
+    it('should transition to route campaigns.entrance when participant external id is fulfilled', function () {
       // when
       controller.actions.onSubmitParticipantExternalId.call(controller, participantExternalId);
 
@@ -28,8 +28,8 @@ describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId'
     });
   });
 
-  describe('#onCancel', () => {
-    it('should transition to landing page', () => {
+  describe('#onCancel', function () {
+    it('should transition to landing page', function () {
       // when
       controller.actions.onCancel.call(controller);
 

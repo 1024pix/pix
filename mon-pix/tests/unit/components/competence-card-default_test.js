@@ -40,7 +40,7 @@ describe('Unit | Component | competence-card-default ', function () {
       component = createGlimmerComponent('component:competence-card-default', { scorecard, interactive: true });
     });
 
-    it('should return true when remaining days before improving are different than 0', () => {
+    it('should return true when remaining days before improving are different than 0', function () {
       // given
       scorecard.remainingDaysBeforeImproving = 3;
 
@@ -51,7 +51,7 @@ describe('Unit | Component | competence-card-default ', function () {
       expect(result).to.be.true;
     });
 
-    it('should return false when remaining days before improving are equal to 0', () => {
+    it('should return false when remaining days before improving are equal to 0', function () {
       // given
       scorecard.remainingDaysBeforeImproving = 0;
 
