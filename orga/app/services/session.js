@@ -7,7 +7,7 @@ const DEFAULT_FRENCH_LOCALE = 'fr';
 export default class CurrentSessionService extends SessionService {
   @service currentUser;
   @service intl;
-  @service moment;
+  @service dayjs;
   @service url;
 
   routeAfterAuthentication = 'authenticated';
@@ -54,7 +54,8 @@ export default class CurrentSessionService extends SessionService {
     }
 
     this.intl.setLocale([locale, DEFAULT_FRENCH_LOCALE]);
-    this.moment.setLocale(locale);
+    this.dayjs.setLocale(locale);
+    this.dayjs.self.locale(locale);
   }
 
   _getRouteAfterInvalidation() {

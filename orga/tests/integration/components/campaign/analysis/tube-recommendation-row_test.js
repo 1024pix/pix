@@ -18,7 +18,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
       link: 'http://link.to.tuto.1',
       format: 'Vidéo',
       source: 'Youtube',
-      duration: '00:10:00',
+      duration: 600,
     });
 
     tutorial2 = store.createRecord('tutorial', {
