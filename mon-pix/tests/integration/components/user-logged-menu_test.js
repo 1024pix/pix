@@ -126,8 +126,8 @@ describe('Integration | Component | user logged menu', function () {
       expect(find('.logged-user-menu')).to.not.exist;
     });
 
-    describe('Link to "My tests"', () => {
-      describe('when user has at least one participation', () => {
+    describe('Link to "My tests"', function () {
+      describe('when user has at least one participation', function () {
         beforeEach(function () {
           class currentUserService extends Service {
             user = {
@@ -148,7 +148,7 @@ describe('Integration | Component | user logged menu', function () {
         });
       });
 
-      describe('when user has no participation', () => {
+      describe('when user has no participation', function () {
         it('should not display link to user tests', async function () {
           // when
           await render(hbs`<UserLoggedMenu/>`);

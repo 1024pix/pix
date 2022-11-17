@@ -20,35 +20,25 @@ describe('Acceptance | Giving feedback about a challenge', function () {
     server.create('challenge', 'forCompetenceEvaluation');
   });
 
-  function assertThatFeedbackPanelExist() {
-    expect(find('.feedback-panel')).to.exist;
-  }
-
-  function assertThatFeedbackFormIsClosed() {
-    expect(find('.feedback-panel__form')).to.not.exist;
-  }
-
-  function assertThatFeedbackFormIsOpen() {
-    expect(find('.feedback-panel__form')).to.exist;
-  }
-
   context('From a challenge', function () {
     beforeEach(async function () {
+      // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     it('should be able to directly send a feedback', async function () {
-      assertThatFeedbackPanelExist();
+      // then
+      expect(find('.feedback-panel')).to.exist;
     });
 
     context('when the feedback-panel button is clicked', function () {
       beforeEach(async function () {
-        assertThatFeedbackFormIsClosed();
         await click('.feedback-panel__open-button');
       });
 
       it('should open the feedback form', function () {
-        assertThatFeedbackFormIsOpen();
+        // then
+        expect(find('.feedback-panel__form')).to.exist;
       });
 
       context('and the form is filled but not sent', function () {
@@ -64,7 +54,8 @@ describe('Acceptance | Giving feedback about a challenge', function () {
           });
 
           it('should not display the feedback form', function () {
-            assertThatFeedbackFormIsClosed();
+            // then
+            expect(find('.feedback-panel__form')).to.not.exist;
           });
 
           it('should always reset the feedback form between two consecutive challenges', async function () {
@@ -87,7 +78,7 @@ describe('Acceptance | Giving feedback about a challenge', function () {
       await click('.result-item__correction-button');
 
       // then
-      assertThatFeedbackFormIsClosed();
+      expect(find('.feedback-panel__form')).to.not.exist;
     });
 
     it('should be able to give feedback', async function () {
@@ -96,7 +87,7 @@ describe('Acceptance | Giving feedback about a challenge', function () {
       await click('.feedback-panel__open-button');
 
       // then
-      assertThatFeedbackFormIsOpen();
+      expect(find('.feedback-panel__form')).to.exist;
     });
   });
 });

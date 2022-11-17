@@ -47,7 +47,7 @@ describe('Unit | Component | markdown-to-html', function () {
     });
   });
 
-  it('should keep rel attribute in tag a when they are present', () => {
+  it('should keep rel attribute in tag a when they are present', function () {
     // given
     const html = '<a href="/test" rel="noopener noreferrer" target="_blank">Lien vers un site</a>';
 
@@ -59,8 +59,8 @@ describe('Unit | Component | markdown-to-html', function () {
     expect(component.html.string).to.equal(expectedHtml);
   });
 
-  describe('when extensions are passed in arguments', () => {
-    it('should use this', () => {
+  describe('when extensions are passed in arguments', function () {
+    it('should use this', function () {
       // given
       const markdown = '# Title 1\nCeci est un paragraphe.\n![img](/images.png)';
       const extensions = 'remove-paragraph-tags';
@@ -74,8 +74,8 @@ describe('Unit | Component | markdown-to-html', function () {
     });
   });
 
-  describe('when class is provided', () => {
-    it('should remove it', () => {
+  describe('when class is provided', function () {
+    it('should remove it', function () {
       // given
       const markdown = '<h1 class="foo">Test</h1>';
 
@@ -88,8 +88,8 @@ describe('Unit | Component | markdown-to-html', function () {
     });
   });
 
-  describe('when accessibility class is provided', () => {
-    it('should keep it', () => {
+  describe('when accessibility class is provided', function () {
+    it('should keep it', function () {
       // given
       const markdown = '<h1 class="sr-only">Test</h1>';
 

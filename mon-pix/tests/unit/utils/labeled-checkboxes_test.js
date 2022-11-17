@@ -100,7 +100,7 @@ describe('Unit | Utility | labeled checkboxes', function () {
           JSON.stringify(testCase.output) +
           ' when ' +
           testCase.when,
-        () => {
+        function () {
           expect(JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers))).to.equal(
             JSON.stringify(testCase.output)
           );

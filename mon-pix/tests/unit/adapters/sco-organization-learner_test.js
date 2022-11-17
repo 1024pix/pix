@@ -127,7 +127,7 @@ describe('Unit | Adapters | sco-organization-learner', function () {
         };
       });
 
-      it('should remove user details', async () => {
+      it('should remove user details', async function () {
         // when
         await adapter.createRecord(null, { modelName: 'sco-organization-learner' }, snapshot);
 

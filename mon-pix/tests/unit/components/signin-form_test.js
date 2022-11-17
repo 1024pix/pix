@@ -8,9 +8,9 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 describe('Unit | Component | signin-form', function () {
   setupTest();
 
-  describe('#signin', () => {
+  describe('#signin', function () {
     context('when user should change password', function () {
-      it('should save reset password token and redirect to update-expired-password', async () => {
+      it('should save reset password token and redirect to update-expired-password', async function () {
         // given
         const eventStub = { preventDefault: sinon.stub() };
         const createRecordStub = sinon.stub();
@@ -44,7 +44,7 @@ describe('Unit | Component | signin-form', function () {
     });
 
     context('when user sign in', function () {
-      it('should authenticate the user even if email contains spaces', async () => {
+      it('should authenticate the user even if email contains spaces', async function () {
         // given
         const foundUser = EmberObject.create({ id: 12 });
         const eventStub = { preventDefault: sinon.stub() };
