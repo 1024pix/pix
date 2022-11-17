@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { render } from '@ember/test-helpers';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -161,7 +160,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
           this.set('campaignParticipationOverview', campaignParticipationOverview);
 
           // when
-          const screen = await renderScreen(
+          const screen = await render(
             hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
           );
 
