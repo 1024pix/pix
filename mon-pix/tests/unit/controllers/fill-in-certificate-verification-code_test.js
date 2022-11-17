@@ -19,8 +19,8 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
     controller.set('showNotFoundCertificationErrorMessage', false);
   });
 
-  describe('#checkCertificate', () => {
-    it('should set error when certificateVerificationCode code is empty', async () => {
+  describe('#checkCertificate', function () {
+    it('should set error when certificateVerificationCode code is empty', async function () {
       // given
       controller.set('certificateVerificationCode', '');
       const event = { preventDefault: sinon.stub() };
@@ -32,7 +32,7 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       expect(controller.get('errorMessage')).to.equal('Merci de renseigner le code de vérification.');
     });
 
-    it('should set error when certificateVerificationCode code is not matching the right format', async () => {
+    it('should set error when certificateVerificationCode code is not matching the right format', async function () {
       // given
       controller.set('certificateVerificationCode', 'P-879888');
       const event = { preventDefault: sinon.stub() };
@@ -44,7 +44,7 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       expect(controller.get('errorMessage')).to.equal('Veuillez vérifier le format de votre code (P-XXXXXXXX).');
     });
 
-    it('should set showNotFoundCertificationErrorMessage to true when no certificate is found', async () => {
+    it('should set showNotFoundCertificationErrorMessage to true when no certificate is found', async function () {
       // given
       controller.set('certificateVerificationCode', 'P-222BBB78');
       storeStub.queryRecord.rejects({ errors: [{ status: '404' }] });
@@ -57,7 +57,7 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       expect(controller.get('showNotFoundCertificationErrorMessage')).to.equal(true);
     });
 
-    it('should NOT set showNotFoundCertificationErrorMessage to true when a certificate is found', async () => {
+    it('should NOT set showNotFoundCertificationErrorMessage to true when a certificate is found', async function () {
       // given
       controller.set('certificateVerificationCode', 'P-222BBBDD');
       storeStub.queryRecord.resolves({ result: { status: '200' } });

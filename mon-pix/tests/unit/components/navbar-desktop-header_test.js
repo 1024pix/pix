@@ -37,7 +37,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function () {
     });
 
     context('#showHeaderMenuItem', function () {
-      it('should return true, when logged user is not anonymous', () => {
+      it('should return true, when logged user is not anonymous', function () {
         // given
         currentUserStub.user.isAnonymous = false;
 
@@ -45,7 +45,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function () {
         expect(component.showHeaderMenuItem).to.be.true;
       });
 
-      it('should return false, when logged user is anonymous', () => {
+      it('should return false, when logged user is anonymous', function () {
         // given
         currentUserStub.user.isAnonymous = true;
 
@@ -81,7 +81,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function () {
     });
 
     context('#showHeaderMenuItem', function () {
-      it('should return false', () => {
+      it('should return false', function () {
         // then
         expect(component.showHeaderMenuItem).to.be.false;
       });

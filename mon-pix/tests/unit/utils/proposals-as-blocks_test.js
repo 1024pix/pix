@@ -146,7 +146,7 @@ describe('Unit | Utility | proposals as blocks', function () {
   ];
 
   testData.forEach(({ data, expected }) => {
-    it(`"${data}" retourne ${JSON.stringify(expected)}`, () => {
+    it(`"${data}" retourne ${JSON.stringify(expected)}`, function () {
       expect(proposalsAsBlocks(data)).to.deep.equal(expected);
     });
   });

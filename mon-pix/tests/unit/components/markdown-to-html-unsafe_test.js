@@ -46,7 +46,7 @@ describe('Unit | Component | markdown-to-html-unsafe', function () {
     });
   });
 
-  it('should keep rel attribute in tag a when they are present', () => {
+  it('should keep rel attribute in tag a when they are present', function () {
     // given
     const html = '<a href="/test" rel="noopener noreferrer" target="_blank">Lien vers un site</a>';
 
@@ -58,8 +58,8 @@ describe('Unit | Component | markdown-to-html-unsafe', function () {
     expect(component.html.string).to.equal(expectedHtml);
   });
 
-  describe('when extensions are passed in arguments', () => {
-    it('should use this', () => {
+  describe('when extensions are passed in arguments', function () {
+    it('should use this', function () {
       // given
       const markdown = '# Title 1\nCeci est un paragraphe.\n![img](/images.png)';
       const extensions = 'remove-paragraph-tags';

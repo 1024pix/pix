@@ -54,12 +54,16 @@ describe('Integration | Component | feedback-panel', function () {
       this.owner.register('service:store', StoreStub);
 
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+    });
+
+    it('should not display the feedback form', async function () {
+      // then
       expect(find('.feedback-panel__form')).not.to.exist;
-      await click(OPEN_FEEDBACK_BUTTON);
     });
 
     it('should display the "mercix" view when clicking on send button', async function () {
       // given
+      await click(OPEN_FEEDBACK_BUTTON);
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
       await setContent(CONTENT_VALUE);
 
@@ -74,6 +78,7 @@ describe('Integration | Component | feedback-panel', function () {
     context('when selecting a category', function () {
       it('should display a second dropdown with the list of questions when category have a nested level', async function () {
         // when
+        await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
 
         // then
@@ -84,6 +89,7 @@ describe('Integration | Component | feedback-panel', function () {
 
       it('should directly display the message box and the submit button when category has a textarea', async function () {
         // when
+        await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
@@ -94,6 +100,7 @@ describe('Integration | Component | feedback-panel', function () {
 
       it('should directly display the tuto without the textbox or the send button when category has a tutorial', async function () {
         // when
+        await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
 
         // then
@@ -104,6 +111,7 @@ describe('Integration | Component | feedback-panel', function () {
 
       it('should show the correct feedback action when selecting two different categories', async function () {
         // when
+        await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
@@ -116,6 +124,7 @@ describe('Integration | Component | feedback-panel', function () {
 
       it('should hide the second dropdown when category has fewer levels after a deeper category', async function () {
         // when
+        await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
@@ -128,8 +137,8 @@ describe('Integration | Component | feedback-panel', function () {
 
       it('should display tutorial with textarea with selecting related category and subcategory', async function () {
         // when
+        await click(OPEN_FEEDBACK_BUTTON);
         await fillIn(CATEGORY_DROPDOWN, PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL);
-
         await fillIn(SUBCATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL);
 
         // then

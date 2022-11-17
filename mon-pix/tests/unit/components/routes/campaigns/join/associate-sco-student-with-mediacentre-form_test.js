@@ -69,7 +69,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
       sinon.assert.calledWith(onSubmitStub, externalUser);
     });
 
-    it('should reset error message when submit', async () => {
+    it('should reset error message when submit', async function () {
       // given
       component.errorMessage =
         'Vous êtes un élève ? Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.';
@@ -103,7 +103,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
         expect(component.errorMessage.string).to.equal(expectedErrorMessage);
       });
 
-      describe('When student is already reconciled', () => {
+      describe('When student is already reconciled', function () {
         it('should open information modal and set reconciliationError', async function () {
           // given
           const error = { status: '409', meta: { userId: 1 } };
@@ -145,7 +145,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
         });
       });
 
-      describe('When student mistyped its information, has an error, and correct it', () => {
+      describe('When student mistyped its information, has an error, and correct it', function () {
         it('should reconcile', async function () {
           // given
           const error = { status: '409', meta: { userId: 1 } };
@@ -165,7 +165,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
         });
       });
 
-      describe('When user has an invalid reconciliation', () => {
+      describe('When user has an invalid reconciliation', function () {
         it('should return a bad request error and display the invalid reconciliation error message', async function () {
           // given
           const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');

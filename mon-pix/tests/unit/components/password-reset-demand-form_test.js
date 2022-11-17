@@ -6,14 +6,14 @@ import Service from '@ember/service';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | password-reset-demand-form', () => {
+describe('Unit | Component | password-reset-demand-form', function () {
   setupTest();
 
   let component;
   const sentEmail = 'dumb@people.com';
   let createRecordStub, saveStub;
 
-  describe('#savePasswordResetDemand', () => {
+  describe('#savePasswordResetDemand', function () {
     beforeEach(function () {
       saveStub = sinon.stub().resolves();
       createRecordStub = sinon.stub().resolves({
@@ -27,7 +27,7 @@ describe('Unit | Component | password-reset-demand-form', () => {
       component.email = sentEmail;
     });
 
-    it('should not call api if the user did not enter any email', async () => {
+    it('should not call api if the user did not enter any email', async function () {
       // when
       component.email = undefined;
       await component.savePasswordResetDemand();
@@ -36,7 +36,7 @@ describe('Unit | Component | password-reset-demand-form', () => {
       sinon.assert.notCalled(createRecordStub);
     });
 
-    it('should create a passwordResetDemand Record', async () => {
+    it('should create a passwordResetDemand Record', async function () {
       // when
       await component.savePasswordResetDemand();
 
@@ -45,7 +45,7 @@ describe('Unit | Component | password-reset-demand-form', () => {
       sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: sentEmail });
     });
 
-    it('should save email without spaces', async () => {
+    it('should save email without spaces', async function () {
       // given
       const emailWithSpaces = '    user@example.net   ';
       component.email = emailWithSpaces;
@@ -58,7 +58,7 @@ describe('Unit | Component | password-reset-demand-form', () => {
       sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: expectedEmail });
     });
 
-    it('should save the password reset demand', async () => {
+    it('should save the password reset demand', async function () {
       // when
       await component.savePasswordResetDemand();
 
@@ -66,7 +66,7 @@ describe('Unit | Component | password-reset-demand-form', () => {
       sinon.assert.called(saveStub);
     });
 
-    it('should display success message when save resolves', async () => {
+    it('should display success message when save resolves', async function () {
       // when
       await component.savePasswordResetDemand();
 

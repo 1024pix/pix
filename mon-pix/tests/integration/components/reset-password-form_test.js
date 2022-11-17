@@ -49,7 +49,7 @@ describe('Integration | Component | reset password form', function () {
       });
     });
 
-    describe('A submit button', () => {
+    describe('A submit button', function () {
       let isSaveMethodCalled, saveMethodOptions;
 
       const save = (options) => {
