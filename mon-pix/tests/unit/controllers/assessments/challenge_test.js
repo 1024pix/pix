@@ -20,7 +20,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
     sinon.restore();
   });
 
-  describe('#pageTitle', () => {
+  describe('#pageTitle', function () {
     it('should return Épreuve 2 sur 5', function () {
       // given
       controller.model = {
@@ -60,7 +60,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
     });
   });
 
-  describe('#displayHomeLink', () => {
+  describe('#displayHomeLink', function () {
     it('should not display home link', function () {
       // given
       controller.currentUser = Service.create({ user: { isAnonymous: true } });
@@ -78,7 +78,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
     });
   });
 
-  describe('#showLevelup', () => {
+  describe('#showLevelup', function () {
     it('should display level up pop-in', function () {
       // given
       controller.newLevel = true;

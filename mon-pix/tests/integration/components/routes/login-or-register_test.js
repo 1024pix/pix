@@ -11,7 +11,7 @@ describe('Integration | Routes | routes/login-or-register', function () {
     this.set('toggleFormsVisibility', '');
   });
 
-  it('should display the organization name the user is invited to', async () => {
+  it('should display the organization name the user is invited to', async function () {
     // when
     await render(
       hbs`<Routes::LoginOrRegister @organizationName="Organization Aztec" @toggleFormsVisibility=toggleFormsVisibility/>`

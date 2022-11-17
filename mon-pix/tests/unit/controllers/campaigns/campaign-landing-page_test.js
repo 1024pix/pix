@@ -12,7 +12,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function () {
     controller.router = { transitionTo: sinon.stub() };
   });
 
-  describe('#startCampaignParticipation', () => {
+  describe('#startCampaignParticipation', function () {
     it('should redirect to route campaigns.access', function () {
       // given
       controller.set('model', { code: 'konami' });

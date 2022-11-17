@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns | join | student-sco', () => {
+describe('Unit | Controller | campaigns | join | student-sco', function () {
   setupTest();
 
   let controller;
@@ -31,8 +31,8 @@ describe('Unit | Controller | campaigns | join | student-sco', () => {
     controller.set('currentUser', currentUserStub);
   });
 
-  describe('#addGarAuthenticationMethodToUser', () => {
-    it('should add GAR authentication method and clear IdToken', async () => {
+  describe('#addGarAuthenticationMethodToUser', function () {
+    it('should add GAR authentication method and clear IdToken', async function () {
       // given
       const externalUserToken = 'ABCD';
 
@@ -60,7 +60,7 @@ describe('Unit | Controller | campaigns | join | student-sco', () => {
       sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', null);
     });
 
-    it('should reconcile user', async () => {
+    it('should reconcile user', async function () {
       // given
       const expectedExternalUserAuthenticationRequest = {
         save: sinon.stub(),
