@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-
+import sinon from 'sinon';
 import createComponent from '../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../helpers/setup-intl';
+import Service from '@ember/service';
 
 describe('Unit | Component | routes/campaigns/join-sco-information-modal', function () {
   setupTest();
@@ -154,6 +155,36 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
         // then
         expect(component.message).to.deep.equal(expectedWarningMessage);
       });
+    });
+  });
+
+  describe('#goToCampaignConnectionForm', function () {
+    it('should not redirect user to login page when session is invalidated', function () {
+      // given
+      const component = createComponent('component:routes/campaigns/join-sco-information-modal');
+      const invalidateStub = sinon.stub().resolves();
+      const setStub = sinon.stub();
+      class SessionStub extends Service {
+        invalidate = invalidateStub;
+        set = setStub;
+      }
+      this.owner.register('service:session', SessionStub);
+
+      class CampaignStorageStub extends Service {
+        set = sinon.stub();
+      }
+      this.owner.register('service:campaignStorage', CampaignStorageStub);
+      class RouterStub extends Service {
+        replaceWith = sinon.stub();
+      }
+      this.owner.register('service:router', RouterStub);
+
+      // when
+      component.goToCampaignConnectionForm();
+
+      // then
+      sinon.assert.calledOnce(invalidateStub);
+      sinon.assert.calledWith(setStub, 'skipRedirectAfterSessionInvalidation', true);
     });
   });
 });
