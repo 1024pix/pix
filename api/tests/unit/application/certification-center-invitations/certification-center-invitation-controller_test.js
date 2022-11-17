@@ -1,6 +1,8 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 const certificationCenterInvitationController = require('../../../../lib/application/certification-center-invitations/certification-center-invitation-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+const certificationCenterInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
 
 describe('Unit | Application | Certification-center-Invitations | Certification-center-invitation-controller', function () {
   describe('#acceptCertificationCenterInvitation', function () {
@@ -31,6 +33,43 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
         code,
         email: notValidEmail.trim().toLowerCase(),
       });
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('#cancelCertificationCenterInvitation', function () {
+    it('should call the use case to cancel invitation with certificationCenterInvitationId', async function () {
+      //given
+      const certificationCenterInvitationId = 123;
+
+      const cancelledCertificationCenterInvitation = domainBuilder.buildCertificationCenterInvitation({
+        id: certificationCenterInvitationId,
+        status: CertificationCenterInvitation.StatusType.CANCELLED,
+      });
+
+      sinon
+        .stub(usecases, 'cancelCertificationCenterInvitation')
+        .withArgs({
+          certificationCenterInvitationId: cancelledCertificationCenterInvitation.id,
+        })
+        .resolves(cancelledCertificationCenterInvitation);
+      const serializedResponse = Symbol('serializedCancelledCertificationCenterInvitation');
+
+      sinon
+        .stub(certificationCenterInvitationSerializer, 'serialize')
+        .withArgs(cancelledCertificationCenterInvitation)
+        .returns(serializedResponse);
+
+      // when
+      const response = await certificationCenterInvitationController.cancelCertificationCenterInvitation(
+        {
+          auth: { credentials: { userId: 1 } },
+          params: { certificationCenterInvitationId },
+        },
+        hFake
+      );
+
+      // then
       expect(response.statusCode).to.equal(204);
     });
   });

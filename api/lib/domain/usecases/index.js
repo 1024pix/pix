@@ -196,6 +196,7 @@ module.exports = injectDependencies(
     authorizeCertificationCandidateToResume: require('./authorize-certification-candidate-to-resume'),
     beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
     cancelOrganizationInvitation: require('./cancel-organization-invitation'),
+    cancelCertificationCenterInvitation: require('./cancel-certification-center-invitation'),
     cancelCertificationCourse: require('./cancel-certification-course'),
     changeUserLang: require('./change-user-lang'),
     checkScoAccountRecovery: require('./check-sco-account-recovery'),
