@@ -2,15 +2,17 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
-import moment from 'moment';
 import { TOOLTIP_CONFIG, LEGEND_CONFIG } from '../../ui/chart';
-import locales from 'date-fns/locale';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
+
+import locales from 'date-fns/locale';
 
 export default class ParticipantsByDay extends Component {
   @service store;
   @service intl;
+  @service dayjs;
+
   @tracked days = 0;
   @tracked startedDatasets = [];
   @tracked sharedDatasets = [];
@@ -25,10 +27,9 @@ export default class ParticipantsByDay extends Component {
         response.data.attributes;
 
       if (startedParticipations.length > 0) {
-        this.days = moment(startedParticipations[startedParticipations.length - 1].day).diff(
-          moment(startedParticipations[0].day),
-          'days'
-        );
+        this.days = this.dayjs
+          .self(startedParticipations[startedParticipations.length - 1].day)
+          .diff(this.dayjs.self(startedParticipations[0].day), 'days');
       }
 
       const { startedDatasets, sharedDatasets } = this._normalizeDatasets(startedParticipations, sharedParticipations);
@@ -82,8 +83,8 @@ export default class ParticipantsByDay extends Component {
 
   get options() {
     const locale = locales[this.intl.locale[0]];
+
     return {
-      locale: this.intl.locale,
       parsing: {
         xAxisKey: 'day',
         yAxisKey: 'count',
@@ -91,6 +92,7 @@ export default class ParticipantsByDay extends Component {
       animation: false,
       responsive: true,
       maintainAspectRatio: false,
+      locale: this.intl.locale[0],
       scales: {
         xAxes: {
           grid: {

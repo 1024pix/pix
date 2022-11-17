@@ -19,7 +19,7 @@ module.exports = function (defaults) {
       includePolyfill: true,
     },
     'ember-dayjs': {
-      locales: ['fr'], // English is automatically included. No need to add.
+      locales: ['fr', 'en'], // English is automatically included. No need to add.
       plugins: ['duration', 'relativeTime'],
     },
   });
