@@ -1,5 +1,10 @@
 <div class="session-list__header">
   <h1 class="page-title">Sessions de certification</h1>
+  {{#if this.shouldRenderImportTemplateButton}}
+    <PixButton aria-label="Télécharger le template d'import en masse">
+      Template import en masse
+    </PixButton>
+  {{/if}}
   <PixButtonLink @route="authenticated.sessions.new">
     Créer une session
     <FaIcon @icon="plus" class="new-session-icon" />
