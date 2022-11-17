@@ -1,4 +1,7 @@
 {{page-title (t "pages.login.title")}}
 <div class="login-page">
-  <LoginForm />
+  <LoginForm
+    @hasInvitationAlreadyBeenAccepted={{this.hasInvitationAlreadyBeenAccepted}}
+    @isInvitationCancelled={{this.isInvitationCancelled}}
+  />
 </div>

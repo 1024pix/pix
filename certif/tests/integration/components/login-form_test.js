@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,13 +7,15 @@ import { reject, resolve } from 'rsvp';
 import ENV from 'pix-certif/config/environment';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
 const errorMessages = {
   NOT_LINKED_CERTIFICATION_MSG:
     "L'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d'y accéder.",
 };
 
 module('Integration | Component | login-form', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let sessionStub;
   class SessionStub extends Service {
@@ -150,5 +151,42 @@ module('Integration | Component | login-form', function (hooks) {
 
     // then
     assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE)).exists();
+  });
+
+  module('when an invitation is cancelled', function () {
+    test('it should display an error message', async function (assert) {
+      // given & when
+      const screen = await renderScreen(hbs`<LoginForm @isInvitationCancelled="true" />`);
+
+      // then
+      assert
+        .dom(
+          screen.getByText((content) => {
+            return (
+              content === 'Cette invitation n’est plus valide.Contactez l’administrateur de votre espace Pix Certif.'
+            );
+          })
+        )
+        .exists();
+    });
+  });
+
+  module('when an invitation has already been accepted', function () {
+    test('it should display an error message', async function (assert) {
+      // given & when
+      const screen = await renderScreen(hbs`<LoginForm @hasInvitationAlreadyBeenAccepted="true" />`);
+
+      // then
+      assert
+        .dom(
+          screen.getByText((content) => {
+            return (
+              content ===
+              'Cette invitation a déjà été acceptée.Connectez-vous ou contactez l’administrateur de votre espace Pix Certif.'
+            );
+          })
+        )
+        .exists();
+    });
   });
 });

@@ -8,6 +8,14 @@
     <p class="login-header__information paragraph">
       L'accès à Pix Certif est limité aux centres de certification Pix.
     </p>
+
+    {{#if @hasInvitationAlreadyBeenAccepted}}
+      <p class="login-header__invitation-error">{{t "pages.login.errors.invitation-already-accepted" htmlSafe=true}}</p>
+    {{/if}}
+
+    {{#if @isInvitationCancelled}}
+      <p class="login-header__invitation-error">{{t "pages.login.errors.invitation-was-cancelled" htmlSafe=true}}</p>
+    {{/if}}
   </header>
 
   <main class="login__main">
