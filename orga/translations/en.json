@@ -400,8 +400,8 @@
       },
       "personalised-test-title": "Title of the customised test",
       "target-profile": {
-        "title": "Target profile",
-        "tooltip": "Target profile's description"
+        "title": "Customised test",
+        "tooltip": "Customised test's description"
       }
     },
     "campaign-individual-results": {
