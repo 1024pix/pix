@@ -34,15 +34,17 @@ module('Unit | Route | join', function (hooks) {
     });
 
     module('when invitation was cancelled', function () {
-      test('should redirect to login route', async function (assert) {
+      test('it should redirect to login route with isInvitationCancelled set to true', async function (assert) {
         // given
         const route = this.owner.lookup('route:join');
         const store = this.owner.lookup('service:store');
 
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(store, 'queryRecord');
-        const conflictError = { status: '409' };
-        store.queryRecord.rejects({ errors: [conflictError] });
+        const forbiddenError = { status: '403' };
+        store.queryRecord.rejects({ errors: [forbiddenError] });
+        const transition = { data: { isInvitationCancelled: false } };
+        route.router.replaceWith.returns(transition);
 
         const params = {
           invitationId: 2,
@@ -54,6 +56,34 @@ module('Unit | Route | join', function (hooks) {
 
         // then
         assert.ok(route.router.replaceWith.calledWith('login'));
+        assert.true(transition.data['isInvitationCancelled']);
+      });
+    });
+
+    module('when invitation was accepted', function () {
+      test('should redirect to login route with hasInvitationAlreadyBeenAccepted set to true', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:join');
+        const store = this.owner.lookup('service:store');
+
+        sinon.stub(route.router, 'replaceWith');
+        sinon.stub(store, 'queryRecord');
+        const preconditionFailedError = { status: '412' };
+        store.queryRecord.rejects({ errors: [preconditionFailedError] });
+        const transition = { data: { hasInvitationAlreadyBeenAccepted: false } };
+        route.router.replaceWith.returns(transition);
+
+        const params = {
+          invitationId: 2,
+          code: 'ABCDEF',
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        assert.ok(route.router.replaceWith.calledWith('login'));
+        assert.true(transition.data['hasInvitationAlreadyBeenAccepted']);
       });
     });
   });
