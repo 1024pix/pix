@@ -87,7 +87,7 @@ describe('Integration | Component | campaign-start-block', function () {
     });
 
     context('when the campaign is a PROFILES_COLLECTION type', function () {
-      this.beforeEach(function () {
+      beforeEach(function () {
         this.set('campaign', { type: 'PROFILES_COLLECTION' });
       });
 
@@ -119,7 +119,7 @@ describe('Integration | Component | campaign-start-block', function () {
     });
 
     context('when the campaign is a ASSESSMENT type', function () {
-      this.beforeEach(function () {
+      beforeEach(function () {
         this.set('campaign', { isAssessment: true });
       });
       it('should display all text arguments correctly', async function () {
@@ -186,7 +186,7 @@ describe('Integration | Component | campaign-start-block', function () {
     });
 
     context('when the campaign is a PROFILES_COLLECTION type', function () {
-      this.beforeEach(function () {
+      beforeEach(function () {
         this.set('campaign', { type: 'PROFILES_COLLECTION' });
       });
 
@@ -203,7 +203,7 @@ describe('Integration | Component | campaign-start-block', function () {
     });
 
     context('when the campaign is a ASSESSMENT type', function () {
-      this.beforeEach(function () {
+      beforeEach(function () {
         this.set('campaign', { isAssessment: true });
       });
 
@@ -256,7 +256,7 @@ describe('Integration | Component | campaign-start-block', function () {
     });
 
     context('when the campaign is a PROFILES_COLLECTION type', function () {
-      this.beforeEach(function () {
+      beforeEach(function () {
         this.set('campaign', { type: 'PROFILES_COLLECTION' });
       });
 
@@ -273,7 +273,7 @@ describe('Integration | Component | campaign-start-block', function () {
     });
 
     context('when the campaign is a ASSESSMENT type', function () {
-      this.beforeEach(function () {
+      beforeEach(function () {
         this.set('campaign', { isAssessment: true });
       });
 
