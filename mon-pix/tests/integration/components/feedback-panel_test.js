@@ -230,7 +230,6 @@ describe('Integration | Component | feedback-panel', function () {
       this.set('challenge', challenge);
 
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
-      expect(find('.feedback-panel__form')).not.to.exist;
       await click(OPEN_FEEDBACK_BUTTON);
     });
 

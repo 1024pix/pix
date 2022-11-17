@@ -7,7 +7,7 @@ import Service from '@ember/service';
 describe('Unit | Controller | account-recovery | update-sco-record', function () {
   setupTest();
 
-  describe('#updateRecord', () => {
+  describe('#updateRecord', function () {
     context('when user is already authenticated', function () {
       it('should update account-recovery-demand, invalidate the session and authenticate user', async function () {
         // given

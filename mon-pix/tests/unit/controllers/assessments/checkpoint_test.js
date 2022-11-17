@@ -15,7 +15,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
     controller = this.owner.lookup('controller:assessments/checkpoint');
   });
 
-  describe('#nextPageButtonText', () => {
+  describe('#nextPageButtonText', function () {
     it('should propose to continue the assessment if it is not the final checkpoint', function () {
       // when
       controller.set('finalCheckpoint', false);
@@ -33,14 +33,14 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
     });
   });
 
-  describe('#finalCheckpoint', () => {
+  describe('#finalCheckpoint', function () {
     it('should equal false by default', function () {
       // then
       expect(controller.finalCheckpoint).to.be.false;
     });
   });
 
-  describe('#completionPercentage', () => {
+  describe('#completionPercentage', function () {
     it('should equal 100 if it is the final checkpoint', function () {
       // when
       controller.set('finalCheckpoint', true);
@@ -63,7 +63,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
     });
   });
 
-  describe('#shouldDisplayAnswers', () => {
+  describe('#shouldDisplayAnswers', function () {
     it('should be true when answers are present', function () {
       // when
       const model = {
@@ -85,7 +85,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
     });
   });
 
-  describe('#displayHomeLink', () => {
+  describe('#displayHomeLink', function () {
     it('should not display home link when user is anonymous', function () {
       // given
       controller.currentUser = Service.create({ user: { isAnonymous: true } });
@@ -109,7 +109,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function () {
     });
   });
 
-  describe('#showLevelup', () => {
+  describe('#showLevelup', function () {
     it('should display level up pop-in when user has level up', function () {
       // given
       controller.newLevel = true;
