@@ -20,6 +20,12 @@ export default class SkillReviewRoute extends Route {
         userId: user.id,
       });
       const trainings = await campaignParticipation.hasMany('trainings').reload();
+
+      // Reload the user to display my trainings link on the navbar menu
+      if (trainings?.length > 0 && !user.hasRecommendedTrainings) {
+        await this.currentUser.load();
+      }
+
       return { campaign, campaignParticipationResult, trainings };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {

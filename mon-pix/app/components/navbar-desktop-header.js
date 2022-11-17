@@ -33,4 +33,8 @@ export default class NavbarDesktopHeader extends Component {
   get showHeaderMenuItem() {
     return this.isUserLogged && !this.currentUser.user.isAnonymous;
   }
+
+  get showMyTrainingsLink() {
+    return this.currentUser.user.hasRecommendedTrainings;
+  }
 }

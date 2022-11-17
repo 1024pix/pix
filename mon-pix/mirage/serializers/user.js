@@ -13,6 +13,7 @@ export default ApplicationSerializer.extend({
     'hasSeenAssessmentInstructions',
     'hasSeenNewDashboardInfo',
     'isAnonymous',
+    'hasRecommendedTrainings',
   ],
   include: ['competences'],
   links(user) {

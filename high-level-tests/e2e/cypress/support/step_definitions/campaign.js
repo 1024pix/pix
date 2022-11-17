@@ -58,6 +58,10 @@ When(`je vois {int} résultats pour la compétence`, (numberOfResultsByCompetenc
   cy.get('[aria-label="Votre résultat pour la compétence"]').should('have.lengthOf', numberOfResultsByCompetence);
 });
 
+When(`je vois la formation recommandée ayant le titre {string}`, (trainingName) => {
+  cy.get('.training-card-content__title').should('contain', trainingName);
+});
+
 Then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
   cy.contains('Résultat moyen').parents().within(() => cy.contains(`${averageResult} %`));
 });

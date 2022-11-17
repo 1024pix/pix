@@ -126,4 +126,40 @@ describe('Integration | Repository | user-recommended-training-repository', func
       expect(result.length).to.equal(0);
     });
   });
+  describe('#hasRecommendedTrainings', function () {
+    it('should return true if the user has recommended trainings', async function () {
+      // given
+      const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training = databaseBuilder.factory.buildTraining();
+      const userRecommendedTraining1 = {
+        userId,
+        trainingId: training.id,
+        campaignParticipationId,
+      };
+
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining1);
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRecommendedTrainingRepository.hasRecommendedTrainings(userId);
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return false if the user has no recommended trainings', async function () {
+      // given
+      const { userId } = databaseBuilder.factory.buildCampaignParticipation();
+      databaseBuilder.factory.buildTraining();
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRecommendedTrainingRepository.hasRecommendedTrainings(userId);
+
+      // then
+      expect(result).to.equal(false);
+    });
+  });
 });

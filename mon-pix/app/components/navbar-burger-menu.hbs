@@ -28,6 +28,13 @@
               {{t "navigation.main.tutorials"}}
             </LinkTo>
           </li>
+          {{#if this.showMyTrainingsLink}}
+            <li class="navbar-burger-menu-list__item">
+              <LinkTo @route="authenticated.user-trainings" class="navbar-burger-menu-list-item__link">
+                {{t "navigation.main.trainings"}}
+              </LinkTo>
+            </li>
+          {{/if}}
         </ul>
         <div class="navbar-burger-menu__button">
           <LinkTo @route="fill-in-campaign-code" class="button button--thin">

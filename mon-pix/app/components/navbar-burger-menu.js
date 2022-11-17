@@ -7,4 +7,8 @@ export default class NavbarBurgerMenu extends Component {
   get showMyTestsLink() {
     return this.currentUser.user.hasAssessmentParticipations;
   }
+
+  get showMyTrainingsLink() {
+    return this.currentUser.user.hasRecommendedTrainings;
+  }
 }

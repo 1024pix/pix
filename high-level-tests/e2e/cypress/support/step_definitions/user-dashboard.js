@@ -13,3 +13,7 @@ Then(`je vois {int} participation\(s\) aux campagnes`, (campaignParticipationOve
 Then(`je vois le bandeau de reprise de la dernière campagne de collecte de profil non partagée`, () => {
   cy.get('.new-information--yellow-gradient-background').should('exist');
 });
+
+Then(`je vois le lien {string} dans la navigation`, (linkName) => {
+  cy.contains("a",linkName);
+});
