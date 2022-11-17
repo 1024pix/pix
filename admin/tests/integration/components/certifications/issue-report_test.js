@@ -205,7 +205,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
     {
       subcategory: certificationIssueReportSubcategories.SKIP_ON_OOPS,
       expectedLabel:
-        'Une page affichant “Oups une erreur est survenue” a contraint le candidat à ne pas répondre à la question',
+        'Une page «Oups une erreur est survenue» ou tout autre problème technique lié à la plateforme a empêché le candidat de répondre à la question',
     },
     {
       subcategory: certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
