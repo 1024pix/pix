@@ -261,7 +261,16 @@ export default function () {
 
   this.get('/certification-center-invitations/:id', (schema, request) => {
     const certificationCenterInvitationId = request.params.id;
-    return schema.certificationCenterInvitations.find(certificationCenterInvitationId);
+    const code = request.queryParams?.code;
+
+    switch (code) {
+      case 'CANCELLED':
+        return new Response(403, {}, { errors: [{ status: '403' }] });
+      case 'ACCEPTED':
+        return new Response(412, {}, { errors: [{ status: '412' }] });
+      default:
+        return schema.certificationCenterInvitations.find(certificationCenterInvitationId);
+    }
   });
 
   this.post('/certification-center-invitations/:id/accept', (schema) => {
