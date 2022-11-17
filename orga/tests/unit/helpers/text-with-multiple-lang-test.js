@@ -1,4 +1,4 @@
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
