@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
+import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 
@@ -16,24 +16,33 @@ module('Integration | Component | Banner::Information', function (hooks) {
           isSCOManagingStudents = true;
         }
 
-        test('should render the banner', async function (assert) {
+        test('should render the more info link', async function (assert) {
           // given
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          await render(hbs`<Banner::Information />`);
+          const screen = await render(hbs`<Banner::Information />`);
 
           // then
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]'
-            )
-            .exists();
-          assert
-            .dom('.pix-banner')
-            .includesText(
-              'Rentrée 2022 : l’administrateur doit importer la base élèves 2022 pour initialiser Pix Orga. Plus d’info'
-            );
+          const link = screen.getByRole('link', { name: 'Plus d’info' });
+
+          assert.strictEqual(
+            link.href,
+            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23'
+          );
+        });
+
+        test('should render the import link banner', async function (assert) {
+          // given
+          this.owner.register('service:current-user', CurrentUserStub);
+
+          // when
+          const screen = await render(hbs`<Banner::Information />`);
+
+          // then
+          const link = screen.getByRole('link', { name: 'importer la base élèves' });
+
+          assert.dom(link).exists();
         });
       });
     });
@@ -49,14 +58,11 @@ module('Integration | Component | Banner::Information', function (hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        await render(hbs`<Banner::Information />`);
+        const screen = await render(hbs`<Banner::Information />`);
 
+        const link = screen.queryByRole('link', { name: 'importer la base élèves' });
         // then
-        assert
-          .dom('.pix-banner')
-          .doesNotIncludeText(
-            'Rentrée 2022 : l’administrateur doit importer la base élèves 2022 pour initialiser Pix Orga. Plus d’info'
-          );
+        assert.notOk(link);
       });
     });
 
@@ -112,14 +118,15 @@ module('Integration | Component | Banner::Information', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          await render(hbs`<Banner::Information />`);
+          const screen = await render(hbs`<Banner::Information />`);
 
           // then
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"'
-            )
-            .exists();
+          const link = screen.getByRole('link', { name: 'Plus d’info' });
+
+          assert.strictEqual(
+            link.href,
+            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba'
+          );
         });
       });
 
@@ -135,14 +142,14 @@ module('Integration | Component | Banner::Information', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          await render(hbs`<Banner::Information />`);
+          const screen = await render(hbs`<Banner::Information />`);
 
-          // then
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/5fea2c3d6157fe0d69196ed9?idSlide=16cedb0c-3c1c-4cd3-a00b-49c01b0afcc2"'
-            )
-            .exists();
+          const link = screen.getByRole('link', { name: 'Plus d’info' });
+
+          assert.strictEqual(
+            link.href,
+            'https://view.genial.ly/5fea2c3d6157fe0d69196ed9?idSlide=16cedb0c-3c1c-4cd3-a00b-49c01b0afcc2'
+          );
         });
       });
     });
