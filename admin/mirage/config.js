@@ -137,6 +137,11 @@ export default function () {
     const updatedAt = Date.now();
     return schema.certificationCenterInvitations.create({ email, lang, updatedAt });
   });
+  this.delete('/admin/certification-center-invitations/:id', (schema, request) => {
+    const certificationCenterInvitationId = request.params.id;
+    schema.db.certificationCenterInvitations.remove(certificationCenterInvitationId);
+    return new Response(204);
+  });
 
   this.delete('/admin/certification-center-memberships/:id', (schema, request) => {
     const certificationCenterMembershipId = request.params.id;
