@@ -449,6 +449,11 @@ describe('Integration | Component | Dashboard | Content', function () {
     it('should display the banner to resume participation', async function () {
       // given
       this.owner.register('service:currentUser', CurrentUserWithCodeStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
@@ -460,6 +465,11 @@ describe('Integration | Component | Dashboard | Content', function () {
     it('should not display the banner when there is no code', async function () {
       // given
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);

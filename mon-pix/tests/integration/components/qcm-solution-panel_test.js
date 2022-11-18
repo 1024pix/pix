@@ -16,7 +16,9 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
   describe('#Component should renders: ', function () {
     it('Should renders', async function () {
-      await render(hbs`<QcmSolutionPanel />`);
+      this.set('answer', {});
+
+      await render(hbs`<QcmSolutionPanel @answer={{this.answer}} />`);
 
       expect(find('.qcm-solution-panel')).to.exist;
       expect(findAll('.qcm-proposal-label__answer-details')).to.have.lengthOf(0);

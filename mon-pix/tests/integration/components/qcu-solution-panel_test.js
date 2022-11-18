@@ -31,7 +31,9 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
   };
 
   it('Should render', async function () {
-    await render(hbs`<QcuSolutionPanel/>`);
+    this.set('answer', {});
+
+    await render(hbs`<QcuSolutionPanel @answer={{this.answer}}/>`);
     expect(find('.qcu-solution-panel')).to.exist;
   });
 
