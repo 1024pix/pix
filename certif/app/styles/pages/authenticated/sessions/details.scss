@@ -137,11 +137,8 @@
 
 .session-details-buttons {
   display: flex;
-  padding: 22px 30px;
-
-  &--push-right {
-    margin-left: auto;
-  }
+  justify-content: space-between;
+  padding: 16px;
 }
 
 .session-details {
