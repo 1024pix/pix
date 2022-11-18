@@ -4,7 +4,6 @@ import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import times from 'lodash/times';
 
 const assessment = {};
 let challenge = null;
@@ -86,7 +85,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       );
 
       // Then
-      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function (index) {
+      findAll('.comparison-window .qcu-solution-panel__radio-button').forEach((button, index) => {
         expect(
           find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')
         ).to.equal('disabled');
@@ -288,7 +287,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       );
 
       // Then
-      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function (index) {
+      findAll('.comparison-window .qcu-solution-panel__radio-button').forEach((button, index) => {
         expect(
           find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')
         ).to.equal('disabled');
