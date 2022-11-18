@@ -29,7 +29,7 @@ describe('Acceptance | Challenge page banner', function () {
       await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
       // then
-      find('.assessment-banner');
+      expect(find('.assessment-banner'));
     });
 
     it('should display accessibility information in the banner', async function () {
