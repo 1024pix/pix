@@ -89,6 +89,12 @@
         "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
       },
       "list": {
+        "header": {
+          "title": "Sessions de certification",
+          "template-import": "Template import en masse",
+          "template-import-label": "Télécharger le template d'import en masse",
+          "session-creation": "Créer une session"
+        },
         "delete-modal": {
           "title": "Supprimer la session",
           "label": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",

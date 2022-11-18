@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | panel-header', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it renders a link to the new session creation page', async function (assert) {
     // given
