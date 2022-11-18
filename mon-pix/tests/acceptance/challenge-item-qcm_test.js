@@ -97,7 +97,9 @@ describe('Acceptance | Displaying a QCM challenge', function () {
       expect(findAll('input[type="checkbox"]')[2].checked).to.be.false;
       expect(findAll('input[type="checkbox"]')[3].checked).to.be.true;
 
-      findAll('input[type=checkbox]').forEach((checkbox) => expect(checkbox.disabled).to.equal(true));
+      findAll('input[type=checkbox]').forEach((checkbox) => {
+        expect(checkbox.disabled).to.equal(true);
+      });
 
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;

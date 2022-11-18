@@ -142,7 +142,9 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
         expect(findAll('.challenge-response__proposal')[0].value).to.equal('Republique');
         expect(findAll('.challenge-response__proposal')[1].value).to.equal('Chatelet');
 
-        findAll('.challenge-response__proposal').forEach((input) => expect(input.disabled).to.equal(true));
+        findAll('.challenge-response__proposal').forEach((input) => {
+          expect(input.disabled).to.equal(true);
+        });
 
         expect(find('.challenge-actions__action-continue')).to.exist;
         expect(find('.challenge-actions__action-validate')).to.not.exist;
