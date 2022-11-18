@@ -4,6 +4,7 @@ import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
 import { expect } from 'chai';
+import { it, describe, context } from 'mocha';
 
 describe('Acceptance | OIDC | authentication flow', function () {
   setupApplicationTest();
