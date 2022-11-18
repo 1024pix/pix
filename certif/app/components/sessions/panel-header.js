@@ -6,6 +6,7 @@ export default class PanelHeader extends Component {
   @service fileSaver;
   @service session;
   @service featureToggles;
+  @service notifications;
 
   get shouldRenderImportTemplateButton() {
     return this.featureToggles.featureToggles.isMassiveSessionManagementEnabled;
@@ -15,6 +16,10 @@ export default class PanelHeader extends Component {
   async downloadSessionImportTemplate() {
     const url = '/api/sessions/import';
     const token = this.session.data.authenticated.access_token;
-    await this.fileSaver.save({ url, token });
+    try {
+      await this.fileSaver.save({ url, token });
+    } catch (e) {
+      this.notifications.error("Une erreur s'est produite pendant le téléchargement");
+    }
   }
 }
