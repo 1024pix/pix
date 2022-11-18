@@ -40,5 +40,26 @@ module('Unit | Component | panel-header', function (hooks) {
         })
       );
     });
+
+    test('should call the notifications service in case of an error', async function (assert) {
+      // given
+      component.session = {
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            access_token: 'wrong token',
+          },
+        },
+      };
+      component.fileSaver = { save: sinon.stub().rejects() };
+      component.notifications = { error: sinon.spy() };
+
+      // when
+      await component.downloadSessionImportTemplate(event);
+
+      // then
+      sinon.assert.calledOnce(component.notifications.error);
+      assert.ok(component);
+    });
   });
 });
