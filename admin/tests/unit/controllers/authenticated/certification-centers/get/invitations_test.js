@@ -31,4 +31,29 @@ module('Unit | Controller | authenticated/certification-centers/get/invitations'
       assert.ok(notifyStub.calledWithExactly(anError, customErrors));
     });
   });
+
+  module('When there are pending Pix Certif invitations', function () {
+    test('it should display an error message when it is not possible to cancel a certification center invitation', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/get/invitations');
+
+      const store = this.owner.lookup('service:store');
+      store.createRecord('certificationCenterInvitation', {
+        destroyRecord: sinon.stub().rejects('an error'),
+      });
+
+      const notificationErrorStub = sinon.stub();
+      class NotificationsStub extends Service {
+        error = notificationErrorStub;
+      }
+      this.owner.register('service:notifications', NotificationsStub);
+
+      // when
+      await controller.cancelCertificationCenterInvitation();
+
+      // then
+      sinon.assert.calledWith(notificationErrorStub, 'Une erreur s’est produite, veuillez réessayer.');
+      assert.ok(true);
+    });
+  });
 });

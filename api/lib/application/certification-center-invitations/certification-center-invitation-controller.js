@@ -25,4 +25,10 @@ module.exports = {
     });
     return certificationCenterInvitationSerializer.serialize(certificationCenterInvitation);
   },
+
+  async cancelCertificationCenterInvitation(request, h) {
+    const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
+    await usecases.cancelCertificationCenterInvitation({ certificationCenterInvitationId });
+    return h.response().code(204);
+  },
 };

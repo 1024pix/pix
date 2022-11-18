@@ -61,4 +61,18 @@ export default class AuthenticatedCertificationCentersGetInvitationsController e
     this.userEmailToInviteError = null;
     return true;
   }
+
+  @action
+  async cancelCertificationCenterInvitation(certificationCenterInvitation) {
+    try {
+      await certificationCenterInvitation.destroyRecord({
+        adapterOptions: {
+          certificationCenterInvitationId: certificationCenterInvitation.id,
+        },
+      });
+      this.notifications.success('Cette invitation a bien été annulée.');
+    } catch (error) {
+      this.notifications.error('Une erreur s’est produite, veuillez réessayer.');
+    }
+  }
 }
