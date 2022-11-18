@@ -64,22 +64,16 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
             // when
             const screen = await visit(`/sessions/${sessionCreated.id}`);
+            const updateButton = screen.getByRole('link', {
+              name: t('pages.sessions.detail.parameters.session-update', { sessionId: 123 }),
+            });
+            const finalizeButton = screen.queryByRole('button', {
+              name: t('pages.sessions.detail.parameters.finalize'),
+            });
 
             // then
-            assert
-              .dom(
-                screen.getByRole('link', {
-                  name: t('pages.sessions.detail.parameters.session-update', { sessionId: 123 }),
-                })
-              )
-              .exists();
-            assert
-              .dom(
-                screen.queryByRole('button', {
-                  name: t('pages.sessions.detail.parameters.finalize'),
-                })
-              )
-              .doesNotExist();
+            assert.dom(updateButton).exists();
+            assert.dom(finalizeButton).doesNotExist();
           });
 
           test('it should redirect to finalize page on click on finalize button', async function (assert) {
@@ -89,7 +83,9 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
             // when
             const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
-            await click(screen.getByRole('link', { name: t('pages.sessions.detail.parameters.finalizing') }));
+            const finalizeButton = screen.getByRole('link', { name: t('pages.sessions.detail.parameters.finalizing') });
+
+            await click(finalizeButton);
 
             // then
             assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
@@ -147,8 +143,11 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           const screen = await visit(`/sessions/${sessionFinalized.id}`);
 
           // then
-          assert.dom(screen.getByText(t('pages.sessions.detail.parameters.finalization-info'))).exists();
-          assert.dom(screen.queryByRole('button', { name: t('finalizing') })).doesNotExist();
+          const finalizeText = screen.getByText(t('pages.sessions.detail.parameters.finalization-info'));
+          const finalizeButton = screen.queryByRole('button', { name: t('finalizing') });
+
+          assert.dom(finalizeText).exists();
+          assert.dom(finalizeButton).doesNotExist();
         });
 
         test('it should throw an error on visiting /finalisation url', async function (assert) {
