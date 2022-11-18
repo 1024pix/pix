@@ -335,9 +335,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
       // Then
-      expect(screen.getByRole('link', { name: 'Badge 1' }))
-        .to.have.property('href')
-        .that.contains('#Badge%201');
+      expect(screen.getByRole('link', { name: 'Badge 1' }).href).to.contains('#Badge%201');
     });
   });
 
@@ -545,9 +543,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
               // Then
               expect(screen.getByRole('link', { name: 'Next step' })).to.exist;
-              expect(screen.getByRole('link', { name: 'Next step' }))
-                .to.have.property('target')
-                .that.equals('_blank');
+              expect(screen.getByRole('link', { name: 'Next step' }).target).to.equals('_blank');
               expect(screen.getByText('Next step')).to.exist;
             });
           }
@@ -578,9 +574,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
               // Then
               expect(screen.getByRole('link', { name: 'Next step' })).to.exist;
-              expect(screen.getByRole('link', { name: 'Next step' }))
-                .to.have.property('target')
-                .that.equals('_blank');
+              expect(screen.getByRole('link', { name: 'Next step' }).target).to.equals('_blank');
               expect(screen.getByText('Next step')).to.exist;
             });
           }
@@ -814,9 +808,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         // Then
         expect(screen.getByText(this.intl.t('pages.skill-review.net-promoter-score.link.label'))).to.exist;
         expect(screen.getByRole('link', { name: 'Je donne mon avis' })).to.exist;
-        expect(screen.getByRole('link', { name: 'Je donne mon avis' }))
-          .to.have.property('target')
-          .that.equals('_blank');
+        expect(screen.getByRole('link', { name: 'Je donne mon avis' }).target).to.equals('_blank');
       });
     });
 
