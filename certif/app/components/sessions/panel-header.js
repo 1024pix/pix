@@ -7,6 +7,7 @@ export default class PanelHeader extends Component {
   @service session;
   @service featureToggles;
   @service notifications;
+  @service intl;
 
   get shouldRenderImportTemplateButton() {
     return this.featureToggles.featureToggles.isMassiveSessionManagementEnabled;
@@ -19,7 +20,7 @@ export default class PanelHeader extends Component {
     try {
       await this.fileSaver.save({ url, token });
     } catch (e) {
-      this.notifications.error("Une erreur s'est produite pendant le téléchargement");
+      this.notifications.error(this.intl.t('pages.sessions.list.header.session-import-template-dl-error'));
     }
   }
 }
