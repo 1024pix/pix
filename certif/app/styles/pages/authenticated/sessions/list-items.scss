@@ -23,6 +23,14 @@
   }
 }
 
+.session-list-header__actions {
+  display: flex;
+
+  & button {
+    margin-right: 12px;
+  }
+}
+
 .new-session-icon {
   font-weight: 900;
   margin-left: 4px;
