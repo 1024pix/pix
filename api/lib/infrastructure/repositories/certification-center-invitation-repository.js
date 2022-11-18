@@ -51,6 +51,17 @@ module.exports = {
     return _toDomain(certificationCenterInvitation);
   },
 
+  async get(id) {
+    const certificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
+      .select('*')
+      .where({ id })
+      .first();
+    if (!certificationCenterInvitation) {
+      throw new NotFoundError("L'invitation à ce centre de certification n'existe pas");
+    }
+    return _toDomain(certificationCenterInvitation);
+  },
+
   async findOnePendingByEmailAndCertificationCenterId({ email, certificationCenterId }) {
     const existingPendingInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .select('id')
@@ -85,5 +96,19 @@ module.exports = {
       .first();
 
     return _toDomain({ ...updatedCertificationCenterInvitation, certificationCenterName });
+  },
+
+  async markAsCancelled({ id }) {
+    const [certificationCenterInvitation] = await knex('certification-center-invitations')
+      .where({ id })
+      .update({
+        status: CertificationCenterInvitation.StatusType.CANCELLED,
+        updatedAt: new Date(),
+      })
+      .returning('*');
+    if (!certificationCenterInvitation) {
+      throw new NotFoundError(`Certification center invitation of id ${id} is not found.`);
+    }
+    return _toDomain(certificationCenterInvitation);
   },
 };

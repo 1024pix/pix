@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const certificationCenterInvitationController = require('./certification-center-invitation-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function (server) {
   server.route([
@@ -46,6 +47,35 @@ exports.register = async function (server) {
           "- Cette route permet de récupérer les détails d'une invitation selon un **id d'invitation** et un **code**\n",
         ],
         tags: ['api', 'invitations'],
+      },
+    },
+    {
+      method: 'DELETE',
+      path: '/api/admin/certification-center-invitations/{certificationCenterInvitationId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterInvitationId: identifiersType.certificationCenterInvitationId,
+          }),
+        },
+        handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
+        tags: ['api', 'admin', 'invitations', 'cancel'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet d'annuler une invitation envoyée mais non acceptée encore.",
+        ],
       },
     },
   ]);

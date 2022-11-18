@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Certification-centers | Invitations management', function (hooks) {
@@ -24,5 +24,26 @@ module('Acceptance | Certification-centers | Invitations management', function (
     // then
     assert.dom(screen.getByText('user@example.com')).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' })).hasNoValue();
+  });
+
+  test('should be possible to cancel a certification center invitation', async function (assert) {
+    // given
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+    const certificationCenter = this.server.create('certification-center', {
+      id: 123,
+      name: 'My Hero Academia',
+    });
+    this.server.create('certification-center-invitation', {
+      certificationCenterId: 123,
+      email: 'bakugo@mha.com',
+    });
+
+    // when
+    const screen = await visit(`/certification-centers/${certificationCenter.id}/invitations`);
+    await clickByName('Annuler l’invitation de bakugo@mha.com');
+
+    // then
+    assert.dom(screen.queryByText('bakugo@mha.com')).doesNotExist();
+    assert.dom(screen.getByText('Cette invitation a bien été annulée.'));
   });
 });

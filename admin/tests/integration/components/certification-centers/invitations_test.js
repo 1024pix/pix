@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@1024pix/ember-testing-library';
+import sinon from 'sinon';
 
 module('Integration | Component | Certification Centers | Invitations', function (hooks) {
   setupRenderingTest(hooks);
@@ -34,10 +35,14 @@ module('Integration | Component | Certification Centers | Invitations', function
         updatedAt: new Date('2022-02-02'),
       });
       this.certificationCenterInvitations = [certificationCenterInvitation1, certificationCenterInvitation2];
+      this.cancelCertificationCenterInvitation = sinon.stub();
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::Invitations @certificationCenterInvitations={{this.certificationCenterInvitations}} />`
+        hbs`<CertificationCenters::Invitations 
+          @certificationCenterInvitations={{this.certificationCenterInvitations}} 
+          @onCancelCertificationCenterInvitation={{this.cancelCertificationCenterInvitation}}
+        />`
       );
 
       // then

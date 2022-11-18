@@ -1,4 +1,10 @@
-const { databaseBuilder, expect, knex } = require('../../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  knex,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+} = require('../../../test-helper');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 const createServer = require('../../../../server');
 
@@ -55,6 +61,33 @@ describe('Acceptance | API | Certification center invitations', function () {
 
       expect(membership.userId).to.equal(293);
       expect(invitation.status).to.equal(CertificationCenterInvitation.StatusType.ACCEPTED);
+    });
+  });
+
+  describe('DELETE /api/admin/certification-centers/{id}/invitations/{certificationCenterInvitationId}', function () {
+    it('should return 204 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+
+      const adminMember = await insertUserWithRoleSuperAdmin();
+      const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
+        certificationCenterId: databaseBuilder.factory.buildCertificationCenter().id,
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'DELETE',
+        url: `/api/admin/certification-center-invitations/${certificationCenterInvitation.id}`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(adminMember.id),
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
