@@ -91,13 +91,13 @@ describe('Acceptance | Displaying a QCU challenge', function () {
       // then
       const radioButtons = findAll('input[type=radio][name="radio"]');
       expect(radioButtons[0].checked).to.be.false;
+      expect(radioButtons[0].disabled).to.be.true;
       expect(radioButtons[1].checked).to.be.true;
+      expect(radioButtons[1].disabled).to.be.true;
       expect(radioButtons[2].checked).to.be.false;
+      expect(radioButtons[2].disabled).to.be.true;
       expect(radioButtons[3].checked).to.be.false;
-
-      findAll('input[type=radio][name="radio"]').forEach((radioButton) => {
-        expect(radioButton.disabled).to.equal(true);
-      });
+      expect(radioButtons[3].disabled).to.be.true;
 
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;
