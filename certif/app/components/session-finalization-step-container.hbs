@@ -1,10 +1,10 @@
 <div class="panel session-finalization-step-container">
   <div class="session-finalization-step-container__header">
-    <img src={{@icon}} alt={{@iconAlt}} class="session-finalization-step-container__icon" />
+    <img src={{@icon}} alt={{@iconAlt}} />
     <div class="session-finalization-step-container__titles">
-      <div>{{@title}}</div>
+      <div class="session-finalization-step-container__page-title">{{@title}}</div>
       {{#if @subtitle}}
-        <div class="session-finalization-step-container__subtitle">{{@subtitle}}</div>
+        <p>{{@subtitle}}</p>
       {{/if}}
     </div>
   </div>
