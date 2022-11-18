@@ -17,9 +17,13 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
         { id: 'area2', title: 'Area 2' },
         { id: 'area3', title: 'Area 3' },
       ]);
+      this.set('onSubmit', () => {});
+      this.set('onClose', () => {});
 
       // when
-      await render(hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} />`);
+      await render(
+        hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`
+      );
 
       // then
       expect(find('.tutorials-filters')).to.exist;
@@ -34,8 +38,12 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
           { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
         ]);
         this.set('onSubmit', () => {});
+        this.set('onSubmit', () => {});
+        this.set('onClose', () => {});
+
+        // when
         const screen = await render(
-          hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} @onSubmit={{this.onSubmit}} />`
+          hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`
         );
         await click(screen.getByRole('button', { name: 'Area 1' }));
         const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -57,8 +65,11 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
             { id: 'area1', title: 'Area 1', sortedCompetences: [{ id: 'competence1', name: 'Ma superbe compétence' }] },
           ]);
           this.set('onSubmit', () => {});
+          this.set('onClose', () => {});
+
+          // when
           const screen = await render(
-            hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @areas={{this.areas}} @onSubmit={{this.onSubmit}} />`
+            hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
           const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -78,9 +89,13 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
     it('should not show sidebar', async function () {
       // given
       this.set('isVisible', false);
+      this.set('onSubmit', () => {});
+      this.set('onClose', () => {});
 
       // when
-      await render(hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} />`);
+      await render(
+        hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`
+      );
 
       // then
       expect(find('.pix-sidebar--hidden')).to.exist;
