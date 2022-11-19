@@ -59,11 +59,11 @@ describe('Integration | Application | Route | target-profile-router', function (
               id: 'recTube1',
               name: '@nomTube',
               practicalTitle: 'Super tube',
+              isMobileCompliant: true,
+              isTabletCompliant: false,
             }),
             thematicId: 'recThem1',
             level: 8,
-            mobile: true,
-            tablet: false,
           },
         ],
       });
