@@ -57,6 +57,8 @@ describe('Integration | Repository | learning-content', function () {
                         practicalTitleEn: 'tube1_practicalTitleEn',
                         practicalDescriptionFr: 'tube1_practicalDescriptionFr',
                         practicalDescriptionEn: 'tube1_practicalDescriptionEn',
+                        isMobileCompliant: true,
+                        isTabletCompliant: false,
                         skills: [
                           {
                             id: 'recSkill1',
@@ -96,6 +98,8 @@ describe('Integration | Repository | learning-content', function () {
                         practicalTitleEn: 'tube2_practicalTitleEn',
                         practicalDescriptionFr: 'tube2_practicalDescriptionFr',
                         practicalDescriptionEn: 'tube2_practicalDescriptionEn',
+                        isMobileCompliant: false,
+                        isTabletCompliant: true,
                         skills: [
                           {
                             id: 'recSkill2',
@@ -129,6 +133,8 @@ describe('Integration | Repository | learning-content', function () {
                         practicalTitleEn: 'tube3_practicalTitleEn',
                         practicalDescriptionFr: 'tube3_practicalDescriptionFr',
                         practicalDescriptionEn: 'tube3_practicalDescriptionEn',
+                        isMobileCompliant: true,
+                        isTabletCompliant: true,
                         skills: [
                           {
                             id: 'recSkill5',
@@ -193,6 +199,8 @@ describe('Integration | Repository | learning-content', function () {
                         practicalTitleEn: 'tube4_practicalTitleEn',
                         practicalDescriptionFr: 'tube4_practicalDescriptionFr',
                         practicalDescriptionEn: 'tube4_practicalDescriptionEn',
+                        isMobileCompliant: false,
+                        isTabletCompliant: false,
                         skills: [
                           {
                             id: 'recSkill6',
