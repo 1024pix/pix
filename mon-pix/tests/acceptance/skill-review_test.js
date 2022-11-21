@@ -1,14 +1,14 @@
-import { findAll, currentURL, visit } from '@ember/test-helpers';
+import { findAll, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
-import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { visit } from '@1024pix/ember-testing-library';
 
 describe('Acceptance | Campaigns | Campaigns Result', function () {
   setupApplicationTest();
@@ -70,11 +70,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         const COMPETENCE_MASTERY_PERCENTAGE = '85%';
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(competenceResultName)).to.exist;
-        expect(contains(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
+        expect(screen.getByText(competenceResultName)).to.exist;
+        expect(screen.getByText(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
       context('When the campaign is restricted and organization learner is disabled', function () {
@@ -85,11 +85,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
 
         it('should display results page', async function () {
           // when
-          await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+          const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
-          expect(contains('Parcours restreint')).to.exist;
+          expect(screen.getByText('Parcours restreint')).to.exist;
         });
       });
 
@@ -118,11 +118,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(skillSetResultName)).to.exist;
-        expect(contains(BADGE_SKILL_SET_MASTERY_PERCENTAGE)).to.exist;
+        expect(screen.getByText(skillSetResultName)).to.exist;
+        expect(screen.getByText(BADGE_SKILL_SET_MASTERY_PERCENTAGE)).to.exist;
       });
 
       it('should display the Pix emploi badge when badge is acquired', async function () {
@@ -137,18 +137,18 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         campaignParticipationResult.update({ campaignParticipationBadges: [badge] });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains('Congrats, you won a Pix Emploi badge')).to.exist;
+        expect(screen.getByText('Congrats, you won a Pix Emploi badge')).to.exist;
       });
 
       it('should not display the Pix emploi badge when badge is not acquired', async function () {
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
+        expect(screen.queryByText(this.intl.t('pages.skill-review.badges-title'))).to.be.null;
       });
 
       it('should display acquired badges', async function () {
@@ -200,10 +200,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           campaignParticipationResult.update({ stageCount: 5 });
 
           // when
-          await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+          const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(contains('You reached Stage 1')).to.exist;
+          expect(screen.getByText('You reached Stage 1')).to.exist;
         });
 
         it('should not display reached stage when CLEA badge acquired', async function () {
@@ -231,26 +231,26 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           campaignParticipationResult.update({ reachedStage });
 
           // when
-          await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+          const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(contains('You reached Stage 1')).to.not.exist;
-          expect(contains(cleaBadge.message)).to.exist;
+          expect(screen.queryByText('You reached Stage 1')).to.not.exist;
+          expect(screen.getByText(cleaBadge.message)).to.exist;
         });
       });
 
       it('should share the results', async function () {
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // when
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // then
-        expect(contains(this.intl.t('pages.skill-review.already-shared'))).to.exist;
-        expect(contains(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
-        expect(contains(this.intl.t('pages.skill-review.send-results'))).to.be.null;
-        expect(contains(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
+        expect(screen.getByText(this.intl.t('pages.skill-review.already-shared'))).to.exist;
+        expect(screen.getByText(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
+        expect(screen.queryByText(this.intl.t('pages.skill-review.send-results'))).to.be.null;
+        expect(screen.queryByText(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
       });
 
       it('should redirect to default page on click', async function () {

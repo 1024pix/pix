@@ -1,4 +1,4 @@
-import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
+import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
@@ -9,8 +9,8 @@ import {
 import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
+import { visit } from '@1024pix/ember-testing-library';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 
@@ -80,12 +80,13 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
         await completeCampaignOfTypeProfilesCollectionByCode(campaign.code);
 
         // when
-        await visit(`/campagnes/${campaign.code}`);
+        const screen = await visit(`/campagnes/${campaign.code}`);
 
         // then
-        expect(contains('156')).to.exist;
-        expect(contains('AREA_1_TITLE')).to.exist;
-        expect(contains('Area_1_Competence_1_name')).to.exist;
+        expect(screen.getByText('156')).to.exist;
+        const area1Titles = screen.getAllByText('Area_1_title').length;
+        expect(area1Titles).to.equal(2);
+        expect(screen.getByText('Area_1_Competence_1_name')).to.exist;
       });
     });
 
