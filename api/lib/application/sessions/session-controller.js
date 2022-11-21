@@ -352,7 +352,11 @@ module.exports = {
 
   getSessionsImportTemplate(_, h) {
     const headers = getHeaders();
-    return h.response(headers).header('Content-Type', 'text/csv; charset=utf-8').code(200);
+    return h
+      .response(headers)
+      .header('Content-Type', 'text/csv; charset=utf-8')
+      .header('content-disposition', 'filename=import-sessions')
+      .code(200);
   },
 };
 
