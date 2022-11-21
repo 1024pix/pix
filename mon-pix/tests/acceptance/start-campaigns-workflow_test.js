@@ -6,16 +6,15 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 
-import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 import { fillInByLabel } from '../helpers/fill-in-by-label';
-import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { currentSession } from 'ember-simple-auth/test-support';
 import ENV from 'mon-pix/config/environment';
 import setupIntl from '../helpers/setup-intl';
 import { t } from 'ember-intl/test-support';
+import { visit } from '@1024pix/ember-testing-library';
 
 const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
@@ -692,11 +691,11 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
         it('should show an error message when user starts the campaign', async function () {
           // when
-          await visit(`/campagnes/${campaign.code}`);
+          const screen = await visit(`/campagnes/${campaign.code}`);
           await clickByLabel('Je commence');
 
           // then
-          expect(contains('Oups, la page demandée n’est pas accessible.')).to.exist;
+          expect(screen.getByText('Oups, la page demandée n’est pas accessible.')).to.exist;
         });
       });
 

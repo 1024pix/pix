@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | Challenge Embed Simulator', function () {
   setupIntlRenderingTest();
@@ -22,10 +22,10 @@ describe('Integration | Component | Challenge Embed Simulator', function () {
   describe('Launch simulator button', function () {
     it('should have text "Je lance l\'application"', async function () {
       // when
-      await render(hbs`<ChallengeEmbedSimulator />`);
+      const screen = await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      expect(contains(this.intl.t('pages.challenge.embed-simulator.actions.launch')));
+      expect(screen.getByText(this.intl.t('pages.challenge.embed-simulator.actions.launch'))).to.exist;
     });
 
     it('should close the acknowledgment overlay when clicked', async function () {

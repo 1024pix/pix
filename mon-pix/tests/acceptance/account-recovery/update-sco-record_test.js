@@ -6,10 +6,8 @@ import { currentURL, click } from '@ember/test-helpers';
 import { Response } from 'miragejs';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, fillByLabel } from '@1024pix/ember-testing-library';
-
 import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
-import { contains } from '../../helpers/contains';
 
 describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
   setupApplicationTest();
@@ -22,12 +20,15 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
       //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
       expect(currentURL()).to.equal(`/recuperer-mon-compte/${temporaryKey}`);
+
       expect(
-        contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }))
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }),
+        })
       ).to.exist;
     });
 
@@ -50,12 +51,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
 
     it('should display an error message when user has already left SCO', async function () {
@@ -76,12 +81,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
 
     it('should display an error message when temporary key not found', async function () {
@@ -102,12 +111,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
 
     it('should display an error message when temporary key has expired', async function () {
@@ -128,12 +141,17 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
       //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-expired'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(
+        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
+      ).to.exist;
     });
   });
 
@@ -185,9 +203,13 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
 
     it('should display an error message when user has already left SCO', async function () {
@@ -216,9 +238,13 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
 
     it('should display an error message when temporary key not found', async function () {
@@ -247,9 +273,13 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
 
     it('should display an error message when temporary key has expired', async function () {
@@ -278,9 +308,14 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-expired'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(
+        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
+      ).to.exist;
     });
 
     it('should display an error message when internal server error returned', async function () {
@@ -309,9 +344,13 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
     });
   });
 });
