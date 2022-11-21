@@ -52,7 +52,7 @@
           }}
         >
           {{#unless this.displayRegisterForm}}
-            <Auth::LoginForm
+            <Auth::ToggableLoginForm
               @isWithInvitation={{true}}
               @certificationCenterInvitationId={{@certificationCenterInvitationId}}
               @certificationCenterInvitationCode={{@certificationCenterInvitationCode}}
