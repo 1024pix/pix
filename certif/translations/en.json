@@ -21,7 +21,11 @@
   },
   "pages": {
     "login": {
-      "title": "Login"
+      "title": "Login",
+      "errors": {
+        "invitation-was-cancelled": "This invitation is no longer valid.<br/>Please contact the administrator of your Pix Certif space.",
+        "invitation-already-accepted": "This invitation has already been accepted.<br/>Please log in or contact the administrator of your Pix Certif space."
+      }
     },
     "login-or-register": {
       "title": "You have been invited to join the certification center {certificationCenterName}",
