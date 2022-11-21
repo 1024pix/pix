@@ -13,6 +13,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
   const code = 'ABCDEFGH01';
   let organizationInvitationRepository;
   let organizationRepository;
+  let membershipRepository;
 
   beforeEach(function () {
     organizationInvitationRepository = {
@@ -22,6 +23,9 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     };
     organizationRepository = {
       get: sinon.stub(),
+    };
+    membershipRepository = {
+      getMembersCountByOrganizationIdAndRole: sinon.stub().resolves(1),
     };
     sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
     sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
@@ -50,6 +54,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // when
         await createOrganizationInvitation({
           organizationRepository,
+          membershipRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
           email: userEmailAddress,
@@ -93,6 +98,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // when
         await createOrganizationInvitation({
           organizationRepository,
+          membershipRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
           email: userEmailAddress,
@@ -128,6 +134,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // when
         await createOrganizationInvitation({
           organizationRepository,
+          membershipRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
           email: userEmailAddress,

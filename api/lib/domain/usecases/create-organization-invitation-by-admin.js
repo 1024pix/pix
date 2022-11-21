@@ -7,6 +7,7 @@ module.exports = async function createOrganizationInvitationByAdmin({
   locale,
   role,
   organizationRepository,
+  membershipRepository,
   organizationInvitationRepository,
 }) {
   const organization = await organizationRepository.get(organizationId);
@@ -20,7 +21,8 @@ module.exports = async function createOrganizationInvitationByAdmin({
     email,
     locale,
     role,
-    organizationInvitationRepository,
     organizationRepository,
+    membershipRepository,
+    organizationInvitationRepository,
   });
 };

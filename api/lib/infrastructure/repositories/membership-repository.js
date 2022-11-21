@@ -1,3 +1,4 @@
+const { knex } = require('../../../db/knex-database-connection');
 const BookshelfMembership = require('../orm-models/Membership');
 const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
@@ -126,5 +127,14 @@ module.exports = {
       withRelated: ['user', 'organization'],
     });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
+  },
+
+  async getMembersCountByOrganizationIdAndRole(organizationId, role) {
+    const { count } = await knex('memberships')
+      .count('id')
+      .where({ organizationId, organizationRole: role })
+      .whereNull('disabledAt')
+      .first();
+    return count;
   },
 };

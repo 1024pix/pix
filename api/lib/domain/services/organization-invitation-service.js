@@ -5,6 +5,7 @@ const { SendingEmailError } = require('../errors');
 
 const createOrganizationInvitation = async ({
   organizationRepository,
+  membershipRepository,
   organizationInvitationRepository,
   organizationId,
   email,
@@ -19,6 +20,15 @@ const createOrganizationInvitation = async ({
 
   if (!organizationInvitation) {
     const code = _generateCode();
+    if (!role) {
+      const adminMembersCount = await membershipRepository.getMembersCountByOrganizationIdAndRole(
+        organizationId,
+        Membership.roles.ADMIN
+      );
+      if (adminMembersCount == 0) {
+        role = Membership.roles.ADMIN;
+      }
+    }
     organizationInvitation = await organizationInvitationRepository.create({
       organizationId,
       email,

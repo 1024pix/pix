@@ -17,6 +17,9 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
 
       const organizationInvitationRepository = sinon.stub();
       const organizationRepository = { get: sinon.stub().resolves(organization) };
+      const membershipRepository = {
+        getMembersCountByOrganizationIdAndRole: sinon.stub().resolves(1),
+      };
       sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
 
       // when
@@ -26,6 +29,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
         locale,
         role,
         organizationRepository,
+        membershipRepository,
         organizationInvitationRepository,
       });
 
@@ -37,6 +41,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
         locale,
         role,
         organizationRepository,
+        membershipRepository,
         organizationInvitationRepository,
       });
     });
@@ -52,6 +57,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
       const organizationRepository = {
         get: sinon.stub().resolves(archivedOrganization),
       };
+      const membershipRepository = sinon.stub();
       sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
 
       // when
@@ -61,6 +67,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
         locale,
         role,
         organizationRepository,
+        membershipRepository,
         organizationInvitationRepository,
       });
 
