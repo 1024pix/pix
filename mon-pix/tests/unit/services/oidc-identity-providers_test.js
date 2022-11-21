@@ -31,8 +31,14 @@ describe('Unit | Service | oidc-identity-providers', function () {
       await oidcIdentityProvidersService.load();
 
       // then
-      expect(oidcIdentityProvidersService['oidc-partner']).to.deep.contain(oidcPartner);
-      expect(oidcIdentityProvidersService.list[0]).to.deep.contain(oidcPartner);
+      expect(oidcIdentityProvidersService['oidc-partner'].code).to.equal(oidcPartner.code);
+      expect(oidcIdentityProvidersService['oidc-partner'].organizationName).to.equal(oidcPartner.organizationName);
+      expect(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl).to.equal(oidcPartner.hasLogoutUrl);
+      expect(oidcIdentityProvidersService['oidc-partner'].source).to.equal(oidcPartner.source);
+      expect(oidcIdentityProvidersService.list[0].code).to.equal(oidcPartner.code);
+      expect(oidcIdentityProvidersService.list[0].organizationName).to.equal(oidcPartner.organizationName);
+      expect(oidcIdentityProvidersService.list[0].hasLogoutUrl).to.equal(oidcPartner.hasLogoutUrl);
+      expect(oidcIdentityProvidersService.list[0].source).to.equal(oidcPartner.source);
     });
   });
 
