@@ -364,6 +364,7 @@ const validResponse = {
       status: 'validated',
       'pix-score': 518,
       'clea-certification-status': 'acquired',
+      'certified-badge-images': [],
     },
     relationships: {
       'result-competence-tree': {
