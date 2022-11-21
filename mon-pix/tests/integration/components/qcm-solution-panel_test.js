@@ -212,11 +212,10 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         );
 
         // Then
-        findAll('.comparison-window .qcm-proposal-label__checkbox-picture').forEach((c, index) => {
-          expect(
-            find('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').getAttribute('disabled')
-          ).to.equal('disabled');
-        });
+        expect(findAll('.qcm-panel__proposal-checkbox')[0].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-panel__proposal-checkbox')[1].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-panel__proposal-checkbox')[2].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-panel__proposal-checkbox')[3].getAttribute('disabled')).to.equal('disabled');
       });
     });
   });
