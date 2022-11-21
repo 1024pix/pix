@@ -33,4 +33,57 @@ module('Acceptance | Routes | join', function (hooks) {
       assert.dom(screen.getByText('Super Centre de Certif', { exact: false })).exists();
     });
   });
+
+  module('when a user tries to join a certification center', function () {
+    module('with a cancelled invitation link', function () {
+      test('it should redirect the user to the login page and display an error message', async function (assert) {
+        // given
+        const certificationCenterInvitation = server.create('certification-center-invitation', {
+          id: 1,
+          certificationCenterName: 'Super Centre de Certif',
+        });
+
+        // when
+        const screen = await visit(`/rejoindre?invitationId=${certificationCenterInvitation.id}&code=CANCELLED`);
+
+        // then
+        assert.strictEqual(currentURL(), '/connexion');
+        assert
+          .dom(
+            screen.getByText((content) => {
+              return (
+                content === 'Cette invitation n’est plus valide.Contactez l’administrateur de votre espace Pix Certif.'
+              );
+            })
+          )
+          .exists();
+      });
+    });
+
+    module('with an already accepted invitation link', function () {
+      test('it should redirect the user to the login page and display an error message', async function (assert) {
+        // given
+        const certificationCenterInvitation = server.create('certification-center-invitation', {
+          id: 1,
+          certificationCenterName: 'Super Centre de Certif',
+        });
+
+        // when
+        const screen = await visit(`/rejoindre?invitationId=${certificationCenterInvitation.id}&code=ACCEPTED`);
+
+        // then
+        assert.strictEqual(currentURL(), '/connexion');
+        assert
+          .dom(
+            screen.getByText((content) => {
+              return (
+                content ===
+                'Cette invitation a déjà été acceptée.Connectez-vous ou contactez l’administrateur de votre espace Pix Certif.'
+              );
+            })
+          )
+          .exists();
+      });
+    });
+  });
 });
