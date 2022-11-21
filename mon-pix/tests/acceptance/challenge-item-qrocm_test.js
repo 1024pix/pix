@@ -167,7 +167,7 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
 
       it('should set the select with previous answer and propose to continue', async function () {
         // then
-        expect(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].hasAttribute('selected'));
+        expect(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].selected);
 
         expect(find('.challenge-actions__action-continue')).to.exist;
         expect(find('.challenge-actions__action-validate')).to.not.exist;
