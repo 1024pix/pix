@@ -14,6 +14,7 @@ describe('Integration | Component | navbar-burger-menu', function () {
         fullName: 'Bobby Carotte',
       };
     }
+
     this.owner.register('service:currentUser', currentUser);
   });
 
@@ -56,6 +57,7 @@ describe('Integration | Component | navbar-burger-menu', function () {
           hasAssessmentParticipations: true,
         };
       }
+
       this.owner.unregister('service:currentUser');
       this.owner.register('service:currentUser', currentUser);
     });
@@ -73,9 +75,11 @@ describe('Integration | Component | navbar-burger-menu', function () {
     beforeEach(async function () {
       class currentUser extends Service {
         user = {
+          fullName: 'John Doe',
           hasAssessmentParticipations: false,
         };
       }
+
       this.owner.unregister('service:currentUser');
       this.owner.register('service:currentUser', currentUser);
     });
@@ -92,9 +96,11 @@ describe('Integration | Component | navbar-burger-menu', function () {
     beforeEach(async function () {
       class currentUser extends Service {
         user = {
+          fullName: 'John Doe',
           hasRecommendedTrainings: true,
         };
       }
+
       this.owner.unregister('service:currentUser');
       this.owner.register('service:currentUser', currentUser);
     });

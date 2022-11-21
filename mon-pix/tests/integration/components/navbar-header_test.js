@@ -38,6 +38,7 @@ describe('Integration | Component | navbar-header', function () {
     it('should be rendered in mobile/tablet mode with a burger', async function () {
       // when
       this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
+      this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
       this.set('burger', {
         state: {
           actions: {
@@ -61,6 +62,8 @@ describe('Integration | Component | navbar-header', function () {
     });
 
     it('should render skip links', async function () {
+      this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
+
       await render(hbs`<NavbarHeader/>`);
 
       expect(contains(this.intl.t('common.skip-links.skip-to-content'))).to.exist;
