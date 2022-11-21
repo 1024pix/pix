@@ -18,10 +18,8 @@ describe('Unit | Serializer | assessment', function () {
     const json = serializer.serialize(snapshot);
 
     expect(json.data.type).to.equal('assessments');
-    expect(json.data.attributes).to.include({
-      'certification-number': 'cert123',
-      'code-campaign': 'campaign123',
-    });
+    expect(json.data.attributes['certification-number']).to.equal('cert123');
+    expect(json.data.attributes['code-campaign']).to.equal('campaign123');
   });
 
   describe('when adapter options are given', function () {
