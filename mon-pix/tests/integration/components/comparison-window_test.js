@@ -78,7 +78,8 @@ describe('Integration | Component | comparison-window', function () {
       );
 
       // then
-      expect(find('.tutorial-panel')).to.contain.text('Conseil : mangez des épinards.');
+      expect(find('.tutorial-panel__hint-title')).to.contain.text('Pour réussir la prochaine fois');
+      expect(find('.tutorial-panel__hint-content')).to.contain.text('Conseil : mangez des épinards.');
     });
 
     it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', async function () {
