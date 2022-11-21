@@ -358,6 +358,10 @@ module.exports = {
       .header('content-disposition', 'filename=import-sessions')
       .code(200);
   },
+
+  importSessions(request, h) {
+    return h.response().code(201);
+  },
 };
 
 function _logSessionBatchPublicationErrors(result) {
