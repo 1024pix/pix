@@ -1056,4 +1056,18 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('POST /api/sessions/import', function () {
+    it('should exist', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/sessions/import');
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+  });
 });

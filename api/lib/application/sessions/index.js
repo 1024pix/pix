@@ -810,6 +810,18 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/sessions/import',
+      config: {
+        handler: sessionController.importSessions,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Elle permet d'importer un fichier contenant une liste de sessions à créer",
+        ],
+      },
+    },
   ]);
 };
 
