@@ -213,10 +213,8 @@ describe('Integration | Component | feedback-panel', function () {
     });
 
     it('should not be able to hide the form view', async function () {
-      // when
-      await click(OPEN_FEEDBACK_BUTTON);
-
       // then
+      expect(find(OPEN_FEEDBACK_BUTTON).disabled).to.be.true;
       expect(find('.feedback-panel__form')).to.exist;
     });
   });
