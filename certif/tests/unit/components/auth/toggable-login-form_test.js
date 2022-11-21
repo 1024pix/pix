@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-
+import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
@@ -124,6 +124,31 @@ module('Unit | Component | toggable-login-form', (hooks) => {
 
             // then
             assert.ok(_authenticateStub.calledWith(component.password, component.email));
+          });
+
+          module('when a 412 error is caught', function () {
+            module('when authentication fails', function () {
+              test('should display an error message', async function (assert) {
+                // given
+                const authenticateStub = sinon.stub().rejects();
+                class SessionStub extends Service {
+                  authenticate = authenticateStub;
+                }
+                this.owner.register('service:session', SessionStub);
+
+                component.args.certificationCenterInvitation = {
+                  accept: sinon.stub().rejects({ errors: [{ status: '412' }] }),
+                };
+
+                // when
+                await component.authenticate(eventStub);
+
+                // then
+                assert.strictEqual(component.errorMessage, this.intl.t('common.api-errors-messages.default'));
+                assert.false(component.isLoading);
+                assert.true(component.isErrorMessagePresent);
+              });
+            });
           });
         });
       });
