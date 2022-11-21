@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.290.0 (21/11/2022)
+
+
+### :rocket: Amélioration
+- [#5213](https://github.com/1024pix/pix/pull/5213) [FEATURE] Espace autour des boutons du bloc détail de session (PIX-5780)
+- [#5202](https://github.com/1024pix/pix/pull/5202) [FEATURE] Permettre à un administrateur d'annuler une invitation à rejoindre un centre de certification (PIX-5003)
+- [#5235](https://github.com/1024pix/pix/pull/5235) [FEATURE] Reformulation des messages d'erreur sur la création de campagne dans orga (PIX-6056)
+- [#5157](https://github.com/1024pix/pix/pull/5157) [FEATURE][CERTIF] Permettre l'inscription à Pix Certif depuis une invitation (PIX- 6209)
+- [#5146](https://github.com/1024pix/pix/pull/5146) [FEATURE] Modifier le texte de l'erreur E11 (PIX-6182)
+- [#5238](https://github.com/1024pix/pix/pull/5238) [FEATURE] Renommer le terme "profil cible" par "parcours" dans Pix Orga (PIX-6057)
+
+### :building_construction: Tech
+- [#5239](https://github.com/1024pix/pix/pull/5239) [TECH] Monter la version Pix Orga en Ember 3.28 (PIX-6338)
+- [#5246](https://github.com/1024pix/pix/pull/5246) [TECH] Supprimer les erreurs remontées par la migration QUnit sur Pix App - partie 2 (PIX-6347).
+- [#5242](https://github.com/1024pix/pix/pull/5242) [TECH] Supprimer les erreurs remontées par la migration QUnit sur Pix App (PIX-6345).
+- [#5241](https://github.com/1024pix/pix/pull/5241) [TECH] Déplacer les expect dans les tests de Pix App (PIX-6344).
+- [#5230](https://github.com/1024pix/pix/pull/5230) [TECH]  Corriger les éléments du SaasCompiler apparaissant dans la console lors du build de Pix App (PIX-6284).
+- [#5234](https://github.com/1024pix/pix/pull/5234) [TECH] Retirer les hash dans Pix Orga (PIX-6254)
+
+### :bug: Correction
+- [#5237](https://github.com/1024pix/pix/pull/5237) [BUGFIX] Corriger la redirection vers la double mire pour un élève ayant déjà un compte Pix (PIX-6343)
+
 ## v3.289.0 (17/11/2022)
 
 
