@@ -5,14 +5,14 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import setupIntl from '../../../helpers/setup-intl';
 
-module('Unit | Component | login-form', (hooks) => {
+module('Unit | Component | toggable-login-form', (hooks) => {
   setupTest(hooks);
   setupIntl(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:auth/login-form');
+    component = createGlimmerComponent('component:auth/toggable-login-form');
   });
 
   module('#updateEmail', () => {
