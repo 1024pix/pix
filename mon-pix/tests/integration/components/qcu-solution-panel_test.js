@@ -71,26 +71,6 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       // Then
       expect(findAll('[data-goodness=good]').length).to.equal(1);
     });
-
-    it('should not be editable', async function () {
-      //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
-
-      // When
-      await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
-      );
-
-      // Then
-      findAll('.comparison-window .qcu-solution-panel__radio-button').forEach((button, index) => {
-        expect(
-          find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')
-        ).to.equal('disabled');
-      });
-    });
   });
 
   describe('When answer is correct', function () {
@@ -272,26 +252,6 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked')).to.equal('yes');
       expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
       expect(findAll('.qcu-solution-panel__radio-button')[2].innerHTML).to.contains('Votre réponse');
-    });
-
-    it('Should avoid click on radio button', async function () {
-      //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
-
-      // When
-      await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
-      );
-
-      // Then
-      findAll('.comparison-window .qcu-solution-panel__radio-button').forEach((button, index) => {
-        expect(
-          find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')
-        ).to.equal('disabled');
-      });
     });
   });
 });
