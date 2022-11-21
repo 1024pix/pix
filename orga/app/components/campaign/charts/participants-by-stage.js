@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import maxBy from 'lodash/maxBy';
 import sumBy from 'lodash/sumBy';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 export default class ParticipantsByStage extends Component {
   @service store;

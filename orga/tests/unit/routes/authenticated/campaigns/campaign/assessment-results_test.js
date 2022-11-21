@@ -6,25 +6,16 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
   setupTest(hooks);
 
   let route;
+  let store;
 
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/campaigns/campaign/assessment-results');
+    store = this.owner.lookup('service:store');
   });
 
   module('fetchResultMinimalList', function (hooks) {
-    let store;
-    let storeStub;
-
     hooks.beforeEach(function () {
-      storeStub = {
-        query: sinon.stub(),
-      };
-      store = route.store;
-      route.store = storeStub;
-    });
-
-    hooks.afterEach(function () {
-      route.store = store;
+      sinon.stub(store, 'query');
     });
 
     test('if finds summaries from stores', function (assert) {
@@ -44,7 +35,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
         },
       ];
 
-      storeStub.query
+      store.query
         .withArgs('campaignAssessmentResultMinimal', {
           page: {
             number: params.pageNumber,

@@ -2,7 +2,7 @@ import _maxBy from 'lodash/maxBy';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 const _isStageReached = (result, stage) => result >= stage.threshold;
 
