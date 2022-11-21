@@ -382,7 +382,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
       context('When campaign code does not exist', function () {
         it('should display an error message on fill-in-campaign-code page', async function () {
           // given
-          const campaignCode = 'NONEXISTENT';
+          const campaignCode = 'NONEXIST';
           await visit('/campagnes');
 
           // when
