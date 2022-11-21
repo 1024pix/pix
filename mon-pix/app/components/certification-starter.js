@@ -10,7 +10,7 @@ export default class CertificationJoiner extends Component {
   @service intl;
   @service focusedCertificationChallengeWarningManager;
 
-  @tracked inputAccessCode = null;
+  @tracked inputAccessCode = '';
   @tracked errorMessage = null;
   @tracked classNames = [];
   @tracked certificationCourse = null;
