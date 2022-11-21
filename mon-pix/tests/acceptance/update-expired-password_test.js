@@ -8,21 +8,18 @@ import { Response } from 'miragejs';
 
 import { authenticateByUsername } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
-import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
+import { visit } from '@1024pix/ember-testing-library';
 
 describe('Acceptance | Update Expired Password', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
-  beforeEach(async function () {
-    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
-    await authenticateByUsername(userShouldChangePassword);
-  });
-
   it('should land on default page when password is successfully updated', async function () {
     // given
+    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    await authenticateByUsername(userShouldChangePassword);
     await fillIn('#password', 'newPass12345!');
 
     // when
@@ -34,8 +31,11 @@ describe('Acceptance | Update Expired Password', function () {
 
   it('should display validation error message when update password fails with http 400 error', async function () {
     // given
-    const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
-
+    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const screen = await visit('/connexion');
+    await fillIn('#login', userShouldChangePassword.username);
+    await fillIn('#password', userShouldChangePassword.password);
+    await clickByLabel('Je me connecte');
     this.server.post('/expired-password-updates', () => {
       return new Response(
         400,
@@ -49,17 +49,22 @@ describe('Acceptance | Update Expired Password', function () {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
+
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(contains(expectedValidationErrorMessage)).to.exist;
+    const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
+    expect(screen.getByText(expectedValidationErrorMessage)).to.exist;
   });
 
   it('should display error message when update password fails with http 401 error', async function () {
     // given
-    const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
-
+    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const screen = await visit('/connexion');
+    await fillIn('#login', userShouldChangePassword.username);
+    await fillIn('#password', userShouldChangePassword.password);
+    await clickByLabel('Je me connecte');
     this.server.post('/expired-password-updates', () => {
       return new Response(
         401,
@@ -73,15 +78,19 @@ describe('Acceptance | Update Expired Password', function () {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
+
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(contains(expectedErrorMessage)).to.exist;
+    const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
+    expect(screen.getByText(expectedErrorMessage)).to.exist;
   });
 
   it('should display error message when update password fails with http 404 error', async function () {
     // given
+    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    await authenticateByUsername(userShouldChangePassword);
     this.server.post('/expired-password-updates', () => {
       return new Response(
         401,
@@ -103,16 +112,21 @@ describe('Acceptance | Update Expired Password', function () {
 
   it('should display error message when update password fails', async function () {
     // given
-    const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
-
+    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const screen = await visit('/connexion');
+    await fillIn('#login', userShouldChangePassword.username);
+    await fillIn('#password', userShouldChangePassword.password);
+    await clickByLabel('Je me connecte');
     this.server.post('/expired-password-updates', () => new Response(500));
 
     await fillIn('#password', 'newPass12345!');
 
     // when
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
+
     // then
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(contains(expectedErrorMessage)).to.exist;
+    const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
+    expect(screen.getByText(expectedErrorMessage)).to.exist;
   });
 });

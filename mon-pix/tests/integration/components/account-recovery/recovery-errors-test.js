@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { contains } from '../../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | recovery-errors', function () {
   setupIntlRenderingTest();
@@ -17,13 +17,14 @@ describe('Integration | Component | recovery-errors', function () {
     this.set('message', errorMessage);
 
     // when
-    await render(hbs`<AccountRecovery::RecoveryErrors @title={{this.title}} @message={{this.message}} />`);
+    const screen = await render(
+      hbs`<AccountRecovery::RecoveryErrors @title={{this.title}} @message={{this.message}} />`
+    );
 
     // then
-    expect(contains(title)).to.exist;
-    expect(contains(errorMessage)).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.support.url-text'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.support.recover'))).to.exist;
+    expect(screen.getByText(title)).to.exist;
+    expect(screen.getByText(errorMessage)).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('pages.account-recovery.support.url-text') })).to.exist;
   });
 
   it('should display renew demand link when asked for', async function () {
@@ -31,10 +32,12 @@ describe('Integration | Component | recovery-errors', function () {
     this.set('showRenewLink', true);
 
     // when
-    await render(hbs`<AccountRecovery::RecoveryErrors @showRenewLink={{this.showRenewLink}} />`);
+    const screen = await render(hbs`<AccountRecovery::RecoveryErrors @showRenewLink={{this.showRenewLink}} />`);
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
+    expect(
+      screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
+    ).to.exist;
   });
 
   it('should display back to home link when asked for', async function () {
@@ -42,10 +45,12 @@ describe('Integration | Component | recovery-errors', function () {
     this.set('showBackToHomeButton', true);
 
     // when
-    await render(hbs`<AccountRecovery::RecoveryErrors @showBackToHomeButton={{this.showBackToHomeButton}} />`);
+    const screen = await render(
+      hbs`<AccountRecovery::RecoveryErrors @showBackToHomeButton={{this.showBackToHomeButton}} />`
+    );
 
     // then
-    expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
   });
 
   it('should display support link', async function () {

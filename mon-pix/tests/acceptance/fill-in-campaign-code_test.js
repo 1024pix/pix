@@ -5,7 +5,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../helpers/authentication';
-import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { waitForDialog } from '../helpers/wait-for';
@@ -25,14 +24,14 @@ describe('Acceptance | Fill in campaign code page', function () {
     it('should disconnect when cliking on the link', async function () {
       // given
       await authenticateByEmail(user);
-      await visit('/campagnes');
+      const screen = await visit('/campagnes');
 
       // when
       await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
 
       // then
-      expect(contains(user.firstName)).to.be.null;
-      expect(contains(this.intl.t('navigation.not-logged.sign-in')));
+      expect(screen.queryByText(user.firstName)).to.not.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') })).to.exist;
     });
   });
 

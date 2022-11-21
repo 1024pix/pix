@@ -19,23 +19,29 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
     this.set('email', newEmail);
 
     // when
-    await render(hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`);
+    const screen = await render(
+      hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`
+    );
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName }))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.fill-password'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.email-label'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'))).to.exist;
+    expect(
+      screen.getByRole('heading', {
+        name: this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName }),
+      })
+    ).to.exist;
+    expect(screen.getByText(this.intl.t('pages.account-recovery.update-sco-record.fill-password'))).to.exist;
+    expect(
+      screen.getByRole('textbox', { name: this.intl.t('pages.account-recovery.update-sco-record.form.email-label') })
+    ).to.exist;
+    expect(screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'))).to.exist;
+
     const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
     expect(submitButton).to.exist;
     expect(submitButton.disabled).to.be.true;
-    expect(contains('philippe.example.net'));
 
     expect(find('input[type="checkbox"]')).to.exist;
-    expect(contains(this.intl.t('common.cgu.accept'))).to.exist;
-    expect(contains(this.intl.t('common.cgu.cgu'))).to.exist;
-    expect(contains(this.intl.t('common.cgu.and'))).to.exist;
-    expect(contains(this.intl.t('common.cgu.data-protection-policy'))).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
   });
 
   context('Form submission', function () {
@@ -117,7 +123,9 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
         this.set('email', newEmail);
         const invalidPassword = 'invalidpassword';
 
-        await render(hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`);
+        const screen = await render(
+          hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`
+        );
 
         // when
         await fillInByLabel(
@@ -127,20 +135,24 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
         await triggerEvent('#password', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password'))).to.exist;
+        expect(
+          screen.getByText(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password'))
+        ).to.exist;
       });
 
       it('should display a required field error message on focus-out if password field is empty', async function () {
         // given
         const password = '';
-        await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+        const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), password);
         await triggerEvent('#password', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.empty-password'))).to.exist;
+        expect(
+          screen.getByText(this.intl.t('pages.account-recovery.update-sco-record.form.errors.empty-password'))
+        ).to.exist;
       });
     });
   });

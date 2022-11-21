@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { currentURL } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
-import { contains } from '../../helpers/contains';
 import { Response } from 'miragejs';
+import { visit } from '@1024pix/ember-testing-library';
 
 describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
   setupApplicationTest();
@@ -79,13 +78,19 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
       // when
-      await visit('/recuperer-mon-compte');
+      const screen = await visit('/recuperer-mon-compte');
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.not.exist;
       expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
+        screen.queryByRole('heading', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+        })
+      ).to.not.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
+        })
       ).to.exist;
     });
 
@@ -105,13 +110,21 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       server.post('/sco-organization-learners/account-recovery', () => errorsApi);
 
       // when
-      await visit('/recuperer-mon-compte');
+      const screen = await visit('/recuperer-mon-compte');
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      expect(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.errors.title'),
+        })
+      ).to.exist;
+      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: this.intl.t('navigation.back-to-homepage'),
+        })
+      ).to.exist;
     });
 
     context('click on "Cancel" button', function () {
@@ -120,16 +133,22 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
 
         // when
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
         expect(
-          contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+          })
+        ).to.exist;
+        expect(
+          screen.queryByText(
+            this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })
+          )
         ).to.not.exist;
       });
     });
@@ -138,13 +157,19 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
   context('when submitting information form with invalid data', function () {
     it('should show a not found error', async function () {
       // given & when
-      await visit('/recuperer-mon-compte');
+      const screen = await visit('/recuperer-mon-compte');
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
       expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.not-found'))
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+        })
+      ).to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
+        })
       ).to.exist;
     });
   });
@@ -167,14 +192,18 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       });
 
       //when
-      await visit('/recuperer-mon-compte');
+      const screen = await visit('/recuperer-mon-compte');
       await fillStudentInformationFormAndSubmit(this);
 
       // then
       expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName }))
+        screen.queryByRole('heading', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+        })
+      ).to.not.exist;
+      expect(
+        screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName }))
       ).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.not.exist;
     });
   });
 
@@ -185,7 +214,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
 
         // when
@@ -194,14 +223,19 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
         // then
         expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
-              firstName,
-            })
-          )
+          screen.getByRole('heading', {
+            name: this.intl.t(
+              'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
+              {
+                firstName,
+              }
+            ),
+          })
         ).to.exist;
         expect(
-          contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
+          screen.queryByRole('heading', {
+            name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
+          })
         ).to.not.exist;
       });
 
@@ -212,7 +246,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         server.create('user', { id: 1, firstName, lastName, username, email });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
@@ -228,7 +262,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
         // then
         expect(
-          contains(
+          screen.getByText(
             this.intl.t(
               'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'
             )
@@ -243,7 +277,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
 
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
@@ -260,13 +294,20 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
         // then
         expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
-              firstName,
-            })
-          )
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
+          })
+        ).to.exist;
+        expect(
+          screen.queryByRole('heading', {
+            name: this.intl.t(
+              'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
+              {
+                firstName,
+              }
+            ),
+          })
         ).to.not.exist;
-        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'))).to.exist;
       });
 
       it('should redirect to error page when user has already left SCO', async function () {
@@ -289,7 +330,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
         server.post('/account-recovery', () => errorsApi);
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
 
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
@@ -305,9 +346,17 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-        expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        expect(
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.account-recovery.errors.title'),
+          })
+        ).to.exist;
+        expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
+        expect(
+          screen.getByRole('link', {
+            name: this.intl.t('navigation.back-to-homepage'),
+          })
+        ).to.exist;
       });
 
       it("should redirect to error page when there's an internal error", async function () {
@@ -330,7 +379,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
         server.post('/account-recovery', () => errorsApi);
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
 
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
@@ -346,9 +395,17 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-        expect(contains(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
-        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        expect(
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.account-recovery.errors.title'),
+          })
+        ).to.exist;
+        expect(screen.getByText(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
+        expect(
+          screen.getByRole('link', {
+            name: this.intl.t('navigation.back-to-homepage'),
+          })
+        ).to.exist;
       });
     });
 
@@ -359,7 +416,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
-        await visit('/recuperer-mon-compte');
+        const screen = await visit('/recuperer-mon-compte');
         await fillStudentInformationFormAndSubmit(this);
 
         // when
@@ -369,13 +426,20 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
         // then
         expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
-              firstName,
-            })
-          )
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+          })
+        ).to.exist;
+        expect(
+          screen.queryByRole('heading', {
+            name: this.intl.t(
+              'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
+              {
+                firstName,
+              }
+            ),
+          })
         ).to.not.exist;
-        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
       });
     });
   });
