@@ -300,6 +300,7 @@ exports.register = async (server) => {
                 'skill-set-threshold': Joi.number().min(0).max(100).allow(null),
                 'skill-set-name': Joi.string().allow('').allow(null),
                 'skill-set-skills-ids': Joi.array().items(Joi.string()).allow(null),
+                'capped-tubes-criteria': Joi.array().allow(null),
               }).required(),
               type: Joi.string().required(),
             }).required(),

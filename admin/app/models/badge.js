@@ -16,4 +16,5 @@ export default class Badge extends Model {
   @attr('number') skillSetThreshold;
   @attr('string') skillSetName;
   @attr('array') skillSetSkillsIds;
+  @attr('array') cappedTubesCriteria;
 }
