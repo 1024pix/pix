@@ -3,10 +3,6 @@ const Membership = require('../models/Membership');
 const mailService = require('../../domain/services/mail-service');
 const { SendingEmailError } = require('../errors');
 
-const _generateCode = () => {
-  return randomString.generate({ length: 10, capitalization: 'uppercase' });
-};
-
 const createOrganizationInvitation = async ({
   organizationRepository,
   organizationInvitationRepository,
@@ -118,6 +114,10 @@ const createScoOrganizationInvitation = async ({
   await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
 
   return organizationInvitation;
+};
+
+const _generateCode = () => {
+  return randomString.generate({ length: 10, capitalization: 'uppercase' });
 };
 
 module.exports = {
