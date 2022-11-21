@@ -1,13 +1,13 @@
-import { currentURL, click, find, visit } from '@ember/test-helpers';
+import { currentURL, click, find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-mocha';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
-import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
+import { visit } from '@1024pix/ember-testing-library';
 
 const ASSESSMENT = 'ASSESSMENT';
 
@@ -52,14 +52,14 @@ describe('Acceptance | User dashboard page', function () {
       it('it should change menu on click on disconnect link', async function () {
         // given
         await authenticateByEmail(user);
-        await visit('/campagnes');
+        const screen = await visit('/campagnes');
 
         // when
         await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
 
         // then
-        expect(contains(user.firstName)).to.be.null;
-        expect(contains(this.intl.t('navigation.not-logged.sign-in')));
+        expect(screen.queryByText('Hermione Granger')).to.be.null;
+        expect(screen.getByText(this.intl.t('navigation.not-logged.sign-in'))).to.exist;
       });
     });
 
@@ -142,30 +142,46 @@ describe('Acceptance | User dashboard page', function () {
   });
 
   describe('recommended-competences', function () {
-    beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+    it('should display recommended-competences section', async function () {
+      // given
+      const user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
-      await visit('/accueil');
-    });
 
-    it('should display recommended-competences section', function () {
+      // when
+      await visit('/accueil');
+
+      // then
       expect(find('section[data-test-recommended-competences]')).to.exist;
     });
 
-    it('should display the link to profile', function () {
-      expect(contains(this.intl.t('pages.dashboard.recommended-competences.profile-link'))).to.exist;
+    it('should display the link to profile', async function () {
+      // given
+      const user = server.create('user', 'withEmail');
+      await authenticateByEmail(user);
+
+      // when
+      const screen = await visit('/accueil');
+
+      // then
+      // todo : ajouter des aria-label dans les 2 boutons pour distinguer les compétences recommandées ou à retester
+      const competencesButtons = screen.getAllByText(
+        this.intl.t('pages.dashboard.recommended-competences.profile-link')
+      ).length;
+      expect(competencesButtons).to.equal(2);
     });
   });
 
   describe('retryable-competences', function () {
-    beforeEach(async function () {
-      user = server.create('user', 'withEmail');
+    it('should display the improvable-competences section', async function () {
+      // given
+      const user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
-      await visit('/accueil');
-    });
 
-    it('should display the improvable-competences section', function () {
-      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
+      // when
+      const screen = await visit('/accueil');
+
+      // then
+      expect(screen.getByText(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
     });
   });
 

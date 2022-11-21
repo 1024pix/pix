@@ -2,9 +2,9 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, findAll, render, triggerKeyEvent } from '@ember/test-helpers';
+import { click, find, findAll, triggerKeyEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | user logged menu', function () {
   setupIntlRenderingTest();
@@ -59,31 +59,31 @@ describe('Integration | Component | user logged menu', function () {
       const MENU_ITEMS_COUNT = 4;
 
       // when
-      await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name__link');
 
       // then
       expect(find('.logged-user-menu')).to.exist;
       expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
-      expect(contains('Hermione Granger')).to.exist;
+      expect(screen.getByText('Hermione Granger')).to.exist;
     });
 
     it('should display link to user certifications', async function () {
       // when
-      await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
 
       // then
-      expect(contains('Mes certifications')).to.exist;
+      expect(screen.getByRole('link', { name: 'Mes certifications' })).to.exist;
     });
 
     it('should display link to help center', async function () {
       // when
-      await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
 
       // then
-      expect(contains('Aide')).to.exist;
+      expect(screen.getByRole('link', { name: 'Aide' })).to.exist;
     });
 
     it('should hide user menu, when it was previously open and user-name is clicked one more time', async function () {
@@ -140,22 +140,22 @@ describe('Integration | Component | user logged menu', function () {
 
         it('should display link to user tests', async function () {
           // when
-          await render(hbs`<UserLoggedMenu/>`);
+          const screen = await render(hbs`<UserLoggedMenu/>`);
           await click('.logged-user-name');
 
           // then
-          expect(contains('Mes parcours')).to.exist;
+          expect(screen.getByRole('link', { name: 'Mes parcours' })).to.exist;
         });
       });
 
       describe('when user has no participation', function () {
         it('should not display link to user tests', async function () {
           // when
-          await render(hbs`<UserLoggedMenu/>`);
+          const screen = await render(hbs`<UserLoggedMenu/>`);
           await click('.logged-user-name');
 
           // then
-          expect(contains('Mes parcours')).to.not.exist;
+          expect(screen.queryByRole('link', { name: 'Mes parcours' })).to.not.exist;
         });
       });
     });

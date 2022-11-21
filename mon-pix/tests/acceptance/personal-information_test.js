@@ -1,10 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { contains } from '../helpers/contains';
 import { authenticateByEmail } from '../helpers/authentication';
+import { visit } from '@1024pix/ember-testing-library';
 
 describe('Acceptance | personal-information', function () {
   setupApplicationTest();
@@ -24,11 +23,12 @@ describe('Acceptance | personal-information', function () {
       await authenticateByEmail(user);
 
       // when
-      await visit('/mon-compte/informations-personnelles');
+      const screen = await visit('/mon-compte/informations-personnelles');
 
       // then
-      expect(contains(user.firstName)).to.exist;
-      expect(contains(user.lastName)).to.exist;
+      const userNames = screen.getAllByText(user.firstName).length;
+      expect(userNames).to.equal(2);
+      expect(screen.getByText(user.lastName)).to.exist;
     });
   });
 });

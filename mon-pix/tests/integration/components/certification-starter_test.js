@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import Service from '@ember/service';
 import { describe, it } from 'mocha';
-import { render, fillIn } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | certification-starter', function () {
@@ -25,18 +25,18 @@ describe('Integration | Component | certification-starter', function () {
       this.set('certificationCandidateSubscription', { eligibleSubscriptions: [], nonEligibleSubscriptions: [] });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
       );
 
-      // expect
+      // then
       expect(
-        contains(
-          'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'
+        screen.queryByText(
+          "'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'"
         )
       ).to.not.exist;
       expect(
-        contains(
+        screen.queryByText(
           "Vous avez été inscrit à/aux certification(s) complémentaire(s) suivantes : mais vous n'y êtes pas éligible.\n"
         )
       ).to.not.exist;
@@ -57,17 +57,18 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // when
-        await render(
+        const screen = await render(
           hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
         );
 
         // then
         expect(
-          contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'),
-          'Vous êtes inscrit...'
+          screen.getByText(
+            'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'
+          )
         ).to.exist;
-        expect(contains('Certif complémentaire 1'), 'Certif complémentaire 1').to.exist;
-        expect(contains('Certif complémentaire 2'), 'Certif complémentaire 2').to.exist;
+        expect(screen.getByText('Certif complémentaire 1')).to.exist;
+        expect(screen.getByText('Certif complémentaire 2')).to.exist;
       });
 
       it('should not display subscription non eligible panel', async function () {
@@ -82,13 +83,13 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // when
-        await render(
+        const screen = await render(
           hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
         );
 
-        // expect
+        // then
         expect(
-          contains(
+          screen.queryByText(
             "Vous avez été inscrit aux certifications complémentaires suivantes : mais vous n'y êtes pas éligible."
           )
         ).to.not.exist;
@@ -108,14 +109,14 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // when
-        await render(
+        const screen = await render(
           hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
         );
 
-        // expect
+        // then
         expect(
-          contains(
-            'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix et Certif complémentaire 2'
+          screen.getByText(
+            'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix et Certif complémentaire 2.'
           )
         ).to.exist;
       });
@@ -132,14 +133,14 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // when
-        await render(
+        const screen = await render(
           hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
         );
 
-        // expect
+        // then
         expect(
-          contains(
-            'Vous n’êtes pas éligible à Certif complémentaire 1, Certif complémentaire 2. Vous pouvez néanmoins passer votre certification Pix'
+          screen.getByText(
+            'Vous n’êtes pas éligible à Certif complémentaire 1, Certif complémentaire 2. Vous pouvez néanmoins passer votre certification Pix.'
           )
         ).to.exist;
       });
@@ -156,35 +157,21 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // when
-        await render(
+        const screen = await render(
           hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
         );
 
-        // expect
+        // then
         expect(
-          contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :')
+          screen.getByText(
+            'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'
+          )
         ).to.exist;
       });
     });
   });
 
   describe('#submit', function () {
-    context('when no access code is provided', function () {
-      it('should display an appropriated error message', async function () {
-        // given
-        this.set('certificationCandidateSubscription', { sessionId: 123 });
-        await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
-        );
-
-        // when
-        await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
-
-        // then
-        expect(contains('Merci de saisir un code d’accès valide.'));
-      });
-    });
-
     context('when access code is provided', function () {
       context('when the creation of certification course is successful', function () {
         it('should redirect to certifications.resume', async function () {
@@ -269,7 +256,7 @@ describe('Integration | Component | certification-starter', function () {
           };
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
-          await render(
+          const screen = await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
@@ -279,7 +266,7 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains('Ce code n’existe pas ou n’est plus valide.'));
+          expect(screen.getByText('Ce code n’existe pas ou n’est plus valide.')).to.exist;
         });
 
         it('should display the appropriate error message when error status is 412', async function () {
@@ -305,7 +292,7 @@ describe('Integration | Component | certification-starter', function () {
           };
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
-          await render(
+          const screen = await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
@@ -315,45 +302,93 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains("La session de certification n'est plus accessible."));
+          expect(screen.getByText("La session de certification n'est plus accessible.")).to.exist;
         });
 
-        it('should display the appropriate error message when error status is 403', async function () {
-          // given
-          const replaceWithStub = sinon.stub();
+        context('when error status is 403', function () {
+          it('should display the appropriate error message when error candidate not authorized to join session', async function () {
+            // given
+            const replaceWithStub = sinon.stub();
 
-          class RouterServiceStub extends Service {
-            replaceWith = replaceWithStub;
-          }
+            class RouterServiceStub extends Service {
+              replaceWith = replaceWithStub;
+            }
 
-          this.owner.register('service:router', RouterServiceStub);
-          const createRecordStub = sinon.stub();
+            this.owner.register('service:router', RouterServiceStub);
+            const createRecordStub = sinon.stub();
 
-          class StoreStubService extends Service {
-            createRecord = createRecordStub;
-          }
+            class StoreStubService extends Service {
+              createRecord = createRecordStub;
+            }
 
-          this.owner.register('service:store', StoreStubService);
-          const certificationCourse = {
-            id: 123,
-            save: sinon.stub(),
-            deleteRecord: sinon.stub(),
-          };
-          createRecordStub.returns(certificationCourse);
-          this.set('certificationCandidateSubscription', { sessionId: 123 });
-          await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
-          );
-          await fillIn('#certificationStarterSessionCode', 'ABC123');
-          certificationCourse.save.rejects({
-            errors: [{ status: '403', detail: "Message d'erreur envoyé par l 'API" }],
+            this.owner.register('service:store', StoreStubService);
+            const certificationCourse = {
+              id: 123,
+              save: sinon.stub(),
+              deleteRecord: sinon.stub(),
+            };
+            createRecordStub.returns(certificationCourse);
+            this.set('certificationCandidateSubscription', { sessionId: 123 });
+            const screen = await render(
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+            );
+            await fillIn('#certificationStarterSessionCode', 'ABC123');
+            certificationCourse.save.rejects({
+              errors: [{ status: '403', code: 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION' }],
+            });
+
+            // when
+            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+
+            // then
+            expect(
+              screen.getByText(
+                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start')
+              )
+            ).to.exist;
           });
 
-          // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          it('should display the appropriate error message when error candidate not authorized to resume session', async function () {
+            // given
+            const replaceWithStub = sinon.stub();
 
-          // then
-          expect(contains("'Message d'erreur envoyé par l'API'"));
+            class RouterServiceStub extends Service {
+              replaceWith = replaceWithStub;
+            }
+
+            this.owner.register('service:router', RouterServiceStub);
+            const createRecordStub = sinon.stub();
+
+            class StoreStubService extends Service {
+              createRecord = createRecordStub;
+            }
+
+            this.owner.register('service:store', StoreStubService);
+            const certificationCourse = {
+              id: 123,
+              save: sinon.stub(),
+              deleteRecord: sinon.stub(),
+            };
+            createRecordStub.returns(certificationCourse);
+            this.set('certificationCandidateSubscription', { sessionId: 123 });
+            const screen = await render(
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+            );
+            await fillIn('#certificationStarterSessionCode', 'ABC123');
+            certificationCourse.save.rejects({
+              errors: [{ status: '403', code: 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION' }],
+            });
+
+            // when
+            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+
+            // then
+            expect(
+              screen.getByText(
+                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-resume')
+              )
+            ).to.exist;
+          });
         });
 
         it('should display a generic error message when error status unknown', async function () {
@@ -379,7 +414,7 @@ describe('Integration | Component | certification-starter', function () {
           };
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
-          await render(
+          const screen = await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
@@ -389,7 +424,7 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains('Une erreur serveur inattendue vient de se produire.'));
+          expect(screen.getByText('Une erreur serveur inattendue vient de se produire.')).to.exist;
         });
       });
     });
