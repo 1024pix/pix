@@ -18,6 +18,10 @@ describe('Compare answers and solutions for QCM questions', function () {
       result: 'ko',
       challenge,
       assessment,
+      correction: server.create('correction', {
+        solution: '1',
+        hint: 'Cliquer sur 1',
+      }),
     });
     challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCM');
     server.create('answer', {
