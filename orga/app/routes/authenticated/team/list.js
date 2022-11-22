@@ -10,6 +10,7 @@ export default class ListRoute extends Route {
   };
 
   @service currentUser;
+  @service store;
 
   async model(params) {
     const organization = this.currentUser.organization;

@@ -10,6 +10,7 @@ export default class ListRoute extends Route {
   };
 
   @service currentUser;
+  @service store;
 
   model(params) {
     return this.store.query('organization-participant', {

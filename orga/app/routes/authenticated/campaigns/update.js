@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default class UpdateRoute extends Route {
   @service currentUser;
+  @service store;
 
   async model(params) {
     const organization = this.currentUser.organization;
