@@ -9,7 +9,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { contains } from '../../../helpers/contains';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../helpers/click-by-label';
-import findByLabel from '../../../helpers/find-by-label';
 
 describe('Integration | Component | account-recovery::backup-email-confirmation-form', function () {
   setupIntlRenderingTest();
@@ -147,7 +146,7 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       // given
       const email = 'Philipe@example.net';
 
-      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @isLoading={{true}} />`);
+      const screen = await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @isLoading={{true}} />`);
 
       // when
       await fillInByLabel(
@@ -156,9 +155,10 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       );
 
       // then
-      const submitButton = findByLabel(
-        this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit')
-      );
+      const submitButton = screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+        hidden: true,
+      });
       expect(submitButton.disabled).to.be.true;
     });
   });

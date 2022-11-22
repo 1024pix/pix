@@ -1,13 +1,12 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../../helpers/click-by-label';
-import findByLabel from '../../../helpers/find-by-label';
 import sinon from 'sinon';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | confirmation-step', function () {
   setupIntlRenderingTest();
@@ -104,15 +103,15 @@ describe('Integration | Component | confirmation-step', function () {
     this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
 
     // when
-    await render(hbs`<AccountRecovery::ConfirmationStep
+    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
 
     // then
-    const confirmButton = findByLabel(
-      this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm')
-    );
+    const confirmButton = screen.getByRole('button', {
+      name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
+    });
     expect(confirmButton).to.exist;
     expect(confirmButton.disabled).to.be.true;
   });
