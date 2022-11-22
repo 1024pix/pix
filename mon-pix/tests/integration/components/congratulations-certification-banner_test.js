@@ -11,10 +11,15 @@ describe('Integration | Component | Congratulations Certification Banner', funct
 
   it('renders a banner indicating the user certifiability', async function () {
     // given
+    const store = this.owner.lookup('service:store');
     this.set('fullName', 'Fifi Brindacier');
+    this.set('closeBanner', () => {});
+    this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
 
     // when
-    const screen = await render(hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}}/>`);
+    const screen = await render(
+      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`
+    );
 
     // then
     expect(screen.getByText('Bravo Fifi Brindacier, votre profil Pix est certifiable.')).to.exist;
@@ -22,11 +27,14 @@ describe('Integration | Component | Congratulations Certification Banner', funct
 
   it('calls the closeBanner method when closing the banner', async function () {
     // given
+    const store = this.owner.lookup('service:store');
     const closeBannerStub = sinon.stub();
     this.set('closeBanner', closeBannerStub);
     this.set('fullName', 'Fifi Brindacier');
+    this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
+
     const screen = await render(
-      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
+      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`
     );
 
     // when
@@ -46,10 +54,11 @@ describe('Integration | Component | Congratulations Certification Banner', funct
         });
         this.set('certificationEligibility', certificationEligibility);
         this.set('fullName', 'Fifi Brindacier');
+        this.set('closeBanner', () => {});
 
         // when
         const screen = await render(
-          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
         );
 
         // then
@@ -71,10 +80,11 @@ describe('Integration | Component | Congratulations Certification Banner', funct
         });
         this.set('certificationEligibility', certificationEligibility);
         this.set('fullName', 'Fifi Brindacier');
+        this.set('closeBanner', () => {});
 
         // when
         const screen = await render(
-          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
         );
 
         // then

@@ -237,7 +237,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', functi
             await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
             // then
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/assessments/');
           });
         });
 
@@ -271,7 +271,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', functi
             await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
             // then
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/assessments/');
           });
         });
       });

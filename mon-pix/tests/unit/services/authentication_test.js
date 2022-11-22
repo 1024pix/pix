@@ -1,6 +1,6 @@
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import { it } from 'mocha';
+import { it, describe, beforeEach, afterEach, context } from 'mocha';
 
 describe('Unit | Services | authentication', function () {
   setupTest();

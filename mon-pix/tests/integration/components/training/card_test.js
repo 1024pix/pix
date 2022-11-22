@@ -22,14 +22,14 @@ describe('Integration | Component | Training | Card', function () {
 
     // then
     expect(find('.training-card')).to.exist;
-    expect(find('.training-card__content')).to.have.property('href').that.equals('https://training.net/');
+    expect(find('.training-card__content').href).to.equal('https://training.net/');
     expect(find('.training-card-content__title').textContent.trim()).to.equal('Mon super training');
     expect(find('.training-card-content__infos')).to.exist;
     expect(find('.training-card-content-infos-list__type').textContent.trim()).to.equal('Webinaire');
     expect(find('.training-card-content-infos-list__duration').textContent.trim()).to.equal('6h');
-    expect(find('.training-card-content-illustration__image')).to.have.property('alt').to.be.empty;
-    expect(find('.training-card-content-illustration__logo'))
-      .to.have.property('alt')
-      .that.equals(this.intl.t('common.french-education-ministry'));
+    expect(find('.training-card-content-illustration__image').alt).to.be.empty;
+    expect(find('.training-card-content-illustration__logo').alt).to.equal(
+      this.intl.t('common.french-education-ministry')
+    );
   });
 });

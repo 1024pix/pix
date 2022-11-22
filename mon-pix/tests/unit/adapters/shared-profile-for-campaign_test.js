@@ -19,7 +19,7 @@ describe('Unit | Adapters | shared-profile-for-campaign', function () {
       const url = await adapter.urlForQueryRecord(query);
 
       expect(url.endsWith('/api/users/userId1/campaigns/campaignId1/profile')).to.be.true;
-      expect(query).to.be.empty;
+      expect(query).to.deep.equal({});
     });
     it('should build default url if no campaign and user ids', async function () {
       const query = {};

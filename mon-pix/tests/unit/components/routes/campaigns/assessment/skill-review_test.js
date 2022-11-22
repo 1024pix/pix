@@ -92,13 +92,9 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
         component.args.model.campaignParticipationResult.isShared = false;
         adapter.share.rejects();
 
-        try {
-          await component.actions.shareCampaignParticipation.call(component);
-        } catch (err) {
-          expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
-          return;
-        }
-        sinon.assert.fail('shareCampaignParticipation should have throw an error.');
+        await component.actions.shareCampaignParticipation.call(component);
+
+        expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
       });
 
       it('should display not-finished-yet message if status is 409', async function () {
@@ -112,13 +108,9 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       it('should display global error message if status is not 409', async function () {
         adapter.share.rejects({ errors: [{ status: '412' }] });
 
-        try {
-          await component.actions.shareCampaignParticipation.call(component);
-        } catch (err) {
-          expect(component.showGlobalErrorMessage).to.equal(true);
-          return;
-        }
-        sinon.assert.fail('shareCampaignParticipation should have throw an error.');
+        await component.actions.shareCampaignParticipation.call(component);
+
+        expect(component.showGlobalErrorMessage).to.equal(true);
       });
     });
   });

@@ -9,12 +9,16 @@ describe('Integration | Component | Challenge | Item', function () {
 
   it('should render', async function () {
     // given
-    this.set('challenge', {
-      type: 'QROC',
-      timer: false,
-      format: 'phrase',
-      proposals: '${myInput}',
-    });
+    const store = this.owner.lookup('service:store');
+    this.set(
+      'challenge',
+      store.createRecord('challenge', {
+        type: 'QROC',
+        timer: false,
+        format: 'phrase',
+        proposals: '${myInput}',
+      })
+    );
     this.set('answer', {});
 
     // when
