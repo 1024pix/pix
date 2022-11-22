@@ -4,10 +4,13 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
+import get from 'lodash/get';
 
 export default class ToggableLoginForm extends Component {
   @service intl;
   @service url;
+  @service store;
+  @service session;
 
   @tracked errorMessage = null;
   @tracked isErrorMessagePresent = false;
@@ -17,16 +20,66 @@ export default class ToggableLoginForm extends Component {
   @tracked passwordValidationMessage = null;
   @tracked emailValidationMessage = null;
 
+  ERROR_MESSAGES = {
+    DEFAULT: this.intl.t('common.api-errors-messages.default'),
+    STATUS_400: this.intl.t('common.api-errors-messages.bad-request'),
+    STATUS_401: this.intl.t('pages.login-or-register.login-form.errors.status.401'),
+    STATUS_403: this.intl.t('pages.login-or-register.login-form.errors.status.403'),
+    STATUS_404: this.intl.t('pages.login-or-register.login-form.errors.status.404'),
+    STATUS_409: this.intl.t('pages.login-or-register.login-form.errors.status.409'),
+    STATUS_412: this.intl.t('pages.login-or-register.login-form.errors.status.412'),
+    STATUS_429: this.intl.t('pages.login-or-register.login-form.errors.status.429'),
+  };
+
   @action
   async authenticate(event) {
     event.preventDefault();
     this.isLoading = true;
 
+    const email = this.email;
+    const password = this.password;
+
     if (!this.isFormValid) {
       this.isLoading = false;
       return;
     }
-    // TODO
+
+    if (this.args.isWithInvitation) {
+      try {
+        await this.args.certificationCenterInvitation.accept({
+          id: this.args.certificationCenterInvitationId,
+          code: this.args.certificationCenterInvitationCode,
+          email,
+        });
+        await this._authenticate(password, email);
+      } catch (errorResponse) {
+        const errorStatus = get(errorResponse, 'errors[0].status');
+        const invitationIsAlreadyAcceptedOrUserIsAlreadyMember = errorStatus === '412';
+        if (invitationIsAlreadyAcceptedOrUserIsAlreadyMember) {
+          await this._authenticate(password, email);
+          return;
+        }
+
+        this.errorMessage = this._handleResponseError(errorResponse);
+        this.isErrorMessagePresent = true;
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  }
+
+  async _authenticate(password, email) {
+    const scope = 'pix-certif';
+
+    try {
+      await this.session.authenticate('authenticator:oauth2', email, password, scope);
+    } catch (errorResponse) {
+      const errors = get(errorResponse, 'responseJSON');
+      this.errorMessage = this._handleResponseError(errors);
+      this.isErrorMessagePresent = true;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action
@@ -63,5 +116,32 @@ export default class ToggableLoginForm extends Component {
 
   get forgottenPasswordUrl() {
     return this.url.forgottenPasswordUrl;
+  }
+
+  _handleResponseError(errorResponse) {
+    if (Array.isArray(errorResponse?.errors)) {
+      const error = errorResponse?.errors[0];
+
+      switch (error.status) {
+        case '400':
+          return this.ERROR_MESSAGES.STATUS_400;
+        case '401':
+          return this.ERROR_MESSAGES.STATUS_401;
+        case '403':
+          return this.ERROR_MESSAGES.STATUS_403;
+        case '404':
+          return this.ERROR_MESSAGES.STATUS_404;
+        case '409':
+          return this.ERROR_MESSAGES.STATUS_409;
+        case '412':
+          return this.ERROR_MESSAGES.STATUS_412;
+        case '429':
+          return this.ERROR_MESSAGES.STATUS_429;
+        default:
+          return this.ERROR_MESSAGES.DEFAULT;
+      }
+    } else {
+      return this.ERROR_MESSAGES.DEFAULT;
+    }
   }
 }
