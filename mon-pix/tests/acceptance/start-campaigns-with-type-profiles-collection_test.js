@@ -8,7 +8,6 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 import { clickByLabel } from '../helpers/click-by-label';
-import findByLabel from '../helpers/find-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
@@ -217,7 +216,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection
 
             it('should redirect to connection form when continue button is clicked', async function () {
               // given
-              await visit(`/campagnes/${campaign.code}`);
+              const screen = await visit(`/campagnes/${campaign.code}`);
               await clickByLabel("C'est parti !");
 
               // when
@@ -231,7 +230,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection
 
               //then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
-              expect(findByLabel('Se connecter')).to.exist;
+              expect(screen.getByRole('button', { name: 'Se connecter' })).to.exist;
             });
           });
         });
