@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 
 export default class PreselectTargetProfileRoute extends Route {
   @service currentUser;
+  @service store;
 
   async model() {
     const organization = this.currentUser.organization;
