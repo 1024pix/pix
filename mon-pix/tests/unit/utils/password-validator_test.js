@@ -4,23 +4,23 @@ import isPasswordvalid from 'mon-pix/utils/password-validator';
 module('Unit | Utility | password validator', function () {
   module('Validation rules', function () {
     test('should contain at least 8 characters:', function (assert) {
-      assert.equal(isPasswordvalid('Ab123456'), true);
-      assert.equal(isPasswordvalid('A1'), false);
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('A1'));
     });
 
     test('should contain at least one digit', function (assert) {
-      assert.equal(isPasswordvalid('Ab123456'), true);
-      assert.equal(isPasswordvalid('ABCDEFGH'), false);
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('ABCDEFGH'));
     });
 
     test('should contain at least one uppercase letter', function (assert) {
-      assert.equal(isPasswordvalid('Ab123456'), true);
-      assert.equal(isPasswordvalid('a1234567'), false);
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('a1234567'));
     });
 
     test('should contain at least one lowercase letter', function (assert) {
-      assert.equal(isPasswordvalid('Ab123456'), true);
-      assert.equal(isPasswordvalid('A1234567'), false);
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('A1234567'));
     });
   });
 
@@ -40,7 +40,7 @@ module('Unit | Utility | password validator', function () {
       '+!@)-=`"#&1a',
     ].forEach(function (badPassword) {
       test(`should return false when password is invalid: ${badPassword}`, function (assert) {
-        assert.equal(isPasswordvalid(badPassword), false);
+        assert.false(isPasswordvalid(badPassword));
       });
     });
   });
@@ -63,7 +63,7 @@ module('Unit | Utility | password validator', function () {
       'Aà1      ',
     ].forEach(function (validPassword) {
       test(`should return true if provided password is valid: ${validPassword}`, function (assert) {
-        assert.equal(isPasswordvalid(validPassword), true);
+        assert.true(isPasswordvalid(validPassword));
       });
     });
   });

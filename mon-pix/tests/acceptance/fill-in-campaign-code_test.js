@@ -69,6 +69,8 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes');
         assert.ok(screen.getByText(this.intl.t('pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title')));
       });
@@ -90,6 +92,8 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
           await click(screen.getByRole('link', { name: 'Continuer' }));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
       });
@@ -111,6 +115,8 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
           await click(screen.getByRole('button', { name: 'Quitter' }));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/campagnes');
         });
       });
@@ -127,6 +133,8 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
       });
     });

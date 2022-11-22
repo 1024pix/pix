@@ -19,7 +19,7 @@ module('Unit | Component | feedback-panel', function (hooks) {
       component.toggleFeedbackForm();
 
       // then
-      assert.equal(component.isFormOpened, true);
+      assert.true(component.isFormOpened);
     });
 
     test('should close and reset form', function (assert) {
@@ -32,8 +32,8 @@ module('Unit | Component | feedback-panel', function (hooks) {
       component.toggleFeedbackForm();
 
       // then
-      assert.equal(component.isFormOpened, false);
-      assert.equal(component.isFormSubmitted, false);
+      assert.false(component.isFormOpened);
+      assert.false(component.isFormSubmitted);
       assert.notOk(component.emptyTextBoxMessageError);
     });
   });
@@ -47,7 +47,7 @@ module('Unit | Component | feedback-panel', function (hooks) {
       const result = component.isSendButtonDisabled;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when the feedback has already been sent', function (assert) {
@@ -58,7 +58,7 @@ module('Unit | Component | feedback-panel', function (hooks) {
       const result = component.isSendButtonDisabled;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true when the send operation is in progress', function (assert) {
@@ -69,7 +69,7 @@ module('Unit | Component | feedback-panel', function (hooks) {
       const result = component.isSendButtonDisabled;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 

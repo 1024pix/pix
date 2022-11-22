@@ -33,7 +33,7 @@ module('Unit | Model | correction', function (hooks) {
       const result = model.noHintsNorTutorialsAtAll;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should be false when correction has an hint', function (assert) {
@@ -49,7 +49,7 @@ module('Unit | Model | correction', function (hooks) {
       const result = model.noHintsNorTutorialsAtAll;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should be false when correction has a tutorial', function (assert) {
@@ -66,7 +66,7 @@ module('Unit | Model | correction', function (hooks) {
       const result = model.noHintsNorTutorialsAtAll;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should be false when correction has a learningMoreTutorial', function (assert) {
@@ -83,7 +83,7 @@ module('Unit | Model | correction', function (hooks) {
       const result = model.noHintsNorTutorialsAtAll;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 });

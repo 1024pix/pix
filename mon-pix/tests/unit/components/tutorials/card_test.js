@@ -28,7 +28,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isTutorialEvaluated;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true when the tutorial has already been evaluated', function (assert) {
@@ -39,7 +39,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isTutorialEvaluated;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return true when the evaluate operation is in progress', function (assert) {
@@ -50,7 +50,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isTutorialEvaluated;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -63,7 +63,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isTutorialSaved;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true when the tutorial has already been saved', function (assert) {
@@ -74,7 +74,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isTutorialSaved;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return true when saving is in progress', function (assert) {
@@ -85,7 +85,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isTutorialSaved;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -95,7 +95,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isSaved;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true when the tutorial has been saved', function (assert) {
@@ -106,7 +106,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       const result = component.isSaved;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -144,6 +144,8 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
         await component.toggleSaveTutorial();
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.savingStatus, 'recorded');
       });
     });
@@ -175,6 +177,8 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
         await component.toggleSaveTutorial();
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.savingStatus, 'unrecorded');
       });
     });

@@ -44,6 +44,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
@@ -67,6 +69,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
 
             test('should redirect to send profile page', async function (assert) {
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
@@ -81,6 +85,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
                 organizationType: 'SCO',
               });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
               await clickByLabel("C'est parti !");
 
@@ -100,6 +106,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
@@ -120,6 +128,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
 
         test('should redirect to send profile page after signup', async function (assert) {
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
@@ -140,6 +150,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
 
           test('should redirect to send profile page after signup', async function (assert) {
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         }
@@ -156,7 +168,11 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           // when
           campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await visit(`/campagnes/${campaign.code}`);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(find('.campaign-landing-page__start-button').textContent.trim(), "C'est parti !");
         });
       });
@@ -189,6 +205,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
 
@@ -231,6 +249,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
               //then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
               assert.ok(screen.getByRole('button', { name: 'Se connecter' }));
             });
@@ -254,6 +274,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
@@ -269,6 +291,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
 
           test('should redirect to send profile page', async function (assert) {
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
@@ -285,6 +309,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           await click('.campaign-landing-page__start-button');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
@@ -302,6 +328,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await click('.campaign-landing-page__start-button');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         }

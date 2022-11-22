@@ -16,8 +16,14 @@ module('Unit | Serializer | assessment', function (hooks) {
 
     const json = serializer.serialize(snapshot);
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(json.data.type, 'assessments');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(json.data.attributes['certification-number'], 'cert123');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(json.data.attributes['code-campaign'], 'campaign123');
   });
 
@@ -33,6 +39,8 @@ module('Unit | Serializer | assessment', function (hooks) {
 
       const json = serializer.serialize(snapshot);
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(json.data.attributes['challenge-id'], 'challenge1');
     });
   });

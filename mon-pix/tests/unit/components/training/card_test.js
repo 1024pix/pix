@@ -70,6 +70,8 @@ module('Unit | Component | Training | card', function (hooks) {
         const result = component.durationFormatted;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(result, expectedResult);
       });
     });
@@ -87,7 +89,7 @@ module('Unit | Component | Training | card', function (hooks) {
 
       // then
       assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Webinaire-[1-3].png/g).test(result));
-      assert.equal(getRandomImageNumberSpy.called, true);
+      assert.true(getRandomImageNumberSpy.called);
     });
 
     test('should return appropriate image src for training type autoformation', function (assert) {
@@ -101,7 +103,7 @@ module('Unit | Component | Training | card', function (hooks) {
 
       // then
       assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3].png/g).test(result));
-      assert.equal(getRandomImageNumberSpy.called, true);
+      assert.true(getRandomImageNumberSpy.called);
     });
   });
 
@@ -115,6 +117,8 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, 'purple-light');
     });
 
@@ -127,6 +131,8 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, 'blue-light');
     });
   });

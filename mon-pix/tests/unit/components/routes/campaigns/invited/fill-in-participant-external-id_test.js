@@ -51,6 +51,8 @@ module('Unit | Component | routes/campaigns/invited/fill-in-participant-external
       await component.actions.submit.call(component, eventStub);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.errorMessage, `Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
     });
 
@@ -63,6 +65,8 @@ module('Unit | Component | routes/campaigns/invited/fill-in-participant-external
       await component.actions.submit.call(component, eventStub);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         component.errorMessage,
         `Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`

@@ -25,6 +25,8 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/accueil');
   });
 
@@ -52,6 +54,8 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
     assert.ok(screen.getByText(expectedValidationErrorMessage));
@@ -81,6 +85,8 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
     assert.ok(screen.getByText(expectedErrorMessage));
@@ -124,6 +130,8 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
     assert.ok(screen.getByText(expectedErrorMessage));

@@ -142,6 +142,8 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errorMessage, expectedErrorMessage);
       });
 
@@ -154,6 +156,8 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errorMessage, expectedErrorMessage);
       });
     });
@@ -167,7 +171,7 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        assert.equal(component.authenticationHasFailed, true);
+        assert.true(component.authenticationHasFailed);
       });
     });
   });

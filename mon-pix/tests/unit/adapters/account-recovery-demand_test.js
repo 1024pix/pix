@@ -11,7 +11,7 @@ module('Unit | Adapter | account recovery demand', function (hooks) {
       const url = adapter.buildURL(123, 'account-recovery-demand', null, 'send-account-recovery-demand');
 
       // then
-      assert.equal(url.endsWith('api/'), true);
+      assert.true(url.endsWith('api/'));
     });
   });
 });

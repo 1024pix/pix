@@ -59,12 +59,11 @@ module('Integration | Component | user-account | email-verification-code', funct
       await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
 
       // then
-      assert.equal(
+      assert.true(
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
           hidden: true,
-        }).disabled,
-        true
+        }).disabled
       );
     });
 

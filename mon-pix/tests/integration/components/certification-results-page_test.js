@@ -50,6 +50,8 @@ module('Integration | Component | certification results template', function (hoo
 
       // then
       assert.dom('.result-content__logout-button').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.result-content__logout-button').textContent, 'Se déconnecter');
     });
   });

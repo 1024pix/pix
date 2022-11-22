@@ -41,7 +41,11 @@ module('Integration | Component | user logged menu', function (hooks) {
 
       assert.dom('.logged-user-name').exists();
       assert.dom('.logged-user-name__link').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(a11yText, this.intl.t('navigation.user-logged-menu.details'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(buttonTextContent, 'Hermione');
     });
 

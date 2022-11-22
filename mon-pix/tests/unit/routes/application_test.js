@@ -22,6 +22,8 @@ module('Unit | Route | application', function (hooks) {
     route.activate();
 
     // Then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(SplashServiceStub.hideCount, 1);
   });
 
@@ -55,6 +57,8 @@ module('Unit | Route | application', function (hooks) {
       await route.beforeModel();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.intl.primaryLocale, 'fr');
     });
 
@@ -69,6 +73,8 @@ module('Unit | Route | application', function (hooks) {
       await route.beforeModel();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(route.headData.description, this.intl.t('application.description'));
     });
 

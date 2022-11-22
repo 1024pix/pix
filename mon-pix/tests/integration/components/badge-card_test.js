@@ -21,7 +21,11 @@ module('Integration | Component | Badge Card', function (hooks) {
 
     // then
     assert.dom('.badge-card').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('.badge-card-text__title').textContent.trim(), 'Badge de winner');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('.badge-card-text__message').textContent.trim(), 'Bravo ! Tu as ton badge !');
   });
 });

@@ -26,6 +26,8 @@ module('Acceptance | Profile', function (hooks) {
       await visit('/competences');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/competences');
     });
 
@@ -36,6 +38,8 @@ module('Acceptance | Profile', function (hooks) {
       assert.ok(find('.hexagon-score-content__pix-score').textContent.includes(user.profile.pixScore));
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should display scorecards classified accordingly to each area', async function (assert) {
       // when
       await visit('/competences');
@@ -44,18 +48,24 @@ module('Acceptance | Profile', function (hooks) {
       user.scorecards.models.forEach((scorecard) => {
         const splitIndex = scorecard.index.split('.');
         const competenceNumber = splitIndex[splitIndex.length - 1];
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find(
             `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__area-name`
           ).textContent,
           scorecard.area.title
         );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find(
             `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__competence-name`
           ).textContent,
           scorecard.name
         );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find(
             `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .score-value`
@@ -76,6 +86,8 @@ module('Acceptance | Profile', function (hooks) {
 
       // then
       const scorecard = user.scorecards.models[0];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/competences/${scorecard.competenceId}/details`);
     });
   });
@@ -84,6 +96,8 @@ module('Acceptance | Profile', function (hooks) {
     test('should redirect to home, when user is not authenticated', async function (assert) {
       // when
       await visit('/competences');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
 
@@ -97,6 +111,8 @@ module('Acceptance | Profile', function (hooks) {
       await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });

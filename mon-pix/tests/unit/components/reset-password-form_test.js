@@ -12,6 +12,8 @@ module('Unit | Component | reset password form', function (hooks) {
   module('#validatePassword', function () {
     test('should set validation status to default, when component is rendered', function (assert) {
       const component = createGlimmerComponent('component:reset-password-form');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.validation.status, 'default');
     });
 
@@ -69,7 +71,7 @@ module('Unit | Component | reset password form', function (hooks) {
         await component.handleResetPassword();
 
         // then
-        assert.deepEqual(component.hasSucceeded, true);
+        assert.true(component.hasSucceeded);
       });
 
       test('should reset password input', async function (assert) {

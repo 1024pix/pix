@@ -52,6 +52,8 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
         test('should dqrocm-ind-solution-panel-test.jsisplay the labels', function (assert) {
           const labels = findAll('.correction-qrocm-text__label');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(labels.length, 3);
         });
 
@@ -59,7 +61,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
           test('should display the correct answer in green bold', async function (assert) {
             // then
             const correctAnswerText = findAll(ANSWER)[CORRECT_ANSWER_POSITION];
-            assert.equal(correctAnswerText.classList.contains('correction-qroc-box-answer--correct'), true);
+            assert.true(correctAnswerText.classList.contains('correction-qroc-box-answer--correct'));
           });
 
           test('should not display the solution block', async function (assert) {
@@ -68,6 +70,8 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
             const correctSolutionBlock = solutionBlockList[CORRECT_ANSWER_POSITION];
 
             assert.notOk(correctSolutionBlock);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(solutionBlockList.length, 2);
           });
         });
@@ -89,8 +93,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
             const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
 
             assert.ok(answerInput);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(answerInput.value, EMPTY_DEFAULT_MESSAGE);
-            assert.equal(answerInput.classList.contains('correction-qroc-box-answer--aband'), true);
+            assert.true(answerInput.classList.contains('correction-qroc-box-answer--aband'));
           });
         });
 
@@ -122,7 +128,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
             const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
 
             assert.ok(answerInput);
-            assert.equal(answerInput.classList.contains('correction-qroc-box-answer--wrong'), true);
+            assert.true(answerInput.classList.contains('correction-qroc-box-answer--wrong'));
           });
         });
       });
@@ -146,10 +152,16 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       //then
 
       assert.dom(PARAGRAPH).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(INPUT).tagName, 'INPUT');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(INPUT).value, EMPTY_DEFAULT_MESSAGE);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(INPUT).getAttribute('size'), EMPTY_DEFAULT_MESSAGE.length.toString());
-      assert.equal(find(INPUT).hasAttribute('disabled'), true);
+      assert.true(find(INPUT).hasAttribute('disabled'));
     });
   });
 
@@ -170,8 +182,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       // then
       assert.dom(INPUT).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(PARAGRAPH).tagName, 'TEXTAREA');
-      assert.equal(find(PARAGRAPH).hasAttribute('disabled'), true);
+      assert.true(find(PARAGRAPH).hasAttribute('disabled'));
     });
   });
 
@@ -192,8 +206,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       // then
       assert.dom(INPUT).doesNotExist();
       assert.dom(PARAGRAPH).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(SENTENCE).tagName, 'INPUT');
-      assert.equal(find(SENTENCE).hasAttribute('disabled'), true);
+      assert.true(find(SENTENCE).hasAttribute('disabled'));
     });
   });
 });

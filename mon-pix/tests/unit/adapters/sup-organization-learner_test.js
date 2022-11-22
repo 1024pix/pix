@@ -18,7 +18,7 @@ module('Unit | Adapters | sup-organization-learner', function (hooks) {
       const url = await adapter.urlForCreateRecord('sup-organization-learner');
 
       // then
-      assert.equal(url.endsWith('/sup-organization-learners/association'), true);
+      assert.true(url.endsWith('/sup-organization-learners/association'));
     });
   });
 

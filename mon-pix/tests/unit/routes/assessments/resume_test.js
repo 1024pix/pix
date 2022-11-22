@@ -63,6 +63,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
               route.hasSeenCheckpoint = true;
             });
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/require-expect
             test('should redirect to the challenge view', function (assert) {
               // when
               const promise = route.redirect(assessment);
@@ -81,6 +83,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
               route.hasSeenCheckpoint = false;
             });
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/require-expect
             test('should redirect to assessment checkpoint page', function (assert) {
               // when
               const promise = route.redirect(assessment);
@@ -96,6 +100,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
         });
 
         module('when checkpoint is not reached', function () {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/require-expect
           test('should redirect to the challenge view', function (assert) {
             // when
             const promise = route.redirect(assessment);
@@ -114,6 +120,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
         hooks.beforeEach(function () {
           assessment.isPlacement = true;
         });
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/require-expect
         test('should redirect to the challenge view', function (assert) {
           // when
           const promise = route.redirect(assessment);
@@ -153,6 +161,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
               route.hasSeenCheckpoint = true;
             });
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/require-expect
             test('should redirect to campaigns.assessment.skill-review page', function (assert) {
               // when
               const promise = route.redirect(assessment);
@@ -170,6 +180,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
               route.hasSeenCheckpoint = false;
             });
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/require-expect
             test('should redirect to assessment last checkpoint page', function (assert) {
               // when
               const promise = route.redirect(assessment);
@@ -209,6 +221,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
           assessment.certificationNumber = 666;
         });
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/require-expect
         test('should redirect to certifications.results page', function (assert) {
           // when
           const promise = route.redirect(assessment);
@@ -226,6 +240,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
           assessment.isCompetenceEvaluation = true;
         });
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/require-expect
         test('should redirect to competences.results page', function (assert) {
           // when
           const competenceId = 'recCompetenceId';
@@ -240,6 +256,8 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
       });
 
       module('when assessment is a DEMO', function () {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/require-expect
         test('should redirect to assessments.results page', function (assert) {
           // when
           const promise = route.redirect(assessment);

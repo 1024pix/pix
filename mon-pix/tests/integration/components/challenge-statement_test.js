@@ -51,6 +51,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       await renderChallengeStatement(this);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), 'La consigne de mon test');
     });
 
@@ -286,6 +288,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // then
       assert.ok(find('.challenge-illustration__loaded-image').src.includes(challenge.illustrationUrl));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.challenge-illustration__loaded-image').alt, challenge.illustrationAlt);
     });
 
@@ -342,6 +346,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
         // then
         assert.dom('.challenge-statement__action-link').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('.challenge-statement__action-link').href, 'http://challenge.file.url/');
       });
     });
@@ -391,7 +397,11 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll('.challenge-statement__file-option-label')[0].textContent.trim(), 'fichier .docx');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll('.challenge-statement__file-option-label')[1].textContent.trim(), 'fichier .odt');
       });
 
@@ -404,8 +414,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
 
         // then
-        assert.equal(findAll('.challenge-statement__file-option_input')[0].checked, true);
-        assert.equal(findAll('.challenge-statement__file-option_input')[1].checked, false);
+        assert.true(findAll('.challenge-statement__file-option_input')[0].checked);
+        assert.false(findAll('.challenge-statement__file-option_input')[1].checked);
       });
 
       test('should select first attachment as default selected radio button when QROC', async function (assert) {
@@ -417,8 +427,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
 
         // then
-        assert.equal(findAll('.challenge-statement__file-option_input')[0].checked, true);
-        assert.equal(findAll('.challenge-statement__file-option_input')[1].checked, false);
+        assert.true(findAll('.challenge-statement__file-option_input')[0].checked);
+        assert.false(findAll('.challenge-statement__file-option_input')[1].checked);
       });
 
       test('should display attachements paragraph text', async function (assert) {
@@ -430,6 +440,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find('span[data-test-id="challenge-statement__text-content"]').textContent.trim(),
           'Choisissez le type de fichier que vous voulez utiliser'

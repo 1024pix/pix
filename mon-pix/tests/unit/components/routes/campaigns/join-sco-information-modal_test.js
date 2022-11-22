@@ -24,7 +24,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           });
 
           // then
-          assert.equal(component.isAccountBelongingToAnotherUser, true);
+          assert.true(component.isAccountBelongingToAnotherUser);
         });
 
         test('should not display continue button', function (assert) {
@@ -39,7 +39,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           });
 
           // then
-          assert.equal(component.displayContinueButton, false);
+          assert.false(component.displayContinueButton);
         });
 
         test('should set is isInformationMode to false', function (assert) {
@@ -54,7 +54,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           });
 
           // then
-          assert.equal(component.isInformationMode, false);
+          assert.false(component.isInformationMode);
         });
       });
 
@@ -71,7 +71,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           });
 
           // then
-          assert.equal(component.isInformationMode, false);
+          assert.false(component.isInformationMode);
         });
 
         test('should display error message', function (assert) {
@@ -101,7 +101,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
             });
 
             // then
-            assert.equal(component.displayContinueButton, true);
+            assert.true(component.displayContinueButton);
           });
         });
 
@@ -116,7 +116,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
             });
 
             // then
-            assert.equal(component.displayContinueButton, false);
+            assert.false(component.displayContinueButton);
           });
         });
       });
@@ -136,7 +136,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
         });
 
         // then
-        assert.equal(component.isInformationMode, true);
+        assert.true(component.isInformationMode);
       });
 
       test('should display an information message', function (assert) {

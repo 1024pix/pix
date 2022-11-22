@@ -59,12 +59,14 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           test('should display the correct answer in green bold', function (assert) {
             // then
             const firstAnswerInput = findAll(ANSWER)[0];
-            assert.equal(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct'), true);
+            assert.true(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct'));
           });
 
           test('should not have solution block', function (assert) {
             // then
             const solutionBlockList = findAll(SOLUTION_BLOCK);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(solutionBlockList.length, 0);
           });
         });
@@ -92,6 +94,8 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           test('should display one solution in bold green', async function (assert) {
             // then
             const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(noAnswerSolutionBlockList.length, 1);
           });
 
@@ -99,8 +103,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             // then
             const firstAnswerInput = findAll(ANSWER)[0];
             assert.ok(firstAnswerInput);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(firstAnswerInput.value, EMPTY_DEFAULT_MESSAGE);
-            assert.equal(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband'), true);
+            assert.true(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband'));
           });
         });
 
@@ -154,7 +160,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             const firstAnswerInput = findAll(ANSWER)[0];
 
             assert.ok(firstAnswerInput);
-            assert.equal(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong'), false);
+            assert.false(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong'));
           });
         });
       });
@@ -186,9 +192,13 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       //then
       assert.dom(PARAGRAPH).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(INPUT).tagName, 'INPUT');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(INPUT).getAttribute('size'), answerSize.toString());
-      assert.equal(find(INPUT).hasAttribute('disabled'), true);
+      assert.true(find(INPUT).hasAttribute('disabled'));
     });
   });
 
@@ -216,8 +226,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       // then
       assert.dom(INPUT).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(PARAGRAPH).tagName, 'TEXTAREA');
-      assert.equal(find(PARAGRAPH).hasAttribute('disabled'), true);
+      assert.true(find(PARAGRAPH).hasAttribute('disabled'));
     });
   });
 
@@ -245,8 +257,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       // then
       assert.dom(INPUT).doesNotExist();
       assert.dom(PARAGRAPH).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(SENTENCE).tagName, 'INPUT');
-      assert.equal(find(SENTENCE).hasAttribute('disabled'), true);
+      assert.true(find(SENTENCE).hasAttribute('disabled'));
     });
   });
 });

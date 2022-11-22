@@ -16,7 +16,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isIneInaValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -30,7 +30,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isIneInaValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -44,7 +44,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isIneInaValid;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
 
@@ -58,7 +58,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isIneInaValid;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
   });
@@ -74,7 +74,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component.isFormValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -88,7 +88,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component.isFormValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -102,7 +102,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component.isFormValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -116,7 +116,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component.isFormValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -130,7 +130,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component.isFormValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -149,7 +149,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component.isFormValid;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
   });
@@ -165,7 +165,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isDayOfBirthValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -179,7 +179,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isDayOfBirthValid;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
   });
@@ -195,7 +195,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isMonthOfBirthValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -209,7 +209,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isMonthOfBirthValid;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
   });
@@ -225,7 +225,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isYearOfBirthValid;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
 
@@ -239,7 +239,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
         const result = component._isYearOfBirthValid;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
   });
@@ -256,6 +256,8 @@ module('Unit | Component | account-recovery/student-information-form', function 
       const result = component._formatBirthdate;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, '2004-05-02');
     });
   });

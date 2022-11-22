@@ -11,7 +11,7 @@ module('Unit | Adapters | reset-expired-password-demand', function (hooks) {
       const url = adapter.buildURL();
 
       // then
-      assert.equal(url.endsWith('api/'), true);
+      assert.true(url.endsWith('api/'));
     });
   });
 });

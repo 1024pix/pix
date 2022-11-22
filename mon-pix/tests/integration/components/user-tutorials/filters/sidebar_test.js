@@ -51,7 +51,7 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
         await click(checkbox);
 
         // then
-        assert.equal(checkbox.checked, true);
+        assert.true(checkbox.checked);
       });
     });
 
@@ -78,7 +78,7 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
           await click(screen.getByRole('button', { name: 'Réinitialiser' }));
 
           // then
-          assert.equal(checkbox.checked, false);
+          assert.false(checkbox.checked);
         });
       });
     });

@@ -14,6 +14,8 @@ module('Unit | Service | errors', function (hooks) {
       service.push(error);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(service.errors[0], error);
     });
   });
@@ -31,7 +33,11 @@ module('Unit | Service | errors', function (hooks) {
       const result = service.shift();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, error1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(service.errors.length, 1);
     });
   });
@@ -47,7 +53,7 @@ module('Unit | Service | errors', function (hooks) {
       const result = service.hasErrors();
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false if there is no error', function (assert) {
@@ -58,7 +64,7 @@ module('Unit | Service | errors', function (hooks) {
       const result = service.hasErrors();
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 });

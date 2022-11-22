@@ -34,6 +34,8 @@ module('Acceptance | mes-formations', function (hooks) {
       await visit('/mes-formations');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/mes-formations');
       assert.dom('.user-trainings-banner__title').exists();
       assert.ok(find('.user-trainings-banner__title').textContent.includes('Mes formations'));

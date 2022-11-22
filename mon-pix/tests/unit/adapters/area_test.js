@@ -13,7 +13,7 @@ module('Unit | Adapter | Area', function (hooks) {
       const url = adapter.urlForFindAll();
 
       // then
-      assert.equal(url.endsWith('api/frameworks/pix/areas-for-user'), true);
+      assert.true(url.endsWith('api/frameworks/pix/areas-for-user'));
     });
   });
 });

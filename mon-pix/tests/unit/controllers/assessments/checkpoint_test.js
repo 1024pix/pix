@@ -20,6 +20,8 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('finalCheckpoint', false);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.nextPageButtonText, 'Continuer');
     });
 
@@ -28,6 +30,8 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('finalCheckpoint', true);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.nextPageButtonText, 'Voir mes résultats');
     });
   });
@@ -35,7 +39,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
   module('#finalCheckpoint', function () {
     test('should equal false by default', function (assert) {
       // then
-      assert.equal(controller.finalCheckpoint, false);
+      assert.false(controller.finalCheckpoint);
     });
   });
 
@@ -45,6 +49,8 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('finalCheckpoint', true);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.completionPercentage, 100);
     });
 
@@ -58,6 +64,8 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('model', model);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.completionPercentage, 73);
     });
   });
@@ -70,7 +78,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       };
       controller.set('model', model);
       // then
-      assert.equal(controller.shouldDisplayAnswers, true);
+      assert.true(controller.shouldDisplayAnswers);
     });
 
     test('should be false when answers are absent', function (assert) {
@@ -80,7 +88,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       };
       controller.set('model', model);
       // then
-      assert.equal(controller.shouldDisplayAnswers, false);
+      assert.false(controller.shouldDisplayAnswers);
     });
   });
 
@@ -93,7 +101,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.displayHomeLink;
 
       // then
-      assert.equal(controller.displayHomeLink, false);
+      assert.false(controller.displayHomeLink);
     });
 
     test('should display home link when user is not anonymous', function (assert) {
@@ -104,7 +112,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.displayHomeLink;
 
       // then
-      assert.equal(controller.displayHomeLink, true);
+      assert.true(controller.displayHomeLink);
     });
   });
 
@@ -116,7 +124,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.model = model;
 
       // then
-      assert.equal(controller.showLevelup, true);
+      assert.true(controller.showLevelup);
     });
 
     test('should not display level up pop-in when user has not leveled up', function (assert) {
@@ -126,7 +134,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.model = model;
 
       // then
-      assert.equal(controller.showLevelup, false);
+      assert.false(controller.showLevelup);
     });
 
     test('should not display level up pop-in when it is not in assessment with level up', function (assert) {
@@ -136,7 +144,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.model = model;
 
       // then
-      assert.equal(controller.showLevelup, false);
+      assert.false(controller.showLevelup);
     });
   });
 });

@@ -79,6 +79,8 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
       await component.actions.submit.call(component, attributes);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.errorMessage, null);
     });
 
@@ -101,6 +103,8 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errorMessage.string, expectedErrorMessage);
         assert.ok(true);
       });
@@ -117,13 +121,17 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
 
           // then
           sinon.assert.calledOnce(record.unloadRecord);
-          assert.equal(component.displayInformationModal, true);
+          assert.true(component.displayInformationModal);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.reconciliationError, error);
           sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
           assert.ok(true);
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-async-module-callbacks
       module('When another student is already reconciled on the same organization', async function () {
         test('should return a conflict error and display the error message related to the short code R70)', async function (assert) {
           // given
@@ -144,6 +152,8 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
           await component.actions.submit.call(component, attributes);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.errorMessage, expectedErrorMessage);
         });
       });
@@ -180,6 +190,8 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
           await component.actions.submit.call(component, attributes);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.errorMessage.string, expectedErrorMessage);
         });
       });

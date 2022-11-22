@@ -22,7 +22,7 @@ module('Unit | Adapters | tutorial-evaluation', function (hooks) {
       const url = await adapter.urlForCreateRecord('tutorial-evaluations', snapshot);
 
       // then
-      assert.equal(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`), true);
+      assert.true(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`));
     });
   });
 
@@ -36,7 +36,7 @@ module('Unit | Adapters | tutorial-evaluation', function (hooks) {
       const url = await adapter.urlForUpdateRecord('tutorial-evaluations', snapshot);
 
       // then
-      assert.equal(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`), true);
+      assert.true(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`));
     });
   });
 

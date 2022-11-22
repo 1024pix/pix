@@ -26,6 +26,8 @@ module('Unit | Component | form-textfield-date', function (hooks) {
           const propertyValue = component[property];
 
           // Then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(propertyValue, expectedValue);
         });
       });
@@ -47,6 +49,8 @@ module('Unit | Component | form-textfield-date', function (hooks) {
           const propertyValue = component[property];
 
           // Then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(propertyValue, expectedValue);
         });
       });
@@ -68,6 +72,8 @@ module('Unit | Component | form-textfield-date', function (hooks) {
           const propertyValue = component[property];
 
           // Then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(propertyValue, expectedValue);
         });
       });

@@ -15,6 +15,8 @@ const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 module('Integration | Component | signin form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/no-async-module-callbacks
   module('Rendering', async function () {
     test('should display an input for identifiant field', async function (assert) {
       // when
@@ -72,6 +74,8 @@ module('Integration | Component | signin form', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('div[id="sign-in-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
       });
 
@@ -90,6 +94,8 @@ module('Integration | Component | signin form', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('div[id="sign-in-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
       });
 
@@ -109,6 +115,8 @@ module('Integration | Component | signin form', function (hooks) {
 
         // then
         assert.ok(document.querySelector('div.sign-form__notification-message--error'));
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find('div[id="sign-in-error-message"]').textContent.trim(),
           this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE)

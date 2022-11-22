@@ -17,6 +17,8 @@ module('Unit | Model | Challenge', function (hooks) {
   });
 
   module('Computed property #hasAttachment', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be true when challenge has at least one attachment file', function (assert) {
       run(() => {
         // given
@@ -26,10 +28,12 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasAttachment = challenge.hasAttachment;
 
         // then
-        assert.equal(hasAttachment, true);
+        assert.true(hasAttachment);
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has multiple attachment files', function (assert) {
       run(() => {
         // given
@@ -39,12 +43,14 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasAttachment = challenge.hasAttachment;
 
         // then
-        assert.equal(hasAttachment, false);
+        assert.false(hasAttachment);
       });
     });
   });
 
   module('Computed property #hasSingleAttachment', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be true when challenge has only one attachment file', function (assert) {
       run(() => {
         // given
@@ -54,10 +60,12 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasSingleAttachment = challenge.hasSingleAttachment;
 
         // then
-        assert.equal(hasSingleAttachment, true);
+        assert.true(hasSingleAttachment);
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has multiple attachment files', function (assert) {
       run(() => {
         // given
@@ -67,12 +75,14 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasSingleAttachment = challenge.hasSingleAttachment;
 
         // then
-        assert.equal(hasSingleAttachment, false);
+        assert.false(hasSingleAttachment);
       });
     });
   });
 
   module('Computed property #hasMultipleAttachments', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has no attachment file', function (assert) {
       run(() => {
         // given
@@ -82,10 +92,12 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
-        assert.equal(hasMultipleAttachments, false);
+        assert.false(hasMultipleAttachments);
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has only one attachment file', function (assert) {
       run(() => {
         // given
@@ -95,10 +107,12 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
-        assert.equal(hasMultipleAttachments, false);
+        assert.false(hasMultipleAttachments);
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('Should be true when challenge has multiple attachments files', function (assert) {
       run(() => {
         // given
@@ -108,7 +122,7 @@ module('Unit | Model | Challenge', function (hooks) {
         const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
-        assert.equal(hasMultipleAttachments, true);
+        assert.true(hasMultipleAttachments);
       });
     });
   });
@@ -132,7 +146,7 @@ module('Unit | Model | Challenge', function (hooks) {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      assert.equal(hasValidEmbedDocument, true);
+      assert.true(hasValidEmbedDocument);
     });
 
     test('should be false when embed URL is missing', function (assert) {
@@ -144,7 +158,7 @@ module('Unit | Model | Challenge', function (hooks) {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      assert.equal(hasValidEmbedDocument, false);
+      assert.false(hasValidEmbedDocument);
     });
 
     test('should be false when embed URL is not secured (HTTPS)', function (assert) {
@@ -156,7 +170,7 @@ module('Unit | Model | Challenge', function (hooks) {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      assert.equal(hasValidEmbedDocument, false);
+      assert.false(hasValidEmbedDocument);
     });
 
     test('should be false when embed title is missing', function (assert) {
@@ -168,7 +182,7 @@ module('Unit | Model | Challenge', function (hooks) {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      assert.equal(hasValidEmbedDocument, false);
+      assert.false(hasValidEmbedDocument);
     });
 
     test('should be false when embed height is missing', function (assert) {
@@ -180,7 +194,7 @@ module('Unit | Model | Challenge', function (hooks) {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      assert.equal(hasValidEmbedDocument, false);
+      assert.false(hasValidEmbedDocument);
     });
   });
 });

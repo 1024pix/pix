@@ -56,7 +56,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const answerIsCorrect = component.answerIsCorrect;
 
       //Then
-      assert.equal(answerIsCorrect, true);
+      assert.true(answerIsCorrect);
     });
 
     test('should return false', function (assert) {
@@ -67,7 +67,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const answerIsCorrect = component.answerIsCorrect;
 
       //Then
-      assert.equal(answerIsCorrect, false);
+      assert.false(answerIsCorrect);
     });
   });
 
@@ -85,6 +85,8 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const understandableSolution = component.understandableSolution;
 
       //Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(understandableSolution, 'horizontalité et cadre');
     });
 
@@ -101,6 +103,8 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const understandableSolution = component.understandableSolution;
 
       //Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(understandableSolution, 'tag ou marche ou ...');
     });
   });

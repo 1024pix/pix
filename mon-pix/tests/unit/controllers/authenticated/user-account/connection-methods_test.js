@@ -16,7 +16,7 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       await controller.enableEmailEditionMode();
 
       // then
-      assert.equal(controller.isEmailEditionMode, true);
+      assert.true(controller.isEmailEditionMode);
     });
   });
 
@@ -30,7 +30,7 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       await controller.disableEmailEditionMode();
 
       // then
-      assert.equal(controller.isEmailEditionMode, false);
+      assert.false(controller.isEmailEditionMode);
     });
   });
 
@@ -44,7 +44,7 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       controller.displayEmailUpdateMessage();
 
       // then
-      assert.equal(controller.showEmailUpdatedMessage, true);
+      assert.true(controller.showEmailUpdatedMessage);
     });
   });
 
@@ -60,7 +60,7 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       controller.set('model', model);
 
       // then
-      assert.equal(controller.shouldShowPixAuthenticationMethod, true);
+      assert.true(controller.shouldShowPixAuthenticationMethod);
     });
   });
 
@@ -76,7 +76,7 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       controller.set('model', model);
 
       // then
-      assert.equal(controller.shouldShowGarAuthenticationMethod, true);
+      assert.true(controller.shouldShowGarAuthenticationMethod);
     });
   });
 

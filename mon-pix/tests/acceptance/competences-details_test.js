@@ -40,6 +40,8 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
       await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/competences/${scorecardWithPoints.competenceId}/details`);
     });
 
@@ -68,6 +70,8 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
       await click('.pix-return-to');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/competences');
     });
 
@@ -99,7 +103,11 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('.competence-card__level .score-value').textContent, scorecardWithPoints.level.toString());
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find('.scorecard-details-content-right-score-container__pix-earned .score-value').textContent,
           scorecardWithPoints.earnedPix.toString()
@@ -232,6 +240,8 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
       await visit('/competences/1/details');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });

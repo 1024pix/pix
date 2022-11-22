@@ -21,6 +21,8 @@ module('Unit | Component | competence-card-mobile', function (hooks) {
         const displayedLevel = component.displayedLevel;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(displayedLevel, data.expectedLevel);
       });
     });

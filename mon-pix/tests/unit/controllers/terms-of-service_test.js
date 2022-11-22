@@ -23,7 +23,7 @@ module('Unit | Controller | terms-of-service', function (hooks) {
       // then
       sinon.assert.calledWith(controller.currentUser.user.save, { adapterOptions: { acceptPixTermsOfService: true } });
       sinon.assert.calledWith(controller.router.transitionTo, '');
-      assert.equal(controller.showErrorTermsOfServiceNotSelected, false);
+      assert.false(controller.showErrorTermsOfServiceNotSelected);
       assert.ok(true);
     });
 
@@ -34,7 +34,7 @@ module('Unit | Controller | terms-of-service', function (hooks) {
       await controller.send('submit');
 
       // then
-      assert.equal(controller.showErrorTermsOfServiceNotSelected, true);
+      assert.true(controller.showErrorTermsOfServiceNotSelected);
     });
   });
 });

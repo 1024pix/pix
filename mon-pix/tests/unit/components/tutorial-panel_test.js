@@ -20,7 +20,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHint;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when hint is not defined', function (assert) {
@@ -31,7 +31,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHint;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when hint is an empty array', function (assert) {
@@ -42,7 +42,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHint;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 
@@ -56,7 +56,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return true when hint is not defined and tuto is defined', function (assert) {
@@ -68,7 +68,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when hint and tutorials are not defined', function (assert) {
@@ -80,7 +80,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when hint and tutorials are empty array', function (assert) {
@@ -92,7 +92,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 
@@ -109,7 +109,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayTutorial;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when tutorials is empty', function (assert) {
@@ -120,7 +120,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayTutorial;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when tutorials is null', function (assert) {
@@ -131,7 +131,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.shouldDisplayTutorial;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 
@@ -179,6 +179,8 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.limitedTutorials;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result.length, 3);
       assert.deepEqual(result, expectedTutorials);
     });

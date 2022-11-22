@@ -21,6 +21,8 @@ module('Unit | Helpers | contains', function (hooks) {
 
     test('should find only one element', async function (assert) {
       await render(hbs`<div><span id="first">Hello</span><span>Hello</span></div>`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(contains('Hello').tagName, 'DIV');
     });
 

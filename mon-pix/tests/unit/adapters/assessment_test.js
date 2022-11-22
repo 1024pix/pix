@@ -19,7 +19,7 @@ module('Unit | Adapters | assessment', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
-      assert.equal(url.endsWith('/assessments/123'), true);
+      assert.true(url.endsWith('/assessments/123'));
     });
 
     test('should redirect to complete-assessment', async function (assert) {
@@ -30,7 +30,7 @@ module('Unit | Adapters | assessment', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
-      assert.equal(url.endsWith('/assessments/123/complete-assessment'), true);
+      assert.true(url.endsWith('/assessments/123/complete-assessment'));
     });
 
     test('should redirect to update last-question-state', async function (assert) {
@@ -45,7 +45,7 @@ module('Unit | Adapters | assessment', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'assessment', snapshot);
 
       // then
-      assert.equal(url.endsWith('/assessments/123/last-challenge-state/timeout'), true);
+      assert.true(url.endsWith('/assessments/123/last-challenge-state/timeout'));
     });
   });
 });

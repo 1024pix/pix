@@ -36,7 +36,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
       const result = component.isSubmitButtonEnabled;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false if email is not valid', function (assert) {
@@ -48,7 +48,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
       const result = component.isSubmitButtonEnabled;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true if email is valid', function (assert) {
@@ -60,7 +60,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
       const result = component.isSubmitButtonEnabled;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 });

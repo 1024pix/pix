@@ -22,21 +22,37 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should render challenge information and question', function (assert) {
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qcuChallenge.instruction);
 
       assert.dom('input[type=radio][name="radio"]').exists({ count: 4 });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.proposal-text')[0].textContent.trim(), '1ere possibilite');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.proposal-text')[0].innerHTML.trim(), '<p>1ere <em>possibilite</em></p>');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.proposal-text')[1].textContent.trim(), '2eme possibilite');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         findAll('.proposal-text')[1].innerHTML.trim(),
         '<p>2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a></p>'
       );
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.proposal-text')[2].textContent.trim(), '');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         findAll('.proposal-text')[2].innerHTML.trim(),
         '<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>'
       );
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.proposal-text')[3].textContent.trim(), '4eme possibilite');
 
       assert.dom('.challenge-reponse__alert').doesNotExist();
@@ -48,6 +64,8 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
       // then
       assert.dom('.challenge-response__alert').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         find('.challenge-response__alert').textContent.trim(),
         'Pour valider, sélectionnez une réponse. Sinon, passez.'
@@ -92,14 +110,14 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
     test('should mark radio button corresponding to the answer and propose to continue', async function (assert) {
       // then
       const radioButtons = findAll('input[type=radio][name="radio"]');
-      assert.equal(radioButtons[0].checked, false);
-      assert.equal(radioButtons[0].disabled, true);
-      assert.equal(radioButtons[1].checked, true);
-      assert.equal(radioButtons[1].disabled, true);
-      assert.equal(radioButtons[2].checked, false);
-      assert.equal(radioButtons[2].disabled, true);
-      assert.equal(radioButtons[3].checked, false);
-      assert.equal(radioButtons[3].disabled, true);
+      assert.false(radioButtons[0].checked);
+      assert.true(radioButtons[0].disabled);
+      assert.true(radioButtons[1].checked);
+      assert.true(radioButtons[1].disabled);
+      assert.false(radioButtons[2].checked);
+      assert.true(radioButtons[2].disabled);
+      assert.false(radioButtons[3].checked);
+      assert.true(radioButtons[3].disabled);
 
       assert.dom('.challenge-actions__action-continue').exists();
       assert.dom('.challenge-actions__action-validate').doesNotExist();
@@ -133,8 +151,14 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.result-item__icon').title, 'Réponse incorrecte');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.result-item__instruction').textContent.trim(), qcuChallenge.instruction);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
     });
 
@@ -143,13 +167,23 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
       await click('.result-item__correction-button');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qcuChallenge.instruction);
 
       const goodAnswer = findAll('.qcu-solution-panel__proposition')[0];
       const badAnswerFromUserResult = findAll('.qcu-solution-panel__proposition')[1];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(goodAnswer.getAttribute('data-goodness'), 'good');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(goodAnswer.getAttribute('data-checked'), 'no');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(badAnswerFromUserResult.getAttribute('data-goodness'), 'bad');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(badAnswerFromUserResult.getAttribute('data-checked'), 'yes');
 
       assert.ok(find('.qcu-solution-answer-feedback__expected-answer').textContent.includes(1));

@@ -25,8 +25,12 @@ module('Unit | Route | campaigns | evaluation | tutorial', function (hooks) {
       const tutorialPage = route.model();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(tutorialPage.title, this.intl.t('pages.tutorial.pages.page0.title'));
-      assert.equal(tutorialPage.showNextButton, true);
+      assert.true(tutorialPage.showNextButton);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(tutorialPage.paging[0], 'dot__active');
     });
   });
@@ -41,6 +45,8 @@ module('Unit | Route | campaigns | evaluation | tutorial', function (hooks) {
       route.send('next');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(route.get('tutorialPageId'), 1);
       sinon.assert.calledWith(route.refresh);
       assert.ok(true);
@@ -55,6 +61,8 @@ module('Unit | Route | campaigns | evaluation | tutorial', function (hooks) {
       route.send('next');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(route.get('tutorialPageId'), 4);
       sinon.assert.notCalled(route.refresh);
       assert.ok(true);

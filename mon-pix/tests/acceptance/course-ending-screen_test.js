@@ -30,6 +30,8 @@ module('Acceptance | Course ending screen', function (hooks) {
   });
 
   test('should be available directly from the url', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/assessments/${assessment.id}/results`);
   });
 
@@ -60,6 +62,8 @@ module('Acceptance | Course ending screen', function (hooks) {
 
   test('should display a button that redirects to inscription page', async function (assert) {
     assert.dom('.assessment-results__index-link__element').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('.assessment-results__index-a-link').attributes.href.value, 'https://app.pix.fr/inscription');
     assert.ok(find('.assessment-results__link-back').textContent.includes('Continuer mon expérience Pix'));
   });

@@ -81,6 +81,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll(DROPDOWN).length, 2);
         assert.dom(TEXTAREA).doesNotExist();
         assert.dom(BUTTON_SEND).doesNotExist();
@@ -92,6 +94,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll(DROPDOWN).length, 1);
         assert.dom(TEXTAREA).exists();
         assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
@@ -103,6 +107,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll(DROPDOWN).length, 2);
         assert.dom(BUTTON_SEND).doesNotExist();
         assert.dom(TEXTAREA).doesNotExist();
@@ -115,6 +121,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll(DROPDOWN).length, 1);
         assert.dom(TUTORIAL_AREA).doesNotExist();
         assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
@@ -128,6 +136,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll(DROPDOWN).length, 1);
         assert.dom(TUTORIAL_AREA).doesNotExist();
         assert.ok(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
@@ -141,6 +151,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await fillIn(SUBCATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll(DROPDOWN).length, 2);
         assert.dom(TUTORIAL_AREA).exists();
         assert.dom(TEXTAREA).exists();
@@ -208,12 +220,14 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
     test('should display the "form" view', async function (assert) {
       assert.dom('.feedback-panel__view--form').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll(DROPDOWN).length, 1);
     });
 
     test('should not be able to hide the form view', async function (assert) {
       // then
-      assert.equal(find(OPEN_FEEDBACK_BUTTON).disabled, true);
+      assert.true(find(OPEN_FEEDBACK_BUTTON).disabled);
       assert.dom('.feedback-panel__form').exists();
     });
   });
@@ -232,6 +246,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
     test('should display the "form" view', async function (assert) {
       assert.dom('.feedback-panel__view--form').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll(DROPDOWN).length, 1);
     });
 

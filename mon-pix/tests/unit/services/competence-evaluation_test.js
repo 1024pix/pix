@@ -50,6 +50,8 @@ module('Unit | Service | competence-evaluation', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when improving fails with ImproveCompetenceEvaluationForbidden error', async function (hooks) {
       hooks.beforeEach(async function () {
         // given
@@ -73,6 +75,8 @@ module('Unit | Service | competence-evaluation', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when improving fails with another error', async function (hooks) {
       const error = new Error();
 
@@ -87,13 +91,18 @@ module('Unit | Service | competence-evaluation', function (hooks) {
         competenceEvaluationService.set('store', store);
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('throws error', async function (assert) {
         // when
         try {
           await competenceEvaluationService.improve({ userId, competenceId });
         } catch (err) {
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(err, err);
+          // eslint-disable-next-line qunit/no-early-return
           return;
         }
         sinon.assert.fail('Improve Competence Evaluation should have throw an error.');

@@ -91,6 +91,8 @@ module('Unit | Route | login-oidc', function (hooks) {
           await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(sessionStub.data.nextURL, '/campagnes/PIXOIDC01/acces');
         });
 
@@ -242,6 +244,8 @@ module('Unit | Route | login-oidc', function (hooks) {
       assert.ok(true);
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should throw error if CGUs are already validated and authenticate fails', async function (assert) {
       // given
       const authenticateStub = sinon.stub().rejects({ errors: 'there was an error' });
@@ -259,6 +263,8 @@ module('Unit | Route | login-oidc', function (hooks) {
       } catch (error) {
         // then
         sinon.assert.calledOnce(authenticateStub);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(error.message, '"there was an error"');
         assert.ok(true);
       }

@@ -19,7 +19,7 @@ module('Unit | Adapters | certification-candidate', function (hooks) {
       const url = await adapter.urlForCreateRecord('certification-candidate', options);
 
       // then
-      assert.equal(url.endsWith('/certification-candidates'), true);
+      assert.true(url.endsWith('/certification-candidates'));
     });
 
     test('should redirect to session/id/certification-candidate/participation', async function (assert) {
@@ -28,7 +28,7 @@ module('Unit | Adapters | certification-candidate', function (hooks) {
       const url = await adapter.urlForCreateRecord('certification-candidate', options);
 
       // then
-      assert.equal(url.endsWith('/sessions/456/candidate-participation'), true);
+      assert.true(url.endsWith('/sessions/456/candidate-participation'));
     });
   });
 });

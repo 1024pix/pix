@@ -37,7 +37,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
     });
     assert.ok(submitButton);
-    assert.equal(submitButton.disabled, true);
+    assert.true(submitButton.disabled);
 
     assert.dom('input[type="checkbox"]').exists();
     assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
@@ -56,7 +56,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       const submitButton = screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
       });
-      assert.equal(submitButton.disabled, true);
+      assert.true(submitButton.disabled);
     });
 
     test('should disable submission if password is valid and cgu and data protection policy are not accepted', async function (assert) {
@@ -70,7 +70,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       const submitButton = screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
       });
-      assert.equal(submitButton.disabled, true);
+      assert.true(submitButton.disabled);
     });
 
     test('should disable submission on form when is loading', async function (assert) {
@@ -85,7 +85,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       const submitButton = screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
       });
-      assert.equal(submitButton.disabled, true);
+      assert.true(submitButton.disabled);
     });
 
     test('should enable submission if password is valid and cgu and data protection policy are accepted', async function (assert) {
@@ -100,7 +100,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       const submitButton = screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
       });
-      assert.equal(submitButton.disabled, false);
+      assert.false(submitButton.disabled);
     });
   });
 

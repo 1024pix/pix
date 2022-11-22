@@ -20,7 +20,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
       component.toggleUserMenu();
 
       // then
-      assert.equal(component.canDisplayMenu, true);
+      assert.true(component.canDisplayMenu);
     });
 
     test('should return false, when canDisplayMenu was previously true', function (assert) {
@@ -31,7 +31,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
       component.toggleUserMenu();
 
       // then
-      assert.equal(component.canDisplayMenu, false);
+      assert.false(component.canDisplayMenu);
     });
   });
 
@@ -45,6 +45,8 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.displayedIdentifier, 'email@example.net');
     });
 
@@ -57,6 +59,8 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.displayedIdentifier, 'my username');
     });
 
@@ -70,6 +74,8 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.displayedIdentifier, 'email@example.net');
     });
 
@@ -80,6 +86,8 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.displayedIdentifier, undefined);
     });
   });

@@ -111,7 +111,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
       name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
     });
     assert.ok(confirmButton);
-    assert.equal(confirmButton.disabled, true);
+    assert.true(confirmButton.disabled);
   });
 
   test('should be possible to continue the account recovery process', async function (assert) {

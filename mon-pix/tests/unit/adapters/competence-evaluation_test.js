@@ -18,7 +18,7 @@ module('Unit | Adapters | competence-evaluation', function (hooks) {
       const url = await adapter.urlForFindAll('competenceEvaluation', { adapterOptions: { assessmentId } });
 
       // then
-      assert.equal(url.endsWith(`/assessments/${assessmentId}/competence-evaluations`), true);
+      assert.true(url.endsWith(`/assessments/${assessmentId}/competence-evaluations`));
     });
   });
 
@@ -35,7 +35,7 @@ module('Unit | Adapters | competence-evaluation', function (hooks) {
       const url = await adapter.urlForQueryRecord({ startOrResume: true }, 'competenceEvaluation');
 
       // then
-      assert.equal(url.endsWith('/competence-evaluations/start-or-resume'), true);
+      assert.true(url.endsWith('/competence-evaluations/start-or-resume'));
     });
 
     test('should build classic url', async function (assert) {
@@ -43,7 +43,7 @@ module('Unit | Adapters | competence-evaluation', function (hooks) {
       const url = await adapter.urlForQueryRecord({}, 'competenceEvaluation');
 
       // then
-      assert.equal(url.endsWith('/competence-evaluations'), true);
+      assert.true(url.endsWith('/competence-evaluations'));
     });
 
     test('should build /improve url', async function (assert) {
@@ -51,7 +51,7 @@ module('Unit | Adapters | competence-evaluation', function (hooks) {
       const url = await adapter.urlForQueryRecord({ improve: true }, 'competenceEvaluation');
 
       // then
-      assert.equal(url.endsWith('/competence-evaluations/improve'), true);
+      assert.true(url.endsWith('/competence-evaluations/improve'));
     });
   });
 });

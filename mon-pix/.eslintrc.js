@@ -12,10 +12,11 @@ module.exports = {
       plugins: [['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]],
     },
   },
-  plugins: ['ember'],
+  plugins: ['ember', 'qunit'],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
+    'plugin:qunit/recommended',
     'plugin:i18n-json/recommended',
     'plugin:prettier/recommended',
   ],

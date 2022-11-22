@@ -27,6 +27,8 @@ module('Acceptance | User dashboard page', function (hooks) {
       await visit('/accueil');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
 
@@ -38,6 +40,8 @@ module('Acceptance | User dashboard page', function (hooks) {
       await visit('/accueil');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/accueil');
     });
   });
@@ -97,6 +101,8 @@ module('Acceptance | User dashboard page', function (hooks) {
           // then
           const resumeButton = find('.campaign-participation-overview-card-content__action');
           assert.ok(resumeButton);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(resumeButton.textContent.trim(), 'Reprendre');
         });
       });
@@ -134,6 +140,8 @@ module('Acceptance | User dashboard page', function (hooks) {
           // then
           const shareButton = find('.campaign-participation-overview-card-content__action');
           assert.ok(shareButton);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(shareButton.textContent.trim(), 'Envoyer mes résultats');
         });
       });
@@ -166,6 +174,8 @@ module('Acceptance | User dashboard page', function (hooks) {
       const competencesButtons = screen.getAllByText(
         this.intl.t('pages.dashboard.recommended-competences.profile-link')
       ).length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(competencesButtons, 2);
     });
   });
@@ -201,6 +211,8 @@ module('Acceptance | User dashboard page', function (hooks) {
 
       // then
       const scorecard = user.scorecards.models[0];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/competences/${scorecard.competenceId}/details`);
     });
   });
@@ -284,6 +296,8 @@ module('Acceptance | User dashboard page', function (hooks) {
             await click('.new-information-content-text__button');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), '/campagnes/SNAP1234/collecte/envoi-profil');
           });
         });

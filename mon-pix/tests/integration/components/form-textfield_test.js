@@ -40,6 +40,8 @@ module('Integration | Component | form textfield', function (hooks) {
       test(`should render a ${expectedRendering}`, function (assert) {
         // Then
         assert.dom(item).exists({ count: expectedLength });
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find(item).nodeName, expectedRendering.toUpperCase());
       });
     });
@@ -56,6 +58,8 @@ module('Integration | Component | form textfield', function (hooks) {
   });
 
   module('#Component Interactions', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should handle action <validate> when input lost focus', async function (assert) {
       // given
       let isActionValidateHandled = false;
@@ -81,7 +85,7 @@ module('Integration | Component | form textfield', function (hooks) {
       await triggerEvent(INPUT, 'focusout');
       // then
       return settled().then(() => {
-        assert.equal(isActionValidateHandled, true);
+        assert.true(isActionValidateHandled);
         assert.deepEqual(inputValueToValidate, expectedInputValue);
       });
     });
@@ -125,6 +129,8 @@ module('Integration | Component | form textfield', function (hooks) {
         );
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('return true if any img does exist', function (assert) {
         // then
         return settled().then(() => {
@@ -192,6 +198,8 @@ module('Integration | Component | form textfield', function (hooks) {
         await click('.form-textfield-icon__button');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('input').getAttribute('type'), 'text');
       });
 

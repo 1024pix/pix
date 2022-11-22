@@ -100,6 +100,8 @@ module('Unit | Utility | labeled checkboxes', function () {
           ' when ' +
           testCase.when,
         function (assert) {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(
             JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers)),
             JSON.stringify(testCase.output)

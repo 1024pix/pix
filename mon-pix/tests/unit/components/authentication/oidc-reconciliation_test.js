@@ -50,7 +50,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
         component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'GAR' })];
 
         // then
-        assert.equal(component.shouldShowGarAuthenticationMethod, true);
+        assert.true(component.shouldShowGarAuthenticationMethod);
       });
     });
 
@@ -61,7 +61,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
         component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'OIDC' })];
 
         // then
-        assert.equal(component.shouldShowGarAuthenticationMethod, false);
+        assert.false(component.shouldShowGarAuthenticationMethod);
       });
     });
   });
@@ -82,6 +82,8 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
       component.args.identityProviderSlug = 'oidc-partner';
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.identityProviderOrganizationName, 'Partenaire OIDC');
     });
   });
@@ -94,7 +96,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
         component.args.email = 'lloyd.ce@example.net';
 
         // then
-        assert.equal(component.shouldShowEmail, true);
+        assert.true(component.shouldShowEmail);
       });
     });
 
@@ -105,7 +107,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
         component.args.email = null;
 
         // then
-        assert.equal(component.shouldShowEmail, false);
+        assert.false(component.shouldShowEmail);
       });
     });
   });
@@ -118,7 +120,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
         component.args.username = 'lloyd.ce1122';
 
         // then
-        assert.equal(component.shouldShowUsername, true);
+        assert.true(component.shouldShowUsername);
       });
     });
 
@@ -129,7 +131,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
         component.args.username = null;
 
         // then
-        assert.equal(component.shouldShowUsername, false);
+        assert.false(component.shouldShowUsername);
       });
     });
   });
@@ -151,6 +153,8 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
       await component.reconcile();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         component.reconcileErrorMessage,
         this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
@@ -175,6 +179,8 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
       await component.reconcile();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.reconcileErrorMessage, this.intl.t('common.error'));
     });
   });

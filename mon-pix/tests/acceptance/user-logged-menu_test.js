@@ -23,6 +23,8 @@ module('Acceptance | User account', function (hooks) {
       await clickByLabel('Mes parcours');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/mes-parcours');
     });
 
@@ -37,6 +39,8 @@ module('Acceptance | User account', function (hooks) {
       await clickByLabel('Mes certifications');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/mes-certifications');
     });
 
@@ -54,6 +58,8 @@ module('Acceptance | User account', function (hooks) {
       const helplink = screen.getByRole('link', { name: 'Aide' }).getAttribute('href');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(helplink, 'https://support.pix.org/fr/support/home');
     });
 
@@ -70,6 +76,8 @@ module('Acceptance | User account', function (hooks) {
       await clickByLabel('Mon compte');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/mon-compte/informations-personnelles');
     });
   });

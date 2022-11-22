@@ -18,6 +18,8 @@ module('Acceptance | User account page', function (hooks) {
       await visit('/mon-compte');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -36,6 +38,8 @@ module('Acceptance | User account page', function (hooks) {
       await visit('/mon-compte');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/mon-compte/informations-personnelles');
     });
 
@@ -58,6 +62,8 @@ module('Acceptance | User account page', function (hooks) {
         await clickByLabel(this.intl.t('pages.user-account.personal-information.menu-link-title'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/mon-compte/informations-personnelles');
       });
 
@@ -69,6 +75,8 @@ module('Acceptance | User account page', function (hooks) {
         await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/mon-compte/methodes-de-connexion');
       });
 
@@ -80,6 +88,8 @@ module('Acceptance | User account page', function (hooks) {
         await clickByLabel(this.intl.t('pages.user-account.language.menu-link-title'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/mon-compte/langue');
       });
     });

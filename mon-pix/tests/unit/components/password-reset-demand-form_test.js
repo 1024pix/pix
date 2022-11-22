@@ -74,8 +74,8 @@ module('Unit | Component | password-reset-demand-form', function (hooks) {
       await component.savePasswordResetDemand();
 
       // then
-      assert.equal(component.hasSucceeded, true);
-      assert.equal(component.hasFailed, false);
+      assert.true(component.hasSucceeded);
+      assert.false(component.hasFailed);
     });
   });
 });

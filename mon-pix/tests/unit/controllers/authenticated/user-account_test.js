@@ -11,7 +11,7 @@ module('Unit | Controller | user-account', function (hooks) {
       controller.url = { isFrenchDomainExtension: true };
 
       // when / then
-      assert.equal(controller.displayLanguageSwitch, false);
+      assert.false(controller.displayLanguageSwitch);
     });
 
     test('should return true if domain is not french', function (assert) {
@@ -20,7 +20,7 @@ module('Unit | Controller | user-account', function (hooks) {
       controller.url = { isFrenchDomainExtension: false };
 
       // when / then
-      assert.equal(controller.displayLanguageSwitch, true);
+      assert.true(controller.displayLanguageSwitch);
     });
   });
 });

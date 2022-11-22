@@ -20,7 +20,7 @@ module('Unit | Adapter | Email-Verification-Code', function (hooks) {
       const url = await adapter.buildURL();
 
       // then
-      assert.equal(url.endsWith('users/123'), true);
+      assert.true(url.endsWith('users/123'));
     });
   });
 });

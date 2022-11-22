@@ -42,6 +42,8 @@ module('Acceptance | Challenge page banner', function (hooks) {
       const a11yText = title.firstChild.textContent;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(a11yText, "Épreuve pour l'évaluation : ");
     });
 
@@ -56,6 +58,8 @@ module('Acceptance | Challenge page banner', function (hooks) {
       const campaignName = title.lastChild.textContent;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(campaignName, campaign.title);
     });
   });

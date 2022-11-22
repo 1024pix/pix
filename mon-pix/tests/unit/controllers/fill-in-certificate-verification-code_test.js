@@ -28,6 +28,8 @@ module('Unit | Controller | Fill in certificate verification Code', function (ho
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.get('errorMessage'), 'Merci de renseigner le code de vérification.');
     });
 
@@ -40,6 +42,8 @@ module('Unit | Controller | Fill in certificate verification Code', function (ho
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.get('errorMessage'), 'Veuillez vérifier le format de votre code (P-XXXXXXXX).');
     });
 
@@ -53,7 +57,7 @@ module('Unit | Controller | Fill in certificate verification Code', function (ho
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      assert.equal(controller.get('showNotFoundCertificationErrorMessage'), true);
+      assert.true(controller.get('showNotFoundCertificationErrorMessage'));
     });
 
     test('should NOT set showNotFoundCertificationErrorMessage to true when a certificate is found', async function (assert) {
@@ -66,7 +70,7 @@ module('Unit | Controller | Fill in certificate verification Code', function (ho
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      assert.equal(controller.get('showNotFoundCertificationErrorMessage'), false);
+      assert.false(controller.get('showNotFoundCertificationErrorMessage'));
     });
   });
 });

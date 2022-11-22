@@ -43,6 +43,8 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // then
       assert.ok(find('.challenge-illustration__loaded-image').src.includes(challenge.illustrationUrl));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.challenge-illustration__loaded-image').alt, challenge.illustrationAlt);
     });
 
@@ -164,6 +166,8 @@ module('Integration | Component | comparison-window', function (hooks) {
       });
 
       module('when challenge type is QROC', function () {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-async-module-callbacks
         module('and challenge is not autoReply', async function () {
           test('should display answers', async function (assert) {
             // given
@@ -180,6 +184,8 @@ module('Integration | Component | comparison-window', function (hooks) {
           });
         });
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-async-module-callbacks
         module('and challenge is autoReply', async function () {
           test('should hide answers when correction has no solutionToDisplay', async function (assert) {
             // given

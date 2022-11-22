@@ -25,7 +25,7 @@ module('Unit | Model | Answer', function (hooks) {
       // when
       const result = answer.isResultOk;
 
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when answser.result is ko', function (assert) {
@@ -35,7 +35,7 @@ module('Unit | Model | Answer', function (hooks) {
       // when
       const result = answer.isResultOk;
 
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
   module('isResultNotOk', function () {
@@ -46,7 +46,7 @@ module('Unit | Model | Answer', function (hooks) {
       // when
       const result = answer.isResultNotOk;
 
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when answser.result is ko', function (assert) {
@@ -56,7 +56,7 @@ module('Unit | Model | Answer', function (hooks) {
       // when
       const result = answer.isResultNotOk;
 
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 });

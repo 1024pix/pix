@@ -23,7 +23,7 @@ module('Unit | Adapters | Training', function (hooks) {
       const url = await adapter.urlForQuery(query, 'training');
 
       // then
-      assert.equal(url.endsWith('/api/users/1/trainings'), true);
+      assert.true(url.endsWith('/api/users/1/trainings'));
     });
 
     test('should build the training url if userId is not in the query', async function (assert) {
@@ -34,7 +34,7 @@ module('Unit | Adapters | Training', function (hooks) {
       const url = await adapter.urlForQuery(query, 'training');
 
       // then
-      assert.equal(url.endsWith('/api/trainings'), true);
+      assert.true(url.endsWith('/api/trainings'));
     });
   });
 });

@@ -58,6 +58,8 @@ module('Integration | Component | form textfield date', function (hooks) {
       test(`Should render a ${expectedRendering}`, function (assert) {
         // Then
         assert.dom(item).exists({ count: expectedLength });
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find(item).nodeName, expectedRendering.toUpperCase());
       });
     });
@@ -128,9 +130,9 @@ module('Integration | Component | form textfield date', function (hooks) {
       await triggerEvent('#year', 'focusout');
 
       // then
-      assert.equal(isActionValidateHandled.day, true);
-      assert.equal(isActionValidateHandled.month, true);
-      assert.equal(isActionValidateHandled.year, true);
+      assert.true(isActionValidateHandled.day);
+      assert.true(isActionValidateHandled.month);
+      assert.true(isActionValidateHandled.year);
       assert.deepEqual(inputValueToValidate, expectedInputValue);
     });
 
@@ -216,6 +218,8 @@ module('Integration | Component | form textfield date', function (hooks) {
         />`);
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('return true if any img does exist', function (assert) {
         // then
         return settled().then(() => {

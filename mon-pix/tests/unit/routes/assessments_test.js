@@ -22,6 +22,8 @@ module('Unit | Route | Assessments', function (hooks) {
       const model = route.afterModel(assessment);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.title, 'Programmer');
     });
 
@@ -33,6 +35,8 @@ module('Unit | Route | Assessments', function (hooks) {
       const model = route.afterModel(assessment);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.title, 'Certification 1223');
     });
   });

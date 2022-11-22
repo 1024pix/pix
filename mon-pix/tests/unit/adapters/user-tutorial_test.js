@@ -61,6 +61,8 @@ module('Unit | Adapters | user-saved-tutorial', function (hooks) {
       const url = adapter.urlForDeleteRecord(null, 'user-saved-tutorial', snapshot);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, 'http://localhost:3000/api/users/tutorials/tutorialId');
     });
   });

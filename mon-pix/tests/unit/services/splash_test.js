@@ -27,11 +27,11 @@ module('Unit | Service | splash', function (hooks) {
         // Given
         const splash = this.owner.lookup('service:splash');
         createSplash();
-        assert.equal(hasSplash(), true);
+        assert.true(hasSplash());
         // When
         splash.hide();
         // Then
-        assert.equal(hasSplash(), false);
+        assert.false(hasSplash());
       });
     });
 
@@ -39,11 +39,11 @@ module('Unit | Service | splash', function (hooks) {
       test('does nothing', function (assert) {
         // Given
         const splash = this.owner.lookup('service:splash');
-        assert.equal(hasSplash(), false);
+        assert.false(hasSplash());
         // When
         splash.hide();
         // Then
-        assert.equal(hasSplash(), false);
+        assert.false(hasSplash());
       });
     });
 

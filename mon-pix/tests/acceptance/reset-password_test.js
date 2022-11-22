@@ -30,6 +30,8 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await visit('/changer-mot-de-passe/temporaryKey');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/changer-mot-de-passe/temporaryKey');
   });
 
@@ -55,6 +57,8 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
     assert.ok(find('.sign-form__body').textContent.includes('Votre mot de passe a été modifié avec succès'));
   });
@@ -80,6 +84,8 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await visit('/changer-mot-de-passe/brandone-reset-key');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
   });
 });

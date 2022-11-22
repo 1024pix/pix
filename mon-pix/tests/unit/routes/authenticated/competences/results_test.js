@@ -59,7 +59,11 @@ module('Unit | Route | Competences | Results', function (hooks) {
       });
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.competenceEvaluation.id, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.scorecard.id, 1);
     });
   });
