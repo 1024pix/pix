@@ -57,7 +57,7 @@
             <td class="table__column--right">{{participant.participationCount}}</td>
             <td>
               <div class="organization-participant-list-page__last-participation">
-                <span>{{moment-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
+                <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
                 <Ui::LastParticipationDateTooltip
                   @id={{index}}
                   @campaignName={{participant.campaignName}}
@@ -69,7 +69,7 @@
             <td class="table__column--center">
               <Ui::IsCertifiable @isCertifiable={{participant.isCertifiable}} />
               {{#if participant.certifiableAt}}
-                <span class="organization-participant-list-page__certifiable-at">{{moment-format
+                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
                     participant.certifiableAt
                     "DD/MM/YYYY"
                     allow-empty=true

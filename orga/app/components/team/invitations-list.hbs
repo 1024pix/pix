@@ -17,7 +17,7 @@
           <td>{{invitation.email}}</td>
           <td class="hide-on-mobile">
             {{t "pages.team-invitations.table.row.message"}}
-            {{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
+            {{dayjs-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
           </td>
           <td>
             <PixTooltip @isInline={{true}}>

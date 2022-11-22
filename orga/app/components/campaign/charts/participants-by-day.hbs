@@ -26,7 +26,7 @@
         <tbody>
           {{#each dataset.entries as |entry|}}
             <tr>
-              <td>{{moment-format entry.day "DD/MM/YYYY"}}</td>
+              <td>{{dayjs-format entry.day "DD/MM/YYYY"}}</td>
               <td>{{entry.count}}</td>
             </tr>
           {{/each}}

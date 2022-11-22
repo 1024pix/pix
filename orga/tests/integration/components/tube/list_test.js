@@ -2,13 +2,11 @@ import { module, test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import moment from 'moment';
 import sinon from 'sinon';
 
 module('Integration | Component | tube:list', function (hooks) {
   setupIntlRenderingTest(hooks);
   let areas;
-  let momentStub;
   const MOCK_TODAY = '2020-08-05-1152';
 
   hooks.beforeEach(() => {
@@ -41,12 +39,6 @@ module('Integration | Component | tube:list', function (hooks) {
         },
       },
     ];
-
-    momentStub = sinon.stub(moment.prototype, 'format').returns(MOCK_TODAY);
-  });
-
-  hooks.afterEach(() => {
-    momentStub.restore();
   });
 
   test('it should display a list of tubes', async function (assert) {
@@ -74,6 +66,10 @@ module('Integration | Component | tube:list', function (hooks) {
   });
 
   test('it should enable the download button if a tube is selected', async function (assert) {
+    const dayjs = this.owner.lookup('service:dayjs');
+
+    sinon.stub(dayjs.self.prototype, 'format').returns(MOCK_TODAY);
+
     const expectedAttr = `selection-sujets-mon orga-${MOCK_TODAY}.json`;
     this.set('areas', areas);
     this.set('organization', { name: 'mon orga' });
