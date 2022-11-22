@@ -69,10 +69,11 @@
     </main>
   </div>
 
-  {{#if this.isShowingModal}}
-    <ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />
-  {{/if}}
-
+  <ComparisonWindow
+    @showModal={{this.isShowingModal}}
+    @answer={{this.answer}}
+    @closeComparisonWindow={{this.closeComparisonWindow}}
+  />
 </div>
 
 {{#if this.showLevelup}}

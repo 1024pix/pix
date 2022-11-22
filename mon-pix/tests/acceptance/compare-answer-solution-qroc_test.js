@@ -50,7 +50,8 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      expect(screen.getByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' })).to.exist;
+      expect(find('.pix-modal__overlay--hidden')).to.not.exist;
+      expect(find('.pix-modal__overlay')).to.exist;
     });
 
     it('should contain an instruction', async function () {
@@ -83,7 +84,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      expect(screen.getByRole('heading', { name: 'Signaler un problème' })).to.exist;
+      expect(find('.feedback-panel__open-button')).to.exist;
     });
   });
 });

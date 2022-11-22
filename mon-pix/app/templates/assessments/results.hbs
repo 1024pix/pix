@@ -35,8 +35,10 @@
     </div>
   </div>
 
-  {{#if this.isShowingModal}}
-    <ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />
-  {{/if}}
+  <ComparisonWindow
+    @answer={{this.answer}}
+    @closeComparisonWindow={{this.closeComparisonWindow}}
+    @showModal={{this.isShowingModal}}
+  />
 
 </div>

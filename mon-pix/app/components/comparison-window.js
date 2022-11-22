@@ -24,27 +24,27 @@ function _getTextForResult(result) {
 
 export default class ComparisonWindow extends Component {
   get isAssessmentChallengeTypeQroc() {
-    return this.args.answer.challenge.get('type') === 'QROC';
+    return this.args.answer.challenge?.get('type') === 'QROC';
   }
 
   get isAssessmentChallengeTypeQcm() {
-    return this.args.answer.challenge.get('type') === 'QCM';
+    return this.args.answer.challenge?.get('type') === 'QCM';
   }
 
   get isAssessmentChallengeTypeQcu() {
-    return this.args.answer.challenge.get('type') === 'QCU';
+    return this.args.answer.challenge?.get('type') === 'QCU';
   }
 
   get isAssessmentChallengeTypeQrocm() {
-    return this.args.answer.challenge.get('type') === 'QROCM';
+    return this.args.answer.challenge?.get('type') === 'QROCM';
   }
 
   get isAssessmentChallengeTypeQrocmInd() {
-    return this.args.answer.challenge.get('type') === 'QROCM-ind';
+    return this.args.answer.challenge?.get('type') === 'QROCM-ind';
   }
 
   get isAssessmentChallengeTypeQrocmDep() {
-    return this.args.answer.challenge.get('type') === 'QROCM-dep';
+    return this.args.answer.challenge?.get('type') === 'QROCM-dep';
   }
 
   get answerSuffix() {
@@ -52,13 +52,17 @@ export default class ComparisonWindow extends Component {
   }
 
   get resultItem() {
-    let resultItem = _getTextForResult('default');
+    if (!this.args.answer) {
+      return '';
+    }
+
     const answerStatus = `${this.args.answer.result}${this.answerSuffix}`;
 
     if (answerStatus && answerStatus in TEXT_FOR_RESULT) {
-      resultItem = _getTextForResult(answerStatus);
+      return _getTextForResult(answerStatus);
     }
-    return resultItem;
+
+    return _getTextForResult('default');
   }
 
   get solution() {
@@ -70,6 +74,6 @@ export default class ComparisonWindow extends Component {
   }
 
   get _isAutoReply() {
-    return this.args.answer.challenge.get('autoReply');
+    return Boolean(this.args.answer.challenge?.get('autoReply'));
   }
 }
