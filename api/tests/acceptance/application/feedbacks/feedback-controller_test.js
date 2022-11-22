@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Feedback = require('../../../../lib/infrastructure/orm-models/Feedback');
 
@@ -40,7 +40,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
             },
           },
         },
-        headers: { 'user-agent': 'Firefox rocks', authorization: generateValidRequestAuthorizationHeader() },
+        headers: { 'user-agent': 'Firefox rocks' },
       };
     });
 
@@ -53,19 +53,6 @@ describe('Acceptance | Controller | feedback-controller', function () {
       const promise = server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(201);
-      });
-    });
-
-    it('should return 201 HTTP status code when missing authorization header', function () {
-      // given
-      options.headers = {};
-
-      // when
-      const promise = server.inject(options);
-
-      // given
       return promise.then((response) => {
         expect(response.statusCode).to.equal(201);
       });
