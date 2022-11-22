@@ -1,887 +1,753 @@
 import { expect } from 'chai';
-import { contains } from '../../../../../helpers/contains';
-import { clickByLabel } from '../../../../../helpers/click-by-label';
-import { findAll } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import { render } from '@1024pix/ember-testing-library';
-import { it, describe, beforeEach, context } from 'mocha';
-
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import { describe, it, beforeEach } from 'mocha';
+import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import EmberObject from '@ember/object';
+import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
+import Service from '@ember/service';
 
-describe('Integration | Component | routes/campaigns/assessment/skill-review', function () {
-  let campaign;
+describe('Unit | component | Campaigns | Evaluation | Skill Review', function () {
+  setupTest();
 
-  setupIntlRenderingTest();
+  let component, adapter, possibleBadgesCombinations;
+
   beforeEach(function () {
-    campaign = {
-      organizationShowNPS: false,
+    possibleBadgesCombinations = [
+      { id: 30, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: true },
+      { id: 31, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: false },
+      { id: 32, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+      { id: 33, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: false },
+      { id: 34, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: true },
+      { id: 35, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: false },
+      { id: 36, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: true },
+      { id: 37, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: false },
+      { id: 38, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: true },
+      { id: 39, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: false },
+      { id: 40, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+      { id: 41, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: false },
+      { id: 42, isAcquired: false, isCertifiable: false, isValid: true, isAlwaysVisible: true },
+      { id: 43, isAcquired: false, isCertifiable: false, isValid: true, isAlwaysVisible: false },
+      { id: 44, isAcquired: false, isCertifiable: false, isValid: false, isAlwaysVisible: true },
+      { id: 45, isAcquired: false, isCertifiable: false, isValid: false, isAlwaysVisible: false },
+    ];
+
+    const model = {
+      campaign: EmberObject.create(),
+      campaignParticipationResult: EmberObject.create({ id: 12345 }),
     };
-  });
 
-  context('When user want to share his/her results', function () {
-    it('should see the button to share', async function () {
-      // Given
-      const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
-      this.set('model', { campaign, campaignParticipationResult });
-
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-      // Then
-      expect(screen.getByText(this.intl.t('pages.skill-review.actions.send'))).to.exist;
+    component = createGlimmerComponent('component:routes/campaigns/assessment/skill-review', {
+      model,
     });
 
-    context('when a skill has been reset after campaign completion and before sending results', function () {
-      it('displays an error message and a resume button on share', async function () {
-        // Given
-        const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
-        this.set('model', { campaign, campaignParticipationResult });
+    const store = this.owner.lookup('service:store');
+    adapter = store.adapterFor('campaign-participation-result');
+    sinon.stub(adapter, 'share').resolves();
+    sinon.stub(adapter, 'beginImprovement').resolves();
 
-        const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('campaign-participation-result');
-        adapter.share = sinon.stub().rejects({ errors: [{ status: '409' }] });
+    component.router.transitionTo = sinon.stub();
+  });
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+  describe('#shareCampaignParticipation', function () {
+    it('should call adapter', async function () {
+      // when
+      await component.actions.shareCampaignParticipation.call(component);
 
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.not-finished'))).to.exist;
-        expect(screen.getByText(this.intl.t('pages.profile.resume-campaign-banner.accessibility.resume'))).to.exist;
-        expect(screen.getByText(this.intl.t('pages.profile.resume-campaign-banner.actions.resume'))).to.exist;
+      // then
+      sinon.assert.calledWithExactly(adapter.share, 12345);
+    });
+
+    context('before share', function () {
+      it('isShareButtonClicked should be false', async function () {
+        // then
+        expect(component.isShareButtonClicked).to.equal(false);
+      });
+    });
+
+    context('when share is not yet effective but button is pressed', function () {
+      it('should set isShareButtonClicked to true', async function () {
+        // when
+        await component.actions.shareCampaignParticipation.call(component);
+
+        // then
+        expect(component.isShareButtonClicked).to.equal(true);
+      });
+    });
+
+    context('when share is effective', function () {
+      it('should set isShared to true', async function () {
+        // given
+        adapter.share.resolves();
+
+        // when
+        await component.actions.shareCampaignParticipation.call(component);
+
+        // then
+        expect(component.args.model.campaignParticipationResult.isShared).to.equal(true);
       });
     });
 
     context('when an error occurred during share', function () {
-      it('displays an error message and a go home button', async function () {
-        // Given
-        const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
-        this.set('model', { campaign, campaignParticipationResult });
+      it('should keep isShared to false', async function () {
+        component.args.model.campaignParticipationResult.isShared = false;
+        adapter.share.rejects();
 
-        const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('campaign-participation-result');
-        adapter.share = sinon.stub().rejects({ errors: [{ status: '412' }] });
+        await component.actions.shareCampaignParticipation.call(component);
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
+      });
 
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.error'))).to.exist;
-        expect(screen.getByText(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      it('should display not-finished-yet message if status is 409', async function () {
+        adapter.share.rejects({ errors: [{ status: '409' }] });
+
+        await component.actions.shareCampaignParticipation.call(component);
+
+        expect(component.showNotFinishedYetMessage).to.equal(true);
+      });
+
+      it('should display global error message if status is not 409', async function () {
+        adapter.share.rejects({ errors: [{ status: '412' }] });
+
+        await component.actions.shareCampaignParticipation.call(component);
+        expect(component.showGlobalErrorMessage).to.equal(true);
       });
     });
   });
 
-  context('When campaign is for Absolute Novice', function () {
-    it('should show a link to main page instead of the shared button ', async function () {
-      // Given
-      campaign = { isForAbsoluteNovice: true, organizationShowNPS: false };
-      const campaignParticipationResult = { campaignParticipationBadges: [] };
-      this.set('model', { campaign, campaignParticipationResult });
+  describe('#improve', function () {
+    it('should save the campaignParticipation to start the improvement', async function () {
+      // when
+      await component.actions.improve.call(component);
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-      // Then
-      expect(screen.queryByText(this.intl.t('pages.skill-review.actions.send'))).to.not.exist;
-      expect(screen.getByText(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
+      // then
+      sinon.assert.calledWithExactly(adapter.beginImprovement, 12345);
     });
 
-    it('should not show competence results ', async function () {
-      // Given
-      campaign = { isForAbsoluteNovice: true, organizationShowNPS: false };
-      const campaignParticipationResult = { campaignParticipationBadges: [] };
-      this.set('model', { campaign, campaignParticipationResult });
+    it('should redirect to campaigns.entry-point', async function () {
+      // when
+      await component.actions.improve.call(component);
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-      // Then
-      expect(screen.queryByText(this.intl.t('pages.skill-review.details.title'))).to.not.exist;
+      // then
+      sinon.assert.calledWith(component.router.transitionTo, 'campaigns.entry-point');
     });
   });
 
-  context('when campaign is FLASH', function () {
-    const estimatedFlashLevel = -4.98279852;
+  describe('#showCleaCompetences', function () {
+    it('should showCleaCompetences when campaignParticipationResult has a clea badge', function () {
+      // given
+      const cleaBadge = { id: 111 };
+      component.args.model.campaignParticipationResult.cleaBadge = cleaBadge;
 
-    it('should congratulate the user', async function () {
-      // Given
-      campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false, campaignParticipationBadges: [] };
-      this.set('model', { campaign, campaignParticipationResult });
+      // when
+      const shouldShowCleaCompetences = component.showCleaCompetences;
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-      // Then
-      expect(screen.getByText(this.intl.t('pages.skill-review.flash.abstract'))).to.exist;
+      // then
+      expect(shouldShowCleaCompetences).to.equal(true);
     });
 
-    it("should display the user's flash estimated level", async function () {
-      // Given
-      campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false, campaignParticipationBadges: [] };
-      const expectedPixCount = 257;
-      this.set('model', { campaign, campaignParticipationResult });
+    it('should not show clea competence when there is no cleaBadge', function () {
+      // given
+      component.args.model.campaignParticipationResult.cleaBadge = undefined;
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // when
+      const shouldShowCleaCompetences = component.showCleaCompetences;
 
-      // Then
-      expect(screen.getByText(this.intl.t('pages.skill-review.flash.pixCount', { count: expectedPixCount }))).to.exist;
+      // then
+      expect(shouldShowCleaCompetences).to.equal(false);
     });
   });
 
-  context('when the campaign has stage', function () {
-    it('displays the stage message', async function () {
-      const reachedStage = {
-        get: sinon.stub(),
-        message: 'Bravo !',
-      };
-      reachedStage.get.withArgs('threshold').returns([75]);
-      campaign = {
-        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-        customResultPageButtonText: 'Next step',
-        organizationName: 'Dragon & Co',
-        organizationShowNPS: false,
-      };
-      const campaignParticipationResult = {
-        isShared: true,
-        masteryRate: '0.5',
-        participantExternalId: '1234G56',
-        reachedStage,
-        campaignParticipationBadges: [],
-        stageCount: 1,
-      };
-      this.set('model', { campaign, campaignParticipationResult });
+  describe('#showNotCertifiableBadges', function () {
+    it('should show not certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
-      // When
-      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // when
+      const shouldShowBadges = component.showNotCertifiableBadges;
 
-      // Then
-      expect(contains('Bravo !')).to.exist;
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showNotCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when not acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showNotCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when none', function () {
+      // given
+      const badges = [];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showNotCertifiableBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
     });
   });
 
-  context('when the the campaign has badges', function () {
-    it('should display both valid and invalid acquired certifiable badges in both the header and main section', async function () {
-      campaign = {
-        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-        customResultPageButtonText: 'Next step',
-        organizationName: 'Dragon & Co',
-        organizationShowNPS: false,
-      };
-      const campaignParticipationBadges = [
-        {
-          altMessage: 'Vous avez validé le badge 1.',
-          isAcquired: true,
-          isCertifiable: true,
-          isValid: true,
-          isAlwaysVisible: true,
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
-          title: 'Badge 1',
-        },
-        {
-          altMessage: "Vous n'avez pas validé le badge 2.",
-          isAcquired: false,
-          isCertifiable: true,
-          isValid: false,
-          isAlwaysVisible: false,
-          message: 'Dommage ! Essaie encore.',
-          title: 'Badge 2',
-        },
-        {
-          altMessage: 'Vous avez validé le badge 3.',
-          isAcquired: true,
-          isCertifiable: true,
-          isValid: false,
-          isAlwaysVisible: true,
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 3',
-          title: 'Badge 3',
-        },
-      ];
-      const campaignParticipationResult = {
-        isShared: false,
-        participantExternalId: '1234G56',
-        campaignParticipationBadges,
-      };
-      this.set('model', { campaign, campaignParticipationResult });
+  describe('#showCertifiableBadges', function () {
+    it('should show certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
 
-      // Then
-      expect(screen.getByRole('img', { name: 'Badge 1' })).to.exist;
-      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 1.' })).to.exist;
-      expect(screen.queryByRole('img', { name: 'Badge 2' })).not.to.exist;
-      expect(screen.queryByRole('img', { name: 'Vous avez validé le badge 2.' })).not.to.exist;
-      expect(screen.queryByRole('img', { name: 'Badge 3' })).not.to.exist;
-      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 3.' })).to.exist;
+      // then
+      expect(shouldShowBadges).to.equal(true);
     });
 
-    it('should display once acquired but then lost certifiable badges only in the page main section', async function () {
-      campaign = {
-        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-        customResultPageButtonText: 'Next step',
-        organizationName: 'Dragon & Co',
-        organizationShowNPS: false,
-      };
-      const campaignParticipationBadges = [
-        {
-          altMessage: 'Vous avez validé le badge 1.',
-          isAcquired: true,
-          isCertifiable: true,
-          isValid: false,
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
-          title: 'Badge 1',
-        },
-      ];
-      const campaignParticipationResult = {
-        isShared: true,
-        participantExternalId: '1234G56',
-        campaignParticipationBadges,
-      };
-      this.set('model', { campaign, campaignParticipationResult });
+    it('should not show not certifiable badges when acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
 
-      // Then
-      expect(screen.queryByRole('img', { name: 'Badge 1' })).not.to.exist;
-      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 1.' })).to.exist;
+      // then
+      expect(shouldShowBadges).to.equal(false);
     });
 
-    it('should display acquired non certifiable badges in both the header and main section', async function () {
-      campaign = {
-        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-        customResultPageButtonText: 'Next step',
-        organizationName: 'Dragon & Co',
-        organizationShowNPS: false,
-      };
-      const campaignParticipationBadges = [
-        {
-          altMessage: 'Vous avez validé le badge 1.',
-          isAcquired: true,
-          isCertifiable: false,
-          isValid: true,
-          key: 'Badge_1',
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
-          title: 'Badge 1',
-        },
-        {
-          altMessage: "Vous n'avez pas validé le badge 2.",
-          isAcquired: false,
-          isCertifiable: false,
-          isValid: false,
-          key: 'Badge_2',
-          message: 'Dommage ! Essaie encore.',
-          title: 'Badge 2',
-        },
-        {
-          altMessage: 'Vous avez validé le badge 3.',
-          isAcquired: true,
-          isCertifiable: false,
-          isValid: false,
-          key: 'Badge_3',
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 3',
-          title: 'Badge 3',
-        },
-      ];
-      const campaignParticipationResult = {
-        isShared: false,
-        participantExternalId: '1234G56',
-        campaignParticipationBadges,
-      };
-      this.set('model', { campaign, campaignParticipationResult });
+    it('should not show badges when not acquired', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
 
-      // Then
-      expect(screen.getByRole('img', { name: 'Badge 1' })).to.exist;
-      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 1.' })).to.exist;
-      expect(screen.queryByRole('img', { name: 'Badge 2' })).not.to.exist;
-      expect(screen.queryByRole('img', { name: 'Dommage ! Essaie encore.' })).not.to.exist;
-      expect(screen.getByRole('img', { name: 'Badge 3' })).to.exist;
-      expect(screen.getByRole('img', { name: 'Vous avez validé le badge 3.' })).to.exist;
+      // then
+      expect(shouldShowBadges).to.equal(false);
     });
 
-    it('should add an anchor in the header badge icon linked to the badge card', async function () {
-      campaign = {
-        customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-        customResultPageButtonText: 'Next step',
-        organizationName: 'Dragon & Co',
-        organizationShowNPS: false,
-      };
-      const campaignParticipationBadges = [
-        {
-          altMessage: 'Vous avez validé le badge 1.',
-          isAcquired: true,
-          isCertifiable: true,
-          isValid: true,
-          message: 'Bravo ! Vous maîtrisez les compétences du badge 1',
-          title: 'Badge 1',
-        },
-      ];
-      const campaignParticipationResult = {
-        isShared: false,
-        campaignParticipationBadges,
-      };
-      this.set('model', { campaign, campaignParticipationResult });
+    it('should not show badges when none', function () {
+      // given
+      const badges = [];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
-      // When
-      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // when
+      const shouldShowBadges = component.showCertifiableBadges;
 
-      // Then
-      expect(screen.getByRole('link', { name: 'Badge 1' }).href).to.contains('#Badge%201');
+      // then
+      expect(shouldShowBadges).to.equal(false);
     });
   });
 
-  describe('The trainings block', function () {
-    context('When they does not have trainings', function () {
-      it('should not display the block', async function () {
-        const trainings = [];
-        const campaign = {
-          customResultPageText: 'Bravo !',
-          organizationLogoUrl: 'www.logo-example.com',
-          organizationName: 'Dragon & Co',
-        };
-        const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-        this.set('model', { campaign, campaignParticipationResult, trainings });
+  describe('#showValidBadges', function () {
+    it('should show badges when valid', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showValidBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show not badges when not valid', function () {
+      // given
+      const badges = [{ id: 33, isAcquired: true, isCertifiable: true, isValid: false }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showValidBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when none', function () {
+      // given
+      const badges = [];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const shouldShowBadges = component.showValidBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+  });
+
+  describe('#acquiredNotCertifiableBadges', function () {
+    it('should only return acquired and not certifiable badges', function () {
+      // given
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
+
+      // when
+      const acquiredBadges = component.acquiredNotCertifiableBadges;
+
+      // then
+      expect(acquiredBadges).to.deep.equal([
+        { id: 34, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: true },
+        { id: 35, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: false },
+        { id: 36, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: true },
+        { id: 37, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: false },
+      ]);
+    });
+  });
+
+  describe('#validBadges', function () {
+    it('should only return valid badges', function () {
+      // given
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
+
+      // when
+      const acquiredBadges = component.validBadges;
+
+      // then
+      expect(acquiredBadges).to.deep.equal([
+        { id: 30, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: true },
+        { id: 31, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: false },
+      ]);
+    });
+  });
+
+  describe('#invalidBadges', function () {
+    it('should only return invalid badges', function () {
+      // given
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
+
+      // when
+      const acquiredBadges = component.invalidBadges;
+
+      // then
+      expect(acquiredBadges).to.deep.equal([
+        { id: 32, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+        { id: 33, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: false },
+        { id: 38, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: true },
+        { id: 40, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+      ]);
+    });
+  });
+
+  describe('#certifiableBadgesOrderedByValidity', function () {
+    it('should return certifiable badges ordered by validity status', function () {
+      // given
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
+
+      // when
+      const acquiredBadges = component.certifiableBadgesOrderedByValidity;
+
+      // then
+      expect(acquiredBadges).to.deep.equal([
+        { id: 30, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: true },
+        { id: 31, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: false },
+        { id: 32, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+        { id: 33, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: false },
+        { id: 38, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: true },
+        { id: 40, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+      ]);
+    });
+  });
+
+  describe('#showOrganizationMessage', function () {
+    it('should return true when the campaign has a customResultPageText', function () {
+      // given
+      component.args.model.campaign.customResultPageText =
+        'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
+
+      // when
+      const result = component.showOrganizationMessage;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when the campaign has no customResultPageText ', function () {
+      // given
+      component.args.model.campaign.customResultPageText = null;
+
+      // when
+      const result = component.showOrganizationMessage;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#showOrganizationButton', function () {
+    it('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = 'Go to the next step';
+      component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+
+      // when
+      const result = await component.showOrganizationButton;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when the organization has no a customResultPageButtonText ', function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = null;
+      component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+
+      // when
+      const result = component.showOrganizationButton;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when the organization has noa customResultPageButtonUrl', function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = 'Next step';
+      component.args.model.campaign.customResultPageButtonUrl = null;
+
+      // when
+      const result = component.showOrganizationButton;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#customButtonUrl', function () {
+    context('when there is a customResultPageButtonUrl', function () {
+      context('when the participant has finished a campaign with stages', function () {
+        it('should add the stage to the url ', function () {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?stage=6');
+        });
+      });
+
+      context('when the participant has a mastery percentage', function () {
+        it('should add the masteryPercentage to the url', function () {
+          // given
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?masteryPercentage=56');
+        });
+      });
+
+      context('when the participant has a mastery percentage equals to 0', function () {
+        it('should add the masteryPercentage to the url', function () {
+          // given
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipationResult.masteryRate = '0.0';
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?masteryPercentage=0');
+        });
+      });
+
+      context('when the participant has a participantExternalId', function () {
+        it('should add the externalId to the url', function () {
+          // given
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?externalId=1234F56');
+        });
+      });
+
+      context('when the participant has a participantExternalId, a mastery percentage and stages ', function () {
+        it('should add all params to the url', function () {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
+          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
+        });
+      });
+
+      context('when the url already has query params', function () {
+        it('should add the new parameters to the other query params', function () {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
+          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal(
+            'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6'
+          );
+        });
+      });
+
+      context('when the url has an ancor', function () {
+        it('should add the new parameters before the ancor', function () {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/#page1';
+          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
+        });
+      });
+
+      context('when there is no params', function () {
+        it('should return the url of the custom button', function () {
+          // given
+          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+          component.args.model.campaignParticipationResult.reachedStage = null;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/');
+        });
+      });
+    });
+
+    context('when there is no customResultPageButtonUrl', function () {
+      it('should return nothing', function () {
+        // given
+        component.args.model.campaign.customResultPageButtonUrl = null;
+        component.args.model.campaignParticipationResult.reachedStage = 80;
 
         // when
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+        const url = component.customButtonUrl;
 
         // then
-        expect(screen.queryByText(this.intl.t('pages.skill-review.trainings.title'))).to.not.exist;
-      });
-    });
-
-    context('When they have trainings', function () {
-      it('should display the block', async function () {
-        const trainings = [{ title: 'Training 1', duration: { hours: 4 } }];
-        const campaign = {
-          customResultPageText: 'Bravo !',
-          organizationLogoUrl: 'www.logo-example.com',
-          organizationName: 'Dragon & Co',
-        };
-        const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-        this.set('model', { campaign, campaignParticipationResult, trainings });
-
-        // when
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // then
-        expect(screen.getByText(this.intl.t('pages.skill-review.trainings.title'))).to.exist;
-        expect(screen.getByText(this.intl.t('pages.skill-review.trainings.description'))).to.exist;
-      });
-
-      it('should display trainings', async function () {
-        const trainings = [
-          {
-            duration: { hours: 6 },
-            link: 'https://magistere.education.fr/ac-normandie/enrol/index.php?id=5924',
-            locale: 'fr-fr',
-            title: '(tp 8, 9) Travail de groupe et collaboration entre les personnels',
-            type: 'autoformation',
-          },
-          {
-            duration: { hours: 6 },
-            link: 'https://magistere.education.fr/ac-normandie/enrol/index.php?id=5924',
-            locale: 'fr-fr',
-            title: '(tp 8, 9) Travail de groupe et collaboration entre les personnels',
-            type: 'autoformation',
-          },
-        ];
-        const campaign = {
-          customResultPageText: 'Bravo !',
-          organizationLogoUrl: 'www.logo-example.com',
-          organizationName: 'Dragon & Co',
-        };
-        const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-        this.set('model', { campaign, campaignParticipationResult, trainings });
-
-        // when
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // then
-        expect(findAll('.training-card')).to.have.lengthOf(2);
+        expect(url).to.equal(null);
       });
     });
   });
 
-  describe('The block of the organisation message', function () {
-    context('When the campaign is shared', function () {
-      context('when the organization has a message', function () {
-        context('when the organization has a logo', function () {
-          it('should display the block for the message', async function () {
-            // Given
-            campaign = {
-              customResultPageText: 'Bravo !',
-              organizationLogoUrl: 'www.logo-example.com',
-              organizationName: 'Dragon & Co',
-              organizationShowNPS: false,
-            };
-            const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-            this.set('model', { campaign, campaignParticipationResult });
+  describe('#customButtonText', function () {
+    it('should return the text of the custom button', function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = 'Next step';
 
-            // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // when
+      const result = component.customButtonText;
 
-            // Then
-            expect(screen.getByText(this.intl.t('pages.skill-review.organization-message'))).to.exist;
-            expect(screen.getByText('Dragon & Co')).to.exist;
-          });
-
-          it('should show the logo of the organization', async function () {
-            // Given
-            campaign = {
-              customResultPageText: 'Bravo !',
-              organizationLogoUrl: 'www.logo-example.com',
-              organizationName: 'Dragon & Co',
-              organizationShowNPS: false,
-            };
-            const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-            this.set('model', { campaign, campaignParticipationResult });
-
-            // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-            // Then
-            expect(screen.getByRole('img', { name: 'Dragon & Co' })).to.exist;
-          });
-        });
-
-        context('when the organization has no logo', function () {
-          it('should display the block for the message', async function () {
-            // Given
-            campaign = {
-              customResultPageText: 'Bravo !',
-              organizationLogoUrl: null,
-              organizationName: 'Dragon & Co',
-              organizationShowNPS: false,
-            };
-            const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-            this.set('model', { campaign, campaignParticipationResult });
-
-            // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-            // Then
-            expect(screen.getByText('Dragon & Co')).to.exist;
-            expect(screen.getByText(this.intl.t('pages.skill-review.organization-message'))).to.exist;
-          });
-
-          it('should not display the logo of the organization ', async function () {
-            // Given
-            campaign = {
-              customResultPageText: 'Bravo !',
-              organizationLogoUrl: null,
-              organizationName: 'Dragon & Co',
-              organizationShowNPS: false,
-            };
-            const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-            this.set('model', { campaign, campaignParticipationResult });
-
-            // When
-            const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-            // Then
-            expect(screen.queryByRole('img', { name: 'Dragon & Co' })).to.not.exist;
-          });
-        });
-      });
-
-      context('when the organization has a customResultPageText', function () {
-        it('should display customResultPageText', async function () {
-          // Given
-          campaign = {
-            customResultPageText: 'some message',
-            organizationName: 'Dragon & Co',
-            organizationShowNPS: false,
-          };
-          const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
-          this.set('model', { campaign, campaignParticipationResult });
-
-          // When
-          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-          // Then
-          expect(screen.getByText('some message')).to.exist;
-        });
-      });
-
-      context('when the organization has a customResultPageButtonUrl and a customResultPageButtonText', function () {
-        context(
-          'when the participant has finished a campaign with stages and has a masteryPercentage and a participantExternalId',
-          function () {
-            it('should display the button with all params', async function () {
-              // Given
-              const reachedStage = {
-                get: sinon.stub(),
-              };
-              reachedStage.get.withArgs('threshold').returns([75]);
-              campaign = {
-                customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-                customResultPageButtonText: 'Next step',
-                organizationName: 'Dragon & Co',
-                organizationShowNPS: false,
-              };
-              const campaignParticipationResult = {
-                isShared: true,
-                masteryRate: '0.5',
-                participantExternalId: '1234G56',
-                reachedStage,
-                campaignParticipationBadges: [],
-              };
-              this.set('model', { campaign, campaignParticipationResult });
-
-              // When
-              const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-              // Then
-              expect(screen.getByRole('link', { name: 'Next step' })).to.exist;
-              expect(screen.getByRole('link', { name: 'Next step' }).target).to.equals('_blank');
-              expect(screen.getByText('Next step')).to.exist;
-            });
-          }
-        );
-
-        context(
-          'when the participant has finished a campaign with neither stages and he has neither masteryPercentage nor participantExternalId',
-          function () {
-            it('should display the button', async function () {
-              // Given
-              campaign = {
-                customResultPageButtonUrl: 'http://www.my-url.net',
-                customResultPageButtonText: 'Next step',
-                organizationName: 'Dragon & Co',
-                organizationShowNPS: false,
-              };
-              const campaignParticipationResult = {
-                isShared: true,
-                masteryRate: null,
-                participantExternalId: null,
-                reachedStage: null,
-                campaignParticipationBadges: [],
-              };
-              this.set('model', { campaign, campaignParticipationResult });
-
-              // When
-              const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-              // Then
-              expect(screen.getByRole('link', { name: 'Next step' })).to.exist;
-              expect(screen.getByRole('link', { name: 'Next step' }).target).to.equals('_blank');
-              expect(screen.getByText('Next step')).to.exist;
-            });
-          }
-        );
-      });
-
-      context('when the organization only has a customResultPageButtonUrl', function () {
-        it('should not display the button', async function () {
-          // Given
-          campaign = {
-            customResultPageButtonUrl: 'www.my-url.net',
-            customResultPageButtonText: null,
-            organizationName: 'Dragon & Co',
-            organizationShowNPS: false,
-          };
-          const campaignParticipationResult = {
-            isShared: true,
-            campaignParticipationBadges: [],
-          };
-          this.set('model', { campaign, campaignParticipationResult });
-
-          // When
-          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-          // Then
-          expect(screen.queryByText('link', { name: 'Next step' })).to.not.exist;
-          expect(screen.queryByText('Next step')).to.not.exist;
-        });
-      });
-
-      context('when the organization has neither a message nor a button', function () {
-        it('should not display the block for the message', async function () {
-          // Given
-          campaign = {
-            customResultPageText: null,
-            customResultPageButtonUrl: null,
-            customResultPageButtonText: null,
-            organizationName: 'Dragon & Co',
-            organizationShowNPS: false,
-          };
-          const campaignParticipationResult = {
-            isShared: true,
-            campaignParticipationBadges: [],
-          };
-          this.set('model', { campaign, campaignParticipationResult });
-
-          // When
-          const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-          // Then
-          expect(screen.queryByText(this.intl.t('pages.skill-review.organization-message'))).to.not.exist;
-        });
-      });
-    });
-    context('when the campaign is not shared', function () {
-      it('should not display the block for the message', async function () {
-        // Given
-        campaign = {
-          customResultPageButtonText: 'Bravo !',
-          organizationName: 'Dragon & Co',
-          organizationShowNPS: false,
-        };
-        const campaignParticipationResult = {
-          isShared: false,
-          campaignParticipationBadges: [],
-        };
-        this.set('model', { campaign, campaignParticipationResult });
-
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.actions.send'))).to.exist;
-        expect(screen.queryByText(this.intl.t('pages.skill-review.organization-message'))).to.not.exist;
-      });
+      // then
+      expect(result).to.equal('Next step');
     });
   });
 
-  describe('The retry block', function () {
-    context('when user can retry', function () {
-      it('should display retry block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          canRetry: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+  describe('#isShared', function () {
+    it('should return the value of isShared', function () {
+      // given
+      component.args.model.campaignParticipationResult.isShared = true;
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // when
+      const result = component.isShared;
 
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.retry.button'))).to.exist;
-      });
-    });
-
-    context('when user cannot retry', function () {
-      it('should not display retry block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          canRetry: false,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
-
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // Then
-        expect(screen.queryByText(this.intl.t('pages.skill-review.retry.button'))).to.not.exist;
-      });
+      // then
+      expect(result).to.be.true;
     });
   });
 
-  describe('The improve block', function () {
-    context('when user can improve', function () {
-      it('should display improve block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          canImprove: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+  describe('#displayPixLink', function () {
+    it('should return false when there are customResultPageButtonText and customResultPageButtonUrl', function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = 'Next step';
+      component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+      // when
+      const result = component.displayPixLink;
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.improve.title'))).to.exist;
-      });
+      // then
+      expect(result).to.be.false;
     });
 
-    context('when user cannot improve', function () {
-      it('should not display improve block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          canImprove: false,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+    it('should return true when customResultPageButtonText or customResultPageButtonUrl is empty', function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = null;
+      component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+      // when
+      const result = component.displayPixLink;
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // Then
-        expect(screen.queryByText(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
-      });
+      // then
+      expect(result).to.be.true;
     });
 
-    context('when share button has been pressed but a skill has been reset', function () {
-      it('should not display improve block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          canImprove: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+    it('should return true when customResultPageButtonText and customResultPageButtonUrl are empty', function () {
+      // given
+      component.args.model.campaign.customResultPageButtonText = null;
+      component.args.model.campaign.customResultPageButtonUrl = null;
+      // when
+      const result = component.displayPixLink;
 
-        const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('campaign-participation-result');
-        adapter.share = sinon.stub().rejects({ errors: [{ status: '409' }] });
-
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
-
-        // Then
-        expect(screen.queryByText(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
-      });
-    });
-
-    context('when share button has been pressed but a global error occurred', function () {
-      it('should not display improve block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          canImprove: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
-
-        const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('campaign-participation-result');
-        adapter.share = sinon.stub().rejects({ errors: [{ status: '412' }] });
-
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
-
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.improve.title'))).to.exist;
-      });
+      // then
+      expect(result).to.be.true;
     });
   });
 
-  describe('The Net Promoter Score block', function () {
-    context('when organizationShowNPS is true', function () {
-      it('should display NPS Block', async function () {
-        // Given
-        campaign = {
-          organizationShowNPS: true,
-          organizationFormNPSUrl: 'https://pix.fr',
-        };
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          isShared: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+  describe('#showImproveButton', function () {
+    it('should return false when canImprove is false', function () {
+      // given
+      component.args.model.campaignParticipationResult.canImprove = false;
+      component.isShareButtonClicked = false;
+      // when
+      const result = component.showImproveButton;
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.exist;
-      });
-
-      it('should display the button to access the NPS form  ', async function () {
-        // Given
-        campaign = {
-          organizationShowNPS: true,
-          organizationFormNPSUrl: 'https://pix.fr',
-        };
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          isShared: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
-
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-
-        // Then
-        expect(screen.getByText(this.intl.t('pages.skill-review.net-promoter-score.link.label'))).to.exist;
-        expect(screen.getByRole('link', { name: 'Je donne mon avis' })).to.exist;
-        expect(screen.getByRole('link', { name: 'Je donne mon avis' }).target).to.equals('_blank');
-      });
+      // then
+      expect(result).to.be.false;
     });
 
-    context('when organizationShowNPS is false', function () {
-      it('should not display NPS Block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+    it('should return false when isShareButtonClicked is true', function () {
+      // given
+      component.args.model.campaignParticipationResult.canImprove = true;
+      component.isShareButtonClicked = true;
+      // when
+      const result = component.showImproveButton;
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      // then
+      expect(result).to.be.false;
+    });
 
-        // Then
-        expect(screen.queryByText(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.not.exist;
-      });
+    it('should return true when canImprove is true and isShareButtonClicked is false', function () {
+      // given
+      component.args.model.campaignParticipationResult.canImprove = true;
+      component.isShareButtonClicked = false;
+      // when
+      const result = component.showImproveButton;
+
+      // then
+      expect(result).to.be.true;
     });
   });
 
-  describe('The disabled block', function () {
-    context('when participation is disabled and not shared', function () {
-      it('should display disabled block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          isDisabled: true,
-          isShared: false,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+  describe('#redirectToSignupIfUserIsAnonymous', function () {
+    it('should redirect to sign up page on click when user is anonymous', async function () {
+      // given
+      const event = {
+        preventDefault: () => {},
+      };
+      const session = this.owner.lookup('service:session');
 
-        // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      class currentUser extends Service {
+        user = { isAnonymous: true };
+      }
 
-        // Then
-        expect(contains("Ce parcours a été désactivé par l'organisateur.")).to.exist;
-      });
+      this.owner.register('service:currentUser', currentUser);
+
+      session.invalidate = sinon.stub();
+
+      // when
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
+
+      // then
+      sinon.assert.called(session.invalidate);
+      sinon.assert.calledWith(component.router.transitionTo, 'inscription');
     });
 
-    context('when participation is disabled but already shared', function () {
-      it('should not display disabled block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          isDisabled: true,
-          isShared: true,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+    it('should redirect to home page when user is not anonymous', async function () {
+      // given
+      const event = {
+        preventDefault: () => {},
+      };
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      class currentUser extends Service {
+        user = { isAnonymous: false };
+      }
 
-        // Then
-        expect(screen.getByText('Merci, vos résultats ont bien été envoyés !')).to.exist;
-      });
+      this.owner.register('service:currentUser', currentUser);
+
+      // when
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
+
+      // then
+      sinon.assert.calledWith(component.router.transitionTo, 'authenticated');
     });
 
-    context('when participation is not disabled', function () {
-      it('should not display disabled block', async function () {
-        // Given
-        const campaignParticipationResult = {
-          campaignParticipationBadges: [],
-          isDisabled: false,
-          isShared: false,
-        };
-        this.set('model', { campaign, campaignParticipationResult });
+    it('prevents default behaviour', async function () {
+      // given
+      const event = { preventDefault: sinon.stub() };
 
-        // When
-        const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      class currentUser extends Service {
+        user = { isAnonymous: false };
+      }
 
-        // Then
-        expect(screen.getByText("J'envoie mes résultats")).to.exist;
-      });
+      this.owner.register('service:currentUser', currentUser);
+
+      // when
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
+
+      // then
+      sinon.assert.called(event.preventDefault);
+    });
+  });
+
+  describe('#showDetail', function () {
+    it('should be true when campaign is not FLASH', async function () {
+      // given
+      component.args.model.campaign.isFlash = false;
+
+      // then
+      expect(component.showDetail).to.be.true;
+    });
+
+    it('should be false when campaign is FLASH', async function () {
+      // given
+      component.args.model.campaign.isFlash = true;
+
+      // then
+      expect(component.showDetail).to.be.false;
     });
   });
 });
