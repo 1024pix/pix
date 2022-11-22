@@ -47,7 +47,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('when there is no student number yet', function () {
       test('should not render component with student number text', async function (assert) {
         this.student.set('studentNumber', null);
-        render(
+        await render(
           hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
         );
 
@@ -87,7 +87,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
         // when
         await fillByLabel(
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-          ''
+          'toto'
         );
         await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
