@@ -15,7 +15,7 @@ module('Acceptance | Routes | join', function (hooks) {
       // given
       const certificationCenterInvitation = server.create('certification-center-invitation', {
         id: 1,
-        certificationCenterName: 'Super Centre de Certif',
+        certificationCenterName: 'Collège Truffaut',
       });
 
       // when
@@ -30,7 +30,7 @@ module('Acceptance | Routes | join', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/sessions/liste');
-      assert.dom(screen.getByText('Super Centre de Certif', { exact: false })).exists();
+      assert.dom(screen.getByText('Collège Truffaut', { exact: false })).exists();
     });
   });
 

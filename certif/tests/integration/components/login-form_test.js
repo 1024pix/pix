@@ -89,7 +89,7 @@ module('Integration | Component | login-form', function (hooks) {
     assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE)).exists();
   });
 
-  test('it should display an not linked certification message when authentication fails with Forbidden Access', async function (assert) {
+  test('it should display a not linked certification message when authentication fails with Forbidden Access', async function (assert) {
     // given
     const notLinkedToOrganizationErrorMessage = {
       responseJSON: {
