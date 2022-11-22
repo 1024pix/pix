@@ -6,6 +6,16 @@ export default class CertificationCenterForm extends Component {
   certificationCenterTypes = types;
 
   @action
+  handleCenterNameChange(event) {
+    this.args.certificationCenter.name = event.target.value;
+  }
+
+  @action
+  handleExternalIdChange(event) {
+    this.args.certificationCenter.externalId = event.target.value;
+  }
+
+  @action
   selectCertificationCenterType(event) {
     this.args.certificationCenter.type = event.target.value;
   }
