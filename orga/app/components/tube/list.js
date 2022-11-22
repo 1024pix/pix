@@ -1,11 +1,13 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
-import moment from 'moment';
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
 export default class TubeList extends Component {
   @tracked tubesSelected = A();
+
+  @service dayjs;
 
   get haveNoTubeSelected() {
     return this.tubesSelected.length === 0;
@@ -25,7 +27,7 @@ export default class TubeList extends Component {
   }
 
   get formattedCurrentDate() {
-    return moment().format('YYYY-MM-DD-HHmm');
+    return this.dayjs.self().format('YYYY-MM-DD-HHmm');
   }
 
   get downloadURL() {

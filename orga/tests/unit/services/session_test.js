@@ -20,8 +20,11 @@ module('Unit | Service | session', function (hooks) {
         service.intl = {
           setLocale: sinon.stub(),
         };
-        service.moment = {
+        service.dayjs = {
           setLocale: sinon.stub(),
+          self: {
+            locale: sinon.stub(),
+          },
         };
 
         // when
@@ -30,7 +33,7 @@ module('Unit | Service | session', function (hooks) {
         // then
         assert.ok(service.currentUser.load.called);
         assert.ok(service.intl.setLocale.calledWith(['fr', 'fr']));
-        assert.ok(service.moment.setLocale.calledWith('fr'));
+        assert.ok(service.dayjs.setLocale.calledWith('fr'));
       });
 
       module('when domain extension is not .fr', function () {
@@ -49,8 +52,11 @@ module('Unit | Service | session', function (hooks) {
             get: sinon.stub(),
           };
           service.intl.get.withArgs('locales').returns(['fr', 'en']);
-          service.moment = {
+          service.dayjs = {
             setLocale: sinon.stub(),
+            self: {
+              locale: sinon.stub(),
+            },
           };
 
           // when
@@ -58,7 +64,7 @@ module('Unit | Service | session', function (hooks) {
 
           // then
           assert.ok(service.intl.setLocale.calledWith(['en', 'fr']));
-          assert.ok(service.moment.setLocale.calledWith('en'));
+          assert.ok(service.dayjs.setLocale.calledWith('en'));
         });
       });
     });
@@ -81,8 +87,11 @@ module('Unit | Service | session', function (hooks) {
         service.intl = {
           setLocale: sinon.stub(),
         };
-        service.moment = {
+        service.dayjs = {
           setLocale: sinon.stub(),
+          self: {
+            locale: sinon.stub(),
+          },
         };
 
         // when

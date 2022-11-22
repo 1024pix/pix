@@ -14,7 +14,7 @@
         {{t "pages.campaign.created-on"}}
       </dt>
       <dd>
-        {{moment-format @campaign.createdAt "DD/MM/YYYY" allow-empty=true}}
+        {{dayjs-format @campaign.createdAt "DD/MM/YYYY" allow-empty=true}}
       </dd>
     </div>
 

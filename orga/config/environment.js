@@ -50,10 +50,6 @@ module.exports = function (environment) {
       warnIfNoIconsIncluded: false,
     },
 
-    moment: {
-      includeLocales: ['fr'],
-    },
-
     matomo: {},
 
     'ember-cli-notifications': {

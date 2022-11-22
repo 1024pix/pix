@@ -1,9 +1,7 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import moment from 'moment';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
@@ -17,8 +15,16 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
   test('it should list the pending team invitations', async function (assert) {
     // given
     this.set('invitations', [
-      { email: 'gigi@example.net', isPending: true, updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
-      { email: 'gogo@example.net', isPending: true, updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
+      {
+        email: 'gigi@example.net',
+        isPending: true,
+        updatedAt: '2019-10-08T10:50:00Z',
+      },
+      {
+        email: 'gogo@example.net',
+        isPending: true,
+        updatedAt: '2019-10-08T10:50:00Z',
+      },
     ]);
 
     // when
@@ -30,7 +36,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
   test('it should display email and creation date of invitation', async function (assert) {
     // given
-    const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
+    const pendingInvitationDate = '2019-10-08T10:50:00Z';
 
     this.set('invitations', [{ email: 'gigi@example.net', isPending: true, updatedAt: pendingInvitationDate }]);
 
@@ -40,15 +46,15 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     // then
     assert.contains('gigi@example.net');
     assert.contains(
-      `${this.intl.t('pages.team-invitations.table.row.message')} ${moment(pendingInvitationDate).format(
-        'DD/MM/YYYY - HH:mm'
-      )}`
+      `${this.intl.t('pages.team-invitations.table.row.message')} ${this.dayjs
+        .self(pendingInvitationDate)
+        .format('DD/MM/YYYY - HH:mm')}`
     );
   });
 
   test('it should show success notification when cancelling an invitation succeeds', async function (assert) {
     // given
-    const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
+    const pendingInvitationDate = '2019-10-08T10:50:00Z';
     const invitation = {
       id: 777,
       email: 'gigi@example.net',
@@ -66,6 +72,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
+
     await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
@@ -78,7 +85,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
   test('it should show error notification when cancelling an invitation fails', async function (assert) {
     // given
-    const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
+    const pendingInvitationDate = '2019-10-08T10:50:00Z';
     const invitation = {
       id: 777,
       email: 'gigi@example.net',

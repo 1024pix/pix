@@ -27,7 +27,7 @@
             "pages.campaign-individual-results.start-date"
           }}</dt>
         <dd class="value-text panel-header-data-content__value">
-          {{moment-format @participation.createdAt "DD MMM YYYY"}}
+          {{dayjs-format @participation.createdAt "DD MMM YYYY"}}
         </dd>
       </div>
       {{#unless @participation.isShared}}
@@ -46,7 +46,7 @@
               "pages.campaign-individual-results.shared-date"
             }}</dt>
           <dd class="value-text panel-header-data-content__value">
-            {{moment-format @participation.sharedAt "DD MMM YYYY"}}
+            {{dayjs-format @participation.sharedAt "DD MMM YYYY"}}
           </dd>
         </div>
       {{/if}}
