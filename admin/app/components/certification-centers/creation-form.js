@@ -16,6 +16,11 @@ export default class CertificationCenterForm extends Component {
   }
 
   @action
+  toggleSupervisorAccess() {
+    this.args.certificationCenter.isSupervisorAccessEnabled = !this.args.certificationCenter.isSupervisorAccessEnabled;
+  }
+
+  @action
   selectCertificationCenterType(event) {
     this.args.certificationCenter.type = event.target.value;
   }

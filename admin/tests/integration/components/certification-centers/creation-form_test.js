@@ -3,19 +3,17 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, find } from '@ember/test-helpers';
 import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
 
 module('Integration | Component | certification-centers/creation-form', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
+  test('it renders the new certification center form component', async function (assert) {
+    // given
     this.onSubmit = () => {};
     this.onCancel = () => {};
-    this.certificationCenter = EmberObject.create({ isSupervisorAccessEnabled: true });
-  });
+    this.certificationCenter = {};
 
-  test('it renders the new certification center form component', async function (assert) {
     // when
     const screen = await render(
       hbs`<CertificationCenters::CreationForm
@@ -29,7 +27,7 @@ module('Integration | Component | certification-centers/creation-form', function
     assert.dom(screen.getByText('Nom du centre')).exists();
     assert.dom(screen.getByText("Type d'établissement")).exists();
     assert.dom(screen.getByText('Identifiant externe')).exists();
-    assert.true(find('#supervisor-portal').checked);
+    assert.false(find('#supervisor-portal').checked);
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByText('Ajouter')).exists();
   });
@@ -37,6 +35,9 @@ module('Integration | Component | certification-centers/creation-form', function
   module('#selectCertificationCenterType', function () {
     test('should update attribute certificationCenter.type', async function (assert) {
       // given
+      this.onSubmit = () => {};
+      this.onCancel = () => {};
+      this.certificationCenter = {};
       await render(
         hbs`<CertificationCenters::CreationForm
           @certificationCenter={{this.certificationCenter}}

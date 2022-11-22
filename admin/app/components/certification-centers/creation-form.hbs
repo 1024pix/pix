@@ -35,11 +35,10 @@
       class="form-field"
     />
 
-    <div class="form-field form-group form-field__checkbox">
-      <Input @type="checkbox" id="supervisor-portal" @checked={{@certificationCenter.isSupervisorAccessEnabled}} />
-      <label class="form-field__label" for="supervisor-portal">
+    <div class="form-field certification-center-form__supervisor-access-checkbox">
+      <PixCheckbox @id="supervisor-portal" @labelSize="small" onChange={{this.toggleSupervisorAccess}}>
         Espace surveillant
-      </label>
+      </PixCheckbox>
     </div>
 
     <section>
@@ -47,15 +46,13 @@
       <ul class="form-field habilitations-checkbox-list">
         {{#each @habilitations as |habilitation index|}}
           <li class="habilitation-entry">
-            <Input
-              @type="checkbox"
-              id={{concat "habilitation_" index}}
-              @checked={{contains habilitation @certificationCenter.habilitations}}
-              {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
-            />
-            <label class="form-field__label" for={{concat "habilitation_" index}}>
+            <PixCheckbox
+              @id={{concat "habilitation_" index}}
+              @labelSize="small"
+              onChange={{fn this.updateGrantedHabilitation habilitation}}
+            >
               {{habilitation.label}}
-            </label>
+            </PixCheckbox>
           </li>
         {{/each}}
       </ul>
