@@ -34,7 +34,7 @@ exports.register = async (server) => {
             }),
           }),
           headers: Joi.object({
-            'user-agent': Joi.string().max(255).optional(),
+            'user-agent': Joi.string().optional(),
           }),
           options: {
             allowUnknown: true,
