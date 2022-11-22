@@ -22,6 +22,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/recuperer-mon-compte/${temporaryKey}`);
 
       assert.ok(
@@ -172,6 +174,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/accueil');
     });
 

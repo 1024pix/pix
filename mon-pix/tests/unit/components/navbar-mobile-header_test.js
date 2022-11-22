@@ -22,7 +22,7 @@ module('Unit | Component | Navbar Mobile Header Component', function (hooks) {
     module('#isUserLogged', function () {
       test('should return true', function (assert) {
         // then
-        assert.equal(component.isUserLogged, true);
+        assert.true(component.isUserLogged);
       });
     });
   });
@@ -36,7 +36,7 @@ module('Unit | Component | Navbar Mobile Header Component', function (hooks) {
     module('#isUserLogged', function () {
       test('should return false, when user is unauthenticated', function (assert) {
         // then
-        assert.equal(component.isUserLogged, false);
+        assert.false(component.isUserLogged);
       });
     });
   });

@@ -21,7 +21,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
     module('#isUserLogged', function () {
       test('should return true', function (assert) {
         // then
-        assert.equal(component.isUserLogged, true);
+        assert.true(component.isUserLogged);
       });
     });
 
@@ -41,7 +41,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
         currentUserStub.user.isAnonymous = false;
 
         // then
-        assert.equal(component.showHeaderMenuItem, true);
+        assert.true(component.showHeaderMenuItem);
       });
 
       test('should return false, when logged user is anonymous', function (assert) {
@@ -49,7 +49,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
         currentUserStub.user.isAnonymous = true;
 
         // then
-        assert.equal(component.showHeaderMenuItem, false);
+        assert.false(component.showHeaderMenuItem);
       });
     });
   });
@@ -63,7 +63,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
     module('#isUserLogged', function () {
       test('should return false, when user is unauthenticated', function (assert) {
         // then
-        assert.equal(component.isUserLogged, false);
+        assert.false(component.isUserLogged);
       });
     });
 
@@ -73,8 +73,14 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
         const expectedMenu = [{ link: 'authentication.login' }, { link: 'inscription' }];
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.menu.length, expectedMenu.length);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.menu[0].link, expectedMenu[0].link);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.menu[1].link, expectedMenu[1].link);
       });
     });
@@ -82,7 +88,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
     module('#showHeaderMenuItem', function () {
       test('should return false', function (assert) {
         // then
-        assert.equal(component.showHeaderMenuItem, false);
+        assert.false(component.showHeaderMenuItem);
       });
     });
   });

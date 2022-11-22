@@ -37,6 +37,8 @@ module('Unit | Component | timed-challenge-instructions', function (hooks) {
           const allocatedTime = component.allocatedTime;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(allocatedTime, data.expected);
         });
       });

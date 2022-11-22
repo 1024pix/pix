@@ -22,6 +22,8 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       // then
       assert.dom('input').doesNotExist();
       assert.dom('textarea.correction-qroc-box-answer--paragraph').hasAttribute('disabled');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.correction-qroc-box-answer').getAttribute('rows'), '5');
     });
   });
@@ -59,6 +61,8 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       assert.dom('textarea.correction-qroc-box-answer--paragraph').doesNotExist();
       assert.dom('textarea.correction-qroc-box-answer--sentence').doesNotExist();
       assert.dom('input.correction-qroc-box-answer').hasAttribute('disabled');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('input.correction-qroc-box-answer').getAttribute('size'), answer.value.length.toString());
     });
   });
@@ -152,6 +156,8 @@ module('Integration | Component | QROC solution panel', function (hooks) {
             const answerBlock = find('.correction-qroc-box-answer');
 
             assert.ok(answerBlock);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(answerBlock.value, EMPTY_DEFAULT_MESSAGE);
             assert.dom('.correction-qroc-box-answer--aband').exists();
           });

@@ -50,6 +50,8 @@ module('Integration | Component | competence-card-default', function (hooks) {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.competence-card__area-name').textContent, scorecard.area.title);
     });
 
@@ -62,6 +64,8 @@ module('Integration | Component | competence-card-default', function (hooks) {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.competence-card__competence-name').textContent, scorecard.name);
     });
 
@@ -74,10 +78,16 @@ module('Integration | Component | competence-card-default', function (hooks) {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.score-label').textContent, 'niveau');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.score-value').textContent, scorecard.level.toString());
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when user can start the competence', async function () {
       test('should show the button "Commencer"', async function (assert) {
         // given
@@ -92,6 +102,8 @@ module('Integration | Component | competence-card-default', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when user can continue the competence', async function () {
       test('should show the button "Reprendre"', async function (assert) {
         // given
@@ -127,6 +139,8 @@ module('Integration | Component | competence-card-default', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when user has finished the competence', async function () {
       test('should show the improving button when there is no remaining days before improving', async function (assert) {
         // given

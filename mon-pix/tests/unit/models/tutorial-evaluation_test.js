@@ -17,6 +17,8 @@ module('Unit | Model | tutorial-evaluation model', function (hooks) {
       model.status = 'LIKED';
 
       // when & then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.nextStatus, 'NEUTRAL');
     });
 
@@ -26,6 +28,8 @@ module('Unit | Model | tutorial-evaluation model', function (hooks) {
       model.status = 'NEUTRAL';
 
       // when & then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.nextStatus, 'LIKED');
     });
   });
@@ -37,7 +41,7 @@ module('Unit | Model | tutorial-evaluation model', function (hooks) {
       model.status = 'LIKED';
 
       // when & then
-      assert.equal(model.isLiked, true);
+      assert.true(model.isLiked);
     });
 
     test('should return false if status is "NEUTRAL"', function (assert) {
@@ -46,7 +50,7 @@ module('Unit | Model | tutorial-evaluation model', function (hooks) {
       model.status = 'NEUTRAL';
 
       // when & then
-      assert.equal(model.isLiked, false);
+      assert.false(model.isLiked);
     });
   });
 });

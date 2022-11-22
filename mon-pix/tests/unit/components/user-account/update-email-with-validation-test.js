@@ -16,7 +16,7 @@ module('Unit | Component | user-account | update-email-with-validation', functio
       component.showVerificationCode({ newEmail, password });
 
       // then
-      assert.equal(component.showEmailForm, false);
+      assert.false(component.showEmailForm);
     });
 
     test('should save new email trimmed and in lowercase on sendVerificationCode', async function (assert) {
@@ -29,6 +29,8 @@ module('Unit | Component | user-account | update-email-with-validation', functio
       component.showVerificationCode({ newEmail, password });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.newEmail, 'Toto@Example.net');
     });
 
@@ -42,6 +44,8 @@ module('Unit | Component | user-account | update-email-with-validation', functio
       component.showVerificationCode({ newEmail, password });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.password, 'pix123');
     });
   });

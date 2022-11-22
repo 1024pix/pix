@@ -16,7 +16,7 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const isNotCorrectlyAnswered = component.isNotCorrectlyAnswered;
       // then
-      assert.equal(isNotCorrectlyAnswered, false);
+      assert.false(isNotCorrectlyAnswered);
     });
 
     test('should return true when result is not ok', function (assert) {
@@ -25,7 +25,7 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const isNotCorrectlyAnswered = component.isNotCorrectlyAnswered;
       // then
-      assert.equal(isNotCorrectlyAnswered, true);
+      assert.true(isNotCorrectlyAnswered);
     });
   });
 
@@ -39,6 +39,8 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const answerToDisplay = component.answerToDisplay;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(answerToDisplay, 'Pas de réponse');
     });
 
@@ -51,6 +53,8 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const answerToDisplay = component.answerToDisplay;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(answerToDisplay, 'La Reponse B');
     });
   });
@@ -63,6 +67,8 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(solutionToDisplay, 'Reponse');
     });
 
@@ -73,6 +79,8 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(solutionToDisplay, 'Reponse');
     });
 
@@ -83,6 +91,8 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(solutionToDisplay, '');
     });
 
@@ -93,6 +103,8 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(solutionToDisplay, '');
     });
   });

@@ -17,7 +17,7 @@ module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks)
         component.handleFilterChange(type, id);
 
         // then
-        assert.equal(component.filters[type].includes(id), true);
+        assert.true(component.filters[type].includes(id));
       });
     });
 
@@ -33,7 +33,7 @@ module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks)
         component.handleFilterChange(type, id);
 
         // then
-        assert.equal(component.filters[type].includes(id), false);
+        assert.false(component.filters[type].includes(id));
       });
     });
   });
@@ -49,6 +49,8 @@ module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks)
 
       // then
       assert.ok(component.filters.competences);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.filters.competences.length, 0);
     });
   });

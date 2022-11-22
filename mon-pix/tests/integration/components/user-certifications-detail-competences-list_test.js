@@ -55,6 +55,8 @@ module('Integration | Component | user-certifications-detail-competences-list', 
 
   test('should have "Compétences certifiées (niveaux sur 5)" as a title', async function (assert) {
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find(`${PARENT_SELECTOR} h2`).innerText, 'Compétences certifiées (niveaux sur 5)');
   });
 

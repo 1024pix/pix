@@ -15,7 +15,11 @@ module('Unit | Authenticator | oauth2', function (hooks) {
     const authenticator = this.owner.lookup('authenticator:oauth2');
 
     // Then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(authenticator.serverTokenEndpoint, serverTokenEndpoint);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(authenticator.serverTokenRevocationEndpoint, serverTokenRevocationEndpoint);
   });
 });

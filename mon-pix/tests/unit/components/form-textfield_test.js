@@ -23,6 +23,8 @@ module('Unit | Component | form-textfield', function (hooks) {
         // when
         const inputType = component.textfieldType;
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(inputType, data.type);
       });
     });
@@ -34,10 +36,18 @@ module('Unit | Component | form-textfield', function (hooks) {
       component.args.validationStatus = 'default';
 
       // Then
-      assert.equal(component.hasIcon, false);
+      assert.false(component.hasIcon);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.iconType, '');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.inputValidationStatus, 'form-textfield__input--default');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--default');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.validationMessageClass, 'form-textfield__message--default');
     });
 
@@ -46,10 +56,18 @@ module('Unit | Component | form-textfield', function (hooks) {
       component.args.validationStatus = 'error';
 
       // Then
-      assert.equal(component.hasIcon, true);
+      assert.true(component.hasIcon);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.iconType, 'error');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.inputValidationStatus, 'form-textfield__input--error');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--error');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.validationMessageClass, 'form-textfield__message--error');
     });
 
@@ -58,10 +76,18 @@ module('Unit | Component | form-textfield', function (hooks) {
       component.args.validationStatus = 'success';
 
       // Then
-      assert.equal(component.hasIcon, true);
+      assert.true(component.hasIcon);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.iconType, 'success');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.inputValidationStatus, 'form-textfield__input--success');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--success');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.validationMessageClass, 'form-textfield__message--success');
     });
   });

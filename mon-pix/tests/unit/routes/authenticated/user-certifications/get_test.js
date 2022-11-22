@@ -29,6 +29,8 @@ module('Unit | Route | user certifications/get', function (hooks) {
   });
 
   module('#model', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should get the certification', function (assert) {
       // given
       const params = { id: certificationId };
@@ -46,6 +48,8 @@ module('Unit | Route | user certifications/get', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should not return to /mes-certifications when the certification is published and validated', function (assert) {
       // given
       const params = { id: certificationId };
@@ -64,10 +68,12 @@ module('Unit | Route | user certifications/get', function (hooks) {
 
       // then
       return promise.then(() => {
-        assert.equal(route.router.replaceWith.notCalled, true);
+        assert.true(route.router.replaceWith.notCalled);
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should return to /mes-certifications when the certification is not published', function (assert) {
       // given
       const params = { id: certificationId };
@@ -92,6 +98,8 @@ module('Unit | Route | user certifications/get', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should return to /mes-certifications when the certification is not validated', function (assert) {
       // given
       const params = { id: certificationId };

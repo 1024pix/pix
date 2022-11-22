@@ -19,6 +19,8 @@ module('Unit | Component | markdown-to-html', function (hooks) {
         component = createGlimmerComponent('component:markdown-to-html', { markdown });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.html.string, expectedValue);
       });
     });
@@ -41,6 +43,8 @@ module('Unit | Component | markdown-to-html', function (hooks) {
         component = createGlimmerComponent('component:markdown-to-html', { markdown });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.html.string, expectedValue);
       });
     });
@@ -55,6 +59,8 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
     // then
     const expectedHtml = `<p>${html}</p>`;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(component.html.string, expectedHtml);
   });
 
@@ -69,6 +75,8 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
       // then
       const expectedHtml = '<h1>Title 1</h1>\nCeci est un paragraphe.\n<img src="/images.png" alt="img" />';
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.html.string, expectedHtml);
     });
   });
@@ -83,6 +91,8 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
       // then
       const expectedHtml = '<h1>Test</h1>';
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.html.string, expectedHtml);
     });
   });
@@ -97,6 +107,8 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
       // then
       const expectedHtml = '<h1 class="sr-only">Test</h1>';
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.html.string, expectedHtml);
     });
   });

@@ -28,6 +28,8 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const percentageAheadOfNextLevel = scorecard.percentageAheadOfNextLevel;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(percentageAheadOfNextLevel, data.expectedPercentageAheadOfNextLevel);
       });
     });
@@ -42,6 +44,8 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const remainingPixToNextLevel = scorecard.remainingPixToNextLevel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(remainingPixToNextLevel, 5);
     });
   });
@@ -55,7 +59,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const isMaxLevel = scorecard.isMaxLevel;
 
       // then
-      assert.equal(isMaxLevel, true);
+      assert.true(isMaxLevel);
     });
 
     test('should return false', function (assert) {
@@ -66,7 +70,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const isMaxLevel = scorecard.isMaxLevel;
 
       // then
-      assert.equal(isMaxLevel, false);
+      assert.false(isMaxLevel);
     });
   });
 
@@ -81,7 +85,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        assert.equal(isFinishedWithMaxLevel, true);
+        assert.true(isFinishedWithMaxLevel);
       });
 
       test('should return false', function (assert) {
@@ -93,7 +97,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        assert.equal(isFinishedWithMaxLevel, false);
+        assert.false(isFinishedWithMaxLevel);
       });
     });
 
@@ -107,7 +111,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        assert.equal(isFinishedWithMaxLevel, false);
+        assert.false(isFinishedWithMaxLevel);
       });
 
       test('should return false', function (assert) {
@@ -119,7 +123,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        assert.equal(isFinishedWithMaxLevel, false);
+        assert.false(isFinishedWithMaxLevel);
       });
     });
   });
@@ -134,7 +138,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isProgressable = scorecard.isProgressable;
 
         // then
-        assert.equal(isProgressable, false);
+        assert.false(isProgressable);
       });
     });
 
@@ -147,7 +151,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isProgressable = scorecard.isProgressable;
 
         // then
-        assert.equal(isProgressable, false);
+        assert.false(isProgressable);
       });
     });
 
@@ -162,7 +166,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isProgressable = scorecard.isProgressable;
 
           // then
-          assert.equal(isProgressable, false);
+          assert.false(isProgressable);
         });
       });
 
@@ -176,7 +180,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isProgressable = scorecard.isProgressable;
 
           // then
-          assert.equal(isProgressable, true);
+          assert.true(isProgressable);
         });
       });
     });
@@ -194,7 +198,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isImprovable = scorecard.isImprovable;
 
         // then
-        assert.equal(isImprovable, false);
+        assert.false(isImprovable);
       });
     });
 
@@ -209,7 +213,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isImprovable = scorecard.isImprovable;
 
         // then
-        assert.equal(isImprovable, false);
+        assert.false(isImprovable);
       });
     });
 
@@ -224,7 +228,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isImprovable = scorecard.isImprovable;
 
         // then
-        assert.equal(isImprovable, false);
+        assert.false(isImprovable);
       });
     });
 
@@ -241,7 +245,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isImprovable = scorecard.isImprovable;
 
           // then
-          assert.equal(isImprovable, true);
+          assert.true(isImprovable);
         });
       }
     );
@@ -257,7 +261,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
 
         // then
-        assert.equal(shouldWaitBeforeImproving, false);
+        assert.false(shouldWaitBeforeImproving);
       });
     });
 
@@ -270,7 +274,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
 
         // then
-        assert.equal(shouldWaitBeforeImproving, false);
+        assert.false(shouldWaitBeforeImproving);
       });
     });
 
@@ -288,7 +292,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
 
           // then
-          assert.equal(shouldWaitBeforeImproving, false);
+          assert.false(shouldWaitBeforeImproving);
         });
       });
 
@@ -303,7 +307,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
             const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
 
             // then
-            assert.equal(shouldWaitBeforeImproving, true);
+            assert.true(shouldWaitBeforeImproving);
           });
         });
 
@@ -317,7 +321,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
             const shouldWaitBeforeImproving = scorecard.shouldWaitBeforeImproving;
 
             // then
-            assert.equal(shouldWaitBeforeImproving, false);
+            assert.false(shouldWaitBeforeImproving);
           });
         });
       });
@@ -334,7 +338,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
         const isResettable = scorecard.isResettable;
 
         // then
-        assert.equal(isResettable, false);
+        assert.false(isResettable);
       });
     });
 
@@ -349,7 +353,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isResettable = scorecard.isResettable;
 
           // then
-          assert.equal(isResettable, false);
+          assert.false(isResettable);
         });
       });
 
@@ -363,7 +367,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isResettable = scorecard.isResettable;
 
           // then
-          assert.equal(isResettable, true);
+          assert.true(isResettable);
         });
       });
     });
@@ -379,7 +383,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isResettable = scorecard.isResettable;
 
           // then
-          assert.equal(isResettable, false);
+          assert.false(isResettable);
         });
       });
 
@@ -393,7 +397,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
           const isResettable = scorecard.isResettable;
 
           // then
-          assert.equal(isResettable, true);
+          assert.true(isResettable);
         });
       });
     });
@@ -408,7 +412,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasNotEarnAnything = scorecard.hasNotEarnAnything;
 
       // then
-      assert.equal(hasNotEarnAnything, true);
+      assert.true(hasNotEarnAnything);
     });
 
     test('should return false', function (assert) {
@@ -419,7 +423,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasNotEarnAnything = scorecard.hasNotEarnAnything;
 
       // then
-      assert.equal(hasNotEarnAnything, false);
+      assert.false(hasNotEarnAnything);
     });
   });
 
@@ -432,7 +436,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
-      assert.equal(hasNotReachLevelOne, true);
+      assert.true(hasNotReachLevelOne);
     });
 
     test('should return false if level is 1', function (assert) {
@@ -443,7 +447,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
-      assert.equal(hasNotReachLevelOne, false);
+      assert.false(hasNotReachLevelOne);
     });
 
     test('should return false if level > 1', function (assert) {
@@ -454,7 +458,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
-      assert.equal(hasNotReachLevelOne, false);
+      assert.false(hasNotReachLevelOne);
     });
   });
 
@@ -467,7 +471,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
-      assert.equal(hasReachAtLeastLevelOne, true);
+      assert.true(hasReachAtLeastLevelOne);
     });
 
     test('should return true if level is 4', function (assert) {
@@ -478,7 +482,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
-      assert.equal(hasReachAtLeastLevelOne, true);
+      assert.true(hasReachAtLeastLevelOne);
     });
 
     test('should return false', function (assert) {
@@ -489,7 +493,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
       const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
-      assert.equal(hasReachAtLeastLevelOne, false);
+      assert.false(hasReachAtLeastLevelOne);
     });
   });
 });

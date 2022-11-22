@@ -11,7 +11,7 @@ module('Unit | Adapters | user-oidc-authentication-request', function (hooks) {
       const url = adapter.buildURL();
 
       // then
-      assert.equal(url.endsWith('user/'), true);
+      assert.true(url.endsWith('user/'));
     });
   });
 });

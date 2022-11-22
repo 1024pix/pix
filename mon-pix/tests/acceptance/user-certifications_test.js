@@ -19,6 +19,8 @@ module('Acceptance | User certifications page', function (hooks) {
       await visit('/mes-certifications');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
 
@@ -30,6 +32,8 @@ module('Acceptance | User certifications page', function (hooks) {
       await visit('/mes-certifications');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/mes-certifications');
     });
   });
@@ -83,6 +87,8 @@ module('Acceptance | User certifications page', function (hooks) {
         await visit('/mes-certifications');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           findAll('.certifications-list__table-body .certifications-list-item').length,
           userWithSomeCertificates.certifications.length

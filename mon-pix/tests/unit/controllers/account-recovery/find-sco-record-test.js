@@ -43,8 +43,8 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
           await controller.submitStudentInformation(studentInformation);
 
           // then
-          assert.equal(controller.showStudentInformationForm, false);
-          assert.equal(controller.showErrors, true);
+          assert.false(controller.showStudentInformationForm);
+          assert.true(controller.showErrors);
         });
       });
 
@@ -64,8 +64,8 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
           await controller.submitStudentInformation(studentInformation);
 
           // then
-          assert.equal(controller.showStudentInformationForm, false);
-          assert.equal(controller.showConfirmationStep, true);
+          assert.false(controller.showStudentInformationForm);
+          assert.true(controller.showConfirmationStep);
         });
       });
     });
@@ -116,9 +116,9 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
         await controller.continueAccountRecoveryBackupEmailConfirmation();
 
         // then
-        assert.equal(controller.showStudentInformationForm, false);
-        assert.equal(controller.showConfirmationStep, false);
-        assert.equal(controller.showBackupEmailConfirmationForm, true);
+        assert.false(controller.showStudentInformationForm);
+        assert.false(controller.showConfirmationStep);
+        assert.true(controller.showBackupEmailConfirmationForm);
       });
     });
   });

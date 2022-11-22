@@ -17,6 +17,8 @@ module('Unit | Model | Profile model', function (hooks) {
   });
 
   module('@areas', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should return an array of unique areas code', function (assert) {
       return run(() => {
         // given

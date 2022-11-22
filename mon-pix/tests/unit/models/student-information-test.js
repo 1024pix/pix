@@ -60,7 +60,7 @@ module('Unit | Model | Student-information', function (hooks) {
           },
         },
       };
-      assert.equal(adapter.ajax.calledWith(url, 'POST', payload), true);
+      assert.true(adapter.ajax.calledWith(url, 'POST', payload));
       assert.deepEqual(result, expectedResult);
     });
   });

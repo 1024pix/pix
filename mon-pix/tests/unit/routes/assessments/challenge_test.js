@@ -74,6 +74,8 @@ module('Unit | Route | Assessments | Challenge', function (hooks) {
       });
       assert.ok(true);
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when the assessment is a Preview', async function (hooks) {
       hooks.beforeEach(function () {
         const assessmentForPreview = {
@@ -116,6 +118,8 @@ module('Unit | Route | Assessments | Challenge', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when the asked challenges is already answered', async function (hooks) {
       hooks.beforeEach(function () {
         const assessmentWithAnswers = {

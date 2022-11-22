@@ -15,10 +15,14 @@ module('Integration | Component | pix logo', function (hooks) {
   });
 
   test('should display the logo', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('.pix-logo__image').getAttribute('src'), '/images/pix-logo.svg');
   });
 
   test('should have a textual alternative', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('.pix-logo__image').getAttribute('alt'), "Page d'accueil de Pix");
   });
 });

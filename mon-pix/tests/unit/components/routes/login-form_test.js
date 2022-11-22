@@ -46,8 +46,8 @@ module('Unit | Component | routes/login-form', function (hooks) {
         await component.authenticate(eventStub);
 
         // then
-        assert.equal(component.isErrorMessagePresent, false);
-        assert.equal(component.hasUpdateUserError, false);
+        assert.false(component.isErrorMessagePresent);
+        assert.false(component.hasUpdateUserError);
       });
 
       test('should notify error when authentication fails', async function (assert) {
@@ -58,8 +58,8 @@ module('Unit | Component | routes/login-form', function (hooks) {
         await component.authenticate(eventStub);
 
         // then
-        assert.equal(component.isErrorMessagePresent, true);
-        assert.equal(component.hasUpdateUserError, false);
+        assert.true(component.isErrorMessagePresent);
+        assert.false(component.hasUpdateUserError);
       });
 
       module('when user should change password', function () {
@@ -107,8 +107,8 @@ module('Unit | Component | routes/login-form', function (hooks) {
         await component.authenticate(eventStub);
 
         // then
-        assert.equal(component.isErrorMessagePresent, false);
-        assert.equal(component.hasUpdateUserError, true);
+        assert.false(component.isErrorMessagePresent);
+        assert.true(component.hasUpdateUserError);
       });
 
       module('when user should change password', function () {

@@ -57,7 +57,11 @@ module('Unit | Component | result-item-component', function (hooks) {
         component = createGlimmerComponent('component:result-item', { answer: answerWithOkResult });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.resultItem.color, `${data.expectedColor}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.resultItem.icon, `${data.expectedIcon}`);
       });
     });
@@ -80,6 +84,8 @@ module('Unit | Component | result-item-component', function (hooks) {
         const tooltipText = component.resultTooltip;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(tooltipText, `${data.expectedTooltip}`);
       });
     });
@@ -91,6 +97,8 @@ module('Unit | Component | result-item-component', function (hooks) {
       window.innerWidth = 600;
 
       //then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.textLength, 60);
     });
 
@@ -99,6 +107,8 @@ module('Unit | Component | result-item-component', function (hooks) {
       window.innerWidth = 1200;
 
       //then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.textLength, 110);
     });
   });
@@ -121,6 +131,8 @@ module('Unit | Component | result-item-component', function (hooks) {
         component = createGlimmerComponent('component:result-item', { answer });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.validationImplementedForChallengeType, data.expected);
       });
     });

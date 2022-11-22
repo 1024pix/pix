@@ -17,7 +17,7 @@ module('Unit | Service | locale', function (hooks) {
     const domainExtension = service.isFrenchDomainExtension;
 
     // then
-    assert.equal(domainExtension, true);
+    assert.true(domainExtension);
   });
 
   test('should not have frenchDomainExtension when the current domain contains pix.org', function (assert) {
@@ -29,7 +29,7 @@ module('Unit | Service | locale', function (hooks) {
     const domainExtension = service.isFrenchDomainExtension;
 
     // then
-    assert.equal(domainExtension, false);
+    assert.false(domainExtension);
   });
 
   module('#homeUrl', function () {
@@ -43,6 +43,8 @@ module('Unit | Service | locale', function (hooks) {
 
       // then
       const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(homeUrl, expectedDefinedHomeUrl);
     });
   });
@@ -75,6 +77,8 @@ module('Unit | Service | locale', function (hooks) {
         const showcaseUrl = service.showcaseUrl;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(showcaseUrl, testCase.expectedShowcaseUrl);
       });
     });
@@ -91,6 +95,8 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.cguUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
     });
 
@@ -105,6 +111,8 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.cguUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
     });
 
@@ -119,6 +127,8 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.cguUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
     });
   });
@@ -134,6 +144,8 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
     });
 
@@ -148,6 +160,8 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
     });
 
@@ -162,6 +176,8 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
     });
   });

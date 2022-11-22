@@ -64,6 +64,8 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errors.studentNumber, 'Votre numéro étudiant n’est pas renseigné.');
       });
 
@@ -75,6 +77,8 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errors.firstName, 'Votre prénom n’est pas renseigné.');
       });
 
@@ -86,6 +90,8 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errors.lastName, 'Votre nom n’est pas renseigné.');
       });
 
@@ -97,6 +103,8 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errors.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
       });
 
@@ -108,6 +116,8 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errors.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
       });
 
@@ -119,6 +129,8 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.errors.yearOfBirth, 'Votre année de naissance n’est pas valide.');
       });
     });

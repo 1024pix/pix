@@ -64,10 +64,12 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       });
 
       assert.ok(submitButton);
-      assert.equal(submitButton.disabled, true);
+      assert.true(submitButton.disabled);
     });
   });
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/no-async-module-callbacks
   module('when the user does not have an email associated with his account', async function () {
     test('should render recover account backup email confirmation form', async function (assert) {
       // given
@@ -157,7 +159,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
         name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         hidden: true,
       });
-      assert.equal(submitButton.disabled, true);
+      assert.true(submitButton.disabled);
     });
   });
 

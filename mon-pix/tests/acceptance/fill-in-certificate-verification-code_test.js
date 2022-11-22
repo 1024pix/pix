@@ -20,6 +20,8 @@ module('Acceptance | Certificate verification', function (hooks) {
       await clickByLabel(this.intl.t('pages.fill-in-certificate-verification-code.verify'));
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/partage-certificat/200');
     });
   });
@@ -34,6 +36,8 @@ module('Acceptance | Certificate verification', function (hooks) {
       await clickByLabel(this.intl.t('pages.fill-in-certificate-verification-code.verify'));
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/verification-certificat');
     });
 
@@ -56,6 +60,8 @@ module('Acceptance | Certificate verification', function (hooks) {
       await visit('/partage-certificat/200');
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/verification-certificat');
     });
   });

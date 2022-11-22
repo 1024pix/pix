@@ -14,12 +14,12 @@ module('Unit | Model | certification', function (hooks) {
   module('#hasAcquiredComplementaryCertifications', function () {
     test('should be true when certification has certified badge image', function (assert) {
       const model = store.createRecord('certification', { certifiedBadgeImages: ['/some/img'] });
-      assert.equal(model.hasAcquiredComplementaryCertifications, true);
+      assert.true(model.hasAcquiredComplementaryCertifications);
     });
 
     test('should be false when certification has no certified badge image', function (assert) {
       const model = store.createRecord('certification', { certifiedBadgeImages: [] });
-      assert.equal(model.hasAcquiredComplementaryCertifications, false);
+      assert.false(model.hasAcquiredComplementaryCertifications);
     });
   });
 
@@ -40,7 +40,7 @@ module('Unit | Model | certification', function (hooks) {
         const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
 
         // when / then
-        assert.equal(model.shouldDisplayProfessionalizingWarning, true);
+        assert.true(model.shouldDisplayProfessionalizingWarning);
       });
 
       test('should be false when when deliveredAt < 2022-01-01', function (assert) {
@@ -48,7 +48,7 @@ module('Unit | Model | certification', function (hooks) {
         const model = store.createRecord('certification', { deliveredAt: '2021-01-01' });
 
         // when / then
-        assert.equal(model.shouldDisplayProfessionalizingWarning, false);
+        assert.false(model.shouldDisplayProfessionalizingWarning);
       });
     });
 
@@ -65,7 +65,7 @@ module('Unit | Model | certification', function (hooks) {
         const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
 
         // when / then
-        assert.equal(model.shouldDisplayProfessionalizingWarning, false);
+        assert.false(model.shouldDisplayProfessionalizingWarning);
       });
     });
   });

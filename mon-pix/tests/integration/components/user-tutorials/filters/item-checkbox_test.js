@@ -24,7 +24,7 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
       );
 
       // then
-      assert.equal(find('input').checked, true);
+      assert.true(find('input').checked);
     });
   });
 
@@ -46,7 +46,7 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
       );
 
       // then
-      assert.equal(find('input').checked, false);
+      assert.false(find('input').checked);
     });
   });
 });

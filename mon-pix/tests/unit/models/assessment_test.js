@@ -97,7 +97,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CAMPAIGN';
 
       //then
-      assert.equal(model.isForCampaign, true);
+      assert.true(model.isForCampaign);
     });
     test('should return false when the assessment type is not a campaign assessment', function (assert) {
       // given
@@ -107,7 +107,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = '_';
 
       //then
-      assert.equal(model.isForCampaign, false);
+      assert.false(model.isForCampaign);
     });
   });
 
@@ -120,7 +120,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CERTIFICATION';
 
       //then
-      assert.equal(model.isCertification, true);
+      assert.true(model.isCertification);
     });
     test('should return false when the assessment type is not a certification', function (assert) {
       // given
@@ -130,7 +130,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = '_';
 
       //then
-      assert.equal(model.isCertification, false);
+      assert.false(model.isCertification);
     });
   });
 
@@ -143,7 +143,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'DEMO';
 
       //then
-      assert.equal(model.isDemo, true);
+      assert.true(model.isDemo);
     });
     test('should return false when the assessment type is not demo', function (assert) {
       // given
@@ -153,7 +153,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = '_';
 
       //then
-      assert.equal(model.isDemo, false);
+      assert.false(model.isDemo);
     });
   });
 
@@ -166,7 +166,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'PREVIEW';
 
       //then
-      assert.equal(model.isPreview, true);
+      assert.true(model.isPreview);
     });
     test('should return false when the assessment type is not placement', function (assert) {
       // given
@@ -176,7 +176,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = '_';
 
       //then
-      assert.equal(model.isPreview, false);
+      assert.false(model.isPreview);
     });
   });
 
@@ -189,7 +189,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.method = 'FLASH';
 
       //then
-      assert.equal(model.isFlash, true);
+      assert.true(model.isFlash);
     });
 
     test('should return false when the assessment method is not FLASH', function (assert) {
@@ -200,7 +200,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.method = '_';
 
       //then
-      assert.equal(model.isFlash, false);
+      assert.false(model.isFlash);
     });
   });
 
@@ -213,7 +213,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CERTIFICATION';
 
       //then
-      assert.equal(model.hasCheckpoints, false);
+      assert.false(model.hasCheckpoints);
     });
 
     test('should return false when the assessment type is PREVIEW', function (assert) {
@@ -224,7 +224,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'PREVIEW';
 
       //then
-      assert.equal(model.hasCheckpoints, false);
+      assert.false(model.hasCheckpoints);
     });
 
     test('should return true when the assessment type is COMPETENCE_EVALUATION', function (assert) {
@@ -235,7 +235,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'COMPETENCE_EVALUATION';
 
       //then
-      assert.equal(model.hasCheckpoints, true);
+      assert.true(model.hasCheckpoints);
     });
 
     test('should return true when the assessment type is CAMPAIGN and method is not FLASH', function (assert) {
@@ -246,7 +246,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CAMPAIGN';
 
       //then
-      assert.equal(model.hasCheckpoints, true);
+      assert.true(model.hasCheckpoints);
     });
 
     test('should return false when the assessment type is CAMPAIGN and method is FLASH', function (assert) {
@@ -258,7 +258,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.method = 'FLASH';
 
       //then
-      assert.equal(model.hasCheckpoints, false);
+      assert.false(model.hasCheckpoints);
     });
   });
 
@@ -271,7 +271,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CERTIFICATION';
 
       //then
-      assert.equal(model.showLevelup, false);
+      assert.false(model.showLevelup);
     });
 
     test('should return false when the assessment type is PREVIEW', function (assert) {
@@ -282,7 +282,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'PREVIEW';
 
       //then
-      assert.equal(model.showLevelup, false);
+      assert.false(model.showLevelup);
     });
 
     test('should return true when the assessment type is COMPETENCE_EVALUATION', function (assert) {
@@ -293,7 +293,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'COMPETENCE_EVALUATION';
 
       //then
-      assert.equal(model.showLevelup, true);
+      assert.true(model.showLevelup);
     });
 
     test('should return true when the assessment type is CAMPAIGN and method is not FLASH', function (assert) {
@@ -304,7 +304,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CAMPAIGN';
 
       //then
-      assert.equal(model.showLevelup, true);
+      assert.true(model.showLevelup);
     });
 
     test('should return false when the assessment type is CAMPAIGN and method is FLASH', function (assert) {
@@ -316,7 +316,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.method = 'FLASH';
 
       //then
-      assert.equal(model.showLevelup, false);
+      assert.false(model.showLevelup);
     });
   });
 
@@ -329,7 +329,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CERTIFICATION';
 
       //then
-      assert.equal(model.showProgressBar, false);
+      assert.false(model.showProgressBar);
     });
 
     test('should return false when the assessment type is PREVIEW', function (assert) {
@@ -340,7 +340,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'PREVIEW';
 
       //then
-      assert.equal(model.showProgressBar, false);
+      assert.false(model.showProgressBar);
     });
 
     test('should return true when the assessment type is COMPETENCE_EVALUATION', function (assert) {
@@ -351,7 +351,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'COMPETENCE_EVALUATION';
 
       //then
-      assert.equal(model.showProgressBar, true);
+      assert.true(model.showProgressBar);
     });
 
     test('should return true when the assessment type is CAMPAIGN and method is not FLASH', function (assert) {
@@ -362,7 +362,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'CAMPAIGN';
 
       //then
-      assert.equal(model.showProgressBar, true);
+      assert.true(model.showProgressBar);
     });
 
     test('should return false when the assessment type is CAMPAIGN and method is FLASH', function (assert) {
@@ -374,7 +374,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.method = 'FLASH';
 
       //then
-      assert.equal(model.showProgressBar, false);
+      assert.false(model.showProgressBar);
     });
 
     test('should return true when the assessment type is DEMO', function (assert) {
@@ -385,7 +385,7 @@ module('Unit | Model | Assessment', function (hooks) {
       model.type = 'DEMO';
 
       //then
-      assert.equal(model.showProgressBar, true);
+      assert.true(model.showProgressBar);
     });
   });
 });

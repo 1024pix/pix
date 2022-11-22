@@ -91,6 +91,8 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
         await click(screen.getByRole('button', { name: 'Voir les résultats' }));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/mes-tutos/recommandes?competences=1&pageNumber=1');
         assert.dom('.tutorial-card').exists({ count: 1 });
         assert.dom('.pix-sidebar--hidden').exists();
@@ -106,6 +108,8 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
           await click(screen.getByRole('link', { name: 'Recommandés' }));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/mes-tutos/recommandes');
         });
       });

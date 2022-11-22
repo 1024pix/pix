@@ -60,7 +60,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     module('before share', function () {
       test('isShareButtonClicked should be false', async function (assert) {
         // then
-        assert.equal(component.isShareButtonClicked, false);
+        assert.false(component.isShareButtonClicked);
       });
     });
 
@@ -70,7 +70,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
         await component.actions.shareCampaignParticipation.call(component);
 
         // then
-        assert.equal(component.isShareButtonClicked, true);
+        assert.true(component.isShareButtonClicked);
       });
     });
 
@@ -83,7 +83,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
         await component.actions.shareCampaignParticipation.call(component);
 
         // then
-        assert.equal(component.args.model.campaignParticipationResult.isShared, true);
+        assert.true(component.args.model.campaignParticipationResult.isShared);
       });
     });
 
@@ -94,7 +94,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
         await component.actions.shareCampaignParticipation.call(component);
 
-        assert.equal(component.args.model.campaignParticipationResult.isShared, false);
+        assert.false(component.args.model.campaignParticipationResult.isShared);
       });
 
       test('should display not-finished-yet message if status is 409', async function (assert) {
@@ -102,7 +102,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
         await component.actions.shareCampaignParticipation.call(component);
 
-        assert.equal(component.showNotFinishedYetMessage, true);
+        assert.true(component.showNotFinishedYetMessage);
       });
 
       test('should display global error message if status is not 409', async function (assert) {
@@ -110,7 +110,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
         await component.actions.shareCampaignParticipation.call(component);
 
-        assert.equal(component.showGlobalErrorMessage, true);
+        assert.true(component.showGlobalErrorMessage);
       });
     });
   });
@@ -145,7 +145,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowCleaCompetences = component.showCleaCompetences;
 
       // then
-      assert.equal(shouldShowCleaCompetences, true);
+      assert.true(shouldShowCleaCompetences);
     });
 
     test('should not show clea competence when there is no cleaBadge', function (assert) {
@@ -156,7 +156,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowCleaCompetences = component.showCleaCompetences;
 
       // then
-      assert.equal(shouldShowCleaCompetences, false);
+      assert.false(shouldShowCleaCompetences);
     });
   });
 
@@ -170,7 +170,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, true);
+      assert.true(shouldShowBadges);
     });
 
     test('should not show certifiable badges when acquired', function (assert) {
@@ -182,7 +182,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
 
     test('should not show badges when not acquired', function (assert) {
@@ -194,7 +194,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
 
     test('should not show badges when none', function (assert) {
@@ -206,7 +206,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showNotCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
   });
 
@@ -220,7 +220,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, true);
+      assert.true(shouldShowBadges);
     });
 
     test('should not show not certifiable badges when acquired', function (assert) {
@@ -232,7 +232,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
 
     test('should not show badges when not acquired', function (assert) {
@@ -244,7 +244,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
 
     test('should not show badges when none', function (assert) {
@@ -256,7 +256,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showCertifiableBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
   });
 
@@ -270,7 +270,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showValidBadges;
 
       // then
-      assert.equal(shouldShowBadges, true);
+      assert.true(shouldShowBadges);
     });
 
     test('should not show not badges when not valid', function (assert) {
@@ -282,7 +282,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showValidBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
 
     test('should not show badges when none', function (assert) {
@@ -294,7 +294,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const shouldShowBadges = component.showValidBadges;
 
       // then
-      assert.equal(shouldShowBadges, false);
+      assert.false(shouldShowBadges);
     });
   });
 
@@ -380,7 +380,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showOrganizationMessage;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when the campaign has no customResultPageText ', function (assert) {
@@ -391,7 +391,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showOrganizationMessage;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 
@@ -405,7 +405,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = await component.showOrganizationButton;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when the organization has no a customResultPageButtonText ', function (assert) {
@@ -417,7 +417,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showOrganizationButton;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when the organization has noa customResultPageButtonUrl', function (assert) {
@@ -429,7 +429,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showOrganizationButton;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 
@@ -447,6 +447,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/resultats?stage=6');
         });
       });
@@ -461,6 +463,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/resultats?masteryPercentage=56');
         });
       });
@@ -475,6 +479,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/resultats?masteryPercentage=0');
         });
       });
@@ -489,6 +495,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/resultats?externalId=1234F56');
         });
       });
@@ -507,6 +515,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
         });
       });
@@ -525,6 +535,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6');
         });
       });
@@ -543,6 +555,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
         });
       });
@@ -557,6 +571,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(url, 'http://www.my-url.net/');
         });
       });
@@ -572,6 +588,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
         const url = component.customButtonUrl;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(url, null);
       });
     });
@@ -586,6 +604,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.customButtonText;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, 'Next step');
     });
   });
@@ -599,7 +619,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.isShared;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -612,7 +632,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.displayPixLink;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true when customResultPageButtonText or customResultPageButtonUrl is empty', function (assert) {
@@ -623,7 +643,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.displayPixLink;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return true when customResultPageButtonText and customResultPageButtonUrl are empty', function (assert) {
@@ -634,7 +654,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.displayPixLink;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -647,7 +667,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showImproveButton;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when isShareButtonClicked is true', function (assert) {
@@ -658,7 +678,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showImproveButton;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true when canImprove is true and isShareButtonClicked is false', function (assert) {
@@ -669,7 +689,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.showImproveButton;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -743,7 +763,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       component.args.model.campaign.isFlash = false;
 
       // then
-      assert.equal(component.showDetail, true);
+      assert.true(component.showDetail);
     });
 
     test('should be false when campaign is FLASH', async function (assert) {
@@ -751,7 +771,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       component.args.model.campaign.isFlash = true;
 
       // then
-      assert.equal(component.showDetail, false);
+      assert.false(component.showDetail);
     });
   });
 });

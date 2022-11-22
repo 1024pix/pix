@@ -19,7 +19,7 @@ module('Unit | Adapters | Tutorial', function (hooks) {
       const url = await adapter.urlForQuery(query, 'tutorial');
 
       // then
-      assert.equal(url.endsWith('/tutorials'), true);
+      assert.true(url.endsWith('/tutorials'));
     });
 
     test('should build the tutorial type url', async function (assert) {
@@ -28,7 +28,7 @@ module('Unit | Adapters | Tutorial', function (hooks) {
       const url = await adapter.urlForQuery(query, 'tutorial');
 
       // then
-      assert.equal(url.endsWith('users/123/tutorials'), true);
+      assert.true(url.endsWith('users/123/tutorials'));
     });
   });
 });

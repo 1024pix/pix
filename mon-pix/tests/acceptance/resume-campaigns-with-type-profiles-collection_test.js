@@ -51,7 +51,11 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
     });
   });
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/no-async-module-callbacks
   module('When user is logged', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user has seen profile page but has not send it', async function () {
       test('should redirect directly to send profile page', async function (assert) {
         // when
@@ -62,6 +66,8 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user has already send his profile', async function () {
       test('should redirect directly to send already sent page', async function (assert) {
         // given
@@ -84,6 +90,8 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
         // then
         assert.ok(screen.getByText('156'));
         const area1Titles = screen.getAllByText('Area_1_title').length;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(area1Titles, 2);
         assert.ok(screen.getByText('Area_1_Competence_1_name'));
       });

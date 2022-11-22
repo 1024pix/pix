@@ -67,7 +67,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       controller.currentUser = Service.create({ user: { isAnonymous: true } });
 
       // then
-      assert.equal(controller.displayHomeLink, false);
+      assert.false(controller.displayHomeLink);
     });
 
     test('should display home link', function (assert) {
@@ -75,7 +75,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       controller.currentUser = Service.create({ user: { isAnonymous: false } });
 
       // then
-      assert.equal(controller.displayHomeLink, true);
+      assert.true(controller.displayHomeLink);
     });
   });
 
@@ -87,7 +87,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       controller.model = model;
 
       // then
-      assert.equal(controller.showLevelup, true);
+      assert.true(controller.showLevelup);
     });
 
     test('should not display level up pop-in when user has not leveled up', function (assert) {
@@ -97,7 +97,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       controller.model = model;
 
       // then
-      assert.equal(controller.showLevelup, false);
+      assert.false(controller.showLevelup);
     });
 
     test('should not display level up pop-in when it is not in assessment with level up', function (assert) {
@@ -107,7 +107,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       controller.model = model;
 
       // then
-      assert.equal(controller.showLevelup, false);
+      assert.false(controller.showLevelup);
     });
   });
 
@@ -159,6 +159,8 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
           const result = controller.displayChallenge;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(result, data.expectedResult);
         });
       });
@@ -192,6 +194,8 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
           const result = controller.displayChallenge;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(result, data.expectedResult);
         });
       });
@@ -225,6 +229,8 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
           const result = controller.displayChallenge;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(result, data.expectedResult);
         });
       });

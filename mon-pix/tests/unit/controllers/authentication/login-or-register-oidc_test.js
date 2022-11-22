@@ -50,9 +50,17 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
         identityProvider,
       });
       sinon.assert.calledOnce(login);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.email, 'glace.alo@example.net');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.username, 'glace.alo345');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.fullNameFromExternalIdentityProvider, 'Glace Idp');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.fullNameFromPix, 'Glace Alo');
       assert.deepEqual(controller.authenticationMethods, [{ identityProvider: 'OIDC_PARTNER' }]);
       assert.ok(true);
@@ -93,7 +101,7 @@ module('Unit | Controller | authentication | login-or-register-oidc', function (
       await controller.onLogin({ enteredEmail: email, enteredPassword: password });
 
       // then
-      assert.equal(controller.showOidcReconciliation, true);
+      assert.true(controller.showOidcReconciliation);
     });
   });
 });

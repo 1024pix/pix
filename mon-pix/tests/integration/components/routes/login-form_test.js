@@ -43,6 +43,8 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
     // then
     assert.dom('div[id="login-error-message"]').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(
       find('#login-error-message').textContent,
       "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
@@ -55,6 +57,8 @@ module('Integration | Component | routes/login-form', function (hooks) {
     await click('.form-textfield-icon__button');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('#password').getAttribute('type'), 'text');
   });
 
@@ -222,6 +226,8 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
 
@@ -252,6 +258,8 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
 
@@ -286,6 +294,8 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
   });

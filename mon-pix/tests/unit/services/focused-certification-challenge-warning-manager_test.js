@@ -31,7 +31,7 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
       service.setToConfirmed();
 
       // then
-      assert.equal(service.hasConfirmed, true);
+      assert.true(service.hasConfirmed);
     });
   });
 
@@ -42,7 +42,7 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
       const service = this.owner.lookup('service:focused-certification-challenge-warning-manager');
 
       // when // then
-      assert.equal(service.hasConfirmed, true);
+      assert.true(service.hasConfirmed);
     });
 
     test('should return false when when hasConfirmedFocusChallengeScreen is false in localstorage', function (assert) {
@@ -51,7 +51,7 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
       const service = this.owner.lookup('service:focused-certification-challenge-warning-manager');
 
       // when // then
-      assert.equal(service.hasConfirmed, false);
+      assert.false(service.hasConfirmed);
     });
 
     test('should return false when hasConfirmedFocusChallengeScreen does not exist in local storage', function (assert) {
@@ -60,7 +60,7 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
       const service = this.owner.lookup('service:focused-certification-challenge-warning-manager');
 
       // when // then
-      assert.equal(service.hasConfirmed, false);
+      assert.false(service.hasConfirmed);
     });
   });
 
@@ -74,7 +74,7 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
       service.reset();
 
       // when // then
-      assert.equal(service.hasConfirmed, false);
+      assert.false(service.hasConfirmed);
     });
   });
 });

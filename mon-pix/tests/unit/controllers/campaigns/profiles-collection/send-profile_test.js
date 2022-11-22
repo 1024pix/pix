@@ -42,7 +42,7 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
       controller.model.campaign.isArchived = false;
 
       // then
-      assert.equal(controller.isDisabled, false);
+      assert.false(controller.isDisabled);
     });
     test('should return true if campaignParticipation is deleted', function (assert) {
       // given
@@ -50,7 +50,7 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
       controller.model.campaign.isArchived = false;
 
       // then
-      assert.equal(controller.isDisabled, true);
+      assert.true(controller.isDisabled);
     });
     test('should return true if campaign is archived', function (assert) {
       // given
@@ -58,7 +58,7 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
       controller.model.campaignParticipation.deletedAt = null;
 
       // then
-      assert.equal(controller.isDisabled, true);
+      assert.true(controller.isDisabled);
     });
   });
 
@@ -68,7 +68,7 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
       controller.actions.sendProfile.call(controller);
 
       // then
-      assert.equal(controller.model.campaignParticipation.isShared, true);
+      assert.true(controller.model.campaignParticipation.isShared);
     });
 
     test('should call load from currentUser', async function (assert) {
@@ -85,6 +85,8 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
       await controller.actions.sendProfile.call(controller);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.errorMessage, null);
     });
   });

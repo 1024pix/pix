@@ -20,7 +20,7 @@ module('Unit | Adapters | sco-organization-learner', function (hooks) {
         const url = await adapter.urlForCreateRecord('sco-organization-learner', snapshot);
 
         // then
-        assert.equal(url.endsWith('/sco-organization-learners/possibilities'), true);
+        assert.true(url.endsWith('/sco-organization-learners/possibilities'));
       });
     });
     module('when is for tryReconciliation', function () {
@@ -30,7 +30,7 @@ module('Unit | Adapters | sco-organization-learner', function (hooks) {
         const url = await adapter.urlForCreateRecord('sco-organization-learner', snapshot);
 
         // then
-        assert.equal(url.endsWith('/sco-organization-learners/association/auto'), true);
+        assert.true(url.endsWith('/sco-organization-learners/association/auto'));
       });
     });
 
@@ -39,7 +39,7 @@ module('Unit | Adapters | sco-organization-learner', function (hooks) {
       const url = await adapter.urlForCreateRecord('sco-organization-learner', {});
 
       // then
-      assert.equal(url.endsWith('/sco-organization-learners/association'), true);
+      assert.true(url.endsWith('/sco-organization-learners/association'));
     });
   });
 

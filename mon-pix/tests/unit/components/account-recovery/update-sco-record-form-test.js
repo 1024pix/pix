@@ -16,7 +16,7 @@ module('Unit | Component | account-recovery | update-sco-record-form', function 
       const result = component.isSubmitButtonEnabled;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false if password is valid and cgu are not accepted', function (assert) {
@@ -29,7 +29,7 @@ module('Unit | Component | account-recovery | update-sco-record-form', function 
       const result = component.isSubmitButtonEnabled;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return true if password is valid and cgu are accepted', function (assert) {
@@ -42,7 +42,7 @@ module('Unit | Component | account-recovery | update-sco-record-form', function 
       const result = component.isSubmitButtonEnabled;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 });

@@ -48,6 +48,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
         await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
       });
 
@@ -60,6 +62,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         // then
         sinon.assert.called(replaceLocationStub);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/connexion/oidc-partner');
         assert.ok(true);
       });
@@ -90,6 +94,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
         const screen = await visit(`/connexion/oidc-partner?code=test&state=${state}`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
         assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register-oidc.title') }));
       });
@@ -110,6 +116,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
         await click(screen.getByRole('button', { name: 'Je créé mon compte' }));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
       });
     });
@@ -148,6 +156,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
@@ -161,6 +171,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           await clickByLabel('Je commence');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
@@ -175,6 +187,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
@@ -187,6 +201,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
           // then
           sinon.assert.called(replaceLocationStub);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/connexion/oidc-partner');
           assert.ok(true);
         });

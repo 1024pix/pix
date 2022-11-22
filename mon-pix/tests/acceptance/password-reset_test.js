@@ -15,6 +15,8 @@ module('Acceptance | Reset Password', function (hooks) {
     await visit('/mot-de-passe-oublie');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mot-de-passe-oublie');
   });
 
@@ -41,6 +43,8 @@ module('Acceptance | Reset Password', function (hooks) {
     // when
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mot-de-passe-oublie');
     assert.dom('.password-reset-demand-form__body').exists();
   });
@@ -60,6 +64,8 @@ module('Acceptance | Reset Password', function (hooks) {
     // when
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mot-de-passe-oublie');
     assert.dom('.sign-form__notification-message--error').exists();
   });

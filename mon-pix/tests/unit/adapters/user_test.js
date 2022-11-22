@@ -18,7 +18,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForQueryRecord({ me: true }, 'user');
 
       // then
-      assert.equal(url.endsWith('/users/me'), true);
+      assert.true(url.endsWith('/users/me'));
     });
 
     test('should build classic url', async function (assert) {
@@ -26,7 +26,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForQueryRecord({}, 'user');
 
       // then
-      assert.equal(url.endsWith('/users'), true);
+      assert.true(url.endsWith('/users'));
     });
   });
 
@@ -37,7 +37,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123/pix-terms-of-service-acceptance'), true);
+      assert.true(url.endsWith('/users/123/pix-terms-of-service-acceptance'));
     });
 
     test('should build update url from user id', async function (assert) {
@@ -46,7 +46,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123'), true);
+      assert.true(url.endsWith('/users/123'));
     });
 
     test('should redirect to remember-user-has-seen-assessment-instructions', async function (assert) {
@@ -55,7 +55,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions'), true);
+      assert.true(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions'));
     });
 
     test('should redirect to has-seen-challenge-tooltip', async function (assert) {
@@ -64,7 +64,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123/has-seen-challenge-tooltip/focused'), true);
+      assert.true(url.endsWith('/users/123/has-seen-challenge-tooltip/focused'));
     });
 
     test('should include temporaryKey if present in adapterOptions', async function (assert) {
@@ -73,7 +73,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key'), true);
+      assert.true(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key'));
     });
 
     test('should redirect to lang', async function (assert) {
@@ -82,7 +82,7 @@ module('Unit | Adapters | user', function (hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user', options);
 
       // then
-      assert.equal(url.endsWith('/users/123/lang/en'), true);
+      assert.true(url.endsWith('/users/123/lang/en'));
     });
   });
 

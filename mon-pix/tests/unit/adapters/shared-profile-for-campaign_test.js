@@ -17,14 +17,14 @@ module('Unit | Adapters | shared-profile-for-campaign', function (hooks) {
       const query = { campaignId: 'campaignId1', userId: 'userId1' };
       const url = await adapter.urlForQueryRecord(query);
 
-      assert.equal(url.endsWith('/api/users/userId1/campaigns/campaignId1/profile'), true);
+      assert.true(url.endsWith('/api/users/userId1/campaigns/campaignId1/profile'));
       assert.deepEqual(query, {});
     });
     test('should build default url if no campaign and user ids', async function (assert) {
       const query = {};
       const url = await adapter.urlForQueryRecord(query);
 
-      assert.equal(url.endsWith('/api'), true);
+      assert.true(url.endsWith('/api'));
     });
   });
 });

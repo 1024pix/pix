@@ -44,7 +44,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
         await controller.actions.startCampaign.call(controller, eventStub);
 
         // then
-        assert.equal(controller.showGARModal, false);
+        assert.false(controller.showGARModal);
       });
     });
 
@@ -68,7 +68,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
           await controller.actions.startCampaign.call(controller, eventStub);
 
           // then
-          assert.equal(controller.showGARModal, false);
+          assert.false(controller.showGARModal);
         });
       });
 
@@ -92,7 +92,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
             await controller.actions.startCampaign.call(controller, eventStub);
 
             // then
-            assert.equal(controller.showGARModal, false);
+            assert.false(controller.showGARModal);
           });
         });
 
@@ -115,7 +115,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
             await controller.actions.startCampaign.call(controller, eventStub);
 
             // then
-            assert.equal(controller.showGARModal, true);
+            assert.true(controller.showGARModal);
           });
         });
       });
@@ -129,6 +129,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.get('errorMessage'), 'Veuillez saisir un code.');
     });
 
@@ -148,6 +150,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         controller.get('errorMessage'),
         'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
@@ -170,6 +174,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         controller.get('errorMessage'),
         'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.'
@@ -188,6 +194,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
         const firstTitle = controller.firstTitle;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(firstTitle, expectedFirstTitle);
       });
     });
@@ -204,6 +212,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
         const firstTitle = controller.firstTitle;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(firstTitle, expectedFirstTitle);
       });
     });
@@ -219,6 +229,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
         const firstTitle = controller.firstTitle;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(firstTitle, expectedFirstTitle);
       });
     });
@@ -233,6 +245,8 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       const isUserAuthenticatedByPix = controller.isUserAuthenticatedByPix;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(isUserAuthenticatedByPix, sessionStub.isAuthenticated);
     });
   });
@@ -247,7 +261,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       const isUserAuthenticatedByGAR = controller.isUserAuthenticatedByGAR;
 
       // then
-      assert.equal(isUserAuthenticatedByGAR, true);
+      assert.true(isUserAuthenticatedByGAR);
     });
 
     test('returns false if there is no external user token in session', function (assert) {
@@ -259,7 +273,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       const isUserAuthenticatedByGAR = controller.isUserAuthenticatedByGAR;
 
       // then
-      assert.equal(isUserAuthenticatedByGAR, false);
+      assert.false(isUserAuthenticatedByGAR);
     });
   });
 
@@ -273,7 +287,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      assert.equal(showWarningMessage, true);
+      assert.true(showWarningMessage);
     });
 
     test('should return false if user is not authenticated', function (assert) {
@@ -284,7 +298,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      assert.equal(showWarningMessage, false);
+      assert.false(showWarningMessage);
     });
 
     test('should return false if user is authenticated and anonymous', function (assert) {
@@ -296,7 +310,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      assert.equal(showWarningMessage, false);
+      assert.false(showWarningMessage);
     });
   });
 

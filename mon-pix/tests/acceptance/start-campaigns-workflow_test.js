@@ -65,6 +65,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click('.fill-in-campaign-code__start-button');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -93,8 +95,12 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               const screen = await visit('/campagnes');
               await fillIn('#campaign-code', campaign.code);
               await click('.fill-in-campaign-code__start-button');
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
               await click('.campaign-landing-page__start-button');
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), '/inscription');
               await fillIn('#firstName', prescritUser.firstName);
               await fillIn('#lastName', prescritUser.lastName);
@@ -106,6 +112,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(sentCampaignCode, campaign.code);
             });
           });
@@ -131,6 +139,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click('#submit-connexion');
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
             });
 
@@ -155,11 +165,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 await click('#submit-connexion');
 
                 // then
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line qunit/no-assert-equal
                 assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
               });
             });
           });
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-async-module-callbacks
           module('When user must accept Pix last terms of service', async function () {
             test('should redirect to invited sco student page after accept terms of service', async function (assert) {
               // given
@@ -178,6 +192,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await clickByLabel(this.intl.t('pages.terms-of-service.form.button'));
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
             });
           });
@@ -187,6 +203,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -198,6 +216,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
           });
 
@@ -252,14 +272,26 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await fillIn('#password', 'pix123');
             await click('#submit-registration');
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#firstName').value, prescritUser.firstName);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#email').value, prescritUser.email);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#password').value, 'pix123');
 
             //go to username-based authentication window
             await click('.pix-toggle__off');
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('span[data-test-username]').textContent, 'first.last1010');
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#password').value, 'pix123');
           });
 
@@ -267,6 +299,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
 
             // when
@@ -276,6 +310,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click('#submit-connexion');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
           });
 
@@ -283,6 +319,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
 
             await click('#login-button');
@@ -290,6 +328,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await fillIn('#password', prescritUser.password);
             await click('#submit-connexion');
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
 
             // when
@@ -303,6 +343,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
@@ -321,6 +363,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -332,6 +376,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), '/inscription');
           });
 
@@ -348,6 +394,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je me connecte');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/etudiant`);
           });
         });
@@ -362,6 +410,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -373,6 +423,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click('button[type="submit"]');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
@@ -389,6 +441,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/campagnes');
           assert.ok(
             find('.fill-in-campaign-code__error').textContent.includes(
@@ -407,6 +461,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/campagnes');
           assert.ok(find('.fill-in-campaign-code__error').textContent.includes('Veuillez saisir un code.'));
         });
@@ -420,6 +476,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should redirect to signin page', async function (assert) {
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/inscription');
         });
       });
@@ -431,6 +489,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
@@ -477,6 +537,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           //then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
       });
@@ -496,6 +558,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -513,6 +577,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
@@ -524,6 +590,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
           });
 
@@ -533,7 +601,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#firstName').value, '');
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#lastName').value, '');
           });
 
@@ -552,6 +624,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
@@ -568,6 +642,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -579,6 +655,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
@@ -598,6 +676,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           //then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
@@ -609,6 +689,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await clickByLabel('Je commence');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/etudiant`);
         });
 
@@ -627,6 +709,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await clickByLabel("C'est parti !");
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
@@ -639,6 +723,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           });
 
           test('should show the identifiant page after clicking on start button in landing page', function (assert) {
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/identifiant`);
           });
         });
@@ -650,6 +736,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           });
 
           test('should begin campaign participation', function (assert) {
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
@@ -662,6 +750,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         });
 
         test('should begin campaign participation', function (assert) {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
@@ -675,6 +765,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           });
 
           test('should begin campaign participation', function (assert) {
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         }
@@ -690,6 +782,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
@@ -710,6 +804,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should show an error message', async function (assert) {
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/campagnes/codefaux');
           assert.ok(find('.title').textContent.includes('Oups, la page demandée n’est pas accessible.'));
         });
@@ -725,6 +821,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
@@ -736,6 +834,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await click('button[type="submit"]');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
@@ -761,7 +861,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         const currentUserId = session.data.authenticated['user_id'];
 
         // then
-        assert.equal(Number.isFinite(currentUserId), true);
+        assert.true(Number.isFinite(currentUserId));
         assert.notEqual(previousUserId, currentUserId);
       });
     });
@@ -789,6 +889,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
@@ -799,6 +901,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/mediacentre`);
           });
 
@@ -809,7 +913,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel('Je commence');
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#firstName').value, 'JeanPrescrit');
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#lastName').value, 'Campagne');
           });
 
@@ -826,6 +934,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await clickByLabel(this.intl.t('pages.join.button'));
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
@@ -846,9 +956,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             //then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-async-module-callbacks
           module('When user is already reconciled in another organization', async function () {
             test('should reconcile and redirect to landing-page', async function (assert) {
               // given
@@ -865,6 +979,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
             });
           });
@@ -925,9 +1041,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click('#submit-connexion');
 
             const session = currentSession();
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(session.data.authenticated.source, AUTHENTICATED_SOURCE_FROM_GAR);
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
@@ -960,6 +1080,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/rejoindre/identification`));
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
           });
 
@@ -1000,6 +1122,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/rejoindre/identification`));
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(
               find('#update-form-error-message').textContent,
               expectedErrorMessage + expectedObfuscatedConnectionMethod
@@ -1029,6 +1153,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/rejoindre/identification`));
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
           });
 
@@ -1078,6 +1204,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click('#submit-connexion');
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
 
               // when
@@ -1085,6 +1213,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
               // then
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
             });
           });

@@ -21,13 +21,19 @@ module('Integration | Component | reached-stage', function (hooks) {
 
     // then
     assert.dom('.reached-stage-score__stars').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('.reached-stage-score__percentage-text').textContent.trim(), '50\u00A0% de réussite');
 
     const fullStarCount = this.reachedStageStarCount > 0 ? this.reachedStageStarCount - 1 : 0;
     const fullStarElement = findAll(".reached-stage-score__stars img[data-test-status='acquired']");
     const emptyStarElement = findAll(".reached-stage-score__stars img[data-test-status='unacquired']");
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(fullStarElement.length, fullStarCount);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(emptyStarElement.length, this.stageCount - this.reachedStageStarCount);
   });
 
@@ -55,7 +61,11 @@ module('Integration | Component | reached-stage', function (hooks) {
         const fullStarElement = findAll(".reached-stage-score__stars img[data-test-status='acquired']");
         const emptyStarElement = findAll(".reached-stage-score__stars img[data-test-status='unacquired']");
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(fullStarElement.length, fullStarCount);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(emptyStarElement.length, stageCount - starCount);
       });
     });

@@ -19,7 +19,7 @@ module('Unit | Controller | user-certifications/get', function (hooks) {
       const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
 
       // then
-      assert.equal(shouldDisplayDetailsSection, true);
+      assert.true(shouldDisplayDetailsSection);
     });
 
     test('should return true when certification has at least one certified badge image', function (assert) {
@@ -36,7 +36,7 @@ module('Unit | Controller | user-certifications/get', function (hooks) {
       const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
 
       // then
-      assert.equal(shouldDisplayDetailsSection, true);
+      assert.true(shouldDisplayDetailsSection);
     });
 
     test('should return false when none of the above is checked', function (assert) {
@@ -53,7 +53,7 @@ module('Unit | Controller | user-certifications/get', function (hooks) {
       const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
 
       // then
-      assert.equal(shouldDisplayDetailsSection, false);
+      assert.false(shouldDisplayDetailsSection);
     });
   });
 });

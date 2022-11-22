@@ -106,6 +106,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
       assert.ok(find('.score-value').textContent.includes('–'));
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When the user has finished a competence', async function (hooks) {
       let scorecard;
 
@@ -165,6 +167,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
         assert.ok(find('.scorecard-details__improvement-countdown').textContent.includes('3 jours'));
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-async-module-callbacks
       module('and the user has reached the max level', async function (hooks) {
         hooks.beforeEach(async function () {
           // given
@@ -244,6 +248,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When the user has started a competence', async function () {
       test('should display a button stating "Reprendre"', async function (assert) {
         // given
@@ -287,6 +293,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
         assert.dom('.tutorials').doesNotExist();
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-async-module-callbacks
       module('and the user has some tutorials', async function () {
         test('should display the tutorial section and the related tutorials', async function (assert) {
           // given

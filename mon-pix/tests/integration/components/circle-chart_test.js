@@ -24,6 +24,8 @@ module('Integration | Component | circle-chart', function (hooks) {
       await render(hbs`<CircleChart @value={{this.value}}/>`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelector('.circle--slice').getAttribute('stroke-dasharray'), `${value}, 100`);
     });
 

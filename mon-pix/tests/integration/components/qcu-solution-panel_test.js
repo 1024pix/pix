@@ -68,6 +68,8 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       );
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('[data-goodness=good]').length, 1);
     });
   });
@@ -143,6 +145,8 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       // Then
       const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
       assert.ok(correctAnswer);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(correctAnswer.innerText, 'Réponse incorrecte.\nLa bonne réponse est : ' + solutionAsText);
     });
 
@@ -161,6 +165,8 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       // Then
       const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
       assert.ok(correctAnswer);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(correctAnswer.innerText, 'Réponse incorrecte.\nLa bonne réponse est : ' + solutionToDisplay);
     });
   });
@@ -190,7 +196,11 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       );
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked'), 'yes');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness'), 'good');
       assert.ok(findAll('.qcu-solution-panel__radio-button')[1].innerHTML.includes('Votre réponse'));
     });
@@ -210,7 +220,11 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       );
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked'), 'no');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness'), 'good');
       assert.ok(findAll('.qcu-solution-panel__radio-button')[1].innerHTML.includes('Autre proposition'));
     });
@@ -228,7 +242,11 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       );
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-checked'), 'no');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-goodness'), 'bad');
       assert.ok(findAll('.qcu-solution-panel__radio-button')[0].innerHTML.includes('Autre proposition'));
     });
@@ -248,7 +266,11 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       );
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked'), 'yes');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-goodness'), 'bad');
       assert.ok(findAll('.qcu-solution-panel__radio-button')[2].innerHTML.includes('Votre réponse'));
     });

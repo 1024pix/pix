@@ -20,7 +20,7 @@ module('Unit | Adapters | challenge', function (hooks) {
 
       // then
       assert.notOk(query.assessmentId);
-      assert.equal(url.endsWith('/assessments/1/next'), true);
+      assert.true(url.endsWith('/assessments/1/next'));
     });
   });
 });

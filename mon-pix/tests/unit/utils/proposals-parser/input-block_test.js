@@ -90,10 +90,20 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         const result = new InputBlock({ input, inputIndex: 123 });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(result.input, data.expectedInput);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(result.type, 'input');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(result.autoAriaLabel, data.expectedAutoAriaLabel);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(result.ariaLabel, data.expectedAriaLabel);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(result.placeholder, data.expectedPlaceholder);
       });
     });

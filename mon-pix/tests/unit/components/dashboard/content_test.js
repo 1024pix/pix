@@ -248,6 +248,8 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
       const result = component.userFirstname;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, userFirstName);
     });
   });
@@ -269,7 +271,7 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
       const result = component.hasNothingToShow;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when there is one competence started', function (assert) {
@@ -288,7 +290,7 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
       const result = component.hasNothingToShow;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when there is one competence not started', function (assert) {
@@ -307,7 +309,7 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
       const result = component.hasNothingToShow;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should return false when there is one campaign participation', function (assert) {
@@ -327,7 +329,7 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
       const result = component.hasNothingToShow;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 
@@ -341,6 +343,8 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
       const result = component.userScore;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, pixScore);
     });
   });

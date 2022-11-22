@@ -15,7 +15,7 @@ module('Unit | Adapters | organization-learner-identity', function (hooks) {
       // when
       const url = await adapter.urlForQueryRecord();
       // then
-      assert.equal(url.endsWith('/organization-learners'), true);
+      assert.true(url.endsWith('/organization-learners'));
     });
   });
 });

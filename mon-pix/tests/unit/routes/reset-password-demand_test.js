@@ -29,6 +29,8 @@ module('Unit | Route | changer mot de passe', function (hooks) {
       assert.ok(route);
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
     test('should ask password reset demand validity', function (assert) {
       // given
       queryRecordStub.resolves();
@@ -49,6 +51,8 @@ module('Unit | Route | changer mot de passe', function (hooks) {
     });
 
     module('when password reset demand is valid', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should create a new ember user model with fetched data', function (assert) {
         // given
         const fetchedOwnerDetails = {

@@ -32,6 +32,8 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card__content').exists();
       assert.ok(find('.tutorial-card-content__link').textContent.includes('Mon super tutoriel'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.tutorial-card-content__link').href, 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
@@ -68,6 +70,8 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card__content').exists();
       assert.ok(find('.tutorial-card-content__link').textContent.includes('Mon super tutoriel'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.tutorial-card-content__link').href, 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));

@@ -47,6 +47,8 @@ module('Unit | Component | QCU proposals', function (hooks) {
       const labeledRadios = component.labeledRadios;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(labeledRadios.length, 5);
     });
 

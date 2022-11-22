@@ -44,6 +44,8 @@ module('Integration | Component | reset password form', function (hooks) {
         await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('.sign-form-title').textContent.trim(), user.fullName);
       });
     });
@@ -82,7 +84,7 @@ module('Integration | Component | reset password form', function (hooks) {
         await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
         // then
-        assert.equal(isSaveMethodCalled, true);
+        assert.true(isSaveMethodCalled);
         assert.deepEqual(saveMethodOptions, { adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
         assert.deepEqual(this.user.password, null);
         assert.dom(PASSWORD_INPUT_CLASS).doesNotExist();
@@ -104,8 +106,10 @@ module('Integration | Component | reset password form', function (hooks) {
         await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
         // then
-        assert.equal(isSaveMethodCalled, true);
+        assert.true(isSaveMethodCalled);
         assert.deepEqual(this.user.password, validPassword);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find(PASSWORD_INPUT_CLASS).value, validPassword);
         assert.dom('.form-textfield__message--error').exists();
       });

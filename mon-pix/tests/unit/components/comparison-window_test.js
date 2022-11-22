@@ -32,7 +32,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQroc = component.isAssessmentChallengeTypeQroc;
       // then
-      assert.equal(isAssessmentChallengeTypeQroc, true);
+      assert.true(isAssessmentChallengeTypeQroc);
     });
 
     test('should be false when the challenge is not QROCM-ind', function (assert) {
@@ -41,7 +41,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQroc = component.isAssessmentChallengeTypeQroc;
       // then
-      assert.equal(isAssessmentChallengeTypeQroc, false);
+      assert.false(isAssessmentChallengeTypeQroc);
     });
   });
 
@@ -52,7 +52,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQcm = component.isAssessmentChallengeTypeQcm;
       // then
-      assert.equal(isAssessmentChallengeTypeQcm, true);
+      assert.true(isAssessmentChallengeTypeQcm);
     });
 
     test('should be false when the challenge is not QCM', function (assert) {
@@ -61,7 +61,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQcm = component.isAssessmentChallengeTypeQcm;
       // then
-      assert.equal(isAssessmentChallengeTypeQcm, false);
+      assert.false(isAssessmentChallengeTypeQcm);
     });
   });
 
@@ -72,7 +72,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQrocmInd = component.isAssessmentChallengeTypeQrocmInd;
       // then
-      assert.equal(isAssessmentChallengeTypeQrocmInd, true);
+      assert.true(isAssessmentChallengeTypeQrocmInd);
     });
 
     test('should be true when the challenge is not QROCM-ind', function (assert) {
@@ -81,7 +81,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQrocmInd = component.isAssessmentChallengeTypeQrocmInd;
       // then
-      assert.equal(isAssessmentChallengeTypeQrocmInd, false);
+      assert.false(isAssessmentChallengeTypeQrocmInd);
     });
   });
 
@@ -92,7 +92,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQrocmDep = component.isAssessmentChallengeTypeQrocmDep;
       // then
-      assert.equal(isAssessmentChallengeTypeQrocmDep, true);
+      assert.true(isAssessmentChallengeTypeQrocmDep);
     });
 
     test('should be true when the challenge is not QROCM-dep', function (assert) {
@@ -101,7 +101,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       // when
       const isAssessmentChallengeTypeQrocmDep = component.isAssessmentChallengeTypeQrocmDep;
       // then
-      assert.equal(isAssessmentChallengeTypeQrocmDep, false);
+      assert.false(isAssessmentChallengeTypeQrocmDep);
     });
   });
 
@@ -168,7 +168,11 @@ module('Unit | Component | comparison-window', function (hooks) {
         resultItem = component.resultItem;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.intl.t(resultItem.title), `${data.expectedTitle}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
@@ -187,7 +191,11 @@ module('Unit | Component | comparison-window', function (hooks) {
         resultItem = component.resultItem;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.intl.t(resultItem.title), `${data.expectedTitle}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
@@ -215,6 +223,8 @@ module('Unit | Component | comparison-window', function (hooks) {
       const solution = component.solution;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(solution, 'solution');
     });
   });

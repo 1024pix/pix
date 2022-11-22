@@ -44,6 +44,8 @@ module('Unit | Component | user-account | email-verification-code', function (ho
       await component.onSubmitCode(code);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.currentUser.user.email, newEmail);
     });
   });
@@ -63,7 +65,7 @@ module('Unit | Component | user-account | email-verification-code', function (ho
       component.resendVerificationCodeByEmail();
 
       // then
-      assert.equal(component.isResending, true);
+      assert.true(component.isResending);
     });
 
     test('should show success message after resending', async function (assert) {
@@ -80,8 +82,8 @@ module('Unit | Component | user-account | email-verification-code', function (ho
       await component.resendVerificationCodeByEmail();
 
       // then
-      assert.equal(component.isEmailSent, true);
-      assert.equal(component.isResending, false);
+      assert.true(component.isEmailSent);
+      assert.false(component.isResending);
     });
   });
 });

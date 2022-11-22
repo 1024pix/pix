@@ -60,9 +60,13 @@ module('Acceptance | competences results', function (hooks) {
 
       // then
       assert.dom('.pix-return-to').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.pix-return-to').getAttribute('href'), '/competences');
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user obtained 0 pix', async function (hooks) {
       hooks.beforeEach(async function () {
         const area = this.server.schema.areas.find(3);
@@ -87,6 +91,8 @@ module('Acceptance | competences results', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user obtained 5 pix (less than level 1)', async function (hooks) {
       hooks.beforeEach(async function () {
         const area = this.server.schema.areas.find(3);
@@ -108,10 +114,14 @@ module('Acceptance | competences results', function (hooks) {
 
         // then
         assert.dom('.competence-results-panel-header__banner--not-bad').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('.competence-results-banner-text-results__value').innerText, '5 Pix');
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user obtained 17 pix and level 2', async function (hooks) {
       hooks.beforeEach(async function () {
         const area = this.server.schema.areas.find(3);
@@ -133,11 +143,15 @@ module('Acceptance | competences results', function (hooks) {
 
         // then
         assert.dom('.competence-results-panel-header__banner--congrats').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find('.competence-results-banner-text__results:first-child .competence-results-banner-text-results__value')
             .innerText,
           'Niveau 2'
         );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(
           find('.competence-results-banner-text__results:last-child .competence-results-banner-text-results__value')
             .innerText,

@@ -25,6 +25,8 @@ module('Unit | Component | timeout-gauge-component ', function (hooks) {
           // when
           const formattedRemainingTime = component.formattedRemainingTime;
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(formattedRemainingTime, data.expected);
         });
       });
@@ -48,6 +50,8 @@ module('Unit | Component | timeout-gauge-component ', function (hooks) {
           // when
           const percentageOfTimeout = component.percentageOfTimeout;
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(percentageOfTimeout, data.expected);
         });
       });

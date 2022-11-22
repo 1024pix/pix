@@ -38,6 +38,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         });
 
         test('should render the not certifiable template', function (assert) {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(
             find('.certification-not-certifiable__title').textContent.trim(),
             "Votre profil n'est pas encore certifiable."
@@ -153,6 +155,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
           test('should redirect to certification start route', function (assert) {
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), '/certifications/candidat/1');
           });
         });
@@ -181,6 +185,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
           test('should redirect to certification start route', function (assert) {
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), '/certifications/candidat/2');
           });
         });
@@ -228,14 +234,14 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
             test('should be redirected on the first challenge of an assessment', async function (assert) {
               // then
-              assert.equal(currentURL().startsWith(`/assessments/${assessment.id}/challenges`), true);
+              assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
             });
 
             test('should navigate to next challenge when we click pass', async function (assert) {
               // when
               await click('.challenge-actions__action-skip-text');
               // then
-              assert.equal(currentURL().startsWith(`/assessments/${assessment.id}/challenges`), true);
+              assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
             });
 
             module('after skipping the all challenges of the certification course', function () {
@@ -246,6 +252,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 }
 
                 // then
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line qunit/no-assert-equal
                 assert.equal(currentURL(), `/certifications/${certificationCourse.id}/results`);
               });
 
@@ -281,7 +289,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               await visit(`/certifications/${certificationCourse.id}`);
 
               // then
-              assert.equal(currentURL().startsWith(`/assessments/${assessment.id}/challenges`), true);
+              assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
             });
           });
         });

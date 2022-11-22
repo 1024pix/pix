@@ -48,7 +48,7 @@ module('Unit | Component | competence-card-default ', function (hooks) {
       const result = component.shouldWaitBeforeImproving;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('should return false when remaining days before improving are equal to 0', function (assert) {
@@ -59,7 +59,7 @@ module('Unit | Component | competence-card-default ', function (hooks) {
       const result = component.shouldWaitBeforeImproving;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 });

@@ -11,7 +11,7 @@ module('Unit | Adapter | student information', function (hooks) {
       const url = adapter.buildURL(123, 'student-information', null, 'account-recovery');
 
       // then
-      assert.equal(url.endsWith('/sco-organization-learners/'), true);
+      assert.true(url.endsWith('/sco-organization-learners/'));
     });
   });
 });

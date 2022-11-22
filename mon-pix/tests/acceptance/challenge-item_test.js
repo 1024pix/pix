@@ -320,6 +320,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         { challengeType: 'QCU' },
       ].forEach(function (data) {
         module(`when ${data.challengeType} challenge is not focused`, function () {
+          // eslint-disable-next-line qunit/no-identical-names
           module('when user has not answered the question', function () {
             module('when user has not seen the challenge tooltip yet', function (hooks) {
               hooks.beforeEach(async function () {
@@ -394,6 +395,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             });
           });
 
+          // eslint-disable-next-line qunit/no-identical-names
           module('when user has already answered the question', function () {
             test('should not display the overlay, dashed-border and warning messages', async function (assert) {
               // given

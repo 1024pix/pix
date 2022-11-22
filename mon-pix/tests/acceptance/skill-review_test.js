@@ -34,10 +34,14 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
       test('should be redirect to connexion page', async function (assert) {
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/connexion');
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user is logged in', async function (hooks) {
       const competenceResultName = 'Competence Nom';
       const skillSetResultName = 'badge skill set nom';
@@ -61,6 +65,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
@@ -87,6 +93,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
           assert.ok(screen.getByText('Parcours restreint'));
         });
@@ -183,9 +191,13 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(findAll('.badge-card').length, 1);
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-async-module-callbacks
       module('when campaign has stages', async function () {
         test('should display reached stage', async function (assert) {
           // given
@@ -261,11 +273,15 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/accueil');
       });
     });
   });
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/no-async-module-callbacks
   module('when campaign is for Novice and isSimplifiedAccess', async function (hooks) {
     let campaignForNovice;
 
@@ -283,6 +299,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/accueil');
     });
 
@@ -301,6 +319,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/inscription');
     });
   });

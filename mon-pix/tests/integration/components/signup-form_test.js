@@ -44,6 +44,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find(FORM_TITLE).textContent, expectedTitle);
       });
     });
@@ -62,6 +64,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
     test('should return correct form title', function (assert) {
       const formTitle = this.intl.t('pages.sign-up.first-title');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find(FORM_TITLE).textContent, formTitle);
     });
 
@@ -131,6 +135,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
@@ -162,6 +168,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
@@ -192,6 +200,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
@@ -222,6 +232,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
@@ -252,6 +264,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
   });
@@ -267,6 +281,8 @@ module('Integration | Component | SignupForm', function (hooks) {
       session = this.owner.lookup('service:session', sessionService);
     });
     module('behavior when signup successful (test external calls)', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should return true if action <Signup> is handled', async function (assert) {
         // given
         let isFormSubmitted = false;
@@ -292,10 +308,12 @@ module('Integration | Component | SignupForm', function (hooks) {
 
         // then
         return settled().then(() => {
-          assert.equal(isFormSubmitted, true);
+          assert.true(isFormSubmitted);
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should authenticate the user and empty the password', async function (assert) {
         // given
         const authenticateUserStub = sinon.stub();
@@ -329,6 +347,8 @@ module('Integration | Component | SignupForm', function (hooks) {
     });
 
     module('Errors management', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on first name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyFirstnameErrorMessage = this.intl.t('pages.sign-up.fields.firstname.error');
@@ -344,12 +364,16 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--error')
           );
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
           assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on last name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyLastnameErrorMessage = this.intl.t('pages.sign-up.fields.lastname.error');
@@ -365,12 +389,16 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error')
           );
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
           assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on email field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyEmailErrorMessage = this.intl.t('pages.sign-up.fields.email.error');
@@ -386,12 +414,16 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--error')
           );
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
           assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on password field, when field is empty and focus-out', async function (assert) {
         // given
         const incorrectPasswordErrorMessage = this.intl.t('pages.sign-up.fields.password.error');
@@ -407,12 +439,16 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--error')
           );
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
           assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
         // given
         const uncheckedCheckboxCguErrorMessage = this.intl.t('common.cgu.error');
@@ -446,6 +482,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         // then
         return settled().then(() => {
           assert.dom('.sign-form__validation-error').exists();
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
         });
       });
@@ -480,6 +518,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('#validationMessage-email').textContent, expectedMaxLengthEmailError);
       });
 
@@ -512,6 +552,8 @@ module('Integration | Component | SignupForm', function (hooks) {
     });
 
     module('Successfull cases', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display first name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -532,6 +574,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display last name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -552,6 +596,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display email field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -572,6 +618,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should display password field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -614,6 +662,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         });
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
       test('should reset validation property, when all things are ok and form is submitted', async function (assert) {
         // given
         const validUser = EmberObject.create({

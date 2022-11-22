@@ -104,6 +104,8 @@ module('Unit | Services | session', function (hooks) {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('when current URL domain extension is .org', async function () {
       test('should load current user and set locale to fr', async function (assert) {
         // given
@@ -210,6 +212,8 @@ module('Unit | Services | session', function (hooks) {
               sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
               sinon.assert.calledWith(sessionService.intl.setLocale, ['de', 'fr']);
               sinon.assert.calledWith(sessionService.moment.setLocale, 'de');
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(sessionService.currentUser.user.lang, 'de');
               assert.ok(true);
             });

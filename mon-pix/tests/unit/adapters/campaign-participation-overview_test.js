@@ -33,7 +33,7 @@ module('Unit | Adapters | campaign-participation-overviews', function (hooks) {
 
       // then
       assert.deepEqual(params, paramsAfterQuery);
-      assert.equal(url.endsWith('/api/users/1/campaign-participation-overviews'), true);
+      assert.true(url.endsWith('/api/users/1/campaign-participation-overviews'));
     });
   });
 });

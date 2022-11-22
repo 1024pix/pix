@@ -16,7 +16,7 @@ module('Unit | Adapters | external-user', function (hooks) {
       const url = await adapter.urlForCreateRecord();
 
       // then
-      assert.equal(url.endsWith('/sco-organization-learners/external'), true);
+      assert.true(url.endsWith('/sco-organization-learners/external'));
     });
   });
 });

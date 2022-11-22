@@ -21,6 +21,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentStepIndex, 1);
     });
 
@@ -33,6 +35,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentStepIndex, 0);
     });
   });
@@ -46,6 +50,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
     });
 
@@ -58,6 +64,8 @@ module('Unit | Utility | progress-in-assessment', function () {
         const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
       });
 
@@ -69,6 +77,8 @@ module('Unit | Utility | progress-in-assessment', function () {
         const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
       });
     });
@@ -85,6 +95,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(maxStepNumber, nbChallenges);
     });
 
@@ -97,6 +109,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(maxStepNumber, nbChallenges);
     });
 
@@ -108,6 +122,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(maxStepNumber, 1);
     });
   });
@@ -129,6 +145,8 @@ module('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, currentChallengeNumber);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentStepIndex, 4);
     });
   });

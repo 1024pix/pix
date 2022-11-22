@@ -90,6 +90,8 @@ module('Unit | Route | logout', function (hooks) {
       route.beforeModel();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(route.session.alternativeRootURL, null);
     });
 
@@ -116,6 +118,8 @@ module('Unit | Route | logout', function (hooks) {
       route.beforeModel();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(route.session.alternativeRootURL, '/nonconnecte');
     });
   });

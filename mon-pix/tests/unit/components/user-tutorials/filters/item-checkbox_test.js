@@ -31,7 +31,7 @@ module('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function (h
         const result = component.isChecked;
 
         // then
-        assert.equal(result, true);
+        assert.true(result);
       });
     });
 
@@ -49,7 +49,7 @@ module('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function (h
         const result = component.isChecked;
 
         // then
-        assert.equal(result, false);
+        assert.false(result);
       });
     });
   });

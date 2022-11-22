@@ -47,7 +47,11 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
     });
   });
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/no-async-module-callbacks
   module('When user is logged', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When there is no more questions', async function () {
       test('should redirect to last checkpoint page', async function (assert) {
         // when
@@ -58,6 +62,8 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user has completed his campaign participation', async function () {
       test('should redirect directly to results', async function (assert) {
         // given
@@ -72,6 +78,8 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
     module('When user has already send his results', async function () {
       test('should redirect directly to shared results', async function (assert) {
         // given

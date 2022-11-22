@@ -32,6 +32,8 @@ module('Unit | Model | CampaignParticipationBadge', function (hooks) {
       const maxTotalSkillsCountInSkillSets = model.maxTotalSkillsCountInSkillSets;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(maxTotalSkillsCountInSkillSets, 10);
     });
   });

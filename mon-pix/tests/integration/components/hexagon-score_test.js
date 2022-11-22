@@ -20,6 +20,8 @@ module('Integration | Component | hexagon-score', function (hooks) {
       await render(hbs`<HexagonScore />`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML, '–');
     });
 
@@ -30,6 +32,8 @@ module('Integration | Component | hexagon-score', function (hooks) {
       // when
       await render(hbs`<HexagonScore @pixScore={{this.pixScore}} />`);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML, pixScore);
     });
   });

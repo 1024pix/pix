@@ -25,6 +25,8 @@ module('Unit | Component | reached-stage', function (hooks) {
           const totalStarsCount = component.totalStarsCount;
 
           const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(totalStarsCount, totalStars);
         });
       });
@@ -53,6 +55,8 @@ module('Unit | Component | reached-stage', function (hooks) {
             test('should return first star with its image', function (assert) {
               const firstStar = component.firstStar;
 
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(firstStar.imageSrc, unacquiredStarImgSrc);
             });
           });
@@ -67,6 +71,8 @@ module('Unit | Component | reached-stage', function (hooks) {
             test('should return correct count of stars minus the first one', function (assert) {
               const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
 
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(otherStars.length, totalStars - 1);
             });
 
@@ -75,7 +81,11 @@ module('Unit | Component | reached-stage', function (hooks) {
               const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
               const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
 
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(acquiredStarsCount, expectedAcquiredStarsCount);
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
               assert.equal(unacquiredStarsCount + firstStarCount, expectedUnacquiredStarsCount);
             });
           });
@@ -101,6 +111,8 @@ module('Unit | Component | reached-stage', function (hooks) {
           test('should return first star with its image', function (assert) {
             const firstStar = component.firstStar;
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(firstStar.imageSrc, acquiredStarImgSrc);
           });
         });
@@ -115,6 +127,8 @@ module('Unit | Component | reached-stage', function (hooks) {
           test('should return correct count of stars minus the first one', function (assert) {
             const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(otherStars.length, totalStars - 1);
           });
 
@@ -123,7 +137,11 @@ module('Unit | Component | reached-stage', function (hooks) {
             const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
             const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
 
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(acquiredStarsCount + firstStarCount, expectedAcquiredStarsCount);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(unacquiredStarsCount, expectedUnacquiredStarsCount);
           });
         });

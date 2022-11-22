@@ -24,7 +24,7 @@ module('Unit | Route | error', function (hooks) {
       const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
-      assert.equal(result, true);
+      assert.true(result);
     });
 
     test('returns false if there is no "errors" key', function (assert) {
@@ -35,7 +35,7 @@ module('Unit | Route | error', function (hooks) {
       const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('returns false if the "errors" key points to an empty array', function (assert) {
@@ -46,7 +46,7 @@ module('Unit | Route | error', function (hooks) {
       const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
-      assert.equal(result, false);
+      assert.false(result);
     });
   });
 });

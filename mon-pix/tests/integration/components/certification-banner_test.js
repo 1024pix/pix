@@ -29,6 +29,8 @@ module('Integration | Component | Certification Banner', function (hooks) {
       await render(hbs`<CertificationBanner @certification={{this.certification}} />`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.assessment-banner__title').textContent.trim(), fullName);
     });
 
@@ -37,6 +39,8 @@ module('Integration | Component | Certification Banner', function (hooks) {
       await render(hbs`<CertificationBanner @certificationNumber={{this.certificationNumber}} />`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('.certification-number__value').textContent.trim(), `${certificationNumber}`);
     });
   });
