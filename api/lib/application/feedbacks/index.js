@@ -33,6 +33,13 @@ exports.register = async (server) => {
               }),
             }),
           }),
+          headers: Joi.object({
+            'user-agent': Joi.string().min(0).max(255).optional(),
+            authorization: Joi.string().optional(),
+          }),
+          options: {
+            allowUnknown: true,
+          },
         },
         tags: ['api'],
       },
