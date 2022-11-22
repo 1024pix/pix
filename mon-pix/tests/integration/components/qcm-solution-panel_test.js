@@ -4,7 +4,6 @@ import { describe, it, before } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import times from 'lodash/times';
 
 const assessment = {};
 let challenge = null;
@@ -16,7 +15,9 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
   describe('#Component should renders: ', function () {
     it('Should renders', async function () {
-      await render(hbs`<QcmSolutionPanel />`);
+      this.set('answer', {});
+
+      await render(hbs`<QcmSolutionPanel @answer={{this.answer}} />`);
 
       expect(find('.qcm-solution-panel')).to.exist;
       expect(findAll('.qcm-proposal-label__answer-details')).to.have.lengthOf(0);
@@ -211,12 +212,10 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         );
 
         // Then
-        const size = findAll('.comparison-window .qcm-proposal-label__checkbox-picture').length;
-        times(size, function (index) {
-          expect(
-            find('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').getAttribute('disabled')
-          ).to.equal('disabled');
-        });
+        expect(findAll('.qcm-panel__proposal-checkbox')[0].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-panel__proposal-checkbox')[1].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-panel__proposal-checkbox')[2].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-panel__proposal-checkbox')[3].getAttribute('disabled')).to.equal('disabled');
       });
     });
   });

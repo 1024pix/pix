@@ -49,7 +49,7 @@ describe('Unit | Component | User-Tutorials | Filters | Sidebar', function () {
       component.handleResetFilters();
 
       // then
-      expect(component.filters).to.have.property('competences');
+      expect(component.filters.competences);
       expect(component.filters.competences).to.have.lengthOf(0);
     });
   });

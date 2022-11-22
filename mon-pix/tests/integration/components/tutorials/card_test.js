@@ -14,6 +14,7 @@ describe('Integration | Component | Tutorials | Card', function () {
       class CurrentUserStub extends Service {
         user = { firstName: 'John' };
       }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('tutorial', {
         title: 'Mon super tutoriel',
@@ -31,13 +32,11 @@ describe('Integration | Component | Tutorials | Card', function () {
       // then
       expect(find('.tutorial-card')).to.exist;
       expect(find('.tutorial-card__content')).to.exist;
-      expect(find('.tutorial-card-content__link')).to.have.property('textContent').that.contains('Mon super tutoriel');
-      expect(find('.tutorial-card-content__link')).to.have.property('href').that.equals('https://exemple.net/');
-      expect(find('.tutorial-card-content__details'))
-        .to.have.property('textContent')
-        .that.contains('mon-tuto')
-        .and.contains('vidéo')
-        .and.contains('une minute');
+      expect(find('.tutorial-card-content__link').textContent).to.contains('Mon super tutoriel');
+      expect(find('.tutorial-card-content__link').href).to.equals('https://exemple.net/');
+      expect(find('.tutorial-card-content__details').textContent).to.contains('mon-tuto');
+      expect(find('.tutorial-card-content__details').textContent).to.contains('vidéo');
+      expect(find('.tutorial-card-content__details').textContent).to.contains('une minute');
       expect(find('.tutorial-card-content__actions')).to.exist;
       expect(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).to.exist;
       expect(find('[aria-label="Retirer de ma liste de tutos"]')).to.exist;
@@ -51,6 +50,7 @@ describe('Integration | Component | Tutorials | Card', function () {
       class CurrentUserStub extends Service {
         user = null;
       }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('tutorial', {
         title: 'Mon super tutoriel',
@@ -68,13 +68,11 @@ describe('Integration | Component | Tutorials | Card', function () {
       // then
       expect(find('.tutorial-card')).to.exist;
       expect(find('.tutorial-card__content')).to.exist;
-      expect(find('.tutorial-card-content__link')).to.have.property('textContent').that.contains('Mon super tutoriel');
-      expect(find('.tutorial-card-content__link')).to.have.property('href').that.equals('https://exemple.net/');
-      expect(find('.tutorial-card-content__details'))
-        .to.have.property('textContent')
-        .that.contains('mon-tuto')
-        .and.contains('vidéo')
-        .and.contains('une minute');
+      expect(find('.tutorial-card-content__link').textContent).to.contains('Mon super tutoriel');
+      expect(find('.tutorial-card-content__link').href).to.equals('https://exemple.net/');
+      expect(find('.tutorial-card-content__details').textContent).to.contains('mon-tuto');
+      expect(find('.tutorial-card-content__details').textContent).to.contains('vidéo');
+      expect(find('.tutorial-card-content__details').textContent).to.contains('une minute');
       expect(find('.tutorial-card-content__actions')).to.not.exist;
     });
   });

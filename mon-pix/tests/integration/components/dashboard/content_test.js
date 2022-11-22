@@ -11,45 +11,26 @@ describe('Integration | Component | Dashboard | Content', function () {
   setupIntlRenderingTest();
 
   const pixScore = 105;
-  class CurrentUserStub extends Service {
-    user = {
-      firstName: 'Banana',
-      email: 'banana.split@example.net',
-      fullName: 'Banana Split',
-      profile: EmberObject.create({
-        pixScore,
-      }),
-      hasSeenNewDashboardInfo: false,
-    };
-  }
+  let store;
 
-  class CurrentUserWithCodeStub extends Service {
-    user = {
-      firstName: 'Banana',
-      email: 'banana.split@example.net',
-      fullName: 'Banana Split',
-      profile: EmberObject.create({
-        pixScore,
-      }),
-      hasSeenNewDashboardInfo: false,
-      codeForLastProfileToShare: 'SNAP1234',
-    };
-  }
-
-  class HasSeenNewDashboardInformationCurrentUserStub extends Service {
-    user = {
-      firstName: 'Banana',
-      email: 'banana.split@example.net',
-      fullName: 'Banana Split',
-      profile: {
-        pixScore,
-      },
-      hasSeenNewDashboardInfo: true,
-    };
-  }
+  beforeEach(function () {
+    store = this.owner.lookup('service:store');
+  });
 
   it('should render component', async function () {
     // given
+    class CurrentUserStub extends Service {
+      user = store.createRecord('user', {
+        firstName: 'Banana',
+        lastName: 'Split',
+        email: 'banana.split@example.net',
+        profile: store.createRecord('profile', {
+          pixScore,
+        }),
+        hasSeenNewDashboardInfo: false,
+      });
+    }
+
     this.owner.register('service:currentUser', CurrentUserStub);
     this.set('model', {
       campaignParticipationOverviews: [],
@@ -66,6 +47,18 @@ describe('Integration | Component | Dashboard | Content', function () {
 
   describe('campaign-participation-overview rendering', function () {
     beforeEach(function () {
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
@@ -131,6 +124,18 @@ describe('Integration | Component | Dashboard | Content', function () {
 
   describe('recommended competence-card rendering', function () {
     beforeEach(function () {
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
@@ -191,6 +196,18 @@ describe('Integration | Component | Dashboard | Content', function () {
 
   describe('improvable competence-card rendering', function () {
     beforeEach(function () {
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
@@ -251,6 +268,18 @@ describe('Integration | Component | Dashboard | Content', function () {
 
   describe('started competence-card rendering', function () {
     beforeEach(function () {
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
     });
 
@@ -312,6 +341,18 @@ describe('Integration | Component | Dashboard | Content', function () {
   describe('new dashboard info rendering', function () {
     it('should display NewInformation on dashboard if user has not close it before', async function () {
       // given
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -328,6 +369,18 @@ describe('Integration | Component | Dashboard | Content', function () {
 
     it('should not display NewInformation on dashboard if user has close it before', async function () {
       // given
+      class HasSeenNewDashboardInformationCurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: true,
+        });
+      }
+
       this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -349,6 +402,19 @@ describe('Integration | Component | Dashboard | Content', function () {
           return true;
         }
       }
+
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.owner.register('service:url', UrlStub);
       this.set('model', {
@@ -372,6 +438,19 @@ describe('Integration | Component | Dashboard | Content', function () {
           return false;
         }
       }
+
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.owner.register('service:url', UrlStub);
       this.set('model', {
@@ -392,6 +471,18 @@ describe('Integration | Component | Dashboard | Content', function () {
   describe('empty dashboard info rendering', function () {
     it('should display Empty Dashboard Information if user has nothing to do', async function () {
       // given
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -408,6 +499,18 @@ describe('Integration | Component | Dashboard | Content', function () {
 
     it('should not display Empty Dashboard Information on dashboard if user has competence to continue', async function () {
       // given
+      class HasSeenNewDashboardInformationCurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: true,
+        });
+      }
+
       this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -429,6 +532,18 @@ describe('Integration | Component | Dashboard | Content', function () {
   describe('user pix score rendering', function () {
     it('should display user score', async function () {
       // given
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
@@ -448,7 +563,25 @@ describe('Integration | Component | Dashboard | Content', function () {
   describe('participation to a profile collection campaign to resume', function () {
     it('should display the banner to resume participation', async function () {
       // given
+      class CurrentUserWithCodeStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+          codeForLastProfileToShare: 'SNAP1234',
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserWithCodeStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
@@ -459,7 +592,24 @@ describe('Integration | Component | Dashboard | Content', function () {
 
     it('should not display the banner when there is no code', async function () {
       // given
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+        });
+      }
+
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);

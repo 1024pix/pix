@@ -28,6 +28,7 @@ describe('Integration | Component | ChallengeStatement', function () {
         hasSeenFocusedChallengeTooltip: false,
       };
     }
+
     this.owner.unregister('service:currentUser');
     this.owner.register('service:currentUser', currentUser);
   });
@@ -163,9 +164,9 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement__instruction-section > .sr-only'))
-        .to.have.property('textContent')
-        .that.contains(this.intl.t('pages.challenge.statement.sr-only.embed'));
+      expect(find('.challenge-statement__instruction-section > .sr-only').textContent).to.contains(
+        this.intl.t('pages.challenge.statement.sr-only.embed')
+      );
     });
 
     it('should have a screen reader only warning if challenge has an alternative instruction', async function () {
@@ -181,9 +182,9 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement__instruction-section > .sr-only'))
-        .to.have.property('textContent')
-        .that.contains(this.intl.t('pages.challenge.statement.sr-only.alternative-instruction'));
+      expect(find('.challenge-statement__instruction-section > .sr-only').textContent).to.contains(
+        this.intl.t('pages.challenge.statement.sr-only.alternative-instruction')
+      );
     });
   });
 

@@ -216,9 +216,10 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       // given
       const resetErrors = sinon.stub();
       this.set('resetErrors', resetErrors);
+      this.set('sendEmail', () => {});
       const email = 'Philipe@example.net';
       await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`
+        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} @sendEmail={{this.sendEmail}}/>`
       );
 
       // when

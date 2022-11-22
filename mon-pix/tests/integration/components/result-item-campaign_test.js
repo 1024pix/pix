@@ -77,7 +77,7 @@ describe('Integration | Component | result-item', function () {
       await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}}/>`);
 
       // Then
-      expect(find('result-item__icon-img'));
+      expect(find('.result-item__icon--red'));
     });
 
     [

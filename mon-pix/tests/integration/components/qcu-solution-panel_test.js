@@ -4,7 +4,6 @@ import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import times from 'lodash/times';
 
 const assessment = {};
 let challenge = null;
@@ -31,7 +30,9 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
   };
 
   it('Should render', async function () {
-    await render(hbs`<QcuSolutionPanel/>`);
+    this.set('answer', {});
+
+    await render(hbs`<QcuSolutionPanel @answer={{this.answer}}/>`);
     expect(find('.qcu-solution-panel')).to.exist;
   });
 
@@ -69,26 +70,6 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
 
       // Then
       expect(findAll('[data-goodness=good]').length).to.equal(1);
-    });
-
-    it('should not be editable', async function () {
-      //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
-
-      // When
-      await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
-      );
-
-      // Then
-      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function (index) {
-        expect(
-          find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')
-        ).to.equal('disabled');
-      });
     });
   });
 
@@ -271,26 +252,6 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked')).to.equal('yes');
       expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
       expect(findAll('.qcu-solution-panel__radio-button')[2].innerHTML).to.contains('Votre réponse');
-    });
-
-    it('Should avoid click on radio button', async function () {
-      //Given
-      this.set('answer', answer);
-      this.set('solution', solution);
-      this.set('solutionToDisplay', null);
-      this.set('challenge', challenge);
-
-      // When
-      await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
-      );
-
-      // Then
-      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function (index) {
-        expect(
-          find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')
-        ).to.equal('disabled');
-      });
     });
   });
 });
