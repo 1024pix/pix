@@ -7,6 +7,10 @@ const {
 const {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
+  ImpactfulCategories,
+  ImpactfulSubcategories,
+  DeprecatedCategories,
+  DeprecatedSubcategories,
 } = require('./CertificationIssueReportCategory');
 
 const categoryNonBlockingTechnicalIssueJoiSchema = Joi.object({
@@ -81,40 +85,6 @@ const categorySchemas = {
   [CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: categoryNonBlockingTechnicalIssueJoiSchema,
   [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: categoryTechnicalProblemJoiSchema,
 };
-
-const categoryCodeImpactful = [
-  CertificationIssueReportCategories.TECHNICAL_PROBLEM,
-  CertificationIssueReportCategories.OTHER,
-  CertificationIssueReportCategories.FRAUD,
-];
-
-const subcategoryCodeImpactful = [
-  CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
-  CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-  CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-  CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-  CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
-  CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-  CertificationIssueReportSubcategories.LINK_NOT_WORKING,
-  CertificationIssueReportSubcategories.OTHER,
-  CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-  CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-  CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-  CertificationIssueReportSubcategories.SKIP_ON_OOPS,
-  CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
-];
-
-const deprecatedSubcategories = [
-  CertificationIssueReportSubcategories.LINK_NOT_WORKING,
-  CertificationIssueReportSubcategories.OTHER,
-  CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
-];
-
-const deprecatedCategories = [
-  CertificationIssueReportCategories.TECHNICAL_PROBLEM,
-  CertificationIssueReportCategories.OTHER,
-  CertificationIssueReportCategories.LATE_OR_LEAVING,
-];
 
 class CertificationIssueReport {
   constructor({
@@ -215,13 +185,13 @@ class CertificationIssueReport {
 module.exports = CertificationIssueReport;
 
 function _isImpactful({ category, subcategory }) {
-  return categoryCodeImpactful.includes(category) || subcategoryCodeImpactful.includes(subcategory);
+  return ImpactfulCategories.includes(category) || ImpactfulSubcategories.includes(subcategory);
 }
 
 function _isCategoryDeprecated(category) {
-  return deprecatedCategories.includes(category);
+  return DeprecatedCategories.includes(category);
 }
 
 function _isSubcategoryDeprecated(subcategory) {
-  return deprecatedSubcategories.includes(subcategory);
+  return DeprecatedSubcategories.includes(subcategory);
 }
