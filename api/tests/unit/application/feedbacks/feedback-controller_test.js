@@ -28,13 +28,13 @@ describe('Unit | Controller | feedback-controller', function () {
           assessment: {
             data: {
               type: 'assessments',
-              id: 'assessment_id',
+              id: '1',
             },
           },
           challenge: {
             data: {
               type: 'challenges',
-              id: 'challenge_id',
+              id: '2',
             },
           },
         },
