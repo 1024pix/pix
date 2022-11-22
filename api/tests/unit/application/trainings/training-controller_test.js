@@ -1,10 +1,42 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
-
 const trainingController = require('../../../../lib/application/trainings/training-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
+const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Controller | training-controller', function () {
+  describe('#findPaginatedTrainingSummaries', function () {
+    it('should call the training findPaginatedTrainingSummaries use-case', async function () {
+      // given
+      const expectedResult = Symbol('serialized-training-summaries');
+      const trainingSummaries = Symbol('trainingSummary');
+      const meta = Symbol('meta');
+      const useCaseParameters = {
+        page: { size: 2, number: 1 },
+      };
+
+      sinon.stub(usecases, 'findPaginatedTrainingSummaries').resolves({ trainings: trainingSummaries, meta });
+      sinon.stub(trainingSummarySerializer, 'serialize').returns(expectedResult);
+      sinon.stub(queryParamsUtils, 'extractParameters').returns(useCaseParameters);
+      // when
+      const response = await trainingController.findPaginatedTrainingSummaries(
+        {
+          params: {
+            page: { size: 2, number: 1 },
+          },
+        },
+        hFake
+      );
+
+      // then
+      expect(usecases.findPaginatedTrainingSummaries).to.have.been.calledWith(useCaseParameters);
+      expect(trainingSummarySerializer.serialize).to.have.been.calledOnce;
+      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
   describe('#update', function () {
     const deserializedTraining = { title: 'new title' };
     const updatedTraining = { title: 'new title' };

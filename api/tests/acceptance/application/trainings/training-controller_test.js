@@ -64,4 +64,47 @@ describe('Acceptance | Controller | training-controller', function () {
       });
     });
   });
+
+  describe('GET /api/admin/training-summaries', function () {
+    let options;
+
+    describe('nominal case', function () {
+      it('should find training summaries and respond with a 200', async function () {
+        // given
+        const superAdmin = await insertUserWithRoleSuperAdmin();
+        const training = databaseBuilder.factory.buildTraining();
+        await databaseBuilder.commit();
+
+        options = {
+          method: 'GET',
+          url: `/api/admin/training-summaries?page[number]=1&page[size]=2`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+          },
+        };
+
+        const expectedResponse = {
+          data: {
+            type: 'training-summaries',
+            id: '1',
+            attributes: {
+              title: training.title,
+            },
+          },
+        };
+
+        const expectedPagination = { page: 1, pageSize: 2, rowCount: 1, pageCount: 1 };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data[0].type).to.deep.equal(expectedResponse.data.type);
+        expect(response.result.data[0].id).to.exist;
+        expect(response.result.data[0].attributes.title).to.deep.equal(expectedResponse.data.attributes.title);
+        expect(response.result.meta.pagination).to.deep.equal(expectedPagination);
+      });
+    });
+  });
 });
