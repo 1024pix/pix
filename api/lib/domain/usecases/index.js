@@ -224,6 +224,7 @@ module.exports = injectDependencies(
     createOrganizationPlacesLot: require('./create-organization-places-lot'),
     createPasswordResetDemand: require('./create-password-reset-demand'),
     createSession: require('./create-session'),
+    createSessions: require('./create-sessions'),
     createStage: require('./create-stage'),
     createTag: require('./create-tag'),
     createTargetProfile: require('./create-target-profile'),
