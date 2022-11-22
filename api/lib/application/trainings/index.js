@@ -7,6 +7,38 @@ const securityPreHandlers = require('../security-pre-handlers');
 exports.register = async (server) => {
   server.route([
     {
+      method: 'GET',
+      path: '/api/admin/training-summaries',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          query: Joi.object({
+            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
+            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+          }),
+        },
+        handler: trainingsController.findPaginatedTrainingSummaries,
+        tags: ['api', 'admin', 'trainings'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer une liste paginée de résumés de contenus formatifs',
+        ],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/admin/trainings/{trainingId}',
       config: {
