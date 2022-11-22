@@ -199,7 +199,7 @@ export default class SkillReview extends Component {
     } catch (errorResponse) {
       if (!errorResponse?.errors) {
         this.showGlobalErrorMessage = true;
-        throw errorResponse;
+        return;
       }
       errorResponse.errors.forEach((error) => {
         if (error.status === '409') {
@@ -207,7 +207,6 @@ export default class SkillReview extends Component {
         } else {
           this.isShareButtonClicked = false;
           this.showGlobalErrorMessage = true;
-          throw error;
         }
       });
     }
