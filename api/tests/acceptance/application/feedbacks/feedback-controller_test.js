@@ -27,13 +27,13 @@ describe('Acceptance | Controller | feedback-controller', function () {
             relationships: {
               assessment: {
                 data: {
-                  type: 'assessment',
+                  type: 'assessments',
                   id: assessmentId,
                 },
               },
               challenge: {
                 data: {
-                  type: 'challenge',
+                  type: 'challenges',
                   id: 'challenge_id',
                 },
               },
