@@ -3,6 +3,7 @@ const { fetchPage } = require('../utils/knex-utils');
 const { knex } = require('../../../db/knex-database-connection');
 const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
+const { ImpactfulCategories, ImpactfulSubcategories } = require('../../domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../domain/models/Assessment');
 const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 
@@ -74,8 +75,30 @@ function _getBySessionIdQuery(sessionId) {
     })
     .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .leftJoin('certification-issue-reports', (qb) => {
+      qb.on('certification-issue-reports.certificationCourseId', 'certification-courses.id')
+        .onNull('certification-issue-reports.resolvedAt')
+        .on((qb2) => {
+          qb2
+            .onIn('category', ImpactfulCategories)
+            .orOnIn('subcategory', ImpactfulSubcategories)
+            .orOnNull('certification-issue-reports.id');
+        });
+    })
 
-    .where('certification-courses.sessionId', sessionId)
+    .where({
+      'certification-courses.sessionId': sessionId,
+    })
+    .groupBy(
+      'certification-courses.id',
+      'assessments.id',
+      'assessment-results.id',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.id',
+      'badges.id',
+      'complementary-certification-badges.id'
+    )
+    .orderByRaw('count("certification-issue-reports".id) DESC')
     .orderBy('lastName', 'ASC')
     .orderBy('firstName', 'ASC')
     .orderBy('id', 'ASC');
