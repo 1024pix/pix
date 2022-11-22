@@ -3,9 +3,9 @@ const {
   expect,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | organization-learner', function () {
   let server;
