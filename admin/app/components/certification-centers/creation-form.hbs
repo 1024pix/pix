@@ -35,6 +35,27 @@
       class="form-field"
     />
 
+    <PixInput
+      @id="dataProtectionOfficerFirstName"
+      {{on "change" this.handleDataProtectionOfficerFirstNameChange}}
+      @label="Prénom du DPO"
+      class="form-field"
+    />
+
+    <PixInput
+      @id="dataProtectionOfficerLastName"
+      {{on "change" this.handleDataProtectionOfficerLastNameChange}}
+      @label="Nom du DPO"
+      class="form-field"
+    />
+
+    <PixInput
+      @id="dataProtectionOfficerEmail"
+      {{on "change" this.handleDataProtectionOfficerEmailChange}}
+      @label="Adresse e-mail du DPO"
+      class="form-field"
+    />
+
     <div class="form-field certification-center-form__supervisor-access-checkbox">
       <PixCheckbox @id="supervisor-portal" @labelSize="small" onChange={{this.toggleSupervisorAccess}}>
         Espace surveillant

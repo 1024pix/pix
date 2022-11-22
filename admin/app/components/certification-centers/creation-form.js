@@ -21,6 +21,21 @@ export default class CertificationCenterForm extends Component {
   }
 
   @action
+  handleDataProtectionOfficerFirstNameChange(event) {
+    this.args.certificationCenter.dataProtectionOfficerFirstName = event.target.value;
+  }
+
+  @action
+  handleDataProtectionOfficerLastNameChange(event) {
+    this.args.certificationCenter.dataProtectionOfficerLastName = event.target.value;
+  }
+
+  @action
+  handleDataProtectionOfficerEmailChange(event) {
+    this.args.certificationCenter.dataProtectionOfficerEmail = event.target.value;
+  }
+
+  @action
   selectCertificationCenterType(event) {
     this.args.certificationCenter.type = event.target.value;
   }

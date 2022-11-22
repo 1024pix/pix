@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, find } from '@ember/test-helpers';
-import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { render, selectByLabelAndOption, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { A as EmberArray } from '@ember/array';
 
@@ -106,5 +106,26 @@ module('Integration | Component | certification-centers/creation-form', function
       // then
       assert.notOk(this.certificationCenter.habilitations.includes(habilitation2));
     });
+  });
+
+  test('it should be possible to add data protection officer names and email', async function (assert) {
+    // given
+    this.onSubmit = () => {};
+    this.onCancel = () => {};
+    const store = this.owner.lookup('service:store');
+    this.certificationCenter = store.createRecord('certificationCenter', { name: 'Super centre' });
+    await render(
+      hbs`<CertificationCenters::CreationForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+    );
+
+    // when
+    await fillByLabel('Prénom du DPO', 'Jacques');
+    await fillByLabel('Nom du DPO', 'Hadis');
+    await fillByLabel('Adresse e-mail du DPO', 'jacques.hadis@example.com');
+
+    // then
+    assert.strictEqual(this.certificationCenter.dataProtectionOfficerFirstName, 'Jacques');
+    assert.strictEqual(this.certificationCenter.dataProtectionOfficerLastName, 'Hadis');
+    assert.strictEqual(this.certificationCenter.dataProtectionOfficerEmail, 'jacques.hadis@example.com');
   });
 });
