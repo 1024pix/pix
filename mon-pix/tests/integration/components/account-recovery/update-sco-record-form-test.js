@@ -5,7 +5,6 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
-import findByLabel from '../../../helpers/find-by-label';
 import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | account-recovery | update-sco-record', function () {
@@ -35,7 +34,9 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
     ).to.exist;
     expect(screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'))).to.exist;
 
-    const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+    const submitButton = screen.getByRole('button', {
+      name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+    });
     expect(submitButton).to.exist;
     expect(submitButton.disabled).to.be.true;
 
@@ -47,25 +48,29 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
   context('Form submission', function () {
     it('should disable submission if password is not valid', async function () {
       // given
-      await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pass');
 
       // then
-      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      const submitButton = screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+      });
       expect(submitButton.disabled).to.be.true;
     });
 
     it('should disable submission if password is valid and cgu and data protection policy are not accepted', async function () {
       // given
-      await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
 
       // then
-      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      const submitButton = screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+      });
       expect(submitButton.disabled).to.be.true;
     });
 
@@ -78,7 +83,9 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // then
-      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      const submitButton = screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+      });
       expect(submitButton.disabled).to.be.true;
     });
 
@@ -91,7 +98,9 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // then
-      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      const submitButton = screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+      });
       expect(submitButton.disabled).to.be.false;
     });
   });

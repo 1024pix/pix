@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import findByLabel from '../../../helpers/find-by-label';
 import { contains } from '../../../helpers/contains';
 import ENV from 'mon-pix/config/environment';
 import sinon from 'sinon';
 import { clickByLabel } from '../../../helpers/click-by-label';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | user-account | email-verification-code', function () {
   setupIntlRenderingTest();
@@ -18,15 +18,14 @@ describe('Integration | Component | user-account | email-verification-code', fun
       this.set('email', 'toto@example.net');
 
       // when
-      await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} />`);
+      const screen = await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} />`);
 
       // then
-      expect(findByLabel(this.intl.t('pages.user-account.email-verification.did-not-receive'))).not.to.have.class(
-        'visible'
-      );
+      const resendCodeMessage = screen.getByText(this.intl.t('pages.user-account.email-verification.did-not-receive'));
+      expect(resendCodeMessage).not.to.have.class('visible');
     });
 
-    it(`should display a resend code message after ${ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND} milliseconds`, function () {
+    it(`should display a resend code message after ${ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND} milliseconds`, async function () {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
@@ -36,20 +35,16 @@ describe('Integration | Component | user-account | email-verification-code', fun
       const clock = sinon.useFakeTimers();
 
       // when
-      const promise = render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
-      );
+      await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`);
       clock.tick(ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
 
-      const result = promise.then(async () => {
-        expect(contains(this.intl.t('pages.user-account.email-verification.did-not-receive'))).to.exist;
-        expect(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code'))).to.exist;
-      });
+      expect(contains(this.intl.t('pages.user-account.email-verification.did-not-receive'))).to.exist;
+      expect(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code'))).to.exist;
+
       clock.restore();
-      return result;
     });
 
-    it('should prevent multiple requests to resend verification code', function () {
+    it('should prevent multiple requests to resend verification code', async function () {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
@@ -65,23 +60,26 @@ describe('Integration | Component | user-account | email-verification-code', fun
       const clock = sinon.useFakeTimers();
 
       // when
-      const promise = render(
+      const screen = await render(
         hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
       );
+
       clock.tick(ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
 
-      const result = promise.then(async () => {
-        await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
+      await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
 
-        // then
-        expect(findByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code')).disabled).to.be
-          .true;
-      });
+      // then
+      expect(
+        screen.getByRole('button', {
+          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+          hidden: true,
+        }).disabled
+      ).to.be.true;
+
       clock.restore();
-      return result;
     });
 
-    it('should show confirmation message when resending code message', function () {
+    it('should show confirmation message when resending code message', async function () {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
@@ -98,20 +96,16 @@ describe('Integration | Component | user-account | email-verification-code', fun
       const clock = sinon.useFakeTimers();
 
       // when
-      const promise = render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
-      );
+      await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`);
       clock.tick(ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
 
-      const result = promise.then(async () => {
-        await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
+      await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
 
-        // then
-        expect(contains(this.intl.t('pages.user-account.email-verification.confirmation-message'))).to.exist;
-        expect(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code'))).to.not.exist;
-      });
+      // then
+      expect(contains(this.intl.t('pages.user-account.email-verification.confirmation-message'))).to.exist;
+      expect(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code'))).to.not.exist;
+
       clock.restore();
-      return result;
     });
   });
 
