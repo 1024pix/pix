@@ -29,7 +29,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
-          @certificationCandidates={{certificationCandidates}}
+          @certificationCandidates={{this.certificationCandidates}}
           >
         </EnrolledCandidates>
       `);
@@ -57,8 +57,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
-          @certificationCandidates={{certificationCandidates}}
-          @displayComplementaryCertification={{displayComplementaryCertification}}
+          @certificationCandidates={{this.certificationCandidates}}
+          @displayComplementaryCertification={{this.displayComplementaryCertification}}
           >
         </EnrolledCandidates>
       `);
@@ -91,8 +91,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
-          @certificationCandidates={{certificationCandidates}}
-          @displayComplementaryCertification={{displayComplementaryCertification}}
+          @certificationCandidates={{this.certificationCandidates}}
+          @displayComplementaryCertification={{this.displayComplementaryCertification}}
           >
         </EnrolledCandidates>
       `);
@@ -112,7 +112,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
-          @certificationCandidates={{certificationCandidates}}
+          @certificationCandidates={{this.certificationCandidates}}
         >
         </EnrolledCandidates>
     `);
@@ -172,8 +172,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       const screen = await renderScreen(hbs`
           <EnrolledCandidates
             @sessionId="1"
-            @certificationCandidates={{certificationCandidates}}
-            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+            @certificationCandidates={{this.certificationCandidates}}
+            @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
             >
           </EnrolledCandidates>
         `);
@@ -255,7 +255,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
-          @certificationCandidates={{certificationCandidates}}
+          @certificationCandidates={{this.certificationCandidates}}
           @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
         >
         </EnrolledCandidates>

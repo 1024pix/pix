@@ -17,7 +17,7 @@ module('Integration | Component | certif-checkbox', function (hooks) {
       const fakeFunc = sinon.spy();
       this.set('fakeFunc', fakeFunc);
       this.set('state', state);
-      await render(hbs`<CertifCheckbox @state={{state}} {{on 'click' (fn fakeFunc)}}></CertifCheckbox>`);
+      await render(hbs`<CertifCheckbox @state={{this.state}} {{on 'click' (fn this.fakeFunc)}}></CertifCheckbox>`);
 
       // when
       await click('.checkbox');
