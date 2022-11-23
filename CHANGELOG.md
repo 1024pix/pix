@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v3.291.0 (23/11/2022)
+
+
+### :rocket: Amélioration
+- [#5243](https://github.com/1024pix/pix/pull/5243) [FEATURE] Trier les résumés de jury de certification par leur nombre de signalements (PIX-6332)
+- [#5193](https://github.com/1024pix/pix/pull/5193) [FEATURE] Rejoindre un centre de certif avec un compte existant (PIX-6275)
+- [#5244](https://github.com/1024pix/pix/pull/5244) [FEATURE][CERTIF] Rediriger l'utilisateur selon le statut de l'invitation (PIX-5007)
+- [#5248](https://github.com/1024pix/pix/pull/5248) [FEATURE] Ajout du bouton de téléchargement de template d'import de sessions en masse (PIX-6133).
+- [#5236](https://github.com/1024pix/pix/pull/5236) [FEATURE][CERTIF] Déconnecter l'utilisateur quand il arrive sur le lien pour rejoindre un centre de certification via invitation (PIX-6324)
+
+### :building_construction: Tech
+- [#5258](https://github.com/1024pix/pix/pull/5258) [TECH] Migrer les tests mocha de Pix App sous QUnit (PIX-6330).
+- [#5256](https://github.com/1024pix/pix/pull/5256) [TECH] Monter les versions non problématiques sur Pix Certif (PIX-6373)
+- [#5254](https://github.com/1024pix/pix/pull/5254) [TECH] Préparer la migration vers QUnit sur Pix App (PIX-6375)
+- [#5245](https://github.com/1024pix/pix/pull/5245) [TECH] Remplacer moment par dayjs sur Pix Orga (PIX-6346)
+- [#5250](https://github.com/1024pix/pix/pull/5250) [TECH] Supprimer le helper findByLabel sur Pix App(PIX-6368).
+- [#5249](https://github.com/1024pix/pix/pull/5249) [TECH] Supprimer les contains dans les tests de Pix App (PIX-6350).
+
+### :bug: Correction
+- [#5247](https://github.com/1024pix/pix/pull/5247) [BUGFIX] Couleur des titre et body sur la page de finalisation (PIX-5791)
+- [#5222](https://github.com/1024pix/pix/pull/5222) [BUGFIX] Le focus-trap ne fonctionnait plus sur la modale de comparaison des réponses sur Pix-App (PIX-6317)
+- [#5220](https://github.com/1024pix/pix/pull/5220) [BUGFIX] Afficher correctement les tutoriels dans la page de résultats d'une compétence (PIX-6110)
+
 ## v3.290.0 (21/11/2022)
 
 
