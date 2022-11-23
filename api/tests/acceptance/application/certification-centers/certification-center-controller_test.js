@@ -244,43 +244,6 @@ describe('Acceptance | API | Certification Center', function () {
         expect(response.statusCode).to.equal(403);
       });
     });
-
-    context('when user is not connected', function () {
-      it('should return 401 HTTP status code if user is not authenticated', async function () {
-        // given
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject({
-          method: 'POST',
-          url: '/api/admin/certification-centers',
-          payload: {
-            data: {
-              type: 'certification-center',
-              attributes: {
-                name: 'Nouveau Centre de Certif',
-                type: 'SCO',
-                'is-supervisor-access-enabled': true,
-              },
-              relationships: {
-                habilitations: {
-                  data: [
-                    {
-                      type: 'habilitations',
-                      id: `${complementaryCertification.id}`,
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        });
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
   });
 
   describe('GET /api/admin/certification-centers/{id}', function () {
