@@ -1,7 +1,6 @@
 const { expect, catchErr } = require('../../../test-helper');
 const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
 const {
-  checkCsvExtensionFile,
   parseCsv,
   readCsvFile,
   parseCsvWithHeader,
@@ -15,7 +14,6 @@ const {
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';
   const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;
-  const badExtensionFilePath = `${__dirname}/files/bad_extension.html`;
   const validFilePath = `${__dirname}/files/valid-organizations-test.csv`;
   const organizationWithTagsAndTargetProfilesFilePath = `${__dirname}/files/organizations-with-tags-and-target-profiles-test.csv`;
   const utf8FilePath = `${__dirname}/files/utf8_excel-test.csv`;
@@ -30,23 +28,6 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(`File ${notExistFilePath} not found!`);
-    });
-  });
-
-  describe('#checkCsvExtensionFile', function () {
-    it('should throw a FileValidationError when file extension is not ".csv"', async function () {
-      // when
-      const error = await catchErr(checkCsvExtensionFile)(badExtensionFilePath);
-
-      // then
-      expect(error).to.be.instanceOf(FileValidationError);
-      expect(error.code).to.equal('INVALID_FILE_EXTENSION');
-      expect(error.meta).to.deep.equal({ fileExtension: '.html' });
-    });
-
-    it('should not throw if file is valid', async function () {
-      // then
-      expect(await checkCsvExtensionFile(validFilePath)).to.not.throw;
     });
   });
 

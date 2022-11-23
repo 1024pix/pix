@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { readFile, access } = require('fs').promises;
-const path = require('path');
 const { difference, isEmpty } = require('lodash');
 const papa = require('papaparse');
 
@@ -38,14 +37,6 @@ const optionsWithHeader = {
   },
 };
 
-function checkCsvExtensionFile(filePath) {
-  const fileExtension = path.extname(filePath);
-
-  if (fileExtension !== '.csv') {
-    throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension });
-  }
-}
-
 async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
   if (isEmpty(requiredFieldNames)) {
     throw new FileValidationError(ERRORS.MISSING_REQUIRED_FIELD_NAMES);
@@ -71,7 +62,6 @@ async function readCsvFile(filePath) {
   } catch (err) {
     throw new NotFoundError(`File ${filePath} not found!`);
   }
-  checkCsvExtensionFile(filePath);
 
   const rawData = await readFile(filePath, 'utf8');
 
@@ -115,7 +105,6 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
 }
 
 module.exports = {
-  checkCsvExtensionFile,
   checkCsvHeader,
   readCsvFile,
   parseCsvData,
