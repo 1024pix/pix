@@ -49,24 +49,12 @@ module('Integration | Component | SignupForm', function (hooks) {
     });
   });
 
-  module('Rendering', function (hooks) {
-    hooks.beforeEach(async function () {
-      this.set('user', userEmpty);
-      this.intl.setLocale(['en', 'fr']);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
-    });
-
-    test('renders', function (assert) {
-      assert.dom('.sign-form__container').exists();
-    });
-
-    test('should return correct form title', function (assert) {
-      const formTitle = this.intl.t('pages.sign-up.first-title');
-      assert.strictEqual(find(FORM_TITLE).textContent, formTitle);
-    });
-
+  module('Rendering', function () {
     test('should display form elements', async function (assert) {
-      // given & when
+      // given
+      this.set('user', userEmpty);
+
+      // when
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
@@ -85,7 +73,10 @@ module('Integration | Component | SignupForm', function (hooks) {
     });
 
     test("should have links to Pix's CGU and data protection policy ", async function (assert) {
-      // given & when
+      // given
+      this.set('user', userEmpty);
+
+      // when
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
@@ -94,7 +85,10 @@ module('Integration | Component | SignupForm', function (hooks) {
     });
 
     test('should render a submit button', async function (assert) {
-      // given & when
+      // given
+      this.set('user', userEmpty);
+
+      // when
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
