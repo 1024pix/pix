@@ -73,10 +73,14 @@ const buildLearningContent = function (learningContent) {
               name: tube.name,
               description: tube.description,
               title: tube.title,
-              practicalTitleFrFr: tube.practicalTitleFr || tube.practicalTitle,
-              practicalDescriptionFrFr: tube.practicalDescriptionFr || tube.practicalDescription,
-              practicalTitleEnUs: tube.practicalTitleEn || tube.practicalTitle,
-              practicalDescriptionEnUs: tube.practicalDescriptionEn || tube.practicalDescription,
+              practicalTitle_i18n: {
+                fr: tube.practicalTitleFr || tube.practicalTitle,
+                en: tube.practicalTitleEn || tube.practicalTitle,
+              },
+              practicalDescription_i18n: {
+                fr: tube.practicalDescriptionFr || tube.practicalDescription,
+                en: tube.practicalDescriptionEn || tube.practicalDescription,
+              },
               competenceId: competence.id,
             };
           });

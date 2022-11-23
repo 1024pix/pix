@@ -53,8 +53,12 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         id: 'tubeId',
         name: '@tube',
         description: 'Description tube',
-        practicalTitleFrFr: 'Titre pratique',
-        practicalDescriptionFrFr: 'description pratique',
+        practicalTitle_i18n: {
+          fr: 'Titre pratique',
+        },
+        practicalDescription_i18n: {
+          fr: 'description pratique',
+        },
         competenceId: 'competenceId',
       },
     ],

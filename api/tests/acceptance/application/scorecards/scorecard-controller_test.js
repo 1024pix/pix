@@ -45,8 +45,12 @@ describe('Acceptance | Controller | scorecard-controller', function () {
       {
         id: 'recArea1_Competence1_Tube1',
         name: '@web',
-        practicalDescriptionFrFr: 'Ceci est une description pratique',
-        practicalTitleFrFr: 'Ceci est un titre pratique',
+        practicalDescription_i18n: {
+          fr: 'Ceci est une description pratique',
+        },
+        practicalTitle_i18n: {
+          fr: 'Ceci est un titre pratique',
+        },
         competenceId: competenceId,
       },
     ],
