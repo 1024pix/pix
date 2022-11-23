@@ -640,8 +640,8 @@ function _buildDomainTubesFromLearningContent({ tubes }, locale) {
   return tubes.map((tube) =>
     domainBuilder.buildTube({
       ...tube,
-      practicalTitle: tube[locale === 'en' ? 'practicalTitleEnUs' : 'practicalTitleFrFr'],
-      practicalDescription: tube[locale === 'en' ? 'practicalDescriptionEnUs' : 'practicalDescriptionFrFr'],
+      practicalTitle: tube.practicalTitle_i18n[locale],
+      practicalDescription: tube.practicalDescription_i18n[locale],
     })
   );
 }

@@ -76,7 +76,7 @@ async function _createCertifiedTubes(certifiedSkills) {
   const certifiedSkillsByTube = _.groupBy(certifiedSkills, 'tubeId');
   const learningContentTubes = await tubeDatasource.findByRecordIds(Object.keys(certifiedSkillsByTube));
   return learningContentTubes.map((learningContentTube) => {
-    const name = learningContentTube.practicalTitleFrFr;
+    const name = learningContentTube.practicalTitle_i18n.fr;
     return new CertifiedTube({
       id: learningContentTube.id,
       name,

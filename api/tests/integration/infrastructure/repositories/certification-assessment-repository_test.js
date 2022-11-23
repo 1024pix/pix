@@ -31,8 +31,12 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         {
           id: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
-          practicalTitleFrFr: 'tube1_1_1_practicalTitle',
-          practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
+          practicalTitle_i18n: {
+            fr: 'tube1_1_1_practicalTitle',
+          },
+          practicalDescription_i18n: {
+            fr: 'tube1_1_1_practicalDescription',
+          },
         },
       ],
       skills: [

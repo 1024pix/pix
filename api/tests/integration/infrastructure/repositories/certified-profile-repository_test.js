@@ -41,12 +41,16 @@ describe('Integration | Repository | Certified Profile', function () {
           {
             id: 'recArea1_Competence1_Tube1',
             competenceId: 'recArea1_Competence1',
-            practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+            practicalTitle_i18n: {
+              fr: 'tube1_1_1_practicalTitle',
+            },
           },
           {
             id: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
-            practicalTitleFrFr: 'tube1_2_1_practicalTitle',
+            practicalTitle_i18n: {
+              fr: 'tube1_2_1_practicalTitle',
+            },
           },
         ],
         skills: [
@@ -212,12 +216,16 @@ describe('Integration | Repository | Certified Profile', function () {
           {
             id: 'recArea1_Competence1_Tube1',
             competenceId: 'recArea1_Competence1',
-            practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+            practicalTitle_i18n: {
+              fr: 'tube1_1_1_practicalTitle',
+            },
           },
           {
             id: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
-            practicalTitleFrFr: 'tube1_2_1_practicalTitle',
+            practicalTitle_i18n: {
+              fr: 'tube1_2_1_practicalTitle',
+            },
           },
         ],
         skills: [

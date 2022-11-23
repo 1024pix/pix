@@ -133,14 +133,22 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recArea1_Competence1_Tube1',
               competenceId: 'recArea1_Competence1',
-              practicalTitleFrFr: 'tube1_1_1_practicalTitle',
-              practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
+              practicalTitle_i18n: {
+                fr: 'tube1_1_1_practicalTitle',
+              },
+              practicalDescription_i18n: {
+                fr: 'tube1_1_1_practicalDescription',
+              },
             },
             {
               id: 'recArea1_Competence2_Tube1',
               competenceId: 'recArea1_Competence2',
-              practicalTitleFrFr: 'tube1_2_1_practicalTitle',
-              practicalDescriptionFrFr: 'tube1_2_1_practicalDescriptionFrFr',
+              practicalTitle_i18n: {
+                fr: 'tube1_2_1_practicalTitle',
+              },
+              practicalDescription_i18n: {
+                fr: 'tube1_2_1_practicalDescriptionFrFr',
+              },
             },
           ],
           skills: [
@@ -294,8 +302,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube1',
               competenceId: 'recCompetence1',
-              practicalTitleFrFr: 'practicalTitleFR',
-              practicalTitleEnUs: 'practicalTitleEN',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR',
+                en: 'practicalTitleEN',
+              },
               practicalDescriptionFrFr: 'tube_desc',
             },
           ],
@@ -442,7 +452,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recTube2',
               competenceId: 'recCompA',
               name: 'tubeName2',
-              practicalTitleFrFr: 'practicalTitleFR2',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR2',
+              },
             },
           ],
         };
@@ -603,25 +615,33 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recTube1',
               competenceId: 'recCompA',
               name: 'tubeName1',
-              practicalTitleFrFr: 'practicalTitleFR1',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR1',
+              },
             },
             {
               id: 'recTube2',
               competenceId: 'recCompA',
               name: 'tubeName2',
-              practicalTitleFrFr: 'practicalTitleFR2',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR2',
+              },
             },
             {
               id: 'recTube3',
               competenceId: 'recCompB',
               name: 'tubeName3',
-              practicalTitleFrFr: 'practicalTitleFR3',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR3',
+              },
             },
             {
               id: 'recTube4',
               competenceId: 'recCompB',
               name: 'tubeName4',
-              practicalTitleFrFr: 'practicalTitleFR4',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR4',
+              },
             },
           ],
           skills: [
@@ -872,8 +892,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recTube1',
               competenceId: 'recCompA',
               name: 'tubeName1',
-              practicalTitleFrFr: 'practicalTitleFR1',
-              practicalTitleEnUs: 'practicalTitleEN1',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR1',
+                en: 'practicalTitleEN1',
+              },
             },
           ],
           skills: [
