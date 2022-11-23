@@ -1,16 +1,19 @@
-<PixMultiSelect
-  @id="group"
-  @label={{t "pages.campaign-results.filters.type.groups.title"}}
-  @innerText={{t "pages.campaign-results.filters.type.groups.title"}}
-  @screenReaderOnly={{true}}
-  @loadingMessage={{t "common.filters.loading"}}
-  @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
-  @isSearchable={{true}}
-  @onSelect={{@onSelect}}
-  @selected={{@selectedGroups}}
-  @onLoadOptions={{this.onLoadGroups}}
-  ...attributes
-  as |option|
->
-  {{option.label}}
-</PixMultiSelect>
+{{#if this.isLoading}}
+  <div class="groups-filter--is-loading placeholder-box"></div>
+{{else}}
+  <PixMultiSelect
+    @id="group"
+    @label={{t "pages.campaign-results.filters.type.groups.title"}}
+    @innerText={{t "pages.campaign-results.filters.type.groups.title"}}
+    @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
+    @screenReaderOnly={{true}}
+    @isSearchable={{true}}
+    @onSelect={{@onSelect}}
+    @selected={{@selectedGroups}}
+    @options={{this.options}}
+    ...attributes
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}
