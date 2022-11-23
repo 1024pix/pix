@@ -15,20 +15,30 @@ module('Integration | Component | signin form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Rendering', function () {
-    test('should display an input for identifiant field', async function (assert) {
+    test('[a11y] it should display a message that all inputs are required', async function (assert) {
       // given & when
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') })).exists();
+      assert.dom(screen.getByText(this.intl.t('common.form.mandatory-all-fields'))).exists();
     });
 
-    test('should display an input for password field', async function (assert) {
+    test('should display a required input for username field', async function (assert) {
       // given & when
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.dom(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label'))).exists();
+      assert
+        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }))
+        .hasAttribute('required');
+    });
+
+    test('should display a required input for password field', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<SigninForm />`);
+
+      // then
+      assert.dom(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label'))).hasAttribute('required');
     });
 
     test('should display a submit button to authenticate', async function (assert) {
