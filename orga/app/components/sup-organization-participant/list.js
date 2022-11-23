@@ -8,16 +8,26 @@ export default class ListItems extends Component {
   @service intl;
   @tracked selectedStudent = null;
   @tracked isShowingEditStudentNumberModal = false;
+  @tracked isLoadingGroups;
 
-  loadGroups = async () => {
-    const groups = await this.currentUser.organization.groups;
+  constructor() {
+    super(...arguments);
+
+    this.isLoadingGroups = true;
+    this.currentUser.organization.groups.then(() => {
+      this.isLoadingGroups = false;
+    });
+  }
+
+  get groups() {
+    const groups = this.currentUser.organization.groups;
     return groups.map(({ name }) => {
       return {
         label: name,
         value: name,
       };
     });
-  };
+  }
 
   get certificabilityOptions() {
     return [
