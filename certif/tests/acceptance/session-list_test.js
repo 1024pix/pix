@@ -286,7 +286,7 @@ module('Acceptance | Session List', function (hooks) {
         });
 
         const screen = await visit('/sessions/liste');
-        await click(screen.getByRole('link', { name: 'Aller à la page suivante' }));
+        await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
         await click(screen.getByRole('link', { name: 'Session 26' }));
 
         // when
