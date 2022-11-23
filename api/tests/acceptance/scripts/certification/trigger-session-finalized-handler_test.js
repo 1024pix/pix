@@ -10,8 +10,14 @@ describe('Acceptance | Scripts | trigger-session-finalized-handler', function ()
     sinon.stub(logger, 'error');
   });
 
-  afterEach(function () {
-    return knex('finalized-sessions').delete();
+  afterEach(async function () {
+    await knex('finalized-sessions').delete();
+    await knex('supervisor-accesses').delete();
+    await knex('assessment-results').delete();
+    await knex('assessments').delete();
+    await knex('certification-courses').delete();
+    await knex('sessions').delete();
+    await knex('users').delete();
   });
 
   it('should leave untouched finalized-session rows that are not affected by the script', async function () {
