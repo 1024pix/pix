@@ -39,7 +39,7 @@
     "signal-github": "./scripts/signal_deploy_to_pr.sh",
     "signal-jira": "node ./scripts/jira/comment-with-review-app-url.js",
     "compute-lead-times": "node ./scripts/compute-lead-times",
-    "clean": "run-p --print-label clean:api clean:mon-pix clean:orga clean:certif clean:admin clean:coverage && npm run clean:root",
+    "clean": "run-p --print-label clean:api clean:mon-pix clean:orga clean:certif clean:admin && npm run clean:root",
     "clean:admin": "cd admin && npm run clean",
     "clean:api": "cd api && npm run clean",
     "clean:certif": "cd certif && npm run clean",
