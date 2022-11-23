@@ -83,8 +83,10 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
           {
             id: 'q_first_acquis',
             name: '@web3',
-            hintFrFr: 'Geolocaliser ?',
-            hintEnUs: 'Geolocate ?',
+            hint_i18n: {
+              fr: 'Geolocaliser ?',
+              en: 'Geolocate ?',
+            },
             hintStatus: 'Validé',
             competenceId: 'recABCD',
             tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
