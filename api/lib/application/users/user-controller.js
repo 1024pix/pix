@@ -266,8 +266,9 @@ module.exports = {
   },
 
   async anonymizeUser(request, h) {
-    const userId = request.params.id;
-    const user = await usecases.anonymizeUser({ userId });
+    const userToAnonymizeId = request.params.id;
+    const adminMemberId = request.auth.credentials.userId;
+    const user = await usecases.anonymizeUser({ userId: userToAnonymizeId, updatedByUserId: adminMemberId });
     return h.response(userAnonymizedDetailsForAdminSerializer.serialize(user)).code(200);
   },
 
