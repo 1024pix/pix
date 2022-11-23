@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default class CertificationCandidatesRoute extends Route {
   @service currentUser;
+  @service store;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();
