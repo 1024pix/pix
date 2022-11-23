@@ -1,13 +1,12 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 
-describe('Acceptance | <%= dasherizedModuleName %>', function() {
-  setupApplicationTest();
+module('Acceptance | <%= dasherizedModuleName %>', function (hooks) {
+  setupApplicationTest(hooks);
 
-  it('can visit /<%= dasherizedModuleName %>', async function() {
+  test('can visit /<%= dasherizedModuleName %>', async function (assert) {
     await visit('/<%= dasherizedModuleName %>');
-    expect(currentURL()).to.equal('/<%= dasherizedModuleName %>');
+    assert.strictEqual(currentURL(), '/<%= dasherizedModuleName %>');
   });
 });

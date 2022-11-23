@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-describe('Integration | Component |  <%= dasherizedModuleName %>', function() {
-  setupRenderingTest();
+module('Integration | Component |  <%= dasherizedModuleName %>', function (hooks) {
+  setupRenderingTest(hooks);
 
-  it('replace this by your real test', async function() {
+  test('replace this by your real test', async function (assert) {
     // given
 
     //  when
     await render(hbs`<<%= classifiedModuleName %> />`);
 
     // then
-    expect(true).to.be.true;
+    assert.strictEqual(true, true);
   });
 });
