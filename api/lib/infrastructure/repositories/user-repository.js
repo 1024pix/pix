@@ -554,7 +554,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   const { firstName, lastName, email, username } = filter;
 
   if (firstName) {
-    qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+    qb.whereRaw('"firstName" ILIKE ?', `%${firstName}%`);
   }
   if (lastName) {
     qb.whereRaw('LOWER("lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
