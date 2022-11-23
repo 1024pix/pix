@@ -321,6 +321,7 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
+    config.featureToggles.isMassiveSessionManagementEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
