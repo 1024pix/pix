@@ -190,7 +190,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      await render(
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}}/>`
+      );
 
       // when
       await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.aria-label'), 'Bob M');
@@ -275,7 +277,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('groups', []);
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
       );
 
       // then
@@ -292,7 +294,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('groups', []);
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
       );
 
       // then

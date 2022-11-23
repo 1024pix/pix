@@ -16,8 +16,8 @@ module('Integration | Component | Campaign::CopyPasteButton', function (hooks) {
 
     await render(hbs`<Campaign::CopyPasteButton
       @clipboardText='textToCopy'
-      @successMessage={{successMessage}}
-      @defaultMessage={{defaultMessage}}
+      @successMessage={{this.successMessage}}
+      @defaultMessage={{this.defaultMessage}}
     />`);
 
     assert.contains(defaultMessage);

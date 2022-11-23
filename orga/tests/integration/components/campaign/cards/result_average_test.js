@@ -11,7 +11,7 @@ module('Integration | Component | Campaign::Cards::ResultAverage', function (hoo
   test('it should display average result card', async function (assert) {
     this.averageResult = 0.91234;
 
-    await render(hbs`<Campaign::Cards::ResultAverage @value={{averageResult}} />`);
+    await render(hbs`<Campaign::Cards::ResultAverage @value={{this.averageResult}} />`);
 
     assert.contains(t('cards.participants-average-results.title'));
     assert.contains('91 %');

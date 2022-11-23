@@ -25,7 +25,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', []);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}} />`);
+    await render(
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}} />`
+    );
 
     // then
     assert.contains('Nom');
@@ -51,7 +53,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`);
+    await render(
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+    );
 
     // then
     assert.contains('La Terreur');
@@ -70,7 +74,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`);
+    await render(
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+    );
 
     // then
     assert.contains('La Terreur');
@@ -98,7 +104,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -128,7 +134,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -159,7 +165,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`);
+    await render(
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+    );
 
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
@@ -180,7 +188,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{triggerFiltering}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
     // then
@@ -197,7 +205,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('certificability', []);
 
     const { getByPlaceholderText, findByRole } = await render(
-      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{triggerFiltering}} @certificabilityOptions={{certificabilityOptions}} @certificability={{certificability}} />`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} />`
     );
 
     // when
@@ -222,7 +230,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{participants}}  @triggerFiltering={{triggerFiltering}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}}  @triggerFiltering={{this.triggerFiltering}}/>`
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
 
@@ -245,7 +253,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{triggerFiltering}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
     assert
       .dom(
