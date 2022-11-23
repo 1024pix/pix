@@ -1,6 +1,5 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it, before } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -10,20 +9,20 @@ let challenge = null;
 let answer = null;
 let solution = null;
 
-describe('Integration | Component | qcm-solution-panel.js', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | qcm-solution-panel.js', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('#Component should renders: ', function () {
-    it('Should renders', async function () {
+  module('#Component should renders: ', function () {
+    test('Should renders', async function (assert) {
       this.set('answer', {});
 
       await render(hbs`<QcmSolutionPanel @answer={{this.answer}} />`);
 
-      expect(find('.qcm-solution-panel')).to.exist;
-      expect(findAll('.qcm-proposal-label__answer-details')).to.have.lengthOf(0);
+      assert.dom('.qcm-solution-panel').exists();
+      assert.dom('.qcm-proposal-label__answer-details').doesNotExist();
     });
 
-    describe('Should show the answers', function () {
+    module('Should show the answers', function (hooks) {
       const correctAnswer = {
         id: 'answer_id',
         assessment,
@@ -40,7 +39,7 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         result: 'ko',
       };
 
-      before(function () {
+      hooks.before(function () {
         challenge = EmberObject.create({
           id: 'challenge_id',
           proposals: '-*possibilite* 1\n-[possibilite 2](/test)\n- ![possibilite 3](/images/pix-logo-blanc.svg)\n- yon',
@@ -52,9 +51,9 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         answer = EmberObject.create(correctAnswer);
       });
 
-      context('when user has not answerd correctly', function () {
-        context('when solutionToDisplay is indicated', function () {
-          it('should show the solution text', async function () {
+      module('when user has not answerd correctly', function () {
+        module('when solutionToDisplay is indicated', function () {
+          test('should show the solution text', async function (assert) {
             // Given
             answer = EmberObject.create(unCorrectAnswer);
             const solutionToDisplay = 'La bonne réponse est TADA !';
@@ -69,13 +68,13 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
             );
 
             // Then
-            expect(find('.comparison-window-solution')).to.exist;
-            expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+            assert.dom('.comparison-window-solution').exists();
+            assert.ok(find('.comparison-window-solution__text').textContent.includes(solutionToDisplay));
           });
         });
 
-        context('when solutionToDisplay is not indicated', function () {
-          it('should not show the solution text', async function () {
+        module('when solutionToDisplay is not indicated', function () {
+          test('should not show the solution text', async function (assert) {
             // Given
             answer = EmberObject.create(unCorrectAnswer);
             const solutionToDisplay = null;
@@ -90,14 +89,14 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
             );
 
             // Then
-            expect(find('.comparison-window-solution')).to.not.exist;
+            assert.dom('.comparison-window-solution').doesNotExist();
           });
         });
       });
 
-      context('when user has answerd correctly', function () {
-        context('when solutionToDisplay is indicated', function () {
-          it('should not show the solution text', async function () {
+      module('when user has answerd correctly', function () {
+        module('when solutionToDisplay is indicated', function () {
+          test('should not show the solution text', async function (assert) {
             // Given
             answer = EmberObject.create(correctAnswer);
             const solutionToDisplay = 'La bonne réponse est TADA !';
@@ -112,12 +111,12 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
             );
 
             // Then
-            expect(find('.comparison-window-solution')).to.not.exist;
+            assert.dom('.comparison-window-solution').doesNotExist();
           });
         });
       });
 
-      it('should display the correct answer as ticked', async function () {
+      test('should display the correct answer as ticked', async function (assert) {
         // Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -130,15 +129,24 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
-        expect(labels[1].getAttribute('data-checked')).to.equal('yes');
-        expect(findAll('input[type=checkbox]')[1].getAttribute('disabled')).to.equal('disabled');
-        expect(labels[1].getAttribute('data-goodness')).to.equal('good');
-        expect(labels[1].innerHTML.trim()).to.equal(
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[1].getAttribute('data-checked'), 'yes');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('input[type=checkbox]')[1].getAttribute('disabled'), 'disabled');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[1].getAttribute('data-goodness'), 'good');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          labels[1].innerHTML.trim(),
           '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>'
         );
       });
 
-      it('should display an incorrect answer as not ticked', async function () {
+      test('should display an incorrect answer as not ticked', async function (assert) {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -152,12 +160,18 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
 
-        expect(labels[0].getAttribute('data-checked')).to.equal('no');
-        expect(labels[0].getAttribute('data-goodness')).to.equal('bad');
-        expect(labels[0].innerHTML.trim()).to.equal('<p><em>possibilite</em> 1</p>');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[0].getAttribute('data-checked'), 'no');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[0].getAttribute('data-goodness'), 'bad');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[0].innerHTML.trim(), '<p><em>possibilite</em> 1</p>');
       });
 
-      it('should display at least one of the correct answers as not ticked', async function () {
+      test('should display at least one of the correct answers as not ticked', async function (assert) {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -173,14 +187,18 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
 
-        expect(labels[2].getAttribute('data-checked')).to.equal('no');
-        expect(labels[2].getAttribute('data-goodness')).to.equal('good');
-        expect(labels[2].innerHTML.trim()).to.equal(
-          '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>'
-        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[2].getAttribute('data-checked'), 'no');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[2].getAttribute('data-goodness'), 'good');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[2].innerHTML.trim(), '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>');
       });
 
-      it('should display at least one of the incorrect answers as ticked', async function () {
+      test('should display at least one of the incorrect answers as ticked', async function (assert) {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -196,11 +214,15 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
 
-        expect(labels[0].getAttribute('data-checked')).to.equal('yes');
-        expect(labels[0].getAttribute('data-goodness')).to.equal('bad');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[0].getAttribute('data-checked'), 'yes');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(labels[0].getAttribute('data-goodness'), 'bad');
       });
 
-      it('should display no clickable input', async function () {
+      test('should display no clickable input', async function (assert) {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -212,10 +234,18 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         );
 
         // Then
-        expect(findAll('.qcm-panel__proposal-checkbox')[0].getAttribute('disabled')).to.equal('disabled');
-        expect(findAll('.qcm-panel__proposal-checkbox')[1].getAttribute('disabled')).to.equal('disabled');
-        expect(findAll('.qcm-panel__proposal-checkbox')[2].getAttribute('disabled')).to.equal('disabled');
-        expect(findAll('.qcm-panel__proposal-checkbox')[3].getAttribute('disabled')).to.equal('disabled');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.qcm-panel__proposal-checkbox')[0].getAttribute('disabled'), 'disabled');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.qcm-panel__proposal-checkbox')[1].getAttribute('disabled'), 'disabled');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.qcm-panel__proposal-checkbox')[2].getAttribute('disabled'), 'disabled');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.qcm-panel__proposal-checkbox')[3].getAttribute('disabled'), 'disabled');
       });
     });
   });

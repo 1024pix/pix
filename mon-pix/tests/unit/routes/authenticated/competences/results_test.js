@@ -1,14 +1,13 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import { A } from '@ember/array';
 
-describe('Unit | Route | Competences | Results', function () {
-  setupTest();
+module('Unit | Route | Competences | Results', function (hooks) {
+  setupTest(hooks);
 
-  describe('model', function () {
+  module('model', function (hooks) {
     const assessmentId = 'assessmentId';
 
     let route;
@@ -17,7 +16,7 @@ describe('Unit | Route | Competences | Results', function () {
     let findAllStub;
     let belongsToStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       findAllStub = sinon.stub();
       storeStub = Service.create({
         findAll: findAllStub,
@@ -32,7 +31,7 @@ describe('Unit | Route | Competences | Results', function () {
       route.router = { transitionTo: sinon.stub() };
     });
 
-    it('should return the most recent competence-evaluation for a given assessment', async function () {
+    test('should return the most recent competence-evaluation for a given assessment', async function (assert) {
       // Given
       const tutorial = {
         id: 1,
@@ -60,8 +59,12 @@ describe('Unit | Route | Competences | Results', function () {
       });
 
       // Then
-      expect(model.competenceEvaluation.id).to.equal(2);
-      expect(model.scorecard.id).to.equal(1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(model.competenceEvaluation.id, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(model.scorecard.id, 1);
     });
   });
 });

@@ -1,22 +1,23 @@
 import { resolve, reject } from 'rsvp';
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | reset password form', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | reset password form', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('#validatePassword', function () {
-    it('should set validation status to default, when component is rendered', function () {
+  module('#validatePassword', function () {
+    test('should set validation status to default, when component is rendered', function (assert) {
       const component = createGlimmerComponent('component:reset-password-form');
-      expect(component.validation.status).to.equal('default');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.validation.status, 'default');
     });
 
-    it('should set validation status to error, when there is an validation error on password field', async function () {
+    test('should set validation status to error, when there is an validation error on password field', async function (assert) {
       //given
       const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
       const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
@@ -25,10 +26,10 @@ describe('Unit | Component | reset password form', function () {
       await component.validatePassword();
 
       // then
-      expect(component.validation.status).to.eql('error');
+      assert.deepEqual(component.validation.status, 'error');
     });
 
-    it('should set validation status to default, when password is valid', async function () {
+    test('should set validation status to default, when password is valid', async function (assert) {
       //given
       const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
       const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
@@ -37,11 +38,11 @@ describe('Unit | Component | reset password form', function () {
       await component.validatePassword();
 
       // then
-      expect(component.validation.status).to.eql('default');
+      assert.deepEqual(component.validation.status, 'default');
     });
   });
 
-  describe('#handleResetPassword', function () {
+  module('#handleResetPassword', function () {
     const userWithGoodPassword = EmberObject.create({
       firstName: 'toto',
       lastName: 'riri',
@@ -49,8 +50,8 @@ describe('Unit | Component | reset password form', function () {
       save: () => resolve(),
     });
 
-    describe('When user password is saved', function () {
-      it('should update validation with success data', async function () {
+    module('When user password is saved', function () {
+      test('should update validation with success data', async function (assert) {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
@@ -58,11 +59,11 @@ describe('Unit | Component | reset password form', function () {
         await component.handleResetPassword();
 
         // then
-        expect(component.validation.status).to.eql('default');
-        expect(component.validation.message).to.be.null;
+        assert.deepEqual(component.validation.status, 'default');
+        assert.notOk(component.validation.message);
       });
 
-      it('should update hasSucceeded', async function () {
+      test('should update hasSucceeded', async function (assert) {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
@@ -70,10 +71,10 @@ describe('Unit | Component | reset password form', function () {
         await component.handleResetPassword();
 
         // then
-        expect(component.hasSucceeded).to.eql(true);
+        assert.true(component.hasSucceeded);
       });
 
-      it('should reset password input', async function () {
+      test('should reset password input', async function (assert) {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
@@ -81,11 +82,11 @@ describe('Unit | Component | reset password form', function () {
         await component.handleResetPassword();
 
         // then
-        expect(component.args.user.password).to.eql(null);
+        assert.deepEqual(component.args.user.password, null);
       });
     });
 
-    describe('When user password saving fails', function () {
+    module('When user password saving fails', function () {
       [
         {
           status: '400',
@@ -104,7 +105,7 @@ describe('Unit | Component | reset password form', function () {
           message: 'api-error-messages.internal-server-error',
         },
       ].forEach((testCase) => {
-        it(`it should display ${testCase.message} when http status is ${testCase.status}`, async function () {
+        test(`it should display ${testCase.message} when http status is ${testCase.status}`, async function (assert) {
           // given
           const userWithBadPassword = EmberObject.create({
             firstName: 'toto',
@@ -118,8 +119,8 @@ describe('Unit | Component | reset password form', function () {
           await component.handleResetPassword();
 
           // then
-          expect(component.validation.status).to.eql('error');
-          expect(component.validation.message).to.eql(component.intl.t(testCase.message));
+          assert.deepEqual(component.validation.status, 'error');
+          assert.deepEqual(component.validation.message, component.intl.t(testCase.message));
         });
       });
     });

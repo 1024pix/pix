@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | tutorial panel', function () {
-  setupTest();
+module('Unit | Component | tutorial panel', function (hooks) {
+  setupTest(hooks);
 
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:tutorial-panel');
   });
 
-  describe('#shouldDisplayHint', function () {
-    it('should return true when hint is defined', function () {
+  module('#shouldDisplayHint', function () {
+    test('should return true when hint is defined', function (assert) {
       // given
       component.args.hint = 'Un conseil...';
 
@@ -21,10 +20,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHint;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return false when hint is not defined', function () {
+    test('should return false when hint is not defined', function (assert) {
       // given
       component.args.hint = null;
 
@@ -32,10 +31,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHint;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false when hint is an empty array', function () {
+    test('should return false when hint is an empty array', function (assert) {
       // given
       component.args.hint = [];
 
@@ -43,12 +42,12 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHint;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
 
-  describe('#shouldDisplayHintOrTuto', function () {
-    it('should return true when hint is defined and tuto is not', function () {
+  module('#shouldDisplayHintOrTuto', function () {
+    test('should return true when hint is defined and tuto is not', function (assert) {
       // given
       component.args.hint = 'Un conseil...';
       component.args.tutorials = [];
@@ -57,10 +56,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return true when hint is not defined and tuto is defined', function () {
+    test('should return true when hint is not defined and tuto is defined', function (assert) {
       // given
       component.args.hint = null;
       component.args.tutorials = [{ id: 'recTuto' }];
@@ -69,10 +68,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return false when hint and tutorials are not defined', function () {
+    test('should return false when hint and tutorials are not defined', function (assert) {
       // given
       component.args.hint = null;
       component.args.tutorials = null;
@@ -81,10 +80,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false when hint and tutorials are empty array', function () {
+    test('should return false when hint and tutorials are empty array', function (assert) {
       // given
       component.args.hint = [];
       component.args.tutorials = [];
@@ -93,12 +92,12 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayHintOrTuto;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
 
-  describe('#shouldDisplayTutorial', function () {
-    it('should return true when has tutorial', function () {
+  module('#shouldDisplayTutorial', function () {
+    test('should return true when has tutorial', function (assert) {
       // given
       const tutorialsExpected = {
         id: 'recTuto1',
@@ -110,10 +109,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayTutorial;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return false when tutorials is empty', function () {
+    test('should return false when tutorials is empty', function (assert) {
       // given
       component.args.tutorials = [];
 
@@ -121,10 +120,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayTutorial;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false when tutorials is null', function () {
+    test('should return false when tutorials is null', function (assert) {
       // given
       component.args.tutorials = null;
 
@@ -132,12 +131,12 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.shouldDisplayTutorial;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
 
-  describe('#limitedTutorial', function () {
-    it('should return an array with the same tutorials', function () {
+  module('#limitedTutorial', function () {
+    test('should return an array with the same tutorials', function (assert) {
       // given
       const tutorialsExpected1 = {
         id: 'recTuto1',
@@ -154,10 +153,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.limitedTutorials;
 
       // then
-      expect(result).to.deep.equal(tutorials);
+      assert.deepEqual(result, tutorials);
     });
 
-    it('should return only 3 elements if the tutorials contains more', function () {
+    test('should return only 3 elements if the tutorials contains more', function (assert) {
       // given
       const tutorialsExpected1 = {
         id: 'recTuto1',
@@ -180,8 +179,10 @@ describe('Unit | Component | tutorial panel', function () {
       const result = component.limitedTutorials;
 
       // then
-      expect(result.length).to.equal(3);
-      expect(result).to.deep.equal(expectedTutorials);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(result.length, 3);
+      assert.deepEqual(result, expectedTutorials);
     });
   });
 });

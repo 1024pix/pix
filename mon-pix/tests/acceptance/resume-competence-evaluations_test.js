@@ -1,66 +1,67 @@
-import { fillIn, currentURL, find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { fillIn, currentURL, visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Competence Evaluations | Resume Competence Evaluations', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Competence Evaluations | Resume Competence Evaluations', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Resume a competence evaluation', function () {
-    context('When user is not logged in', function () {
-      beforeEach(async function () {
+  module('Resume a competence evaluation', function () {
+    module('When user is not logged in', function (hooks) {
+      hooks.beforeEach(async function () {
         await visit('/competences/1/evaluer');
       });
 
-      it('should redirect to signin page', async function () {
-        expect(currentURL()).to.equal('/connexion');
+      test('should redirect to signin page', async function (assert) {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), '/connexion');
       });
 
-      it('should redirect to assessment after signin', async function () {
+      test('should redirect to assessment after signin', async function (assert) {
         // when
         await fillIn('#login', user.email);
         await fillIn('#password', user.password);
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
-        expect(currentURL()).to.contains('/assessments');
+        assert.ok(currentURL().includes('/assessments'));
       });
     });
 
-    context('When user is logged in', function () {
-      beforeEach(async function () {
+    module('When user is logged in', function (hooks) {
+      hooks.beforeEach(async function () {
         await authenticateByEmail(user);
       });
 
-      context('When competence evaluation exists', function () {
-        beforeEach(async function () {
+      module('When competence evaluation exists', function (hooks) {
+        hooks.beforeEach(async function () {
           await visit('/competences/1/evaluer');
         });
 
-        it('should redirect to assessment', async function () {
+        test('should redirect to assessment', async function (assert) {
           // then
-          expect(currentURL()).to.contains('/assessments/');
-          expect(find('.assessment-banner')).to.exist;
+          assert.ok(currentURL().includes('/assessments/'));
+          assert.dom('.assessment-banner').exists();
         });
       });
 
-      context('When competence evaluation does not exist', function () {
-        beforeEach(async function () {
+      module('When competence evaluation does not exist', function (hooks) {
+        hooks.beforeEach(async function () {
           await visit('/competences/nonExistantCompetenceId/evaluer');
         });
 
-        it('should show an error message', async function () {
-          expect(find('.error-page__main-content')).to.exist;
+        test('should show an error message', async function (assert) {
+          assert.dom('.error-page__main-content').exists();
         });
       });
     });

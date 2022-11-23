@@ -1,13 +1,12 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import setupIntl from '../../helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | comparison-window', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | comparison-window', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let component;
   let answer;
@@ -21,93 +20,93 @@ describe('Unit | Component | comparison-window', function () {
   const challengeQrocmDep = EmberObject.create({ type: 'QROCM-dep' });
   const challengeQrocmDepWithAutoReply = EmberObject.create({ type: 'QROCM-dep', autoReply: true });
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     answer = EmberObject.create();
     component = createGlimmerComponent('component:comparison-window', { answer });
   });
 
-  describe('#isAssessmentChallengeTypeQroc', function () {
-    it('should be true when the challenge is QROC', function () {
+  module('#isAssessmentChallengeTypeQroc', function () {
+    test('should be true when the challenge is QROC', function (assert) {
       // given
       answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQroc = component.isAssessmentChallengeTypeQroc;
       // then
-      expect(isAssessmentChallengeTypeQroc).to.be.true;
+      assert.true(isAssessmentChallengeTypeQroc);
     });
 
-    it('should be false when the challenge is not QROCM-ind', function () {
+    test('should be false when the challenge is not QROCM-ind', function (assert) {
       // given
       answer.set('challenge', challengeQrocmInd);
       // when
       const isAssessmentChallengeTypeQroc = component.isAssessmentChallengeTypeQroc;
       // then
-      expect(isAssessmentChallengeTypeQroc).to.be.false;
+      assert.false(isAssessmentChallengeTypeQroc);
     });
   });
 
-  describe('#isAssessmentChallengeTypeQcm', function () {
-    it('should be true when the challenge is QCM', function () {
+  module('#isAssessmentChallengeTypeQcm', function () {
+    test('should be true when the challenge is QCM', function (assert) {
       // given
       answer.set('challenge', challengeQcm);
       // when
       const isAssessmentChallengeTypeQcm = component.isAssessmentChallengeTypeQcm;
       // then
-      expect(isAssessmentChallengeTypeQcm).to.be.true;
+      assert.true(isAssessmentChallengeTypeQcm);
     });
 
-    it('should be false when the challenge is not QCM', function () {
+    test('should be false when the challenge is not QCM', function (assert) {
       // given
       answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQcm = component.isAssessmentChallengeTypeQcm;
       // then
-      expect(isAssessmentChallengeTypeQcm).to.be.false;
+      assert.false(isAssessmentChallengeTypeQcm);
     });
   });
 
-  describe('#isAssessmentChallengeTypeQrocmInd', function () {
-    it('should be true when the challenge is QROCM-ind', function () {
+  module('#isAssessmentChallengeTypeQrocmInd', function () {
+    test('should be true when the challenge is QROCM-ind', function (assert) {
       // given
       answer.set('challenge', challengeQrocmInd);
       // when
       const isAssessmentChallengeTypeQrocmInd = component.isAssessmentChallengeTypeQrocmInd;
       // then
-      expect(isAssessmentChallengeTypeQrocmInd).to.be.true;
+      assert.true(isAssessmentChallengeTypeQrocmInd);
     });
 
-    it('should be true when the challenge is not QROCM-ind', function () {
+    test('should be true when the challenge is not QROCM-ind', function (assert) {
       // given
       answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQrocmInd = component.isAssessmentChallengeTypeQrocmInd;
       // then
-      expect(isAssessmentChallengeTypeQrocmInd).to.be.false;
+      assert.false(isAssessmentChallengeTypeQrocmInd);
     });
   });
 
-  describe('#isAssessmentChallengeTypeQrocmDep', function () {
-    it('should be true when the challenge is QROCM-dep', function () {
+  module('#isAssessmentChallengeTypeQrocmDep', function () {
+    test('should be true when the challenge is QROCM-dep', function (assert) {
       // given
       answer.set('challenge', challengeQrocmDep);
       // when
       const isAssessmentChallengeTypeQrocmDep = component.isAssessmentChallengeTypeQrocmDep;
       // then
-      expect(isAssessmentChallengeTypeQrocmDep).to.be.true;
+      assert.true(isAssessmentChallengeTypeQrocmDep);
     });
 
-    it('should be true when the challenge is not QROCM-dep', function () {
+    test('should be true when the challenge is not QROCM-dep', function (assert) {
       // given
       answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQrocmDep = component.isAssessmentChallengeTypeQrocmDep;
       // then
-      expect(isAssessmentChallengeTypeQrocmDep).to.be.false;
+      assert.false(isAssessmentChallengeTypeQrocmDep);
     });
   });
 
-  describe('#resultItem', function () {
-    beforeEach(function () {
+  module('#resultItem', function (hooks) {
+    hooks.beforeEach(function () {
       answer.set('challenge', challengeQcm);
     });
 
@@ -161,7 +160,7 @@ describe('Unit | Component | comparison-window', function () {
         expectedTooltip: 'Temps dépassé',
       },
     ].forEach((data) => {
-      it(`should return adapted title and tooltip when validation is ${data.validationStatus}`, function () {
+      test(`should return adapted title and tooltip when validation is ${data.validationStatus}`, function (assert) {
         // given
         answer.set('result', `${data.result}`);
 
@@ -169,8 +168,12 @@ describe('Unit | Component | comparison-window', function () {
         resultItem = component.resultItem;
 
         // then
-        expect(this.intl.t(resultItem.title)).to.equal(`${data.expectedTitle}`);
-        expect(this.intl.t(resultItem.tooltip)).to.equal(`${data.expectedTooltip}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(this.intl.t(resultItem.title), `${data.expectedTitle}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
 
@@ -179,7 +182,7 @@ describe('Unit | Component | comparison-window', function () {
       { result: 'ok', expectedTitle: 'Vous avez réussi l’épreuve', expectedTooltip: 'Épreuve réussie' },
       { result: 'aband', expectedTitle: 'Vous avez passé l’épreuve', expectedTooltip: 'Épreuve passée' },
     ].forEach((data) => {
-      it(`should return adapted title and tooltip when challenge is auto validated and validation is ${data.result}`, function () {
+      test(`should return adapted title and tooltip when challenge is auto validated and validation is ${data.result}`, function (assert) {
         // given
         answer.set('result', `${data.result}`);
         answer.set('challenge', challengeQrocWithAutoReply);
@@ -188,14 +191,18 @@ describe('Unit | Component | comparison-window', function () {
         resultItem = component.resultItem;
 
         // then
-        expect(this.intl.t(resultItem.title)).to.equal(`${data.expectedTitle}`);
-        expect(this.intl.t(resultItem.tooltip)).to.equal(`${data.expectedTooltip}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(this.intl.t(resultItem.title), `${data.expectedTitle}`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
   });
 
-  describe('#solution', function () {
-    it('should return null when challenge has autoReply=true', function () {
+  module('#solution', function () {
+    test('should return null when challenge has autoReply=true', function (assert) {
       // given
       answer.set('challenge', challengeQrocmDepWithAutoReply);
       answer.set('correction', EmberObject.create());
@@ -204,10 +211,10 @@ describe('Unit | Component | comparison-window', function () {
       const solution = component.solution;
 
       // then
-      expect(solution).to.be.null;
+      assert.notOk(solution);
     });
 
-    it('should return solution', function () {
+    test('should return solution', function (assert) {
       // given
       answer.set('challenge', challengeQcu);
       answer.set('correction', EmberObject.create({ solution: 'solution' }));
@@ -216,7 +223,9 @@ describe('Unit | Component | comparison-window', function () {
       const solution = component.solution;
 
       // then
-      expect(solution).to.equal('solution');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(solution, 'solution');
     });
   });
 });

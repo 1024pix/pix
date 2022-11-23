@@ -1,19 +1,18 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | User logged Menu', function () {
-  setupTest();
+module('Unit | Component | User logged Menu', function (hooks) {
+  setupTest(hooks);
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:user-logged-menu');
   });
 
-  describe('#toggleUserMenu', function () {
-    it('should return true, when user details is clicked', function () {
+  module('#toggleUserMenu', function () {
+    test('should return true, when user details is clicked', function (assert) {
       // given
       component.canDisplayMenu = false;
 
@@ -21,10 +20,10 @@ describe('Unit | Component | User logged Menu', function () {
       component.toggleUserMenu();
 
       // then
-      expect(component.canDisplayMenu).to.equal(true);
+      assert.true(component.canDisplayMenu);
     });
 
-    it('should return false, when canDisplayMenu was previously true', function () {
+    test('should return false, when canDisplayMenu was previously true', function (assert) {
       // given
       component.canDisplayMenu = true;
 
@@ -32,12 +31,12 @@ describe('Unit | Component | User logged Menu', function () {
       component.toggleUserMenu();
 
       // then
-      expect(component.canDisplayMenu).to.equal(false);
+      assert.false(component.canDisplayMenu);
     });
   });
 
-  describe('displayedIdentifier', function () {
-    it("should return user's email if not undefined", function () {
+  module('displayedIdentifier', function () {
+    test("should return user's email if not undefined", function (assert) {
       // given
       component.currentUser = Service.create({
         user: {
@@ -46,10 +45,12 @@ describe('Unit | Component | User logged Menu', function () {
       });
 
       // then
-      expect(component.displayedIdentifier).to.equal('email@example.net');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.displayedIdentifier, 'email@example.net');
     });
 
-    it("should return user's username if not undefined and no email defined", function () {
+    test("should return user's username if not undefined and no email defined", function (assert) {
       // given
       component.currentUser = Service.create({
         user: {
@@ -58,10 +59,12 @@ describe('Unit | Component | User logged Menu', function () {
       });
 
       // then
-      expect(component.displayedIdentifier).to.equal('my username');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.displayedIdentifier, 'my username');
     });
 
-    it("should return user's email if email and username are defined", function () {
+    test("should return user's email if email and username are defined", function (assert) {
       // given
       component.currentUser = Service.create({
         user: {
@@ -71,17 +74,21 @@ describe('Unit | Component | User logged Menu', function () {
       });
 
       // then
-      expect(component.displayedIdentifier).to.equal('email@example.net');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.displayedIdentifier, 'email@example.net');
     });
 
-    it('should return undefined if no email or username are defined', function () {
+    test('should return undefined if no email or username are defined', function (assert) {
       // given
       component.currentUser = Service.create({
         user: {},
       });
 
       // then
-      expect(component.displayedIdentifier).to.equal(undefined);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.displayedIdentifier, undefined);
     });
   });
 });

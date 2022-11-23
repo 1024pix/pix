@@ -1,25 +1,24 @@
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
-import { expect } from 'chai';
 
 const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
-describe('Unit | Route | logout', function () {
-  setupTest();
+module('Unit | Route | logout', function (hooks) {
+  setupTest(hooks);
 
   let sessionStub;
   let campaignStorageStub;
   let redirectToHomePageStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     campaignStorageStub = { clearAll: sinon.stub() };
     redirectToHomePageStub = sinon.stub();
   });
 
-  it('should erase campaign storage', function () {
+  test('should erase campaign storage', function (assert) {
     // given
     const invalidateStub = sinon.stub();
     sessionStub = Service.create({
@@ -39,10 +38,11 @@ describe('Unit | Route | logout', function () {
 
     // then
     sinon.assert.calledOnce(campaignStorageStub.clearAll);
+    assert.ok(true);
   });
 
-  describe('when user is authenticated', function () {
-    it('should disconnect the authenticated user no matter the connexion source', function () {
+  module('when user is authenticated', function () {
+    test('should disconnect the authenticated user no matter the connexion source', function (assert) {
       // given
       const invalidateStub = sinon.stub();
       sessionStub = Service.create({
@@ -64,9 +64,10 @@ describe('Unit | Route | logout', function () {
 
       // then
       sinon.assert.calledOnce(invalidateStub);
+      assert.ok(true);
     });
 
-    it('should redirect to home when source of connexion is pix', function () {
+    test('should redirect to home when source of connexion is pix', function (assert) {
       // given
       const invalidateStub = sinon.stub();
 
@@ -89,10 +90,12 @@ describe('Unit | Route | logout', function () {
       route.beforeModel();
 
       // then
-      expect(route.session.alternativeRootURL).to.equal(null);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(route.session.alternativeRootURL, null);
     });
 
-    it('should redirect to disconnected page when source of connexion is external', function () {
+    test('should redirect to disconnected page when source of connexion is external', function (assert) {
       // given
       const invalidateStub = sinon.stub();
 
@@ -115,12 +118,14 @@ describe('Unit | Route | logout', function () {
       route.beforeModel();
 
       // then
-      expect(route.session.alternativeRootURL).to.equal('/nonconnecte');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(route.session.alternativeRootURL, '/nonconnecte');
     });
   });
 
-  describe('when user is not authenticated', function () {
-    it('should redirect to home', function () {
+  module('when user is not authenticated', function () {
+    test('should redirect to home', function (assert) {
       // given
       const route = this.owner.lookup('route:logout');
       route.set(
@@ -140,6 +145,7 @@ describe('Unit | Route | logout', function () {
 
       // then
       sinon.assert.calledOnce(route._redirectToHomePage);
+      assert.ok(true);
     });
   });
 });

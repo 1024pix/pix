@@ -1,22 +1,21 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | circle-chart', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | circle-chart', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
-    it('should render component', async function () {
+  module('Component rendering', function () {
+    test('should render component', async function (assert) {
       // when
       await render(hbs`<CircleChart />`);
 
       // then
-      expect(this.element.querySelector('.circle-chart')).to.exist;
+      assert.ok(this.element.querySelector('.circle-chart'));
     });
 
-    it('should display the progressing circle with given value', async function () {
+    test('should display the progressing circle with given value', async function (assert) {
       // given
       const value = '60';
       this.set('value', value);
@@ -25,10 +24,12 @@ describe('Integration | Component | circle-chart', function () {
       await render(hbs`<CircleChart @value={{this.value}}/>`);
 
       // then
-      expect(this.element.querySelector('.circle--slice').getAttribute('stroke-dasharray')).to.equal(`${value}, 100`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(this.element.querySelector('.circle--slice').getAttribute('stroke-dasharray'), `${value}, 100`);
     });
 
-    it('should display the circle with given color', async function () {
+    test('should display the circle with given color', async function (assert) {
       // given
       this.set('value', '60');
 
@@ -36,10 +37,10 @@ describe('Integration | Component | circle-chart', function () {
       await render(hbs`<CircleChart @value={{this.value}} @sliceColor='green'/>`);
 
       // then
-      expect(this.element.querySelector('.circle--slice').getAttribute('class')).to.contains('circle--green');
+      assert.ok(this.element.querySelector('.circle--slice').getAttribute('class').includes('circle--green'));
     });
 
-    it('should display the circle with given stroke width', async function () {
+    test('should display the circle with given stroke width', async function (assert) {
       // given
       this.set('value', '60');
 
@@ -47,17 +48,20 @@ describe('Integration | Component | circle-chart', function () {
       await render(hbs`<CircleChart @value={{this.value}} @thicknessClass='circle--thick'/>`);
 
       // then
-      expect(this.element.querySelector('.circle').getAttribute('class')).to.contains('circle--thick');
-      expect(this.element.querySelector('.circle--slice').getAttribute('class')).to.contains('circle--thick');
+      assert.ok(this.element.querySelector('.circle').getAttribute('class').includes('circle--thick'));
+      assert.ok(this.element.querySelector('.circle--slice').getAttribute('class').includes('circle--thick'));
     });
 
-    it('should display the chart with given width and height', async function () {
+    test('should display the chart with given width and height', async function (assert) {
       // when
       await render(hbs`<CircleChart @chartClass='circle-chart__content--big'/>`);
 
       // then
-      expect(this.element.querySelector('.circle-chart__content').getAttribute('class')).to.contains(
-        'circle-chart__content--big'
+      assert.ok(
+        this.element
+          .querySelector('.circle-chart__content')
+          .getAttribute('class')
+          .includes('circle-chart__content--big')
       );
     });
   });

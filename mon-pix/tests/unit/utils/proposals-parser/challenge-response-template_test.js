@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import ChallengeResponseTemplate from 'mon-pix/utils/proposals-parser/challenge-response-template';
 import InputBlock from 'mon-pix/utils/proposals-parser/input-block';
 import TextBlock from 'mon-pix/utils/proposals-parser/text-block';
 
-describe('Unit | Utils | Proposals Parser | Challenge Response Template', function () {
-  describe('#updateBlockDetails', function () {
+module('Unit | Utils | Proposals Parser | Challenge Response Template', function () {
+  module('#updateBlockDetails', function () {
     [
       {
         inputBlocks: [
@@ -54,7 +53,7 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
         ],
       },
     ].forEach(function (data) {
-      it('should return properly updated blocks according to blocks order', function () {
+      test('should return properly updated blocks according to blocks order', function (assert) {
         const challengeResponseTemplate = new ChallengeResponseTemplate();
 
         data.inputBlocks.forEach((block) => {
@@ -63,13 +62,13 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
 
         challengeResponseTemplate.updateBlockDetails();
 
-        expect(challengeResponseTemplate.blocks).to.deep.equal(data.expectedBlocks);
+        assert.deepEqual(challengeResponseTemplate.blocks, data.expectedBlocks);
       });
     });
   });
 
-  describe('#constructFinalTemplate', function () {
-    it('should return properly composed template', function () {
+  module('#constructFinalTemplate', function () {
+    test('should return properly composed template', function (assert) {
       const challengeResponseTemplate = new ChallengeResponseTemplate();
 
       challengeResponseTemplate.addBlock(new TextBlock({ text: 'apple' }));
@@ -78,14 +77,14 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
 
       challengeResponseTemplate.constructFinalTemplate();
 
-      expect(challengeResponseTemplate.template).to.deep.equal([
+      assert.deepEqual(challengeResponseTemplate.template, [
         { text: 'apple', type: 'text' },
         { input: 'banana', text: null, placeholder: null, ariaLabel: '123', type: 'input', autoAriaLabel: true },
         { text: 'mango', type: 'text' },
       ]);
     });
 
-    it('should return a template only composed of blocks with a type', function () {
+    test('should return a template only composed of blocks with a type', function (assert) {
       const challengeResponseTemplate = new ChallengeResponseTemplate();
 
       const textBlockWithoutType = new TextBlock({ text: 'apple' });
@@ -97,7 +96,7 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
 
       challengeResponseTemplate.constructFinalTemplate();
 
-      expect(challengeResponseTemplate.template).to.deep.equal([
+      assert.deepEqual(challengeResponseTemplate.template, [
         { input: 'banana', text: null, placeholder: null, ariaLabel: '123', type: 'input', autoAriaLabel: true },
         { text: 'mango', type: 'text' },
       ]);

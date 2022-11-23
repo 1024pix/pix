@@ -1,7 +1,6 @@
-import { describe } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { Response } from 'miragejs';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -9,13 +8,13 @@ import { visit, fillByLabel } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  context('and user clicks on email link', function () {
-    it('should show reset password form', async function () {
+  module('and user clicks on email link', function () {
+    test('should show reset password form', async function (assert) {
       // given
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
@@ -23,16 +22,18 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(currentURL()).to.equal(`/recuperer-mon-compte/${temporaryKey}`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), `/recuperer-mon-compte/${temporaryKey}`);
 
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }),
         })
-      ).to.exist;
+      );
     });
 
-    it('should display an error message when account with email already exists', async function () {
+    test('should display an error message when account with email already exists', async function (assert) {
       // given
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
@@ -54,16 +55,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
 
-    it('should display an error message when user has already left SCO', async function () {
+    test('should display an error message when user has already left SCO', async function (assert) {
       // given
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
@@ -84,16 +85,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.title')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
 
-    it('should display an error message when temporary key not found', async function () {
+    test('should display an error message when temporary key not found', async function (assert) {
       // given
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
@@ -114,16 +115,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
 
-    it('should display an error message when temporary key has expired', async function () {
+    test('should display an error message when temporary key has expired', async function (assert) {
       // given
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
@@ -144,19 +145,19 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
-      ).to.exist;
+      );
     });
   });
 
-  context('and user chooses a new password and accepts cgu and data protection policy', function () {
-    it('should redirect to homepage after successful password change', async function () {
+  module('and user chooses a new password and accepts cgu and data protection policy', function () {
+    test('should redirect to homepage after successful password change', async function (assert) {
       // given
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
 
@@ -173,10 +174,12 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(currentURL()).to.equal('/accueil');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/accueil');
     });
 
-    it('should display an error message when account with email already exists', async function () {
+    test('should display an error message when account with email already exists', async function (assert) {
       // given
       const newPassword = 'Pix1234*';
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
@@ -203,16 +206,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
 
-    it('should display an error message when user has already left SCO', async function () {
+    test('should display an error message when user has already left SCO', async function (assert) {
       // given
       const newPassword = 'Pix1234*';
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
@@ -238,16 +241,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
 
-    it('should display an error message when temporary key not found', async function () {
+    test('should display an error message when temporary key not found', async function (assert) {
       // given
       const newPassword = 'Pix1234*';
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
@@ -273,16 +276,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
 
-    it('should display an error message when temporary key has expired', async function () {
+    test('should display an error message when temporary key has expired', async function (assert) {
       // given
       const newPassword = 'Pix1234*';
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
@@ -308,17 +311,17 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
-      ).to.exist;
+      );
     });
 
-    it('should display an error message when internal server error returned', async function () {
+    test('should display an error message when internal server error returned', async function (assert) {
       // given
       const newPassword = 'Pix1234*';
       const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
@@ -344,13 +347,13 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+      );
+      assert.ok(screen.getByText(this.intl.t('api-error-messages.internal-server-error')));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
     });
   });
 });

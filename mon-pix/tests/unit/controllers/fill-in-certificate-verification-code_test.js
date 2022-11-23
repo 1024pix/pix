@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Unit | Controller | Fill in certificate verification Code', function () {
-  setupIntlRenderingTest();
+module('Unit | Controller | Fill in certificate verification Code', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let controller;
   let storeStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-certificate-verification-code');
     storeStub = { queryRecord: sinon.stub() };
     controller.router.transitionTo = sinon.stub();
@@ -19,8 +18,8 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
     controller.set('showNotFoundCertificationErrorMessage', false);
   });
 
-  describe('#checkCertificate', function () {
-    it('should set error when certificateVerificationCode code is empty', async function () {
+  module('#checkCertificate', function () {
+    test('should set error when certificateVerificationCode code is empty', async function (assert) {
       // given
       controller.set('certificateVerificationCode', '');
       const event = { preventDefault: sinon.stub() };
@@ -29,10 +28,12 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Merci de renseigner le code de vérification.');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.get('errorMessage'), 'Merci de renseigner le code de vérification.');
     });
 
-    it('should set error when certificateVerificationCode code is not matching the right format', async function () {
+    test('should set error when certificateVerificationCode code is not matching the right format', async function (assert) {
       // given
       controller.set('certificateVerificationCode', 'P-879888');
       const event = { preventDefault: sinon.stub() };
@@ -41,10 +42,12 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Veuillez vérifier le format de votre code (P-XXXXXXXX).');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.get('errorMessage'), 'Veuillez vérifier le format de votre code (P-XXXXXXXX).');
     });
 
-    it('should set showNotFoundCertificationErrorMessage to true when no certificate is found', async function () {
+    test('should set showNotFoundCertificationErrorMessage to true when no certificate is found', async function (assert) {
       // given
       controller.set('certificateVerificationCode', 'P-222BBB78');
       storeStub.queryRecord.rejects({ errors: [{ status: '404' }] });
@@ -54,10 +57,10 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      expect(controller.get('showNotFoundCertificationErrorMessage')).to.equal(true);
+      assert.true(controller.get('showNotFoundCertificationErrorMessage'));
     });
 
-    it('should NOT set showNotFoundCertificationErrorMessage to true when a certificate is found', async function () {
+    test('should NOT set showNotFoundCertificationErrorMessage to true when a certificate is found', async function (assert) {
       // given
       controller.set('certificateVerificationCode', 'P-222BBBDD');
       storeStub.queryRecord.resolves({ result: { status: '200' } });
@@ -67,7 +70,7 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      expect(controller.get('showNotFoundCertificationErrorMessage')).to.equal(false);
+      assert.false(controller.get('showNotFoundCertificationErrorMessage'));
     });
   });
 });

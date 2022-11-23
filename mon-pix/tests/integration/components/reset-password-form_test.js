@@ -1,7 +1,6 @@
 import EmberObject from '@ember/object';
 import { resolve, reject } from 'rsvp';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, fillIn, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -9,16 +8,16 @@ import { clickByLabel } from '../../helpers/click-by-label';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
-describe('Integration | Component | reset password form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | reset password form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
-    it('should be rendered', async function () {
+  module('Component rendering', function () {
+    test('should be rendered', async function (assert) {
       await render(hbs`<ResetPasswordForm />`);
-      expect(find('.sign-form__container')).to.exist;
+      assert.dom('.sign-form__container').exists();
     });
 
-    describe('When component is rendered,', function () {
+    module('When component is rendered,', function () {
       [
         { item: '.pix-logo__link' },
         { item: '.sign-form-title' },
@@ -27,16 +26,16 @@ describe('Integration | Component | reset password form', function () {
         { item: '.form-textfield__label' },
         { item: '.form-textfield__input-field-container' },
       ].forEach(({ item }) => {
-        it(`should contains a item with class: ${item}`, async function () {
+        test(`should contains a item with class: ${item}`, async function (assert) {
           // when
           await render(hbs`<ResetPasswordForm />`);
 
           // then
-          expect(find(item)).to.exist;
+          assert.dom(item).exists();
         });
       });
 
-      it('should display user’s fullName', async function () {
+      test('should display user’s fullName', async function (assert) {
         // given
         const user = { fullName: 'toto riri' };
         this.set('user', user);
@@ -45,11 +44,13 @@ describe('Integration | Component | reset password form', function () {
         await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
 
         // then
-        expect(find('.sign-form-title').textContent.trim()).to.equal(user.fullName);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find('.sign-form-title').textContent.trim(), user.fullName);
       });
     });
 
-    describe('A submit button', function () {
+    module('A submit button', function (hooks) {
       let isSaveMethodCalled, saveMethodOptions;
 
       const save = (options) => {
@@ -63,11 +64,11 @@ describe('Integration | Component | reset password form', function () {
         return reject({ errors: [{ status: '400' }] });
       };
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         isSaveMethodCalled = false;
       });
 
-      it('should save the new password, when button is clicked', async function () {
+      test('should save the new password, when button is clicked', async function (assert) {
         // given
         const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
         this.set('user', user);
@@ -83,14 +84,14 @@ describe('Integration | Component | reset password form', function () {
         await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
         // then
-        expect(isSaveMethodCalled).to.be.true;
-        expect(saveMethodOptions).to.eql({ adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
-        expect(this.user.password).to.eql(null);
-        expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
-        expect(find('.password-reset-demand-form__body')).to.exist;
+        assert.true(isSaveMethodCalled);
+        assert.deepEqual(saveMethodOptions, { adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
+        assert.deepEqual(this.user.password, null);
+        assert.dom(PASSWORD_INPUT_CLASS).doesNotExist();
+        assert.dom('.password-reset-demand-form__body').exists();
       });
 
-      it('should get an error, when button is clicked and saving return error', async function () {
+      test('should get an error, when button is clicked and saving return error', async function (assert) {
         // given
         const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
         this.set('user', user);
@@ -105,10 +106,12 @@ describe('Integration | Component | reset password form', function () {
         await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
         // then
-        expect(isSaveMethodCalled).to.be.true;
-        expect(this.user.password).to.eql(validPassword);
-        expect(find(PASSWORD_INPUT_CLASS).value).to.equal(validPassword);
-        expect(find('.form-textfield__message--error')).to.exist;
+        assert.true(isSaveMethodCalled);
+        assert.deepEqual(this.user.password, validPassword);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find(PASSWORD_INPUT_CLASS).value, validPassword);
+        assert.dom('.form-textfield__message--error').exists();
       });
     });
   });

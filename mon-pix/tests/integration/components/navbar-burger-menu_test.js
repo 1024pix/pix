@@ -1,14 +1,13 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | navbar-burger-menu', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | navbar-burger-menu', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     class currentUser extends Service {
       user = {
         fullName: 'Bobby Carotte',
@@ -18,39 +17,39 @@ describe('Integration | Component | navbar-burger-menu', function () {
     this.owner.register('service:currentUser', currentUser);
   });
 
-  it("should display the user's fullname", async function () {
+  test("should display the user's fullname", async function (assert) {
     // when
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
     // then
-    expect(screen.getByRole('heading', { name: 'Bobby Carotte' })).to.exist;
+    assert.ok(screen.getByRole('heading', { name: 'Bobby Carotte' }));
   });
 
-  it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function () {
+  test('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function (assert) {
     // when
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
 
     // then
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.main.code') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.main.dashboard') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.main.skills') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.main.start-certification') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.main.tutorials') })).to.exist;
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.code') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.dashboard') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.skills') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.start-certification') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.tutorials') }));
   });
 
-  it('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function () {
+  test('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function (assert) {
     // when
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
 
     // then
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.user.account') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.user.certifications') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.main.help') })).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.user.sign-out') })).to.exist;
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.account') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.certifications') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.help') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.sign-out') }));
   });
 
-  context('when user has participations', function () {
-    beforeEach(async function () {
+  module('when user has participations', function (hooks) {
+    hooks.beforeEach(async function () {
       class currentUser extends Service {
         user = {
           fullName: 'Bobby Carotte',
@@ -62,17 +61,17 @@ describe('Integration | Component | navbar-burger-menu', function () {
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should display "My tests" link', async function () {
+    test('should display "My tests" link', async function (assert) {
       // when
       const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
 
       // then
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.user.tests') })).to.exist;
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.tests') }));
     });
   });
 
-  context('when user has no participations', function () {
-    beforeEach(async function () {
+  module('when user has no participations', function (hooks) {
+    hooks.beforeEach(async function () {
       class currentUser extends Service {
         user = {
           fullName: 'John Doe',
@@ -84,16 +83,16 @@ describe('Integration | Component | navbar-burger-menu', function () {
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should not display "My tests" link', async function () {
+    test('should not display "My tests" link', async function (assert) {
       // when
       const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
       // then
-      expect(screen.queryByRole('link', { name: this.intl.t('navigation.user.tests') })).to.not.exist;
+      assert.notOk(screen.queryByRole('link', { name: this.intl.t('navigation.user.tests') }));
     });
   });
-  context('when user has recommended trainings', function () {
-    beforeEach(async function () {
+  module('when user has recommended trainings', function (hooks) {
+    hooks.beforeEach(async function () {
       class currentUser extends Service {
         user = {
           fullName: 'John Doe',
@@ -105,12 +104,12 @@ describe('Integration | Component | navbar-burger-menu', function () {
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should not display "My trainings" link', async function () {
+    test('should not display "My trainings" link', async function (assert) {
       // when
       const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
       // then
-      expect(screen.queryByRole('link', { name: this.intl.t('navigation.user.trainings') })).to.not.exist;
+      assert.notOk(screen.queryByRole('link', { name: this.intl.t('navigation.user.trainings') }));
     });
   });
 });

@@ -1,26 +1,25 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Component | qrocm-ind-solution-panel', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('#blocks', function () {
+  module('#blocks', function (hooks) {
     let challenge;
     let answer;
     let solution;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       challenge = {};
       answer = {};
       solution = '';
     });
 
-    it('should return an array with data to display (case when the answers are right)', function () {
+    test('should return an array with data to display (case when the answers are right)', function (assert) {
       //Given
       challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       answer = { value: "smiley1: ':)' smiley2: ':('", resultDetails: 'smiley1: true\nsmiley2: true' };
@@ -63,10 +62,10 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(expectedBlocksData);
+      assert.deepEqual(component.blocks, expectedBlocksData);
     });
 
-    it('should return an array with data to display (case when there is wrong answers)', function () {
+    test('should return an array with data to display (case when there is wrong answers)', function (assert) {
       //Given
       challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' });
       answer = { value: "num1: '1' num2: '2'", resultDetails: 'num1: false\nnum2: false' };
@@ -108,10 +107,10 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(result);
+      assert.deepEqual(component.blocks, result);
     });
 
-    it('should return an array with data to display (case when there is some empty answer)', function () {
+    test('should return an array with data to display (case when there is some empty answer)', function (assert) {
       //Given
       challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' });
       answer = { value: "num1: '' num2: '2'", resultDetails: 'num1: false\nnum2: false' };
@@ -154,10 +153,10 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(result);
+      assert.deepEqual(component.blocks, result);
     });
 
-    it('should return an array with data to display (proposals contains a dash ("-"))', function () {
+    test('should return an array with data to display (proposals contains a dash ("-"))', function (assert) {
       // given
       challenge = EmberObject.create({ proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}' });
       answer = {
@@ -203,10 +202,10 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(result);
+      assert.deepEqual(component.blocks, result);
     });
 
-    it('should return an array with data to display (proposals are questions)', function () {
+    test('should return an array with data to display (proposals are questions)', function (assert) {
       // given
       challenge = EmberObject.create({
         proposals:
@@ -252,10 +251,10 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(result);
+      assert.deepEqual(component.blocks, result);
     });
 
-    it('it should return "Pas de réponse" in each answer if the question was passed', function () {
+    test('it should return "Pas de réponse" in each answer if the question was passed', function (assert) {
       // given
       challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' });
       answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };
@@ -298,14 +297,14 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(result);
+      assert.deepEqual(component.blocks, result);
     });
 
     /**
      * _inputClass
      */
 
-    it('should return "correction-qroc-box-answer--correct" CSS class when answer is right', function () {
+    test('should return "correction-qroc-box-answer--correct" CSS class when answer is right', function (assert) {
       // given
       challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}' });
       answer = { value: "num1: '2'", resultDetails: 'num1: true' };
@@ -335,7 +334,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function () {
       });
 
       //Then
-      expect(component.blocks).to.be.deep.equal(result);
+      assert.deepEqual(component.blocks, result);
     });
   });
 });

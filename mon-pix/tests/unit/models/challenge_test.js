@@ -1,24 +1,25 @@
 import { run } from '@ember/runloop';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | Challenge', function () {
-  setupTest();
+module('Unit | Model | Challenge', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('challenge');
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 
-  describe('Computed property #hasAttachment', function () {
-    it('Should be true when challenge has at least one attachment file', function () {
+  module('Computed property #hasAttachment', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be true when challenge has at least one attachment file', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -27,11 +28,13 @@ describe('Unit | Model | Challenge', function () {
         const hasAttachment = challenge.hasAttachment;
 
         // then
-        expect(hasAttachment).to.be.true;
+        assert.true(hasAttachment);
       });
     });
 
-    it('Should be false when challenge has multiple attachment files', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be false when challenge has multiple attachment files', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: [] });
@@ -40,13 +43,15 @@ describe('Unit | Model | Challenge', function () {
         const hasAttachment = challenge.hasAttachment;
 
         // then
-        expect(hasAttachment).to.be.false;
+        assert.false(hasAttachment);
       });
     });
   });
 
-  describe('Computed property #hasSingleAttachment', function () {
-    it('Should be true when challenge has only one attachment file', function () {
+  module('Computed property #hasSingleAttachment', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be true when challenge has only one attachment file', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -55,11 +60,13 @@ describe('Unit | Model | Challenge', function () {
         const hasSingleAttachment = challenge.hasSingleAttachment;
 
         // then
-        expect(hasSingleAttachment).to.be.true;
+        assert.true(hasSingleAttachment);
       });
     });
 
-    it('Should be false when challenge has multiple attachment files', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be false when challenge has multiple attachment files', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -68,13 +75,15 @@ describe('Unit | Model | Challenge', function () {
         const hasSingleAttachment = challenge.hasSingleAttachment;
 
         // then
-        expect(hasSingleAttachment).to.be.false;
+        assert.false(hasSingleAttachment);
       });
     });
   });
 
-  describe('Computed property #hasMultipleAttachments', function () {
-    it('Should be false when challenge has no attachment file', function () {
+  module('Computed property #hasMultipleAttachments', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be false when challenge has no attachment file', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: [] });
@@ -83,11 +92,13 @@ describe('Unit | Model | Challenge', function () {
         const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
-        expect(hasMultipleAttachments).to.be.false;
+        assert.false(hasMultipleAttachments);
       });
     });
 
-    it('Should be false when challenge has only one attachment file', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be false when challenge has only one attachment file', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -96,11 +107,13 @@ describe('Unit | Model | Challenge', function () {
         const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
-        expect(hasMultipleAttachments).to.be.false;
+        assert.false(hasMultipleAttachments);
       });
     });
 
-    it('Should be true when challenge has multiple attachments files', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('Should be true when challenge has multiple attachments files', function (assert) {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -109,15 +122,15 @@ describe('Unit | Model | Challenge', function () {
         const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
-        expect(hasMultipleAttachments).to.be.true;
+        assert.true(hasMultipleAttachments);
       });
     });
   });
 
-  describe('Computed property #hasValidEmbedDocument', function () {
+  module('Computed property #hasValidEmbedDocument', function (hooks) {
     let embedOptions;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       embedOptions = {
         embedUrl: 'https://embed.url',
         embedTitle: 'Embed title',
@@ -125,7 +138,7 @@ describe('Unit | Model | Challenge', function () {
       };
     });
 
-    it('should be true when embed data (URL, title and height) are defined', function () {
+    test('should be true when embed data (URL, title and height) are defined', function (assert) {
       // given
       const challenge = store.createRecord('challenge', embedOptions);
 
@@ -133,10 +146,10 @@ describe('Unit | Model | Challenge', function () {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      expect(hasValidEmbedDocument).to.be.true;
+      assert.true(hasValidEmbedDocument);
     });
 
-    it('should be false when embed URL is missing', function () {
+    test('should be false when embed URL is missing', function (assert) {
       // given
       delete embedOptions.embedUrl;
       const challenge = store.createRecord('challenge', embedOptions);
@@ -145,10 +158,10 @@ describe('Unit | Model | Challenge', function () {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      expect(hasValidEmbedDocument).to.be.false;
+      assert.false(hasValidEmbedDocument);
     });
 
-    it('should be false when embed URL is not secured (HTTPS)', function () {
+    test('should be false when embed URL is not secured (HTTPS)', function (assert) {
       // given
       embedOptions.embedUrl = 'http://unsecured.url';
       const challenge = store.createRecord('challenge', embedOptions);
@@ -157,10 +170,10 @@ describe('Unit | Model | Challenge', function () {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      expect(hasValidEmbedDocument).to.be.false;
+      assert.false(hasValidEmbedDocument);
     });
 
-    it('should be false when embed title is missing', function () {
+    test('should be false when embed title is missing', function (assert) {
       // given
       delete embedOptions.embedTitle;
       const challenge = store.createRecord('challenge', embedOptions);
@@ -169,10 +182,10 @@ describe('Unit | Model | Challenge', function () {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      expect(hasValidEmbedDocument).to.be.false;
+      assert.false(hasValidEmbedDocument);
     });
 
-    it('should be false when embed height is missing', function () {
+    test('should be false when embed height is missing', function (assert) {
       // given
       delete embedOptions.embedHeight;
       const challenge = store.createRecord('challenge', embedOptions);
@@ -181,7 +194,7 @@ describe('Unit | Model | Challenge', function () {
       const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
-      expect(hasValidEmbedDocument).to.be.false;
+      assert.false(hasValidEmbedDocument);
     });
   });
 });

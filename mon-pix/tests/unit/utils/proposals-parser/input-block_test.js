@@ -1,9 +1,8 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import InputBlock from 'mon-pix/utils/proposals-parser/input-block';
 
-describe('Unit | Utils | Proposals Parser | Input Block', function () {
-  describe('#constructor', function () {
+module('Unit | Utils | Proposals Parser | Input Block', function () {
+  module('#constructor', function () {
     [
       {
         input: '${}',
@@ -83,7 +82,7 @@ describe('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedPlaceholder: 'potato',
       },
     ].forEach((data) => {
-      it(`should parse attributes properly for ${data.input}`, function () {
+      test(`should parse attributes properly for ${data.input}`, function (assert) {
         // given
         const input = data.input;
 
@@ -91,11 +90,21 @@ describe('Unit | Utils | Proposals Parser | Input Block', function () {
         const result = new InputBlock({ input, inputIndex: 123 });
 
         // then
-        expect(result.input).to.equal(data.expectedInput);
-        expect(result.type).to.equal('input');
-        expect(result.autoAriaLabel).to.equal(data.expectedAutoAriaLabel);
-        expect(result.ariaLabel).to.equal(data.expectedAriaLabel);
-        expect(result.placeholder).to.equal(data.expectedPlaceholder);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(result.input, data.expectedInput);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(result.type, 'input');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(result.autoAriaLabel, data.expectedAutoAriaLabel);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(result.ariaLabel, data.expectedAriaLabel);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(result.placeholder, data.expectedPlaceholder);
       });
     });
   });

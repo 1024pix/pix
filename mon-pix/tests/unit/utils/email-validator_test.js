@@ -1,9 +1,8 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import isEmailValid from 'mon-pix/utils/email-validator';
 
-describe('Unit | Utility | email validator', function () {
-  describe('Invalid emails', function () {
+module('Unit | Utility | email validator', function () {
+  module('Invalid emails', function () {
     [
       '',
       ' ',
@@ -15,13 +14,13 @@ describe('Unit | Utility | email validator', function () {
       '@pix.fr',
       '@pix',
     ].forEach(function (badEmail) {
-      it(`should return false when email is invalid: ${badEmail}`, function () {
-        expect(isEmailValid(badEmail)).to.be.false;
+      test(`should return false when email is invalid: ${badEmail}`, function (assert) {
+        assert.false(isEmailValid(badEmail));
       });
     });
   });
 
-  describe('Valid emails', function () {
+  module('Valid emails', function () {
     [
       'user@pix.fr',
       'user@pix.fr ',
@@ -33,8 +32,8 @@ describe('Unit | Utility | email validator', function () {
       'user+beta@pix.gouv.fr',
       'user+beta@pix.beta.gouv.fr',
     ].forEach(function (validEmail) {
-      it(`should return true if provided email is valid: ${validEmail}`, function () {
-        expect(isEmailValid(validEmail)).to.be.true;
+      test(`should return true if provided email is valid: ${validEmail}`, function (assert) {
+        assert.true(isEmailValid(validEmail));
       });
     });
   });

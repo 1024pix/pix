@@ -1,20 +1,19 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | terms-of-service', function () {
-  setupTest();
+module('Unit | Controller | terms-of-service', function (hooks) {
+  setupTest(hooks);
   let controller;
 
-  describe('#action submit', function () {
-    beforeEach(function () {
+  module('#action submit', function (hooks) {
+    hooks.beforeEach(function () {
       controller = this.owner.lookup('controller:terms-of-service');
       controller.router.transitionTo = sinon.stub();
       controller.currentUser = { user: { save: sinon.stub().resolves() } };
     });
 
-    it('it should save the acceptance date of the last terms of service', async function () {
+    test('it should save the acceptance date of the last terms of service', async function (assert) {
       // when
       controller.isTermsOfServiceValidated = true;
       controller.showErrorTermsOfServiceNotSelected = false;
@@ -24,17 +23,18 @@ describe('Unit | Controller | terms-of-service', function () {
       // then
       sinon.assert.calledWith(controller.currentUser.user.save, { adapterOptions: { acceptPixTermsOfService: true } });
       sinon.assert.calledWith(controller.router.transitionTo, '');
-      expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
+      assert.false(controller.showErrorTermsOfServiceNotSelected);
+      assert.ok(true);
     });
 
-    it('it should show an error to user to validate terms of service ', async function () {
+    test('it should show an error to user to validate terms of service ', async function (assert) {
       // when
       controller.isTermsOfServiceValidated = false;
       controller.showErrorTermsOfServiceNotSelected = false;
       await controller.send('submit');
 
       // then
-      expect(controller.showErrorTermsOfServiceNotSelected).to.be.true;
+      assert.true(controller.showErrorTermsOfServiceNotSelected);
     });
   });
 });

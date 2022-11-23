@@ -1,13 +1,13 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | Challenge | Item', function () {
-  setupTest();
+module('Unit | Component | Challenge | Item', function (hooks) {
+  setupTest(hooks);
 
-  describe('answerValidated', function () {
+  module('answerValidated', function (hooks) {
     let createRecordStub;
     let queryRecordStub;
     const challengeOne = EmberObject.create({ id: 'recChallengeOne' });
@@ -17,7 +17,7 @@ describe('Unit | Component | Challenge | Item', function () {
     const answerFocusedOut = false;
     const nextChallenge = EmberObject.create({ id: 'recNextChallenge' });
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       createRecordStub = sinon.stub();
       queryRecordStub = sinon.stub();
       answerToChallengeOne = EmberObject.create({ challenge: challengeOne });
@@ -26,8 +26,8 @@ describe('Unit | Component | Challenge | Item', function () {
       answerToChallengeOne.rollbackAttributes = sinon.stub();
     });
 
-    context('when the answer is already known', function () {
-      it('should not create a new answer', async function () {
+    module('when the answer is already known', function () {
+      test('should not create a new answer', async function (assert) {
         // given
         const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
         component.router = { transitionTo: sinon.stub().returns() };
@@ -43,10 +43,11 @@ describe('Unit | Component | Challenge | Item', function () {
 
         // then
         sinon.assert.notCalled(createRecordStub);
+        assert.ok(true);
       });
     });
-    context('when no answer was given', function () {
-      it('should create an answer', async function () {
+    module('when no answer was given', function () {
+      test('should create an answer', async function (assert) {
         // given
         createRecordStub.returns(answerToChallengeOne);
         queryRecordStub.resolves(nextChallenge);
@@ -67,10 +68,11 @@ describe('Unit | Component | Challenge | Item', function () {
           assessment: assessment,
           challenge: challengeOne,
         });
+        assert.ok(true);
       });
     });
 
-    it('should update the answer with the timeout', async function () {
+    test('should update the answer with the timeout', async function (assert) {
       // given
       const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
       createRecordStub.returns(answerToChallengeOne);
@@ -93,8 +95,9 @@ describe('Unit | Component | Challenge | Item', function () {
         timeout: answerTimeout,
         focusedOut: answerFocusedOut,
       });
+      assert.ok(true);
     });
-    it('should trim the answer value to avoid useless char', async function () {
+    test('should trim the answer value to avoid useless char', async function (assert) {
       // given
       const answerValue = '  exemple \n ';
       const answerValueWithoutUselessChar = 'exemple';
@@ -118,10 +121,11 @@ describe('Unit | Component | Challenge | Item', function () {
         timeout: answerTimeout,
         focusedOut: answerFocusedOut,
       });
+      assert.ok(true);
     });
 
-    context('when saving succeeds', function () {
-      it('should redirect to assessment-resume route', async function () {
+    module('when saving succeeds', function () {
+      test('should redirect to assessment-resume route', async function (assert) {
         // given
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
         const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
@@ -138,11 +142,12 @@ describe('Unit | Component | Challenge | Item', function () {
         sinon.assert.calledWithExactly(component.router.transitionTo, 'assessments.resume', assessment.get('id'), {
           queryParams: {},
         });
+        assert.ok(true);
       });
 
-      context('when user has reached a new level', function () {
+      module('when user has reached a new level', function (hooks) {
         let assessment;
-        beforeEach(function () {
+        hooks.beforeEach(function () {
           const answerToChallengeOneWithLevelUp = EmberObject.create({
             challenge: challengeOne,
             levelup: { level: 1, competenceName: 'Me tester' },
@@ -155,7 +160,7 @@ describe('Unit | Component | Challenge | Item', function () {
           assessment = EmberObject.create({ answers: [answerToChallengeOneWithLevelUp] });
         });
 
-        it('should redirect to assessment-resume route with level up information', async function () {
+        test('should redirect to assessment-resume route with level up information', async function (assert) {
           //given
           const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
           component.router = { transitionTo: sinon.stub().returns() };
@@ -175,9 +180,10 @@ describe('Unit | Component | Challenge | Item', function () {
             assessment.get('id'),
             expectedQueryParams
           );
+          assert.ok(true);
         });
 
-        it('should redirect to assessment-resume route without level up information when user is anonymous', async function () {
+        test('should redirect to assessment-resume route without level up information when user is anonymous', async function (assert) {
           //given
           const expectedQueryParams = { queryParams: {} };
           const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
@@ -197,9 +203,10 @@ describe('Unit | Component | Challenge | Item', function () {
             assessment.get('id'),
             expectedQueryParams
           );
+          assert.ok(true);
         });
 
-        it('should redirect to assessment-resume route without level up information when there is no currentUser', async function () {
+        test('should redirect to assessment-resume route without level up information when there is no currentUser', async function (assert) {
           //given
           const expectedQueryParams = { queryParams: {} };
           const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
@@ -219,11 +226,14 @@ describe('Unit | Component | Challenge | Item', function () {
             assessment.get('id'),
             expectedQueryParams
           );
+          assert.ok(true);
         });
       });
     });
-    context('when saving fails', function () {
-      it('should remove temporary answer and send error', async function () {
+    module('when saving fails', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should remove temporary answer and send error', async function (assert) {
         // given
         const error = { message: 'error' };
         answerToChallengeOne.save = sinon.stub().rejects(error);
@@ -241,11 +251,12 @@ describe('Unit | Component | Challenge | Item', function () {
           .catch(function () {
             sinon.assert.called(answerToChallengeOne.rollbackAttributes);
             sinon.assert.calledWith(transitionToStub, 'error', error);
+            assert.ok(true);
           });
       });
     });
-    context('when assessment has been ended by supervisor', function () {
-      it('should redirect candidate to end test screen when trying to answer', async function () {
+    module('when assessment has been ended by supervisor', function () {
+      test('should redirect candidate to end test screen when trying to answer', async function (assert) {
         // given
         const error = {
           errors: [
@@ -271,6 +282,7 @@ describe('Unit | Component | Challenge | Item', function () {
           'authenticated.certifications.results',
           assessment.certificationCourse.get('id')
         );
+        assert.ok(true);
       });
     });
   });

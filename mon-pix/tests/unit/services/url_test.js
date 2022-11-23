@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Service | locale', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Service | locale', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  it('should have a frenchDomainExtension when the current domain contains pix.fr', function () {
+  test('should have a frenchDomainExtension when the current domain contains pix.fr', function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
@@ -18,10 +17,10 @@ describe('Unit | Service | locale', function () {
     const domainExtension = service.isFrenchDomainExtension;
 
     // then
-    expect(domainExtension).to.equal(true);
+    assert.true(domainExtension);
   });
 
-  it('should not have frenchDomainExtension when the current domain contains pix.org', function () {
+  test('should not have frenchDomainExtension when the current domain contains pix.org', function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { getExtension: sinon.stub().returns('org') };
@@ -30,11 +29,11 @@ describe('Unit | Service | locale', function () {
     const domainExtension = service.isFrenchDomainExtension;
 
     // then
-    expect(domainExtension).to.equal(false);
+    assert.false(domainExtension);
   });
 
-  describe('#homeUrl', function () {
-    it('should get home url', function () {
+  module('#homeUrl', function () {
+    test('should get home url', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       service.definedHomeUrl = 'pix.test.fr';
@@ -44,18 +43,20 @@ describe('Unit | Service | locale', function () {
 
       // then
       const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
-      expect(homeUrl).to.equal(expectedDefinedHomeUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(homeUrl, expectedDefinedHomeUrl);
     });
   });
 
-  describe('#showcaseUrl', function () {
+  module('#showcaseUrl', function (hooks) {
     let defaultLocale;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       defaultLocale = this.intl.t('current-lang');
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
       this.intl.setLocale(defaultLocale);
     });
 
@@ -65,7 +66,7 @@ describe('Unit | Service | locale', function () {
       { language: 'en', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr/en-gb' },
       { language: 'en', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org/en-gb' },
     ].forEach(function (testCase) {
-      it(`should get "${testCase.expectedShowcaseUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function () {
+      test(`should get "${testCase.expectedShowcaseUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function (assert) {
         // given
         const service = this.owner.lookup('service:url');
         service.definedHomeUrl = '/';
@@ -76,13 +77,15 @@ describe('Unit | Service | locale', function () {
         const showcaseUrl = service.showcaseUrl;
 
         // then
-        expect(showcaseUrl).to.equal(testCase.expectedShowcaseUrl);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(showcaseUrl, testCase.expectedShowcaseUrl);
       });
     });
   });
 
-  describe('#cguUrl', function () {
-    it('should get "pix.fr" url when current domain contains pix.fr', function () {
+  module('#cguUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
@@ -92,10 +95,12 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.cguUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" english url when current language is en', function () {
+    test('should get "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
@@ -106,10 +111,12 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.cguUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" french url when current language is fr', function () {
+    test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
@@ -120,12 +127,14 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.cguUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(cguUrl, expectedCguUrl);
     });
   });
 
-  describe('#dataProtectionPolicyUrl', function () {
-    it('should get "pix.fr" url when current domain contains pix.fr', function () {
+  module('#dataProtectionPolicyUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
@@ -135,10 +144,12 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" english url when current language is en', function () {
+    test('should get "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
@@ -149,10 +160,12 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" french url when current language is fr', function () {
+    test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
@@ -163,7 +176,9 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(cguUrl, expectedCguUrl);
     });
   });
 });

@@ -1,10 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | reached-stage', function () {
-  setupTest();
+module('Unit | Component | reached-stage', function (hooks) {
+  setupTest(hooks);
 
   const acquiredStarImgSrc = 'stage-plain-star.svg';
   const unacquiredStarImgSrc = 'stage-clear-star.svg';
@@ -16,68 +15,78 @@ describe('Unit | Component | reached-stage', function () {
     { starCount: 5, stageCount: 6, expectedAcquiredStarsCount: 4, expectedUnacquiredStarsCount: 1 },
     { starCount: 2, stageCount: 10, expectedAcquiredStarsCount: 1, expectedUnacquiredStarsCount: 8 },
   ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-    context(`starCount=${starCount} and stageCount=${stageCount}`, function () {
-      beforeEach(function () {
+    module(`starCount=${starCount} and stageCount=${stageCount}`, function (hooks) {
+      hooks.beforeEach(function () {
         component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
       });
 
-      describe('#get totalStarsCount', function () {
-        it(`should return ${expectedAcquiredStarsCount + expectedUnacquiredStarsCount}`, function () {
+      module('#get totalStarsCount', function () {
+        test(`should return ${expectedAcquiredStarsCount + expectedUnacquiredStarsCount}`, function (assert) {
           const totalStarsCount = component.totalStarsCount;
 
           const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
-          expect(totalStarsCount).to.equal(totalStars);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(totalStarsCount, totalStars);
         });
       });
 
-      describe('#get acquiredStarsCount', function () {
-        it(`should return ${expectedAcquiredStarsCount}`, function () {
+      module('#get acquiredStarsCount', function () {
+        test(`should return ${expectedAcquiredStarsCount}`, function (assert) {
           // given
           const component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
 
           // then
-          expect(component.acquiredStarsCount).to.deep.equal(expectedAcquiredStarsCount);
+          assert.deepEqual(component.acquiredStarsCount, expectedAcquiredStarsCount);
         });
       });
     });
   });
 
-  context('has no acquired star', function () {
+  module('has no acquired star', function () {
     [{ starCount: 1, stageCount: 3, expectedAcquiredStarsCount: 0, expectedUnacquiredStarsCount: 2 }].map(
       ({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-        context(`starCount=${starCount} and stageCount=${stageCount}`, function () {
-          beforeEach(function () {
+        module(`starCount=${starCount} and stageCount=${stageCount}`, function (hooks) {
+          hooks.beforeEach(function () {
             component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
           });
 
-          describe('#get firstStar', function () {
-            it('should return first star with its image', function () {
+          module('#get firstStar', function () {
+            test('should return first star with its image', function (assert) {
               const firstStar = component.firstStar;
 
-              expect(firstStar.imageSrc).to.equal(unacquiredStarImgSrc);
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
+              assert.equal(firstStar.imageSrc, unacquiredStarImgSrc);
             });
           });
 
-          describe('#get otherStars', function () {
+          module('#get otherStars', function (hooks) {
             let otherStars;
 
-            beforeEach(function () {
+            hooks.beforeEach(function () {
               otherStars = component.otherStars;
             });
 
-            it('should return correct count of stars minus the first one', function () {
+            test('should return correct count of stars minus the first one', function (assert) {
               const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
 
-              expect(otherStars.length).to.equal(totalStars - 1);
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
+              assert.equal(otherStars.length, totalStars - 1);
             });
 
-            it('should return correct image for each star', function () {
+            test('should return correct image for each star', function (assert) {
               const firstStarCount = 1;
               const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
               const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
 
-              expect(acquiredStarsCount).to.equal(expectedAcquiredStarsCount);
-              expect(unacquiredStarsCount + firstStarCount).to.equal(expectedUnacquiredStarsCount);
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
+              assert.equal(acquiredStarsCount, expectedAcquiredStarsCount);
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line qunit/no-assert-equal
+              assert.equal(unacquiredStarsCount + firstStarCount, expectedUnacquiredStarsCount);
             });
           });
         });
@@ -85,7 +94,7 @@ describe('Unit | Component | reached-stage', function () {
     );
   });
 
-  context('has acquired at least one star', function () {
+  module('has acquired at least one star', function () {
     [
       { starCount: 5, stageCount: 5, expectedAcquiredStarsCount: 4, expectedUnacquiredStarsCount: 0 },
       { starCount: 5, stageCount: 6, expectedAcquiredStarsCount: 4, expectedUnacquiredStarsCount: 1 },
@@ -93,39 +102,47 @@ describe('Unit | Component | reached-stage', function () {
       { starCount: 2, stageCount: 3, expectedAcquiredStarsCount: 1, expectedUnacquiredStarsCount: 1 },
       { starCount: 4, stageCount: 5, expectedAcquiredStarsCount: 3, expectedUnacquiredStarsCount: 1 },
     ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-      context(`starCount=${starCount} and stageCount=${stageCount}`, function () {
-        beforeEach(function () {
+      module(`starCount=${starCount} and stageCount=${stageCount}`, function (hooks) {
+        hooks.beforeEach(function () {
           component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
         });
 
-        describe('#get firstStar', function () {
-          it('should return first star with its image', function () {
+        module('#get firstStar', function () {
+          test('should return first star with its image', function (assert) {
             const firstStar = component.firstStar;
 
-            expect(firstStar.imageSrc).to.equal(acquiredStarImgSrc);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(firstStar.imageSrc, acquiredStarImgSrc);
           });
         });
 
-        describe('#get otherStars', function () {
+        module('#get otherStars', function (hooks) {
           let otherStars;
 
-          beforeEach(function () {
+          hooks.beforeEach(function () {
             otherStars = component.otherStars;
           });
 
-          it('should return correct count of stars minus the first one', function () {
+          test('should return correct count of stars minus the first one', function (assert) {
             const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
 
-            expect(otherStars.length).to.equal(totalStars - 1);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(otherStars.length, totalStars - 1);
           });
 
-          it('should return correct image for each star', function () {
+          test('should return correct image for each star', function (assert) {
             const firstStarCount = 1;
             const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
             const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
 
-            expect(acquiredStarsCount + firstStarCount).to.equal(expectedAcquiredStarsCount);
-            expect(unacquiredStarsCount).to.equal(expectedUnacquiredStarsCount);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(acquiredStarsCount + firstStarCount, expectedAcquiredStarsCount);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(unacquiredStarsCount, expectedUnacquiredStarsCount);
           });
         });
       });

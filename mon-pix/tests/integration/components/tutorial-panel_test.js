@@ -1,37 +1,38 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | Tutorial Panel', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Tutorial Panel', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('when the result is not ok', function () {
-    context('and a hint is present', function () {
-      beforeEach(function () {
+  module('when the result is not ok', function () {
+    module('and a hint is present', function (hooks) {
+      hooks.beforeEach(function () {
         this.set('hint', 'Ceci est un indice.');
         this.set('tutorials', []);
       });
 
-      it('should render the hint', async function () {
+      test('should render the hint', async function (assert) {
         // when
         await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
         // then
-        expect(find('.tutorial-panel')).to.exist;
-        expect(find('.tutorial-panel__hint-container')).to.exist;
-        expect(find('.tutorial-panel__hint-title')).to.exist;
-        expect(find('.tutorial-panel__hint-picto-container')).to.exist;
-        expect(find('.tutorial-panel__hint-picto')).to.exist;
-        expect(find('.tutorial-panel__hint-content')).to.exist;
-        expect(find('.tutorial-panel__hint-content').textContent.trim()).to.equal('Ceci est un indice.');
+        assert.dom('.tutorial-panel').exists();
+        assert.dom('.tutorial-panel__hint-container').exists();
+        assert.dom('.tutorial-panel__hint-title').exists();
+        assert.dom('.tutorial-panel__hint-picto-container').exists();
+        assert.dom('.tutorial-panel__hint-picto').exists();
+        assert.dom('.tutorial-panel__hint-content').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find('.tutorial-panel__hint-content').textContent.trim(), 'Ceci est un indice.');
       });
     });
 
-    context('and a tutorial is present', function () {
-      beforeEach(function () {
+    module('and a tutorial is present', function (hooks) {
+      hooks.beforeEach(function () {
         this.set('hint', 'Ceci est un indice');
         this.set('tutorials', [
           {
@@ -41,8 +42,8 @@ describe('Integration | Component | Tutorial Panel', function () {
         ]);
       });
 
-      context('when the user is logged in', function () {
-        it('should render the tutorial with actions', async function () {
+      module('when the user is logged in', function () {
+        test('should render the tutorial with actions', async function (assert) {
           // given
           class CurrentUserStub extends Service {
             user = {
@@ -57,18 +58,18 @@ describe('Integration | Component | Tutorial Panel', function () {
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
-          expect(find('.tutorial-card')).to.exist;
-          expect(find('.tutorial-card__content')).to.exist;
-          expect(find('.tutorial-card-content__details')).to.exist;
-          expect(find('.tutorial-card-content__actions')).to.exist;
-          expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
-          expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
-          expect(find('[title="Marquer ce tuto comme utile"]')).to.exist;
+          assert.dom('.tutorial-card').exists();
+          assert.dom('.tutorial-card__content').exists();
+          assert.dom('.tutorial-card-content__details').exists();
+          assert.dom('.tutorial-card-content__actions').exists();
+          assert.dom('[aria-label="Marquer ce tuto comme utile"]').exists();
+          assert.dom('[aria-label="Enregistrer dans ma liste de tutos"]').exists();
+          assert.dom('[title="Marquer ce tuto comme utile"]').exists();
         });
       });
 
-      context('when the user is not logged in', function () {
-        it('should render the tutorial without actions', async function () {
+      module('when the user is not logged in', function () {
+        test('should render the tutorial without actions', async function (assert) {
           // given
           class CurrentUserStub extends Service {
             user = null;
@@ -79,10 +80,10 @@ describe('Integration | Component | Tutorial Panel', function () {
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
-          expect(find('.tutorial-card')).to.exist;
-          expect(find('.tutorial-card__content')).to.exist;
-          expect(find('.tutorial-card-content__details')).to.exist;
-          expect(find('.tutorial-card-content__actions')).to.not.exist;
+          assert.dom('.tutorial-card').exists();
+          assert.dom('.tutorial-card__content').exists();
+          assert.dom('.tutorial-card-content__details').exists();
+          assert.dom('.tutorial-card-content__actions').doesNotExist();
         });
       });
     });

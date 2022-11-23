@@ -1,39 +1,40 @@
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import Service from '@ember/service';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Route | account-recovery | update sco record', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Route | account-recovery | update sco record', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('Route behavior', function () {
+  module('Route behavior', function (hooks) {
     let storeStub;
     let queryRecordStub;
     const params = {
       temporary_key: 'temporary key',
     };
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       queryRecordStub = sinon.stub();
       storeStub = Service.create({
         queryRecord: queryRecordStub,
       });
     });
 
-    it('should exist', function () {
+    test('should exist', function (assert) {
       // when
       const route = this.owner.lookup('route:account-recovery/update-sco-record');
       route.set('store', storeStub);
 
       // then
-      expect(route).to.be.ok;
+      assert.ok(route);
     });
 
-    it('should get valid account recovery', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('should get valid account recovery', function (assert) {
       // given
       queryRecordStub.resolves({});
       const route = this.owner.lookup('route:account-recovery/update-sco-record');
@@ -48,11 +49,14 @@ describe('Unit | Route | account-recovery | update sco record', function () {
         sinon.assert.calledWith(queryRecordStub, 'account-recovery-demand', {
           temporaryKey: params.temporary_key,
         });
+        assert.ok(true);
       });
     });
 
-    describe('when account recovery demand is valid', function () {
-      it('should create account recovery demand with fetched data', function () {
+    module('when account recovery demand is valid', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should create account recovery demand with fetched data', function (assert) {
         // given
         const stubbedAccountRecoveryDetails = {
           email: 'philipe@example.net',
@@ -72,15 +76,17 @@ describe('Unit | Route | account-recovery | update sco record', function () {
 
         // then
         return promise.then(({ temporaryKey, ...accountRecoveryDetails }) => {
-          expect(accountRecoveryDetails).to.eql(expectedAccountRecoveryDetails);
-          expect(temporaryKey).to.eql(params.temporary_key);
+          assert.deepEqual(accountRecoveryDetails, expectedAccountRecoveryDetails);
+          assert.deepEqual(temporaryKey, params.temporary_key);
         });
       });
     });
 
-    describe('when account recovery demand is invalid ', function () {
+    module('when account recovery demand is invalid ', function () {
       ['400', '404'].forEach((statusCode) => {
-        it(`should return error message when account recovery fails with ${statusCode}`, function () {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/require-expect
+        test(`should return error message when account recovery fails with ${statusCode}`, function (assert) {
           // given
           queryRecordStub.rejects({ errors: [{ status: statusCode }] });
 
@@ -92,13 +98,17 @@ describe('Unit | Route | account-recovery | update sco record', function () {
 
           // then
           return promise.then((result) => {
-            expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-invalid'));
-            expect(result.showBackToHomeButton).to.be.true;
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(result.errorMessage, this.intl.t('pages.account-recovery.errors.key-invalid'));
+            assert.true(result.showBackToHomeButton);
           });
         });
       });
 
-      it('should return error message when account recovery fails with 401', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should return error message when account recovery fails with 401', function (assert) {
         // given
         queryRecordStub.rejects({ errors: [{ status: 401 }] });
 
@@ -110,12 +120,16 @@ describe('Unit | Route | account-recovery | update sco record', function () {
 
         // then
         return promise.then((result) => {
-          expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-expired'));
-          expect(result.showRenewLink).to.be.true;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.errorMessage, this.intl.t('pages.account-recovery.errors.key-expired'));
+          assert.true(result.showRenewLink);
         });
       });
 
-      it('should return error message when account recovery fails with 400 and ACCOUNT_WITH_EMAIL_ALREADY_EXISTS', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should return error message when account recovery fails with 400 and ACCOUNT_WITH_EMAIL_ALREADY_EXISTS', function (assert) {
         // given
         queryRecordStub.rejects({ errors: [{ status: 400, code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
 
@@ -127,12 +141,16 @@ describe('Unit | Route | account-recovery | update sco record', function () {
 
         // then
         return promise.then((result) => {
-          expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.account-exists'));
-          expect(result.showBackToHomeButton).to.be.true;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.errorMessage, this.intl.t('pages.account-recovery.errors.account-exists'));
+          assert.true(result.showBackToHomeButton);
         });
       });
 
-      it('should return error message when account recovery fails with 403', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should return error message when account recovery fails with 403', function (assert) {
         // given
         queryRecordStub.rejects({ errors: [{ status: 403 }] });
 
@@ -144,13 +162,17 @@ describe('Unit | Route | account-recovery | update sco record', function () {
 
         // then
         return promise.then((result) => {
-          expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-used'));
-          expect(result.showBackToHomeButton).to.be.true;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.errorMessage, this.intl.t('pages.account-recovery.errors.key-used'));
+          assert.true(result.showBackToHomeButton);
         });
       });
 
       ['500', '502', '504'].forEach((statusCode) => {
-        it(`should return error message when account recovery fails with ${statusCode}`, function () {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/require-expect
+        test(`should return error message when account recovery fails with ${statusCode}`, function (assert) {
           // given
           queryRecordStub.rejects({ errors: [{ status: statusCode }] });
 
@@ -162,8 +184,10 @@ describe('Unit | Route | account-recovery | update sco record', function () {
 
           // then
           return promise.then((result) => {
-            expect(result.errorMessage).to.equal(this.intl.t('api-error-messages.internal-server-error'));
-            expect(result.showBackToHomeButton).to.be.true;
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(result.errorMessage, this.intl.t('api-error-messages.internal-server-error'));
+            assert.true(result.showBackToHomeButton);
           });
         });
       });

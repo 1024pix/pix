@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Service | errors', function () {
-  setupTest();
+module('Unit | Service | errors', function (hooks) {
+  setupTest(hooks);
 
-  describe('#push', function () {
-    it('should add error in errors array', function () {
+  module('#push', function () {
+    test('should add error in errors array', function (assert) {
       // given
       const service = this.owner.lookup('service:errors');
       const error = 'newError';
@@ -15,12 +14,14 @@ describe('Unit | Service | errors', function () {
       service.push(error);
 
       // then
-      expect(service.errors[0]).to.equal(error);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(service.errors[0], error);
     });
   });
 
-  describe('#shift', function () {
-    it('should return first error and remove it', function () {
+  module('#shift', function () {
+    test('should return first error and remove it', function (assert) {
       // given
       const service = this.owner.lookup('service:errors');
       const error1 = 'newError1';
@@ -32,13 +33,17 @@ describe('Unit | Service | errors', function () {
       const result = service.shift();
 
       // then
-      expect(result).to.equal(error1);
-      expect(service.errors.length).to.equal(1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(result, error1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(service.errors.length, 1);
     });
   });
 
-  describe('#hasErrors', function () {
-    it('should return true if there is errors', function () {
+  module('#hasErrors', function () {
+    test('should return true if there is errors', function (assert) {
       // given
       const service = this.owner.lookup('service:errors');
       const error = 'newError';
@@ -48,10 +53,10 @@ describe('Unit | Service | errors', function () {
       const result = service.hasErrors();
 
       // then
-      expect(result).to.equal(true);
+      assert.true(result);
     });
 
-    it('should return false if there is no error', function () {
+    test('should return false if there is no error', function (assert) {
       // given
       const service = this.owner.lookup('service:errors');
 
@@ -59,7 +64,7 @@ describe('Unit | Service | errors', function () {
       const result = service.hasErrors();
 
       // then
-      expect(result).to.equal(false);
+      assert.false(result);
     });
   });
 });

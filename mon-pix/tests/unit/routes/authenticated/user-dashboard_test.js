@@ -1,15 +1,14 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | User-Dashboard', function () {
-  setupTest();
+module('Unit | Route | User-Dashboard', function (hooks) {
+  setupTest(hooks);
 
-  describe('#model', function () {
-    it('should returns the model that contains campaignParticipationOverviews and scorecards', async function () {
+  module('#model', function () {
+    test('should returns the model that contains campaignParticipationOverviews and scorecards', async function (assert) {
       // given
       const scorecards = [EmberObject.create({ id: 3 }), EmberObject.create({ id: 8 })];
       const profile = EmberObject.create({ scorecards });
@@ -33,8 +32,8 @@ describe('Unit | Route | User-Dashboard', function () {
       const model = await route.model();
 
       // then
-      expect(model.campaignParticipationOverviews).to.deep.equal(campaignParticipationOverviews);
-      expect(model.scorecards).to.deep.equal(scorecards);
+      assert.deepEqual(model.campaignParticipationOverviews, campaignParticipationOverviews);
+      assert.deepEqual(model.scorecards, scorecards);
     });
   });
 });

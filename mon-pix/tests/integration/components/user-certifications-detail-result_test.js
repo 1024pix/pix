@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe('Integration | Component | user certifications detail result', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user certifications detail result', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let certification;
 
-  context('when certification is complete', function () {
-    it('should show the comment for candidate', async function () {
+  module('when certification is complete', function () {
+    test('should show the comment for candidate', async function (assert) {
       // given
       const certification = EmberObject.create({
         id: 1,
@@ -31,12 +30,12 @@ describe('Integration | Component | user certifications detail result', function
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
       // then
-      expect(screen.getByText('Comment for candidate')).to.exist;
+      assert.ok(screen.getByText('Comment for candidate'));
     });
   });
 
-  context('when certification has no comment for the user', function () {
-    it('should not show the comment for candidate', async function () {
+  module('when certification has no comment for the user', function () {
+    test('should not show the comment for candidate', async function (assert) {
       // given
       const certification = EmberObject.create({
         id: 1,
@@ -54,12 +53,12 @@ describe('Integration | Component | user certifications detail result', function
 
       // when
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-      expect(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.jury-title') })).to.not.exist;
+      assert.notOk(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.jury-title') }));
     });
   });
 
-  context('when certification has a certified badge image', function () {
-    it('should show the complementary certification badge', async function () {
+  module('when certification has a certified badge image', function () {
+    test('should show the complementary certification badge', async function (assert) {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -85,11 +84,11 @@ describe('Integration | Component | user certifications detail result', function
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
       // then
-      expect(screen.getByRole('img', { name: 'Certification complémentaire' })).to.exist;
+      assert.ok(screen.getByRole('img', { name: 'Certification complémentaire' }));
     });
 
-    context('when the certified badge image has a message', function () {
-      it('should display the message', async function () {
+    module('when the certified badge image has a message', function () {
+      test('should display the message', async function (assert) {
         // given
         certification = EmberObject.create({
           id: 1,
@@ -116,13 +115,13 @@ describe('Integration | Component | user certifications detail result', function
         const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
         // then
-        expect(screen.getByText('Bravo Coco!')).to.exist;
+        assert.ok(screen.getByText('Bravo Coco!'));
       });
     });
   });
 
-  context('when certification has no certifed badge image', function () {
-    it('should not show the complementary certification badge', async function () {
+  module('when certification has no certifed badge image', function () {
+    test('should not show the complementary certification badge', async function (assert) {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -142,12 +141,12 @@ describe('Integration | Component | user certifications detail result', function
       // when
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
       // then
-      expect(screen.queryByRole('img', { name: 'Certification complémentaire' })).to.not.exist;
+      assert.notOk(screen.queryByRole('img', { name: 'Certification complémentaire' }));
     });
   });
 
-  context('when certification has jury comments but no complementary certifed badges', function () {
-    it('should not show the complementary certification badge section', async function () {
+  module('when certification has jury comments but no complementary certifed badges', function () {
+    test('should not show the complementary certification badge section', async function (assert) {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -168,9 +167,7 @@ describe('Integration | Component | user certifications detail result', function
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
       // then
-      expect(
-        screen.queryByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') })
-      ).to.not.exist;
+      assert.notOk(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') }));
     });
   });
 });

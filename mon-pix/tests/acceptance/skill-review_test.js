@@ -1,49 +1,52 @@
 import { findAll, currentURL } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { click, fillIn } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit } from '@1024pix/ember-testing-library';
 
-describe('Acceptance | Campaigns | Campaigns Result', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let user;
   let campaign;
   let campaignParticipation;
   let campaignParticipationResult;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { isArchived: false });
     campaignParticipation = server.create('campaign-participation', { campaign });
   });
 
-  describe('Display campaign results', function () {
-    describe('When user is not logged in', function () {
-      beforeEach(async function () {
+  module('Display campaign results', function () {
+    module('When user is not logged in', function (hooks) {
+      hooks.beforeEach(async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should be redirect to connexion page', async function () {
+      test('should be redirect to connexion page', async function (assert) {
         // then
-        expect(currentURL()).to.equal('/connexion');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), '/connexion');
       });
     });
 
-    describe('When user is logged in', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('When user is logged in', async function (hooks) {
       const competenceResultName = 'Competence Nom';
       const skillSetResultName = 'badge skill set nom';
 
-      beforeEach(async function () {
+      hooks.beforeEach(async function () {
         // given
         await authenticateByEmail(user);
         const competenceResult = server.create('competence-result', {
@@ -57,15 +60,17 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         });
       });
 
-      it('should access to the page', async function () {
+      test('should access to the page', async function (assert) {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should display results', async function () {
+      test('should display results', async function (assert) {
         // given
         const COMPETENCE_MASTERY_PERCENTAGE = '85%';
 
@@ -73,27 +78,29 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(screen.getByText(competenceResultName)).to.exist;
-        expect(screen.getByText(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
+        assert.ok(screen.getByText(competenceResultName));
+        assert.ok(screen.getByText(COMPETENCE_MASTERY_PERCENTAGE));
       });
 
-      context('When the campaign is restricted and organization learner is disabled', function () {
-        beforeEach(function () {
+      module('When the campaign is restricted and organization learner is disabled', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, title: 'Parcours restreint' });
           campaignParticipation = server.create('campaign-participation', { campaign });
         });
 
-        it('should display results page', async function () {
+        test('should display results page', async function (assert) {
           // when
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
-          expect(screen.getByText('Parcours restreint')).to.exist;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
+          assert.ok(screen.getByText('Parcours restreint'));
         });
       });
 
-      it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function () {
+      test('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function (assert) {
         // given
         const BADGE_SKILL_SET_MASTERY_PERCENTAGE = '80%';
 
@@ -121,11 +128,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(screen.getByText(skillSetResultName)).to.exist;
-        expect(screen.getByText(BADGE_SKILL_SET_MASTERY_PERCENTAGE)).to.exist;
+        assert.ok(screen.getByText(skillSetResultName));
+        assert.ok(screen.getByText(BADGE_SKILL_SET_MASTERY_PERCENTAGE));
       });
 
-      it('should display the Pix emploi badge when badge is acquired', async function () {
+      test('should display the Pix emploi badge when badge is acquired', async function (assert) {
         // given
         const badge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Pix Emploi badge',
@@ -140,18 +147,18 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(screen.getByText('Congrats, you won a Pix Emploi badge')).to.exist;
+        assert.ok(screen.getByText('Congrats, you won a Pix Emploi badge'));
       });
 
-      it('should not display the Pix emploi badge when badge is not acquired', async function () {
+      test('should not display the Pix emploi badge when badge is not acquired', async function (assert) {
         // when
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(screen.queryByText(this.intl.t('pages.skill-review.badges-title'))).to.be.null;
+        assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.badges-title')));
       });
 
-      it('should display acquired badges', async function () {
+      test('should display acquired badges', async function (assert) {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -184,11 +191,15 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(findAll('.badge-card').length).to.equal(1);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.badge-card').length, 1);
       });
 
-      describe('when campaign has stages', async function () {
-        it('should display reached stage', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-async-module-callbacks
+      module('when campaign has stages', async function () {
+        test('should display reached stage', async function (assert) {
           // given
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
@@ -203,10 +214,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(screen.getByText('You reached Stage 1')).to.exist;
+          assert.ok(screen.getByText('You reached Stage 1'));
         });
 
-        it('should not display reached stage when CLEA badge acquired', async function () {
+        test('should not display reached stage when CLEA badge acquired', async function (assert) {
           // given
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
@@ -234,12 +245,12 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(screen.queryByText('You reached Stage 1')).to.not.exist;
-          expect(screen.getByText(cleaBadge.message)).to.exist;
+          assert.notOk(screen.queryByText('You reached Stage 1'));
+          assert.ok(screen.getByText(cleaBadge.message));
         });
       });
 
-      it('should share the results', async function () {
+      test('should share the results', async function (assert) {
         // when
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -247,13 +258,13 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // then
-        expect(screen.getByText(this.intl.t('pages.skill-review.already-shared'))).to.exist;
-        expect(screen.getByText(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
-        expect(screen.queryByText(this.intl.t('pages.skill-review.send-results'))).to.be.null;
-        expect(screen.queryByText(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
+        assert.ok(screen.getByText(this.intl.t('pages.skill-review.already-shared')));
+        assert.ok(screen.getByText(this.intl.t('pages.skill-review.actions.continue')));
+        assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.send-results')));
+        assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.actions.improve')));
       });
 
-      it('should redirect to default page on click', async function () {
+      test('should redirect to default page on click', async function (assert) {
         // given
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
@@ -262,21 +273,25 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
         // then
-        expect(currentURL()).to.equal('/accueil');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), '/accueil');
       });
     });
   });
 
-  context('when campaign is for Novice and isSimplifiedAccess', async function () {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/no-async-module-callbacks
+  module('when campaign is for Novice and isSimplifiedAccess', async function (hooks) {
     let campaignForNovice;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
       server.create('campaign-participation-result', { masteryRate: '1.0' });
       campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
     });
 
-    it('should redirect to default page on click when user is connected', async function () {
+    test('should redirect to default page on click when user is connected', async function (assert) {
       // given
       await authenticateByEmail(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
@@ -284,10 +299,12 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
-      expect(currentURL()).to.equal('/accueil');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/accueil');
     });
 
-    it('should redirect to sign up page on click when user is anonymous', async function () {
+    test('should redirect to sign up page on click when user is anonymous', async function (assert) {
       // given
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaignForNovice.code });
 
@@ -302,7 +319,9 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
-      expect(currentURL()).to.equal('/inscription');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/inscription');
     });
   });
 });

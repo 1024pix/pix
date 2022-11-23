@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | learning-more-panel', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | learning-more-panel', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('when there is at least one learningMore item', function () {
-    it('renders a list item when there is at least one learningMore item', async function () {
+  module('when there is at least one learningMore item', function () {
+    test('renders a list item when there is at least one learningMore item', async function (assert) {
       // given
       this.set('learningMoreTutorials', [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }]);
 
@@ -18,13 +17,13 @@ describe('Integration | Component | learning-more-panel', function () {
       await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
 
       // then
-      expect(findAll('.learning-more-panel__container')).to.have.length(1);
-      expect(findAll('.learning-more-panel__list-container')).to.have.length(1);
-      expect(find('.learning-more-panel__container').textContent).to.contains(this.intl.t('pages.learning-more.title'));
+      assert.dom('.learning-more-panel__container').exists({ count: 1 });
+      assert.dom('.learning-more-panel__list-container').exists({ count: 1 });
+      assert.ok(find('.learning-more-panel__container').textContent.includes(this.intl.t('pages.learning-more.title')));
     });
 
-    describe('when newTutorials FT is enabled', function () {
-      it('should display a list of new tutorial cards', async function () {
+    module('when newTutorials FT is enabled', function () {
+      test('should display a list of new tutorial cards', async function (assert) {
         // given
         const tuto1 = EmberObject.create({
           title: 'Tuto 1.1',
@@ -41,12 +40,12 @@ describe('Integration | Component | learning-more-panel', function () {
         await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
 
         // then
-        expect(findAll('.tutorial-card')).to.have.lengthOf(1);
+        assert.dom('.tutorial-card').exists({ count: 1 });
       });
     });
   });
 
-  it('should not render a list when there is no LearningMore elements', async function () {
+  test('should not render a list when there is no LearningMore elements', async function (assert) {
     // given
     this.set('learningMoreTutorials', null);
 
@@ -54,6 +53,6 @@ describe('Integration | Component | learning-more-panel', function () {
     await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
 
     // then
-    expect(findAll('.learning-more-panel__container')).to.have.lengthOf(0);
+    assert.dom('.learning-more-panel__container').doesNotExist();
   });
 });

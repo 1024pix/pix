@@ -1,13 +1,12 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | pix-toggle', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | pix-toggle', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     this.set('valueFirstLabel', 'valueFirstLabel');
     this.set('valueSecondLabel', 'valueSecondLabel');
     this.set('onToggle', function () {
@@ -20,32 +19,48 @@ describe('Integration | Component | pix-toggle', function () {
     );
   });
 
-  it('Default Render', function () {
-    expect(find('.pix-toggle')).to.exist;
+  test('Default Render', function (assert) {
+    assert.dom('.pix-toggle').exists();
   });
 
-  it('should display the toggle with on/off span', function () {
-    expect(find('.pix-toggle__on')).to.exist;
-    expect(find('.pix-toggle__off')).to.exist;
+  test('should display the toggle with on/off span', function (assert) {
+    assert.dom('.pix-toggle__on').exists();
+    assert.dom('.pix-toggle__off').exists();
   });
 
-  it('should display the toggle with on/off span with the correct values', function () {
-    expect(find('.pix-toggle__on').nodeName).to.equal('SPAN');
-    expect(find('.pix-toggle__off').nodeName).to.equal('SPAN');
+  test('should display the toggle with on/off span with the correct values', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__on').nodeName, 'SPAN');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__off').nodeName, 'SPAN');
 
-    expect(find('.pix-toggle__on').textContent).to.equal('valueFirstLabel');
-    expect(find('.pix-toggle__off').textContent).to.equal('valueSecondLabel');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__on').textContent, 'valueFirstLabel');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__off').textContent, 'valueSecondLabel');
   });
 
-  it('should change the value of toggleOn when toggle off', async function () {
+  test('should change the value of toggleOn when toggle off', async function (assert) {
     await click('.pix-toggle__off');
 
-    expect(find('.pix-toggle__on').textContent).to.equal('valueSecondLabel');
-    expect(find('.pix-toggle__off').textContent).to.equal('valueFirstLabel');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__on').textContent, 'valueSecondLabel');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__off').textContent, 'valueFirstLabel');
 
     await click('.pix-toggle__off');
 
-    expect(find('.pix-toggle__on').textContent).to.equal('valueFirstLabel');
-    expect(find('.pix-toggle__off').textContent).to.equal('valueSecondLabel');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__on').textContent, 'valueFirstLabel');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-toggle__off').textContent, 'valueSecondLabel');
   });
 });

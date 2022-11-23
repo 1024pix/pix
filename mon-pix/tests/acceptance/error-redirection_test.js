@@ -1,20 +1,19 @@
-import { currentURL, find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { currentURL, visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Error page', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Error page', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  it('should display the error page when the api returned an error which is not 401', async function () {
+  test('should display the error page when the api returned an error which is not 401', async function (assert) {
     // given
     await authenticateByEmail(user);
     this.server.get('/certifications', { errors: [{ code: 500 }] }, 500);
@@ -23,7 +22,9 @@ describe('Acceptance | Error page', function () {
     await visit('/mes-certifications');
 
     // then
-    expect(currentURL()).to.equal('/mes-certifications');
-    expect(find('.error-page')).to.exist;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), '/mes-certifications');
+    assert.dom('.error-page').exists();
   });
 });

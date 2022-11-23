@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Component | User-Tutorials | Filters | Sidebar', function () {
-  setupTest();
+module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks) {
+  setupTest(hooks);
 
-  describe('#handleFilterChange', function () {
-    describe('when element is not in array', function () {
-      it('should add id on corresponding type array', function () {
+  module('#handleFilterChange', function () {
+    module('when element is not in array', function () {
+      test('should add id on corresponding type array', function (assert) {
         // given
         const type = 'competences';
         const id = 'competenceId1';
@@ -18,12 +17,12 @@ describe('Unit | Component | User-Tutorials | Filters | Sidebar', function () {
         component.handleFilterChange(type, id);
 
         // then
-        expect(component.filters[type].includes(id)).to.be.true;
+        assert.true(component.filters[type].includes(id));
       });
     });
 
-    describe('when element is already in list', function () {
-      it('should remove it', function () {
+    module('when element is already in list', function () {
+      test('should remove it', function (assert) {
         // given
         const type = 'competences';
         const id = 'competenceId1';
@@ -34,13 +33,13 @@ describe('Unit | Component | User-Tutorials | Filters | Sidebar', function () {
         component.handleFilterChange(type, id);
 
         // then
-        expect(component.filters[type].includes(id)).to.be.false;
+        assert.false(component.filters[type].includes(id));
       });
     });
   });
 
-  describe('#handleResetFilters', function () {
-    it('should reset all filters', async function () {
+  module('#handleResetFilters', function () {
+    test('should reset all filters', async function (assert) {
       // given
       const component = createGlimmerComponent('component:user-tutorials/filters/sidebar');
       component.filters.competences = ['competence1', 'competence2'];
@@ -49,8 +48,10 @@ describe('Unit | Component | User-Tutorials | Filters | Sidebar', function () {
       component.handleResetFilters();
 
       // then
-      expect(component.filters.competences);
-      expect(component.filters.competences).to.have.lengthOf(0);
+      assert.ok(component.filters.competences);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.filters.competences.length, 0);
     });
   });
 });

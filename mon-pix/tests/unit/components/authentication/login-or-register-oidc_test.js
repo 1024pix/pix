@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Component | authentication | login-or-register-oidc', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | authentication | login-or-register-oidc', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('#register', function () {
-    it('should create session', function () {
+  module('#register', function () {
+    test('should create session', function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
       const authenticateStub = sinon.stub();
@@ -32,10 +31,11 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         identityProviderSlug: 'super-idp',
         hostSlug: 'users',
       });
+      assert.ok(true);
     });
 
-    context('when authentication key has expired', function () {
-      it('should display error', async function () {
+    module('when authentication key has expired', function () {
+      test('should display error', async function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
         const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
@@ -51,14 +51,17 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         await component.register();
 
         // then
-        expect(component.registerErrorMessage).to.equal(
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          component.registerErrorMessage,
           this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
       });
     });
 
-    context('when terms of service are not selected', function () {
-      it('should display error', function () {
+    module('when terms of service are not selected', function () {
+      test('should display error', function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
         component.isTermsOfServiceValidated = false;
@@ -67,13 +70,13 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         component.register();
 
         // then
-        expect(component.registerErrorMessage).to.equal(
-          this.intl.t('pages.login-or-register-oidc.error.error-message')
-        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(component.registerErrorMessage, this.intl.t('pages.login-or-register-oidc.error.error-message'));
       });
     });
 
-    it('it should display detailed error', async function () {
+    test('it should display detailed error', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
@@ -89,10 +92,12 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       await component.register();
 
       // then
-      expect(component.registerErrorMessage).to.equal(`${this.intl.t('common.error')} (some detail)`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.registerErrorMessage, `${this.intl.t('common.error')} (some detail)`);
     });
 
-    it('it should display generic error', async function () {
+    test('it should display generic error', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500' }] });
@@ -108,12 +113,14 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       await component.register();
 
       // then
-      expect(component.registerErrorMessage).to.equal(this.intl.t('common.error'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.registerErrorMessage, this.intl.t('common.error'));
     });
   });
 
-  describe('#validateEmail', function () {
-    it('should trim on email validation', function () {
+  module('#validateEmail', function () {
+    test('should trim on email validation', function (assert) {
       // given
       const emailWithSpaces = '   glace@aleau.net   ';
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
@@ -122,11 +129,13 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       component.validateEmail({ target: { value: emailWithSpaces } });
 
       // then
-      expect(component.email).to.equal(emailWithSpaces.trim());
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.email, emailWithSpaces.trim());
     });
 
-    context('when email is invalid', function () {
-      it('should display error', function () {
+    module('when email is invalid', function () {
+      test('should display error', function (assert) {
         // given
         const invalidEmail = 'glace@aleau';
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
@@ -135,15 +144,15 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         component.validateEmail({ target: { value: invalidEmail } });
 
         // then
-        expect(component.emailValidationMessage).to.equal(
-          this.intl.t('pages.login-or-register-oidc.error.invalid-email')
-        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(component.emailValidationMessage, this.intl.t('pages.login-or-register-oidc.error.invalid-email'));
       });
     });
   });
 
-  describe('#login', function () {
-    beforeEach(function () {
+  module('#login', function (hooks) {
+    hooks.beforeEach(function () {
       const oidcPartner = {
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
@@ -158,7 +167,7 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
     });
 
-    it('should request api for login', async function () {
+    test('should request api for login', async function (assert) {
       // given
       const email = 'glace.alo@example.net';
       const password = 'pix123';
@@ -176,10 +185,11 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         enteredPassword: password,
         enteredEmail: email,
       });
+      assert.ok(true);
     });
 
-    context('when form is invalid', function () {
-      it('should not request api for reconciliation', async function () {
+    module('when form is invalid', function () {
+      test('should not request api for reconciliation', async function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
         component.email = '';
@@ -191,11 +201,12 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
 
         // then
         sinon.assert.notCalled(component.args.onLogin);
+        assert.ok(true);
       });
     });
 
-    context('when authentication key has expired', function () {
-      it('should display error', async function () {
+    module('when authentication key has expired', function () {
+      test('should display error', async function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '401' }] });
@@ -207,14 +218,17 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         await component.login(eventStub);
 
         // then
-        expect(component.loginErrorMessage).to.equal(
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          component.loginErrorMessage,
           this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
       });
     });
 
-    context('when user is not found', function () {
-      it('should display error', async function () {
+    module('when user is not found', function () {
+      test('should display error', async function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '404' }] });
@@ -226,14 +240,17 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         await component.login(eventStub);
 
         // then
-        expect(component.loginErrorMessage).to.equal(
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          component.loginErrorMessage,
           this.intl.t('pages.login-or-register-oidc.error.login-unauthorized-error')
         );
       });
     });
 
-    context('when there is an account conflict', function () {
-      it('should display error', async function () {
+    module('when there is an account conflict', function () {
+      test('should display error', async function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
@@ -245,13 +262,13 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
         await component.login(eventStub);
 
         // then
-        expect(component.loginErrorMessage).to.equal(
-          this.intl.t('pages.login-or-register-oidc.error.account-conflict')
-        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(component.loginErrorMessage, this.intl.t('pages.login-or-register-oidc.error.account-conflict'));
       });
     });
 
-    it('it should display generic error', async function () {
+    test('it should display generic error', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
       component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
@@ -263,7 +280,9 @@ describe('Unit | Component | authentication | login-or-register-oidc', function 
       await component.login(eventStub);
 
       // then
-      expect(component.loginErrorMessage).to.equal(this.intl.t('common.error'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.loginErrorMessage, this.intl.t('common.error'));
     });
   });
 });

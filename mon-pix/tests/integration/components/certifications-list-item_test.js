@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { module, test } from 'qunit';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | certifications list item', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | certifications list item', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const PUBLISH_CLASS = '.certifications-list-item__published-item';
   const UNPUBLISH_CLASS = '.certifications-list-item__unpublished-item';
@@ -24,13 +23,13 @@ describe('Integration | Component | certifications list item', function () {
 
   const commentForCandidate = 'Commentaire pour le candidat';
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`<CertificationsListItem />`);
-    expect(find('.certifications-list-item__row-presentation')).to.exist;
+    assert.dom('.certifications-list-item__row-presentation').exists();
   });
 
-  context('when the certification is not published', function () {
-    beforeEach(async function () {
+  module('when the certification is not published', function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       const certification = createCertification({
         status: 'validated',
@@ -44,24 +43,24 @@ describe('Integration | Component | certifications list item', function () {
     });
 
     // then
-    it('should render a certifications-list-item__unpublished-item div', function () {
-      expect(find(UNPUBLISH_CLASS)).to.exist;
+    test('should render a certifications-list-item__unpublished-item div', function (assert) {
+      assert.dom(UNPUBLISH_CLASS).exists();
     });
 
-    it('should show en attente de résultat', function () {
-      expect(find(IMG_FOR_WAITING_STATUS_SELECTOR)).to.exist;
-      expect(find(STATUS_SELECTOR).textContent).to.include('En attente du résultat');
+    test('should show en attente de résultat', function (assert) {
+      assert.dom(IMG_FOR_WAITING_STATUS_SELECTOR).exists();
+      assert.ok(find(STATUS_SELECTOR).textContent.includes('En attente du résultat'));
     });
 
-    it('should not be clickable', function () {
-      expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
-      expect(find(CLICKABLE_SELECTOR)).not.to.exist;
+    test('should not be clickable', function (assert) {
+      assert.dom(NOT_CLICKABLE_SELECTOR).exists();
+      assert.dom(CLICKABLE_SELECTOR).doesNotExist();
     });
   });
 
-  context('when the certification is published and rejected', function () {
-    context('without commentForCandidate', function () {
-      beforeEach(async function () {
+  module('when the certification is published and rejected', function () {
+    module('without commentForCandidate', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         const certification = createCertification({
           status: 'rejected',
@@ -76,35 +75,35 @@ describe('Integration | Component | certifications list item', function () {
       });
 
       // then
-      it('should render a certifications-list-item__published-item div', function () {
-        expect(find(PUBLISH_CLASS)).to.exist;
+      test('should render a certifications-list-item__published-item div', function (assert) {
+        assert.dom(PUBLISH_CLASS).exists();
       });
 
-      it('should show Certification non obtenue', function () {
-        expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
-        expect(find(STATUS_SELECTOR).textContent).to.include('Certification non obtenue');
+      test('should show Certification non obtenue', function (assert) {
+        assert.dom(IMG_FOR_STATUS_SELECTOR).exists();
+        assert.ok(find(STATUS_SELECTOR).textContent.includes('Certification non obtenue'));
       });
 
-      it('should not show Détail in last column', function () {
-        expect(find(REJECTED_DETAIL_SELECTOR)).to.not.exist;
+      test('should not show Détail in last column', function (assert) {
+        assert.dom(REJECTED_DETAIL_SELECTOR).doesNotExist();
       });
 
-      it('should not show comment for candidate panel when clicked on row', async function () {
+      test('should not show comment for candidate panel when clicked on row', async function (assert) {
         // when
         await click(CERTIFICATION_CELL_SELECTOR);
 
         // then
-        expect(find(COMMENT_CELL_SELECTOR)).to.not.exist;
+        assert.dom(COMMENT_CELL_SELECTOR).doesNotExist();
       });
 
-      it('should not be clickable', function () {
-        expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
-        expect(find(CLICKABLE_SELECTOR)).not.to.exist;
+      test('should not be clickable', function (assert) {
+        assert.dom(NOT_CLICKABLE_SELECTOR).exists();
+        assert.dom(CLICKABLE_SELECTOR).doesNotExist();
       });
     });
 
-    context('with a commentForCandidate', function () {
-      beforeEach(async function () {
+    module('with a commentForCandidate', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         const certification = createCertification({
           status: 'rejected',
@@ -118,36 +117,36 @@ describe('Integration | Component | certifications list item', function () {
       });
 
       // then
-      it('should render a certifications-list-item__published-item div', function () {
-        expect(find(PUBLISH_CLASS)).to.exist;
+      test('should render a certifications-list-item__published-item div', function (assert) {
+        assert.dom(PUBLISH_CLASS).exists();
       });
 
-      it('should show Certification non obtenue', function () {
-        expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
-        expect(find(STATUS_SELECTOR).textContent).to.include('Certification non obtenue');
+      test('should show Certification non obtenue', function (assert) {
+        assert.dom(IMG_FOR_STATUS_SELECTOR).exists();
+        assert.ok(find(STATUS_SELECTOR).textContent.includes('Certification non obtenue'));
       });
 
-      it('should show Détail in last column', function () {
-        expect(find(REJECTED_DETAIL_SELECTOR)).to.exist;
-        expect(find(REJECTED_DETAIL_SELECTOR).textContent).to.include('détail');
+      test('should show Détail in last column', function (assert) {
+        assert.dom(REJECTED_DETAIL_SELECTOR).exists();
+        assert.ok(find(REJECTED_DETAIL_SELECTOR).textContent.includes('détail'));
       });
 
-      it('should show comment for candidate panel when clicked on row', async function () {
+      test('should show comment for candidate panel when clicked on row', async function (assert) {
         await click(CERTIFICATION_CELL_SELECTOR);
 
-        expect(find(COMMENT_CELL_SELECTOR)).to.exist;
-        expect(find(COMMENT_CELL_SELECTOR).textContent).to.include(commentForCandidate);
+        assert.dom(COMMENT_CELL_SELECTOR).exists();
+        assert.ok(find(COMMENT_CELL_SELECTOR).textContent.includes(commentForCandidate));
       });
 
-      it('should be clickable', function () {
-        expect(find(CLICKABLE_SELECTOR)).to.exist;
-        expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
+      test('should be clickable', function (assert) {
+        assert.dom(CLICKABLE_SELECTOR).exists();
+        assert.dom(NOT_CLICKABLE_SELECTOR).doesNotExist();
       });
     });
   });
 
-  context('when the certification is published and validated', function () {
-    beforeEach(async function () {
+  module('when the certification is published and validated', function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       const certification = createCertification({
         status: 'validated',
@@ -160,35 +159,35 @@ describe('Integration | Component | certifications list item', function () {
     });
 
     // then
-    it('should render certifications-list-item__published-item with a link inside', function () {
-      expect(find(`${PUBLISH_CLASS} a`)).to.exist;
+    test('should render certifications-list-item__published-item with a link inside', function (assert) {
+      assert.dom(`${PUBLISH_CLASS} a`).exists();
     });
 
-    it('should show Certification obtenue', function () {
-      expect(find('img[data-test-id="certifications-list-item__green-check-img"]')).to.exist;
-      expect(find(STATUS_SELECTOR).textContent).to.include('Certification obtenue');
+    test('should show Certification obtenue', function (assert) {
+      assert.dom('img[data-test-id="certifications-list-item__green-check-img"]').exists();
+      assert.ok(find(STATUS_SELECTOR).textContent.includes('Certification obtenue'));
     });
 
-    it('should show the Pix Score', function () {
-      expect(find(PIX_SCORE_CELL_SELECTOR)).to.exist;
-      expect(find(PIX_SCORE_CELL_SELECTOR).textContent).to.include('231');
+    test('should show the Pix Score', function (assert) {
+      assert.dom(PIX_SCORE_CELL_SELECTOR).exists();
+      assert.ok(find(PIX_SCORE_CELL_SELECTOR).textContent.includes('231'));
     });
 
-    it('should show link to certification page in last column', function () {
-      expect(find(VALIDATED_DETAIL_SELECTOR)).to.exist;
-      expect(find(VALIDATED_DETAIL_SELECTOR).textContent).to.include('résultats');
+    test('should show link to certification page in last column', function (assert) {
+      assert.dom(VALIDATED_DETAIL_SELECTOR).exists();
+      assert.ok(find(VALIDATED_DETAIL_SELECTOR).textContent.includes('résultats'));
     });
 
-    it('should be clickable', function () {
-      expect(find(CLICKABLE_SELECTOR)).to.exist;
-      expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
+    test('should be clickable', function (assert) {
+      assert.dom(CLICKABLE_SELECTOR).exists();
+      assert.dom(NOT_CLICKABLE_SELECTOR).doesNotExist();
     });
   });
 
-  context('when the certification is cancelled', function () {
-    context('and is published', function () {
-      context('and and has no comments', function () {
-        it('should show Certification annulée without comments', async function () {
+  module('when the certification is cancelled', function () {
+    module('and is published', function () {
+      module('and and has no comments', function () {
+        test('should show Certification annulée without comments', async function (assert) {
           // given
           const certification = createCertification({
             status: 'cancelled',
@@ -199,14 +198,14 @@ describe('Integration | Component | certifications list item', function () {
           // when
           await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
 
-          expect(find(PUBLISH_CLASS)).to.exist;
-          expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
-          expect(find(STATUS_SELECTOR).textContent).to.include('Certification annulée');
+          assert.dom(PUBLISH_CLASS).exists();
+          assert.dom(IMG_FOR_STATUS_SELECTOR).exists();
+          assert.ok(find(STATUS_SELECTOR).textContent.includes('Certification annulée'));
 
-          expect(find('button')).not.to.exist;
+          assert.dom('button').doesNotExist();
         });
 
-        it('should not be clickable', async function () {
+        test('should not be clickable', async function (assert) {
           // given
           const certification = createCertification({
             status: 'cancelled',
@@ -217,13 +216,13 @@ describe('Integration | Component | certifications list item', function () {
           // when
           await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
 
-          expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
-          expect(find(CLICKABLE_SELECTOR)).not.to.exist;
+          assert.dom(NOT_CLICKABLE_SELECTOR).exists();
+          assert.dom(CLICKABLE_SELECTOR).doesNotExist();
         });
       });
 
-      context('and and has comments', function () {
-        it('should show Certification annulée with comments', async function () {
+      module('and and has comments', function () {
+        test('should show Certification annulée with comments', async function (assert) {
           // given
           const certification = EmberObject.create({
             id: 1,
@@ -239,11 +238,11 @@ describe('Integration | Component | certifications list item', function () {
           // when
           await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
 
-          expect(find('button')).to.exist;
+          assert.dom('button').exists();
         });
       });
 
-      it('should be clickable', async function () {
+      test('should be clickable', async function (assert) {
         // given
         const certification = createCertification({
           status: 'cancelled',
@@ -255,13 +254,13 @@ describe('Integration | Component | certifications list item', function () {
         // when
         await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
 
-        expect(find(CLICKABLE_SELECTOR)).to.exist;
-        expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
+        assert.dom(CLICKABLE_SELECTOR).exists();
+        assert.dom(NOT_CLICKABLE_SELECTOR).doesNotExist();
       });
     });
 
-    context('and is not published', function () {
-      beforeEach(async function () {
+    module('and is not published', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         const certification = createCertification({
           status: 'cancelled',
@@ -274,12 +273,12 @@ describe('Integration | Component | certifications list item', function () {
       });
 
       // then
-      it('should render a certifications-list-item__unpublished-item div', function () {
-        expect(find(UNPUBLISH_CLASS)).to.exist;
+      test('should render a certifications-list-item__unpublished-item div', function (assert) {
+        assert.dom(UNPUBLISH_CLASS).exists();
       });
 
-      it('should not show Certification annulée', function () {
-        expect(find(IMG_FOR_STATUS_SELECTOR)).not.to.exist;
+      test('should not show Certification annulée', function (assert) {
+        assert.dom(IMG_FOR_STATUS_SELECTOR).doesNotExist();
       });
     });
   });

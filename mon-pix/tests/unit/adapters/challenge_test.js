@@ -1,27 +1,26 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | challenge', function () {
-  setupTest();
+module('Unit | Adapters | challenge', function (hooks) {
+  setupTest(hooks);
 
-  describe('#urlForQueryRecord', function () {
+  module('#urlForQueryRecord', function (hooks) {
     let adapter;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       adapter = this.owner.lookup('adapter:challenge');
       adapter.ajax = sinon.stub().resolves();
     });
 
-    it('should build get next challenge url', async function () {
+    test('should build get next challenge url', async function (assert) {
       // when
       const query = { assessmentId: 1 };
       const url = await adapter.urlForQueryRecord(query, 'challenge');
 
       // then
-      expect(query.assessmentId).to.be.undefined;
-      expect(url.endsWith('/assessments/1/next')).to.be.true;
+      assert.notOk(query.assessmentId);
+      assert.true(url.endsWith('/assessments/1/next'));
     });
   });
 });

@@ -1,12 +1,11 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Competence | Resume', function () {
-  setupTest();
+module('Unit | Route | Competence | Resume', function (hooks) {
+  setupTest(hooks);
 
   let route;
   const competenceId = 'competenceId';
@@ -15,7 +14,7 @@ describe('Unit | Route | Competence | Resume', function () {
   let queryRecordStub;
   let competenceEvaluation;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     competenceEvaluation = EmberObject.create({ id: 123, competenceId });
 
     queryRecordStub = sinon.stub().resolves(competenceEvaluation);
@@ -31,8 +30,8 @@ describe('Unit | Route | Competence | Resume', function () {
     route.set('router', routerStub);
   });
 
-  describe('#model', function () {
-    it('should returns the competenceEvaluation', async function () {
+  module('#model', function () {
+    test('should returns the competenceEvaluation', async function (assert) {
       // given
       const transition = { to: { parent: { params: { competence_id: competenceId } } } };
 
@@ -40,12 +39,14 @@ describe('Unit | Route | Competence | Resume', function () {
       const model = await route.model(null, transition);
 
       // then
-      expect(model).to.equal(competenceEvaluation);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(model, competenceEvaluation);
     });
   });
 
-  describe('#afterModel', function () {
-    it('should transition to assessments.resume', function () {
+  module('#afterModel', function () {
+    test('should transition to assessments.resume', function (assert) {
       // given
       route.router.replaceWith.returns();
       const competenceEvaluation = EmberObject.create({ competenceId, assessment: { id: 'assessmentId' } });
@@ -56,6 +57,7 @@ describe('Unit | Route | Competence | Resume', function () {
       // then
       sinon.assert.calledOnce(route.router.replaceWith);
       sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', 'assessmentId');
+      assert.ok(true);
     });
   });
 });

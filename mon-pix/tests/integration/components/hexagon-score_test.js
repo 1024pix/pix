@@ -1,37 +1,40 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | hexagon-score', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | hexagon-score', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
-    it('should render component', async function () {
+  module('Component rendering', function () {
+    test('should render component', async function (assert) {
       // when
       await render(hbs`<HexagonScore />`);
       // then
 
-      expect(this.element.querySelector('.hexagon-score')).to.exist;
+      assert.ok(this.element.querySelector('.hexagon-score'));
     });
 
-    it('should display two dashes, when no pixScore provided', async function () {
+    test('should display two dashes, when no pixScore provided', async function (assert) {
       // when
       await render(hbs`<HexagonScore />`);
 
       // then
-      expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('–');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML, '–');
     });
 
-    it('should display provided score in hexagon', async function () {
+    test('should display provided score in hexagon', async function (assert) {
       // given
       const pixScore = '777';
       this.set('pixScore', pixScore);
       // when
       await render(hbs`<HexagonScore @pixScore={{this.pixScore}} />`);
       // then
-      expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal(pixScore);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML, pixScore);
     });
   });
 });

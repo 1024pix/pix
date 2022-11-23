@@ -1,12 +1,12 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Checkpoint', function () {
-  setupTest();
+module('Unit | Route | Assessments | Checkpoint', function (hooks) {
+  setupTest(hooks);
 
-  describe('#afterModel', function () {
-    it('should force the progression reload when assessment is of competence evaluation', async function () {
+  module('#afterModel', function () {
+    test('should force the progression reload when assessment is of competence evaluation', async function (assert) {
       // given
       const route = this.owner.lookup('route:assessments/checkpoint');
       const reloadStub = sinon.stub();
@@ -21,9 +21,10 @@ describe('Unit | Route | Assessments | Checkpoint', function () {
       // then
       sinon.assert.calledWith(assessment.belongsTo, 'progression');
       sinon.assert.calledOnce(reloadStub);
+      assert.ok(true);
     });
 
-    it('should force the progression reload when assessment is for campaign', async function () {
+    test('should force the progression reload when assessment is for campaign', async function (assert) {
       // given
       const route = this.owner.lookup('route:assessments/checkpoint');
       route.store.queryRecord = sinon.stub();
@@ -39,6 +40,7 @@ describe('Unit | Route | Assessments | Checkpoint', function () {
       // then
       sinon.assert.calledWith(assessment.belongsTo, 'progression');
       sinon.assert.calledOnce(reloadStub);
+      assert.ok(true);
     });
   });
 });

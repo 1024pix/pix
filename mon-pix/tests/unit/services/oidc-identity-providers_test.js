@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Service | oidc-identity-providers', function () {
-  setupTest();
+module('Unit | Service | oidc-identity-providers', function (hooks) {
+  setupTest(hooks);
 
-  describe('load', function () {
-    it('should contain identity providers by id and retrieve the whole list', async function () {
+  module('load', function () {
+    test('should contain identity providers by id and retrieve the whole list', async function (assert) {
       // given
       const oidcPartner = {
         id: 'oidc-partner',
@@ -31,19 +30,35 @@ describe('Unit | Service | oidc-identity-providers', function () {
       await oidcIdentityProvidersService.load();
 
       // then
-      expect(oidcIdentityProvidersService['oidc-partner'].code).to.equal(oidcPartner.code);
-      expect(oidcIdentityProvidersService['oidc-partner'].organizationName).to.equal(oidcPartner.organizationName);
-      expect(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl).to.equal(oidcPartner.hasLogoutUrl);
-      expect(oidcIdentityProvidersService['oidc-partner'].source).to.equal(oidcPartner.source);
-      expect(oidcIdentityProvidersService.list[0].code).to.equal(oidcPartner.code);
-      expect(oidcIdentityProvidersService.list[0].organizationName).to.equal(oidcPartner.organizationName);
-      expect(oidcIdentityProvidersService.list[0].hasLogoutUrl).to.equal(oidcPartner.hasLogoutUrl);
-      expect(oidcIdentityProvidersService.list[0].source).to.equal(oidcPartner.source);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
 
-  describe('getIdentityProviderNamesByAuthenticationMethods', function () {
-    it('should return identity provider names for methods', function () {
+  module('getIdentityProviderNamesByAuthenticationMethods', function () {
+    test('should return identity provider names for methods', function (assert) {
       // given
       const methods = [{ identityProvider: 'FRANCE_CONNECT' }, { identityProvider: 'IMPOTS_GOUV' }];
       const oidcPartnerObject = Object.create({
@@ -73,7 +88,7 @@ describe('Unit | Service | oidc-identity-providers', function () {
       const names = oidcIdentityProvidersService.getIdentityProviderNamesByAuthenticationMethods(methods);
 
       // expect
-      expect(names).to.deep.equal(['France Connect', 'Impots.gouv']);
+      assert.deepEqual(names, ['France Connect', 'Impots.gouv']);
     });
   });
 });

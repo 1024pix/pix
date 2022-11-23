@@ -1,17 +1,16 @@
 import { currentURL, find, findAll, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Course ending screen', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Course ending screen', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
   let firstChallenge;
   let secondChallenge;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     assessment = server.create('assessment', 'ofDemoType');
     firstChallenge = server.create('challenge', 'forDemo', 'QCU');
     server.create('answer', {
@@ -30,38 +29,42 @@ describe('Acceptance | Course ending screen', function () {
     await visit(`/assessments/${assessment.id}/results`);
   });
 
-  it('should be available directly from the url', function () {
-    expect(currentURL()).to.equal(`/assessments/${assessment.id}/results`);
+  test('should be available directly from the url', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), `/assessments/${assessment.id}/results`);
   });
 
-  it('should display a summary of all the answers', function () {
-    expect(find('.assessment-results__list')).to.exist;
+  test('should display a summary of all the answers', function (assert) {
+    assert.dom('.assessment-results__list').exists();
   });
 
-  it('should display the matching instructions', function () {
-    expect(findAll('.result-item')[0].textContent.trim()).to.contain(firstChallenge.instruction);
-    expect(findAll('.result-item')[1].textContent.trim()).to.contain(secondChallenge.instruction);
+  test('should display the matching instructions', function (assert) {
+    assert.ok(findAll('.result-item')[0].textContent.trim().includes(firstChallenge.instruction));
+    assert.ok(findAll('.result-item')[1].textContent.trim().includes(secondChallenge.instruction));
   });
 
-  it('should display the course name', function () {
-    expect(find('.assessment-banner__title').textContent).to.contain(assessment.title);
+  test('should display the course name', function (assert) {
+    assert.ok(find('.assessment-banner__title').textContent.includes(assessment.title));
   });
 
-  it('should not display the back button to return to the home page', function () {
-    expect(find('.assessment-banner__home-link')).to.not.exist;
+  test('should not display the back button to return to the home page', function (assert) {
+    assert.dom('.assessment-banner__home-link').doesNotExist();
   });
 
-  it('should display a way to come back to the test list', function () {
-    expect(find('.assessment-results__index-link-container')).to.exist;
+  test('should display a way to come back to the test list', function (assert) {
+    assert.dom('.assessment-results__index-link-container').exists();
   });
 
-  it('should display the course banner', function () {
-    expect(find('.assessment-results__assessment-banner')).to.exist;
+  test('should display the course banner', function (assert) {
+    assert.dom('.assessment-results__assessment-banner').exists();
   });
 
-  it('should display a button that redirects to inscription page', async function () {
-    expect(find('.assessment-results__index-link__element')).to.exist;
-    expect(find('.assessment-results__index-a-link').attributes.href.value).to.equal('https://app.pix.fr/inscription');
-    expect(find('.assessment-results__link-back').textContent).to.contains('Continuer mon expérience Pix');
+  test('should display a button that redirects to inscription page', async function (assert) {
+    assert.dom('.assessment-results__index-link__element').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.assessment-results__index-a-link').attributes.href.value, 'https://app.pix.fr/inscription');
+    assert.ok(find('.assessment-results__link-back').textContent.includes('Continuer mon expérience Pix'));
   });
 });

@@ -1,6 +1,5 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -16,8 +15,8 @@ const NO_ANSWER_POSITION = 0;
 const WRONG_ANSWER_POSITION = 1;
 const CORRECT_ANSWER_POSITION = 2;
 
-describe('Integration | Component | QROCm ind solution panel', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | QROCm ind solution panel', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
   const challenge = EmberObject.create({
@@ -36,8 +35,8 @@ describe('Integration | Component | QROCm ind solution panel', function () {
 
   [{ format: 'petit' }, { format: 'phrase' }, { format: 'paragraphe' }, { format: 'unreferenced_format' }].forEach(
     (data) => {
-      describe(`Whatever the format (testing "${data.format}" format)`, function () {
-        beforeEach(async function () {
+      module(`Whatever the format (testing "${data.format}" format)`, function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           this.set('answer', answer);
           this.set('solution', solution);
@@ -51,61 +50,67 @@ describe('Integration | Component | QROCm ind solution panel', function () {
           @challenge={{this.challenge}} />`);
         });
 
-        it('should dqrocm-ind-solution-panel-test.jsisplay the labels', function () {
+        test('should dqrocm-ind-solution-panel-test.jsisplay the labels', function (assert) {
           const labels = findAll('.correction-qrocm-text__label');
-          expect(labels.length).to.equal(3);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(labels.length, 3);
         });
 
-        describe('When the answer is correct', function () {
-          it('should display the correct answer in green bold', async function () {
+        module('When the answer is correct', function () {
+          test('should display the correct answer in green bold', async function (assert) {
             // then
             const correctAnswerText = findAll(ANSWER)[CORRECT_ANSWER_POSITION];
-            expect(correctAnswerText.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
+            assert.true(correctAnswerText.classList.contains('correction-qroc-box-answer--correct'));
           });
 
-          it('should not display the solution block', async function () {
+          test('should not display the solution block', async function (assert) {
             // then
             const solutionBlockList = findAll(SOLUTION_BLOCK);
             const correctSolutionBlock = solutionBlockList[CORRECT_ANSWER_POSITION];
 
-            expect(correctSolutionBlock).to.not.exist;
-            expect(solutionBlockList).to.have.lengthOf(2);
+            assert.notOk(correctSolutionBlock);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(solutionBlockList.length, 2);
           });
         });
 
-        describe('When there is no answer', function () {
+        module('When there is no answer', function () {
           const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
 
-          it('should display one solution in bold green', async function () {
+          test('should display one solution in bold green', async function (assert) {
             // then
             const noAnswerSolutionBlock = findAll(SOLUTION_BLOCK)[NO_ANSWER_POSITION];
             const noAnswerSolutionText = findAll(SOLUTION_TEXT)[NO_ANSWER_POSITION];
 
-            expect(noAnswerSolutionBlock).to.exist;
-            expect(noAnswerSolutionText).to.exist;
+            assert.ok(noAnswerSolutionBlock);
+            assert.ok(noAnswerSolutionText);
           });
 
-          it('should display the empty answer with the default message "Pas de réponse" in italic', async function () {
+          test('should display the empty answer with the default message "Pas de réponse" in italic', async function (assert) {
             // then
             const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
 
-            expect(answerInput).to.exist;
-            expect(answerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
-            expect(answerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
+            assert.ok(answerInput);
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
+            assert.equal(answerInput.value, EMPTY_DEFAULT_MESSAGE);
+            assert.true(answerInput.classList.contains('correction-qroc-box-answer--aband'));
           });
         });
 
-        describe('When the answer is wrong', function () {
-          it('should display one solution in bold green', async function () {
+        module('When the answer is wrong', function () {
+          test('should display one solution in bold green', async function (assert) {
             // then
             const wrongSolutionBlock = findAll(SOLUTION_BLOCK)[WRONG_ANSWER_POSITION];
             const wrongSolutionText = findAll(SOLUTION_TEXT)[WRONG_ANSWER_POSITION];
 
-            expect(wrongSolutionBlock).to.exist;
-            expect(wrongSolutionText).to.exist;
+            assert.ok(wrongSolutionBlock);
+            assert.ok(wrongSolutionText);
           });
 
-          it('should display the solutionToDisplay if exist', async function () {
+          test('should display the solutionToDisplay if exist', async function (assert) {
             // when
             const solutionToDisplay = 'Ceci est la solution !';
             this.set('solutionToDisplay', solutionToDisplay);
@@ -114,30 +119,30 @@ describe('Integration | Component | QROCm ind solution panel', function () {
             );
 
             // then
-            expect(find('.comparison-window-solution')).to.exist;
-            expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+            assert.dom('.comparison-window-solution').exists();
+            assert.ok(find('.comparison-window-solution__text').textContent.includes(solutionToDisplay));
           });
 
-          it('should display the wrong answer in line-throughed bold', async function () {
+          test('should display the wrong answer in line-throughed bold', async function (assert) {
             // then
             const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
 
-            expect(answerInput).to.exist;
-            expect(answerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.true;
+            assert.ok(answerInput);
+            assert.true(answerInput.classList.contains('correction-qroc-box-answer--wrong'));
           });
         });
       });
     }
   );
 
-  describe('When format is neither a paragraph nor a phrase', function () {
-    beforeEach(function () {
+  module('When format is neither a paragraph nor a phrase', function (hooks) {
+    hooks.beforeEach(function () {
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
     });
 
-    it(`should display a disabled input with size based on the length of the value`, async function () {
+    test(`should display a disabled input with size based on the length of the value`, async function (assert) {
       //given
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
@@ -146,55 +151,65 @@ describe('Integration | Component | QROCm ind solution panel', function () {
       );
       //then
 
-      expect(find(PARAGRAPH)).to.not.exist;
-      expect(find(INPUT).tagName).to.equal('INPUT');
-      expect(find(INPUT).value).to.equal(EMPTY_DEFAULT_MESSAGE);
-      expect(find(INPUT).getAttribute('size')).to.equal(EMPTY_DEFAULT_MESSAGE.length.toString());
-      expect(find(INPUT).hasAttribute('disabled')).to.be.true;
+      assert.dom(PARAGRAPH).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find(INPUT).tagName, 'INPUT');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find(INPUT).value, EMPTY_DEFAULT_MESSAGE);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find(INPUT).getAttribute('size'), EMPTY_DEFAULT_MESSAGE.length.toString());
+      assert.true(find(INPUT).hasAttribute('disabled'));
     });
   });
 
-  describe('When format is a paragraph', function () {
-    beforeEach(function () {
+  module('When format is a paragraph', function (hooks) {
+    hooks.beforeEach(function () {
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
       this.challenge.set('format', 'paragraphe');
     });
 
-    it('should display a disabled textarea', async function () {
+    test('should display a disabled textarea', async function (assert) {
       // when
       await render(
         hbs`{{qrocm-ind-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
       );
 
       // then
-      expect(find(INPUT)).to.not.exist;
-      expect(find(SENTENCE)).to.not.exist;
-      expect(find(PARAGRAPH).tagName).to.equal('TEXTAREA');
-      expect(find(PARAGRAPH).hasAttribute('disabled')).to.be.true;
+      assert.dom(INPUT).doesNotExist();
+      assert.dom(SENTENCE).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find(PARAGRAPH).tagName, 'TEXTAREA');
+      assert.true(find(PARAGRAPH).hasAttribute('disabled'));
     });
   });
 
-  describe('When format is a sentence', function () {
-    beforeEach(function () {
+  module('When format is a sentence', function (hooks) {
+    hooks.beforeEach(function () {
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
       this.challenge.set('format', 'phrase');
     });
 
-    it('should display a disabled input', async function () {
+    test('should display a disabled input', async function (assert) {
       // when
       await render(
         hbs`{{qrocm-ind-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
       );
 
       // then
-      expect(find(INPUT)).to.not.exist;
-      expect(find(PARAGRAPH)).to.not.exist;
-      expect(find(SENTENCE).tagName).to.equal('INPUT');
-      expect(find(SENTENCE).hasAttribute('disabled')).to.be.true;
+      assert.dom(INPUT).doesNotExist();
+      assert.dom(PARAGRAPH).doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find(SENTENCE).tagName, 'INPUT');
+      assert.true(find(SENTENCE).hasAttribute('disabled'));
     });
   });
 });

@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | challenge actions', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | challenge actions', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`<ChallengeActions/>`);
-    expect(find('.challenge-actions__group')).to.exist;
+    assert.dom('.challenge-actions__group').exists();
   });
 
-  describe('Challenge has timed out', function () {
-    it('should only display "continue" button', async function () {
+  module('Challenge has timed out', function () {
+    test('should only display "continue" button', async function (assert) {
       // given
       this.set('isValidateButtonEnabled', true);
       this.set('hasChallengeTimedOut', true);
@@ -28,15 +27,15 @@ describe('Integration | Component | challenge actions', function () {
                           @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // then
-      expect(find('.challenge-actions__action-validated')).to.not.exist;
-      expect(find('.challenge-actions__action-skip')).to.not.exist;
-      expect(find('.challenge-actions__action-continue')).to.exist;
+      assert.dom('.challenge-actions__action-validated').doesNotExist();
+      assert.dom('.challenge-actions__action-skip').doesNotExist();
+      assert.dom('.challenge-actions__action-continue').exists();
     });
   });
 
-  describe('when user has focused out', function () {
-    context('when assessent is of type certification', function () {
-      it("should show certification focus out's error message", async function () {
+  module('when user has focused out', function () {
+    module('when assessent is of type certification', function () {
+      test("should show certification focus out's error message", async function (assert) {
         // given
         this.set('isValidateButtonEnabled', true);
         this.set('isCertification', true);
@@ -55,13 +54,13 @@ describe('Integration | Component | challenge actions', function () {
                             @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
         // then
-        expect(find('[data-test="certification-focused-out-error-message"]')).to.exist;
-        expect(find('[data-test="default-focused-out-error-message"]')).not.to.exist;
+        assert.dom('[data-test="certification-focused-out-error-message"]').exists();
+        assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
       });
     });
 
-    context('when assessent is not of type certification', function () {
-      it("should show default focus out's error message", async function () {
+    module('when assessent is not of type certification', function () {
+      test("should show default focus out's error message", async function (assert) {
         // given
         this.set('isValidateButtonEnabled', true);
         this.set('isCertification', false);
@@ -80,8 +79,8 @@ describe('Integration | Component | challenge actions', function () {
                             @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
         // then
-        expect(find('[data-test="certification-focused-out-error-message"]')).not.to.exist;
-        expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
+        assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
+        assert.dom('[data-test="default-focused-out-error-message"]').exists();
       });
     });
   });

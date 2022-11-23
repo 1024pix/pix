@@ -1,20 +1,19 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | Training', function () {
-  setupTest();
+module('Unit | Adapters | Training', function (hooks) {
+  setupTest(hooks);
 
-  describe('#urlForQuery', function () {
+  module('#urlForQuery', function (hooks) {
     let adapter;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       adapter = this.owner.lookup('adapter:training');
       adapter.ajax = sinon.stub().resolves();
     });
 
-    it('should build the training url if userId is passed in query', async function () {
+    test('should build the training url if userId is passed in query', async function (assert) {
       // given
       const query = {
         userId: 1,
@@ -24,10 +23,10 @@ describe('Unit | Adapters | Training', function () {
       const url = await adapter.urlForQuery(query, 'training');
 
       // then
-      expect(url.endsWith('/api/users/1/trainings')).to.be.true;
+      assert.true(url.endsWith('/api/users/1/trainings'));
     });
 
-    it('should build the training url if userId is not in the query', async function () {
+    test('should build the training url if userId is not in the query', async function (assert) {
       // given
       const query = {};
 
@@ -35,7 +34,7 @@ describe('Unit | Adapters | Training', function () {
       const url = await adapter.urlForQuery(query, 'training');
 
       // then
-      expect(url.endsWith('/api/trainings')).to.be.true;
+      assert.true(url.endsWith('/api/trainings'));
     });
   });
 });

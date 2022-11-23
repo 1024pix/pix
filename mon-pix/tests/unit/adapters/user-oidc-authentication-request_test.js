@@ -1,18 +1,17 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | user-oidc-authentication-request', function () {
-  setupTest();
+module('Unit | Adapters | user-oidc-authentication-request', function (hooks) {
+  setupTest(hooks);
 
-  describe('#buildUrl', function () {
-    it('should build url', function () {
+  module('#buildUrl', function () {
+    test('should build url', function (assert) {
       // when
       const adapter = this.owner.lookup('adapter:user-oidc-authentication-request');
       const url = adapter.buildURL();
 
       // then
-      expect(url.endsWith('user/')).to.be.true;
+      assert.true(url.endsWith('user/'));
     });
   });
 });

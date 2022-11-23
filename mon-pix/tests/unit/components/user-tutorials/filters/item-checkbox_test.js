@@ -1,25 +1,24 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import { A } from '@ember/array';
 
-describe('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function () {
-  setupTest();
+module('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function (hooks) {
+  setupTest(hooks);
 
-  it('should throw an error if component has no type param', async function () {
+  test('should throw an error if component has no type param', async function (assert) {
     // given & when
     const componentParams = { item: { name: 'item' } };
 
     // then
-    expect(() => {
+    assert.throws(() => {
       createGlimmerComponent('component:user-tutorials/filters/item-checkbox', componentParams);
-    }).to.throw('ERROR in UserTutorials::Filters::ItemCheckbox component, you must provide @type params');
+    }, 'ERROR in UserTutorials::Filters::ItemCheckbox component, you must provide @type params');
   });
 
-  describe('#isChecked', function () {
-    describe('when element is in currentFilters', function () {
-      it('should return true', function () {
+  module('#isChecked', function () {
+    module('when element is in currentFilters', function () {
+      test('should return true', function (assert) {
         // given
         const componentParams = {
           type: 'competences',
@@ -32,12 +31,12 @@ describe('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function 
         const result = component.isChecked;
 
         // then
-        expect(result).to.be.true;
+        assert.true(result);
       });
     });
 
-    describe('when element is not in currentFilters', function () {
-      it('should return false', function () {
+    module('when element is not in currentFilters', function () {
+      test('should return false', function (assert) {
         // given
         const componentParams = {
           type: 'competences',
@@ -50,7 +49,7 @@ describe('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function 
         const result = component.isChecked;
 
         // then
-        expect(result).to.be.false;
+        assert.false(result);
       });
     });
   });

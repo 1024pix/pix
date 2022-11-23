@@ -1,11 +1,10 @@
 /* eslint ember/no-classic-classes: 0 */
 
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 
 import { fillIn, currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 
@@ -18,18 +17,18 @@ import { currentSession } from 'ember-simple-auth/test-support';
 import setupIntl from '../../helpers/setup-intl';
 import { t } from 'ember-intl/test-support';
 
-describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let campaign;
 
-  describe('Start a campaign that belongs to an external provider', function () {
-    context('When user is not logged in', function () {
+  module('Start a campaign that belongs to an external provider', function () {
+    module('When user is not logged in', function (hooks) {
       let replaceLocationStub;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         replaceLocationStub = sinon.stub().resolves();
         this.owner.register(
           'service:location',
@@ -40,7 +39,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         campaign = server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
       });
 
-      it('should redirect to landing page', async function () {
+      test('should redirect to landing page', async function (assert) {
         // given
         await visit('/campagnes');
 
@@ -49,10 +48,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
       });
 
-      it('should redirect to an oidc authentication form when landing page has been seen', async function () {
+      test('should redirect to an oidc authentication form when landing page has been seen', async function (assert) {
         // given
         await visit(`/campagnes/${campaign.code}`);
 
@@ -61,10 +62,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
 
         // then
         sinon.assert.called(replaceLocationStub);
-        expect(currentURL()).to.equal('/connexion/oidc-partner');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), '/connexion/oidc-partner');
+        assert.ok(true);
       });
 
-      it('should redirect to login or register oidc page', async function () {
+      test('should redirect to login or register oidc page', async function (assert) {
         // given
         const state = 'state';
         const session = currentSession();
@@ -90,11 +94,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         const screen = await visit(`/connexion/oidc-partner?code=test&state=${state}`);
 
         // then
-        expect(currentURL()).to.equal(`/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
-        expect(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register-oidc.title') })).to.exist;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), `/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
+        assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register-oidc.title') }));
       });
 
-      it('should begin campaign participation once user has accepted terms of service', async function () {
+      test('should begin campaign participation once user has accepted terms of service', async function (assert) {
         // given
         const state = 'state';
         const session = currentSession();
@@ -110,14 +116,16 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         await click(screen.getByRole('button', { name: 'Je créé mon compte' }));
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
       });
     });
 
-    context('When user is logged in', function () {
+    module('When user is logged in', function (hooks) {
       let replaceLocationStub;
 
-      beforeEach(async function () {
+      hooks.beforeEach(async function () {
         const prescritUser = server.create('user', 'withEmail', {
           mustValidateTermsOfService: false,
           lastTermsOfServiceValidatedAt: null,
@@ -133,13 +141,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
         campaign = server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
       });
 
-      context('When user is logged in with an oidc organization', function () {
-        beforeEach(function () {
+      module('When user is logged in with an oidc organization', function (hooks) {
+        hooks.beforeEach(function () {
           const session = currentSession();
           session.set('data.authenticated.identityProviderCode', 'OIDC_PARTNER');
         });
 
-        it('should redirect to landing page', async function () {
+        test('should redirect to landing page', async function (assert) {
           // given
           await visit('/campagnes');
 
@@ -148,10 +156,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
-        it('should begin campaign participation', async function () {
+        test('should begin campaign participation', async function (assert) {
           // given
           await visit('/campagnes');
           await fillIn('#campaign-code', campaign.code);
@@ -161,12 +171,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
           await clickByLabel('Je commence');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
-      context('When user is logged in with another authentication method', function () {
-        it('should redirect to landing page', async function () {
+      module('When user is logged in with another authentication method', function () {
+        test('should redirect to landing page', async function (assert) {
           // given
           await visit('/campagnes');
 
@@ -175,10 +187,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
-        it('should redirect to oidc authentication form when landing page has been seen', async function () {
+        test('should redirect to oidc authentication form when landing page has been seen', async function (assert) {
           // given
           await visit(`/campagnes/${campaign.code}`);
 
@@ -187,7 +201,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function ()
 
           // then
           sinon.assert.called(replaceLocationStub);
-          expect(currentURL()).to.equal('/connexion/oidc-partner');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(currentURL(), '/connexion/oidc-partner');
+          assert.ok(true);
         });
       });
     });

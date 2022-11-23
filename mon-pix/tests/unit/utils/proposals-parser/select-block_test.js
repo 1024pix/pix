@@ -1,10 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import SelectBlock from 'mon-pix/utils/proposals-parser/select-block';
 
-describe('Unit | Utils | Proposals Parser | Select Block', function () {
-  describe('#constructor', function () {
-    context('when there is options without aria label nor placeholder', function () {
+module('Unit | Utils | Proposals Parser | Select Block', function () {
+  module('#constructor', function () {
+    module('when there is options without aria label nor placeholder', function () {
       [
         {
           input: '${}',
@@ -142,7 +141,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function () {
           },
         },
       ].forEach((data) => {
-        it(`should parse input and options properly for ${data.input}`, function () {
+        test(`should parse input and options properly for ${data.input}`, function (assert) {
           // given
           const input = data.input;
 
@@ -150,17 +149,27 @@ describe('Unit | Utils | Proposals Parser | Select Block', function () {
           const result = new SelectBlock({ input, inputIndex: 123 });
 
           // then
-          expect(result.input).to.equal(data.expected.input);
-          expect(result.options).to.deep.equal(data.expected.options);
-          expect(result.autoAriaLabel).to.equal(data.expected.autoAriaLabel);
-          expect(result.ariaLabel).to.equal(data.expected.ariaLabel);
-          expect(result.placeholder).to.equal(data.expected.placeholder);
-          expect(result.type).to.equal('select');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.input, data.expected.input);
+          assert.deepEqual(result.options, data.expected.options);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.autoAriaLabel, data.expected.autoAriaLabel);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.ariaLabel, data.expected.ariaLabel);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.placeholder, data.expected.placeholder);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.type, 'select');
         });
       });
     });
 
-    context('when options are standards and there is specific aria label and/or placeholder', function () {
+    module('when options are standards and there is specific aria label and/or placeholder', function () {
       [
         {
           input: '${banana#Ceci est le place holder options=["mango","potato"]}',
@@ -239,7 +248,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function () {
           },
         },
       ].forEach((data) => {
-        it(`should parse a11y elements properly for ${data.input}`, function () {
+        test(`should parse a11y elements properly for ${data.input}`, function (assert) {
           // given
           const input = data.input;
 
@@ -247,12 +256,22 @@ describe('Unit | Utils | Proposals Parser | Select Block', function () {
           const result = new SelectBlock({ input, inputIndex: 123 });
 
           // then
-          expect(result.input).to.equal(data.expected.input);
-          expect(result.options).to.deep.equal(data.expected.options);
-          expect(result.autoAriaLabel).to.equal(data.expected.autoAriaLabel);
-          expect(result.ariaLabel).to.equal(data.expected.ariaLabel);
-          expect(result.placeholder).to.equal(data.expected.placeholder);
-          expect(result.type).to.equal('select');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.input, data.expected.input);
+          assert.deepEqual(result.options, data.expected.options);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.autoAriaLabel, data.expected.autoAriaLabel);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.ariaLabel, data.expected.ariaLabel);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.placeholder, data.expected.placeholder);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(result.type, 'select');
         });
       });
     });

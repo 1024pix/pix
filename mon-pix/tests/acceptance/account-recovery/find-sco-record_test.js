@@ -1,6 +1,5 @@
-import { describe } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { currentURL } from '@ember/test-helpers';
 import setupIntl from '../../helpers/setup-intl';
@@ -9,10 +8,10 @@ import { clickByLabel } from '../../helpers/click-by-label';
 import { Response } from 'miragejs';
 import { visit } from '@1024pix/ember-testing-library';
 
-describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   const ineIna = '0123456789A';
   const lastName = 'Lecol';
@@ -58,21 +57,23 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
     await clickByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
   };
 
-  it('should display student information form', async function () {
+  test('should display student information form', async function (assert) {
     // given & when
     const screen = await visit('/recuperer-mon-compte');
 
     // then
-    expect(currentURL()).to.equal('/recuperer-mon-compte');
-    expect(
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), '/recuperer-mon-compte');
+    assert.ok(
       screen.getByRole('heading', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
       })
-    ).to.exist;
+    );
   });
 
-  context('when submitting information form with valid data', function () {
-    it('should hide student information form and show recover account confirmation step', async function () {
+  module('when submitting information form with valid data', function () {
+    test('should hide student information form and show recover account confirmation step', async function (assert) {
       // given
       server.create('user', { id: 1, firstName, lastName, username });
       server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
@@ -82,19 +83,19 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(
+      assert.notOk(
         screen.queryByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
         })
-      ).to.not.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
         })
-      ).to.exist;
+      );
     });
 
-    it('should redirect to error page when user has already left SCO', async function () {
+    test('should redirect to error page when user has already left SCO', async function (assert) {
       // given
       const errorsApi = new Response(
         403,
@@ -114,21 +115,21 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
         })
-      ).to.exist;
-      expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-      expect(
+      );
+      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
+      assert.ok(
         screen.getByRole('link', {
           name: this.intl.t('navigation.back-to-homepage'),
         })
-      ).to.exist;
+      );
     });
 
-    context('click on "Cancel" button', function () {
-      it('should return to student information form', async function () {
+    module('click on "Cancel" button', function () {
+      test('should return to student information form', async function (assert) {
         // given
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
@@ -140,42 +141,42 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
           })
-        ).to.exist;
-        expect(
+        );
+        assert.notOk(
           screen.queryByText(
             this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })
           )
-        ).to.not.exist;
+        );
       });
     });
   });
 
-  context('when submitting information form with invalid data', function () {
-    it('should show a not found error', async function () {
+  module('when submitting information form with invalid data', function () {
+    test('should show a not found error', async function (assert) {
       // given & when
       const screen = await visit('/recuperer-mon-compte');
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(
+      assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
         })
-      ).to.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByRole('link', {
           name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
         })
-      ).to.exist;
+      );
     });
   });
 
-  context('when two students used same account', function () {
-    it('should redirect to account recovery conflict page', async function () {
+  module('when two students used same account', function () {
+    test('should redirect to account recovery conflict page', async function (assert) {
       // given
       server.create('user', {
         id: 1,
@@ -196,20 +197,20 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(
+      assert.notOk(
         screen.queryByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
         })
-      ).to.not.exist;
-      expect(
+      );
+      assert.ok(
         screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName }))
-      ).to.exist;
+      );
     });
   });
 
-  context('when confirming student information', function () {
-    context('click on "Confirm" button', function () {
-      it('should hide recover account confirmation step and show recover account backup email confirmation', async function () {
+  module('when confirming student information', function () {
+    module('click on "Confirm" button', function () {
+      test('should hide recover account confirmation step and show recover account backup email confirmation', async function (assert) {
         // given
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
@@ -222,7 +223,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t(
               'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
@@ -231,15 +232,15 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
               }
             ),
           })
-        ).to.exist;
-        expect(
+        );
+        assert.notOk(
           screen.queryByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
           })
-        ).to.not.exist;
+        );
       });
 
-      it('should show an error when email already exists', async function () {
+      test('should show an error when email already exists', async function (assert) {
         // given
         const email = 'john.doe@example.net';
 
@@ -261,16 +262,16 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
+        assert.ok(
           screen.getByText(
             this.intl.t(
               'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'
             )
           )
-        ).to.exist;
+        );
       });
 
-      it('should show email sent confirmation when user has supplied an email and submitted', async function () {
+      test('should show email sent confirmation when user has supplied an email and submitted', async function (assert) {
         // given
         const newEmail = 'john.doe@example.net';
 
@@ -293,12 +294,12 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
           })
-        ).to.exist;
-        expect(
+        );
+        assert.notOk(
           screen.queryByRole('heading', {
             name: this.intl.t(
               'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
@@ -307,10 +308,10 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
               }
             ),
           })
-        ).to.not.exist;
+        );
       });
 
-      it('should redirect to error page when user has already left SCO', async function () {
+      test('should redirect to error page when user has already left SCO', async function (assert) {
         // given
         const newEmail = 'john.doe@example.net';
 
@@ -346,20 +347,20 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.errors.title'),
           })
-        ).to.exist;
-        expect(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-        expect(
+        );
+        assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
+        assert.ok(
           screen.getByRole('link', {
             name: this.intl.t('navigation.back-to-homepage'),
           })
-        ).to.exist;
+        );
       });
 
-      it("should redirect to error page when there's an internal error", async function () {
+      test("should redirect to error page when there's an internal error", async function (assert) {
         // given
         const newEmail = 'john.doe@example.net';
 
@@ -395,22 +396,22 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.errors.title'),
           })
-        ).to.exist;
-        expect(screen.getByText(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
-        expect(
+        );
+        assert.ok(screen.getByText(this.intl.t('api-error-messages.internal-server-error')));
+        assert.ok(
           screen.getByRole('link', {
             name: this.intl.t('navigation.back-to-homepage'),
           })
-        ).to.exist;
+        );
       });
     });
 
-    context('click on "Cancel" button', function () {
-      it('should return to student information form', async function () {
+    module('click on "Cancel" button', function () {
+      test('should return to student information form', async function (assert) {
         // given
 
         server.create('user', { id: 1, firstName, lastName, username });
@@ -425,12 +426,12 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
+        assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
           })
-        ).to.exist;
-        expect(
+        );
+        assert.notOk(
           screen.queryByRole('heading', {
             name: this.intl.t(
               'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
@@ -439,7 +440,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
               }
             ),
           })
-        ).to.not.exist;
+        );
       });
     });
   });

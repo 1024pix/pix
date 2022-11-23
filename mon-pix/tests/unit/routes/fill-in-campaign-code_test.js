@@ -1,13 +1,12 @@
 import Service from '@ember/service';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Route | fill-in-campaign-code', function () {
-  setupTest();
+module('Unit | Route | fill-in-campaign-code', function (hooks) {
+  setupTest(hooks);
 
-  context('#beforeModel', function () {
-    it('should store externalUser queryParam in session', function () {
+  module('#beforeModel', function () {
+    test('should store externalUser queryParam in session', function (assert) {
       // given
       const externalUser = 'external-user-token';
       const route = this.owner.lookup('route:fill-in-campaign-code');
@@ -23,7 +22,9 @@ describe('Unit | Route | fill-in-campaign-code', function () {
       route.beforeModel(transition);
 
       // then
-      expect(sessionStub.data.externalUser).to.equal(externalUser);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(sessionStub.data.externalUser, externalUser);
     });
   });
 });

@@ -1,29 +1,28 @@
 import { find } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import { visit } from '@ember/test-helpers';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Footer', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Footer', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    beforeEach(async function () {
+  module('Authenticated cases as simple user', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('should not be displayed while in campaign', async function () {
+    test('should not be displayed while in campaign', async function (assert) {
       // given
       const campaign = server.create('campaign', 'withOneChallenge');
 
@@ -31,26 +30,30 @@ describe('Acceptance | Footer', function () {
       await resumeCampaignOfTypeAssessmentByCode(campaign.code, false);
 
       // then
-      expect(find('.footer')).to.not.exist;
+      assert.dom('.footer').doesNotExist();
     });
 
-    it('should contain link to support.pix.org', async function () {
+    test('should contain link to support.pix.org', async function (assert) {
       // when
       await visit('/');
 
       // then
-      expect(find('.footer-container-content__navigation ul li:nth-child(1) a').getAttribute('href')).to.contains(
-        'support.pix.org'
+      assert.ok(
+        find('.footer-container-content__navigation ul li:nth-child(1) a')
+          .getAttribute('href')
+          .includes('support.pix.org')
       );
     });
 
-    it('should contain link to pix.fr/accessibilite', async function () {
+    test('should contain link to pix.fr/accessibilite', async function (assert) {
       // when
       await visit('/');
 
       // then
-      expect(find('.footer-container-content__navigation ul li:nth-child(2) a').getAttribute('href')).to.contains(
-        '/accessibilite'
+      assert.ok(
+        find('.footer-container-content__navigation ul li:nth-child(2) a')
+          .getAttribute('href')
+          .includes('/accessibilite')
       );
     });
   });

@@ -1,25 +1,28 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | pix logo', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | pix logo', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     await render(hbs`{{pix-logo}}`);
   });
 
-  it('renders', function () {
-    expect(find('.pix-logo')).to.exist;
+  test('renders', function (assert) {
+    assert.dom('.pix-logo').exists();
   });
 
-  it('should display the logo', function () {
-    expect(find('.pix-logo__image').getAttribute('src')).to.equal('/images/pix-logo.svg');
+  test('should display the logo', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-logo__image').getAttribute('src'), '/images/pix-logo.svg');
   });
 
-  it('should have a textual alternative', function () {
-    expect(find('.pix-logo__image').getAttribute('alt')).to.equal("Page d'accueil de Pix");
+  test('should have a textual alternative', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.pix-logo__image').getAttribute('alt'), "Page d'accueil de Pix");
   });
 });

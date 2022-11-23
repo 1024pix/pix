@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { clickByLabel } from '../../helpers/click-by-label';
 import Service from '@ember/service';
@@ -22,13 +21,13 @@ const userEmpty = EmberObject.create({});
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
-describe('Integration | Component | SignupForm', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | SignupForm', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Localization', function () {
+  module('Localization', function (hooks) {
     const originalLocale = ENV.APP.LOCALE;
 
-    afterEach(function () {
+    hooks.afterEach(function () {
       this.intl.setLocale(originalLocale);
     });
 
@@ -36,7 +35,7 @@ describe('Integration | Component | SignupForm', function () {
       { locale: 'fr', expectedFormTitle: 'Inscrivez-vous' },
       { locale: 'en', expectedFormTitle: 'Sign up' },
     ].forEach(function (testCase) {
-      it(`${testCase.locale}`, async function () {
+      test(`${testCase.locale}`, async function (assert) {
         const expectedTitle = testCase.expectedFormTitle;
         this.set('user', userEmpty);
         this.intl.setLocale(testCase.locale);
@@ -45,65 +44,69 @@ describe('Integration | Component | SignupForm', function () {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // then
-        expect(find(FORM_TITLE).textContent).to.equal(expectedTitle);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find(FORM_TITLE).textContent, expectedTitle);
       });
     });
   });
 
-  describe('Rendering', function () {
-    beforeEach(async function () {
+  module('Rendering', function (hooks) {
+    hooks.beforeEach(async function () {
       this.set('user', userEmpty);
       this.intl.setLocale(['en', 'fr']);
       await render(hbs`<SignupForm @user={{this.user}} />`);
     });
 
-    it('renders', function () {
-      expect(find('.sign-form__container')).to.exist;
+    test('renders', function (assert) {
+      assert.dom('.sign-form__container').exists();
     });
 
-    it('should return correct form title', function () {
+    test('should return correct form title', function (assert) {
       const formTitle = this.intl.t('pages.sign-up.first-title');
-      expect(find(FORM_TITLE).textContent).to.equal(formTitle);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find(FORM_TITLE).textContent, formTitle);
     });
 
-    it('should display form elements', async function () {
+    test('should display form elements', async function (assert) {
       // given & when
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      expect(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).to.exist;
-      expect(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') })).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') })).to.exist;
-      expect(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') })).to.exist;
-      expect(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') })).to.exist;
-      expect(
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.homepage') }));
+      assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') }));
+      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }));
+      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') }));
+      assert.ok(
         screen.getByRole('textbox', {
           name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
         })
-      ).to.exist;
-      expect(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') })).to.exist;
-      expect(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).to.exist;
+      );
+      assert.ok(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') }));
+      assert.ok(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
     });
 
-    it("should have links to Pix's CGU and data protection policy ", async function () {
+    test("should have links to Pix's CGU and data protection policy ", async function (assert) {
       // given & when
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
-      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
     });
 
-    it('should render a submit button', async function () {
+    test('should render a submit button', async function (assert) {
       // given & when
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      expect(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') })).to.exist;
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
     });
   });
 
-  describe('When API returns errors', function () {
+  module('When API returns errors', function () {
     const userInputs = {
       email: 'toto@pix.fr',
       firstName: 'Marion',
@@ -112,7 +115,7 @@ describe('Integration | Component | SignupForm', function () {
       cgu: true,
     };
 
-    it('should display an error if api cannot be reached', async function () {
+    test('should display an error if api cannot be reached', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const stubCatchedApiErrorInternetDisconnected = undefined;
@@ -131,11 +134,13 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if internal server error', async function () {
+    test('should display related error message if internal server error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const apiReturn = {
@@ -162,11 +167,13 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if bad gateway error', async function () {
+    test('should display related error message if bad gateway error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.BAD_GATEWAY.MESSAGE;
       const apiReturn = {
@@ -192,11 +199,13 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if gateway timeout error', async function () {
+    test('should display related error message if gateway timeout error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.GATEWAY_TIMEOUT.MESSAGE;
       const apiReturn = {
@@ -222,11 +231,13 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if not implemented error', async function () {
+    test('should display related error message if not implemented error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const apiReturn = {
@@ -252,14 +263,16 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom('div[id="sign-up-error-message"]').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
   });
 
-  describe('Behaviors', function () {
+  module('Behaviors', function (hooks) {
     let session;
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
       }
@@ -267,8 +280,10 @@ describe('Integration | Component | SignupForm', function () {
       this.owner.register('service:session', sessionService);
       session = this.owner.lookup('service:session', sessionService);
     });
-    describe('behavior when signup successful (test external calls)', function () {
-      it('should return true if action <Signup> is handled', async function () {
+    module('behavior when signup successful (test external calls)', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should return true if action <Signup> is handled', async function (assert) {
         // given
         let isFormSubmitted = false;
         const user = EmberObject.create({
@@ -293,11 +308,13 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(isFormSubmitted).to.be.true;
+          assert.true(isFormSubmitted);
         });
       });
 
-      it('should authenticate the user and empty the password', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should authenticate the user and empty the password', async function (assert) {
         // given
         const authenticateUserStub = sinon.stub();
 
@@ -323,13 +340,16 @@ describe('Integration | Component | SignupForm', function () {
         return settled().then(() => {
           sinon.assert.calledOnce(session.authenticateUser);
           sinon.assert.calledWith(session.authenticateUser, 'toto@pix.fr', 'gipix2017');
-          expect(user.password).to.be.null;
+          assert.notOk(user.password);
+          assert.ok(true);
         });
       });
     });
 
-    describe('Errors management', function () {
-      it('should display an error message on first name field, when field is empty and focus-out', async function () {
+    module('Errors management', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display an error message on first name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyFirstnameErrorMessage = this.intl.t('pages.sign-up.fields.firstname.error');
         this.set('user', userEmpty);
@@ -341,16 +361,20 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-firstName').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
+          assert.ok(
+            find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--error')
           );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyFirstnameErrorMessage);
-          expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
+          assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--error'));
+          assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
-      it('should display an error message on last name field, when field is empty and focus-out', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display an error message on last name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyLastnameErrorMessage = this.intl.t('pages.sign-up.fields.lastname.error');
         this.set('user', userEmpty);
@@ -362,16 +386,20 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-lastName').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
+          assert.ok(
+            find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error')
           );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyLastnameErrorMessage);
-          expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
+          assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
+          assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
-      it('should display an error message on email field, when field is empty and focus-out', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display an error message on email field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyEmailErrorMessage = this.intl.t('pages.sign-up.fields.email.error');
         this.set('user', userEmpty);
@@ -383,16 +411,20 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-email').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
+          assert.ok(
+            find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--error')
           );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyEmailErrorMessage);
-          expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
+          assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--error'));
+          assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
-      it('should display an error message on password field, when field is empty and focus-out', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display an error message on password field, when field is empty and focus-out', async function (assert) {
         // given
         const incorrectPasswordErrorMessage = this.intl.t('pages.sign-up.fields.password.error');
         this.set('user', userEmpty);
@@ -404,16 +436,20 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-password').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
+          assert.ok(
+            find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--error')
           );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(incorrectPasswordErrorMessage);
-          expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
+          assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--error'));
+          assert.dom('.form-textfield-icon__state--error').exists();
         });
       });
 
-      it("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
         // given
         const uncheckedCheckboxCguErrorMessage = this.intl.t('common.cgu.error');
         const userWithCguNotAccepted = EmberObject.create({
@@ -445,12 +481,14 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.sign-form__validation-error')).to.exist;
-          expect(find('.sign-form__validation-error').textContent.trim()).to.equal(uncheckedCheckboxCguErrorMessage);
+          assert.dom('.sign-form__validation-error').exists();
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
         });
       });
 
-      it('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function () {
+      test('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
         // given
         const expectedMaxLengthEmailError = 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.';
         const errors = [
@@ -480,10 +518,12 @@ describe('Integration | Component | SignupForm', function () {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        expect(find('#validationMessage-email').textContent).to.equal(expectedMaxLengthEmailError);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find('#validationMessage-email').textContent, expectedMaxLengthEmailError);
       });
 
-      it('should not display success notification message when an error occurred during the form submission', async function () {
+      test('should not display success notification message when an error occurred during the form submission', async function (assert) {
         const userThatThrowAnErrorDuringSaving = EmberObject.create({
           errors: ArrayProxy.create({
             content: [
@@ -506,13 +546,15 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.signup-form__notification-message')).to.not.exist;
+          assert.dom('.signup-form__notification-message').doesNotExist();
         });
       });
     });
 
-    describe('Successfull cases', function () {
-      it('should display first name field as validated without error message, when field is filled and focus-out', async function () {
+    module('Successfull cases', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display first name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -523,16 +565,18 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-firstName').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
+          assert.ok(
+            find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--success')
           );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert.dom('.form-textfield__message--error').doesNotExist();
+          assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--success'));
+          assert.dom('.form-textfield-icon__state--success').exists();
         });
       });
 
-      it('should display last name field as validated without error message, when field is filled and focus-out', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display last name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -543,16 +587,18 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-lastName').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
+          assert.ok(
+            find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--success')
           );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert.dom('.form-textfield__message--error').doesNotExist();
+          assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--success'));
+          assert.dom('.form-textfield-icon__state--success').exists();
         });
       });
 
-      it('should display email field as validated without error message, when field is filled and focus-out', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display email field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -563,16 +609,18 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-email').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
+          assert.ok(
+            find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--success')
           );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert.dom('.form-textfield__message--error').doesNotExist();
+          assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--success'));
+          assert.dom('.form-textfield-icon__state--success').exists();
         });
       });
 
-      it('should display password field as validated without error message, when field is filled and focus-out', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should display password field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -583,16 +631,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-password').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
+          assert.ok(
+            find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--success')
           );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert.dom('.form-textfield__message--error').doesNotExist();
+          assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--success'));
+          assert.dom('.form-textfield-icon__state--success').exists();
         });
       });
 
-      it('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function () {
+      test('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
         // given
         const userWithCguAccepted = EmberObject.create({
           cgu: true,
@@ -610,11 +658,13 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.sign-form__validation-error')).to.not.exist;
+          assert.dom('.sign-form__validation-error').doesNotExist();
         });
       });
 
-      it('should reset validation property, when all things are ok and form is submitted', async function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should reset validation property, when all things are ok and form is submitted', async function (assert) {
         // given
         const validUser = EmberObject.create({
           email: 'toto@pix.fr',
@@ -636,16 +686,18 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(findAll('.form-textfield__input-field-container')[0].getAttribute('class')).contains(
-            INPUT_TEXT_FIELD_CLASS_DEFAULT
+          assert.ok(
+            findAll('.form-textfield__input-field-container')[0]
+              .getAttribute('class')
+              .includes(INPUT_TEXT_FIELD_CLASS_DEFAULT)
           );
         });
       });
     });
   });
 
-  describe('Loading management', function () {
-    it('should not display any loading spinner by default', async function () {
+  module('Loading management', function () {
+    test('should not display any loading spinner by default', async function (assert) {
       // given
       this.set('user', userEmpty);
 
@@ -653,10 +705,10 @@ describe('Integration | Component | SignupForm', function () {
       await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      expect(find('.sign-form-body__bottom-button .loader-in-button')).to.not.exist;
+      assert.dom('.sign-form-body__bottom-button .loader-in-button').doesNotExist();
     });
 
-    it('should display a loading spinner when user submit signup', async function () {
+    test('should display a loading spinner when user submit signup', async function (assert) {
       // given
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
@@ -681,7 +733,7 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel("Je m'inscris");
 
       // then
-      expect(find('.loader-in-button'));
+      assert.ok(find('.loader-in-button'));
     });
   });
 });

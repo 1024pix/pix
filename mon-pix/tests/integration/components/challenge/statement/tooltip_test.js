@@ -1,20 +1,19 @@
 import Service from '@ember/service';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { click, find, render, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { click, render, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Tooltip', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Tooltip', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const tooltip = '.tooltip-tag__information';
   const tooltipTitle = '.tooltip-tag-information__title';
   const confirmationButton = '.tooltip-tag-information__button';
 
-  describe('when challenge is focused', function () {
-    describe('when user has not seen the tooltip yet', function () {
-      beforeEach(async function () {
+  module('when challenge is focused', function () {
+    module('when user has not seen the tooltip yet', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         class currentUser extends Service {
           user = {
@@ -33,24 +32,24 @@ describe('Integration | Component | Tooltip', function () {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      it('should render the tooltip with a confirmation button', async function () {
+      test('should render the tooltip with a confirmation button', async function (assert) {
         // then
-        expect(find(tooltip)).to.be.displayed;
-        expect(find(tooltipTitle)).to.exist;
-        expect(find('.tooltip__tag--focused')).to.be.displayed;
-        expect(find(confirmationButton)).to.exist;
+        assert.dom(tooltip).isVisible();
+        assert.dom(tooltipTitle).exists();
+        assert.dom('.tooltip__tag--focused').isVisible();
+        assert.dom(confirmationButton).exists();
       });
 
-      it('should remove the tooltip when confirmation button has been clicked', async function () {
+      test('should remove the tooltip when confirmation button has been clicked', async function (assert) {
         // when
         await click('.tooltip-tag-information__button');
         // then
-        expect(find(tooltip)).not.to.be.displayed;
+        assert.dom(tooltip).isNotVisible();
       });
     });
 
-    describe('when user has seen the tooltip', function () {
-      beforeEach(async function () {
+    module('when user has seen the tooltip', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         class currentUser extends Service {
           user = {
@@ -69,68 +68,68 @@ describe('Integration | Component | Tooltip', function () {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      describe('when the challenge starts', function () {
-        it('should not render the tooltip', async function () {
+      module('when the challenge starts', function () {
+        test('should not render the tooltip', async function (assert) {
           // then
-          expect(find(tooltip)).not.to.be.displayed;
+          assert.dom(tooltip).isNotVisible();
         });
       });
 
-      describe('when the user hovers the challenge icon', function () {
-        describe('when using a mouse', function () {
-          it('should display the tooltip without a confirmation button when entering the icon', async function () {
+      module('when the user hovers the challenge icon', function () {
+        module('when using a mouse', function () {
+          test('should display the tooltip without a confirmation button when entering the icon', async function (assert) {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
 
             // then
-            expect(find(tooltip)).to.be.displayed;
-            expect(find(tooltipTitle)).to.exist;
-            expect(find(confirmationButton)).to.not.exist;
+            assert.dom(tooltip).isVisible();
+            assert.dom(tooltipTitle).exists();
+            assert.dom(confirmationButton).doesNotExist();
           });
 
-          it('should the hide tooltip when mouse leaves the icon', async function () {
+          test('should the hide tooltip when mouse leaves the icon', async function (assert) {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
             await triggerEvent('.tooltip-tag__icon-button', 'mouseleave');
 
             // then
-            expect(find(tooltip)).not.to.be.displayed;
+            assert.dom(tooltip).isNotVisible();
           });
         });
 
-        describe('when using a keyboard', function () {
-          it('should hide the tooltip button when escaping', async function () {
+        module('when using a keyboard', function () {
+          test('should hide the tooltip button when escaping', async function (assert) {
             // given
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
-            expect(find(tooltip)).to.be.displayed;
+            assert.dom(tooltip).isVisible();
 
             // when
             const escapeKeyCode = 27;
             await triggerKeyEvent('.tooltip-tag__icon-button', 'keyup', escapeKeyCode);
 
             // then
-            expect(find(tooltip)).not.to.be.displayed;
+            assert.dom(tooltip).isNotVisible();
           });
         });
       });
 
-      describe('when the user clicks on the challenge icon', function () {
-        it('should display the tooltip without a confirmation button when entering the icon', async function () {
+      module('when the user clicks on the challenge icon', function () {
+        test('should display the tooltip without a confirmation button when entering the icon', async function (assert) {
           // when
           await click('.tooltip-tag__icon-button');
 
           // then
-          expect(find(tooltip)).to.be.displayed;
-          expect(find(tooltipTitle)).to.exist;
-          expect(find(confirmationButton)).to.not.exist;
+          assert.dom(tooltip).isVisible();
+          assert.dom(tooltipTitle).exists();
+          assert.dom(confirmationButton).doesNotExist();
         });
       });
     });
   });
 
-  describe('when challenge is not focused', function () {
-    describe('when user has not seen the tooltip yet', function () {
-      beforeEach(async function () {
+  module('when challenge is not focused', function () {
+    module('when user has not seen the tooltip yet', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         class currentUser extends Service {
           user = {
@@ -149,24 +148,24 @@ describe('Integration | Component | Tooltip', function () {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      it('should render the tooltip with a confirmation button', async function () {
+      test('should render the tooltip with a confirmation button', async function (assert) {
         // then
-        expect(find(tooltip)).to.be.displayed;
-        expect(find('.tooltip__tag--regular')).to.be.displayed;
-        expect(find(confirmationButton)).to.exist;
+        assert.dom(tooltip).isVisible();
+        assert.dom('.tooltip__tag--regular').isVisible();
+        assert.dom(confirmationButton).exists();
       });
 
-      it('should remove the tooltip when confirmation button has been clicked', async function () {
+      test('should remove the tooltip when confirmation button has been clicked', async function (assert) {
         // when
         await click('.tooltip-tag-information__button');
 
         // then
-        expect(find(tooltip)).not.to.be.displayed;
+        assert.dom(tooltip).isNotVisible();
       });
     });
 
-    describe('when user has seen the tooltip', function () {
-      beforeEach(async function () {
+    module('when user has seen the tooltip', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         class currentUser extends Service {
           user = {
@@ -185,58 +184,58 @@ describe('Integration | Component | Tooltip', function () {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      describe('when the challenge starts', function () {
-        it('should not render the tooltip', async function () {
+      module('when the challenge starts', function () {
+        test('should not render the tooltip', async function (assert) {
           // then
-          expect(find(tooltip)).not.to.be.displayed;
+          assert.dom(tooltip).isNotVisible();
         });
       });
 
-      describe('when the user hovers the challenge icon', function () {
-        describe('when using a mouse', function () {
-          it('should display the tooltip without a confirmation button when entering the icon', async function () {
+      module('when the user hovers the challenge icon', function () {
+        module('when using a mouse', function () {
+          test('should display the tooltip without a confirmation button when entering the icon', async function (assert) {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
 
             // then
-            expect(find(tooltip)).to.be.displayed;
-            expect(find(confirmationButton)).to.not.exist;
+            assert.dom(tooltip).isVisible();
+            assert.dom(confirmationButton).doesNotExist();
           });
 
-          it('should the hide tooltip when mouse leaves the icon', async function () {
+          test('should the hide tooltip when mouse leaves the icon', async function (assert) {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
             await triggerEvent('.tooltip-tag__icon-button', 'mouseleave');
 
             // then
-            expect(find(tooltip)).not.to.be.displayed;
+            assert.dom(tooltip).isNotVisible();
           });
         });
 
-        describe('when using a keyboard', function () {
-          it('should hide the tooltip button when escaping', async function () {
+        module('when using a keyboard', function () {
+          test('should hide the tooltip button when escaping', async function (assert) {
             // given
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
-            expect(find(tooltip)).to.be.displayed;
+            assert.dom(tooltip).isVisible();
 
             // when
             const escapeKeyCode = 27;
             await triggerKeyEvent('.tooltip-tag__icon-button', 'keyup', escapeKeyCode);
 
             // then
-            expect(find(tooltip)).not.to.be.displayed;
+            assert.dom(tooltip).isNotVisible();
           });
         });
       });
 
-      describe('when the user clicks on the challenge icon', function () {
-        it('should display the tooltip without a confirmation button when entering the icon', async function () {
+      module('when the user clicks on the challenge icon', function () {
+        test('should display the tooltip without a confirmation button when entering the icon', async function (assert) {
           // when
           await click('.tooltip-tag__icon-button');
 
           // then
-          expect(find(tooltip)).to.be.displayed;
-          expect(find(confirmationButton)).to.not.exist;
+          assert.dom(tooltip).isVisible();
+          assert.dom(confirmationButton).doesNotExist();
         });
       });
     });

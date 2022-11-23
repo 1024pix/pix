@@ -1,27 +1,27 @@
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { it, describe, beforeEach, afterEach, context } from 'mocha';
+import { test, module } from 'qunit';
 
-describe('Unit | Services | authentication', function () {
-  setupTest();
+module('Unit | Services | authentication', function (hooks) {
+  setupTest(hooks);
 
   let authenticationService;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     authenticationService = this.owner.lookup('service:authentication');
 
     sinon.stub(authenticationService.session, 'invalidate').resolves();
     sinon.stub(authenticationService.router, 'replaceWith');
   });
 
-  afterEach(function () {
+  hooks.afterEach(function () {
     sinon.restore();
   });
 
-  describe('#handleAnonymousAuthentication', function () {
-    context('when there is no session', function () {
-      context('when the route is available for an anonymous user', function () {
-        it('should do nothing', async function () {
+  module('#handleAnonymousAuthentication', function () {
+    module('when there is no session', function () {
+      module('when the route is available for an anonymous user', function () {
+        test('should do nothing', async function (assert) {
           // given
           const transition = { to: { name: 'fill-in-campaign-code' } };
 
@@ -30,11 +30,12 @@ describe('Unit | Services | authentication', function () {
 
           // then
           sinon.assert.notCalled(authenticationService.session.invalidate);
+          assert.ok(true);
         });
       });
 
-      context('when the route is not available for an anonymous user', function () {
-        it('should do nothing', async function () {
+      module('when the route is not available for an anonymous user', function () {
+        test('should do nothing', async function (assert) {
           // given
           const transition = { to: { name: 'not-available-route' } };
 
@@ -43,20 +44,21 @@ describe('Unit | Services | authentication', function () {
 
           // then
           sinon.assert.notCalled(authenticationService.session.invalidate);
+          assert.ok(true);
         });
       });
     });
 
-    context('when there is a session', function () {
-      context('created with the anonymous authenticator', function () {
-        beforeEach(function () {
+    module('when there is a session', function () {
+      module('created with the anonymous authenticator', function (hooks) {
+        hooks.beforeEach(function () {
           sinon
             .stub(authenticationService.session, 'data')
             .value({ authenticated: { authenticator: 'authenticator:anonymous' } });
         });
 
-        context('when the route is available for an anonymous user', function () {
-          it('should do nothing', async function () {
+        module('when the route is available for an anonymous user', function () {
+          test('should do nothing', async function (assert) {
             // given
             const transition = { to: { name: 'fill-in-campaign-code' } };
 
@@ -65,11 +67,12 @@ describe('Unit | Services | authentication', function () {
 
             // then
             sinon.assert.notCalled(authenticationService.session.invalidate);
+            assert.ok(true);
           });
         });
 
-        context('when the route is not available for an anonymous user', function () {
-          it('should invalidate the current session and redirect the user to /campagnes', async function () {
+        module('when the route is not available for an anonymous user', function () {
+          test('should invalidate the current session and redirect the user to /campagnes', async function (assert) {
             // given
             const transition = { to: { name: 'not-available-route' } };
 
@@ -79,19 +82,20 @@ describe('Unit | Services | authentication', function () {
             // then
             sinon.assert.calledOnce(authenticationService.session.invalidate);
             sinon.assert.calledWith(authenticationService.router.replaceWith, '/campagnes');
+            assert.ok(true);
           });
         });
       });
 
-      context('created with another authenticator', function () {
-        beforeEach(function () {
+      module('created with another authenticator', function (hooks) {
+        hooks.beforeEach(function () {
           sinon
             .stub(authenticationService.session, 'data')
             .value({ authenticated: { authenticator: 'authenticator:oauth2' } });
         });
 
-        context('when the route is available for an anonymous user', function () {
-          it('should do nothing', async function () {
+        module('when the route is available for an anonymous user', function () {
+          test('should do nothing', async function (assert) {
             // given
             const transition = { to: { name: 'fill-in-campaign-code' } };
 
@@ -100,11 +104,12 @@ describe('Unit | Services | authentication', function () {
 
             // then
             sinon.assert.notCalled(authenticationService.session.invalidate);
+            assert.ok(true);
           });
         });
 
-        context('when the route is not available for an anonymous user', function () {
-          it('should do nothing', async function () {
+        module('when the route is not available for an anonymous user', function () {
+          test('should do nothing', async function (assert) {
             // given
             const transition = { to: { name: 'not-available-route' } };
 
@@ -113,6 +118,7 @@ describe('Unit | Services | authentication', function () {
 
             // then
             sinon.assert.notCalled(authenticationService.session.invalidate);
+            assert.ok(true);
           });
         });
       });

@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
 
-describe('Integration | Component | recovery-errors', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | recovery-errors', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should render an account recovery error', async function () {
+  test('should render an account recovery error', async function (assert) {
     // given
     const firstName = 'Philippe';
     const title = this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName });
@@ -22,12 +21,12 @@ describe('Integration | Component | recovery-errors', function () {
     );
 
     // then
-    expect(screen.getByText(title)).to.exist;
-    expect(screen.getByText(errorMessage)).to.exist;
-    expect(screen.getByRole('link', { name: this.intl.t('pages.account-recovery.support.url-text') })).to.exist;
+    assert.ok(screen.getByText(title));
+    assert.ok(screen.getByText(errorMessage));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('pages.account-recovery.support.url-text') }));
   });
 
-  it('should display renew demand link when asked for', async function () {
+  test('should display renew demand link when asked for', async function (assert) {
     // given;
     this.set('showRenewLink', true);
 
@@ -35,12 +34,12 @@ describe('Integration | Component | recovery-errors', function () {
     const screen = await render(hbs`<AccountRecovery::RecoveryErrors @showRenewLink={{this.showRenewLink}} />`);
 
     // then
-    expect(
+    assert.ok(
       screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
-    ).to.exist;
+    );
   });
 
-  it('should display back to home link when asked for', async function () {
+  test('should display back to home link when asked for', async function (assert) {
     // given;
     this.set('showBackToHomeButton', true);
 
@@ -50,14 +49,14 @@ describe('Integration | Component | recovery-errors', function () {
     );
 
     // then
-    expect(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') })).to.exist;
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
   });
 
-  it('should display support link', async function () {
+  test('should display support link', async function (assert) {
     // given & when
     await render(hbs`<AccountRecovery::RecoveryErrors />`);
 
     // then
-    expect(find('a').href).to.contains(this.intl.t('pages.account-recovery.support.url'));
+    assert.ok(find('a').href.includes(this.intl.t('pages.account-recovery.support.url')));
   });
 });

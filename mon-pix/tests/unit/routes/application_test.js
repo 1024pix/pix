@@ -1,13 +1,12 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | application', function () {
-  setupTest();
+module('Unit | Route | application', function (hooks) {
+  setupTest(hooks);
 
-  it('hides the splash when the route is activated', function () {
+  test('hides the splash when the route is activated', function (assert) {
     // Given
     const SplashServiceStub = Service.create({
       hideCount: 0,
@@ -23,13 +22,15 @@ describe('Unit | Route | application', function () {
     route.activate();
 
     // Then
-    expect(SplashServiceStub.hideCount).to.equal(1);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(SplashServiceStub.hideCount, 1);
   });
 
-  describe('#beforeModel', function () {
+  module('#beforeModel', function (hooks) {
     let featureTogglesServiceStub, sessionServiceStub, oidcIdentityProvidersStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       const catchStub = sinon.stub();
 
       featureTogglesServiceStub = Service.create({
@@ -45,7 +46,7 @@ describe('Unit | Route | application', function () {
       this.intl = this.owner.lookup('service:intl');
     });
 
-    it('should set "fr" locale as default', async function () {
+    test('should set "fr" locale as default', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
@@ -56,10 +57,12 @@ describe('Unit | Route | application', function () {
       await route.beforeModel();
 
       // then
-      expect(this.intl.primaryLocale).to.equal('fr');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(this.intl.primaryLocale, 'fr');
     });
 
-    it('should set the head description', async function () {
+    test('should set the head description', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
@@ -70,10 +73,12 @@ describe('Unit | Route | application', function () {
       await route.beforeModel();
 
       // then
-      expect(route.headData.description).to.equal(this.intl.t('application.description'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(route.headData.description, this.intl.t('application.description'));
     });
 
-    it('should get feature toogles', async function () {
+    test('should get feature toogles', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
@@ -85,9 +90,10 @@ describe('Unit | Route | application', function () {
 
       // then
       sinon.assert.calledOnce(featureTogglesServiceStub.load);
+      assert.ok(true);
     });
 
-    it('should get language and local of user', async function () {
+    test('should get language and local of user', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');
       route.set('featureToggles', featureTogglesServiceStub);
@@ -99,6 +105,7 @@ describe('Unit | Route | application', function () {
 
       // then
       sinon.assert.calledWith(sessionServiceStub.handleUserLanguageAndLocale, transition);
+      assert.ok(true);
     });
   });
 });

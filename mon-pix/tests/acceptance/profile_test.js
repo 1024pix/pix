@@ -1,43 +1,46 @@
 import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Profile', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Profile', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    beforeEach(async function () {
+  module('Authenticated cases as simple user', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('can visit /competences', async function () {
+    test('can visit /competences', async function (assert) {
       // when
       await visit('/competences');
 
       // then
-      expect(currentURL()).to.equal('/competences');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/competences');
     });
 
-    it('should display pixscore', async function () {
+    test('should display pixscore', async function (assert) {
       await visit('/competences');
 
       // then
-      expect(find('.hexagon-score-content__pix-score').textContent).to.contains(user.profile.pixScore);
+      assert.ok(find('.hexagon-score-content__pix-score').textContent.includes(user.profile.pixScore));
     });
 
-    it('should display scorecards classified accordingly to each area', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('should display scorecards classified accordingly to each area', async function (assert) {
       // when
       await visit('/competences');
 
@@ -45,25 +48,34 @@ describe('Acceptance | Profile', function () {
       user.scorecards.models.forEach((scorecard) => {
         const splitIndex = scorecard.index.split('.');
         const competenceNumber = splitIndex[splitIndex.length - 1];
-        expect(
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
           find(
             `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__area-name`
-          ).textContent
-        ).to.equal(scorecard.area.title);
-        expect(
+          ).textContent,
+          scorecard.area.title
+        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
           find(
             `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__competence-name`
-          ).textContent
-        ).to.equal(scorecard.name);
-        expect(
+          ).textContent,
+          scorecard.name
+        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
           find(
             `.rounded-panel-body__areas:nth-of-type(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .score-value`
-          ).textContent
-        ).to.equal(scorecard.level > 0 ? scorecard.level.toString() : scorecard.status === 'NOT_STARTED' ? '' : '–');
+          ).textContent,
+          scorecard.level > 0 ? scorecard.level.toString() : scorecard.status === 'NOT_STARTED' ? '' : '–'
+        );
       });
     });
 
-    it('should link to competence-details page on click on level circle', async function () {
+    test('should link to competence-details page on click on level circle', async function (assert) {
       // given
       await visit('/competences');
 
@@ -74,18 +86,22 @@ describe('Acceptance | Profile', function () {
 
       // then
       const scorecard = user.scorecards.models[0];
-      expect(currentURL()).to.equal(`/competences/${scorecard.competenceId}/details`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), `/competences/${scorecard.competenceId}/details`);
     });
   });
 
-  describe('Not authenticated cases', function () {
-    it('should redirect to home, when user is not authenticated', async function () {
+  module('Not authenticated cases', function () {
+    test('should redirect to home, when user is not authenticated', async function (assert) {
       // when
       await visit('/competences');
-      expect(currentURL()).to.equal('/connexion');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/connexion');
     });
 
-    it('should stay in /connexion, when authentication failed', async function () {
+    test('should stay in /connexion, when authentication failed', async function (assert) {
       // given
       await visit('/connexion');
       await fillIn('#login', 'anyone@pix.world');
@@ -95,7 +111,9 @@ describe('Acceptance | Profile', function () {
       await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // then
-      expect(currentURL()).to.equal('/connexion');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/connexion');
     });
   });
 });

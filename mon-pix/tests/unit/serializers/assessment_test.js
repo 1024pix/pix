@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Serializer | assessment', function () {
-  setupTest();
+module('Unit | Serializer | assessment', function (hooks) {
+  setupTest(hooks);
 
-  it('should serialize assessment', function () {
+  test('should serialize assessment', function (assert) {
     const store = this.owner.lookup('service:store');
     const serializer = this.owner.lookup('serializer:assessment');
     const record = store.createRecord('assessment', {
@@ -17,13 +16,19 @@ describe('Unit | Serializer | assessment', function () {
 
     const json = serializer.serialize(snapshot);
 
-    expect(json.data.type).to.equal('assessments');
-    expect(json.data.attributes['certification-number']).to.equal('cert123');
-    expect(json.data.attributes['code-campaign']).to.equal('campaign123');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(json.data.type, 'assessments');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(json.data.attributes['certification-number'], 'cert123');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(json.data.attributes['code-campaign'], 'campaign123');
   });
 
-  describe('when adapter options are given', function () {
-    it('should add challenge id attribute from adapter options', function () {
+  module('when adapter options are given', function () {
+    test('should add challenge id attribute from adapter options', function (assert) {
       const store = this.owner.lookup('service:store');
       const serializer = this.owner.lookup('serializer:assessment');
       const record = store.createRecord('assessment', { answers: [] });
@@ -34,7 +39,9 @@ describe('Unit | Serializer | assessment', function () {
 
       const json = serializer.serialize(snapshot);
 
-      expect(json.data.attributes['challenge-id']).to.equal('challenge1');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(json.data.attributes['challenge-id'], 'challenge1');
     });
   });
 });

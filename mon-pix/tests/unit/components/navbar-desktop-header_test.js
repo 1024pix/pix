@@ -1,95 +1,100 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | Navbar Desktop Header Component', function () {
-  setupTest();
+module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
+  setupTest(hooks);
   const sessionStubResolve = Service.create({ isAuthenticated: true });
   const sessionStubReject = Service.create({ isAuthenticated: false });
   const currentUserStub = Service.create({ user: {} });
 
   let component;
 
-  describe('When user is logged', function () {
-    beforeEach(function () {
+  module('When user is logged', function (hooks) {
+    hooks.beforeEach(function () {
       component = createGlimmerComponent('component:navbar-desktop-header');
       component.session = sessionStubResolve;
       component.currentUser = currentUserStub;
     });
 
-    context('#isUserLogged', function () {
-      it('should return true', function () {
+    module('#isUserLogged', function () {
+      test('should return true', function (assert) {
         // then
-        expect(component.isUserLogged).to.equal(true);
+        assert.true(component.isUserLogged);
       });
     });
 
-    context('#menu', function () {
-      it('should only contains permanent menu items', function () {
+    module('#menu', function () {
+      test('should only contains permanent menu items', function (assert) {
         // given
         const expectedMenu = [];
 
         // then
-        expect(component.menu).to.deep.equal(expectedMenu);
+        assert.deepEqual(component.menu, expectedMenu);
       });
     });
 
-    context('#showHeaderMenuItem', function () {
-      it('should return true, when logged user is not anonymous', function () {
+    module('#showHeaderMenuItem', function () {
+      test('should return true, when logged user is not anonymous', function (assert) {
         // given
         currentUserStub.user.isAnonymous = false;
 
         // then
-        expect(component.showHeaderMenuItem).to.be.true;
+        assert.true(component.showHeaderMenuItem);
       });
 
-      it('should return false, when logged user is anonymous', function () {
+      test('should return false, when logged user is anonymous', function (assert) {
         // given
         currentUserStub.user.isAnonymous = true;
 
         // then
-        expect(component.showHeaderMenuItem).to.be.false;
+        assert.false(component.showHeaderMenuItem);
       });
     });
   });
 
-  describe('When user is not logged', function () {
-    beforeEach(function () {
+  module('When user is not logged', function (hooks) {
+    hooks.beforeEach(function () {
       component = createGlimmerComponent('component:navbar-desktop-header');
       component.session = sessionStubReject;
     });
 
-    context('#isUserLogged', function () {
-      it('should return false, when user is unauthenticated', function () {
+    module('#isUserLogged', function () {
+      test('should return false, when user is unauthenticated', function (assert) {
         // then
-        expect(component.isUserLogged).to.equal(false);
+        assert.false(component.isUserLogged);
       });
     });
 
-    context('#menu', function () {
-      it('should set with default values (including connexion link)', function () {
+    module('#menu', function () {
+      test('should set with default values (including connexion link)', function (assert) {
         // given
         const expectedMenu = [{ link: 'authentication.login' }, { link: 'inscription' }];
 
         // then
-        expect(component.menu).to.have.lengthOf(expectedMenu.length);
-        expect(component.menu[0].link).to.equal(expectedMenu[0].link);
-        expect(component.menu[1].link).to.equal(expectedMenu[1].link);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(component.menu.length, expectedMenu.length);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(component.menu[0].link, expectedMenu[0].link);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(component.menu[1].link, expectedMenu[1].link);
       });
     });
 
-    context('#showHeaderMenuItem', function () {
-      it('should return false', function () {
+    module('#showHeaderMenuItem', function () {
+      test('should return false', function (assert) {
         // then
-        expect(component.showHeaderMenuItem).to.be.false;
+        assert.false(component.showHeaderMenuItem);
       });
     });
   });
 
-  describe('When user comes from external platform', function () {
-    beforeEach(function () {
+  module('When user comes from external platform', function (hooks) {
+    hooks.beforeEach(function () {
       component = createGlimmerComponent('component:navbar-desktop-header');
       component.session = Service.create({
         isAuthenticated: false,
@@ -99,13 +104,13 @@ describe('Unit | Component | Navbar Desktop Header Component', function () {
       });
     });
 
-    context('#menu', function () {
-      it('should return permanent items only', function () {
+    module('#menu', function () {
+      test('should return permanent items only', function (assert) {
         // given
         const expectedMenu = [];
 
         // then
-        expect(component.menu).to.deep.equal(expectedMenu);
+        assert.deepEqual(component.menu, expectedMenu);
       });
     });
   });

@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Route | user certifications/index', function () {
-  setupTest();
+module('Unit | Route | user certifications/index', function (hooks) {
+  setupTest(hooks);
 
   let route;
   let storeStub;
   const findAll = sinon.stub();
   const unloadAll = sinon.stub();
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     storeStub = Service.create({
       findAll: findAll,
       unloadAll: unloadAll,
@@ -23,11 +22,13 @@ describe('Unit | Route | user certifications/index', function () {
     route.set('store', storeStub);
   });
 
-  it('exists', function () {
-    expect(route).to.be.ok;
+  test('exists', function (assert) {
+    assert.ok(route);
   });
 
-  it('should return connected user certifications', function () {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line qunit/require-expect
+  test('should return connected user certifications', function (assert) {
     // given
     const certifications = [EmberObject.create({ id: 1 })];
     findAll.resolves(certifications);
@@ -37,7 +38,9 @@ describe('Unit | Route | user certifications/index', function () {
 
     // then
     return result.then((certifications) => {
-      expect(certifications[0].id).to.equal(1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(certifications[0].id, 1);
     });
   });
 });

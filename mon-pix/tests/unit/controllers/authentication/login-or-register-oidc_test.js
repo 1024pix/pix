@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Controller | authentication | login-or-register-oidc', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Controller | authentication | login-or-register-oidc', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('#onLogin', function () {
-    it('should request api for login', async function () {
+  module('#onLogin', function () {
+    test('should request api for login', async function (assert) {
       // given
       const oidcPartner = {
         id: 'oidc-partner',
@@ -51,14 +50,23 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
         identityProvider,
       });
       sinon.assert.calledOnce(login);
-      expect(controller.email).to.equal('glace.alo@example.net');
-      expect(controller.username).to.equal('glace.alo345');
-      expect(controller.fullNameFromExternalIdentityProvider).to.equal('Glace Idp');
-      expect(controller.fullNameFromPix).to.equal('Glace Alo');
-      expect(controller.authenticationMethods).to.deep.equal([{ identityProvider: 'OIDC_PARTNER' }]);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.email, 'glace.alo@example.net');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.username, 'glace.alo345');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.fullNameFromExternalIdentityProvider, 'Glace Idp');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.fullNameFromPix, 'Glace Alo');
+      assert.deepEqual(controller.authenticationMethods, [{ identityProvider: 'OIDC_PARTNER' }]);
+      assert.ok(true);
     });
 
-    it('should redirect to oidc reconciliation page', async function () {
+    test('should redirect to oidc reconciliation page', async function (assert) {
       // given
       const oidcPartner = {
         id: 'oidc-partner',
@@ -93,7 +101,7 @@ describe('Unit | Controller | authentication | login-or-register-oidc', function
       await controller.onLogin({ enteredEmail: email, enteredPassword: password });
 
       // then
-      expect(controller.showOidcReconciliation).to.equal(true);
+      assert.true(controller.showOidcReconciliation);
     });
   });
 });

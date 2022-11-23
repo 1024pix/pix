@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | Challenge item QROC', function () {
-  setupTest();
+module('Unit | Component | Challenge item QROC', function (hooks) {
+  setupTest(hooks);
 
   let component;
-  describe('#_receiveEmbedMessage', function () {
-    beforeEach(function () {
+  module('#_receiveEmbedMessage', function (hooks) {
+    hooks.beforeEach(function () {
       const challenge = EmberObject.create({
         autoReply: true,
         id: 'rec_123',
@@ -19,8 +18,8 @@ describe('Unit | Component | Challenge item QROC', function () {
       component.embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io', 'https://*.review.pix.fr'];
     });
 
-    context('when the event message is from Pix', function () {
-      it('should set the autoreply answer from a string', function () {
+    module('when the event message is from Pix', function () {
+      test('should set the autoreply answer from a string', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -32,10 +31,10 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal(answer);
+        assert.deepEqual(component.autoReplyAnswer, answer);
       });
 
-      it('should set the autoreply answer from a string object', function () {
+      test('should set the autoreply answer from a string object', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -47,10 +46,10 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal(answer);
+        assert.deepEqual(component.autoReplyAnswer, answer);
       });
 
-      it('should set the autoreply answer from a string with number', function () {
+      test('should set the autoreply answer from a string with number', function (assert) {
         // given
         const answer = '2';
         const event = {
@@ -62,10 +61,10 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal(answer);
+        assert.deepEqual(component.autoReplyAnswer, answer);
       });
 
-      it('should set the autoreply answer from a object', function () {
+      test('should set the autoreply answer from a object', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -77,10 +76,10 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal(answer);
+        assert.deepEqual(component.autoReplyAnswer, answer);
       });
 
-      it('should set the autoreply answer from a object with preview origin', function () {
+      test('should set the autoreply answer from a object with preview origin', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -92,10 +91,10 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal(answer);
+        assert.deepEqual(component.autoReplyAnswer, answer);
       });
 
-      it('should set the autoreply answer from a object when the origin is allowed via a wildcard', function () {
+      test('should set the autoreply answer from a object when the origin is allowed via a wildcard', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -107,12 +106,12 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal(answer);
+        assert.deepEqual(component.autoReplyAnswer, answer);
       });
     });
 
-    context('when the event message is not from Pix', function () {
-      it('should not set the autoreply answer from data in event when origin is not pix', function () {
+    module('when the event message is not from Pix', function () {
+      test('should not set the autoreply answer from data in event when origin is not pix', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -124,10 +123,10 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal('');
+        assert.deepEqual(component.autoReplyAnswer, '');
       });
 
-      it('should not set the autoreply answer from data in event when data object is not correct', function () {
+      test('should not set the autoreply answer from data in event when data object is not correct', function (assert) {
         // given
         const answer = 'magicWord';
         const event = {
@@ -139,7 +138,7 @@ describe('Unit | Component | Challenge item QROC', function () {
         component._receiveEmbedMessage(event);
 
         // then
-        expect(component.autoReplyAnswer).to.deep.equal('');
+        assert.deepEqual(component.autoReplyAnswer, '');
       });
     });
   });

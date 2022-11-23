@@ -1,18 +1,17 @@
-import { click, find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { click, visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Tutorial | Actions', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Tutorial | Actions', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
   let firstScorecard;
   let competenceId;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     //given
     user = server.create('user', 'withEmail');
     firstScorecard = user.scorecards.models[0];
@@ -26,32 +25,32 @@ describe('Acceptance | Tutorial | Actions', function () {
     await visit('/mes-tutos');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    it('should display tutorial item in competence page with actions', async function () {
+  module('Authenticated cases as simple user', function () {
+    test('should display tutorial item in competence page with actions', async function (assert) {
       // then
-      expect(find('.tutorial-card')).to.exist;
-      expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
-      expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
+      assert.dom('.tutorial-card').exists();
+      assert.dom('[aria-label="Marquer ce tuto comme utile"]').exists();
+      assert.dom('[aria-label="Enregistrer dans ma liste de tutos"]').exists();
     });
 
-    it('should toggle evaluation label on click', async function () {
+    test('should toggle evaluation label on click', async function (assert) {
       // given
       await click('[aria-label="Marquer ce tuto comme utile"]');
-      expect(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).to.exist;
+      assert.dom('[aria-label="Ne plus considérer ce tuto comme utile"]').exists();
 
       // when
       await click('[aria-label="Ne plus considérer ce tuto comme utile"]');
       // then
-      expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
+      assert.dom('[aria-label="Marquer ce tuto comme utile"]').exists();
     });
 
-    describe('when save action is clicked', function () {
-      it('should display remove action button', async function () {
+    module('when save action is clicked', function () {
+      test('should display remove action button', async function (assert) {
         // when
         await click('[aria-label="Enregistrer dans ma liste de tutos"]');
 
         // then
-        expect(find('[aria-label="Retirer de ma liste de tutos"]')).to.exist;
+        assert.dom('[aria-label="Retirer de ma liste de tutos"]').exists();
       });
     });
   });

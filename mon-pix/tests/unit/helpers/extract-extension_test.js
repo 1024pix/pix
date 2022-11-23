@@ -1,11 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { extractExtension } from 'mon-pix/helpers/extract-extension';
 
-describe('Unit | Helpers | ExtractExtension', function () {
-  it('works', function () {
-    expect(extractExtension(['file.url.ext.docx'])).to.equal('docx');
-    expect(extractExtension(['file_url_without_extension'])).to.equal('file_url_without_extension');
-    expect(extractExtension([''])).to.equal('');
+module('Unit | Helpers | ExtractExtension', function () {
+  test('works', function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(extractExtension(['file.url.ext.docx']), 'docx');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(extractExtension(['file_url_without_extension']), 'file_url_without_extension');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(extractExtension(['']), '');
   });
 });

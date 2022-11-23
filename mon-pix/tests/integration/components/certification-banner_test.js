@@ -1,20 +1,19 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | Certification Banner', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Certification Banner', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('On component rendering', function () {
+  module('On component rendering', function (hooks) {
     const firstName = 'tom';
     const lastName = 'jedusor';
     const fullName = 'Tom JEDUSOR';
     const certificationNumber = 100;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       // given
       const certification = EmberObject.create({
         id: certificationNumber,
@@ -25,20 +24,24 @@ describe('Integration | Component | Certification Banner', function () {
       this.set('certification', certification);
     });
 
-    it('should render component with user fullName', async function () {
+    test('should render component with user fullName', async function (assert) {
       // when
       await render(hbs`<CertificationBanner @certification={{this.certification}} />`);
 
       // then
-      expect(find('.assessment-banner__title').textContent.trim()).to.equal(fullName);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.assessment-banner__title').textContent.trim(), fullName);
     });
 
-    it('should render component with certificationNumber', async function () {
+    test('should render component with certificationNumber', async function (assert) {
       // when
       await render(hbs`<CertificationBanner @certificationNumber={{this.certificationNumber}} />`);
 
       // then
-      expect(find('.certification-number__value').textContent.trim()).to.equal(`${certificationNumber}`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.certification-number__value').textContent.trim(), `${certificationNumber}`);
     });
   });
 });

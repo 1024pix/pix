@@ -1,56 +1,60 @@
 import { find, click } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Download an attachment from a challenge', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Download an attachment from a challenge', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let challengeWithAttachment;
   let assessment;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     challengeWithAttachment = server.create('challenge', 'forCompetenceEvaluation', 'withAttachment');
     server.create('challenge', 'forCompetenceEvaluation');
   });
 
-  describe('When the challenge has an attachment', function () {
-    beforeEach(async function () {
+  module('When the challenge has an attachment', function (hooks) {
+    hooks.beforeEach(async function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should have a way to download the attachment', function () {
-      expect(find('.challenge-statement__action-link')).to.exist;
+    test('should have a way to download the attachment', function (assert) {
+      assert.dom('.challenge-statement__action-link').exists();
     });
 
-    it('should expose the correct attachment link', function () {
-      expect(find('.challenge-statement__action-link').textContent).to.contain('Télécharger');
-      expect(challengeWithAttachment.attachments.length).to.equal(1);
-      expect(find('.challenge-statement__action-link').getAttribute('href')).to.equal(
+    test('should expose the correct attachment link', function (assert) {
+      assert.ok(find('.challenge-statement__action-link').textContent.includes('Télécharger'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(challengeWithAttachment.attachments.length, 1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(
+        find('.challenge-statement__action-link').getAttribute('href'),
         challengeWithAttachment.attachments[0]
       );
     });
 
-    it('should only have one file downloadable', function () {
-      expect(find('.challenge-statement__action-link')).to.exist;
+    test('should only have one file downloadable', function (assert) {
+      assert.dom('.challenge-statement__action-link').exists();
     });
   });
 
-  describe('When the challenge does not contain an attachment', function () {
-    beforeEach(async function () {
+  module('When the challenge does not contain an attachment', function (hooks) {
+    hooks.beforeEach(async function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
       await click('.challenge-actions__action-skip-text');
     });
 
-    it('should hide the download section for the attachment', function () {
+    test('should hide the download section for the attachment', function (assert) {
       // We are in a challenge...
-      expect(find('.challenge-item')).to.exist;
+      assert.dom('.challenge-item').exists();
 
       // ... but attachment is hidden
-      expect(find('.challenge-statement__action-link')).not.to.exist;
+      assert.dom('.challenge-statement__action-link').doesNotExist();
     });
   });
 });
