@@ -637,8 +637,8 @@ const buildLearningContentData = () => {
 
   const competences = [competence1, competence2];
 
-  const area1 = { id: 'recArea1', code: '1', titleFrFr: 'Domain 1', competenceIds: ['recCompetence1'] };
-  const area3 = { id: 'recArea3', code: '3', titleFrFr: 'Domain 3', competenceIds: ['recCompetence2'] };
+  const area1 = { id: 'recArea1', code: '1', title_i18n: { fr: 'Domain 1' }, competenceIds: ['recCompetence1'] };
+  const area3 = { id: 'recArea3', code: '3', title_i18n: { fr: 'Domain 3' }, competenceIds: ['recCompetence2'] };
 
   const learningContent = {
     areas: [area1, area3],

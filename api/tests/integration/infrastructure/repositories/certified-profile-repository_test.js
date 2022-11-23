@@ -12,7 +12,9 @@ describe('Integration | Repository | Certified Profile', function () {
         areas: [
           {
             id: 'recArea1',
-            titleFrFr: 'area1_Title',
+            title_i18n: {
+              fr: 'area1_Title',
+            },
             color: 'someColor',
             competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
           },
@@ -181,7 +183,9 @@ describe('Integration | Repository | Certified Profile', function () {
         areas: [
           {
             id: 'recArea1',
-            titleFrFr: 'area1_Title',
+            title_i18n: {
+              fr: 'area1_Title',
+            },
             color: 'someColor',
             competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
           },

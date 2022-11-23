@@ -30,7 +30,9 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
         learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             id: 'recArea1',
-            titleFrFr: 'area1_Title',
+            title_i18n: {
+              fr: 'area1_Title',
+            },
             color: 'specialColor',
             competences: [
               {
@@ -229,7 +231,9 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
-          titleFrFr: 'area1_Title',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
           color: 'specialColor',
           competences: [
             {
@@ -332,7 +336,9 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
-          titleFrFr: 'area1_Title',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
           color: 'specialColor',
           competences: [
             {

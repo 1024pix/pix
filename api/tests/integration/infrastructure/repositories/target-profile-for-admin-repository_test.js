@@ -102,7 +102,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recArea1',
-              titleFrFr: 'area1_Title',
+              title_i18n: {
+                fr: 'area1_Title',
+              },
               color: 'area1_color',
               code: 'area1_code',
               frameworkId: 'fmk1',
@@ -267,8 +269,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recArea1',
-              titleFrFr: 'titleFR',
-              titleEnUs: 'titleEN',
+              title_i18n: {
+                fr: 'titleFR',
+                en: 'titleEN',
+              },
               color: 'area1_color',
               code: 'area1_code',
               frameworkId: 'fmk1',
@@ -405,7 +409,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recAreaA',
-              titleFrFr: 'titleFRA',
+              title_i18n: {
+                fr: 'titleFRA',
+              },
               color: 'colorA',
               code: 'codeA',
               frameworkId: 'fmk1',
@@ -535,7 +541,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recAreaA',
-              titleFrFr: 'titleFRA',
+              title_i18n: {
+                fr: 'titleFRA',
+              },
               color: 'colorA',
               code: 'codeA',
               frameworkId: 'fmk1',
@@ -828,8 +836,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recAreaA',
-              titleFrFr: 'titleFRA',
-              titleEnUs: 'titleENA',
+              title_i18n: {
+                fr: 'titleFRA',
+                en: 'titleENA',
+              },
               color: 'colorA',
               code: 'codeA',
               frameworkId: 'fmk1',

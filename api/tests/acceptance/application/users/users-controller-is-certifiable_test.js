@@ -20,7 +20,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     const learningContent = learningContentBuilder.buildLearningContent.fromAreas([
       {
         id: 'recvoGdo7z2z7pXWa',
-        titleFrFr: 'Information et données',
+        title_i18n: {
+          fr: 'Information et données',
+        },
         color: 'jaffa',
         code: '1',
         competences: [
@@ -100,7 +102,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
       },
       {
         id: 'recDH19F7kKrfL3Ii',
-        titleFrFr: 'Communication et collaboration',
+        title_i18n: {
+          fr: 'Communication et collaboration',
+        },
         color: 'jaffa',
         code: '1',
         competences: [

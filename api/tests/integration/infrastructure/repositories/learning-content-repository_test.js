@@ -612,7 +612,7 @@ function _buildDomainAreasFromLearningContent({ areas }, locale) {
   return areas.map((area) =>
     domainBuilder.buildArea({
       ...area,
-      title: area[locale === 'en' ? 'titleEnUs' : 'titleFrFr'],
+      title: area.title_i18n[locale],
     })
   );
 }

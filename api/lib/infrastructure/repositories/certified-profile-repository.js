@@ -105,7 +105,7 @@ async function _createCertifiedAreas(certifiedCompetences) {
   const certifiedCompetencesByArea = _.groupBy(certifiedCompetences, 'areaId');
   const learningContentAreas = await areaDatasource.findByRecordIds(Object.keys(certifiedCompetencesByArea));
   return learningContentAreas.map((learningContentArea) => {
-    const name = learningContentArea.titleFrFr;
+    const name = learningContentArea.title_i18n.fr;
     return new CertifiedArea({
       id: learningContentArea.id,
       name,
