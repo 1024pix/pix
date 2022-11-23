@@ -6,7 +6,7 @@ const challengeDatasource = require('../datasources/learning-content/challenge-d
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const tutorialRepository = require('./tutorial-repository');
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
-const { getTranslatedText } = require('../../domain/services/get-translated-text');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text');
 
 module.exports = {
   async getByChallengeId({ challengeId, userId, locale }) {
@@ -50,7 +50,7 @@ function _hasValidatedHint(skillDataObject) {
 function _convertSkillToHint({ skill, locale }) {
   return new Hint({
     skillName: skill.name,
-    value: getTranslatedText(locale, { frenchText: skill.hintFrFr, englishText: skill.hintEnUs }),
+    value: getTranslatedKey(skill.hint_i18n, locale),
   });
 }
 

@@ -28,8 +28,10 @@ module.exports = function SkillLearningContentDataObjectFixture({
   return {
     id,
     name,
-    hintEnUs,
-    hintFrFr,
+    hint_i18n: {
+      en: hintEnUs,
+      fr: hintFrFr,
+    },
     hintStatus,
     tutorialIds,
     learningMoreTutorialIds,
