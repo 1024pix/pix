@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 
-describe('Unit | Component | authentication | oidc-reconciliation', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | authentication | oidc-reconciliation', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('#backToLoginOrRegisterForm', function () {
-    it('should redirect back to login or register page', function () {
+  module('#backToLoginOrRegisterForm', function () {
+    test('should redirect back to login or register page', function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
       component.args.toggleOidcReconciliation = sinon.stub();
@@ -22,11 +21,12 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
 
       // then
       sinon.assert.called(component.args.toggleOidcReconciliation);
+      assert.ok(true);
     });
   });
 
-  describe('#oidcAuthenticationMethodOrganizationNames', function () {
-    it('should return method organization names', function () {
+  module('#oidcAuthenticationMethodOrganizationNames', function () {
+    test('should return method organization names', function (assert) {
       // given & when
       class OidcIdentityProvidersStub extends Service {
         getIdentityProviderNamesByAuthenticationMethods() {
@@ -38,36 +38,36 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
       component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'FRANCE_CONNECT' })];
 
       // then
-      expect(component.oidcAuthenticationMethodOrganizationNames).to.be.an('array').that.includes('France Connect');
+      assert.ok(component.oidcAuthenticationMethodOrganizationNames.includes('France Connect'));
     });
   });
 
-  describe('#shouldShowGarAuthenticationMethod', function () {
-    context('when gar authentication method exist', function () {
-      it('should display authentication method', function () {
+  module('#shouldShowGarAuthenticationMethod', function () {
+    module('when gar authentication method exist', function () {
+      test('should display authentication method', function (assert) {
         // given & when
         const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
         component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'GAR' })];
 
         // then
-        expect(component.shouldShowGarAuthenticationMethod).to.be.true;
+        assert.true(component.shouldShowGarAuthenticationMethod);
       });
     });
 
-    context('when gar authentication method does not exist', function () {
-      it('should not display authentication method', function () {
+    module('when gar authentication method does not exist', function () {
+      test('should not display authentication method', function (assert) {
         // given & when
         const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
         component.args.authenticationMethods = [EmberObject.create({ identityProvider: 'OIDC' })];
 
         // then
-        expect(component.shouldShowGarAuthenticationMethod).to.be.false;
+        assert.false(component.shouldShowGarAuthenticationMethod);
       });
     });
   });
 
-  describe('#identityProviderOrganizationName', function () {
-    it('should display identity provider organization name', function () {
+  module('#identityProviderOrganizationName', function () {
+    test('should display identity provider organization name', function (assert) {
       // given & when
       const oidcPartner = {
         id: 'oidc-partner',
@@ -82,60 +82,62 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
       component.args.identityProviderSlug = 'oidc-partner';
 
       // then
-      expect(component.identityProviderOrganizationName).to.equal('Partenaire OIDC');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.identityProviderOrganizationName, 'Partenaire OIDC');
     });
   });
 
-  describe('#shouldShowEmail', function () {
-    context('when email exist', function () {
-      it('should display email', function () {
+  module('#shouldShowEmail', function () {
+    module('when email exist', function () {
+      test('should display email', function (assert) {
         // given & when
         const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
         component.args.email = 'lloyd.ce@example.net';
 
         // then
-        expect(component.shouldShowEmail).to.be.true;
+        assert.true(component.shouldShowEmail);
       });
     });
 
-    context('when email does not exist', function () {
-      it('should not display email', function () {
+    module('when email does not exist', function () {
+      test('should not display email', function (assert) {
         // given & when
         const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
         component.args.email = null;
 
         // then
-        expect(component.shouldShowEmail).to.be.false;
+        assert.false(component.shouldShowEmail);
       });
     });
   });
 
-  describe('#shouldShowUsername', function () {
-    context('when username exist', function () {
-      it('should display username', function () {
+  module('#shouldShowUsername', function () {
+    module('when username exist', function () {
+      test('should display username', function (assert) {
         // given & when
         const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
         component.args.username = 'lloyd.ce1122';
 
         // then
-        expect(component.shouldShowUsername).to.be.true;
+        assert.true(component.shouldShowUsername);
       });
     });
 
-    context('when username does not exist', function () {
-      it('should not display username', function () {
+    module('when username does not exist', function () {
+      test('should not display username', function (assert) {
         // given & when
         const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
         component.args.username = null;
 
         // then
-        expect(component.shouldShowUsername).to.be.false;
+        assert.false(component.shouldShowUsername);
       });
     });
   });
 
-  context('when authentication key has expired', function () {
-    it('should display error', async function () {
+  module('when authentication key has expired', function () {
+    test('should display error', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
@@ -151,14 +153,17 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
       await component.reconcile();
 
       // then
-      expect(component.reconcileErrorMessage).to.equal(
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(
+        component.reconcileErrorMessage,
         this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
       );
     });
   });
 
-  context('when an error happens', function () {
-    it('should display generic error message', async function () {
+  module('when an error happens', function () {
+    test('should display generic error message', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/oidc-reconciliation');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '400' }] });
@@ -174,7 +179,9 @@ describe('Unit | Component | authentication | oidc-reconciliation', function () 
       await component.reconcile();
 
       // then
-      expect(component.reconcileErrorMessage).to.equal(this.intl.t('common.error'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.reconcileErrorMessage, this.intl.t('common.error'));
     });
   });
 });

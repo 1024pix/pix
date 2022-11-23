@@ -1,24 +1,23 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { expect } from 'chai';
 import Service from '@ember/service';
 
-describe('Integration | Component | Certifications | CertificationEnder', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Certifications | CertificationEnder', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should display the translated labels', async function () {
+  test('should display the translated labels', async function (assert) {
     // when
     const screen = await renderScreen(hbs`
       <Certifications::CertificationEnder />
     `);
 
     // then
-    expect(screen.getByText(this.intl.t('pages.certification-ender.candidate.title'))).to.exist;
+    assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.title')));
   });
 
-  it('should display the certification number', async function () {
+  test('should display the certification number', async function (assert) {
     // given
     this.certificationNumber = 1234;
 
@@ -28,10 +27,10 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
     // then
-    expect(screen.getByText(1234)).to.exist;
+    assert.ok(screen.getByText(1234));
   });
 
-  it('should display the current user name', async function () {
+  test('should display the current user name', async function (assert) {
     // given
     class currentUser extends Service {
       user = {
@@ -47,21 +46,21 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
     // then
-    expect(screen.getByText('Jim Halpert')).to.exist;
+    assert.ok(screen.getByText('Jim Halpert'));
   });
 
-  it('should display the remote certification logout message', async function () {
+  test('should display the remote certification logout message', async function (assert) {
     // when
     const screen = await renderScreen(hbs`
       <Certifications::CertificationEnder @certificationNumber={{this.certificationNumber}} />
     `);
 
     // then
-    expect(screen.getByText(this.intl.t('pages.certification-ender.candidate.remote-certification'))).to.exist;
+    assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.remote-certification')));
   });
 
-  context('when the assessment status is not ended by supervisor', function () {
-    it('should not display the ended by supervisor text', async function () {
+  module('when the assessment status is not ended by supervisor', function () {
+    test('should not display the ended by supervisor text', async function (assert) {
       // given
       class currentUser extends Service {
         user = {
@@ -77,12 +76,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
       // then
-      expect(screen.queryByText(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).not.to.exist;
+      assert.notOk(screen.queryByText(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor')));
     });
   });
 
-  context('when the assessment status is ended by supervisor', function () {
-    it('should display the ended by supervisor text', async function () {
+  module('when the assessment status is ended by supervisor', function () {
+    test('should display the ended by supervisor text', async function (assert) {
       // given
       class currentUser extends Service {
         user = {
@@ -98,12 +97,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
       // then
-      expect(screen.getByText(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).to.exist;
+      assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor')));
     });
   });
 
-  context('when the assessment status is ended by finalization', function () {
-    it('should display the ended by finalization text', async function () {
+  module('when the assessment status is ended by finalization', function () {
+    test('should display the ended by finalization text', async function (assert) {
       // given
       class currentUser extends Service {
         user = {
@@ -119,7 +118,7 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
       // then
-      expect(screen.getByText(this.intl.t('pages.certification-ender.candidate.ended-due-to-finalization'))).to.exist;
+      assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.ended-due-to-finalization')));
     });
   });
 });

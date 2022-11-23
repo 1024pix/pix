@@ -1,9 +1,8 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { getChallengeComponentClass } from 'mon-pix/helpers/get-challenge-component-class';
 
-describe('Unit | Helper | get challenge component class', function () {
+module('Unit | Helper | get challenge component class', function () {
   [
     { challengeType: 'QCU', expectedClass: 'challenge-item-qcu' },
     { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' },
@@ -14,7 +13,7 @@ describe('Unit | Helper | get challenge component class', function () {
     { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' },
     { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' },
   ].forEach((useCase) => {
-    it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function () {
+    test(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function (assert) {
       // given
       const challenge = EmberObject.create({ type: useCase.challengeType });
       const params = [challenge];
@@ -23,7 +22,9 @@ describe('Unit | Helper | get challenge component class', function () {
       const componentClass = getChallengeComponentClass(params);
 
       // then
-      expect(componentClass).to.equal(useCase.expectedClass);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(componentClass, useCase.expectedClass);
     });
   });
 });

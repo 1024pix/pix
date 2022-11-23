@@ -1,56 +1,58 @@
 import { click, find, findAll, currentURL, fillIn, triggerEvent, visit } from '@ember/test-helpers';
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Displaying a QROCM challenge', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Displaying a QROCM challenge', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
   let qrocmDepChallenge;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
-  describe('When challenge is not already answered', function () {
-    context('and challenge only has input fields', function () {
-      beforeEach(async function () {
+  module('When challenge is not already answered', function () {
+    module('and challenge only has input fields', function (hooks) {
+      hooks.beforeEach(async function () {
         // when
         qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should render challenge information and question', function () {
+      test('should render challenge information and question', function (assert) {
         // then
-        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
-          qrocmDepChallenge.instruction
-        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qrocmDepChallenge.instruction);
 
-        expect(findAll('.challenge-response__proposal')).to.have.lengthOf(2);
-        expect(findAll('.challenge-response__proposal')[0].disabled).to.be.false;
-        expect(findAll('.challenge-response__proposal')[1].disabled).to.be.false;
-        expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
-        expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
+        assert.dom('.challenge-response__proposal').exists({ count: 2 });
+        assert.false(findAll('.challenge-response__proposal')[0].disabled);
+        assert.false(findAll('.challenge-response__proposal')[1].disabled);
+        assert.ok(find('div[data-test="qrocm-label-0"]').innerHTML.includes('Station <strong>1</strong> :'));
+        assert.ok(find('div[data-test="qrocm-label-1"]').innerHTML.includes('Station <em>2</em> :'));
 
-        expect(find('.challenge-response__alert')).to.not.exist;
+        assert.dom('.challenge-response__alert').doesNotExist();
       });
 
-      it('should display the alert box if user validates without write an answer for each input', async function () {
+      test('should display the alert box if user validates without write an answer for each input', async function (assert) {
         // when
         await fillIn(findAll('input')[0], 'ANSWER');
         await fillIn(findAll('input')[1], '');
 
         await click(find('.challenge-actions__action-validate'));
 
-        expect(find('.challenge-response__alert')).to.exist;
-        expect(find('.challenge-response__alert').textContent.trim()).to.equal(
+        assert.dom('.challenge-response__alert').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          find('.challenge-response__alert').textContent.trim(),
           'Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.'
         );
       });
 
-      it('should hide the alert error after the user interact with input text', async function () {
+      test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
         await click('.challenge-actions__action-validate');
 
@@ -60,37 +62,37 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
         await fillIn(findAll('input')[1], 'ANSWER');
 
         // then
-        expect(find('.challenge-response__alert')).to.not.exist;
+        assert.dom('.challenge-response__alert').doesNotExist();
       });
 
-      it('should go to checkpoint when user validated', async function () {
+      test('should go to checkpoint when user validated', async function (assert) {
         // when
         await fillIn(findAll('input')[0], 'ANSWER');
         await fillIn(findAll('input')[1], 'ANSWER');
         await click('.challenge-actions__action-validate');
 
         // then
-        expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
+        assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
       });
     });
 
-    context('and challenge contains select field', function () {
-      beforeEach(async function () {
+    module('and challenge contains select field', function (hooks) {
+      hooks.beforeEach(async function () {
         // when
         server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should not be able to validate with the initial option', async function () {
+      test('should not be able to validate with the initial option', async function (assert) {
         // when
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.challenge-response__alert')).to.exist;
-        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/0`);
+        assert.dom('.challenge-response__alert').exists();
+        assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
       });
 
-      it('should not be able to validate the empty option', async function () {
+      test('should not be able to validate the empty option', async function (assert) {
         // given
         const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
         const optionToFillIn = selectOptions[0];
@@ -100,11 +102,11 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.challenge-response__alert')).to.exist;
-        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/0`);
+        assert.dom('.challenge-response__alert').exists();
+        assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
       });
 
-      it('should validate an option and redirect to next page', async function () {
+      test('should validate an option and redirect to next page', async function (assert) {
         // given
         const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
         const optionToFillIn = selectOptions[1];
@@ -114,14 +116,14 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
+        assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
       });
     });
   });
 
-  describe('When challenge is already answered', function () {
-    context('and challenge is only made of input fields', function () {
-      beforeEach(async function () {
+  module('When challenge is already answered', function () {
+    module('and challenge is only made of input fields', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
         server.create('answer', {
@@ -135,23 +137,27 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should set the input text with previous answers and propose to continue', async function () {
+      test('should set the input text with previous answers and propose to continue', async function (assert) {
         // then
-        expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
-        expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
-        expect(findAll('.challenge-response__proposal')[0].value).to.equal('Republique');
-        expect(findAll('.challenge-response__proposal')[0].disabled).to.be.true;
-        expect(findAll('.challenge-response__proposal')[1].value).to.equal('Chatelet');
-        expect(findAll('.challenge-response__proposal')[1].disabled).to.be.true;
+        assert.ok(find('div[data-test="qrocm-label-0"]').innerHTML.includes('Station <strong>1</strong> :'));
+        assert.ok(find('div[data-test="qrocm-label-1"]').innerHTML.includes('Station <em>2</em> :'));
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.challenge-response__proposal')[0].value, 'Republique');
+        assert.true(findAll('.challenge-response__proposal')[0].disabled);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(findAll('.challenge-response__proposal')[1].value, 'Chatelet');
+        assert.true(findAll('.challenge-response__proposal')[1].disabled);
 
-        expect(find('.challenge-actions__action-continue')).to.exist;
-        expect(find('.challenge-actions__action-validate')).to.not.exist;
-        expect(find('.challenge-actions__action-skip-text')).to.not.exist;
+        assert.dom('.challenge-actions__action-continue').exists();
+        assert.dom('.challenge-actions__action-validate').doesNotExist();
+        assert.dom('.challenge-actions__action-skip-text').doesNotExist();
       });
     });
 
-    context('and challenge contains select field', function () {
-      beforeEach(async function () {
+    module('and challenge contains select field', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         const qrocmWithSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         server.create('answer', {
@@ -165,18 +171,18 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should set the select with previous answer and propose to continue', async function () {
+      test('should set the select with previous answer and propose to continue', async function (assert) {
         // then
-        expect(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].selected);
+        assert.ok(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].selected);
 
-        expect(find('.challenge-actions__action-continue')).to.exist;
-        expect(find('.challenge-actions__action-validate')).to.not.exist;
-        expect(find('.challenge-actions__action-skip-text')).to.not.exist;
+        assert.dom('.challenge-actions__action-continue').exists();
+        assert.dom('.challenge-actions__action-validate').doesNotExist();
+        assert.dom('.challenge-actions__action-skip-text').doesNotExist();
       });
     });
   });
 
-  describe('When challenge is already answered and user wants to see answers', function () {
+  module('When challenge is already answered and user wants to see answers', function (hooks) {
     let correctionDep,
       correctionInd,
       tutorial,
@@ -185,7 +191,7 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
       qrocmIndSelectChallenge,
       correctionIndSelect;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       // given
       qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
       qrocmIndChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMind');
@@ -238,99 +244,142 @@ describe('Acceptance | Displaying a QROCM challenge', function () {
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
-    it('should show the result of previous challenges in checkpoint', async function () {
+    test('should show the result of previous challenges in checkpoint', async function (assert) {
       // then
-      expect(findAll('.result-item__icon')[0].title).to.equal('Réponse incorrecte');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__icon')[0].title, 'Réponse incorrecte');
       const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
-      expect(findAll('.result-item__instruction')[0].textContent.trim()).to.equal(`${instructionStripped}...`);
-      expect(findAll('.result-item__correction-button')[0].textContent.trim()).to.equal('Réponses et tutos');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__instruction')[0].textContent.trim(), `${instructionStripped}...`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__correction-button')[0].textContent.trim(), 'Réponses et tutos');
 
-      expect(findAll('.result-item__icon')[1].title).to.equal('Réponse incorrecte');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__icon')[1].title, 'Réponse incorrecte');
       const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0, 104);
-      expect(findAll('.result-item__instruction')[1].textContent.trim()).to.equal(`${instructionStrippedInd}....`);
-      expect(findAll('.result-item__correction-button')[1].textContent.trim()).to.equal('Réponses et tutos');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__instruction')[1].textContent.trim(), `${instructionStrippedInd}....`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__correction-button')[1].textContent.trim(), 'Réponses et tutos');
 
-      expect(findAll('.result-item__icon')[2].title).to.equal('Réponse incorrecte');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__icon')[2].title, 'Réponse incorrecte');
       const instructionStrippedSelect = qrocmIndSelectChallenge.instruction.slice(0, 104);
-      expect(findAll('.result-item__instruction')[2].textContent.trim()).to.equal(`${instructionStrippedSelect}....`);
-      expect(findAll('.result-item__correction-button')[2].textContent.trim()).to.equal('Réponses et tutos');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__instruction')[2].textContent.trim(), `${instructionStrippedSelect}....`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.result-item__correction-button')[2].textContent.trim(), 'Réponses et tutos');
     });
 
-    it('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async function () {
+    test('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
       await click(findAll('.result-item__correction-button')[0]);
 
       // then
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qrocmDepChallenge.instruction);
 
       const goodAnswers = find('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
 
-      expect(goodAnswers.textContent.trim()).to.equal('Versailles-Chantiers et Poissy');
-      expect(badAnswersFromUserResult[0].value).to.equal('Republique');
-      expect(badAnswersFromUserResult[1].value).to.equal('Chatelet');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(goodAnswers.textContent.trim(), 'Versailles-Chantiers et Poissy');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(badAnswersFromUserResult[0].value, 'Republique');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(badAnswersFromUserResult[1].value, 'Chatelet');
 
-      expect(find('.tutorial-panel__hint-container').textContent).to.contains(correctionDep.hint);
+      assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correctionDep.hint));
 
       const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
       const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card')[0];
 
-      expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
-      expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+      assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
+      assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      expect(find('.feedback-panel')).to.exist;
+      assert.dom('.feedback-panel').exists();
     });
 
-    it('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async function () {
+    test('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
       await click(findAll('.result-item__correction-button')[1]);
 
       // then
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmIndChallenge.instruction);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qrocmIndChallenge.instruction);
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
 
-      expect(goodAnswers[0].textContent.trim()).to.equal('Le petit prince');
-      expect(goodAnswers[1].textContent.trim()).to.equal('Saint-Exupéry');
-      expect(badAnswersFromUserResult[0].value).to.equal('Le rouge et le noir');
-      expect(badAnswersFromUserResult[1].value).to.equal('Stendhal');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(goodAnswers[0].textContent.trim(), 'Le petit prince');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(goodAnswers[1].textContent.trim(), 'Saint-Exupéry');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(badAnswersFromUserResult[0].value, 'Le rouge et le noir');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(badAnswersFromUserResult[1].value, 'Stendhal');
 
-      expect(find('.tutorial-panel__hint-container').textContent).to.contains(correctionDep.hint);
+      assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correctionDep.hint));
 
       const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
       const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card')[0];
 
-      expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
-      expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+      assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
+      assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      expect(find('.feedback-panel')).to.exist;
+      assert.dom('.feedback-panel').exists();
     });
 
-    it('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async function () {
+    test('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
       await click(findAll('.result-item__correction-button')[2]);
 
       // then
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(
+        find('.challenge-statement-instruction__text').textContent.trim(),
         qrocmIndSelectChallenge.instruction
       );
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
 
-      expect(goodAnswers[0].textContent.trim()).to.equal('mango');
-      expect(badAnswersFromUserResult[0].value).to.equal('potato');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(goodAnswers[0].textContent.trim(), 'mango');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(badAnswersFromUserResult[0].value, 'potato');
 
-      expect(find('.tutorial-panel__hint-container').textContent).to.contains(correctionIndSelect.hint);
+      assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correctionIndSelect.hint));
 
       const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
       const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card')[0];
 
-      expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
-      expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+      assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
+      assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      expect(find('.feedback-panel')).to.exist;
+      assert.dom('.feedback-panel').exists();
     });
   });
 });

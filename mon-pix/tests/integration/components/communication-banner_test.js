@@ -1,22 +1,21 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'mon-pix/config/environment';
 
-describe('Integration | Component | communication-banner', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | communication-banner', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const originalBannerContent = ENV.APP.BANNER_CONTENT;
   const originalBannerType = ENV.APP.BANNER_TYPE;
 
-  afterEach(function () {
+  hooks.afterEach(function () {
     ENV.APP.BANNER_CONTENT = originalBannerContent;
     ENV.APP.BANNER_TYPE = originalBannerType;
   });
 
-  it('should not display the banner when no banner content', async function () {
+  test('should not display the banner when no banner content', async function (assert) {
     // given
     ENV.APP.BANNER_CONTENT = '';
     ENV.APP.BANNER_TYPE = '';
@@ -25,10 +24,10 @@ describe('Integration | Component | communication-banner', function () {
     await render(hbs`<CommunicationBanner />`);
 
     // then
-    expect(find('.pix-banner')).to.not.exist;
+    assert.dom('.pix-banner').doesNotExist();
   });
 
-  it('should display the information banner', async function () {
+  test('should display the information banner', async function (assert) {
     // given
     ENV.APP.BANNER_CONTENT = 'information banner text ...';
     ENV.APP.BANNER_TYPE = 'information';
@@ -37,7 +36,7 @@ describe('Integration | Component | communication-banner', function () {
     await render(hbs`<CommunicationBanner />`);
 
     // then
-    expect(find('.pix-banner--information')).to.exist;
-    expect(find('.pix-banner--information').textContent).to.contain('information banner text ...');
+    assert.dom('.pix-banner--information').exists();
+    assert.ok(find('.pix-banner--information').textContent.includes('information banner text ...'));
   });
 });

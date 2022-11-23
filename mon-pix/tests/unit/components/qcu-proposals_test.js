@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | QCU proposals', function () {
-  setupTest();
+module('Unit | Component | QCU proposals', function (hooks) {
+  setupTest(hooks);
 
-  describe('Computed property "labeledRadios"', function () {
+  module('Computed property "labeledRadios"', function (hooks) {
     const DEFAULT_PROPOSALS = '- prop 1\n- prop 2\n- prop 3';
 
     let answerValue;
     let proposals;
     let component;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       proposals = DEFAULT_PROPOSALS;
       answerValue = '2';
     });
@@ -22,7 +21,7 @@ describe('Unit | Component | QCU proposals', function () {
       component = createGlimmerComponent('component:qcu-proposals', { proposals, answerValue });
     }
 
-    it('should return an array of [<proposal_text>, <boolean_answer>]', function () {
+    test('should return an array of [<proposal_text>, <boolean_answer>]', function (assert) {
       // Given
       answerValue = '2';
       const expectedLabeledRadios = [
@@ -36,10 +35,10 @@ describe('Unit | Component | QCU proposals', function () {
       const labeledRadios = component.labeledRadios;
 
       // Then
-      expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
+      assert.deepEqual(labeledRadios, expectedLabeledRadios);
     });
 
-    it('should return an array of [<proposal_text>, <boolean_answer>] with as many items as challenge proposals', function () {
+    test('should return an array of [<proposal_text>, <boolean_answer>] with as many items as challenge proposals', function (assert) {
       // given
       proposals = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
       initComponent.call(this);
@@ -48,10 +47,12 @@ describe('Unit | Component | QCU proposals', function () {
       const labeledRadios = component.labeledRadios;
 
       // then
-      expect(labeledRadios).to.have.lengthOf(5);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(labeledRadios.length, 5);
     });
 
-    it('should not select a radio when given answer is null', function () {
+    test('should not select a radio when given answer is null', function (assert) {
       // given
       answerValue = null;
       const expectedLabeledRadios = [
@@ -65,10 +66,10 @@ describe('Unit | Component | QCU proposals', function () {
       const labeledRadios = component.labeledRadios;
 
       // then
-      expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
+      assert.deepEqual(labeledRadios, expectedLabeledRadios);
     });
 
-    it('should not select a radio when no answer is given', function () {
+    test('should not select a radio when no answer is given', function (assert) {
       // given
       answerValue = '';
       const expectedLabeledRadios = [
@@ -82,7 +83,7 @@ describe('Unit | Component | QCU proposals', function () {
       const labeledRadios = component.labeledRadios;
 
       // then
-      expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
+      assert.deepEqual(labeledRadios, expectedLabeledRadios);
     });
   });
 });

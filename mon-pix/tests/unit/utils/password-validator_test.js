@@ -1,31 +1,30 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import isPasswordvalid from 'mon-pix/utils/password-validator';
 
-describe('Unit | Utility | password validator', function () {
-  describe('Validation rules', function () {
-    it('should contain at least 8 characters:', function () {
-      expect(isPasswordvalid('Ab123456')).to.be.true;
-      expect(isPasswordvalid('A1')).to.be.false;
+module('Unit | Utility | password validator', function () {
+  module('Validation rules', function () {
+    test('should contain at least 8 characters:', function (assert) {
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('A1'));
     });
 
-    it('should contain at least one digit', function () {
-      expect(isPasswordvalid('Ab123456')).to.be.true;
-      expect(isPasswordvalid('ABCDEFGH')).to.be.false;
+    test('should contain at least one digit', function (assert) {
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('ABCDEFGH'));
     });
 
-    it('should contain at least one uppercase letter', function () {
-      expect(isPasswordvalid('Ab123456')).to.be.true;
-      expect(isPasswordvalid('a1234567')).to.be.false;
+    test('should contain at least one uppercase letter', function (assert) {
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('a1234567'));
     });
 
-    it('should contain at least one lowercase letter', function () {
-      expect(isPasswordvalid('Ab123456')).to.be.true;
-      expect(isPasswordvalid('A1234567')).to.be.false;
+    test('should contain at least one lowercase letter', function (assert) {
+      assert.true(isPasswordvalid('Ab123456'));
+      assert.false(isPasswordvalid('A1234567'));
     });
   });
 
-  describe('Invalid password', function () {
+  module('Invalid password', function () {
     [
       '',
       ' ',
@@ -40,13 +39,13 @@ describe('Unit | Utility | password validator', function () {
       '+!@)-=`"#&1A',
       '+!@)-=`"#&1a',
     ].forEach(function (badPassword) {
-      it(`should return false when password is invalid: ${badPassword}`, function () {
-        expect(isPasswordvalid(badPassword)).to.be.false;
+      test(`should return false when password is invalid: ${badPassword}`, function (assert) {
+        assert.false(isPasswordvalid(badPassword));
       });
     });
   });
 
-  describe('Valid password', function () {
+  module('Valid password', function () {
     [
       'PIXBETa1',
       'PIXBETa12',
@@ -63,8 +62,8 @@ describe('Unit | Utility | password validator', function () {
       '1A      a1',
       'Aà1      ',
     ].forEach(function (validPassword) {
-      it(`should return true if provided password is valid: ${validPassword}`, function () {
-        expect(isPasswordvalid(validPassword)).to.be.true;
+      test(`should return true if provided password is valid: ${validPassword}`, function (assert) {
+        assert.true(isPasswordvalid(validPassword));
       });
     });
   });

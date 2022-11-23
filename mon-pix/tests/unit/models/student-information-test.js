@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'mon-pix/config/environment';
 import { run } from '@ember/runloop';
 
-describe('Unit | Model | Student-information', function () {
-  setupTest();
+module('Unit | Model | Student-information', function (hooks) {
+  setupTest(hooks);
 
-  describe('#submitStudentInformation', function () {
-    it('submit student information form', async function () {
+  module('#submitStudentInformation', function () {
+    test('submit student information form', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('student-information');
@@ -61,8 +60,8 @@ describe('Unit | Model | Student-information', function () {
           },
         },
       };
-      expect(adapter.ajax.calledWith(url, 'POST', payload)).to.be.true;
-      expect(result).to.be.deep.equal(expectedResult);
+      assert.true(adapter.ajax.calledWith(url, 'POST', payload));
+      assert.deepEqual(result, expectedResult);
     });
   });
 });

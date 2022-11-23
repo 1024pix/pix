@@ -1,15 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Sinon from 'sinon';
 
-describe('Integration | Component |  authentication | oidc-reconciliation', function () {
-  setupIntlRenderingTest();
+module('Integration | Component |  authentication | oidc-reconciliation', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should display reconciliation page elements', async function () {
+  test('should display reconciliation page elements', async function (assert) {
     // given
     class OidcIdentityProvidersStub extends Service {
       'new-oidc-partner' = { organizationName: 'Nouveau partenaire' };
@@ -33,26 +32,27 @@ describe('Integration | Component |  authentication | oidc-reconciliation', func
     );
 
     // then
-    expect(
+    assert.ok(
       screen.getByRole('heading', {
         name: `${this.intl.t('pages.oidc-reconciliation.title')} ${this.intl.t('pages.oidc-reconciliation.sub-title')}`,
       })
-    ).to.exist;
-    expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.information'))).to.exist;
-    expect(screen.getByText('Lloyd Cé')).to.exist;
-    expect(screen.getByText('Lloyd Pix')).to.exist;
-    expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.current-authentication-methods'))).to.exist;
-    expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.email'))).to.exist;
-    expect(screen.getByText('lloyidce@example.net')).to.exist;
-    expect(screen.getByText('France Connect')).to.exist;
-    expect(screen.getByText('Impots.gouv')).to.exist;
+    );
+    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.information')));
+    assert.ok(screen.getByText('Lloyd Cé'));
+    assert.ok(screen.getByText('Lloyd Pix'));
+    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.current-authentication-methods')));
+    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.email')));
+    assert.ok(screen.getByText('lloyidce@example.net'));
+    assert.ok(screen.getByText('France Connect'));
+    assert.ok(screen.getByText('Impots.gouv'));
 
-    expect(screen.getByText(this.intl.t('pages.oidc-reconciliation.authentication-method-to-add'))).to.exist;
-    expect(screen.getByText(`${this.intl.t('pages.oidc-reconciliation.external-connection-via')} Nouveau partenaire`))
-      .to.exist;
+    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.authentication-method-to-add')));
+    assert.ok(
+      screen.getByText(`${this.intl.t('pages.oidc-reconciliation.external-connection-via')} Nouveau partenaire`)
+    );
 
-    expect(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.switch-account') })).to.exist;
-    expect(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.return') })).to.exist;
-    expect(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.confirm') })).to.exist;
+    assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.switch-account') }));
+    assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.return') }));
+    assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.confirm') }));
   });
 });

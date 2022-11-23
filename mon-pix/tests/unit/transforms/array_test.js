@@ -1,10 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import ArrayTransform from 'mon-pix/transforms/array';
 
-describe('Unit | Transformer | Array', function () {
-  describe('#deserialize', function () {
-    it('should return an Array when Array given', function () {
+module('Unit | Transformer | Array', function () {
+  module('#deserialize', function () {
+    test('should return an Array when Array given', function (assert) {
       // given
       const transform = ArrayTransform.create();
       const array = ['foo', 'bar', 'yeah'];
@@ -13,7 +12,7 @@ describe('Unit | Transformer | Array', function () {
       const serialized = transform.deserialize(array);
 
       // then
-      expect(serialized).to.deep.equal(array);
+      assert.deepEqual(serialized, array);
     });
   });
 });

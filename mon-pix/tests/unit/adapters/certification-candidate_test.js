@@ -1,35 +1,34 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | certification-candidate', function () {
-  setupTest();
+module('Unit | Adapters | certification-candidate', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:certification-candidate');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', function () {
-    it('should build create url from certification-candidate id', async function () {
+  module('#urlForCreateRecord', function () {
+    test('should build create url from certification-candidate id', async function (assert) {
       // when
       const options = { adapterOptions: {} };
       const url = await adapter.urlForCreateRecord('certification-candidate', options);
 
       // then
-      expect(url.endsWith('/certification-candidates')).to.be.true;
+      assert.true(url.endsWith('/certification-candidates'));
     });
 
-    it('should redirect to session/id/certification-candidate/participation', async function () {
+    test('should redirect to session/id/certification-candidate/participation', async function (assert) {
       // when
       const options = { adapterOptions: { joinSession: true, sessionId: 456 } };
       const url = await adapter.urlForCreateRecord('certification-candidate', options);
 
       // then
-      expect(url.endsWith('/sessions/456/candidate-participation')).to.be.true;
+      assert.true(url.endsWith('/sessions/456/candidate-participation'));
     });
   });
 });

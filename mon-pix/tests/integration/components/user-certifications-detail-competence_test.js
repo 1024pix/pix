@@ -1,13 +1,12 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
-import { find, findAll, render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import { A as EmberArray } from '@ember/array';
 
-describe('Integration | Component | user-certifications-detail-competence', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user-certifications-detail-competence', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let area;
   const PARENT_SELECTOR = '.user-certifications-detail-competence';
@@ -15,7 +14,7 @@ describe('Integration | Component | user-certifications-detail-competence', func
   const COMPETENCE_SELECTOR = `${PARENT_SELECTOR} div`;
   const DISABLED_CLASS = 'user-certifications-detail-competence__competence--disabled';
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     area = EmberObject.create({
       code: 3,
       id: 'recs7Gpf90ln8NCv7',
@@ -54,42 +53,49 @@ describe('Integration | Component | user-certifications-detail-competence', func
     await render(hbs`<UserCertificationsDetailCompetence @area={{this.area}} />`);
   });
 
-  it('renders', function () {
+  test('renders', function (assert) {
     //then
-    expect(find(`${PARENT_SELECTOR}`)).to.exist;
+    assert.dom(`${PARENT_SELECTOR}`).exists();
   });
 
-  it('should show the title of area', function () {
+  test('should show the title of area', function (assert) {
     // then
-    expect(find(TITLE_SELECTOR).textContent).to.include(area.title);
+    assert.ok(find(TITLE_SELECTOR).textContent.includes(area.title));
   });
 
-  it('should include one competences line per competence', function () {
+  test('should include one competences line per competence', function (assert) {
     // then
-    expect(findAll(COMPETENCE_SELECTOR)).to.have.lengthOf(area.resultCompetences.length);
+    assert.dom(COMPETENCE_SELECTOR).exists({ count: area.resultCompetences.length });
   });
 
-  context('on a specific line of competence', function () {
-    context('when competence level is -1', function () {
-      it('should be grayed out (almost transparent) and not show the level', function () {
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(3) span`).textContent).to.equal(
+  module('on a specific line of competence', function () {
+    module('when competence level is -1', function () {
+      test('should be grayed out (almost transparent) and not show the level', function (assert) {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          find(`${COMPETENCE_SELECTOR}:nth-child(3) span`).textContent,
           area.resultCompetences[1].level.toString()
         );
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(3) p`).classList.toString()).to.include(DISABLED_CLASS);
+        assert.ok(find(`${COMPETENCE_SELECTOR}:nth-child(3) p`).classList.toString().includes(DISABLED_CLASS));
       });
     });
 
-    context('when competence level is 0', function () {
-      it('should show "-" for the level (not 0)', function () {
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(4) span`).textContent).to.equal('-');
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(4) p`).classList.toString()).to.not.include(DISABLED_CLASS);
+    module('when competence level is 0', function () {
+      test('should show "-" for the level (not 0)', function (assert) {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find(`${COMPETENCE_SELECTOR}:nth-child(4) span`).textContent, '-');
+        assert.notOk(find(`${COMPETENCE_SELECTOR}:nth-child(4) p`).classList.toString().includes(DISABLED_CLASS));
       });
     });
 
-    context('when competence level is greater or equal than 1', function () {
-      it('should show the level', function () {
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(5) span`).textContent).to.equal('3');
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(5) p`).classList.toString()).to.not.include(DISABLED_CLASS);
+    module('when competence level is greater or equal than 1', function () {
+      test('should show the level', function (assert) {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find(`${COMPETENCE_SELECTOR}:nth-child(5) span`).textContent, '3');
+        assert.notOk(find(`${COMPETENCE_SELECTOR}:nth-child(5) p`).classList.toString().includes(DISABLED_CLASS));
       });
     });
   });

@@ -1,26 +1,25 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Grid', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | CampaignParticipationOverview | Grid', function (hooks) {
+  setupIntlRenderingTest(hooks);
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should render component', async function () {
+  test('should render component', async function (assert) {
     // when
     await render(hbs`<CampaignParticipationOverview::Grid />}`);
 
     // then
-    expect(find('.campaign-participation-overview-grid')).to.exist;
+    assert.dom('.campaign-participation-overview-grid').exists();
   });
 
-  it('should render campaign participation overview items', async function () {
+  test('should render campaign participation overview items', async function (assert) {
     // given
     const campaignParticipationOverviews = [
       store.createRecord('campaign-participation-overview', {
@@ -40,9 +39,15 @@ describe('Integration | Component | CampaignParticipationOverview | Grid', funct
     await render(hbs`<CampaignParticipationOverview::Grid @model={{this.campaignParticipationOverviews}} />}`);
 
     // then
-    expect(findAll('.campaign-participation-overview-grid__item').length).to.equal(2);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(findAll('.campaign-participation-overview-grid__item').length, 2);
     const participationCardSubtitles = findAll('.campaign-participation-overview-card-header__subtitle');
-    expect(participationCardSubtitles[0].textContent).to.equal('My campaign 1');
-    expect(participationCardSubtitles[1].textContent).to.equal('My campaign 2');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(participationCardSubtitles[0].textContent, 'My campaign 1');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(participationCardSubtitles[1].textContent, 'My campaign 2');
   });
 });

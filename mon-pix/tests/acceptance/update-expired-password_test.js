@@ -1,8 +1,7 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 
 import { currentURL, fillIn } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 
@@ -11,12 +10,12 @@ import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
 
-describe('Acceptance | Update Expired Password', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Update Expired Password', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  it('should land on default page when password is successfully updated', async function () {
+  test('should land on default page when password is successfully updated', async function (assert) {
     // given
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     await authenticateByUsername(userShouldChangePassword);
@@ -26,10 +25,12 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(currentURL()).to.equal('/accueil');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), '/accueil');
   });
 
-  it('should display validation error message when update password fails with http 400 error', async function () {
+  test('should display validation error message when update password fails with http 400 error', async function (assert) {
     // given
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await visit('/connexion');
@@ -53,12 +54,14 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
 
-    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
-    expect(screen.getByText(expectedValidationErrorMessage)).to.exist;
+    assert.ok(screen.getByText(expectedValidationErrorMessage));
   });
 
-  it('should display error message when update password fails with http 401 error', async function () {
+  test('should display error message when update password fails with http 401 error', async function (assert) {
     // given
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await visit('/connexion');
@@ -82,12 +85,14 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
 
-    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
-    expect(screen.getByText(expectedErrorMessage)).to.exist;
+    assert.ok(screen.getByText(expectedErrorMessage));
   });
 
-  it('should display error message when update password fails with http 404 error', async function () {
+  test('should display error message when update password fails with http 404 error', async function (assert) {
     // given
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     await authenticateByUsername(userShouldChangePassword);
@@ -107,10 +112,10 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(this.intl.t('common.error')).to.exist;
+    assert.ok(this.intl.t('common.error'));
   });
 
-  it('should display error message when update password fails', async function () {
+  test('should display error message when update password fails', async function (assert) {
     // given
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     const screen = await visit('/connexion');
@@ -125,8 +130,10 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
-    expect(screen.getByText(expectedErrorMessage)).to.exist;
+    assert.ok(screen.getByText(expectedErrorMessage));
   });
 });

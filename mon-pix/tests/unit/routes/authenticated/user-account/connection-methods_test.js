@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Route | user-account/connection-methods', function () {
-  setupTest();
+module('Unit | Route | user-account/connection-methods', function (hooks) {
+  setupTest(hooks);
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const route = this.owner.lookup('route:authenticated/user-account/connection-methods');
-    expect(route).to.be.ok;
+    assert.ok(route);
   });
 });

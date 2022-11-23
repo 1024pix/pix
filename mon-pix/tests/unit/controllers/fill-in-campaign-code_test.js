@@ -1,20 +1,19 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import setupIntl from '../../helpers/setup-intl';
 import Service from '@ember/service';
 
-describe('Unit | Controller | Fill in Campaign Code', function () {
-  setupIntlRenderingTest();
-  setupIntl();
+module('Unit | Controller | Fill in Campaign Code', function (hooks) {
+  setupIntlRenderingTest(hooks);
+  setupIntl(hooks);
 
   let controller;
   let sessionStub;
   let currentUserStub;
   let eventStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
     const routerStub = { transitionTo: sinon.stub() };
     sessionStub = { invalidate: sinon.stub(), get: sinon.stub() };
@@ -27,9 +26,9 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     controller.set('campaignCode', null);
   });
 
-  describe('#startCampaign', function () {
-    context('campaign does not have GAR as identity provider', function () {
-      it('should not show GAR modal', async function () {
+  module('#startCampaign', function () {
+    module('campaign does not have GAR as identity provider', function () {
+      test('should not show GAR modal', async function (assert) {
         // given
         const campaignCode = 'LINKTOTHEPAST';
         const storeStub = {
@@ -45,13 +44,13 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         await controller.actions.startCampaign.call(controller, eventStub);
 
         // then
-        expect(controller.showGARModal).to.equal(false);
+        assert.false(controller.showGARModal);
       });
     });
 
-    context('campaign has GAR as identity provider', function () {
-      context('user is coming from GAR', function () {
-        it('should not show GAR modal', async function () {
+    module('campaign has GAR as identity provider', function () {
+      module('user is coming from GAR', function () {
+        test('should not show GAR modal', async function (assert) {
           // given
           const campaignCode = 'LINKTOTHEPAST';
           const storeStub = {
@@ -69,13 +68,13 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
           await controller.actions.startCampaign.call(controller, eventStub);
 
           // then
-          expect(controller.showGARModal).to.equal(false);
+          assert.false(controller.showGARModal);
         });
       });
 
-      context('user is not coming from GAR', function () {
-        context('user is authenticated', function () {
-          it('should not show GAR modal', async function () {
+      module('user is not coming from GAR', function () {
+        module('user is authenticated', function () {
+          test('should not show GAR modal', async function (assert) {
             // given
             const campaignCode = 'LINKTOTHEPAST';
             const storeStub = {
@@ -93,12 +92,12 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
             await controller.actions.startCampaign.call(controller, eventStub);
 
             // then
-            expect(controller.showGARModal).to.equal(false);
+            assert.false(controller.showGARModal);
           });
         });
 
-        context('user is not authenticated', function () {
-          it('should show GAR modal', async function () {
+        module('user is not authenticated', function () {
+          test('should show GAR modal', async function (assert) {
             // given
             const campaignCode = 'LINKTOTHEPAST';
             const storeStub = {
@@ -116,13 +115,13 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
             await controller.actions.startCampaign.call(controller, eventStub);
 
             // then
-            expect(controller.showGARModal).to.equal(true);
+            assert.true(controller.showGARModal);
           });
         });
       });
     });
 
-    it('should set error when campaign code is empty', async function () {
+    test('should set error when campaign code is empty', async function (assert) {
       // given
       controller.set('campaignCode', '');
 
@@ -130,10 +129,12 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Veuillez saisir un code.');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(controller.get('errorMessage'), 'Veuillez saisir un code.');
     });
 
-    it('should set error when no campaign found with code', async function () {
+    test('should set error when no campaign found with code', async function (assert) {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
@@ -149,12 +150,15 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal(
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(
+        controller.get('errorMessage'),
         'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
       );
     });
 
-    it('should set error when student is not authorized in campaign', async function () {
+    test('should set error when student is not authorized in campaign', async function (assert) {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
@@ -170,15 +174,18 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal(
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(
+        controller.get('errorMessage'),
         'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.'
       );
     });
   });
 
-  describe('get firstTitle', function () {
-    context('When user is not authenticated', function () {
-      it('should return the not connected first title', function () {
+  module('get firstTitle', function () {
+    module('When user is not authenticated', function () {
+      test('should return the not connected first title', function (assert) {
         // given
         sessionStub.isAuthenticated = false;
         const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
@@ -187,12 +194,14 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         const firstTitle = controller.firstTitle;
 
         // then
-        expect(firstTitle).to.equal(expectedFirstTitle);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(firstTitle, expectedFirstTitle);
       });
     });
 
-    context('When user is authenticated', function () {
-      it('should return the connected first title with user firstName', function () {
+    module('When user is authenticated', function () {
+      test('should return the connected first title with user firstName', function (assert) {
         // given
         sessionStub.isAuthenticated = true;
         const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-connected', {
@@ -203,12 +212,14 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         const firstTitle = controller.firstTitle;
 
         // then
-        expect(firstTitle).to.equal(expectedFirstTitle);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(firstTitle, expectedFirstTitle);
       });
     });
 
-    context('When user is anonymous', function () {
-      it('should return the not connected first title', function () {
+    module('When user is anonymous', function () {
+      test('should return the not connected first title', function (assert) {
         // given
         sessionStub.isAuthenticated = true;
         currentUserStub.user.isAnonymous = true;
@@ -218,13 +229,15 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         const firstTitle = controller.firstTitle;
 
         // then
-        expect(firstTitle).to.equal(expectedFirstTitle);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(firstTitle, expectedFirstTitle);
       });
     });
   });
 
-  describe('get isUserAuthenticatedByPix', function () {
-    it('should return session.isAuthenticated', function () {
+  module('get isUserAuthenticatedByPix', function () {
+    test('should return session.isAuthenticated', function (assert) {
       // given
       sessionStub.isAuthenticated = true;
 
@@ -232,12 +245,14 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const isUserAuthenticatedByPix = controller.isUserAuthenticatedByPix;
 
       // then
-      expect(isUserAuthenticatedByPix).to.equal(sessionStub.isAuthenticated);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(isUserAuthenticatedByPix, sessionStub.isAuthenticated);
     });
   });
 
-  describe('get isUserAuthenticatedByGAR', function () {
-    it('returns true if an external user token is present', function () {
+  module('get isUserAuthenticatedByGAR', function () {
+    test('returns true if an external user token is present', function (assert) {
       // given
       sessionStub.get.withArgs('data.externalUser').returns('TOKEN_FROM_GAR');
       controller.set('session', sessionStub);
@@ -246,10 +261,10 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const isUserAuthenticatedByGAR = controller.isUserAuthenticatedByGAR;
 
       // then
-      expect(isUserAuthenticatedByGAR).to.equal(true);
+      assert.true(isUserAuthenticatedByGAR);
     });
 
-    it('returns false if there is no external user token in session', function () {
+    test('returns false if there is no external user token in session', function (assert) {
       // given
       sessionStub.get.withArgs('data.externalUser').returns(undefined);
       controller.set('session', sessionStub);
@@ -258,12 +273,12 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const isUserAuthenticatedByGAR = controller.isUserAuthenticatedByGAR;
 
       // then
-      expect(isUserAuthenticatedByGAR).to.equal(false);
+      assert.false(isUserAuthenticatedByGAR);
     });
   });
 
-  describe('get showWarningMessage', function () {
-    it('should return true if user is authenticated and not anonymous', function () {
+  module('get showWarningMessage', function () {
+    test('should return true if user is authenticated and not anonymous', function (assert) {
       // given
       sessionStub.isAuthenticated = true;
       currentUserStub.user.isAnonymous = false;
@@ -272,10 +287,10 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      expect(showWarningMessage).to.be.true;
+      assert.true(showWarningMessage);
     });
 
-    it('should return false if user is not authenticated', function () {
+    test('should return false if user is not authenticated', function (assert) {
       // given
       sessionStub.isAuthenticated = false;
 
@@ -283,10 +298,10 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      expect(showWarningMessage).to.be.false;
+      assert.false(showWarningMessage);
     });
 
-    it('should return false if user is authenticated and anonymous', function () {
+    test('should return false if user is authenticated and anonymous', function (assert) {
       // given
       sessionStub.isAuthenticated = true;
       currentUserStub.user.isAnonymous = true;
@@ -295,17 +310,18 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      expect(showWarningMessage).to.be.false;
+      assert.false(showWarningMessage);
     });
   });
 
-  describe('#disconnect', function () {
-    it('should invalidate the session', function () {
+  module('#disconnect', function () {
+    test('should invalidate the session', function (assert) {
       // when
       controller.disconnect();
 
       // then
       sinon.assert.calledOnce(sessionStub.invalidate);
+      assert.ok(true);
     });
   });
 });

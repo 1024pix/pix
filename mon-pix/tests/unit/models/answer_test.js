@@ -1,63 +1,62 @@
 import { run } from '@ember/runloop';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | Answer', function () {
-  setupTest();
+module('Unit | Model | Answer', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('competence-result');
 
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 
-  describe('isResultOk', function () {
-    it('should return true when answser.result is ok', function () {
+  module('isResultOk', function () {
+    test('should return true when answser.result is ok', function (assert) {
       // given
       const answer = run(() => store.createRecord('answer', { result: 'ok' }));
 
       // when
       const result = answer.isResultOk;
 
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return false when answser.result is ko', function () {
+    test('should return false when answser.result is ko', function (assert) {
       // given
       const answer = run(() => store.createRecord('answer', { result: 'ko' }));
 
       // when
       const result = answer.isResultOk;
 
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
-  describe('isResultNotOk', function () {
-    it('should return true when answser.result is ok', function () {
+  module('isResultNotOk', function () {
+    test('should return true when answser.result is ok', function (assert) {
       // given
       const answer = run(() => store.createRecord('answer', { result: 'ok' }));
 
       // when
       const result = answer.isResultNotOk;
 
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false when answser.result is ko', function () {
+    test('should return false when answser.result is ko', function (assert) {
       // given
       const answer = run(() => store.createRecord('answer', { result: 'ko' }));
 
       // when
       const result = answer.isResultNotOk;
 
-      expect(result).to.be.true;
+      assert.true(result);
     });
   });
 });

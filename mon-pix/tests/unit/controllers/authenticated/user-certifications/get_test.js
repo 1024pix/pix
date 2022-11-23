@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { context, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Controller | user-certifications/get', function () {
-  setupTest();
+module('Unit | Controller | user-certifications/get', function (hooks) {
+  setupTest(hooks);
 
-  context('#get shouldDisplayDetailsSection', function () {
-    it('should return true when certification has a commentForCandidate', function () {
+  module('#get shouldDisplayDetailsSection', function () {
+    test('should return true when certification has a commentForCandidate', function (assert) {
       const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
@@ -20,10 +19,10 @@ describe('Unit | Controller | user-certifications/get', function () {
       const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
 
       // then
-      expect(shouldDisplayDetailsSection).to.be.true;
+      assert.true(shouldDisplayDetailsSection);
     });
 
-    it('should return true when certification has at least one certified badge image', function () {
+    test('should return true when certification has at least one certified badge image', function (assert) {
       const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
@@ -37,10 +36,10 @@ describe('Unit | Controller | user-certifications/get', function () {
       const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
 
       // then
-      expect(shouldDisplayDetailsSection).to.be.true;
+      assert.true(shouldDisplayDetailsSection);
     });
 
-    it('should return false when none of the above is checked', function () {
+    test('should return false when none of the above is checked', function (assert) {
       const controller = this.owner.lookup('controller:authenticated/user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
@@ -54,7 +53,7 @@ describe('Unit | Controller | user-certifications/get', function () {
       const shouldDisplayDetailsSection = controller.shouldDisplayDetailsSection;
 
       // then
-      expect(shouldDisplayDetailsSection).to.be.false;
+      assert.false(shouldDisplayDetailsSection);
     });
   });
 });

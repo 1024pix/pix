@@ -1,21 +1,20 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | Dashboard | Content', function () {
+module('Unit | Component | Dashboard | Content', function (hooks) {
   let component;
 
-  setupTest();
+  setupTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     // given
     component = createGlimmerComponent('component:dashboard/content');
   });
 
-  describe('#recommendedScorecards', function () {
-    it('should return non-started scorecards', function () {
+  module('#recommendedScorecards', function () {
+    test('should return non-started scorecards', function (assert) {
       // given
       const scorecards = [
         { id: 1, isNotStarted: true },
@@ -38,10 +37,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.recommendedScorecards;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
 
-    it('should return scorecards ordered by index', function () {
+    test('should return scorecards ordered by index', function (assert) {
       // given
       const scorecards = [
         { id: 3, index: '3.1', isNotStarted: true },
@@ -61,10 +60,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.recommendedScorecards;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
 
-    it('should return a maximum of four cards', function () {
+    test('should return a maximum of four cards', function (assert) {
       // given
       const scorecards = [
         { id: 1, isNotStarted: true },
@@ -87,12 +86,12 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.recommendedScorecards;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
   });
 
-  describe('#startedCompetences', function () {
-    it('should return started competences', function () {
+  module('#startedCompetences', function () {
+    test('should return started competences', function (assert) {
       // given
       const scorecards = [
         { id: 1, isStarted: true },
@@ -115,10 +114,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.startedCompetences;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
 
-    it('should return scorecards ordered by index', function () {
+    test('should return scorecards ordered by index', function (assert) {
       // given
       const scorecards = [
         { id: 3, index: '3.1', isStarted: true },
@@ -138,10 +137,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.startedCompetences;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
 
-    it('should return a maximum of four cards', function () {
+    test('should return a maximum of four cards', function (assert) {
       // given
       const scorecards = [
         { id: 1, isStarted: true },
@@ -164,12 +163,12 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.startedCompetences;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
   });
 
-  describe('#improvableScorecards', function () {
-    it('should return improvable scorecards', function () {
+  module('#improvableScorecards', function () {
+    test('should return improvable scorecards', function (assert) {
       // given
       const scorecards = [
         { id: 1, isImprovable: false },
@@ -186,10 +185,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.improvableScorecards;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
 
-    it('should return scorecards ordered by index', function () {
+    test('should return scorecards ordered by index', function (assert) {
       // given
       const scorecards = [
         { id: 3, index: '3.1', isImprovable: true },
@@ -209,10 +208,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.improvableScorecards;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
 
-    it('should return a maximum of four cards', function () {
+    test('should return a maximum of four cards', function (assert) {
       // given
       const scorecards = [
         { id: 1, isImprovable: true },
@@ -235,12 +234,12 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.improvableScorecards;
 
       // then
-      expect(result).to.deep.equal(expectedScorecards);
+      assert.deepEqual(result, expectedScorecards);
     });
   });
 
-  describe('#userFirstname', function () {
-    it('should return userFirstname', function () {
+  module('#userFirstname', function () {
+    test('should return userFirstname', function (assert) {
       // given
       const userFirstName = 'user firstname';
       component.currentUser = EmberObject.create({ user: { firstName: userFirstName } });
@@ -249,12 +248,14 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.userFirstname;
 
       // then
-      expect(result).to.equal(userFirstName);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(result, userFirstName);
     });
   });
 
-  describe('#hasNothingToShow', function () {
-    it('should return true when there is nothing to show', function () {
+  module('#hasNothingToShow', function () {
+    test('should return true when there is nothing to show', function (assert) {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: false },
@@ -270,10 +271,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return false when there is one competence started', function () {
+    test('should return false when there is one competence started', function (assert) {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: true },
@@ -289,10 +290,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false when there is one competence not started', function () {
+    test('should return false when there is one competence not started', function (assert) {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: false },
@@ -308,10 +309,10 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false when there is one campaign participation', function () {
+    test('should return false when there is one campaign participation', function (assert) {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: false },
@@ -328,12 +329,12 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
 
-  describe('#userScore', function () {
-    it('should return user score', function () {
+  module('#userScore', function () {
+    test('should return user score', function (assert) {
       // given
       const pixScore = '68';
       component.currentUser = EmberObject.create({ user: { profile: EmberObject.create({ pixScore }) } });
@@ -342,7 +343,9 @@ describe('Unit | Component | Dashboard | Content', function () {
       const result = component.userScore;
 
       // then
-      expect(result).to.equal(pixScore);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(result, pixScore);
     });
   });
 });

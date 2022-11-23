@@ -1,9 +1,8 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 
-describe('Unit | Utility | labeled checkboxes', function () {
-  describe('Success cases', function () {
+module('Unit | Utility | labeled checkboxes', function () {
+  module('Success cases', function () {
     [
       {
         when: 'nominal case, existing answers',
@@ -91,7 +90,7 @@ describe('Unit | Utility | labeled checkboxes', function () {
         output: [],
       },
     ].forEach(function (testCase) {
-      it(
+      test(
         'Should reply to proposals' +
           JSON.stringify(testCase.proposals) +
           ' and answers ' +
@@ -100,8 +99,11 @@ describe('Unit | Utility | labeled checkboxes', function () {
           JSON.stringify(testCase.output) +
           ' when ' +
           testCase.when,
-        function () {
-          expect(JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers))).to.equal(
+        function (assert) {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers)),
             JSON.stringify(testCase.output)
           );
         }

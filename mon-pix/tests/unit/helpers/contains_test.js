@@ -1,33 +1,34 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 import { contains } from '../../helpers/contains';
 
-describe('Unit | Helpers | contains', function () {
-  setupIntlRenderingTest();
+module('Unit | Helpers | contains', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('contains', function () {
-    it('should contains Hello', async function () {
+  module('contains', function () {
+    test('should contains Hello', async function (assert) {
       await render(hbs`<div>Hello</div>`);
-      expect(contains('Hello')).to.exist;
+      assert.ok(contains('Hello'));
     });
 
-    it('should not find any element', async function () {
+    test('should not find any element', async function (assert) {
       await render(hbs`<div>Goodbye</div>`);
-      expect(contains('Hello')).not.to.exist;
+      assert.notOk(contains('Hello'));
     });
 
-    it('should find only one element', async function () {
+    test('should find only one element', async function (assert) {
       await render(hbs`<div><span id="first">Hello</span><span>Hello</span></div>`);
-      expect(contains('Hello').tagName).to.equal('DIV');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(contains('Hello').tagName, 'DIV');
     });
 
-    it('should not find any element deeply', async function () {
+    test('should not find any element deeply', async function (assert) {
       await render(hbs`<div><span>Goodbye</span></div>`);
-      expect(contains('Hello')).not.to.exist;
+      assert.notOk(contains('Hello'));
     });
   });
 });

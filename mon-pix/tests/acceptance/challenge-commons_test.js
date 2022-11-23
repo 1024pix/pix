@@ -1,17 +1,16 @@
 import { find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Common behavior to all challenges', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Common behavior to all challenges', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  context('Challenge answered: the answers inputs should be disabled', function () {
-    beforeEach(async function () {
+  module('Challenge answered: the answers inputs should be disabled', function (hooks) {
+    hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
@@ -21,21 +20,21 @@ describe('Acceptance | Common behavior to all challenges', function () {
       await visit(`/assessments/${answer.assessmentId}/challenges/0`);
     });
 
-    it('should display the lock overlay', function () {
-      expect(find('.challenge-response--locked')).to.exist;
+    test('should display the lock overlay', function (assert) {
+      assert.dom('.challenge-response--locked').exists();
     });
 
-    it('should display the resume button and the information sentence', function () {
-      expect(find('.challenge-actions__action-continue')).to.exist;
-      expect(find('.challenge-actions__already-answered')).to.exist;
+    test('should display the resume button and the information sentence', function (assert) {
+      assert.dom('.challenge-actions__action-continue').exists();
+      assert.dom('.challenge-actions__already-answered').exists();
     });
   });
 
-  context('Challenge not answered', function () {
+  module('Challenge not answered', function (hooks) {
     let assessment;
     let challengeBis;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
@@ -48,54 +47,67 @@ describe('Acceptance | Common behavior to all challenges', function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should display the name of the test', async function () {
-      expect(find('.assessment-banner__title').textContent).to.contain(assessment.title);
+    test('should display the name of the test', async function (assert) {
+      assert.ok(find('.assessment-banner__title').textContent.includes(assessment.title));
     });
 
-    it('should display the challenge to answered instead of challenge asked', async function () {
+    test('should display the challenge to answered instead of challenge asked', async function (assert) {
       await visit(`/assessments/${assessment.id}/challenges/${challengeBis.id}`);
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('Instruction lien');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), 'Instruction lien');
     });
 
-    it('should display the challenge instruction', function () {
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('Instruction lien');
+    test('should display the challenge instruction', function (assert) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), 'Instruction lien');
     });
 
-    it('should format content written as [foo](bar) as clickable link', function () {
-      expect(find('.challenge-statement-instruction__text a')).to.exist;
-      expect(find('.challenge-statement-instruction__text a').textContent).to.equal('lien');
-      expect(find('.challenge-statement-instruction__text a').getAttribute('href')).to.equal(
+    test('should format content written as [foo](bar) as clickable link', function (assert) {
+      assert.dom('.challenge-statement-instruction__text a').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.challenge-statement-instruction__text a').textContent, 'lien');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(
+        find('.challenge-statement-instruction__text a').getAttribute('href'),
         'http://www.a.link.example.url'
       );
     });
 
-    it('should open links in a new tab', function () {
-      expect(find('.challenge-statement-instruction__text a').getAttribute('target')).to.equal('_blank');
+    test('should open links in a new tab', function (assert) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.challenge-statement-instruction__text a').getAttribute('target'), '_blank');
     });
 
-    it('should display the skip button', function () {
-      expect(find('.challenge-actions__action-skip')).to.exist;
+    test('should display the skip button', function (assert) {
+      assert.dom('.challenge-actions__action-skip').exists();
     });
 
-    it('should display the validate button', function () {
-      expect(find('.challenge-actions__action-skip')).to.exist;
+    test('should display the validate button', function (assert) {
+      assert.dom('.challenge-actions__action-skip').exists();
     });
 
-    it('should display a button to come back to the courses list', function () {
-      expect(find('.assessment-banner__home-link')).to.exist;
+    test('should display a button to come back to the courses list', function (assert) {
+      assert.dom('.assessment-banner__home-link').exists();
     });
 
-    it('should come back to the home route when the back button is clicked', async function () {
-      expect(find('.assessment-banner__home-link').getAttribute('href')).to.equal('/');
+    test('should come back to the home route when the back button is clicked', async function (assert) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.assessment-banner__home-link').getAttribute('href'), '/');
     });
 
-    it('should be able to send a feedback about the current challenge', function () {
-      expect(find('.feedback-panel')).to.exist;
+    test('should be able to send a feedback about the current challenge', function (assert) {
+      assert.dom('.feedback-panel').exists();
     });
   });
 
-  describe('When user is anonymous', function () {
-    it('should not display home link', async function () {
+  module('When user is anonymous', function () {
+    test('should not display home link', async function (assert) {
       //given
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
@@ -111,7 +123,7 @@ describe('Acceptance | Common behavior to all challenges', function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
-      expect(find('.assessment-banner__home-link')).to.not.exist;
+      assert.dom('.assessment-banner__home-link').doesNotExist();
     });
   });
 });

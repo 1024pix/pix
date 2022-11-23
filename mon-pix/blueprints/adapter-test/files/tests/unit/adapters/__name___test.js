@@ -1,13 +1,12 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapter | <%= dasherizedModuleName %>', function () {
-  setupTest();
+module('Unit | Adapter | <%= dasherizedModuleName %>', function(hooks) {
+  setupTest(hooks);
 
   // Replace this with your real tests.
-  it('exists', function () {
+  test('exists', function(assert) {
     const adapter = this.owner.lookup('adapter:<%= classifiedModuleName %>');
-    expect(adapter).to.be.ok;
+    assert.ok(adapter);
   });
 });

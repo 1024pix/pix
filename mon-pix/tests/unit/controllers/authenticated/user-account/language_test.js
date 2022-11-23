@@ -1,12 +1,12 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Controller | user-account/language', function () {
-  setupTest();
+module('Unit | Controller | user-account/language', function (hooks) {
+  setupTest(hooks);
 
-  context('#onChangeLang', function () {
-    it('should refresh page on change lang if domain is not french', function () {
+  module('#onChangeLang', function () {
+    test('should refresh page on change lang if domain is not french', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/user-account/language');
       controller.url = { isFrenchDomainExtension: false };
@@ -19,6 +19,7 @@ describe('Unit | Controller | user-account/language', function () {
 
       // then
       sinon.assert.calledWith(replaceStub, '/mon-compte/langue?lang=en');
+      assert.ok(true);
     });
   });
 });

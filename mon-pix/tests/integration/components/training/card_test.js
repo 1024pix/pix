@@ -1,13 +1,12 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Training | Card', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Training | Card', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders component', async function () {
+  test('renders component', async function (assert) {
     // given
     this.set('training', {
       title: 'Mon super training',
@@ -21,14 +20,25 @@ describe('Integration | Component | Training | Card', function () {
     await render(hbs`<Training::Card @training={{this.training}} />`);
 
     // then
-    expect(find('.training-card')).to.exist;
-    expect(find('.training-card__content').href).to.equal('https://training.net/');
-    expect(find('.training-card-content__title').textContent.trim()).to.equal('Mon super training');
-    expect(find('.training-card-content__infos')).to.exist;
-    expect(find('.training-card-content-infos-list__type').textContent.trim()).to.equal('Webinaire');
-    expect(find('.training-card-content-infos-list__duration').textContent.trim()).to.equal('6h');
-    expect(find('.training-card-content-illustration__image').alt).to.be.empty;
-    expect(find('.training-card-content-illustration__logo').alt).to.equal(
+    assert.dom('.training-card').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.training-card__content').href, 'https://training.net/');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.training-card-content__title').textContent.trim(), 'Mon super training');
+    assert.dom('.training-card-content__infos').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.training-card-content-infos-list__type').textContent.trim(), 'Webinaire');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(find('.training-card-content-infos-list__duration').textContent.trim(), '6h');
+    assert.notOk(find('.training-card-content-illustration__image').alt);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
+    assert.equal(
+      find('.training-card-content-illustration__logo').alt,
       this.intl.t('common.french-education-ministry')
     );
   });

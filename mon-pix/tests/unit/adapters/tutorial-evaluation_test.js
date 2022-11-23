@@ -1,20 +1,19 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | tutorial-evaluation', function () {
-  setupTest();
+module('Unit | Adapters | tutorial-evaluation', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:tutorial-evaluation');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', function () {
-    it('should redirect to /api/users/tutorials/${tutorialId}/evaluate', async function () {
+  module('#urlForCreateRecord', function () {
+    test('should redirect to /api/users/tutorials/${tutorialId}/evaluate', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const snapshot = { adapterOptions: { tutorialId } };
@@ -23,12 +22,12 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
       const url = await adapter.urlForCreateRecord('tutorial-evaluations', snapshot);
 
       // then
-      expect(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`)).to.be.true;
+      assert.true(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`));
     });
   });
 
-  describe('#urlForUpdateRecord', function () {
-    it('should redirect to /api/users/tutorials/${tutorialId}/evaluate', async function () {
+  module('#urlForUpdateRecord', function () {
+    test('should redirect to /api/users/tutorials/${tutorialId}/evaluate', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const snapshot = { adapterOptions: { tutorialId } };
@@ -37,12 +36,12 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
       const url = await adapter.urlForUpdateRecord('tutorial-evaluations', snapshot);
 
       // then
-      expect(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`)).to.be.true;
+      assert.true(url.endsWith(`/users/tutorials/${tutorialId}/evaluate`));
     });
   });
 
-  describe('#createRecord', function () {
-    it('should call API to create a tutorial-evaluation', async function () {
+  module('#createRecord', function () {
+    test('should call API to create a tutorial-evaluation', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { adapterOptions: { tutorialId, status: 'LIKED' } };
@@ -60,11 +59,12 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
           },
         },
       });
+      assert.ok(true);
     });
   });
 
-  describe('#updateRecord', function () {
-    it('should call API to create a tutorial-evaluation', async function () {
+  module('#updateRecord', function () {
+    test('should call API to create a tutorial-evaluation', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = {
@@ -86,6 +86,7 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
           },
         },
       });
+      assert.ok(true);
     });
   });
 });

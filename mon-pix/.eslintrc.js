@@ -12,10 +12,11 @@ module.exports = {
       plugins: [['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]],
     },
   },
-  plugins: ['ember', 'mocha'],
+  plugins: ['ember', 'qunit'],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
+    'plugin:qunit/recommended',
     'plugin:i18n-json/recommended',
     'plugin:prettier/recommended',
   ],
@@ -37,10 +38,6 @@ module.exports = {
         order: ['attribute', 'relationship', 'single-line-function', 'multi-line-function'],
       },
     ],
-    'mocha/no-exclusive-tests': 'error',
-    'mocha/no-identical-title': 'error',
-    'mocha/no-skipped-tests': 'warn',
-    'mocha/no-mocha-arrows': 'error',
     /* Recommended rules */
     'ember/no-mixins': 'off',
     'i18n-json/sorted-keys': [
@@ -88,7 +85,6 @@ module.exports = {
       excludedFiles: ['tests/dummy/**/*.js'],
       env: {
         embertest: true,
-        mocha: true,
       },
       globals: {
         server: false,

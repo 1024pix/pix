@@ -1,26 +1,25 @@
-import { click, currentURL, find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { click, currentURL, visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
-describe('Acceptance | Profile | Start competence', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Profile | Start competence', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    beforeEach(async function () {
+  module('Authenticated cases as simple user', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('can start a competence', async function () {
+    test('can start a competence', async function (assert) {
       //given
       const firstScorecard = user.scorecards.models[0];
       const competenceId = firstScorecard.competenceId;
@@ -38,8 +37,8 @@ describe('Acceptance | Profile | Start competence', function () {
       );
 
       // then
-      expect(currentURL()).to.contains('/assessments/');
-      expect(find('.challenge__content')).to.exist;
+      assert.ok(currentURL().includes('/assessments/'));
+      assert.dom('.challenge__content').exists();
     });
   });
 });

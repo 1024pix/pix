@@ -1,23 +1,22 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | result-competence model', function () {
-  setupTest();
+module('Unit | Model | result-competence model', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('result-competence');
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 
-  describe('#area relationship', function () {
-    it('should exist', function () {
+  module('#area relationship', function () {
+    test('should exist', function (assert) {
       // given
       const competence = store.modelFor('result-competence');
 
@@ -25,8 +24,12 @@ describe('Unit | Model | result-competence model', function () {
       const relationship = competence.relationshipsByName.get('area');
 
       // then
-      expect(relationship.key).to.equal('area');
-      expect(relationship.kind).to.equal('belongsTo');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(relationship.key, 'area');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(relationship.kind, 'belongsTo');
     });
   });
 });

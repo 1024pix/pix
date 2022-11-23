@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import Application from '@ember/application';
 import { initialize } from 'mon-pix/instance-initializers/session';
 import { run } from '@ember/runloop';
@@ -7,10 +6,10 @@ import Resolver from 'ember-resolver';
 import PixWindow from 'mon-pix/utils/pix-window';
 import sinon from 'sinon';
 
-describe('Unit | Instance Initializer | session', function () {
-  context('when a session exists', function () {
-    context('when a user finalizes a GAR authentication process', function () {
-      it('should remove the current session before the application loads', async function () {
+module('Unit | Instance Initializer | session', function () {
+  module('when a session exists', function () {
+    module('when a user finalizes a GAR authentication process', function () {
+      test('should remove the current session before the application loads', async function (assert) {
         // given
         run(() => {
           // eslint-disable-next-line ember/no-classic-classes
@@ -44,15 +43,15 @@ describe('Unit | Instance Initializer | session', function () {
 
         // then
         const session = window.localStorage.getItem(key);
-        expect(session).to.be.null;
+        assert.notOk(session);
         run(this.instance, 'destroy');
         run(this.application, 'destroy');
         sinon.restore();
       });
     });
 
-    context('when current URL contains externalUser as query parameter', function () {
-      it('should remove the current session before the application loads', async function () {
+    module('when current URL contains externalUser as query parameter', function () {
+      test('should remove the current session before the application loads', async function (assert) {
         // given
         run(() => {
           // eslint-disable-next-line ember/no-classic-classes
@@ -86,7 +85,7 @@ describe('Unit | Instance Initializer | session', function () {
 
         // then
         const session = window.localStorage.getItem(key);
-        expect(session).to.be.null;
+        assert.notOk(session);
         run(this.instance, 'destroy');
         run(this.application, 'destroy');
         sinon.restore();

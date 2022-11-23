@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon/pkg/sinon-esm';
 import ENV from '../../../config/environment';
 
-describe('Unit | Model | user-oidc-authentication-request', function () {
-  setupTest();
+module('Unit | Model | user-oidc-authentication-request', function (hooks) {
+  setupTest(hooks);
 
-  describe('#login', function () {
-    it('should login and return attributes', async function () {
+  module('#login', function () {
+    test('should login and return attributes', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('user-oidc-authentication-request');
@@ -51,11 +50,12 @@ describe('Unit | Model | user-oidc-authentication-request', function () {
         },
       };
       sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
-      expect(result.email).to.deep.equal('loyd.ce@example.net');
-      expect(result.fullNameFromPix).to.deep.equal('Loyd Pix');
-      expect(result.fullNameFromExternalIdentityProvider).to.deep.equal('Loyd Cé');
-      expect(result.username).to.deep.equal('loyd.ce123');
-      expect(result.authenticationMethods).to.deep.equal([{ identityProvider: 'oidc' }]);
+      assert.deepEqual(result.email, 'loyd.ce@example.net');
+      assert.deepEqual(result.fullNameFromPix, 'Loyd Pix');
+      assert.deepEqual(result.fullNameFromExternalIdentityProvider, 'Loyd Cé');
+      assert.deepEqual(result.username, 'loyd.ce123');
+      assert.deepEqual(result.authenticationMethods, [{ identityProvider: 'oidc' }]);
+      assert.ok(true);
     });
   });
 });

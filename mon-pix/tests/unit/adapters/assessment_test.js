@@ -1,18 +1,17 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Adapters | assessment', function () {
-  setupTest();
+module('Unit | Adapters | assessment', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:assessment');
   });
 
-  describe('#urlForUpdateRecord', function () {
-    it('should build update url from assessment id', async function () {
+  module('#urlForUpdateRecord', function () {
+    test('should build update url from assessment id', async function (assert) {
       // given
       const options = { adapterOptions: {} };
 
@@ -20,10 +19,10 @@ describe('Unit | Adapters | assessment', function () {
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
-      expect(url.endsWith('/assessments/123')).to.be.true;
+      assert.true(url.endsWith('/assessments/123'));
     });
 
-    it('should redirect to complete-assessment', async function () {
+    test('should redirect to complete-assessment', async function (assert) {
       // given
       const options = { adapterOptions: { completeAssessment: true } };
 
@@ -31,10 +30,10 @@ describe('Unit | Adapters | assessment', function () {
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
-      expect(url.endsWith('/assessments/123/complete-assessment')).to.be.true;
+      assert.true(url.endsWith('/assessments/123/complete-assessment'));
     });
 
-    it('should redirect to update last-question-state', async function () {
+    test('should redirect to update last-question-state', async function (assert) {
       // given
       const attrStub = (name) => (name === 'lastQuestionState' ? 'timeout' : null);
       const snapshot = {
@@ -46,7 +45,7 @@ describe('Unit | Adapters | assessment', function () {
       const url = await adapter.urlForUpdateRecord(123, 'assessment', snapshot);
 
       // then
-      expect(url.endsWith('/assessments/123/last-challenge-state/timeout')).to.be.true;
+      assert.true(url.endsWith('/assessments/123/last-challenge-state/timeout'));
     });
   });
 });

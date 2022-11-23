@@ -1,19 +1,18 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card | Ended', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | CampaignParticipationOverview | Card | Ended', function (hooks) {
+  setupIntlRenderingTest(hooks);
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
-  describe('when card has "ENDED" status', function () {
-    it('should render card info ', async function () {
+  module('when card has "ENDED" status', function () {
+    test('should render card info ', async function (assert) {
       // given
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: true,
@@ -29,16 +28,17 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
       await render(hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`);
 
       // then
-      expect(contains('My organization')).to.exist;
-      expect(contains('My campaign')).to.exist;
-      expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.finished'))).to.exist;
-      expect(contains(this.intl.t('pages.campaign-participation-overview.card.see-more'))).to.exist;
-      expect(contains(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))).to
-        .exist;
+      assert.ok(contains('My organization'));
+      assert.ok(contains('My campaign'));
+      assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.tag.finished')));
+      assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.see-more')));
+      assert.ok(
+        contains(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))
+      );
     });
 
-    context('when the campaign has no stages', function () {
-      it('should render the result with percentage', async function () {
+    module('when the campaign has no stages', function () {
+      test('should render the result with percentage', async function (assert) {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           isShared: true,
@@ -55,12 +55,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
         await render(hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`);
 
         // then
-        expect(contains('20 % de réussite')).to.exist;
+        assert.ok(contains('20 % de réussite'));
       });
     });
 
-    context('when the campaign has stages', function () {
-      it('should render the result with percentage', async function () {
+    module('when the campaign has stages', function () {
+      test('should render the result with percentage', async function (assert) {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           isShared: true,
@@ -80,7 +80,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
         );
 
         // then
-        expect(screen.getByLabelText('4 étoiles sur 6')).to.exist;
+        assert.ok(screen.getByLabelText('4 étoiles sur 6'));
       });
     });
   });

@@ -1,24 +1,23 @@
-import { find, click, currentURL, findAll, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { find, click, currentURL, visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
 
-describe("Acceptance | Competence details | Afficher la page de détails d'une compétence", function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module("Acceptance | Competence details | Afficher la page de détails d'une compétence", function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
   let server;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     server = this.server;
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
+  module('Authenticated cases as simple user', function (hooks) {
     let scorecardWithPoints;
     let scorecardWithRemainingDaysBeforeReset;
     let scorecardWithoutPoints;
@@ -26,7 +25,7 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
     let scorecardWithRemainingDaysBeforeImproving;
     let scorecardWithoutRemainingDaysBeforeImproving;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
       scorecardWithPoints = user.scorecards.models[0];
       scorecardWithRemainingDaysBeforeReset = user.scorecards.models[1];
@@ -36,30 +35,34 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
       scorecardWithoutRemainingDaysBeforeImproving = user.scorecards.models[5];
     });
 
-    it('should be able to visit URL of competence details page', async function () {
+    test('should be able to visit URL of competence details page', async function (assert) {
       // when
       await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
       // then
-      expect(currentURL()).to.equal(`/competences/${scorecardWithPoints.competenceId}/details`);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), `/competences/${scorecardWithPoints.competenceId}/details`);
     });
 
-    it('should display the competence details', async function () {
+    test('should display the competence details', async function (assert) {
       // when
       await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
       // then
-      expect(find('.scorecard-details-content-left__area').textContent).to.contain(scorecardWithPoints.area.title);
-      expect(find('.scorecard-details-content-left__area').getAttribute('class')).to.contain(
-        `scorecard-details-content-left__area--${scorecardWithPoints.area.color}`
+      assert.ok(find('.scorecard-details-content-left__area').textContent.includes(scorecardWithPoints.area.title));
+      assert.ok(
+        find('.scorecard-details-content-left__area')
+          .getAttribute('class')
+          .includes(`scorecard-details-content-left__area--${scorecardWithPoints.area.color}`)
       );
-      expect(find('.scorecard-details-content-left__name').textContent).to.contain(scorecardWithPoints.name);
-      expect(find('.scorecard-details-content-left__description').textContent).to.contain(
-        scorecardWithPoints.description
+      assert.ok(find('.scorecard-details-content-left__name').textContent.includes(scorecardWithPoints.name));
+      assert.ok(
+        find('.scorecard-details-content-left__description').textContent.includes(scorecardWithPoints.description)
       );
     });
 
-    it('should transition to /competences when the user clicks on return', async function () {
+    test('should transition to /competences when the user clicks on return', async function (assert) {
       // given
       await visit(`/competences/${scorecardWithPoints.description}/details`);
 
@@ -67,57 +70,64 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
       await click('.pix-return-to');
 
       // then
-      expect(currentURL()).to.equal('/competences');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/competences');
     });
 
-    context('when the scorecard has 0 points because it was not started yet', function () {
-      it('should not display level or score', async function () {
+    module('when the scorecard has 0 points because it was not started yet', function () {
+      test('should not display level or score', async function (assert) {
         // given
         // when
         await visit(`/competences/${scorecardWithoutPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
-        expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(
-          0
-        );
-        expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        assert.dom('.competence-card__level .score-value').doesNotExist();
+        assert.dom('.scorecard-details-content-right-score-container__pix-earned .score-value').doesNotExist();
+        assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
       });
 
-      it('should not display reset button nor reset sentence', async function () {
+      test('should not display reset button nor reset sentence', async function (assert) {
         // when
         await visit(`/competences/${scorecardWithoutPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.scorecard-details__reset-button')).to.have.lengthOf(0);
-        expect(findAll('.scorecard-details-content-right__reset-message')).to.have.lengthOf(0);
+        assert.dom('.scorecard-details__reset-button').doesNotExist();
+        assert.dom('.scorecard-details-content-right__reset-message').doesNotExist();
       });
     });
 
-    context('when the scorecard has points', function () {
-      it('should display level and score', async function () {
+    module('when the scorecard has points', function () {
+      test('should display level and score', async function (assert) {
         // when
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
-        expect(find('.competence-card__level .score-value').textContent).to.equal(scorecardWithPoints.level.toString());
-        expect(find('.scorecard-details-content-right-score-container__pix-earned .score-value').textContent).to.equal(
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find('.competence-card__level .score-value').textContent, scorecardWithPoints.level.toString());
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
+          find('.scorecard-details-content-right-score-container__pix-earned .score-value').textContent,
           scorecardWithPoints.earnedPix.toString()
         );
-        expect(find('.scorecard-details-content-right__level-info').textContent).to.contain(
-          `${8 - scorecardWithPoints.pixScoreAheadOfNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
+        assert.ok(
+          find('.scorecard-details-content-right__level-info').textContent.includes(
+            `${8 - scorecardWithPoints.pixScoreAheadOfNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
+          )
         );
       });
 
-      it('should not display pixScoreAheadOfNextLevel when next level is over the max level', async function () {
+      test('should not display pixScoreAheadOfNextLevel when next level is over the max level', async function (assert) {
         // when
         await visit(`/competences/${scorecardWithMaxLevel.competenceId}/details`);
 
         // then
-        expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
       });
 
-      it('should display tutorials if any', async function () {
+      test('should display tutorials if any', async function (assert) {
         // given
         const nbTutos = scorecardWithPoints.tutorials.models.length;
 
@@ -125,33 +135,35 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.tutorial-card')).to.have.lengthOf(nbTutos);
+        assert.dom('.tutorial-card').exists({ count: nbTutos });
       });
 
-      context('when it has remaining some days before reset', function () {
-        it('should display remaining days before reset', async function () {
+      module('when it has remaining some days before reset', function () {
+        test('should display remaining days before reset', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithRemainingDaysBeforeReset.competenceId}/details`);
 
           // then
-          expect(find('.scorecard-details-content-right__reset-message').textContent).to.contain(
-            `Remise à zéro disponible dans ${scorecardWithRemainingDaysBeforeReset.remainingDaysBeforeReset} jours`
+          assert.ok(
+            find('.scorecard-details-content-right__reset-message').textContent.includes(
+              `Remise à zéro disponible dans ${scorecardWithRemainingDaysBeforeReset.remainingDaysBeforeReset} jours`
+            )
           );
-          expect(findAll('.scorecard-details__reset-button')).to.have.lengthOf(0);
+          assert.dom('.scorecard-details__reset-button').doesNotExist();
         });
       });
 
-      context('when it has no remaining days before reset', function () {
-        it('should display reset button', async function () {
+      module('when it has no remaining days before reset', function () {
+        test('should display reset button', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
           // then
-          expect(find('.scorecard-details__reset-button').textContent).to.contain('Remettre à zéro');
-          expect(findAll('.scorecard-details-content-right__reset-message')).to.have.lengthOf(0);
+          assert.ok(find('.scorecard-details__reset-button').textContent.includes('Remettre à zéro'));
+          assert.dom('.scorecard-details-content-right__reset-message').doesNotExist();
         });
 
-        it('should display popup to validate reset', async function () {
+        test('should display popup to validate reset', async function (assert) {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
@@ -159,12 +171,14 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('.scorecard-details__reset-button');
 
           // then
-          expect(find('.scorecard-details-reset-modal__important-message').textContent).to.contain(
-            `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés de la compétence : ${scorecardWithPoints.name}.`
+          assert.ok(
+            find('.scorecard-details-reset-modal__important-message').textContent.includes(
+              `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés de la compétence : ${scorecardWithPoints.name}.`
+            )
           );
         });
 
-        it('should reset competence when user clicks on reset', async function () {
+        test('should reset competence when user clicks on reset', async function (assert) {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
@@ -173,14 +187,12 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('#pix-modal-footer__button-reset');
 
           // then
-          expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
-          expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(
-            0
-          );
-          expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+          assert.dom('.competence-card__level .score-value').doesNotExist();
+          assert.dom('.scorecard-details-content-right-score-container__pix-earned .score-value').doesNotExist();
+          assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
         });
 
-        it('should reset competence when user clicks on reset from results page', async function () {
+        test('should reset competence when user clicks on reset from results page', async function (assert) {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
           await click('.scorecard-details__reset-button');
@@ -189,46 +201,48 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('#pix-modal-footer__button-reset');
 
           // then
-          expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
-          expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(
-            0
-          );
-          expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+          assert.dom('.competence-card__level .score-value').doesNotExist();
+          assert.dom('.scorecard-details-content-right-score-container__pix-earned .score-value').doesNotExist();
+          assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
         });
       });
 
-      context('when it has remaining some days before improving', function () {
-        it('should display remaining days before improving', async function () {
+      module('when it has remaining some days before improving', function () {
+        test('should display remaining days before improving', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithRemainingDaysBeforeImproving.competenceId}/details`);
 
           // then
-          expect(find('.scorecard-details__improvement-countdown').textContent).to.contain(
-            `${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`
+          assert.ok(
+            find('.scorecard-details__improvement-countdown').textContent.includes(
+              `${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`
+            )
           );
-          expect(find('.scorecard-details__improve-button')).to.not.exist;
+          assert.dom('.scorecard-details__improve-button').doesNotExist();
         });
       });
 
-      context('when it has no remaining days before improving', function () {
-        it('should display improving button', async function () {
+      module('when it has no remaining days before improving', function () {
+        test('should display improving button', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithoutRemainingDaysBeforeImproving.competenceId}/details`);
 
           // then
-          expect(findAll('.scorecard-details__improve-button')).to.exist;
+          assert.dom('.scorecard-details__improve-button').exists();
         });
       });
     });
   });
 
-  describe('Not authenticated cases', function () {
-    it('should redirect to home, when user is not authenticated', async function () {
+  module('Not authenticated cases', function () {
+    test('should redirect to home, when user is not authenticated', async function (assert) {
       // when
       await visit('/competences/1/details');
 
       // then
-      expect(currentURL()).to.equal('/connexion');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/connexion');
     });
   });
 });

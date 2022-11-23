@@ -1,30 +1,29 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe('Integration | Component | user certifications panel', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user certifications panel', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`<UserCertificationsPanel />`);
-    expect(find('.user-certifications-panel')).to.exist;
+    assert.dom('.user-certifications-panel').exists();
   });
 
-  context('when there is no certifications', function () {
-    it('should render a panel which indicate there is no certifications', async function () {
+  module('when there is no certifications', function () {
+    test('should render a panel which indicate there is no certifications', async function (assert) {
       // when
       await render(hbs`<UserCertificationsPanel />`);
 
       // then
-      expect(find('.user-certifications-panel__no-certification-panel')).to.exist;
+      assert.dom('.user-certifications-panel__no-certification-panel').exists();
     });
   });
 
-  context('when there is some certifications to show', function () {
-    it('should render a certifications list', async function () {
+  module('when there is some certifications to show', function () {
+    test('should render a certifications list', async function (assert) {
       // given
       const certification1 = EmberObject.create({
         id: 1,
@@ -45,7 +44,7 @@ describe('Integration | Component | user certifications panel', function () {
       await render(hbs`<UserCertificationsPanel @certifications={{this.certifications}}/>`);
 
       // then
-      expect(find('.user-certifications-panel__certifications-list')).to.exist;
+      assert.dom('.user-certifications-panel__certifications-list').exists();
     });
   });
 });

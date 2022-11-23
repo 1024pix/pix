@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
+import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe('Integration | Component | certifications list', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | certifications list', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     await render(hbs`<CertificationsList />`);
-    expect(find('.certifications-list__table')).to.exist;
+    assert.dom('.certifications-list__table').exists();
   });
 
-  context('when there is some completed certifications', function () {
+  module('when there is some completed certifications', function () {
     const certification1 = EmberObject.create({
       id: 1,
       date: '2018-02-15T15:15:52.504Z',
@@ -31,7 +30,7 @@ describe('Integration | Component | certifications list', function () {
       pixScore: 231,
     });
 
-    it('should render two certification items when there is 2 completed certifications', async function () {
+    test('should render two certification items when there is 2 completed certifications', async function (assert) {
       const completedCertifications = [certification1, certification2];
       this.set('certifications', completedCertifications);
 
@@ -39,7 +38,9 @@ describe('Integration | Component | certifications list', function () {
       await render(hbs`<CertificationsList @certifications={{this.certifications}}/>`);
 
       // then
-      expect(findAll('.certifications-list__table-body .certifications-list-item').length).to.equal(2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(findAll('.certifications-list__table-body .certifications-list-item').length, 2);
     });
   });
 });

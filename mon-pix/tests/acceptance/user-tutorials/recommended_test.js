@@ -1,25 +1,24 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { findAll, find, click, currentURL } from '@ember/test-helpers';
+import { find, click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail } from '../../helpers/authentication';
 import { waitForDialog } from '../../helpers/wait-for';
 
-describe('Acceptance | User-tutorials | Recommended', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | User-tutorials | Recommended', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
   });
 
-  describe('When there are recommended tutorials', function () {
-    it('should display paginated tutorial cards', async function () {
+  module('When there are recommended tutorials', function () {
+    test('should display paginated tutorial cards', async function (assert) {
       // given
       server.createList('tutorial', 100);
 
@@ -27,13 +26,13 @@ describe('Acceptance | User-tutorials | Recommended', function () {
       await visit('/mes-tutos/recommandes');
 
       //then
-      expect(findAll('.tutorial-card')).to.exist;
-      expect(findAll('.tutorial-card')).to.be.lengthOf(10);
-      expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
+      assert.dom('.tutorial-card').exists();
+      assert.dom('.tutorial-card').exists({ count: 10 });
+      assert.ok(find('.pix-pagination__navigation').textContent.includes('Page 1 / 10'));
     });
 
-    describe('when a tutorial is not already saved', function () {
-      it('should saved it when user click on save button', async function () {
+    module('when a tutorial is not already saved', function () {
+      test('should saved it when user click on save button', async function (assert) {
         // given
         server.createList('tutorial', 1);
         const screen = await visit('/mes-tutos/recommandes');
@@ -42,13 +41,13 @@ describe('Acceptance | User-tutorials | Recommended', function () {
         await click(screen.getByLabelText('Enregistrer dans ma liste de tutos'));
 
         // then
-        expect(findAll('.tutorial-card')).to.be.lengthOf(1);
-        expect(screen.getByLabelText('Retirer de ma liste de tutos')).to.exist;
+        assert.dom('.tutorial-card').exists({ count: 1 });
+        assert.ok(screen.getByLabelText('Retirer de ma liste de tutos'));
       });
     });
 
-    describe('when a tutorial is saved', function () {
-      it('should not remove it from the list when clicking on the remove button', async function () {
+    module('when a tutorial is saved', function () {
+      test('should not remove it from the list when clicking on the remove button', async function (assert) {
         // given
         server.createList('tutorial', 1, 'withUserSavedTutorial');
         const screen = await visit('/mes-tutos/recommandes');
@@ -57,12 +56,12 @@ describe('Acceptance | User-tutorials | Recommended', function () {
         await click(screen.getByLabelText('Retirer de ma liste de tutos'));
 
         // then
-        expect(findAll('.tutorial-card')).to.be.lengthOf(1);
+        assert.dom('.tutorial-card').exists({ count: 1 });
       });
     });
 
-    describe('when a tutorial is liked', function () {
-      it('should retrieve the appropriate status when changing page', async function () {
+    module('when a tutorial is liked', function () {
+      test('should retrieve the appropriate status when changing page', async function (assert) {
         // given
         server.createList('tutorial', 1, 'withUserSavedTutorial', 'withTutorialEvaluation');
         const screen = await visit('/mes-tutos/recommandes');
@@ -72,17 +71,17 @@ describe('Acceptance | User-tutorials | Recommended', function () {
         await visit('/mes-tutos/enregistres');
 
         // then
-        expect(screen.getByLabelText('Marquer ce tuto comme utile')).to.exist;
+        assert.ok(screen.getByLabelText('Marquer ce tuto comme utile'));
       });
     });
 
-    describe('when user is filtering by competences', function () {
-      it('should filter tutorial by competence and close sidebar', async function () {
+    module('when user is filtering by competences', function () {
+      test('should filter tutorial by competence and close sidebar', async function (assert) {
         // given
         server.create('area', 'withCompetences');
         server.createList('tutorial', 100);
         const screen = await visit('/mes-tutos/recommandes');
-        expect(findAll('.tutorial-card')).to.be.lengthOf(10);
+        assert.dom('.tutorial-card').exists({ count: 10 });
         await click(screen.getByRole('button', { name: 'Filtrer' }));
         await waitForDialog();
         await click(screen.getByRole('button', { name: 'Mon super domaine' }));
@@ -92,13 +91,15 @@ describe('Acceptance | User-tutorials | Recommended', function () {
         await click(screen.getByRole('button', { name: 'Voir les résultats' }));
 
         // then
-        expect(currentURL()).to.equal('/mes-tutos/recommandes?competences=1&pageNumber=1');
-        expect(findAll('.tutorial-card')).to.be.lengthOf(1);
-        expect(find('.pix-sidebar--hidden')).to.exist;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(currentURL(), '/mes-tutos/recommandes?competences=1&pageNumber=1');
+        assert.dom('.tutorial-card').exists({ count: 1 });
+        assert.dom('.pix-sidebar--hidden').exists();
       });
 
-      describe('when user access again to tutorials recommended page', function () {
-        it('should reset competences filters', async function () {
+      module('when user access again to tutorials recommended page', function () {
+        test('should reset competences filters', async function (assert) {
           // given
           const screen = await visit('/mes-tutos/recommandes?competences=1&pageNumber=1');
 
@@ -107,7 +108,9 @@ describe('Acceptance | User-tutorials | Recommended', function () {
           await click(screen.getByRole('link', { name: 'Recommandés' }));
 
           // then
-          expect(currentURL()).to.equal('/mes-tutos/recommandes');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(currentURL(), '/mes-tutos/recommandes');
         });
       });
     });

@@ -1,23 +1,22 @@
 import { find, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | competences results', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | competences results', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
   const competenceId = 10;
   const assessmentId = 10;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function () {
-    beforeEach(async function () {
+  module('Authenticated cases as simple user', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
 
       this.server.create('assessment', {
@@ -55,17 +54,21 @@ describe('Acceptance | competences results', function () {
       });
     });
 
-    it('should display a return link to competences', async function () {
+    test('should display a return link to competences', async function (assert) {
       // when
       await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
-      expect(find('.pix-return-to')).to.exist;
-      expect(find('.pix-return-to').getAttribute('href')).to.equal('/competences');
+      assert.dom('.pix-return-to').exists();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.pix-return-to').getAttribute('href'), '/competences');
     });
 
-    context('When user obtained 0 pix', async function () {
-      beforeEach(async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('When user obtained 0 pix', async function (hooks) {
+      hooks.beforeEach(async function () {
         const area = this.server.schema.areas.find(3);
 
         this.server.create('scorecard', {
@@ -79,17 +82,19 @@ describe('Acceptance | competences results', function () {
         });
       });
 
-      it('should display the "too bad" banner', async function () {
+      test('should display the "too bad" banner', async function (assert) {
         // when
         await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
-        expect(find('.competence-results-panel-header__banner--too-bad')).to.exist;
+        assert.dom('.competence-results-panel-header__banner--too-bad').exists();
       });
     });
 
-    context('When user obtained 5 pix (less than level 1)', async function () {
-      beforeEach(async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('When user obtained 5 pix (less than level 1)', async function (hooks) {
+      hooks.beforeEach(async function () {
         const area = this.server.schema.areas.find(3);
 
         this.server.create('scorecard', {
@@ -103,18 +108,22 @@ describe('Acceptance | competences results', function () {
         });
       });
 
-      it('should display the "not bad" banner', async function () {
+      test('should display the "not bad" banner', async function (assert) {
         // when
         await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
-        expect(find('.competence-results-panel-header__banner--not-bad')).to.exist;
-        expect(find('.competence-results-banner-text-results__value').innerText).to.equal('5 Pix');
+        assert.dom('.competence-results-panel-header__banner--not-bad').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(find('.competence-results-banner-text-results__value').innerText, '5 Pix');
       });
     });
 
-    context('When user obtained 17 pix and level 2', async function () {
-      beforeEach(async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('When user obtained 17 pix and level 2', async function (hooks) {
+      hooks.beforeEach(async function () {
         const area = this.server.schema.areas.find(3);
 
         this.server.create('scorecard', {
@@ -128,20 +137,26 @@ describe('Acceptance | competences results', function () {
         });
       });
 
-      it('should display the "congrats" banner', async function () {
+      test('should display the "congrats" banner', async function (assert) {
         // when
         await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
-        expect(find('.competence-results-panel-header__banner--congrats')).to.exist;
-        expect(
+        assert.dom('.competence-results-panel-header__banner--congrats').exists();
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
           find('.competence-results-banner-text__results:first-child .competence-results-banner-text-results__value')
-            .innerText
-        ).to.equal('Niveau 2');
-        expect(
+            .innerText,
+          'Niveau 2'
+        );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(
           find('.competence-results-banner-text__results:last-child .competence-results-banner-text-results__value')
-            .innerText
-        ).to.equal('17 Pix');
+            .innerText,
+          '17 Pix'
+        );
       });
     });
   });

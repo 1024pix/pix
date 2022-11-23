@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | SharedProfileForCampaign model', function () {
+module('Unit | Model | SharedProfileForCampaign model', function (hooks) {
   let store;
 
-  setupTest();
+  setupTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should return an array of unique areas', function () {
+  test('should return an array of unique areas', function (assert) {
     // given
     const area1 = store.createRecord('area', { code: 1 });
     const area2 = store.createRecord('area', { code: 2 });
@@ -27,6 +26,9 @@ describe('Unit | Model | SharedProfileForCampaign model', function () {
     const areas = model.areas;
 
     // then
-    expect(areas.map((area) => area.get('code'))).to.deep.equal([1, 2]);
+    assert.deepEqual(
+      areas.map((area) => area.get('code')),
+      [1, 2]
+    );
   });
 });

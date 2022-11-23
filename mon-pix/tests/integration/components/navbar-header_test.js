@@ -2,40 +2,39 @@
 /* eslint ember/require-tagless-components: 0 */
 
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { contains } from '../../helpers/contains';
 
-describe('Integration | Component | navbar-header', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | navbar-header', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('when user is on desktop', function () {
-    beforeEach(async function () {
+  module('when user is on desktop', function (hooks) {
+    hooks.beforeEach(async function () {
       setBreakpoint('desktop');
       await render(hbs`<NavbarHeader/>`);
     });
 
-    it('should be rendered in desktop mode', function () {
+    test('should be rendered in desktop mode', function (assert) {
       // then
-      expect(find('.navbar-desktop-header__container')).to.exist;
+      assert.dom('.navbar-desktop-header__container').exists();
     });
 
-    it('should render skip links', async function () {
-      expect(contains(this.intl.t('common.skip-links.skip-to-content'))).to.exist;
-      expect(contains(this.intl.t('common.skip-links.skip-to-footer'))).to.exist;
+    test('should render skip links', async function (assert) {
+      assert.ok(contains(this.intl.t('common.skip-links.skip-to-content')));
+      assert.ok(contains(this.intl.t('common.skip-links.skip-to-footer')));
     });
   });
 
-  context('When user is not on desktop ', function () {
-    beforeEach(function () {
+  module('When user is not on desktop ', function (hooks) {
+    hooks.beforeEach(function () {
       setBreakpoint('tablet');
     });
 
-    it('should be rendered in mobile/tablet mode with a burger', async function () {
+    test('should be rendered in mobile/tablet mode with a burger', async function (assert) {
       // when
       this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
       this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
@@ -48,26 +47,26 @@ describe('Integration | Component | navbar-header', function () {
       });
       await render(hbs`<NavbarHeader @burger={{this.burger}} />`);
       // then
-      expect(find('.navbar-mobile-header__container')).to.exist;
-      expect(find('.navbar-mobile-header__burger-icon')).to.exist;
+      assert.dom('.navbar-mobile-header__container').exists();
+      assert.dom('.navbar-mobile-header__burger-icon').exists();
     });
 
-    it('should be rendered in mobile/tablet mode without burger', async function () {
+    test('should be rendered in mobile/tablet mode without burger', async function (assert) {
       // when
       await render(hbs`<NavbarHeader/>`);
 
       // then
-      expect(find('.navbar-mobile-header__container')).to.exist;
-      expect(find('.navbar-mobile-header__burger-icon')).to.not.exist;
+      assert.dom('.navbar-mobile-header__container').exists();
+      assert.dom('.navbar-mobile-header__burger-icon').doesNotExist();
     });
 
-    it('should render skip links', async function () {
+    test('should render skip links', async function (assert) {
       this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
 
       await render(hbs`<NavbarHeader/>`);
 
-      expect(contains(this.intl.t('common.skip-links.skip-to-content'))).to.exist;
-      expect(contains(this.intl.t('common.skip-links.skip-to-footer'))).to.exist;
+      assert.ok(contains(this.intl.t('common.skip-links.skip-to-content')));
+      assert.ok(contains(this.intl.t('common.skip-links.skip-to-footer')));
     });
   });
 });

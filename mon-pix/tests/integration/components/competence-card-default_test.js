@@ -1,24 +1,23 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | competence-card-default', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | competence-card-default', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
+  module('Component rendering', function (hooks) {
     let area;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       area = EmberObject.create({
         code: 1,
         color: 'jaffa',
       });
     });
 
-    it('should render component', async function () {
+    test('should render component', async function (assert) {
       // given
       const scorecard = { area };
       this.set('scorecard', scorecard);
@@ -27,10 +26,10 @@ describe('Integration | Component | competence-card-default', function () {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.competence-card')).to.exist;
+      assert.dom('.competence-card').exists();
     });
 
-    it('should display the competence card header with scorecard color', async function () {
+    test('should display the competence card header with scorecard color', async function (assert) {
       // given
       const scorecard = { area };
       this.set('scorecard', scorecard);
@@ -39,10 +38,10 @@ describe('Integration | Component | competence-card-default', function () {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.competence-card__wrapper').getAttribute('class')).to.contains('competence-card__wrapper--jaffa');
+      assert.ok(find('.competence-card__wrapper').getAttribute('class').includes('competence-card__wrapper--jaffa'));
     });
 
-    it('should display the area name', async function () {
+    test('should display the area name', async function (assert) {
       // given
       const scorecard = { area: EmberObject.create({ code: 1, title: 'First Area' }) };
       this.set('scorecard', scorecard);
@@ -51,10 +50,12 @@ describe('Integration | Component | competence-card-default', function () {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.competence-card__area-name').textContent, scorecard.area.title);
     });
 
-    it('should display the competence name', async function () {
+    test('should display the competence name', async function (assert) {
       // given
       const scorecard = { area, name: 'First Competence' };
       this.set('scorecard', scorecard);
@@ -63,10 +64,12 @@ describe('Integration | Component | competence-card-default', function () {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.competence-card__competence-name').textContent, scorecard.name);
     });
 
-    it('should display the level', async function () {
+    test('should display the level', async function (assert) {
       // given
       const scorecard = { area, level: 3 };
       this.set('scorecard', scorecard);
@@ -75,12 +78,18 @@ describe('Integration | Component | competence-card-default', function () {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.score-label').textContent).to.equal('niveau');
-      expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.score-label').textContent, 'niveau');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(find('.score-value').textContent, scorecard.level.toString());
     });
 
-    context('when user can start the competence', async function () {
-      it('should show the button "Commencer"', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('when user can start the competence', async function () {
+      test('should show the button "Commencer"', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: false, isStarted: false };
         this.set('scorecard', scorecard);
@@ -89,12 +98,14 @@ describe('Integration | Component | competence-card-default', function () {
         await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.competence-card__button').textContent).to.contains('Commencer');
+        assert.ok(find('.competence-card__button').textContent.includes('Commencer'));
       });
     });
 
-    context('when user can continue the competence', async function () {
-      it('should show the button "Reprendre"', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('when user can continue the competence', async function () {
+      test('should show the button "Reprendre"', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: false, isStarted: true };
         this.set('scorecard', scorecard);
@@ -103,11 +114,11 @@ describe('Integration | Component | competence-card-default', function () {
         await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.competence-card__button').textContent).to.contains('Reprendre');
+        assert.ok(find('.competence-card__button').textContent.includes('Reprendre'));
       });
 
-      context('and the user has reached the maximum level', function () {
-        beforeEach(async function () {
+      module('and the user has reached the maximum level', function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           const scorecard = { area, isFinishedWithMaxLevel: false, isStarted: true };
           this.set('scorecard', scorecard);
@@ -116,20 +127,22 @@ describe('Integration | Component | competence-card-default', function () {
           await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
         });
 
-        it('should not show congrats design', function () {
+        test('should not show congrats design', function (assert) {
           // then
-          expect(find('.competence-card__congrats')).to.not.exist;
+          assert.dom('.competence-card__congrats').doesNotExist();
         });
 
-        it('should not show congrats message in the footer', function () {
+        test('should not show congrats message in the footer', function (assert) {
           // then
-          expect(find('.competence-card-footer__congrats-message')).to.not.exist;
+          assert.dom('.competence-card-footer__congrats-message').doesNotExist();
         });
       });
     });
 
-    context('when user has finished the competence', async function () {
-      it('should show the improving button when there is no remaining days before improving', async function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('when user has finished the competence', async function () {
+      test('should show the improving button when there is no remaining days before improving', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 0 };
         this.set('scorecard', scorecard);
@@ -138,11 +151,11 @@ describe('Integration | Component | competence-card-default', function () {
         await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.competence-card__button')).to.exist;
-        expect(find('.competence-card__button').textContent).to.contains('Retenter');
+        assert.dom('.competence-card__button').exists();
+        assert.ok(find('.competence-card__button').textContent.includes('Retenter'));
       });
 
-      it('should show the improving countdown when there is some remaining days before improving', async function () {
+      test('should show the improving countdown when there is some remaining days before improving', async function (assert) {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 3 };
         this.set('scorecard', scorecard);
@@ -151,12 +164,12 @@ describe('Integration | Component | competence-card-default', function () {
         await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.competence-card-interactions__improvement-countdown')).to.exist;
-        expect(find('.competence-card-interactions__improvement-countdown').textContent).to.contains('3 jours');
+        assert.dom('.competence-card-interactions__improvement-countdown').exists();
+        assert.ok(find('.competence-card-interactions__improvement-countdown').textContent.includes('3 jours'));
       });
 
-      context('and the user has reached the maximum level', function () {
-        beforeEach(async function () {
+      module('and the user has reached the maximum level', function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           const scorecard = { area, isFinishedWithMaxLevel: true };
           this.set('scorecard', scorecard);
@@ -165,14 +178,14 @@ describe('Integration | Component | competence-card-default', function () {
           await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
         });
 
-        it('should show congrats design', function () {
+        test('should show congrats design', function (assert) {
           // then
-          expect(find('.competence-card__congrats')).to.exist;
+          assert.dom('.competence-card__congrats').exists();
         });
 
-        it('should show congrats message in the footer', function () {
+        test('should show congrats message in the footer', function (assert) {
           // then
-          expect(find('.competence-card__congrats-message')).to.exist;
+          assert.dom('.competence-card__congrats-message').exists();
         });
       });
     });

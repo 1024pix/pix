@@ -1,15 +1,14 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { find, findAll, click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | User-Tutorials | Filters | Sidebar', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | User-Tutorials | Filters | Sidebar', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('when isVisible param is true', function () {
-    it('should show sidebar with areas', async function () {
+  module('when isVisible param is true', function () {
+    test('should show sidebar with areas', async function (assert) {
       // given
       this.set('isVisible', true);
       this.set('areas', [
@@ -26,12 +25,12 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
       );
 
       // then
-      expect(find('.tutorials-filters')).to.exist;
-      expect(findAll('.tutorials-filters__areas')).to.have.lengthOf(3);
+      assert.dom('.tutorials-filters').exists();
+      assert.dom('.tutorials-filters__areas').exists({ count: 3 });
     });
 
-    describe('when filters is clicked', function () {
-      it('should add it on selected filters', async function () {
+    module('when filters is clicked', function () {
+      test('should add it on selected filters', async function (assert) {
         // given
         this.set('isVisible', true);
         this.set('areas', [
@@ -52,13 +51,13 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
         await click(checkbox);
 
         // then
-        expect(checkbox.checked).to.be.true;
+        assert.true(checkbox.checked);
       });
     });
 
-    describe('when filters is selected', function () {
-      describe('when reset button is clicked', function () {
-        it('should reset all filters', async function () {
+    module('when filters is selected', function () {
+      module('when reset button is clicked', function () {
+        test('should reset all filters', async function (assert) {
           // given
           this.set('isVisible', true);
           this.set('areas', [
@@ -79,14 +78,14 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
           await click(screen.getByRole('button', { name: 'Réinitialiser' }));
 
           // then
-          expect(checkbox.checked).to.be.false;
+          assert.false(checkbox.checked);
         });
       });
     });
   });
 
-  describe('when isVisible param is false', function () {
-    it('should not show sidebar', async function () {
+  module('when isVisible param is false', function () {
+    test('should not show sidebar', async function (assert) {
       // given
       this.set('isVisible', false);
       this.set('onSubmit', () => {});
@@ -98,7 +97,7 @@ describe('Integration | Component | User-Tutorials | Filters | Sidebar', functio
       );
 
       // then
-      expect(find('.pix-sidebar--hidden')).to.exist;
+      assert.dom('.pix-sidebar--hidden').exists();
     });
   });
 });

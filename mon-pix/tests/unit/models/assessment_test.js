@@ -1,26 +1,25 @@
-import { expect } from 'chai';
 import { run } from '@ember/runloop';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import times from 'lodash/times';
 
-describe('Unit | Model | Assessment', function () {
-  setupTest();
+module('Unit | Model | Assessment', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('@answersSinceLastCheckpoints', function () {
+  module('@answersSinceLastCheckpoints', function () {
     function newAnswers(store, nbAnswers) {
       return run(() => {
         return times(nbAnswers, () => store.createRecord('answer'));
       });
     }
 
-    it('should return an empty array when no answers has been given', function () {
+    test('should return an empty array when no answers has been given', function (assert) {
       // given
       const assessment = store.createRecord('assessment');
       assessment.answers = [];
@@ -29,10 +28,10 @@ describe('Unit | Model | Assessment', function () {
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
-      expect(answersSinceLastCheckpoints).to.deep.equal([]);
+      assert.deepEqual(answersSinceLastCheckpoints, []);
     });
 
-    it('should return the one answer when only one answer has been given', function () {
+    test('should return the one answer when only one answer has been given', function (assert) {
       // given
       const answer = run(() => store.createRecord('answer'));
       const assessment = store.createRecord('assessment');
@@ -43,10 +42,10 @@ describe('Unit | Model | Assessment', function () {
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
-      expect(answersSinceLastCheckpoints).to.deep.equal(answers);
+      assert.deepEqual(answersSinceLastCheckpoints, answers);
     });
 
-    it('should return the last 2 answers when there is 7 answers', function () {
+    test('should return the last 2 answers when there is 7 answers', function (assert) {
       // given
       const answers = newAnswers(store, 7);
       const [answer6, answer7] = answers.slice(5);
@@ -57,10 +56,10 @@ describe('Unit | Model | Assessment', function () {
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
-      expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
+      assert.deepEqual(answersSinceLastCheckpoints, [answer6, answer7]);
     });
 
-    it('should return the last 5 answers when there is 10 answers', function () {
+    test('should return the last 5 answers when there is 10 answers', function (assert) {
       // given
       const answers = newAnswers(store, 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
@@ -71,10 +70,10 @@ describe('Unit | Model | Assessment', function () {
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
-      expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
+      assert.deepEqual(answersSinceLastCheckpoints, [answer6, answer7, answer8, answer9, answer10]);
     });
 
-    it('should return the last 1 answer when there is 11 answers', function () {
+    test('should return the last 1 answer when there is 11 answers', function (assert) {
       // given
       const answers = newAnswers(store, 11);
       const answer11 = answers[10];
@@ -85,12 +84,12 @@ describe('Unit | Model | Assessment', function () {
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
-      expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
+      assert.deepEqual(answersSinceLastCheckpoints, [answer11]);
     });
   });
 
-  describe('#isForCampaign', function () {
-    it('should return true when the assessment type is a campaign assessment', function () {
+  module('#isForCampaign', function () {
+    test('should return true when the assessment type is a campaign assessment', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -98,9 +97,9 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CAMPAIGN';
 
       //then
-      expect(model.isForCampaign).to.be.true;
+      assert.true(model.isForCampaign);
     });
-    it('should return false when the assessment type is not a campaign assessment', function () {
+    test('should return false when the assessment type is not a campaign assessment', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -108,12 +107,12 @@ describe('Unit | Model | Assessment', function () {
       model.type = '_';
 
       //then
-      expect(model.isForCampaign).to.be.false;
+      assert.false(model.isForCampaign);
     });
   });
 
-  describe('#isCertification', function () {
-    it('should return true when the assessment type is a certification', function () {
+  module('#isCertification', function () {
+    test('should return true when the assessment type is a certification', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -121,9 +120,9 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CERTIFICATION';
 
       //then
-      expect(model.isCertification).to.be.true;
+      assert.true(model.isCertification);
     });
-    it('should return false when the assessment type is not a certification', function () {
+    test('should return false when the assessment type is not a certification', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -131,12 +130,12 @@ describe('Unit | Model | Assessment', function () {
       model.type = '_';
 
       //then
-      expect(model.isCertification).to.be.false;
+      assert.false(model.isCertification);
     });
   });
 
-  describe('#isDemo', function () {
-    it('should return true when the assessment type is demo', function () {
+  module('#isDemo', function () {
+    test('should return true when the assessment type is demo', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -144,9 +143,9 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'DEMO';
 
       //then
-      expect(model.isDemo).to.be.true;
+      assert.true(model.isDemo);
     });
-    it('should return false when the assessment type is not demo', function () {
+    test('should return false when the assessment type is not demo', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -154,12 +153,12 @@ describe('Unit | Model | Assessment', function () {
       model.type = '_';
 
       //then
-      expect(model.isDemo).to.be.false;
+      assert.false(model.isDemo);
     });
   });
 
-  describe('#isPreview', function () {
-    it('should return true when the assessment type is placement', function () {
+  module('#isPreview', function () {
+    test('should return true when the assessment type is placement', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -167,9 +166,9 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'PREVIEW';
 
       //then
-      expect(model.isPreview).to.be.true;
+      assert.true(model.isPreview);
     });
-    it('should return false when the assessment type is not placement', function () {
+    test('should return false when the assessment type is not placement', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -177,12 +176,12 @@ describe('Unit | Model | Assessment', function () {
       model.type = '_';
 
       //then
-      expect(model.isPreview).to.be.false;
+      assert.false(model.isPreview);
     });
   });
 
-  describe('#isFlash', function () {
-    it('should return true when the assessment method is FLASH', function () {
+  module('#isFlash', function () {
+    test('should return true when the assessment method is FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -190,10 +189,10 @@ describe('Unit | Model | Assessment', function () {
       model.method = 'FLASH';
 
       //then
-      expect(model.isFlash).to.be.true;
+      assert.true(model.isFlash);
     });
 
-    it('should return false when the assessment method is not FLASH', function () {
+    test('should return false when the assessment method is not FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -201,12 +200,12 @@ describe('Unit | Model | Assessment', function () {
       model.method = '_';
 
       //then
-      expect(model.isFlash).to.be.false;
+      assert.false(model.isFlash);
     });
   });
 
-  describe('#hasCheckpoints', function () {
-    it('should return false when the assessment type is CERTIFICATION', function () {
+  module('#hasCheckpoints', function () {
+    test('should return false when the assessment type is CERTIFICATION', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -214,10 +213,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CERTIFICATION';
 
       //then
-      expect(model.hasCheckpoints).to.be.false;
+      assert.false(model.hasCheckpoints);
     });
 
-    it('should return false when the assessment type is PREVIEW', function () {
+    test('should return false when the assessment type is PREVIEW', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -225,10 +224,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'PREVIEW';
 
       //then
-      expect(model.hasCheckpoints).to.be.false;
+      assert.false(model.hasCheckpoints);
     });
 
-    it('should return true when the assessment type is COMPETENCE_EVALUATION', function () {
+    test('should return true when the assessment type is COMPETENCE_EVALUATION', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -236,10 +235,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'COMPETENCE_EVALUATION';
 
       //then
-      expect(model.hasCheckpoints).to.be.true;
+      assert.true(model.hasCheckpoints);
     });
 
-    it('should return true when the assessment type is CAMPAIGN and method is not FLASH', function () {
+    test('should return true when the assessment type is CAMPAIGN and method is not FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -247,10 +246,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CAMPAIGN';
 
       //then
-      expect(model.hasCheckpoints).to.be.true;
+      assert.true(model.hasCheckpoints);
     });
 
-    it('should return false when the assessment type is CAMPAIGN and method is FLASH', function () {
+    test('should return false when the assessment type is CAMPAIGN and method is FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -259,12 +258,12 @@ describe('Unit | Model | Assessment', function () {
       model.method = 'FLASH';
 
       //then
-      expect(model.hasCheckpoints).to.be.false;
+      assert.false(model.hasCheckpoints);
     });
   });
 
-  describe('#showLevelup', function () {
-    it('should return false when the assessment type is CERTIFICATION', function () {
+  module('#showLevelup', function () {
+    test('should return false when the assessment type is CERTIFICATION', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -272,10 +271,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CERTIFICATION';
 
       //then
-      expect(model.showLevelup).to.be.false;
+      assert.false(model.showLevelup);
     });
 
-    it('should return false when the assessment type is PREVIEW', function () {
+    test('should return false when the assessment type is PREVIEW', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -283,10 +282,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'PREVIEW';
 
       //then
-      expect(model.showLevelup).to.be.false;
+      assert.false(model.showLevelup);
     });
 
-    it('should return true when the assessment type is COMPETENCE_EVALUATION', function () {
+    test('should return true when the assessment type is COMPETENCE_EVALUATION', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -294,10 +293,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'COMPETENCE_EVALUATION';
 
       //then
-      expect(model.showLevelup).to.be.true;
+      assert.true(model.showLevelup);
     });
 
-    it('should return true when the assessment type is CAMPAIGN and method is not FLASH', function () {
+    test('should return true when the assessment type is CAMPAIGN and method is not FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -305,10 +304,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CAMPAIGN';
 
       //then
-      expect(model.showLevelup).to.be.true;
+      assert.true(model.showLevelup);
     });
 
-    it('should return false when the assessment type is CAMPAIGN and method is FLASH', function () {
+    test('should return false when the assessment type is CAMPAIGN and method is FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -317,12 +316,12 @@ describe('Unit | Model | Assessment', function () {
       model.method = 'FLASH';
 
       //then
-      expect(model.showLevelup).to.be.false;
+      assert.false(model.showLevelup);
     });
   });
 
-  describe('#showProgressBar', function () {
-    it('should return false when the assessment type is CERTIFICATION', function () {
+  module('#showProgressBar', function () {
+    test('should return false when the assessment type is CERTIFICATION', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -330,10 +329,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CERTIFICATION';
 
       //then
-      expect(model.showProgressBar).to.be.false;
+      assert.false(model.showProgressBar);
     });
 
-    it('should return false when the assessment type is PREVIEW', function () {
+    test('should return false when the assessment type is PREVIEW', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -341,10 +340,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'PREVIEW';
 
       //then
-      expect(model.showProgressBar).to.be.false;
+      assert.false(model.showProgressBar);
     });
 
-    it('should return true when the assessment type is COMPETENCE_EVALUATION', function () {
+    test('should return true when the assessment type is COMPETENCE_EVALUATION', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -352,10 +351,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'COMPETENCE_EVALUATION';
 
       //then
-      expect(model.showProgressBar).to.be.true;
+      assert.true(model.showProgressBar);
     });
 
-    it('should return true when the assessment type is CAMPAIGN and method is not FLASH', function () {
+    test('should return true when the assessment type is CAMPAIGN and method is not FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -363,10 +362,10 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'CAMPAIGN';
 
       //then
-      expect(model.showProgressBar).to.be.true;
+      assert.true(model.showProgressBar);
     });
 
-    it('should return false when the assessment type is CAMPAIGN and method is FLASH', function () {
+    test('should return false when the assessment type is CAMPAIGN and method is FLASH', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -375,10 +374,10 @@ describe('Unit | Model | Assessment', function () {
       model.method = 'FLASH';
 
       //then
-      expect(model.showProgressBar).to.be.false;
+      assert.false(model.showProgressBar);
     });
 
-    it('should return true when the assessment type is DEMO', function () {
+    test('should return true when the assessment type is DEMO', function (assert) {
       // given
       const model = store.createRecord('assessment');
 
@@ -386,7 +385,7 @@ describe('Unit | Model | Assessment', function () {
       model.type = 'DEMO';
 
       //then
-      expect(model.showProgressBar).to.be.true;
+      assert.true(model.showProgressBar);
     });
   });
 });

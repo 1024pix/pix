@@ -1,53 +1,56 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | tutorial-evaluation model', function () {
-  setupTest();
+module('Unit | Model | tutorial-evaluation model', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('#nextStatus', function () {
-    it('should return "NEUTRAL" when current status is "LIKED"', function () {
+  module('#nextStatus', function () {
+    test('should return "NEUTRAL" when current status is "LIKED"', function (assert) {
       // given
       const model = store.createRecord('tutorial-evaluation');
       model.status = 'LIKED';
 
       // when & then
-      expect(model.nextStatus).to.equal('NEUTRAL');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(model.nextStatus, 'NEUTRAL');
     });
 
-    it('should return "LIKED" when current status is different from "LIKED"', function () {
+    test('should return "LIKED" when current status is different from "LIKED"', function (assert) {
       // given
       const model = store.createRecord('tutorial-evaluation');
       model.status = 'NEUTRAL';
 
       // when & then
-      expect(model.nextStatus).to.equal('LIKED');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(model.nextStatus, 'LIKED');
     });
   });
 
-  describe('#isLiked', function () {
-    it('should return true if status is "LIKED"', function () {
+  module('#isLiked', function () {
+    test('should return true if status is "LIKED"', function (assert) {
       // given
       const model = store.createRecord('tutorial-evaluation');
       model.status = 'LIKED';
 
       // when & then
-      expect(model.isLiked).to.be.true;
+      assert.true(model.isLiked);
     });
 
-    it('should return false if status is "NEUTRAL"', function () {
+    test('should return false if status is "NEUTRAL"', function (assert) {
       // given
       const model = store.createRecord('tutorial-evaluation');
       model.status = 'NEUTRAL';
 
       // when & then
-      expect(model.isLiked).to.be.false;
+      assert.false(model.isLiked);
     });
   });
 });

@@ -1,37 +1,36 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import setupIntl from '../../helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | qroc-solution-panel', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | qroc-solution-panel', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
 
-  describe('#isNotCorrectlyAnswered', function () {
-    it('should return false when result is ok', function () {
+  module('#isNotCorrectlyAnswered', function () {
+    test('should return false when result is ok', function (assert) {
       // given
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer: rightAnswer });
       // when
       const isNotCorrectlyAnswered = component.isNotCorrectlyAnswered;
       // then
-      expect(isNotCorrectlyAnswered).to.be.false;
+      assert.false(isNotCorrectlyAnswered);
     });
 
-    it('should return true when result is not ok', function () {
+    test('should return true when result is not ok', function (assert) {
       // given
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer: wrongAnswer });
       // when
       const isNotCorrectlyAnswered = component.isNotCorrectlyAnswered;
       // then
-      expect(isNotCorrectlyAnswered).to.be.true;
+      assert.true(isNotCorrectlyAnswered);
     });
   });
 
-  describe('#answerToDisplay', function () {
-    it('should return PAS DE REPONSE if the answer is #ABAND#', function () {
+  module('#answerToDisplay', function () {
+    test('should return PAS DE REPONSE if the answer is #ABAND#', function (assert) {
       // given
       const answer = {
         value: '#ABAND#',
@@ -40,10 +39,12 @@ describe('Unit | Component | qroc-solution-panel', function () {
       // when
       const answerToDisplay = component.answerToDisplay;
       // then
-      expect(answerToDisplay).to.equal('Pas de réponse');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(answerToDisplay, 'Pas de réponse');
     });
 
-    it('should return the answer if the answer is not #ABAND#', function () {
+    test('should return the answer if the answer is not #ABAND#', function (assert) {
       // given
       const answer = {
         value: 'La Reponse B',
@@ -52,49 +53,59 @@ describe('Unit | Component | qroc-solution-panel', function () {
       // when
       const answerToDisplay = component.answerToDisplay;
       // then
-      expect(answerToDisplay).to.equal('La Reponse B');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(answerToDisplay, 'La Reponse B');
     });
   });
 
-  describe('#solutionToDisplay', function () {
-    it('should return the first solution if the solution has some variants', function () {
+  module('#solutionToDisplay', function () {
+    test('should return the first solution if the solution has some variants', function (assert) {
       // given
       const solution = 'Reponse\nreponse\nréponse';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
-      expect(solutionToDisplay).to.equal('Reponse');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(solutionToDisplay, 'Reponse');
     });
 
-    it('should return the solution', function () {
+    test('should return the solution', function (assert) {
       // given
       const solution = 'Reponse';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
-      expect(solutionToDisplay).to.equal('Reponse');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(solutionToDisplay, 'Reponse');
     });
 
-    it('should return an empty string if the solution is null', function () {
+    test('should return an empty string if the solution is null', function (assert) {
       // given
       const emptySolution = '';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: emptySolution });
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
-      expect(solutionToDisplay).to.equal('');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(solutionToDisplay, '');
     });
 
-    it('should return an empty string if the solution is an empty String', function () {
+    test('should return an empty string if the solution is an empty String', function (assert) {
       // given
       const solutionNull = null;
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: solutionNull });
       // when
       const solutionToDisplay = component.understandableSolution;
       // then
-      expect(solutionToDisplay).to.equal('');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(solutionToDisplay, '');
     });
   });
 });

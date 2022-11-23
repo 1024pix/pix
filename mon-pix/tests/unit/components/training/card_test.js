@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import sinon from 'sinon';
 
-describe('Unit | Component | Training | card', function () {
-  setupTest();
+module('Unit | Component | Training | card', function (hooks) {
+  setupTest(hooks);
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('#durationFormatted', function () {
+  module('#durationFormatted', function () {
     [
       {
         duration: {
@@ -62,7 +61,7 @@ describe('Unit | Component | Training | card', function () {
         expectedResult: '10h 11m',
       },
     ].forEach(({ duration, expectedResult }) => {
-      it(`should return ${expectedResult} for given duration ${JSON.stringify(duration)}`, function () {
+      test(`should return ${expectedResult} for given duration ${JSON.stringify(duration)}`, function (assert) {
         // given
         const training = store.createRecord('training', { duration });
         const component = createGlimmerComponent('component:training/card', { training });
@@ -71,13 +70,15 @@ describe('Unit | Component | Training | card', function () {
         const result = component.durationFormatted;
 
         // then
-        expect(result).to.equal(expectedResult);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
+        assert.equal(result, expectedResult);
       });
     });
   });
 
-  describe('#imageSrc', function () {
-    it('should return appropriate image src for training type webinaire', function () {
+  module('#imageSrc', function () {
+    test('should return appropriate image src for training type webinaire', function (assert) {
       // given
       const training = store.createRecord('training', { type: 'webinaire' });
       const component = createGlimmerComponent('component:training/card', { training });
@@ -87,11 +88,11 @@ describe('Unit | Component | Training | card', function () {
       const result = component.imageSrc;
 
       // then
-      expect(result).to.match(new RegExp(/\/images\/illustrations\/trainings\/Illu_Webinaire-[1-3].png/g));
-      expect(getRandomImageNumberSpy.called).to.be.true;
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Webinaire-[1-3].png/g).test(result));
+      assert.true(getRandomImageNumberSpy.called);
     });
 
-    it('should return appropriate image src for training type autoformation', function () {
+    test('should return appropriate image src for training type autoformation', function (assert) {
       // given
       const training = store.createRecord('training', { type: 'autoformation' });
       const component = createGlimmerComponent('component:training/card', { training });
@@ -101,13 +102,13 @@ describe('Unit | Component | Training | card', function () {
       const result = component.imageSrc;
 
       // then
-      expect(result).to.match(new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3].png/g));
-      expect(getRandomImageNumberSpy.called).to.be.true;
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3].png/g).test(result));
+      assert.true(getRandomImageNumberSpy.called);
     });
   });
 
-  describe('#tagColor', function () {
-    it('should return appropriate tag color for given type webinaire', function () {
+  module('#tagColor', function () {
+    test('should return appropriate tag color for given type webinaire', function (assert) {
       // given
       const training = store.createRecord('training', { type: 'webinaire' });
       const component = createGlimmerComponent('component:training/card', { training });
@@ -116,10 +117,12 @@ describe('Unit | Component | Training | card', function () {
       const result = component.tagColor;
 
       // then
-      expect(result).to.equal('purple-light');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(result, 'purple-light');
     });
 
-    it('should return appropriate tag color for given type autoformation', function () {
+    test('should return appropriate tag color for given type autoformation', function (assert) {
       // given
       const training = store.createRecord('training', { type: 'autoformation' });
       const component = createGlimmerComponent('component:training/card', { training });
@@ -128,7 +131,9 @@ describe('Unit | Component | Training | card', function () {
       const result = component.tagColor;
 
       // then
-      expect(result).to.equal('blue-light');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(result, 'blue-light');
     });
   });
 });

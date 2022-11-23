@@ -1,36 +1,37 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | changer mot de passe', function () {
-  setupTest();
+module('Unit | Route | changer mot de passe', function (hooks) {
+  setupTest(hooks);
 
-  describe('Route behavior', function () {
+  module('Route behavior', function (hooks) {
     let storeStub;
     let queryRecordStub;
     const params = {
       temporary_key: 'pwd-reset-demand-token',
     };
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       queryRecordStub = sinon.stub();
       storeStub = Service.create({
         queryRecord: queryRecordStub,
       });
     });
 
-    it('should exists', function () {
+    test('should exists', function (assert) {
       // when
       const route = this.owner.lookup('route:reset-password');
       route.set('store', storeStub);
 
       // then
-      expect(route).to.be.ok;
+      assert.ok(route);
     });
 
-    it('should ask password reset demand validity', function () {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/require-expect
+    test('should ask password reset demand validity', function (assert) {
       // given
       queryRecordStub.resolves();
       const route = this.owner.lookup('route:reset-password');
@@ -45,11 +46,14 @@ describe('Unit | Route | changer mot de passe', function () {
         sinon.assert.calledWith(queryRecordStub, 'user', {
           passwordResetTemporaryKey: params.temporary_key,
         });
+        assert.ok(true);
       });
     });
 
-    describe('when password reset demand is valid', function () {
-      it('should create a new ember user model with fetched data', function () {
+    module('when password reset demand is valid', function () {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/require-expect
+      test('should create a new ember user model with fetched data', function (assert) {
         // given
         const fetchedOwnerDetails = {
           data: {
@@ -77,8 +81,8 @@ describe('Unit | Route | changer mot de passe', function () {
 
         // then
         return promise.then(({ user, temporaryKey }) => {
-          expect(user).to.eql(expectedUser);
-          expect(temporaryKey).to.eql(params.temporary_key);
+          assert.deepEqual(user, expectedUser);
+          assert.deepEqual(temporaryKey, params.temporary_key);
         });
       });
     });

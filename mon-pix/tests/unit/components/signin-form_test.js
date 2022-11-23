@@ -1,16 +1,16 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | signin-form', function () {
-  setupTest();
+module('Unit | Component | signin-form', function (hooks) {
+  setupTest(hooks);
 
-  describe('#signin', function () {
-    context('when user should change password', function () {
-      it('should save reset password token and redirect to update-expired-password', async function () {
+  module('#signin', function () {
+    module('when user should change password', function () {
+      test('should save reset password token and redirect to update-expired-password', async function (assert) {
         // given
         const eventStub = { preventDefault: sinon.stub() };
         const createRecordStub = sinon.stub();
@@ -40,11 +40,12 @@ describe('Unit | Component | signin-form', function () {
         sinon.assert.calledWith(createRecordStub, 'reset-expired-password-demand', {
           passwordResetToken: 'PASSWORD_RESET_TOKEN',
         });
+        assert.ok(true);
       });
     });
 
-    context('when user sign in', function () {
-      it('should authenticate the user even if email contains spaces', async function () {
+    module('when user sign in', function () {
+      test('should authenticate the user even if email contains spaces', async function (assert) {
         // given
         const foundUser = EmberObject.create({ id: 12 });
         const eventStub = { preventDefault: sinon.stub() };
@@ -74,6 +75,7 @@ describe('Unit | Component | signin-form', function () {
 
         // then
         sinon.assert.calledWith(authenticateStub, trimedEmail, password);
+        assert.ok(true);
       });
     });
   });

@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
-import { afterEach, describe, it } from 'mocha';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import * as jwt from 'mon-pix/helpers/jwt';
 import sinon from 'sinon';
 
-describe('Unit | Authenticator | gar', function () {
-  setupTest();
+module('Unit | Authenticator | gar', function (hooks) {
+  setupTest(hooks);
 
-  afterEach(function () {
+  hooks.afterEach(function () {
     sinon.restore();
   });
 
-  describe('#authenticate', function () {
-    it('should authenticate the user', async function () {
+  module('#authenticate', function () {
+    test('should authenticate the user', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:gar');
       const token = Symbol('mon super token');
@@ -24,12 +23,13 @@ describe('Unit | Authenticator | gar', function () {
 
       // then
       sinon.assert.calledWith(jwt.decodeToken, token);
-      expect(expectedResult).to.deep.equal({
+      assert.deepEqual(expectedResult, {
         token_type: 'bearer',
         access_token: token,
         user_id: 1,
         source: 'gar',
       });
+      assert.ok(true);
     });
   });
 });

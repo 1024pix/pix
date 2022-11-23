@@ -1,29 +1,32 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, currentURL } from '@ember/test-helpers';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | mes-tutos', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | mes-tutos', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  describe('When the new tutorials page is disabled', function () {
-    beforeEach(async function () {
+  module('When the new tutorials page is disabled', function (hooks) {
+    hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
     });
 
-    it('user is redirected to /mes-tutos/recommandes when visiting /mes-tutos', async function () {
+    test('user is redirected to /mes-tutos/recommandes when visiting /mes-tutos', async function (assert) {
       await visit('/mes-tutos');
-      expect(currentURL()).to.equal('/mes-tutos/recommandes');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/mes-tutos/recommandes');
     });
 
-    it('user is redirected to /mes-tutos/enregistres when visiting /mes-tutos/enregistres', async function () {
+    test('user is redirected to /mes-tutos/enregistres when visiting /mes-tutos/enregistres', async function (assert) {
       await visit('/mes-tutos/enregistres');
-      expect(currentURL()).to.equal('/mes-tutos/enregistres');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(currentURL(), '/mes-tutos/enregistres');
     });
   });
 });

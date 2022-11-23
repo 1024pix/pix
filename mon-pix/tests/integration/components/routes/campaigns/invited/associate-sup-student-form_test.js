@@ -1,6 +1,5 @@
-import { describe, it, beforeEach } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { expect } from 'chai';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { fillInByLabel } from '../../../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
@@ -9,8 +8,8 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-describe('Integration | Component | routes/campaigns/invited/associate-sup-student-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | routes/campaigns/invited/associate-sup-student-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let sessionStub;
   let storeStub;
@@ -18,7 +17,7 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
   let saveStub;
   let transitionToStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     saveStub = sinon.stub();
     transitionToStub = sinon.stub();
     sessionStub = class StoreStub extends Service {};
@@ -36,8 +35,8 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
     this.owner.register('service:store', storeStub);
   });
 
-  context('when user fill the form correctly', function () {
-    it('should save form', async function () {
+  module('when user fill the form correctly', function () {
+    test('should save form', async function (assert) {
       // when
       await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
@@ -51,9 +50,10 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
 
       // then
       sinon.assert.calledWithExactly(saveStub);
+      assert.ok(true);
     });
 
-    it('should transition to fill-in-participant-external-id', async function () {
+    test('should transition to fill-in-participant-external-id', async function (assert) {
       // when
       await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
@@ -67,11 +67,12 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
 
       // then
       sinon.assert.calledWithExactly(transitionToStub, 'campaigns.invited.fill-in-participant-external-id', 123);
+      assert.ok(true);
     });
   });
 
-  context('when the server responds an error', function () {
-    it('should display server error', async function () {
+  module('when the server responds an error', function () {
+    test('should display server error', async function (assert) {
       // given
       saveStub.rejects();
 
@@ -87,11 +88,11 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
       await clickByLabel("C'est parti !");
 
       // then
-      expect(
+      assert.ok(
         contains(
           'Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.'
         )
-      ).to.exist;
+      );
     });
   });
 });
