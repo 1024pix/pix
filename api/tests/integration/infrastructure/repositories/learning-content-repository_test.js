@@ -631,7 +631,7 @@ function _buildDomainThematicsFromLearningContent({ thematics }, locale) {
   return thematics.map((thematic) =>
     domainBuilder.buildThematic({
       ...thematic,
-      name: thematic[locale === 'en' ? 'nameEnUs' : 'name'],
+      name: thematic.name_i18n[locale],
     })
   );
 }
