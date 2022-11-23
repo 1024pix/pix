@@ -100,7 +100,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     this.set('students', []);
 
     // when
-    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
 
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.description'));
@@ -393,7 +393,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       students.meta = { participantCount: 1 };
       this.set('students', students);
       // when
-      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
 
       // then
       assert.contains('Aucun élève.');
@@ -407,7 +407,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       students.meta = { participantCount: 0 };
       this.set('students', students);
       // when
-      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
 
       // then
       assert.contains('L’administrateur doit importer la base élèves en cliquant sur le bouton importer.');

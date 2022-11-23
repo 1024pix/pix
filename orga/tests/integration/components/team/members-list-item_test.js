@@ -28,31 +28,30 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
   let memberMembership;
 
   hooks.beforeEach(function () {
-    adminMembership = {
+    const store = this.owner.lookup('service:store');
+    adminMembership = store.createRecord('membership', {
       id: 1,
       displayRole: 'Administrateur',
       organizationRole: 'ADMIN',
-      user: {
+      user: store.createRecord('user', {
         id: 111,
         firstName: 'Gigi',
         lastName: 'La Terreur',
-        get: sinon.stub().returns(111),
-      },
+      }),
       save: sinon.stub(),
-    };
+    });
 
-    memberMembership = {
+    memberMembership = store.createRecord('membership', {
       id: 2,
       displayRole: 'Membre',
       organizationRole: 'MEMBER',
-      user: {
+      user: store.createRecord('user', {
         id: 112,
         firstName: 'Jojo',
         lastName: 'La Panique',
-        get: sinon.stub().returns(112),
-      },
+      }),
       save: sinon.stub(),
-    };
+    });
   });
 
   module('when user is a member', function () {
@@ -62,7 +61,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       this.owner.register('service:current-user', CurrentUserMemberStub);
 
       // when
-      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+      await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
 
       // then
       assert.contains('La Panique');
@@ -76,7 +75,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       this.owner.register('service:current-user', CurrentUserMemberStub);
 
       // when
-      const screen = await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+      const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
 
       // then
       assert.dom(screen.queryByLabelText('Gérer')).doesNotExist();
@@ -90,7 +89,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       this.owner.register('service:current-user', CurrentUserAdminStub);
 
       // when
-      const screen = await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+      const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
 
       // then
 
@@ -106,7 +105,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
         this.owner.register('service:current-user', CurrentUserAdminStub);
 
-        const screen = await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+        const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
 
         // when
         await clickByName('Gérer');
@@ -123,7 +122,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
         this.owner.register('service:current-user', CurrentUserAdminStub);
 
-        await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
 
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
@@ -142,7 +141,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.owner.register('service:current-user', CurrentUserAdminStub);
         this.set('membership', memberMembership);
 
-        await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
@@ -161,7 +160,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
         this.owner.register('service:current-user', CurrentUserAdminStub);
 
-        await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
@@ -182,7 +181,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
         this.owner.register('service:current-user', CurrentUserAdminStub);
 
-        await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
@@ -206,7 +205,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         const notifications = this.owner.lookup('service:notifications');
         sinon.stub(notifications, 'error');
 
-        await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
@@ -231,16 +230,15 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // given
         this.owner.register('service:current-user', CurrentUserAdminStub);
         removeMembershipStub = sinon.stub();
-        memberMembership.user.get = (attr) => {
-          return attr === 'firstName' ? memberMembership.user.firstName : memberMembership.user.lastName;
-        };
+
         this.set('membership', memberMembership);
         this.set('removeMembership', removeMembershipStub);
 
         // when
         screen = await render(
-          hbs`<Team::MembersListItem @membership={{membership}} @onRemoveMember={{removeMembership}} />`
+          hbs`<Team::MembersListItem @membership={{this.membership}} @onRemoveMember={{this.removeMembership}} />`
         );
+
         await clickByName('Gérer');
         await clickByText('Supprimer');
 
@@ -256,8 +254,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
       test('should display the membership first name and last name in the modal', function (assert) {
         // then
-        assert.contains(memberMembership.user.firstName);
-        assert.contains(memberMembership.user.lastName);
+        assert.contains(memberMembership.user.get('firstName'));
+        assert.contains(memberMembership.user.get('lastName'));
       });
 
       test('should close the modal by clicking on cancel button', async function (assert) {

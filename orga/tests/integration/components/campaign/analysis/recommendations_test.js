@@ -37,7 +37,7 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
       this.campaignTubeRecommendations = [campaignTubeRecommendation_1, campaignTubeRecommendation_2];
 
       screen = await render(hbs`<Campaign::Analysis::Recommendations
-      @campaignTubeRecommendations={{campaignTubeRecommendations}}
+      @campaignTubeRecommendations={{this.campaignTubeRecommendations}}
       @displayAnalysis={{true}}
     />`);
     });
@@ -81,7 +81,7 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
       this.campaignTubeRecommendations = [];
 
       await render(hbs`<Campaign::Analysis::Recommendations
-        @campaignTubeRecommendations={{campaignTubeRecommendations}}
+        @campaignTubeRecommendations={{this.campaignTubeRecommendations}}
         @displayAnalysis={{false}}
       />`);
       assert.contains('En attente de résultats');

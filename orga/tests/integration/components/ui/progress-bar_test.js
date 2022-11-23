@@ -12,7 +12,7 @@ module('Integration | Component | Ui::ProgressBar', function (hooks) {
       this.set('value', 0.8);
 
       // when
-      await render(hbs`<Ui::ProgressBar @value={{value}} />`);
+      await render(hbs`<Ui::ProgressBar @value={{this.value}} />`);
 
       // then
       assert.dom('.progress-bar--completion').hasAttribute('style', 'width: 80%');

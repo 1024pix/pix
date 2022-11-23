@@ -17,7 +17,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
     test('it should not display the filter', async function (assert) {
       this.campaign = store.createRecord('campaign', { id: 1, groups: [] });
 
-      await render(hbs`<Ui::GroupsFilter @campaign={{campaign}} />`);
+      await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
       assert.contains('Aucun groupe');
     });
@@ -28,7 +28,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       const group = store.createRecord('group', { id: 'd1', name: 'd1' });
       this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
 
-      await render(hbs`<Ui::GroupsFilter @campaign={{campaign}} />`);
+      await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
       assert.contains('Groupe');
       assert.contains('d1');
@@ -39,7 +39,9 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
       this.onSelect = sinon.stub();
 
-      await render(hbs`<Ui::GroupsFilter @campaign={{campaign}} @onSelect={{onSelect}} @placeholder="Classes" />`);
+      await render(
+        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder="Classes" />`
+      );
       await click('[for="group-L1"]');
 
       assert.ok(this.onSelect.calledWith(['L1']));
@@ -55,7 +57,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       this.selected = ['L1', 'L2'];
 
       const { getByPlaceholderText } = await render(
-        hbs`<Ui::GroupsFilter @campaign={{campaign}} @selectedGroups={{selected}} @placeholder="Groupes" />`
+        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @selectedGroups={{this.selected}} @placeholder="Groupes" />`
       );
 
       assert.ok(getByPlaceholderText('L1, L2'));

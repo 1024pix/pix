@@ -16,7 +16,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
 
   test('it should contain email input and validation button', async function (assert) {
     // when
-    await render(hbs`<Team::InviteForm @onSubmit={{inviteSpy}} @onCancel={{cancelSpy}} />`);
+    await render(hbs`<Team::InviteForm @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}} />`);
 
     // then
     assert.dom('#email').exists();
@@ -27,7 +27,9 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
   test('it should bind organizationInvitation properties with email form input', async function (assert) {
     // given
     this.set('email', 'toto@org.fr');
-    await render(hbs`<Team::InviteForm @email={{email}} @onSubmit={{inviteSpy}} @onCancel={{cancelSpy}}/>`);
+    await render(
+      hbs`<Team::InviteForm @email={{this.email}} @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}}/>`
+    );
 
     // when
     const inputLabel = this.intl.t('pages.team-new-item.input-label');

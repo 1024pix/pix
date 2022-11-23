@@ -12,7 +12,9 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
     this.averageResult = 0.5;
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 
-    const screen = await render(hbs`<Campaign::Cards::StageAverage @value={{averageResult}} @stages={{stages}} />`);
+    const screen = await render(
+      hbs`<Campaign::Cards::StageAverage @value={{this.averageResult}} @stages={{this.stages}} />`
+    );
 
     assert.contains(t('cards.participants-average-stages.title'));
     assert
