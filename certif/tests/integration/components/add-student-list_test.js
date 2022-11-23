@@ -40,7 +40,15 @@ module('Integration | Component | add-student-list', function (hooks) {
       const secondStudent = _buildUnselectedStudent('second', 'lastName', '2B', birthdate);
       const thirdStudent = _buildUnselectedStudent('third', 'lastName', '3A', birthdate);
 
-      this.set('students', [firstStudent, secondStudent, thirdStudent]);
+      const students = [firstStudent, secondStudent, thirdStudent];
+      students.meta = {
+        page: 1,
+        pageSize: 25,
+        rowCount: 1,
+        pageCount: 1,
+      };
+      this.set('students', students);
+
       const divisions = [
         { label: '3A', value: '3A' },
         { label: '2B', value: '2B' },
@@ -68,7 +76,16 @@ module('Integration | Component | add-student-list', function (hooks) {
       const birthdate = new Date('2018-01-12T09:29:16Z');
       const firstStudent = _buildUnselectedStudent('firstName', 'lastName', 'division', birthdate);
       const tableRow = '.add-student-list table tbody tr';
-      this.set('students', [firstStudent, _buildUnselectedStudent()]);
+
+      const students = [firstStudent, _buildUnselectedStudent()];
+      students.meta = {
+        page: 1,
+        pageSize: 25,
+        rowCount: 1,
+        pageCount: 1,
+      };
+      this.set('students', students);
+
       const divisions = [
         { label: '3A', value: '3A' },
         { label: '3B', value: '3B' },
@@ -91,7 +108,15 @@ module('Integration | Component | add-student-list', function (hooks) {
 
     test('it should be possible to select an unselected student', async function (assert) {
       // given
-      this.set('students', [_buildUnselectedStudent()]);
+      const students = [_buildUnselectedStudent()];
+      students.meta = {
+        page: 1,
+        pageSize: 25,
+        rowCount: 1,
+        pageCount: 1,
+      };
+      this.set('students', students);
+
       const divisions = [
         { label: '3A', value: '3A' },
         { label: '3B', value: '3B' },
@@ -114,6 +139,15 @@ module('Integration | Component | add-student-list', function (hooks) {
     test('it should be possible to unselect a selected student', async function (assert) {
       // given
       this.set('students', [_buildSelectedStudent()]);
+      const students = [_buildSelectedStudent()];
+      students.meta = {
+        page: 1,
+        pageSize: 25,
+        rowCount: 1,
+        pageCount: 1,
+      };
+      this.set('students', students);
+
       const divisions = [
         { label: '3A', value: '3A' },
         { label: '3B', value: '3B' },
@@ -145,6 +179,12 @@ module('Integration | Component | add-student-list', function (hooks) {
     ].forEach(({ testLabel, students }) => {
       test(testLabel, async function (assert) {
         // given
+        students.meta = {
+          page: 1,
+          pageSize: 25,
+          rowCount: 1,
+          pageCount: 1,
+        };
         this.set('students', students);
         const divisions = [
           { label: '3A', value: '3A' },
@@ -168,7 +208,14 @@ module('Integration | Component | add-student-list', function (hooks) {
 
     test('it should be possible to unselect all students when they are all selected', async function (assert) {
       // given
-      this.set('students', [_buildSelectedStudent(), _buildSelectedStudent()]);
+      const students = [_buildSelectedStudent(), _buildSelectedStudent()];
+      students.meta = {
+        page: 1,
+        pageSize: 25,
+        rowCount: 1,
+        pageCount: 1,
+      };
+      this.set('students', students);
       const divisions = [
         { label: '3A', value: '3A' },
         { label: '3B', value: '3B' },
@@ -188,79 +235,23 @@ module('Integration | Component | add-student-list', function (hooks) {
       assert.false(this.students.every((s) => s.isSelected));
     });
 
-    module('when students are checked', () => {
-      test('it should be possible to add these students as candidates', async function (assert) {
-        // given
-        const addCandidateButton = '.add-student-list__bottom-action-bar button';
-
-        const birthdate = new Date('2018-01-12T09:29:16Z');
-        const studentList = [
-          _buildSelectedStudent('Marie', 'Dupont', '3E', birthdate),
-          _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
-        ];
-        this.set('students', studentList);
-        sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
-
-        const save = sinon.spy();
-        this.set(
-          'session',
-          EmberObject.create({
-            id: 123,
-            address: '13 rue des petits champs',
-            accessCode: 'ABCDE',
-            status: 'started',
-            save,
-          })
-        );
-
-        this.set('candidatesWasSaved', false);
-        this.set('returnToSessionCandidates', () => {
-          this.set('candidatesWasSaved', true);
-        });
-
-        this.set('numberOfEnrolledStudents', 0);
-
-        const divisions = [
-          { label: '3E', value: '3E' },
-          { label: '4G', value: '4G' },
-        ];
-        this.set('divisions', divisions);
-
-        // when
-        await render(hbs`<AddStudentList
-          @studentList={{this.students}}
-          @session={{this.session}}
-          @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
-          @certificationCenterDivisions={{this.divisions}}
-          @returnToSessionCandidates={{this.returnToSessionCandidates}}>
-        </AddStudentList>`);
-        await click(addCandidateButton);
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(this.students, studentList);
-        sinon.assert.calledWith(save, {
-          adapterOptions: {
-            sessionId: 123,
-            studentListToAdd: studentList,
-          },
-        });
-        assert.true(this.candidatesWasSaved);
-      });
-    });
-
     module('sticky bar', () => {
       module('when there is no enrolled students (certification candidates)', () => {
         module('when there is no selected student', () => {
           test('should not show the sticky bar', async function (assert) {
             //given
             const birthdate = new Date('2018-01-12T09:29:16Z');
-            const studentList = [
+            const students = [
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
               _buildUnselectedStudent('Tom', 'Dupont', '4G', birthdate),
             ];
-            this.set('studentList', studentList);
+            students.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+            };
+            this.set('students', students);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             const divisions = [
@@ -272,7 +263,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
             // when
             await render(hbs`<AddStudentList
-              @studentList={{this.studentList}}
+              @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}>
@@ -289,13 +280,19 @@ module('Integration | Component | add-student-list', function (hooks) {
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
             const birthdate = new Date('2018-01-12T09:29:16Z');
-            const studentList = [
+            const students = [
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
               _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
               _buildSelectedStudent('Paul', 'Dupont', '4G', birthdate),
             ];
-            sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
-            this.set('studentList', studentList);
+            sinon.stub(store, 'peekAll').withArgs('student').returns(students);
+            students.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+            };
+            this.set('students', students);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 0);
@@ -308,7 +305,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
             // when
             await render(hbs`<AddStudentList
-              @studentList={{this.studentList}}
+              @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
@@ -327,12 +324,18 @@ module('Integration | Component | add-student-list', function (hooks) {
           hooks.beforeEach(async function () {
             // given
             const birthdate = new Date('2018-01-12T09:29:16Z');
-            const studentList = [
+            const students = [
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate, true),
               _buildUnselectedStudent('Tom', 'Dupont', '4G', birthdate, true),
             ];
-            sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
-            this.set('studentList', studentList);
+            sinon.stub(store, 'peekAll').withArgs('student').returns(students);
+            students.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+            };
+            this.set('students', students);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 2);
@@ -345,7 +348,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
             // when
             await render(hbs`<AddStudentList
-              @studentList={{this.studentList}}
+              @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
@@ -372,14 +375,20 @@ module('Integration | Component | add-student-list', function (hooks) {
           hooks.beforeEach(async function () {
             // given
             const birthdate = new Date('2018-01-12T09:29:16Z');
-            const studentList = [
+            const students = [
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate, true),
               _buildUnselectedStudent('Tom', 'Dupont', '4G', birthdate, true),
               _buildSelectedStudent('TomTom', 'Dupont', '4G', birthdate),
               _buildSelectedStudent('Marie-Jo', 'Dudu', '4G', birthdate),
             ];
-            sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
-            this.set('studentList', studentList);
+            sinon.stub(store, 'peekAll').withArgs('student').returns(students);
+            students.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+            };
+            this.set('students', students);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 2);
@@ -392,7 +401,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
             // when
             await render(hbs`<AddStudentList
-              @studentList={{this.studentList}}
+              @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
@@ -431,6 +440,12 @@ module('Integration | Component | add-student-list', function (hooks) {
           const session = _buildSession({ save });
           this.set('session', session);
           const students = [_buildSelectedStudent()];
+          students.meta = {
+            page: 1,
+            pageSize: 25,
+            rowCount: 1,
+            pageCount: 1,
+          };
           this.set('students', students);
           sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
@@ -460,6 +475,12 @@ module('Integration | Component | add-student-list', function (hooks) {
         const session = _buildSession({ save });
         this.set('session', session);
         const students = [_buildSelectedStudent()];
+        students.meta = {
+          page: 1,
+          pageSize: 25,
+          rowCount: 1,
+          pageCount: 1,
+        };
         this.set('students', students);
         sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
