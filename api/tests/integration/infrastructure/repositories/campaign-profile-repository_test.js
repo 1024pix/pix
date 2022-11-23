@@ -132,8 +132,8 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
           competences: [
-            { id: 'rec1', origin: 'Pix', areaId: 'recArea1', nameFrFr: 'French1', nameEnUs: 'English1' },
-            { id: 'rec2', origin: 'Pix', areaId: 'recArea1', nameFrFr: 'French2', nameEnUs: 'English2' },
+            { id: 'rec1', origin: 'Pix', areaId: 'recArea1', name_i18n: { fr: 'French1', en: 'English1' } },
+            { id: 'rec2', origin: 'Pix', areaId: 'recArea1', name_i18n: { fr: 'French2', en: 'English2' } },
             { id: 'rec3', origin: 'Other', areaId: 'recArea1' },
           ],
           skills: [

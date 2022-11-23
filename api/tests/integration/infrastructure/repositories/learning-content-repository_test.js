@@ -621,8 +621,8 @@ function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
   return competences.map((competence) =>
     domainBuilder.buildCompetence({
       ...competence,
-      name: competence[locale === 'en' ? 'nameEnUs' : 'nameFrFr'],
-      description: competence[locale === 'en' ? 'descriptionEnUs' : 'descriptionFrFr'],
+      name: competence.name_i18n[locale],
+      description: competence.description_i18n[locale],
     })
   );
 }

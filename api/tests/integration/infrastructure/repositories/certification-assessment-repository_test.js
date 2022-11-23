@@ -21,7 +21,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       competences: [
         {
           id: 'recArea1_Competence1',
-          nameFrFr: 'competence1_1_name',
+          name_i18n: {
+            fr: 'competence1_1_name',
+          },
           index: 'competence1_1_index',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],

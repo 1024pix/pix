@@ -28,7 +28,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
         competences: [
           {
             id: 'recCompetence1',
-            nameFrFr: 'Mener une recherche et une veille d’information',
+            name_i18n: {
+              fr: 'Mener une recherche et une veille d’information',
+            },
             index: '1.1',
             origin: 'Pix',
             areaId: 'recvoGdo7z2z7pXWa',
@@ -52,7 +54,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
           },
           {
             id: 'recCompetence2',
-            nameFrFr: 'Gérer les données',
+            name_i18n: {
+              fr: 'Gérer les données',
+            },
             index: '1.2',
             origin: 'Pix',
             areaId: 'recvoGdo7z2z7pXWa',
@@ -76,7 +80,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
           },
           {
             id: 'recCompetence3',
-            nameFrFr: 'Traiter les données',
+            name_i18n: {
+              fr: 'Traiter les données',
+            },
             index: '1.3',
             origin: 'Pix',
             areaId: 'recvoGdo7z2z7pXWa',
@@ -110,7 +116,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
         competences: [
           {
             id: 'recCompetence4',
-            nameFrFr: 'Intéragir',
+            name_i18n: {
+              fr: 'Intéragir',
+            },
             index: '2.1',
             origin: 'Pix',
             areaId: 'recDH19F7kKrfL3Ii',
@@ -134,7 +142,9 @@ describe('Acceptance | users-controller-is-certifiable', function () {
           },
           {
             id: 'recCompetence5',
-            nameFrFr: 'Partager et publier',
+            name_i18n: {
+              fr: 'Partager et publier',
+            },
             index: '2.2',
             origin: 'Pix',
             areaId: 'recDH19F7kKrfL3Ii',

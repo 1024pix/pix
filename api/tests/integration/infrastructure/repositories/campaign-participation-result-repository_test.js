@@ -24,8 +24,10 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         competences: [
           {
             id: 'rec1',
-            nameFrFr: 'comp1Fr',
-            nameEnUs: 'comp1En',
+            name_i18n: {
+              fr: 'comp1Fr',
+              en: 'comp1En',
+            },
             index: '1.1',
             areaId: 'recArea1',
             color: 'rec1Color',
@@ -33,8 +35,10 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           },
           {
             id: 'rec2',
-            nameFrFr: 'comp2Fr',
-            nameEnUs: 'comp2En',
+            name_i18n: {
+              fr: 'comp2Fr',
+              en: 'comp2En',
+            },
             index: '2.1',
             areaId: 'recArea2',
             color: 'rec2Color',

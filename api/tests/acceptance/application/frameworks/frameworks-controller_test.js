@@ -31,8 +31,10 @@ describe('Acceptance | Controller | frameworks-controller', function () {
     competences: [
       {
         id: 'competenceId',
-        nameFrFr: 'Competence name',
-        nameEnUs: 'test',
+        name_i18n: {
+          fr: 'Competence name',
+          en: 'test',
+        },
         areaId: 'areaId',
         index: 0,
         origin: 'Pix',

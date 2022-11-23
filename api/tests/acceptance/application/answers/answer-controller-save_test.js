@@ -51,8 +51,10 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               areaId: 'recArea1',
               skillIds: ['recSkill1'],
               origin: 'Pix',
-              nameFrFr: 'Nom de la competence FR',
-              nameEnUs: 'Nom de la competence EN',
+              name_i18n: {
+                fr: 'Nom de la competence FR',
+                en: 'Nom de la competence EN',
+              },
               statue: 'active',
             },
           ],
