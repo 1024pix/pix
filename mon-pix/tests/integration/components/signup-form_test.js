@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { clickByLabel } from '../../helpers/click-by-label';
 import Service from '@ember/service';
 
 import { fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
 import { resolve, reject } from 'rsvp';
@@ -15,8 +14,6 @@ import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
-
-const FORM_TITLE = '.sign-form-title';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
 const userEmpty = EmberObject.create({});
@@ -41,10 +38,10 @@ module('Integration | Component | SignupForm', function (hooks) {
         this.intl.setLocale(testCase.locale);
 
         // when
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // then
-        assert.strictEqual(find(FORM_TITLE).textContent, expectedTitle);
+        assert.dom(screen.getByRole('heading', { name: expectedTitle })).exists();
       });
     });
   });
@@ -63,6 +60,11 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') }));
       assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }));
       assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') }));
+      assert.ok(
+        screen.getByLabelText(
+          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+        )
+      );
       assert.ok(
         screen.getByRole('textbox', {
           name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
@@ -117,15 +119,13 @@ module('Integration | Component | SignupForm', function (hooks) {
       });
 
       this.set('user', user);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom('div[id="sign-up-error-message"]').exists();
-      const expectedErrorMessage = this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY);
-      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
+      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
     test('should display related error message if internal server error', async function (assert) {
@@ -147,15 +147,13 @@ module('Integration | Component | SignupForm', function (hooks) {
       });
 
       this.set('user', user);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom('div[id="sign-up-error-message"]').exists();
-      const expectedErrorMessage = this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY);
-      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
+      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
     test('should display related error message if bad gateway error', async function (assert) {
@@ -176,15 +174,13 @@ module('Integration | Component | SignupForm', function (hooks) {
       });
 
       this.set('user', user);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom('div[id="sign-up-error-message"]').exists();
-      const expectedErrorMessage = this.intl.t(ApiErrorMessages.BAD_GATEWAY.I18N_KEY);
-      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
+      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.BAD_GATEWAY.I18N_KEY))).exists();
     });
 
     test('should display related error message if gateway timeout error', async function (assert) {
@@ -205,15 +201,13 @@ module('Integration | Component | SignupForm', function (hooks) {
       });
 
       this.set('user', user);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom('div[id="sign-up-error-message"]').exists();
-      const expectedErrorMessage = this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY);
-      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
+      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
     });
 
     test('should display related error message if not implemented error', async function (assert) {
@@ -235,15 +229,13 @@ module('Integration | Component | SignupForm', function (hooks) {
       });
 
       this.set('user', user);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom('div[id="sign-up-error-message"]').exists();
-      const expectedErrorMessage = this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY);
-      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
+      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
   });
 
@@ -279,7 +271,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         assert.true(isFormSubmitted);
@@ -305,7 +297,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         sinon.assert.calledOnce(session.authenticateUser);
@@ -318,76 +310,70 @@ module('Integration | Component | SignupForm', function (hooks) {
     module('Errors management', function () {
       test('should display an error message on first name field, when field is empty and focus-out', async function (assert) {
         // given
-        const emptyFirstnameErrorMessage = this.intl.t('pages.sign-up.fields.firstname.error');
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const firstNameInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.sign-up.fields.firstname.label'),
+        });
 
         // when
-        await fillIn('#firstName', '');
-        await triggerEvent('#firstName', 'focusout');
+        await fillIn(firstNameInput, '');
+        await triggerEvent(firstNameInput, 'focusout');
 
         // then
-        assert.ok(
-          find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--error')
-        );
-        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
-        assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--error'));
-        assert.dom('.form-textfield-icon__state--error').exists();
+        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.firstname.error'))).exists();
       });
 
       test('should display an error message on last name field, when field is empty and focus-out', async function (assert) {
         // given
-        const emptyLastnameErrorMessage = this.intl.t('pages.sign-up.fields.lastname.error');
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const lastNameInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.sign-up.fields.lastname.label'),
+        });
 
         // when
-        await fillIn('#lastName', '');
-        await triggerEvent('#lastName', 'focusout');
+        await fillIn(lastNameInput, '');
+        await triggerEvent(lastNameInput, 'focusout');
 
         // then
-        assert.ok(find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error'));
-        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
-        assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
-        assert.dom('.form-textfield-icon__state--error').exists();
+        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.lastname.error'))).exists();
       });
 
       test('should display an error message on email field, when field is empty and focus-out', async function (assert) {
         // given
-        const emptyEmailErrorMessage = this.intl.t('pages.sign-up.fields.email.error');
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const emailInput = screen.getByRole('textbox', {
+          name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
+        });
 
         // when
-        await fillIn('#email', '');
-        await triggerEvent('#email', 'focusout');
+        await fillIn(emailInput, '');
+        await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.ok(
-          find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--error')
-        );
-        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
-        assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--error'));
-        assert.dom('.form-textfield-icon__state--error').exists();
+        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.email.error'))).exists();
       });
 
       test('should display an error message on password field, when field is empty and focus-out', async function (assert) {
         // given
-        const incorrectPasswordErrorMessage = this.intl.t('pages.sign-up.fields.password.error');
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const passwordInput = screen.getByLabelText(
+          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+        );
 
         // when
-        await fillIn('#password', '');
-        await triggerEvent('#password', 'focusout');
+        await fillIn(passwordInput, '');
+        await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.ok(
-          find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--error')
-        );
-        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
-        assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--error'));
-        assert.dom('.form-textfield-icon__state--error').exists();
+        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.password.error'))).exists();
       });
 
       test("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
@@ -415,14 +401,13 @@ module('Integration | Component | SignupForm', function (hooks) {
         });
 
         this.set('user', userWithCguNotAccepted);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        assert.dom('.sign-form__validation-error').exists();
-        assert.strictEqual(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
+        assert.dom(screen.getByText(this.intl.t('common.cgu.error'))).exists();
       });
 
       test('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
@@ -449,13 +434,13 @@ module('Integration | Component | SignupForm', function (hooks) {
         });
 
         this.set('user', userBackToSaveWithErrors);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        assert.strictEqual(find('#validationMessage-email').textContent, expectedMaxLengthEmailError);
+        assert.dom(screen.getByText(expectedMaxLengthEmailError)).exists();
       });
 
       test('should not display success notification message when an error occurred during the form submission', async function (assert) {
@@ -477,7 +462,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         assert.dom('.signup-form__notification-message').doesNotExist();
@@ -488,73 +473,69 @@ module('Integration | Component | SignupForm', function (hooks) {
       test('should display first name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const firstNameInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.sign-up.fields.firstname.label'),
+        });
 
         // when
-        await fillIn('#firstName', 'pix');
-        await triggerEvent('#firstName', 'focusout');
+        await fillIn(firstNameInput, 'pix');
+        await triggerEvent(firstNameInput, 'focusout');
 
         // then
-        assert.ok(
-          find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--success')
-        );
-        assert.dom('.form-textfield__message--error').doesNotExist();
-        assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--success'));
-        assert.dom('.form-textfield-icon__state--success').exists();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.firstname.error'))).doesNotExist();
       });
 
       test('should display last name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const lastNameInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.sign-up.fields.lastname.label'),
+        });
 
         // when
-        await fillIn('#lastName', 'pix');
-        await triggerEvent('#lastName', 'focusout');
+        await fillIn(lastNameInput, 'pix');
+        await triggerEvent(lastNameInput, 'focusout');
 
         // then
-        assert.ok(
-          find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--success')
-        );
-        assert.dom('.form-textfield__message--error').doesNotExist();
-        assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--success'));
-        assert.dom('.form-textfield-icon__state--success').exists();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.lastname.error'))).doesNotExist();
       });
 
       test('should display email field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const emailInput = screen.getByRole('textbox', {
+          name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
+        });
 
         // when
-        await fillIn('#email', 'shi@fu.pix');
-        await triggerEvent('#email', 'focusout');
+        await fillIn(emailInput, 'shi@fu.pix');
+        await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.ok(
-          find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--success')
-        );
-        assert.dom('.form-textfield__message--error').doesNotExist();
-        assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--success'));
-        assert.dom('.form-textfield-icon__state--success').exists();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.email.error'))).doesNotExist();
       });
 
       test('should display password field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const passwordInput = screen.getByLabelText(
+          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+        );
 
         // when
-        await fillIn('#password', 'Mypassword1');
-        await triggerEvent('#password', 'focusout');
+        await fillIn(passwordInput, 'Mypassword1');
+        await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.ok(
-          find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--success')
-        );
-        assert.dom('.form-textfield__message--error').doesNotExist();
-        assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--success'));
-        assert.dom('.form-textfield-icon__state--success').exists();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.password.error'))).doesNotExist();
       });
 
       test('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
@@ -568,13 +549,13 @@ module('Integration | Component | SignupForm', function (hooks) {
 
         this.set('user', userWithCguAccepted);
         this.set('authenticateUser', () => {});
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        assert.dom('.sign-form__validation-error').doesNotExist();
+        assert.dom(screen.queryByText(this.intl.t('common.cgu.error'))).doesNotExist();
       });
 
       test('should reset validation property, when all things are ok and form is submitted', async function (assert) {
@@ -595,7 +576,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         assert.ok(
@@ -641,7 +622,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // when
-      await clickByLabel("Je m'inscris");
+      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
       assert.ok(find('.loader-in-button'));
