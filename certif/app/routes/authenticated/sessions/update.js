@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class SessionsUpdateRoute extends Route {
   @service currentUser;
+  @service store;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();
