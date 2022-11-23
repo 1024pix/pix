@@ -12,7 +12,9 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         competences: [
           {
             id: 'competence_id',
-            nameFrFr: "Mener une recherche et une veille d'information",
+            name_i18n: {
+              fr: "Mener une recherche et une veille d'information",
+            },
             index: '1.1',
             tubes: [
               {

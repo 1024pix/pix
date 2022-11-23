@@ -22,7 +22,12 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
   const competence = {
     id: competenceId,
-    nameFrFr: 'Mener une recherche et une veille d’information',
+    name_i18n: {
+      fr: 'Mener une recherche et une veille d’information',
+    },
+    description_i18n: {
+      fr: 'Une description',
+    },
     index: '1.1',
     origin: 'Pix',
     areaId: 'recvoGdo7z2z7pXWa',
@@ -174,8 +179,8 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             type: 'scorecards',
             id: `${userId}_${competenceId}`,
             attributes: {
-              name: competence.nameFrFr,
-              description: competence.descriptionFrFr,
+              name: competence.name_i18n.fr,
+              description: competence.description_i18n.fr,
               'competence-id': competenceId,
               index: competence.index,
               'earned-pix': knowledgeElement.earnedPix,

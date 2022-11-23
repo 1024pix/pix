@@ -619,7 +619,9 @@ const buildLearningContentData = () => {
 
   const competence1 = {
     id: 'recCompetence1',
-    nameFrFr: 'Competence1',
+    name_i18n: {
+      fr: 'Competence1',
+    },
     index: '1.1',
     areaId: 'recArea1',
     skillIds: [skillWeb1.id, skillWeb2.id],
@@ -628,7 +630,9 @@ const buildLearningContentData = () => {
 
   const competence2 = {
     id: 'recCompetence2',
-    nameFrFr: 'Competence2',
+    name_i18n: {
+      fr: 'Competence2',
+    },
     index: '3.2',
     areaId: 'recArea3',
     skillIds: [skillUrl1.id, skillUrl8.id],

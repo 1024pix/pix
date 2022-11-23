@@ -107,10 +107,14 @@ const buildLearningContent = function (learningContent) {
           areaId: area.id,
           origin: competence.origin || 'Pix',
           index: competence.index,
-          nameFrFr: competence.nameFr || competence.name,
-          nameEnUs: competence.nameEn || competence.name,
-          descriptionFrFr: competence.descriptionFr || competence.description,
-          descriptionEnUs: competence.descriptionEn || competence.description,
+          name_i18n: {
+            fr: competence.nameFr || competence.name,
+            en: competence.nameEn || competence.name,
+          },
+          description_i18n: {
+            fr: competence.descriptionFr || competence.description,
+            en: competence.descriptionEn || competence.description,
+          },
           thematicIds: thematics.map(({ id }) => id),
         };
       });

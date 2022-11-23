@@ -114,7 +114,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recArea1_Competence1',
-              nameFrFr: 'competence1_1_name',
+              name_i18n: {
+                fr: 'competence1_1_name',
+              },
               index: 'competence1_1_index',
               areaId: 'recArea1',
               skillIds: ['recArea1_Competence1_Tube1_Skill2'],
@@ -122,7 +124,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             },
             {
               id: 'recArea1_Competence2',
-              nameFrFr: 'competence1_2_name',
+              name_i18n: {
+                fr: 'competence1_2_name',
+              },
               index: 'competence1_2_index',
               areaId: 'recArea1',
               skillIds: ['recArea1_Competence2_Tube1_Skill1'],
@@ -290,8 +294,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompetence1',
-              nameFrFr: 'nameFR',
-              nameEnUs: 'nameEN',
+              name_i18n: {
+                fr: 'nameFR',
+                en: 'nameEN',
+              },
               index: 'competence1_index',
               areaId: 'recArea1',
               skillIds: ['recSkill1'],
@@ -431,7 +437,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompA',
-              nameFrFr: 'nameFRA',
+              name_i18n: {
+                fr: 'nameFRA',
+              },
               index: '1',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -565,7 +573,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompA',
-              nameFrFr: 'nameFRA',
+              name_i18n: {
+                fr: 'nameFRA',
+              },
               index: '1',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -573,7 +583,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             },
             {
               id: 'recCompB',
-              nameFrFr: 'nameFRB',
+              name_i18n: {
+                fr: 'nameFRB',
+              },
               index: '5',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -869,8 +881,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompA',
-              nameFrFr: 'nameFRA',
-              nameEnUs: 'nameENA',
+              name_i18n: {
+                fr: 'nameFRA',
+                en: 'nameENA',
+              },
               index: '1',
               areaId: 'recAreaA',
               origin: 'Pix',

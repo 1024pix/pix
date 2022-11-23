@@ -91,7 +91,7 @@ async function _createCertifiedCompetences(certifiedTubes) {
     Object.keys(certifiedTubesByCompetence)
   );
   return learningContentCompetences.map((learningContentCompetence) => {
-    const name = learningContentCompetence.nameFrFr;
+    const name = learningContentCompetence.name_i18n.fr;
     return new CertifiedCompetence({
       id: learningContentCompetence.id,
       name,

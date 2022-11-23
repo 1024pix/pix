@@ -29,8 +29,12 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
 
   const competence = {
     id: competenceId,
-    nameFrFr: 'Mener une recherche et une veille d’information',
-    descriptionFrFr: 'Une description',
+    name_i18n: {
+      fr: 'Mener une recherche et une veille d’information',
+    },
+    description_i18n: {
+      fr: 'Une description',
+    },
     index: '1.1',
     origin: 'Pix',
     areaId: 'recvoGdo7z2z7pXWa',
@@ -152,8 +156,8 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
             },
             {
               attributes: {
-                name: competence.nameFrFr,
-                description: competence.descriptionFrFr,
+                name: competence.name_i18n.fr,
+                description: competence.description_i18n.fr,
                 index: competence.index,
                 'competence-id': competenceId,
                 'earned-pix': knowledgeElement.earnedPix,

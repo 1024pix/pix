@@ -231,34 +231,50 @@ describe('Integration | Repository | area-repository', function () {
         {
           id: 'recCompetence0',
           areaId: 'recArea0',
-          nameFrFr: 'competence0NameFr',
-          nameEnUs: 'competence0NameEn',
-          descriptionFrFr: 'competence0DescriptionFr',
-          descriptionEnUs: 'competence0DescriptionEn',
+          name_i18n: {
+            fr: 'competence0NameFr',
+            en: 'competence0NameEn',
+          },
+          description_i18n: {
+            fr: 'competence0DescriptionFr',
+            en: 'competence0DescriptionEn',
+          },
         },
         {
           id: 'recCompetence1',
           areaId: 'recArea0',
-          nameFrFr: 'competence1NameFr',
-          nameEnUs: 'competence1NameEn',
-          descriptionFrFr: 'competence1DescriptionFr',
-          descriptionEnUs: 'competence1DescriptionEn',
+          name_i18n: {
+            fr: 'competence1NameFr',
+            en: 'competence1NameEn',
+          },
+          description_i18n: {
+            fr: 'competence1DescriptionFr',
+            en: 'competence1DescriptionEn',
+          },
         },
         {
           id: 'recCompetence2',
           areaId: 'recArea1',
-          nameFrFr: 'competence2NameFr',
-          nameEnUs: 'competence2NameEn',
-          descriptionFrFr: 'competence2DescriptionFr',
-          descriptionEnUs: 'competence2DescriptionEn',
+          name_i18n: {
+            fr: 'competence2NameFr',
+            en: 'competence2NameEn',
+          },
+          description_i18n: {
+            fr: 'competence2DescriptionFr',
+            en: 'competence2DescriptionEn',
+          },
         },
         {
           id: 'recCompetence3',
           areaId: 'recArea1',
-          nameFrFr: 'competence3NameFr',
-          nameEnUs: 'competence3NameEn',
-          descriptionFrFr: 'competence3DescriptionFr',
-          descriptionEnUs: 'competence3DescriptionEn',
+          name_i18n: {
+            fr: 'competence3NameFr',
+            en: 'competence3NameEn',
+          },
+          description_i18n: {
+            fr: 'competence3DescriptionFr',
+            en: 'competence3DescriptionEn',
+          },
         },
       ],
     };

@@ -22,7 +22,9 @@ describe('Integration | Repository | Certified Profile', function () {
         competences: [
           {
             id: 'recArea1_Competence1',
-            nameFrFr: 'competence1_1_name',
+            name_i18n: {
+              fr: 'competence1_1_name',
+            },
             index: 'competence1_1_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence1_Tube1_Skill2'],
@@ -30,7 +32,9 @@ describe('Integration | Repository | Certified Profile', function () {
           },
           {
             id: 'recArea1_Competence2',
-            nameFrFr: 'competence1_2_name',
+            name_i18n: {
+              fr: 'competence1_2_name',
+            },
             index: 'competence1_2_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence2_Tube1_Skill1'],
@@ -197,7 +201,9 @@ describe('Integration | Repository | Certified Profile', function () {
         competences: [
           {
             id: 'recArea1_Competence1',
-            nameFrFr: 'competence1_1_name',
+            name_i18n: {
+              fr: 'competence1_1_name',
+            },
             index: 'competence1_1_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence1_Tube1_Skill2'],
@@ -205,7 +211,9 @@ describe('Integration | Repository | Certified Profile', function () {
           },
           {
             id: 'recArea1_Competence2',
-            nameFrFr: 'competence1_2_name',
+            name_i18n: {
+              fr: 'competence1_2_name',
+            },
             index: 'competence1_2_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence2_Tube1_Skill1'],
