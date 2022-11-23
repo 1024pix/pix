@@ -611,7 +611,9 @@ describe('Acceptance | Route | target-profiles', function () {
       const learningContent = {
         areas: [{ id: 'recArea', frameworkId: 'recFmwk', competenceIds: ['recCompetence'] }],
         competences: [{ id: 'recCompetence', areaId: 'recArea', thematicIds: ['recThematic'] }],
-        thematics: [{ id: 'recThematic', name: 'somename', tubeIds: ['recTube'], competenceId: 'recCompetence' }],
+        thematics: [
+          { id: 'recThematic', name_i18n: { fr: 'somename' }, tubeIds: ['recTube'], competenceId: 'recCompetence' },
+        ],
         tubes: [{ id: 'recTube', competenceId: 'recCompetence' }],
         skills: [{ id: 'recSkill', tubeId: 'recTube', status: 'actif', level: 5, name: 'skill5' }],
         challenges: [],

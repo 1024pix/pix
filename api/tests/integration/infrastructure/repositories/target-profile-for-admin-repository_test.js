@@ -595,28 +595,36 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           thematics: [
             {
               id: 'recThemA',
-              name: 'nameFRA',
+              name_i18n: {
+                fr: 'nameFRA',
+              },
               index: '1',
               competenceId: 'recCompA',
               tubeIds: ['recTube1'],
             },
             {
               id: 'recThemB',
-              name: 'nameFRB',
+              name_i18n: {
+                fr: 'nameFRB',
+              },
               index: '2',
               competenceId: 'recCompA',
               tubeIds: ['recTube2'],
             },
             {
               id: 'recThemC',
-              name: 'nameFRC',
+              name_i18n: {
+                fr: 'nameFRC',
+              },
               index: '1',
               competenceId: 'recCompB',
               tubeIds: ['recTube3'],
             },
             {
               id: 'recThemD',
-              name: 'nameFRD',
+              name_i18n: {
+                fr: 'nameFRD',
+              },
               index: '4',
               competenceId: 'recCompB',
               tubeIds: ['recTube4'],
@@ -894,8 +902,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           thematics: [
             {
               id: 'recThemA',
-              name: 'nameFRA',
-              nameEnUs: 'nameENA',
+              name_i18n: {
+                fr: 'nameFRA',
+                en: 'nameENA',
+              },
               index: '1',
               competenceId: 'recCompA',
               tubeIds: ['recTube1'],

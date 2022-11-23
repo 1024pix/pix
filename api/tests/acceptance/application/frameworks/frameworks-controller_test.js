@@ -44,7 +44,9 @@ describe('Acceptance | Controller | frameworks-controller', function () {
     thematics: [
       {
         id: 'thematic1',
-        name: 'Test',
+        name_i18n: {
+          fr: 'Test',
+        },
         index: 0,
         tubeIds: ['tubeId'],
         competenceId: 'competenceId',
