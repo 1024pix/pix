@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const factory = require('./factory/index');
@@ -25,7 +26,6 @@ module.exports = class DatabaseBuilder {
       }
       await trx.commit();
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error(`Erreur dans databaseBuilder.commit() : ${err}`);
       this._purgeDirtiness();
       throw err;
@@ -178,3 +178,4 @@ module.exports = class DatabaseBuilder {
     });
   }
 };
+/* eslint-enable no-console */

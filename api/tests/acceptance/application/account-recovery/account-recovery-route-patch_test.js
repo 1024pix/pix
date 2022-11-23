@@ -1,6 +1,6 @@
+/* eslint-disable no-console */
 const { databaseBuilder, expect, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
-
 describe('Acceptance | Route | Account-recovery', function () {
   describe('PATCH /api/account-recovery', function () {
     afterEach(async function () {
@@ -9,6 +9,8 @@ describe('Acceptance | Route | Account-recovery', function () {
 
     context('when user has pix authentication method', function () {
       it("should proceed to the account recover by changing user's password and email", async function () {
+        console.log('when user has pix authentication method');
+        console.log("should proceed to the account recover by changing user's password and email");
         // given
         const server = await createServer();
         const userId = databaseBuilder.factory.buildUser.withRawPassword({
@@ -56,8 +58,14 @@ describe('Acceptance | Route | Account-recovery', function () {
 
     context('when user has no pix authentication method', function () {
       it('should proceed to the account recover by create pix authentication method', async function () {
+        console.log('when user has no pix authentication method');
+        console.log('should proceed to the account recover by create pix authentication method');
         // given
+        console.time('given');
+        console.time('server');
         const server = await createServer();
+        console.timeEnd('server');
+        console.time('build method / user / account recovery...');
         const userWithGarAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
           cgu: false,
         });
@@ -72,9 +80,14 @@ describe('Acceptance | Route | Account-recovery', function () {
           newEmail: 'new-email@example.net',
           used: false,
         });
+        console.timeEnd('build method / user / account recovery...');
+        console.time('datbase builder commit');
         await databaseBuilder.commit();
+        console.timeEnd('datbase builder commit');
+        console.timeEnd('given');
 
         // when
+        console.time('server inject');
         const response = await server.inject({
           method: 'PATCH',
           url: '/api/account-recovery',
@@ -87,20 +100,28 @@ describe('Acceptance | Route | Account-recovery', function () {
             },
           },
         });
+        console.timeEnd('server inject');
 
         // then
+        console.time('knex request 1');
         const userAuthenticationMethods = await knex('authentication-methods')
           .select('identityProvider')
           .where({ userId: userWithGarAuthenticationMethod.id });
+        console.timeEnd('knex request 1');
+        console.time('knex request 2');
         const { email: newUserEmail, cgu } = await knex('users')
           .select('email', 'cgu')
           .where({ id: userWithGarAuthenticationMethod.id })
           .first();
+        console.timeEnd('knex request 2');
+        console.time('expects');
         expect(response.statusCode).to.equal(204);
         expect(newUserEmail).to.equal('new-email@example.net');
         expect(cgu).to.equal(true);
         expect(userAuthenticationMethods).to.deepEqualArray([{ identityProvider: 'GAR' }, { identityProvider: 'PIX' }]);
+        console.timeEnd('expects');
       });
     });
   });
 });
+/* eslint-enable no-console */

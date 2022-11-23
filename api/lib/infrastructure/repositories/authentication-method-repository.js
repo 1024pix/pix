@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const bookshelfUtils = require('../utils/knex-utils');
@@ -158,7 +159,7 @@ module.exports = {
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
       .first();
-
+    console.log({ authenticationMethodDTO });
     return Boolean(authenticationMethodDTO);
   },
 
@@ -184,8 +185,9 @@ module.exports = {
       })
       .update({ authenticationComplement, updatedAt: new Date() })
       .returning(COLUMNS);
-
+    console.log({ authenticationMethodDTO });
     if (!authenticationMethodDTO) {
+      console.log('authenticationmethod not found throooow');
       throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
     }
     return _toDomain(authenticationMethodDTO);
@@ -278,3 +280,4 @@ module.exports = {
     await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
   },
 };
+/* eslint-enable no-console */

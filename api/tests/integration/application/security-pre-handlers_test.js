@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const {
   expect,
   generateValidRequestAuthorizationHeader,
@@ -233,3 +234,4 @@ describe('Integration | Application | SecurityPreHandlers', function () {
     });
   });
 });
+/* eslint-enable no-console */

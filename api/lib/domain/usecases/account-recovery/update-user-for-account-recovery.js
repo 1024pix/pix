@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
 
 module.exports = async function updateUserForAccountRecovery({
@@ -19,7 +20,9 @@ module.exports = async function updateUserForAccountRecovery({
 
   const hasAnAuthenticationMethodFromPix = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });
 
+  console.log({ hasAnAuthenticationMethodFromPix });
   if (hasAnAuthenticationMethodFromPix) {
+    console.log('trying to update password');
     await authenticationMethodRepository.updateChangedPassword(
       {
         userId,
@@ -59,3 +62,5 @@ module.exports = async function updateUserForAccountRecovery({
   });
   await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
 };
+
+/* eslint-enable no-console */
