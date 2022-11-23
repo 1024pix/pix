@@ -161,59 +161,46 @@ describe('Acceptance | API | Certification Center', function () {
   });
 
   describe('POST /api/admin/certification-centers', function () {
-    beforeEach(async function () {
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-      request = {
-        method: 'POST',
-        url: '/api/admin/certification-centers',
-        payload: {
-          data: {
-            type: 'certification-center',
-            attributes: {
-              name: 'Nouveau Centre de Certif',
-              type: 'SCO',
-              'is-supervisor-access-enabled': true,
-            },
-            relationships: {
-              habilitations: {
-                data: [
-                  {
-                    type: 'habilitations',
-                    id: `${complementaryCertification.id}`,
-                  },
-                ],
-              },
-            },
-          },
-        },
-      };
-
-      await databaseBuilder.commit();
-    });
-
     afterEach(async function () {
       await knex('complementary-certification-habilitations').delete();
       await knex('certification-centers').delete();
     });
 
     context('when user is Super Admin', function () {
-      beforeEach(function () {
-        request.headers = { authorization: generateValidRequestAuthorizationHeader() };
-      });
+      it('returns 200 HTTP status with the certification center created', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+        await databaseBuilder.commit();
 
-      it('should return 200 HTTP status', async function () {
         // when
-        const response = await server.inject(request);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/admin/certification-centers',
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+          payload: {
+            data: {
+              type: 'certification-center',
+              attributes: {
+                name: 'Nouveau Centre de Certif',
+                type: 'SCO',
+                'is-supervisor-access-enabled': true,
+              },
+              relationships: {
+                habilitations: {
+                  data: [
+                    {
+                      type: 'habilitations',
+                      id: `${complementaryCertification.id}`,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return the certification center created', async function () {
-        // when
-        const response = await server.inject(request);
-
-        // then
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
         expect(response.result.data.attributes['is-supervisor-access-enabled']).to.equal(true);
         expect(response.result.data.id).to.be.ok;
@@ -221,13 +208,37 @@ describe('Acceptance | API | Certification Center', function () {
     });
 
     context('when user is not SuperAdmin', function () {
-      beforeEach(function () {
-        request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
-      });
-
       it('should return 403 HTTP status code ', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+        await databaseBuilder.commit();
+
         // when
-        const response = await server.inject(request);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/admin/certification-centers',
+          headers: { authorization: generateValidRequestAuthorizationHeader(111) },
+          payload: {
+            data: {
+              type: 'certification-center',
+              attributes: {
+                name: 'Nouveau Centre de Certif',
+                type: 'SCO',
+                'is-supervisor-access-enabled': true,
+              },
+              relationships: {
+                habilitations: {
+                  data: [
+                    {
+                      type: 'habilitations',
+                      id: `${complementaryCertification.id}`,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -236,8 +247,35 @@ describe('Acceptance | API | Certification Center', function () {
 
     context('when user is not connected', function () {
       it('should return 401 HTTP status code if user is not authenticated', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+        await databaseBuilder.commit();
+
         // when
-        const response = await server.inject(request);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/admin/certification-centers',
+          payload: {
+            data: {
+              type: 'certification-center',
+              attributes: {
+                name: 'Nouveau Centre de Certif',
+                type: 'SCO',
+                'is-supervisor-access-enabled': true,
+              },
+              relationships: {
+                habilitations: {
+                  data: [
+                    {
+                      type: 'habilitations',
+                      id: `${complementaryCertification.id}`,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(401);
