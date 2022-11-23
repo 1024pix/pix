@@ -18,6 +18,10 @@ describe('Acceptance | API | Certification Center', function () {
     await insertUserWithRoleSuperAdmin();
   });
 
+  afterEach(async function () {
+    await knex('data-protection-officers').delete();
+  });
+
   describe('GET /api/certification-centers', function () {
     beforeEach(async function () {
       request = {
@@ -161,17 +165,22 @@ describe('Acceptance | API | Certification Center', function () {
   });
 
   describe('POST /api/admin/certification-centers', function () {
+    let complementaryCertification;
+
+    beforeEach(async function () {
+      // given
+      complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+      await databaseBuilder.commit();
+    });
     afterEach(async function () {
+      complementaryCertification = null;
       await knex('complementary-certification-habilitations').delete();
+      await knex('data-protection-officers').delete();
       await knex('certification-centers').delete();
     });
 
     context('when user is Super Admin', function () {
       it('returns 200 HTTP status with the certification center created', async function () {
-        // given
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-        await databaseBuilder.commit();
-
         // when
         const response = await server.inject({
           method: 'POST',
@@ -184,6 +193,7 @@ describe('Acceptance | API | Certification Center', function () {
                 name: 'Nouveau Centre de Certif',
                 type: 'SCO',
                 'is-supervisor-access-enabled': true,
+                'data-protection-officer-email': 'adrienne.quepourra@example.net',
               },
               relationships: {
                 habilitations: {
@@ -203,16 +213,15 @@ describe('Acceptance | API | Certification Center', function () {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
         expect(response.result.data.attributes['is-supervisor-access-enabled']).to.equal(true);
+        expect(response.result.data.attributes['data-protection-officer-email']).to.equal(
+          'adrienne.quepourra@example.net'
+        );
         expect(response.result.data.id).to.be.ok;
       });
     });
 
     context('when user is not SuperAdmin', function () {
       it('should return 403 HTTP status code ', async function () {
-        // given
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-        await databaseBuilder.commit();
-
         // when
         const response = await server.inject({
           method: 'POST',
