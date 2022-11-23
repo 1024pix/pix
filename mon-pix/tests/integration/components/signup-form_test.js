@@ -96,6 +96,36 @@ module('Integration | Component | SignupForm', function (hooks) {
       // then
       assert.ok(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
     });
+
+    test('[a11y] it should display a message that all inputs are required', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<SignupForm />`);
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('common.form.mandatory-all-fields'))).exists();
+      assert
+        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }))
+        .hasAttribute('required');
+      assert
+        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') }))
+        .hasAttribute('required');
+      assert
+        .dom(
+          screen.getByRole('textbox', {
+            name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t(
+              'pages.sign-up.fields.email.help'
+            )}`,
+          })
+        )
+        .hasAttribute('required');
+      assert
+        .dom(
+          screen.getByLabelText(
+            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+          )
+        )
+        .hasAttribute('required');
+    });
   });
 
   module('When API returns errors', function () {
