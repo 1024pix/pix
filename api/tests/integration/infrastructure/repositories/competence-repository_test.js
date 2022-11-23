@@ -15,7 +15,9 @@ describe('Integration | Repository | competence-repository', function () {
           {
             ...expectedArea,
             competenceIds: [expectedCompetence.id],
-            titleFrFr: expectedArea.title,
+            title_i18n: {
+              fr: expectedArea.title,
+            },
           },
         ],
         competences: [
@@ -49,7 +51,9 @@ describe('Integration | Repository | competence-repository', function () {
           {
             ...expectedArea,
             competenceIds: [expectedCompetence.id],
-            titleEnUs: expectedArea.title,
+            title_i18n: {
+              en: expectedArea.title,
+            },
           },
         ],
         competences: [

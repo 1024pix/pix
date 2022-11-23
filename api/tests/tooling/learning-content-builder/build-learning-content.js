@@ -128,8 +128,10 @@ const buildLearningContent = function (learningContent) {
         id: area.id,
         code: area.code,
         name: area.name,
-        titleFrFr: area.titleFr,
-        titleEnUs: area.titleEn,
+        title_i18n: {
+          fr: area.titleFr,
+          en: area.titleEn,
+        },
         color: area.color,
         frameworkId: framework.id,
         competenceIds: competences.map((competence) => competence.id),

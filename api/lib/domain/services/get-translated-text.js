@@ -8,4 +8,11 @@ function getTranslatedText(locale, translations = { frenchText: '', englishText:
   return translations.frenchText;
 }
 
-module.exports = { getTranslatedText };
+function getTranslatedKey(key, locale) {
+  if (key && key[locale]) {
+    return key[locale];
+  }
+  return key?.fr;
+}
+
+module.exports = { getTranslatedText, getTranslatedKey };

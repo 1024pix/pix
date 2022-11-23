@@ -23,7 +23,9 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
     areas: [
       {
         id: 'recvoGdo7z2z7pXWa',
-        titleFrFr: 'Information et données',
+        title_i18n: {
+          fr: 'Information et données',
+        },
         color: 'jaffa',
         code: '1',
         competenceIds: [competenceId],

@@ -30,7 +30,9 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
   const area = {
     id: 'recvoGdo7z2z7pXWa',
-    titleFrFr: 'Information et données',
+    title_i18n: {
+      fr: 'Information et données',
+    },
     color: 'jaffa',
     code: '1',
     competenceIds: [competenceId],
@@ -197,7 +199,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             {
               attributes: {
                 code: area.code,
-                title: area.titleFrFr,
+                title: area.title_i18n.fr,
                 color: area.color,
               },
               id: area.id,

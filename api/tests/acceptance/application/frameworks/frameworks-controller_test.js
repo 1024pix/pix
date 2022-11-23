@@ -20,7 +20,9 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       {
         id: 'areaId',
         code: 1,
-        titleFrFr: 'Area fr',
+        title_i18n: {
+          fr: 'Area fr',
+        },
         color: 'some color',
         competenceIds: ['competenceId'],
         frameworkId: 'pix123',

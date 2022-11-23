@@ -7,7 +7,9 @@ const listSkill = ['web1', 'web2', 'web3', 'web4'];
 const learningContent = [
   {
     id: 'recArea1',
-    titleFrFr: 'area1_Title',
+    title_i18n: {
+      fr: 'area1_Title',
+    },
     color: 'someColor',
     competences: [
       {

@@ -18,7 +18,9 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
       {
         id: 'recArea1',
-        titleFrFr: 'area1_Title',
+        title_i18n: {
+          fr: 'area1_Title',
+        },
         color: 'specialColor',
         competences: [
           {
