@@ -12,6 +12,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
     let httpServerTest;
 
     beforeEach(async function () {
+      console.time('beforeEach');
       const moduleUnderTest = {
         name: 'security-test',
         register: async function (server) {
@@ -38,21 +39,31 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       httpServerTest = new HttpTestServer();
       await httpServerTest.register(moduleUnderTest);
       httpServerTest.setupAuthentication();
+      await databaseBuilder.commit();
+      console.timeEnd('beforeEach');
     });
 
     it('returns 403 when user is not an admin member', async function () {
+      console.time('given');
+      console.time('databaseBuilder.buildUser');
       const user = databaseBuilder.factory.buildUser();
-
+      console.timeEnd('databaseBuilder.buildUser');
+      console.time('databaseBuilder.commit');
       await databaseBuilder.commit();
+      console.timeEnd('databaseBuilder.commit');
+      console.timeEnd('given');
 
-      const options = {
+      console.time('when');
+      const response = await httpServerTest.requestObject({
         method: 'GET',
         url: '/api/admin/users',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-      };
+      });
+      console.timeEnd('when');
 
-      const response = await httpServerTest.requestObject(options);
+      console.time('then');
       expect(response.statusCode).to.equal(403);
+      console.timeEnd('then');
     });
 
     it('returns 403 when user is and admin member without one of the allowed roles', async function () {

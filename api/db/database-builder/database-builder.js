@@ -98,11 +98,15 @@ module.exports = class DatabaseBuilder {
   }
 
   async _init() {
+    console.time('Initialize on first commit');
     if (this.emptyFirst) {
+      console.time('Empty database');
       await this._emptyDatabase();
+      console.timeEnd('Empty database');
     }
     await this._initTablesOrderedByDependencyWithDirtinessMap();
     this.isFirstCommit = false;
+    console.timeEnd('Initialize on first commit');
   }
 
   async _emptyDatabase() {
