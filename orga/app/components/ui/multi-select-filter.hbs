@@ -6,13 +6,11 @@
     @label={{@title}}
     @innerText={{@placeholder}}
     @screenReaderOnly={{true}}
-    @loadingMessage={{t "common.filters.loading"}}
     @emptyMessage={{@emptyMessage}}
     @isSearchable={{true}}
     @onSelect={{this.onSelect}}
     @selected={{@selectedOption}}
     @options={{@options}}
-    @onLoadOptions={{@onLoadOptions}}
     as |option|
   >
     {{option.label}}
