@@ -147,6 +147,13 @@ export default class NewCertificationCandidateModal extends Component {
     ];
   }
 
+  get query() {
+    return {
+      inputFormat: 'dd/mm/yyyy',
+      outputFormat: 'dd/mm/yyyy',
+    };
+  }
+
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
   }
