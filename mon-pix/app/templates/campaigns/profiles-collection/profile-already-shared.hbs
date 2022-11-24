@@ -15,7 +15,7 @@
         {{t
           "pages.profile-already-shared.explanation"
           organization=this.model.campaign.organizationName
-          date=(moment-format this.model.sharedProfile.sharedAt "D MMMM YYYY")
+          date=(dayjs-format this.model.sharedProfile.sharedAt "D MMMM YYYY")
           hour=this.model.sharedProfile.sharedAt
           htmlSafe=true
         }}

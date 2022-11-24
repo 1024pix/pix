@@ -8,7 +8,7 @@
   {{#if this.isNotPublished}}
     <div class="certifications-list-item__row-presentation">
       <div class="certifications-list-item__cell">
-        {{moment-format @certification.date "DD/MM/YYYY"}}
+        {{dayjs-format @certification.date "DD/MM/YYYY"}}
       </div>
 
       <div class="certifications-list-item__cell-double-width">
@@ -34,7 +34,7 @@
       <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
         <div class="certifications-list-item__cell">
-          {{moment-format @certification.date "DD/MM/YYYY"}}
+          {{dayjs-format @certification.date "DD/MM/YYYY"}}
         </div>
 
         <div class="certifications-list-item__cell-double-width">
@@ -75,7 +75,7 @@
       class="certifications-list-item__row-presentation"
     >
       <div class="certifications-list-item__cell">
-        {{moment-format @certification.date "DD/MM/YYYY"}}
+        {{dayjs-format @certification.date "DD/MM/YYYY"}}
       </div>
 
       <div class="certifications-list-item__cell-double-width">
@@ -106,7 +106,7 @@
       <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
         <div class="certifications-list-item__cell">
-          {{moment-format @certification.date "DD/MM/YYYY"}}
+          {{dayjs-format @certification.date "DD/MM/YYYY"}}
         </div>
 
         <div class="certifications-list-item__cell-double-width">
