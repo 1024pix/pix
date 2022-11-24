@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-hel
 const { PasswordNotMatching, UserNotFoundError } = require('../../../../../lib/domain/errors');
 
 const User = require('../../../../../lib/domain/models/User');
+const UserLogin = require('../../../../../lib/domain/models/UserLogin');
 const encryptionService = require('../../../../../lib/domain/services/encryption-service');
 const pixAuthenticationService = require('../../../../../lib/domain/services/authentication/pix-authentication-service');
 const userLoginRepository = require('../../../../../lib/infrastructure/repositories/user-login-repository');
@@ -12,6 +13,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
     const password = 'Password123';
 
     let user;
+    let userLogin;
     let authenticationMethod;
     let userRepository;
 
@@ -22,6 +24,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
         rawPassword: password,
       });
       user.authenticationMethods = [authenticationMethod];
+      userLogin = new UserLogin({ userId: user.id });
 
       userRepository = {
         getByUsernameOrEmailWithRolesAndPassword: sinon.stub(),
@@ -36,6 +39,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
     context('When user credentials are valid', function () {
       beforeEach(function () {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
+        userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
         encryptionService.checkPassword.resolves();
       });
 
@@ -80,6 +84,48 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
         // then
         expect(foundUser).to.be.an.instanceof(User);
         expect(foundUser).to.equal(user);
+      });
+
+      context('when user is not temporary blocked', function () {
+        it('should not reset password failure count', async function () {
+          // given
+          const userLogin = { isUserTemporaryBlocked: sinon.stub().returns(false) };
+          userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
+
+          // when
+          await pixAuthenticationService.getUserByUsernameAndPassword({
+            username,
+            password,
+            userRepository,
+          });
+
+          // then
+          expect(userLoginRepository.update).to.not.have.been.called;
+        });
+      });
+
+      context('when user is temporary blocked', function () {
+        it('should reset password failure count', async function () {
+          // given
+          const user = domainBuilder.buildUser({ username });
+          const resetUserTemporaryBlockingStub = sinon.stub();
+          const userLogin = {
+            isUserTemporaryBlocked: sinon.stub().returns(true),
+            resetUserTemporaryBlocking: resetUserTemporaryBlockingStub,
+          };
+          userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
+
+          // when
+          await pixAuthenticationService.getUserByUsernameAndPassword({
+            username,
+            password,
+            userRepository,
+          });
+
+          // then
+          expect(resetUserTemporaryBlockingStub).to.have.been.calledOnce;
+          expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
+        });
       });
     });
 

@@ -6,6 +6,11 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
   const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
 
+  let userLogin = await userLoginRepository.findByUserId(foundUser.id);
+  if (!userLogin) {
+    userLogin = await userLoginRepository.create({ userId: foundUser.id });
+  }
+
   try {
     await encryptionService.checkPassword({
       password,
@@ -13,15 +18,16 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
     });
   } catch (error) {
     if (error instanceof PasswordNotMatching) {
-      let userLogin = await userLoginRepository.findByUserId(foundUser.id);
-      if (!userLogin) {
-        userLogin = await userLoginRepository.create({ userId: foundUser.id });
-      }
       userLogin.incrementFailureCount();
       await userLoginRepository.update(userLogin);
     }
 
     throw error;
+  }
+
+  if (userLogin.isUserTemporaryBlocked()) {
+    userLogin.resetUserTemporaryBlocking();
+    await userLoginRepository.update(userLogin);
   }
 
   return foundUser;
