@@ -3,6 +3,7 @@ const main = require('../../../../scripts/certification/trigger-session-finalize
 const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Acceptance | Scripts | trigger-session-finalized-handler', function () {
+  this.timeout(5000);
   beforeEach(async function () {
     databaseBuilder.factory.buildCertificationCenter({ id: 55, name: 'Super centre' });
     await databaseBuilder.commit();
