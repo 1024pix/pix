@@ -19,6 +19,7 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
   } catch (error) {
     if (error instanceof PasswordNotMatching) {
       userLogin.incrementFailureCount();
+      userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
       await userLoginRepository.update(userLogin);
     }
 
