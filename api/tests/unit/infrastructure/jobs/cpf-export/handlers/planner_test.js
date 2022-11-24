@@ -13,6 +13,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     cpfCertificationResultRepository = {
       getIdsByTimeRange: sinon.stub(),
       markCertificationToExport: sinon.stub(),
+      updateCertificationImportStatus: sinon.stub(),
     };
     pgBoss = {
       send: sinon.stub(),
@@ -39,14 +40,17 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     expect(cpfCertificationResultRepository.markCertificationToExport.getCall(0)).to.have.been.calledWithExactly({
       certificationCourseIds: ['1', '2'],
       batchId: '237584-7648#0',
+      cpfImportStatus: 'PENDING',
     });
     expect(cpfCertificationResultRepository.markCertificationToExport.getCall(1)).to.have.been.calledWithExactly({
       certificationCourseIds: ['3', '4'],
       batchId: '237584-7648#1',
+      cpfImportStatus: 'PENDING',
     });
     expect(cpfCertificationResultRepository.markCertificationToExport.getCall(2)).to.have.been.calledWithExactly({
       certificationCourseIds: ['5'],
       batchId: '237584-7648#2',
+      cpfImportStatus: 'PENDING',
     });
     expect(cpfCertificationResultRepository.getIdsByTimeRange).to.have.been.calledWith({ startDate, endDate });
     expect(pgBoss.send.firstCall).to.have.been.calledWith('CpfExportBuilderJob', {

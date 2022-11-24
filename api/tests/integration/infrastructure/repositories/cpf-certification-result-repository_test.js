@@ -489,16 +489,19 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       await databaseBuilder.commit();
 
       // when
-      await cpfCertificationResultRepository.markCertificationCoursesAsExported({
+      await cpfCertificationResultRepository.markCertificationToExport({
         certificationCourseIds: [456, 789],
-        filename: '1234-75834#0',
+        batchId: '1234-75834#0',
+        cpfImportStatus: 'PENDING',
       });
 
       // then
-      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename');
-      expect(certificationCourses.find(({ id }) => id === 123).cpfFilename).to.be.null;
-      expect(certificationCourses.find(({ id }) => id === 456).cpfFilename).to.equal('1234-75834#0');
-      expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('1234-75834#0');
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename', 'cpfImportStatus');
+      expect(certificationCourses).to.deep.equal([
+        { id: 123, cpfImportStatus: null, cpfFilename: null },
+        { id: 456, cpfImportStatus: 'PENDING', cpfFilename: '1234-75834#0' },
+        { id: 789, cpfImportStatus: 'PENDING', cpfFilename: '1234-75834#0' },
+      ]);
     });
   });
 
