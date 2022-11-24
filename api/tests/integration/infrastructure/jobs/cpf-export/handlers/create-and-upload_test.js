@@ -79,6 +79,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
       certificationCourseIds: [12, 20],
       filename: expectedFileName,
+      cpfImportStatus: 'UPLOADED',
     });
   });
 });
