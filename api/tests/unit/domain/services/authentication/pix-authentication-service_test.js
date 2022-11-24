@@ -152,7 +152,10 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
             const incrementFailureCountStub = sinon.stub();
-            const userLoginCreated = { incrementFailureCount: incrementFailureCountStub };
+            const userLoginCreated = {
+              incrementFailureCount: incrementFailureCountStub,
+              blockUserTemporarilyWhenFailureCountThresholdReached: sinon.stub(),
+            };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(null);
             userLoginRepository.create.resolves(userLoginCreated);
 
@@ -177,7 +180,12 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
             const incrementFailureCountStub = sinon.stub();
-            const userLogin = { incrementFailureCount: incrementFailureCountStub };
+            const blockUserTemporarilyWhenFailureCountThresholdReachedStub = sinon.stub();
+            const userLogin = {
+              incrementFailureCount: incrementFailureCountStub,
+              blockUserTemporarilyWhenFailureCountThresholdReached:
+                blockUserTemporarilyWhenFailureCountThresholdReachedStub,
+            };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
 
             // when
@@ -190,6 +198,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             // then
             expect(userLoginRepository.create).to.not.have.been.called;
             expect(incrementFailureCountStub).to.have.been.calledOnce;
+            expect(blockUserTemporarilyWhenFailureCountThresholdReachedStub).to.have.been.calledOnce;
             expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
           });
