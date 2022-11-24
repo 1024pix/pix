@@ -8,6 +8,10 @@ const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', function () {
+  afterEach(async function () {
+    await knex('user-logins').delete();
+  });
+
   describe('POST /api/token', function () {
     const orgaRoleInDB = { id: 1, name: 'ADMIN' };
 
