@@ -28,7 +28,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
       sinon.stub(encryptionService, 'checkPassword');
     });
 
-    context('When user exist', function () {
+    context('When user credentials are valid', function () {
       beforeEach(function () {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
         encryptionService.checkPassword.resolves();
