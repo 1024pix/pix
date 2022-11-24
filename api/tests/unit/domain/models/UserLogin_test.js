@@ -1,8 +1,30 @@
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const UserLogin = require('../../../../lib/domain/models/UserLogin');
 const settings = require('../../../../lib/config');
 
 describe('Unit | Domain | Models | UserLogin', function () {
+  let clock;
+  const now = new Date();
+
+  let originalEnvThresholdFailureCount;
+  let originalEnvTemporaryBlockedTime;
+
+  beforeEach(function () {
+    clock = sinon.useFakeTimers({ now });
+
+    originalEnvThresholdFailureCount = settings.userLogins.thresholdFailureCount;
+    settings.userLogins.thresholdFailureCount = 10;
+    originalEnvTemporaryBlockedTime = settings.userLogins.temporaryBlockedTime;
+    settings.userLogins.temporaryBlockedTime = 2;
+  });
+
+  afterEach(function () {
+    clock.restore();
+
+    settings.userLogins.thresholdFailureCount = originalEnvThresholdFailureCount;
+    settings.userLogins.temporaryBlockedTime = originalEnvTemporaryBlockedTime;
+  });
+
   describe('#incrementFailureCount', function () {
     it('should increment failure count', function () {
       // given
@@ -82,6 +104,59 @@ describe('Unit | Domain | Models | UserLogin', function () {
 
         // then
         expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('#blockUserTemporarilyWhenFailureCountThresholdReached', function () {
+    context('when threshold is exactly reached', function () {
+      it('should set temporary block until date', function () {
+        // given
+        const exactThreshold = 10;
+        const userLogin = new UserLogin({
+          userId: 666,
+          failureCount: exactThreshold,
+        });
+
+        // when
+        userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
+
+        // then
+        expect(userLogin.temporaryBlockedUntil).to.deepEqualInstance(new Date('2022-11-28T12:02:00Z'));
+      });
+    });
+
+    context('when a multiple of threshold is exactly reached', function () {
+      it('should set temporary block until date', function () {
+        // given
+        const multipleOfThreshold = 10 * 2;
+        const userLogin = new UserLogin({
+          userId: 666,
+          failureCount: multipleOfThreshold,
+        });
+
+        // when
+        userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
+
+        // then
+        expect(userLogin.temporaryBlockedUntil).to.deepEqualInstance(new Date('2022-11-28T12:04:00Z'));
+      });
+    });
+
+    context('when threshold is not reached', function () {
+      it('should not set temporary block until date', function () {
+        // given
+        const beforeThresholdFailureCount = 10 - 1;
+        const userLogin = new UserLogin({
+          userId: 666,
+          failureCount: beforeThresholdFailureCount,
+        });
+
+        // when
+        userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
+
+        // then
+        expect(userLogin.temporaryBlockedUntil).to.be.undefined;
       });
     });
   });
