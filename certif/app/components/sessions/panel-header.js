@@ -23,4 +23,19 @@ export default class PanelHeader extends Component {
       this.notifications.error(this.intl.t('pages.sessions.list.header.session-import-template-dl-error'));
     }
   }
+
+  @action
+  async importSessions(file) {
+    const url = '/api/sessions/import';
+    const token = this.session.data.authenticated.access_token;
+    this.errorMessage = '';
+    try {
+      await file.upload(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      this.notifications.success('La liste des sessions a été importée avec succès.');
+    } catch (err) {
+      this.notifications.error(err.body.errors[0].detail);
+    }
+  }
 }
