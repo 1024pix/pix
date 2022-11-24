@@ -13,7 +13,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
     };
     this.campaign = {};
 
-    await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+    await render(
+      hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+    );
 
     assert.contains('Godefroy de Montmirail');
   });
@@ -24,7 +26,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
     };
     this.campaign = {};
 
-    await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+    await render(
+      hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+    );
 
     assert.contains('01 janv. 2020');
   });
@@ -38,7 +42,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.contains('Envoyé le');
         assert.contains('02 janv. 2020');
@@ -52,7 +58,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
 
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.notContains('Envoyé le');
       });
@@ -67,7 +75,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.contains('i12345');
       });
@@ -79,7 +89,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.notContains('Identifiant');
       });
@@ -96,7 +108,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.contains('124');
       });
@@ -109,7 +123,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
         assert.contains('/ 12');
       });
 
@@ -121,7 +137,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.contains('2');
       });
@@ -136,7 +154,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
             this.campaign = {};
 
             await render(
-              hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`
+              hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
             );
 
             assert.contains('Certifiable', { exact: true });
@@ -152,7 +170,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
             this.campaign = {};
 
             await render(
-              hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`
+              hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
             );
 
             assert.notContains('Certifiable', { exact: true });
@@ -168,7 +186,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.notContains('PIX');
       });
@@ -181,7 +201,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.notContains('32');
         assert.notContains('COMP. CERTIFIABLE');
@@ -195,7 +217,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.notContains('33');
       });
@@ -207,7 +231,9 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(
+          hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`
+        );
 
         assert.notContains('Certifiable');
       });

@@ -20,6 +20,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
     },
   };
 
+  @service store;
   @service currentUser;
 
   model(params) {

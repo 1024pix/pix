@@ -25,7 +25,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStatus={{true}} @isHiddenSearch={{true}}/>`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @isHiddenStatus={{true}} @isHiddenSearch={{true}}/>`
         );
 
         // then
@@ -47,9 +47,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(hbs`<Campaign::Filter::ParticipationFilters
-                            @campaign={{campaign}}
-                            @rowCount={{rowCount}}
-                            @onFilter={{noop}}
+                            @campaign={{this.campaign}}
+                            @rowCount={{this.rowCount}}
+                            @onFilter={{this.noop}}
                           />`);
 
         // then
@@ -71,9 +71,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(hbs`<Campaign::Filter::ParticipationFilters
-                            @campaign={{campaign}}
-                            @rowCount={{details}}
-                            @onFilter={{noop}}
+                            @campaign={{this.campaign}}
+                            @rowCount={{this.details}}
+                            @onFilter={{this.noop}}
                           />`);
 
         // then
@@ -95,9 +95,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
           //when
           await render(hbs`<Campaign::Filter::ParticipationFilters
-                            @campaign={{campaign}}
-                            @onResetFilter={{resetFiltering}}
-                            @onFilter={{noop}}
+                            @campaign={{this.campaign}}
+                            @onResetFilter={{this.resetFiltering}}
+                            @onFilter={{this.noop}}
                           />`);
           await clickByName('Effacer les filtres');
 
@@ -120,7 +120,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('campaign', campaign);
 
           // when
-          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}} />`);
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`
+          );
 
           // then
           assert.notContains('Paliers');
@@ -140,7 +142,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('campaign', campaign);
 
           // when
-          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}} />`);
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`
+          );
 
           // then
           assert.notContains('Paliers');
@@ -160,7 +164,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('campaign', campaign);
 
           // when
-          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+          );
 
           // then
           assert.contains('Paliers');
@@ -179,7 +185,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
           // when
           await render(
-            hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStages={{true}} @onFilter={{noop}}/>`
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @isHiddenStages={{true}} @onFilter={{this.noop}}/>`
           );
 
           // then
@@ -201,7 +207,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
           // when
           await render(
-            hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
           );
           await click('[for="stage-stage1"]');
 
@@ -225,7 +231,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('campaign', campaign);
 
           // when
-          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+          );
 
           // then
           assert.contains('Thématiques');
@@ -245,7 +253,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
           // when
           await render(
-            hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenBadges={{true}} @onFilter={{noop}}/>`
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @isHiddenBadges={{true}} @onFilter={{this.noop}}/>`
           );
 
           // then
@@ -268,7 +276,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
           // when
           await render(
-            hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
           );
           await click('[for="badge-badge1"]');
 
@@ -289,7 +297,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('campaign', campaign);
 
           // when
-          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+          );
 
           // then
           assert.notContains('Thématiques');
@@ -309,7 +319,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('campaign', campaign);
 
           // when
-          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+          );
 
           // then
           assert.notContains('Thématiques');
@@ -334,7 +346,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
         await fillByLabel(t('pages.campaign-results.filters.type.status.title'), 'STARTED');
 
@@ -356,7 +368,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}} @selectedStatus="STARTED" />`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} @selectedStatus="STARTED" />`
         );
 
         // then
@@ -376,7 +388,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+        );
 
         // then
         const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
@@ -396,7 +410,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+        );
 
         // then
         const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
@@ -421,7 +437,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
         await fillByLabel(t('pages.campaign-results.filters.type.search.title'), 'Sal');
 
@@ -445,7 +461,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       test('it displays the division filter', async function (assert) {
         // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+        );
         // then
         assert.contains('Classes');
         assert.contains('d1');
@@ -457,7 +475,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
         await click('[for="division-d1"]');
 
@@ -469,7 +487,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     test('it should not display group filter', async function (assert) {
       this.campaign = store.createRecord('campaign', { id: 1 });
       // when
-      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`);
 
       // then
       assert.notContains('Groupes');
@@ -490,7 +508,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       test('it displays the group filter', async function (assert) {
         // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
+        );
         // then
         assert.contains('Groupes');
         assert.contains('d1');
@@ -503,7 +523,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
         await click('[for="group-d1"]');
 
@@ -527,7 +547,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       });
 
       // when
-      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{noop}}/>`);
+      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`);
 
       // then
       assert.notContains('Classes');

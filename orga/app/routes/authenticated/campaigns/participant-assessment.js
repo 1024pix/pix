@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class AssessmentRoute extends Route {
   @service router;
+  @service store;
 
   async model(params) {
     try {

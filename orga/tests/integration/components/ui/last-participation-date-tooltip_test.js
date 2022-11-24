@@ -24,7 +24,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { campaignName: 'Campagne annuelle' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @campaignName={{participant.campaignName}}/>`);
+    await render(hbs`<Ui::LastParticipationDateTooltip @campaignName={{this.participant.campaignName}}/>`);
 
     // then
     assert.contains('Campagne :');
@@ -36,7 +36,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { campaignType: 'ASSESSMENT' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @campaignType={{participant.campaignType}}/>`);
+    await render(hbs`<Ui::LastParticipationDateTooltip @campaignType={{this.participant.campaignType}}/>`);
 
     // then
     assert.contains('Type :');
@@ -48,7 +48,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { campaignType: 'PROFILES_COLLECTION' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @campaignType={{participant.campaignType}}/>`);
+    await render(hbs`<Ui::LastParticipationDateTooltip @campaignType={{this.participant.campaignType}}/>`);
 
     // then
     assert.contains('Type :');
@@ -60,7 +60,9 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { participationStatus: 'SHARED' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @participationStatus={{participant.participationStatus}}/>`);
+    await render(
+      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}}/>`
+    );
 
     // then
     assert.contains('Statut :');
@@ -72,7 +74,9 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { participationStatus: 'TO_SHARE' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @participationStatus={{participant.participationStatus}}/>`);
+    await render(
+      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}}/>`
+    );
 
     // then
     assert.contains('Statut :');
@@ -84,7 +88,9 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { participationStatus: 'STARTED' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @participationStatus={{participant.participationStatus}}/>`);
+    await render(
+      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}}/>`
+    );
 
     // then
     assert.contains('Statut :');

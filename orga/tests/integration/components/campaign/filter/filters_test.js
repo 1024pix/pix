@@ -74,7 +74,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     // when
     await renderScreen(
       hbs`<Campaign::Filter::Filters
-        @onFilter={{triggerFiltering}}
+        @onFilter={{this.triggerFiltering}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
@@ -93,7 +93,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     // when
     await renderScreen(
       hbs`<Campaign::Filter::Filters
-        @onFilter={{triggerFiltering}}
+        @onFilter={{this.triggerFiltering}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );

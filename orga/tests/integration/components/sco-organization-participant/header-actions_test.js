@@ -15,7 +15,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
       // when
       const screen = await renderScreen(
-        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`
+        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`
       );
 
       // then
@@ -28,7 +28,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
       // when
       const screen = await renderScreen(
-        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{participantCount}} />`
+        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`
       );
 
       // then
@@ -45,7 +45,9 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
           }
           this.owner.register('service:current-user', CurrentUserStub);
           this.set('importStudentsSpy', () => {});
-          return render(hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
+          return render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`
+          );
         });
 
         test('it should display import XML file button', async function (assert) {
@@ -66,7 +68,9 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
           this.set('importStudentsSpy', () => {});
           this.owner.register('service:current-user', CurrentUserStub);
-          return render(hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
+          return render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`
+          );
         });
 
         test('it should still display import CSV file button', async function (assert) {

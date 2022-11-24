@@ -14,7 +14,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       this.averageResult = 0.9;
 
       //when
-      await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{averageResult}} />`);
+      await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} />`);
 
       //then
       assert.contains(t('cards.participants-average-results.title'));
@@ -30,7 +30,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
 
       //when
       await render(
-        hbs`<Campaign::Results::AssessmentCards @averageResult={{averageResult}} @hasStages={{hasStages}} @stages={{stages}} />`
+        hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} @hasStages={this.hasStages}} @stages={{this.stages}} />`
       );
 
       //then
@@ -43,7 +43,9 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
     this.sharedParticipationsCount = 10;
 
     // when
-    await render(hbs`<Campaign::Results::AssessmentCards @sharedParticipationsCount={{sharedParticipationsCount}} />`);
+    await render(
+      hbs`<Campaign::Results::AssessmentCards @sharedParticipationsCount={{this.sharedParticipationsCount}} />`
+    );
 
     //then
     assert.contains(t('cards.submitted-count.title'));

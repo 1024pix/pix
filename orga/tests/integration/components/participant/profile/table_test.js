@@ -11,7 +11,7 @@ module('Integration | Component | Participant::Profile::Table', function (hooks)
       this.isShared = false;
       this.competences = [];
 
-      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{this.competences}} @isShared={{this.isShared}} />`);
 
       assert.contains('En attente de résultats');
     });
@@ -22,7 +22,7 @@ module('Integration | Component | Participant::Profile::Table', function (hooks)
       this.competences = [{ name: 'name1', areaColor: 'jaffa' }];
       this.isShared = true;
 
-      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{this.competences}} @isShared={{this.isShared}} />`);
 
       assert.dom('.competences-col__border--jaffa').exists();
     });
@@ -31,7 +31,7 @@ module('Integration | Component | Participant::Profile::Table', function (hooks)
       this.competences = [{ name: 'name1' }, { name: 'name2' }];
       this.isShared = true;
 
-      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{this.competences}} @isShared={{this.isShared}} />`);
 
       assert.contains('name1');
       assert.contains('name2');
@@ -41,7 +41,7 @@ module('Integration | Component | Participant::Profile::Table', function (hooks)
       this.competences = [{ estimatedLevel: 999, pixScore: 666 }];
       this.isShared = true;
 
-      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{this.competences}} @isShared={{this.isShared}} />`);
 
       assert.contains('666');
       assert.contains('999');

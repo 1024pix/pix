@@ -36,9 +36,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     await renderScreen(
       hbs`<Campaign::CreateForm
-        @onSubmit={{createCampaignSpy}}
-        @onCancel={{cancelSpy}}
-        @errors={{errors}}
+        @onSubmit={{this.createCampaignSpy}}
+        @onCancel={{this.cancelSpy}}
+        @errors={{this.errors}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -53,9 +53,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::CreateForm
-        @onSubmit={{createCampaignSpy}}
-        @onCancel={{cancelSpy}}
-        @errors={{errors}}
+        @onSubmit={{this.createCampaignSpy}}
+        @onCancel={{this.cancelSpy}}
+        @errors={{this.errors}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -68,9 +68,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::CreateForm
-        @onSubmit={{createCampaignSpy}}
-        @onCancel={{cancelSpy}}
-        @errors={{errors}}
+        @onSubmit={{this.createCampaignSpy}}
+        @onCancel={{this.cancelSpy}}
+        @errors={{this.errors}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -82,9 +82,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::CreateForm
-        @onSubmit={{createCampaignSpy}}
-        @onCancel={{cancelSpy}}
-        @errors={{errors}}
+        @onSubmit={{this.createCampaignSpy}}
+        @onCancel={{this.cancelSpy}}
+        @errors={{this.errors}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -97,9 +97,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -116,10 +116,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @campaign={{campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @campaign={{this.campaign}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -133,9 +133,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
 
@@ -164,9 +164,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}} @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}} 
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -203,9 +204,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}} @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}} 
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -234,9 +236,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}} @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}} 
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -256,10 +259,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}}
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -294,10 +297,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}}
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -333,10 +336,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}}
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -361,10 +364,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await renderScreen(
           hbs`<Campaign::CreateForm
-            @targetProfiles={{targetProfiles}}
-            @onSubmit={{createCampaignSpy}}
-            @onCancel={{cancelSpy}}
-            @errors={{errors}}
+            @targetProfiles={{this.targetProfiles}}
+            @onSubmit={{this.createCampaignSpy}}
+            @onCancel={{this.cancelSpy}}
+            @errors={{this.errors}}
             @membersSortedByFullName={{this.defaultMembers}} />`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -389,9 +392,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         test('should not display the button to clear the input', async function (assert) {
           await renderScreen(
             hbs`<Campaign::CreateForm
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{errors}}
+              @onSubmit={{this.createCampaignSpy}}
+              @onCancel={{this.cancelSpy}}
+              @errors={{this.errors}}
               @membersSortedByFullName={{this.defaultMembers}} />`
           );
           await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -404,10 +407,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         test('should display the button to clear the input', async function (assert) {
           await renderScreen(
             hbs`<Campaign::CreateForm
-              @targetProfiles={{targetProfiles}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{errors}}
+              @targetProfiles={{this.targetProfiles}}
+              @onSubmit={{this.createCampaignSpy}}
+              @onCancel={{this.cancelSpy}}
+              @errors={{this.errors}}
               @membersSortedByFullName={{this.defaultMembers}} />`
           );
           await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -419,10 +422,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         test('should clear the input after the click on the delete button', async function (assert) {
           await renderScreen(
             hbs`<Campaign::CreateForm
-              @targetProfiles={{targetProfiles}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{errors}}
+              @targetProfiles={{this.targetProfiles}}
+              @onSubmit={{this.createCampaignSpy}}
+              @onCancel={{this.cancelSpy}}
+              @errors={{this.errors}}
               @membersSortedByFullName={{this.defaultMembers}} />`
           );
           await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -435,10 +438,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         test('should not display target profile informations after the click on the delete button', async function (assert) {
           await renderScreen(
             hbs`<Campaign::CreateForm
-              @targetProfiles={{targetProfiles}}
-              @onSubmit={{createCampaignSpy}}
-              @onCancel={{cancelSpy}}
-              @errors={{errors}}
+              @targetProfiles={{this.targetProfiles}}
+              @onSubmit={{this.createCampaignSpy}}
+              @onCancel={{this.cancelSpy}}
+              @errors={{this.errors}}
               @membersSortedByFullName={{this.defaultMembers}} />`
           );
           await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -456,9 +459,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -472,9 +475,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -491,10 +494,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @campaign={{campaign}}
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @campaign={{this.campaign}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -510,9 +513,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
 
@@ -526,9 +529,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.no'));
@@ -543,9 +546,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.yes'));
@@ -562,9 +565,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     await renderScreen(
       hbs`<Campaign::CreateForm
-        @onSubmit={{createCampaignSpy}}
-        @onCancel={{cancelSpy}}
-        @errors={{errors}}
+        @onSubmit={{this.createCampaignSpy}}
+        @onCancel={{this.cancelSpy}}
+        @errors={{this.errors}}
         @targetProfiles={{this.targetProfiles}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
@@ -608,9 +611,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.yes'));
@@ -637,9 +640,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm
-          @onSubmit={{createCampaignSpy}}
-          @onCancel={{cancelSpy}}
-          @errors={{errors}}
+          @onSubmit={{this.createCampaignSpy}}
+          @onCancel={{this.cancelSpy}}
+          @errors={{this.errors}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));

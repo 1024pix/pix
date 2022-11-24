@@ -40,7 +40,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
   test('it should display tube details', async function (assert) {
     // when
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{tubeRecommendation}}
+      @tubeRecommendation={{this.tubeRecommendation}}
     />`);
 
     // then
@@ -54,7 +54,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     this.tubeRecommendation.tutorials = [tutorial1];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{tubeRecommendation}}
+      @tubeRecommendation={{this.tubeRecommendation}}
     />`);
 
     // when
@@ -75,7 +75,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     this.tubeRecommendation.tutorials = [tutorial1];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{tubeRecommendation}}
+      @tubeRecommendation={{this.tubeRecommendation}}
     />`);
 
     // then
@@ -90,7 +90,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{tubeRecommendation}}
+      @tubeRecommendation={{this.tubeRecommendation}}
     />`);
 
     // when
@@ -105,7 +105,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{tubeRecommendation}}
+      @tubeRecommendation={{this.tubeRecommendation}}
     />`);
     await click('[data-icon="chevron-down"]');
 
@@ -124,7 +124,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
 
       //when
       await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{tubeRecommendation}}
+        @tubeRecommendation={{this.tubeRecommendation}}
       />`);
 
       // then
@@ -137,7 +137,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
 
       //when
       await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{tubeRecommendation}}
+        @tubeRecommendation={{this.tubeRecommendation}}
       />`);
 
       // then
