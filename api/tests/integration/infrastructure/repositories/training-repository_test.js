@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
 const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSummary');
 const Training = require('../../../../lib/domain/models/Training');
 const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
 
@@ -114,6 +115,47 @@ describe('Integration | Repository | training-repository', function () {
         // then
         expect(error).to.be.instanceOf(NotFoundError);
         expect(error.message).to.be.equal('Not found training for ID 134');
+      });
+    });
+  });
+
+  describe('#findPaginatedSummaries', function () {
+    context('when trainings exist', function () {
+      it('should return paginated results', async function () {
+        // given
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1 });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2 });
+        const trainingSummary3 = domainBuilder.buildTrainingSummary({ id: 3 });
+
+        databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary2 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary3 });
+
+        await databaseBuilder.commit();
+        const page = { size: 2, number: 2 };
+
+        // when
+        const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ page });
+
+        // then
+        expect(trainings).to.have.lengthOf(1);
+        expect(trainings[0]).to.be.instanceOf(TrainingSummary);
+        expect(trainings[0]).to.deep.equal(trainingSummary3);
+        expect(pagination).to.deep.equal({ page: 2, pageSize: 2, rowCount: 3, pageCount: 2 });
+      });
+    });
+
+    context("when trainings don't exist", function () {
+      it('should return an empty array', async function () {
+        // given
+        const page = { size: 2, number: 1 };
+
+        // when
+        const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ page });
+
+        // then
+        expect(trainings).to.deep.equal([]);
+        expect(pagination).to.deep.equal({ page: 1, pageSize: 2, rowCount: 0, pageCount: 0 });
       });
     });
   });
