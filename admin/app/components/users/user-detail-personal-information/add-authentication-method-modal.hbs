@@ -1,10 +1,6 @@
-<Modal::Dialog
-  @title="Ajouter une adresse e-mail"
-  @display={{@showAddAuthenticationMethodModal}}
-  @close={{@toggleAddAuthenticationMethodModal}}
->
-  <form {{on "submit" @submitAddingPixAuthenticationMethod}}>
-    <Modal::Body class="add-authentication-method-modal__form-body">
+<PixModal @title="Ajouter une adresse e-mail" @onCloseButtonClick={{@toggleAddAuthenticationMethodModal}}>
+  <:content>
+    <form id="add-authentication-method-modal" {{on "submit" @submitAddingPixAuthenticationMethod}}>
       <PixInput
         @id="new-email-for-adding-authentication-method"
         @label="Nouvelle adresse e-mail"
@@ -13,16 +9,20 @@
         type="email"
         required
       />
-    </Modal::Body>
+    </form>
+  </:content>
 
-    <Modal::Footer>
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{@toggleAddAuthenticationMethodModal}}
-      >Annuler</PixButton>
-      <PixButton @type="submit" @size="small">Enregistrer l'adresse e-mail</PixButton>
-    </Modal::Footer>
-  </form>
-</Modal::Dialog>
+  <:footer>
+    <PixButton
+      @size="small"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{@toggleAddAuthenticationMethodModal}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton form="add-authentication-method-modal" @size="small" @type="submit">
+      Enregistrer l'adresse e-mail
+    </PixButton>
+  </:footer>
+</PixModal>

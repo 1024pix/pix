@@ -1,7 +1,3 @@
-/* vendors */
-@import 'ember-modal-dialog/ember-modal-structure';
-@import 'ember-modal-dialog/ember-modal-appearance';
-
 /* Pix UI */
 @import 'pix-design-tokens';
 
@@ -50,7 +46,6 @@
 @import 'components/confirm-popup';
 @import 'components/member-item';
 @import 'components/menu-bar';
-@import 'components/modal';
 @import 'components/organizations/archiving-confirmation-modal';
 @import 'components/organizations/places';
 @import 'components/organizations/places-lot-creation-form';
