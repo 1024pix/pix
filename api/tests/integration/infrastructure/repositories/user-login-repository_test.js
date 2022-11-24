@@ -1,4 +1,4 @@
-const { databaseBuilder, expect, knex } = require('../../../test-helper');
+const { databaseBuilder, expect, knex, sinon } = require('../../../test-helper');
 const userLoginRepository = require('../../../../lib/infrastructure/repositories/user-login-repository');
 const UserLogin = require('../../../../lib/domain/models/UserLogin');
 
@@ -51,6 +51,49 @@ describe('Integration | Repository | UserLoginRepository', function () {
       expect(result.createdAt).to.be.not.null;
       expect(result.updatedAt).to.be.not.null;
       expect(result.failureCount).to.equal(0);
+    });
+  });
+
+  describe('#update', function () {
+    let clock;
+    const now = new Date('2022-11-24');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({ now });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should return the updated user-login', async function () {
+      // given
+      const temporaryBlockedUntil = new Date('2022-10-10');
+      databaseBuilder.factory.buildUserLogin();
+      const userLoginInDB = databaseBuilder.factory.buildUserLogin();
+      const userLoginToUpdate = new UserLogin({
+        id: userLoginInDB.id,
+        userId: userLoginInDB.userId,
+        failureCount: 10,
+        temporaryBlockedUntil,
+        updatedAt: '2022-10-10',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userLoginRepository.update(userLoginToUpdate);
+
+      // then
+      expect(result).to.be.an.instanceOf(UserLogin);
+      expect(result).to.deep.equal({
+        id: userLoginInDB.id,
+        userId: userLoginInDB.userId,
+        failureCount: 10,
+        temporaryBlockedUntil,
+        blockedAt: null,
+        createdAt: userLoginInDB.createdAt,
+        updatedAt: now,
+      });
     });
   });
 });
