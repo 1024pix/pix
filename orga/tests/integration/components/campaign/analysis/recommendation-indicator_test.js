@@ -12,7 +12,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     this.value = 0;
 
     // when
-    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{value}} />`);
+    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{this.value}} />`);
 
     // then
     assert
@@ -29,7 +29,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     this.value = 25;
 
     // when
-    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{value}} />`);
+    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{this.value}} />`);
 
     // then
     assert
@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     this.value = 50;
 
     // when
-    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{value}} />`);
+    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{this.value}} />`);
 
     // then
     assert
@@ -61,7 +61,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     this.value = 75;
 
     // when
-    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{value}} />`);
+    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{this.value}} />`);
 
     // then
     assert
@@ -74,7 +74,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     this.value = 100;
 
     // when
-    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{value}} />`);
+    screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{this.value}} />`);
 
     // then
     assert

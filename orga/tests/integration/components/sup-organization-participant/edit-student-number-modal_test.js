@@ -36,7 +36,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('when there is student number', function () {
       test('should render component with student number text', async function (assert) {
         await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est :`);
@@ -47,8 +47,8 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('when there is no student number yet', function () {
       test('should not render component with student number text', async function (assert) {
         this.student.set('studentNumber', null);
-        render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+        await render(
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         assert.notContains(
@@ -60,7 +60,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('When a student number is entered', function () {
       test('should have the update button enable', async function (assert) {
         const screen = await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         // when
@@ -81,13 +81,13 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('when a student number is not entered yet', function () {
       test('should have the update button disable', async function (assert) {
         const screen = await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         // when
         await fillByLabel(
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-          ''
+          'toto'
         );
         await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
@@ -104,7 +104,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('when the update button is clicked and a good student number is entered', function () {
       test('it display success notification', async function (assert) {
         await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
         // given
         onSaveStudentNumberStub.withArgs(123456).resolves();
@@ -130,7 +130,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
     module('when the update button is clicked and a wrong student number is entered', function () {
       test('it display error message', async function (assert) {
         await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         // when
@@ -151,7 +151,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
         test('it display an error under student number input', async function (assert) {
           // given
           await render(
-            hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+            hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
           );
 
           const error = {
@@ -182,7 +182,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
         test('it remove errors when submitting is a success', async function (assert) {
           // given
           await render(
-            hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+            hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
           );
 
           const error = {
@@ -213,7 +213,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
       test('it remove errors and student number value', async function (assert) {
         // given
         const screen = await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         const error = {
@@ -244,7 +244,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
       test('it remove errors and student number value too', async function (assert) {
         // given
         const screen = await render(
-          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`
+          hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}} @onSubmit={{this.onSaveStudentNumber}}/>`
         );
 
         const error = {
@@ -279,7 +279,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
       this.set('display', false);
 
       const screen = await render(
-        hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}}/>`
+        hbs`<SupOrganizationParticipant::EditStudentNumberModal @display={{this.display}} @onClose={{this.close}} @student={{this.student}}/>`
       );
 
       // then

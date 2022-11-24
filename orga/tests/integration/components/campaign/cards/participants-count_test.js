@@ -11,7 +11,7 @@ module('Integration | Component | Campaign::Cards::ParticipantsCount', function 
   test('it should display participations count card', async function (assert) {
     this.participantsCount = 10;
 
-    await render(hbs`<Campaign::Cards::ParticipantsCount @value={{participantsCount}} />`);
+    await render(hbs`<Campaign::Cards::ParticipantsCount @value={{this.participantsCount}} />`);
 
     assert.contains(t('cards.participants-count.title'));
     assert.contains('10');

@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default class JoinRoute extends Route {
   @service router;
   @service session;
+  @service store;
 
   routeIfAlreadyAuthenticated = 'join-when-authenticated';
 

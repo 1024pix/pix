@@ -12,7 +12,7 @@ module('Integration | Component | Campaign::Cards::SharedCount', function (hooks
     test('it should display shared participations count card', async function (assert) {
       this.sharedCount = 10;
 
-      await render(hbs`<Campaign::Cards::SharedCount @value={{sharedCount}} @isTypeAssessment={{true}} />`);
+      await render(hbs`<Campaign::Cards::SharedCount @value={{this.sharedCount}} @isTypeAssessment={{true}} />`);
 
       assert.contains(t('cards.submitted-count.title'));
       assert.contains('10');
@@ -23,7 +23,7 @@ module('Integration | Component | Campaign::Cards::SharedCount', function (hooks
     test('it should display shared profiles count card', async function (assert) {
       this.sharedCount = 10;
 
-      await render(hbs`<Campaign::Cards::SharedCount @value={{sharedCount}} @isTypeAssessment={{false}} />`);
+      await render(hbs`<Campaign::Cards::SharedCount @value={{this.sharedCount}} @isTypeAssessment={{false}} />`);
 
       assert.contains(t('cards.submitted-count.title-profiles'));
       assert.contains('10');

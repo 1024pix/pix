@@ -30,7 +30,9 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     });
 
     // when
-    await render(hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{campaignId}} @isTypeAssessment={{true}} />`);
+    await render(
+      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{true}} />`
+    );
 
     assert.contains('Date');
     assert.contains('Total des participants');
@@ -49,7 +51,9 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     });
 
     // when
-    await render(hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{campaignId}} @isTypeAssessment={{false}} />`);
+    await render(
+      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{false}} />`
+    );
 
     assert.contains('Date');
     assert.contains('Total des participants');

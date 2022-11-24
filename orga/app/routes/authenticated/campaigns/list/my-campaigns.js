@@ -21,6 +21,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
   };
 
   @service currentUser;
+  @service store;
 
   model(params) {
     return this.store.query(

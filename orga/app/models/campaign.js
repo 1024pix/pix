@@ -1,10 +1,13 @@
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import ENV from 'pix-orga/config/environment';
+import { inject as service } from '@ember/service';
 
 const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
 const ASSESSMENT_TEXT = 'Évaluation';
 
 export default class Campaign extends Model {
+  @service store;
+
   @attr('nullable-string') name;
   @attr('string') code;
   @attr('string') type;

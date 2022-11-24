@@ -3,6 +3,7 @@ import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
 export default class ProfileRoute extends Route {
   @service router;
+  @service store;
 
   async model(params) {
     try {

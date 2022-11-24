@@ -12,7 +12,9 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
       this.set('participantCount', 0);
 
       // when
-      const screen = await renderScreen(hbs`<OrganizationParticipant::Header @participantCount={{participantCount}}/>`);
+      const screen = await renderScreen(
+        hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}}/>`
+      );
 
       // then
       assert.dom(screen.getByText(this.intl.t('pages.organization-participants.title', { count: 0 }))).exists();
@@ -23,7 +25,9 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
       this.set('participantCount', 5);
 
       // when
-      const screen = await renderScreen(hbs`<OrganizationParticipant::Header @participantCount={{participantCount}}/>`);
+      const screen = await renderScreen(
+        hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}}/>`
+      );
 
       // then
       assert.dom(screen.getByText(this.intl.t('pages.organization-participants.title', { count: 5 }))).exists();

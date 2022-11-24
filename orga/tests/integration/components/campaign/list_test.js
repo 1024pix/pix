@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
@@ -42,7 +42,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
@@ -68,7 +68,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`);
+      await renderScreen(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
 
       // then
       assert.dom('a[href="/campagnes/1"]').exists();
@@ -96,7 +98,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
@@ -122,7 +124,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`);
+      await renderScreen(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
 
       // then
       assert.dom('[aria-label="Campagne"]:first-child').containsText('Jean-Michel Jarre');
@@ -152,7 +156,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
@@ -173,7 +177,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`);
+      await renderScreen(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
 
       // then
       assert.dom('[aria-label="Campagne"]').containsText('10');
@@ -193,7 +199,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`);
+      await renderScreen(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
 
       // then
       assert.dom('[aria-label="Campagne"]').containsText('4');
@@ -207,7 +215,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
@@ -222,7 +230,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
@@ -244,7 +252,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} />`
+          hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} />`
         );
 
         // then
@@ -270,7 +278,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}/>`
+          hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}/>`
         );
 
         // then
@@ -293,7 +301,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<Campaign::List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}} />`
+          hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}} />`
         );
 
         // then
