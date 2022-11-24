@@ -24,7 +24,7 @@ module('Integration | Component | certifications/list', function (hooks) {
     this.pagination = {};
 
     // when
-    await render(hbs`<Certifications::List @certifications={{certifications}} @pagination={{pagination}} />`);
+    await render(hbs`<Certifications::List @certifications={{this.certifications}} @pagination={{this.pagination}} />`);
 
     const numberOfCertificationIssueReportsWithRequiredAction =
       this.element.querySelector('tbody > tr td:nth-child(5)');
@@ -41,7 +41,7 @@ module('Integration | Component | certifications/list', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Certifications::List @certifications={{certifications}} @pagination={{pagination}}/>`
+      hbs`<Certifications::List @certifications={{this.certifications}} @pagination={{this.pagination}}/>`
     );
 
     // then
@@ -59,7 +59,7 @@ module('Integration | Component | certifications/list', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{true}} @pagination={{pagination}}/>`
+        hbs`<Certifications::List @certifications={{this.certifications}} @displayHasSeenEndTestScreenColumn={{true}} @pagination={{this.pagination}}/>`
       );
 
       // then
@@ -78,7 +78,7 @@ module('Integration | Component | certifications/list', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{false}} @pagination={{pagination}}/>`
+        hbs`<Certifications::List @certifications={{this.certifications}} @displayHasSeenEndTestScreenColumn={{false}} @pagination={{this.pagination}}/>`
       );
 
       // then

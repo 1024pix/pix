@@ -30,7 +30,7 @@ module('Integration | Component | certification-centers/memberships-section', fu
     // when
     const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
-        @certificationCenterMemberships={{certificationCenterMemberships}}
+        @certificationCenterMemberships={{this.certificationCenterMemberships}}
         @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
@@ -66,7 +66,7 @@ module('Integration | Component | certification-centers/memberships-section', fu
     // when
     const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
-        @certificationCenterMemberships={{certificationCenterMemberships}}
+        @certificationCenterMemberships={{this.certificationCenterMemberships}}
         @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 

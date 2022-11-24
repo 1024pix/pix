@@ -17,7 +17,7 @@ module('Integration | Component |  users | user-profile', function (hooks) {
     });
 
     //  when
-    const component = await render(hbs`<Users::UserProfile @profile={{profile}} />`);
+    const component = await render(hbs`<Users::UserProfile @profile={{this.profile}} />`);
 
     // then
     assert.dom(component.getByText(this.profile.pixScore)).exists();
@@ -37,7 +37,7 @@ module('Integration | Component |  users | user-profile', function (hooks) {
       });
 
       //  when
-      const component = await render(hbs`<Users::UserProfile @profile={{profile}} />`);
+      const component = await render(hbs`<Users::UserProfile @profile={{this.profile}} />`);
 
       // then
       assert.dom(component.getByText('Aucun résultat')).exists();

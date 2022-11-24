@@ -17,8 +17,8 @@ module('Integration | Component | organization-invitations-action', function (ho
     // when
     await render(
       hbs`<Organizations::InvitationsAction
-        @createOrganizationInvitation={{createOrganizationInvitation}}
-        @onChangeUserEmailToInvite={{noop}}/>`
+        @createOrganizationInvitation={{this.createOrganizationInvitation}}
+        @onChangeUserEmailToInvite={{this.noop}}/>`
     );
     await clickByText('Inviter');
 

@@ -12,7 +12,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', []);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}}/>`);
 
       // then
       assert.dom(screen.getByText('Aucune campagne')).exists();
@@ -37,7 +37,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}}/>`);
 
       // then
       assert.dom(screen.getByText('ID')).exists();
@@ -76,7 +76,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}}/>`);
 
       // then
       assert.strictEqual(screen.getAllByLabelText('campagne').length, 2);
@@ -112,7 +112,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}}/>`);
 
       // then
       assert.dom(screen.getByText('C1')).exists();
@@ -149,7 +149,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}}/>`);
 
       // then
       assert.dom(screen.getByText('-')).exists();

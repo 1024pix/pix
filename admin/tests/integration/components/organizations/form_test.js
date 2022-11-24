@@ -16,7 +16,7 @@ module('Integration | Component | organizations/form', function (hooks) {
   test('it renders', async function (assert) {
     // when
     const screen = await render(
-      hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
+      hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action this.onSubmit}} @onCancel={{action this.onCancel}} />`
     );
 
     // then
@@ -31,7 +31,7 @@ module('Integration | Component | organizations/form', function (hooks) {
     test('should update attribute organization.type', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
+        hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action this.onSubmit}} @onCancel={{action this.onCancel}} />`
       );
 
       // when
