@@ -1,5 +1,5 @@
 class UserLogin {
-  constructor({ id, userId, failureCount, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
+  constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
     this.id = id;
     this.userId = userId;
     this.failureCount = failureCount;
@@ -7,6 +7,10 @@ class UserLogin {
     this.blockedAt = blockedAt;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+  }
+
+  incrementFailureCount() {
+    this.failureCount++;
   }
 }
 
