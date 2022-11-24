@@ -1,6 +1,5 @@
 import { Response } from 'ember-cli-mirage';
-import _get from 'lodash/get';
-import _slice from 'lodash/slice';
+import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 function attachTargetProfiles(schema, request) {
   const params = JSON.parse(request.requestBody);
@@ -37,8 +36,8 @@ function findPaginatedTargetProfileOrganizations(schema, request) {
   const organizations = schema.organizations.all().models;
   const rowCount = organizations.length;
 
-  const pagination = _getPaginationFromQueryParams(queryParams);
-  const paginatedOrganizations = _applyPagination(organizations, pagination);
+  const pagination = getPaginationFromQueryParams(queryParams);
+  const paginatedOrganizations = applyPagination(organizations, pagination);
 
   const json = this.serialize({ modelName: 'organization', models: paginatedOrganizations }, 'organization');
   json.meta = {
@@ -68,20 +67,6 @@ function findTargetProfileBadges(schema) {
 
 function findTargetProfileStages(schema) {
   return schema.stages.all();
-}
-
-function _getPaginationFromQueryParams(queryParams) {
-  return {
-    pageSize: parseInt(_get(queryParams, 'page[size]', 10)),
-    page: parseInt(_get(queryParams, 'page[number]', 1)),
-  };
-}
-
-function _applyPagination(organizations, { page, pageSize }) {
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-
-  return _slice(organizations, start, end);
 }
 
 function updateTargetProfile(schema, request) {

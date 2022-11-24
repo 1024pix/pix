@@ -1,7 +1,7 @@
 import filter from 'lodash/filter';
-import slice from 'lodash/slice';
 
 import { Response } from 'ember-cli-mirage';
+import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 export function findPaginatedAndFilteredSessions(schema, request) {
   const queryParams = request.queryParams;
@@ -9,7 +9,7 @@ export function findPaginatedAndFilteredSessions(schema, request) {
   const rowCount = sessions.length;
 
   const filters = _getFiltersFromQueryParams(queryParams);
-  const pagination = _getPaginationFromQueryParams(queryParams);
+  const pagination = getPaginationFromQueryParams(queryParams);
   if (!_areFiltersValid(filters)) {
     return new Response(
       422,
@@ -26,7 +26,7 @@ export function findPaginatedAndFilteredSessions(schema, request) {
     );
   }
   const filteredSessions = _applyFilters(sessions, filters);
-  const paginatedSessions = _applyPagination(filteredSessions, pagination);
+  const paginatedSessions = applyPagination(filteredSessions, pagination);
 
   const json = this.serialize({ modelName: 'session', models: paginatedSessions }, 'session');
   json.meta = {
@@ -67,13 +67,6 @@ function _getFiltersFromQueryParams(queryParams) {
     certificationCenterExternalIdFilter,
     statusFilter,
     resultsSentToPrescriberAtFilter,
-  };
-}
-
-function _getPaginationFromQueryParams(queryParams) {
-  return {
-    pageSize: queryParams ? parseInt(queryParams['page[size]']) : 10,
-    page: queryParams ? parseInt(queryParams['page[number]']) : 1,
   };
 }
 
@@ -133,11 +126,4 @@ function _applyFilters(
   }
 
   return filteredSessions;
-}
-
-function _applyPagination(sessions, { page, pageSize }) {
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-
-  return slice(sessions, start, end);
 }
