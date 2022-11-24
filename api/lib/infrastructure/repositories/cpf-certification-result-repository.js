@@ -40,6 +40,14 @@ module.exports = {
   async markCertificationToExport({ certificationCourseIds, batchId }) {
     return knex('certification-courses').update({ cpfFilename: batchId }).whereIn('id', certificationCourseIds);
   },
+
+  async updateCertificationImportStatus({ certificationCourseIds, cpfImportStatus }) {
+    const now = new Date();
+
+    return knex('certification-courses')
+      .update({ cpfImportStatus, updatedAt: now })
+      .whereIn('id', certificationCourseIds);
+  },
 };
 
 function _selectCpfCertificationResults() {

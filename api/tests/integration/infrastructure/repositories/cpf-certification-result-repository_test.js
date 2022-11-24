@@ -501,6 +501,30 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('1234-75834#0');
     });
   });
+
+  describe('#updateCertificationImportStatus', function () {
+    it('should update certification import status', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfImportStatus: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfImportStatus: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfImportStatus: null });
+      await databaseBuilder.commit();
+
+      // when
+      await cpfCertificationResultRepository.updateCertificationImportStatus({
+        certificationCourseIds: [123, 456],
+        cpfImportStatus: 'PENDING',
+      });
+
+      // then
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfImportStatus').orderBy('id');
+      expect(certificationCourses).to.deep.equal([
+        { id: 123, cpfImportStatus: 'PENDING' },
+        { id: 456, cpfImportStatus: 'PENDING' },
+        { id: 789, cpfImportStatus: null },
+      ]);
+    });
+  });
 });
 function createCertificationCourseWithCompetenceMarks({
   certificationCourseId = 145,
