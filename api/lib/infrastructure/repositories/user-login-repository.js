@@ -23,4 +23,10 @@ module.exports = {
     const [userLoginDTO] = await knex('user-logins').insert(userLogin).returning('*');
     return _toDomain(userLoginDTO);
   },
+
+  async update(userLogin) {
+    userLogin.updatedAt = new Date();
+    const [userLoginDTO] = await knex('user-logins').where({ id: userLogin.id }).update(userLogin).returning('*');
+    return _toDomain(userLoginDTO);
+  },
 };
