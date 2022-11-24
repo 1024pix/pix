@@ -1,3 +1,4 @@
+const dayjs = require('dayjs');
 const settings = require('../../config');
 
 class UserLogin {
@@ -23,6 +24,16 @@ class UserLogin {
   resetUserTemporaryBlocking() {
     this.failureCount = 0;
     this.temporaryBlockedUntil = null;
+  }
+
+  blockUserTemporarilyWhenFailureCountThresholdReached() {
+    const isThresholdReached = this.failureCount % settings.userLogins.thresholdFailureCount === 0;
+    if (isThresholdReached) {
+      const rest = this.failureCount / settings.userLogins.thresholdFailureCount;
+      this.temporaryBlockedUntil = dayjs()
+        .add(Math.pow(settings.userLogins.temporaryBlockedTime, rest), 'minute')
+        .toDate();
+    }
   }
 }
 
