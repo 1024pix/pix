@@ -172,16 +172,6 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
     });
 
-    test('should hide user menu, when the menu is opened then closed', async function (assert) {
-      // when
-      await render(hbs`<UserLoggedMenu/>`);
-      await click('.logged-user-name');
-      await click('.logged-user-name');
-
-      // then
-      assert.dom('.logged-user-menu').doesNotExist();
-    });
-
     module('Link to "My tests"', function () {
       module('when user has at least one participation', function (hooks) {
         hooks.beforeEach(function () {
