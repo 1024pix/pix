@@ -1,4 +1,5 @@
 const Training = require('../../domain/models/Training');
+const TrainingSummary = require('../../domain/read-models/TrainingSummary');
 const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
@@ -32,6 +33,15 @@ module.exports = {
     const targetProfileTrainings = await knex('target-profile-trainings').where('trainingId', training.id);
 
     return _toDomain(training, targetProfileTrainings);
+  },
+
+  async findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const query = knexConn(TABLE_NAME).select('trainings.*').orderBy('id', 'asc');
+    const { results, pagination } = await fetchPage(query, page);
+
+    const trainings = results.map((training) => new TrainingSummary(training));
+    return { trainings, pagination };
   },
 
   async findByCampaignParticipationIdAndLocale({

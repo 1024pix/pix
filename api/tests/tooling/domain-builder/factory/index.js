@@ -126,6 +126,7 @@ module.exports = {
   buildTargetProfileSummaryForAdmin: require('./build-target-profile-summary-for-admin'),
   buildThematic: require('./build-thematic'),
   buildTraining: require('./build-training'),
+  buildTrainingSummary: require('./build-training-summary'),
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
   buildTutorialForUser: require('./build-tutorial-for-user'),
