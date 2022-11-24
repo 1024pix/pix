@@ -491,8 +491,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Modifier les informations du candidat');
 
             // when
-            await fillByLabel('* Nom de famille', 'Summers');
-            await fillByLabel('* Commune de naissance', 'Sunnydale');
+            await fillByLabel('Nom de famille', 'Summers');
+            await fillByLabel('Commune de naissance', 'Sunnydale');
             await clickByName('Enregistrer');
 
             // then
@@ -513,8 +513,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Modifier les informations du candidat');
 
             // when
-            await fillByLabel('* Nom de famille', 'Summers');
-            await fillByLabel('* Commune de naissance', 'Sunnydale');
+            await fillByLabel('Nom de famille', 'Summers');
+            await fillByLabel('Commune de naissance', 'Sunnydale');
             await clickByName('Enregistrer');
 
             // then
@@ -528,12 +528,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Modifier les informations du candidat');
 
             // when
-            await fillByLabel('* Nom de famille', 'Summers');
-            await fillByLabel('* Commune de naissance', 'Sunnydale');
+            await fillByLabel('Nom de famille', 'Summers');
+            await fillByLabel('Commune de naissance', 'Sunnydale');
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.queryByText('Editer les informations du candidat')).doesNotExist();
+            assert.dom(screen.queryByRole('heading', { name: 'Éditer les informations du candidat' })).doesNotExist();
           });
         });
 
@@ -550,7 +550,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
-            await fillByLabel('* Nom de famille', 'Summers');
+            await fillByLabel('Nom de famille', 'Summers');
 
             // when
             await clickByName('Enregistrer');
@@ -571,13 +571,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
-            await fillByLabel('* Nom de famille', 'Summers');
+            await fillByLabel('Nom de famille', 'Summers');
 
             // when
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.getByText('Editer les informations du candidat')).exists();
+            assert.dom(screen.getByRole('heading', { name: 'Éditer les informations du candidat' })).exists();
           });
 
           test('should leave candidate information untouched when aborting the edition', async function (assert) {
@@ -592,7 +592,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
-            await fillByLabel('* Nom de famille', 'Summers');
+            await fillByLabel('Nom de famille', 'Summers');
             await clickByName('Enregistrer');
 
             // when
