@@ -30,7 +30,7 @@
       <OneWayDateMask
         required
         @placeholder="dd/mm/yyyy"
-        @options={{hash inputFormat="dd/mm/yyyy" outputFormat="dd/mm/yyyy"}}
+        @options={{this.query}}
         @class="certification-candidates-input {{if this.birthdateFocused 'focused'}}"
         id="certification-candidates-input-birthdate"
         {{on "focus" this.focusBirthdate}}
