@@ -55,7 +55,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       reloadStub.resolves();
       this.targetProfile = { id: 123, reload: reloadStub };
 
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{targetProfile}} />`);
+      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
 
       // when
       await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage.svg');

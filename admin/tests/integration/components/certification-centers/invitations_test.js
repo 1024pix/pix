@@ -14,7 +14,7 @@ module('Integration | Component | Certification Centers | Invitations', function
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::Invitations @certificationCenterInvitations={{certificationCenterInvitations}} />`
+        hbs`<CertificationCenters::Invitations @certificationCenterInvitations={{this.certificationCenterInvitations}} />`
       );
 
       // then

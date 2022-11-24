@@ -29,7 +29,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{participation}}/>`);
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}}/>`);
 
       // then
       assert.dom(screen.getByText('Jean Claude')).exists();
@@ -48,7 +48,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}}/>`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}}/>`
       );
 
       // then
@@ -65,7 +65,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}}/>`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}}/>`
       );
 
       // then
@@ -81,7 +81,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{participation}}/>`);
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}}/>`);
 
       // then
       assert.dom(screen.getByText('01/01/2020')).exists();
@@ -96,7 +96,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{participation}}/>`);
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}}/>`);
 
       // then
       assert.dom(screen.getByText('01/01/2022 par')).exists();
@@ -215,7 +215,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       //when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}}/>`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}}/>`
       );
 
       // expect
