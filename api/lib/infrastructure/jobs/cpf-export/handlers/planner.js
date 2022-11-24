@@ -21,7 +21,9 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
     await cpfCertificationResultRepository.markCertificationToExport({
       certificationCourseIds,
       batchId,
+      cpfImportStatus: 'PENDING',
     });
+
     pgBoss.send('CpfExportBuilderJob', {
       jobId: batchId,
     });
