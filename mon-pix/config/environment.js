@@ -117,12 +117,6 @@ module.exports = function (environment) {
       strikethrough: true,
     },
 
-    moment: {
-      // Locale supported by moment.js
-      // English is bundled automatically, not need to add en in includeLocales
-      includeLocales: ['fr'],
-    },
-
     matomo: {},
 
     '@sentry/ember': {
