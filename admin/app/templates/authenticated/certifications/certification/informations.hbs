@@ -294,10 +294,11 @@
   @show={{this.displayConfirm}}
 />
 
-<Certifications::CandidateEditModal
-  @isDisplayed={{this.isCandidateEditModalOpen}}
-  @onCancelButtonsClicked={{this.closeCandidateEditModal}}
-  @onFormSubmit={{this.onCandidateInformationSave}}
-  @candidate={{this.certification}}
-  @countries={{this.countries}}
-/>
+{{#if this.isCandidateEditModalOpen}}
+  <Certifications::CandidateEditModal
+    @onCancelButtonsClicked={{this.closeCandidateEditModal}}
+    @onFormSubmit={{this.onCandidateInformationSave}}
+    @candidate={{this.certification}}
+    @countries={{this.countries}}
+  />
+{{/if}}

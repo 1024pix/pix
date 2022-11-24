@@ -1,55 +1,46 @@
-<Modal::Dialog
-  class="candidate-edit-modal"
-  @title="Editer les informations du candidat"
-  @display={{@isDisplayed}}
-  @close={{this.onCancelButtonsClicked}}
->
-  <form {{on "submit" this.onFormSubmit}}>
-    <Modal::Body class="candidate-edit-modal__content">
+<PixModal @title="Éditer les informations du candidat" @onCloseButtonClick={{this.onCancelButtonsClicked}}>
+  <:content>
+    <form id="candidate-edit-form" {{on "submit" this.onFormSubmit}}>
+      <p class="candidate-edit-modal--content__required-fields-mention">
+        Tous les champs sont obligatoires.
+      </p>
 
-      <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
-        <label for="last-name" class="label">
-          <span class="required-field-indicator">*</span>
+      <div class="candidate-edit-modal--content__field">
+        <label for="last-name">
           Nom de famille
         </label>
         <Input id="last-name" @type="text" class="input" @value={{this.lastName}} {{did-insert this.focus}} required />
       </div>
 
-      <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
-        <label for="first-name" class="label">
-          <span class="required-field-indicator">*</span>
+      <div class="candidate-edit-modal--content__field">
+        <label for="first-name">
           Prénom
         </label>
         <Input id="first-name" @type="text" class="input" @value={{this.firstName}} required />
       </div>
 
-      <div class="candidate-edit-modal__content__field">
-        <span class="required-field-indicator">*</span>
+      <div class="candidate-edit-modal--content__field-radio-button">
         Sexe
         <div class="radio-button-container">
-          <input
-            type="radio"
-            id="female"
+          <PixRadioButton
             name="sex"
-            required
+            @label="Femme"
             checked={{if (eq this.sex "F") true}}
-            {{on "click" (fn this.updateSexValue "F")}}
+            {{on "change" (fn this.updateSexValue "F")}}
+            required
           />
-          <label class="radio-button-label" for="female">Femme</label>
-          <input
-            type="radio"
-            id="male"
+          <PixRadioButton
             name="sex"
+            @label="Homme"
             checked={{if (eq this.sex "M") true}}
-            {{on "click" (fn this.updateSexValue "M")}}
+            {{on "change" (fn this.updateSexValue "M")}}
+            required
           />
-          <label class="radio-button-label" for="male">Homme</label>
         </div>
       </div>
 
-      <div class="candidate-edit-modal__content__field">
-        <label for="birthdate" class="label">
-          <span class="required-field-indicator">*</span>
+      <div class="candidate-edit-modal--content__field">
+        <label for="birthdate">
           Date de naissance
         </label>
         <EmberFlatpickr
@@ -63,13 +54,12 @@
         />
       </div>
 
-      <div class="candidate-edit-modal__content__field">
-        <label for="birth-country" class="label">
+      <div class="candidate-edit-modal--content__field">
+        <label for="birth-country">
           Pays de naissance
         </label>
         <PixSelect
           id="birth-country"
-          class="birth-country-selector"
           @options={{this.countryOptions}}
           @onChange={{this.selectBirthCountry}}
           @selectedOption={{this.selectedCountryOption}}
@@ -78,37 +68,30 @@
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}
-        <div class="candidate-edit-modal__content__field">
-          <span class="required-field-indicator">*</span>
+        <div class="candidate-edit-modal--content__field-radio-button">
           Code géographique de naissance
           <div class="radio-button-container">
-            <input
-              type="radio"
-              id="insee-code-choice"
+            <PixRadioButton
               name="birth-geo-code-option"
-              value="insee"
+              @label="Code INSEE"
               checked={{if (eq this.selectedBirthGeoCodeOption "insee") true}}
-              {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
+              {{on "change" (fn this.selectBirthGeoCodeOption "insee")}}
               required
             />
-            <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
-            <input
-              type="radio"
-              id="postal-code-choice"
+            <PixRadioButton
               name="birth-geo-code-option"
-              value="postal"
+              @label="Code postal"
               checked={{if (eq this.selectedBirthGeoCodeOption "postal") true}}
-              {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
+              {{on "change" (fn this.selectBirthGeoCodeOption "postal")}}
+              required
             />
-            <label class="radio-button-label" for="postal-code-choice">Code postal</label>
           </div>
         </div>
       {{/if}}
 
       {{#if this.isBirthInseeCodeRequired}}
-        <div class="candidate-edit-modal__content__field">
-          <label for="birth-insee-code" class="label">
-            <span class="required-field-indicator">*</span>
+        <div class="candidate-edit-modal--content__field">
+          <label for="birth-insee-code">
             Code Insee de naissance
           </label>
           <Input id="birth-insee-code" @type="text" class="input" @value={{this.birthInseeCode}} required />
@@ -116,9 +99,8 @@
       {{/if}}
 
       {{#if this.isBirthPostalCodeRequired}}
-        <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
-          <label for="birth-postal-code" class="label">
-            <span class="required-field-indicator">*</span>
+        <div class="candidate-edit-modal--content__field">
+          <label for="birth-postal-code">
             Code postal de naissance
           </label>
           <Input id="birth-postal-code" @type="text" class="input" @value={{this.birthPostalCode}} required />
@@ -126,23 +108,27 @@
       {{/if}}
 
       {{#if this.isBirthCityRequired}}
-        <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
-          <label for="birth-city" class="label">
-            <span class="required-field-indicator">*</span>
+        <div class="candidate-edit-modal--content__field">
+          <label for="birth-city">
             Commune de naissance
           </label>
           <Input id="birth-city" @type="text" class="input" @value={{this.birthCity}} required />
         </div>
       {{/if}}
+    </form>
+  </:content>
 
-    </Modal::Body>
-    <Modal::Footer>
-      <PixButton @size="small" @backgroundColor="transparent-light" @triggerAction={{this.onCancelButtonsClicked}}>
-        Annuler
-      </PixButton>
-      <PixButton @size="small" @type="submit">
-        Enregistrer
-      </PixButton>
-    </Modal::Footer>
-  </form>
-</Modal::Dialog>
+  <:footer>
+    <PixButton
+      @size="small"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{this.onCancelButtonsClicked}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton form="candidate-edit-form" @size="small" @type="submit">
+      Enregistrer
+    </PixButton>
+  </:footer>
+</PixModal>

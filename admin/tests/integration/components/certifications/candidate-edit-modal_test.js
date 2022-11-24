@@ -24,25 +24,11 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
       // when
       const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{countries}} />`
       );
 
       // then
-      assert.dom(screen.getByText('Editer les informations du candidat')).exists();
-    });
-
-    test('it should not display the modal', async function (assert) {
-      // given
-      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
-      this.countries = [];
-
-      // when
-      const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{false}} @candidate={{candidate}} @countries={{countries}} />`
-      );
-
-      // then
-      assert.dom(screen.queryByText('Editer les informations du candidat')).doesNotExist();
+      assert.dom(screen.getByRole('heading', { name: 'Éditer les informations du candidat' })).exists();
     });
   });
 
@@ -68,12 +54,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
       // when
       const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{this.candidate}} @countries={{this.countries}} />`
       );
 
       // then
-      assert.dom(screen.getByRole('textbox', { name: '* Prénom' })).hasValue('Fabrice');
-      assert.dom(screen.getByRole('textbox', { name: '* Nom de famille' })).hasValue('Gadjo');
+      assert.dom(screen.getByRole('textbox', { name: 'Prénom' })).hasValue('Fabrice');
+      assert.dom(screen.getByRole('textbox', { name: 'Nom de famille' })).hasValue('Gadjo');
       assert.dom('#birthdate').hasValue('2000-12-15');
     });
 
@@ -99,7 +85,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -127,7 +113,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -157,14 +143,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom(screen.queryByRole('textbox', { name: '* Code Insee de naissance' })).doesNotExist();
-        assert.dom(screen.queryByRole('textbox', { name: '* Code postal de naissance' })).doesNotExist();
+        assert.dom(screen.queryByRole('textbox', { name: 'Code Insee de naissance' })).doesNotExist();
+        assert.dom(screen.queryByRole('textbox', { name: 'Code postal de naissance' })).doesNotExist();
         assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('DANEMARK');
-        assert.dom(screen.getByRole('textbox', { name: '* Commune de naissance' })).hasValue('Copenhague');
+        assert.dom(screen.getByRole('textbox', { name: 'Commune de naissance' })).hasValue('Copenhague');
       });
     });
 
@@ -190,13 +176,13 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom(screen.getByRole('textbox', { name: '* Code postal de naissance' })).hasValue('66440');
-        assert.dom(screen.queryByRole('textbox', { name: '* Code Insee de naissance' })).doesNotExist();
-        assert.dom(screen.getByRole('textbox', { name: '* Commune de naissance' })).hasValue('Torreilles');
+        assert.dom(screen.getByRole('textbox', { name: 'Code postal de naissance' })).hasValue('66440');
+        assert.dom(screen.queryByRole('textbox', { name: 'Code Insee de naissance' })).doesNotExist();
+        assert.dom(screen.getByRole('textbox', { name: 'Commune de naissance' })).hasValue('Torreilles');
         assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('FRANCE');
       });
     });
@@ -223,13 +209,13 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom(screen.queryByRole('textbox', { name: '* Code postal de naissance' })).doesNotExist();
-        assert.dom(screen.getByRole('textbox', { name: '* Code Insee de naissance' })).hasValue('66212');
-        assert.dom(screen.queryByRole('textbox', { name: '* Commune de naissance' })).doesNotExist();
+        assert.dom(screen.queryByRole('textbox', { name: 'Code postal de naissance' })).doesNotExist();
+        assert.dom(screen.getByRole('textbox', { name: 'Code Insee de naissance' })).hasValue('66212');
+        assert.dom(screen.queryByRole('textbox', { name: 'Commune de naissance' })).doesNotExist();
         assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('FRANCE');
       });
     });
@@ -255,29 +241,29 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
 
-      await fillByLabel('* Nom de famille', 'Belmans');
-      await fillByLabel('* Prénom', 'Gideona');
+      await fillByLabel('Nom de famille', 'Belmans');
+      await fillByLabel('Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await clickByName('Femme');
       await fillByLabel('Pays de naissance', '99100');
       await clickByName('Code postal');
-      await fillByLabel('* Code postal de naissance', '75001');
-      await fillByLabel('* Commune de naissance', 'PARIS 01');
+      await fillByLabel('Code postal de naissance', '75001');
+      await fillByLabel('Commune de naissance', 'PARIS 01');
 
       // when
       await clickByName('Annuler');
 
       // then
-      assert.dom(screen.getByRole('textbox', { name: '* Prénom' })).hasValue('Fabrice');
-      assert.dom(screen.getByRole('textbox', { name: '* Nom de famille' })).hasValue('Gadjo');
+      assert.dom(screen.getByRole('textbox', { name: 'Prénom' })).hasValue('Fabrice');
+      assert.dom(screen.getByRole('textbox', { name: 'Nom de famille' })).hasValue('Gadjo');
       assert.dom('#birthdate').hasValue('2000-12-15');
       assert.dom(screen.getByRole('radio', { name: 'Homme' })).isChecked();
-      assert.dom(screen.queryByRole('textbox', { name: '* Code Insee de naissance' })).doesNotExist();
-      assert.dom(screen.queryByRole('textbox', { name: '* Code postal de naissance' })).doesNotExist();
-      assert.dom(screen.getByRole('textbox', { name: '* Commune de naissance' })).hasValue('Copenhague');
+      assert.dom(screen.queryByRole('textbox', { name: 'Code Insee de naissance' })).doesNotExist();
+      assert.dom(screen.queryByRole('textbox', { name: 'Code postal de naissance' })).doesNotExist();
+      assert.dom(screen.getByRole('textbox', { name: 'Commune de naissance' })).hasValue('Copenhague');
       assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('DANEMARK');
     });
 
@@ -301,16 +287,16 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
-      await fillByLabel('* Nom de famille', 'Belmans');
-      await fillByLabel('* Prénom', 'Gideona');
+      await fillByLabel('Nom de famille', 'Belmans');
+      await fillByLabel('Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await clickByName('Femme');
       await fillByLabel('Pays de naissance', '99100');
       await clickByName('Code postal');
-      await fillByLabel('* Code postal de naissance', '75001');
-      await fillByLabel('* Commune de naissance', 'PARIS 01');
+      await fillByLabel('Code postal de naissance', '75001');
+      await fillByLabel('Commune de naissance', 'PARIS 01');
 
       // when
       await clickByName('Annuler');
@@ -326,7 +312,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       this.countries = [];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
 
       // when
@@ -344,7 +330,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       this.countries = [];
       this.onFormSubmitStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
       );
 
       // when
@@ -373,16 +359,16 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
       this.onFormSubmitStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
       );
-      await fillByLabel('* Nom de famille', 'Belmans');
-      await fillByLabel('* Prénom', 'Gideon');
+      await fillByLabel('Nom de famille', 'Belmans');
+      await fillByLabel('Prénom', 'Gideon');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await clickByName('Homme');
       await fillByLabel('Pays de naissance', '99100');
       await clickByName('Code postal');
-      await fillByLabel('* Code postal de naissance', '75001');
-      await fillByLabel('* Commune de naissance', 'PARIS 01');
+      await fillByLabel('Code postal de naissance', '75001');
+      await fillByLabel('Commune de naissance', 'PARIS 01');
 
       // when
       await clickByName('Enregistrer');
@@ -413,12 +399,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
         );
 
         // when
         await fillByLabel('Pays de naissance', '99101');
-        await fillByLabel('* Commune de naissance', 'Copenhague');
+        await fillByLabel('Commune de naissance', 'Copenhague');
         await clickByName('Enregistrer');
 
         // then
@@ -457,13 +443,13 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
         );
 
         // when
         await fillByLabel('Pays de naissance', '99100');
         await clickByName('Code INSEE');
-        await fillByLabel('* Code Insee de naissance', '66212');
+        await fillByLabel('Code Insee de naissance', '66212');
         await clickByName('Enregistrer');
 
         // then
@@ -502,14 +488,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
         );
 
         // when
         await fillByLabel('Pays de naissance', '99100');
         await clickByName('Code postal');
-        await fillByLabel('* Code postal de naissance', '66440');
-        await fillByLabel('* Commune de naissance', 'Torreilles');
+        await fillByLabel('Code postal de naissance', '66440');
+        await fillByLabel('Commune de naissance', 'Torreilles');
         await clickByName('Enregistrer');
 
         // then
@@ -547,16 +533,16 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
         ];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
         // when
         await fillByLabel('Pays de naissance', '99101');
 
         // then
-        assert.dom(screen.queryByText('* Code Insee de naissance')).doesNotExist();
-        assert.dom(screen.queryByText('* Code postal de naissance')).doesNotExist();
-        assert.dom(screen.getByLabelText('* Commune de naissance')).exists();
+        assert.dom(screen.queryByText('Code Insee de naissance')).doesNotExist();
+        assert.dom(screen.queryByText('Code postal de naissance')).doesNotExist();
+        assert.dom(screen.getByLabelText('Commune de naissance')).exists();
       });
     });
 
@@ -576,16 +562,16 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
         this.countries = [];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
         // when
         await clickByName('Code INSEE');
 
         // then
-        assert.dom(screen.getByLabelText('* Code Insee de naissance')).exists();
-        assert.dom(screen.queryByText('* Code postal de naissance')).doesNotExist();
-        assert.dom(screen.queryByText('* Commune de naissance')).doesNotExist();
+        assert.dom(screen.getByLabelText('Code Insee de naissance')).exists();
+        assert.dom(screen.queryByText('Code postal de naissance')).doesNotExist();
+        assert.dom(screen.queryByText('Commune de naissance')).doesNotExist();
       });
     });
 
@@ -605,7 +591,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
         this.countries = [];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
         // when
@@ -613,8 +599,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // then
         assert.dom(screen.queryByText('Code INSEE de naissance')).doesNotExist();
-        assert.dom(screen.getByLabelText('* Code postal de naissance')).exists();
-        assert.dom(screen.getByLabelText('* Commune de naissance')).exists();
+        assert.dom(screen.getByLabelText('Code postal de naissance')).exists();
+        assert.dom(screen.getByLabelText('Commune de naissance')).exists();
       });
     });
   });
