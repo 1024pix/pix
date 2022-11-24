@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../../test-helper');
 const createServer = require('../../../../../server');
 const jsonwebtoken = require('jsonwebtoken');
 const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
@@ -6,6 +6,10 @@ const authenticationSessionService = require('../../../../../lib/domain/services
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/check-reconciliation', function () {
     context('when user has no oidc authentication method', function () {
+      afterEach(async function () {
+        await knex('user-logins').delete();
+      });
+
       it('should return 200 HTTP status', async function () {
         // given
         const server = await createServer();

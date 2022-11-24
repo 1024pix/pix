@@ -24,6 +24,7 @@ describe('Acceptance | Controller | users-controller-update-password', function 
   afterEach(async function () {
     await knex('authentication-methods').delete();
     await knex('reset-password-demands').delete();
+    await knex('user-logins').delete();
   });
 
   describe('Error case', function () {
