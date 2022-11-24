@@ -81,6 +81,7 @@
     "ember-click-outside": "^5.0.1",
     "ember-collapsible-panel": "^5.0.0",
     "ember-data": "^3.28.10",
+    "ember-dayjs": "^0.10.3",
     "ember-decorators": "^6.1.1",
     "ember-exam": "^6.0.1",
     "ember-export-application-global": "^2.0.1",
