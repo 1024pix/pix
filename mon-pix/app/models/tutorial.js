@@ -5,7 +5,7 @@ import { computed } from '@ember/object';
 
 export default class Tutorial extends Model {
   // attributes
-  @attr('string') duration;
+  @attr('duration-extended') duration;
   @attr('string') format;
   @attr('string') link;
   @attr('string') source;
