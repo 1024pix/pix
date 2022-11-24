@@ -218,11 +218,16 @@ module('Integration | Component | session-summary-list', function (hooks) {
           const store = this.owner.lookup('service:store');
           const sessionSummary = store.createRecord('session-summary', {
             id: 123,
-            meta: {
-              rowCount: 1,
-            },
           });
-          this.sessionSummaries = [sessionSummary];
+          const sessionSummaries = [sessionSummary];
+          sessionSummaries.meta = {
+            page: 1,
+            pageSize: 25,
+            rowCount: 1,
+            pageCount: 1,
+            hasSessions: true,
+          };
+          this.sessionSummaries = sessionSummaries;
 
           const screen = await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
@@ -249,11 +254,16 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const sessionSummary = store.createRecord('session-summary', {
               id: 123,
               enrolledCandidatesCount: 5,
-              meta: {
-                rowCount: 1,
-              },
             });
-            this.sessionSummaries = [sessionSummary];
+            const sessionSummaries = [sessionSummary];
+            sessionSummaries.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+              hasSessions: true,
+            };
+            this.sessionSummaries = sessionSummaries;
 
             const screen = await render(hbs`<SessionSummaryList
                     @sessionSummaries={{this.sessionSummaries}}
@@ -278,11 +288,16 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const sessionSummary = store.createRecord('session-summary', {
               id: 123,
               enrolledCandidatesCount: 1,
-              meta: {
-                rowCount: 1,
-              },
             });
-            this.sessionSummaries = [sessionSummary];
+            const sessionSummaries = [sessionSummary];
+            sessionSummaries.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+              hasSessions: true,
+            };
+            this.sessionSummaries = sessionSummaries;
 
             const screen = await render(hbs`<SessionSummaryList
                     @sessionSummaries={{this.sessionSummaries}}
@@ -309,11 +324,16 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const sessionSummary = store.createRecord('session-summary', {
               id: 123,
               enrolledCandidatesCount: 0,
-              meta: {
-                rowCount: 1,
-              },
             });
-            this.sessionSummaries = [sessionSummary];
+            const sessionSummaries = [sessionSummary];
+            sessionSummaries.meta = {
+              page: 1,
+              pageSize: 25,
+              rowCount: 1,
+              pageCount: 1,
+              hasSessions: true,
+            };
+            this.sessionSummaries = sessionSummaries;
 
             const screen = await render(hbs`<SessionSummaryList
                       @sessionSummaries={{this.sessionSummaries}}

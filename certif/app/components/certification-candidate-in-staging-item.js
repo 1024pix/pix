@@ -52,6 +52,13 @@ export default class CertificationCandidateInStagingItem extends Component {
     return inputDate > firstOf20thCentury;
   }
 
+  get query() {
+    return {
+      inputFormat: 'dd/mm/yyyy',
+      outputFormat: 'dd/mm/yyyy',
+    };
+  }
+
   @action
   focusLastName() {
     this.lastNameFocused = true;

@@ -79,7 +79,7 @@
         <OneWayDateMask
           required
           @placeholder="dd/mm/yyyy"
-          @options={{hash inputFormat="dd/mm/yyyy" outputFormat="dd/mm/yyyy"}}
+          @options={{this.query}}
           class="input"
           id="birthdate"
           @value={{this.maskedBirthdate}}
