@@ -1,9 +1,26 @@
 const { knex } = require('../../../db/knex-database-connection');
 const UserLogin = require('../../domain/models/UserLogin');
 
+function _toDomain(userLoginDTO) {
+  return new UserLogin({
+    id: userLoginDTO.id,
+    userId: userLoginDTO.userId,
+    failureCount: userLoginDTO.failureCount,
+    temporaryBlockedUntil: userLoginDTO.temporaryBlockedUntil,
+    blockedAt: userLoginDTO.blockedAt,
+    createdAt: userLoginDTO.createdAt,
+    updatedAt: userLoginDTO.updatedAt,
+  });
+}
+
 module.exports = {
   async findByUserId(userId) {
     const foundUserLogin = await knex.from('user-logins').where({ userId }).first();
-    return foundUserLogin ? new UserLogin(foundUserLogin) : null;
+    return foundUserLogin ? _toDomain(foundUserLogin) : null;
+  },
+
+  async create(userLogin) {
+    const [userLoginDTO] = await knex('user-logins').insert(userLogin).returning('*');
+    return _toDomain(userLoginDTO);
   },
 };
