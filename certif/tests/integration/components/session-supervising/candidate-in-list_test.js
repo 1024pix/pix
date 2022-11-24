@@ -416,7 +416,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             await click(screen.getByRole('button', { name: 'Annuler et fermer la fenêtre de confirmation' }));
 
             // then
-            assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
+            assert.dom(screen.getByRole('button', { name: 'Afficher les options du candidat' })).exists();
+            assert
+              .dom(screen.queryByRole('heading', { name: 'Terminer le test de Drax The Destroyer ?' }))
+              .doesNotExist();
           });
         });
 
