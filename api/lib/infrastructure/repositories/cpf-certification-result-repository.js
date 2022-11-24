@@ -33,8 +33,12 @@ module.exports = {
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
-  async markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
-    return knex('certification-courses').update({ cpfFilename: filename }).whereIn('id', certificationCourseIds);
+  async markCertificationCoursesAsExported({ certificationCourseIds, filename, cpfImportStatus }) {
+    const now = new Date();
+
+    return knex('certification-courses')
+      .update({ cpfFilename: filename, cpfImportStatus, updatedAt: now })
+      .whereIn('id', certificationCourseIds);
   },
 
   async markCertificationToExport({ certificationCourseIds, batchId, cpfImportStatus }) {

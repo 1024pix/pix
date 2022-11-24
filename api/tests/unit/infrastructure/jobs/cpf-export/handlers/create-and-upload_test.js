@@ -72,6 +72,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
         certificationCourseIds: [12, 20, 33, 98, 114],
         filename: 'pix-cpf-export-20220101-114327.xml.gz',
+        cpfImportStatus: 'UPLOADED',
       });
 
       expect(loggerSpy).to.not.have.been.called;

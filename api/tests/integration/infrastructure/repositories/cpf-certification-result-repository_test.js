@@ -470,13 +470,16 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       await cpfCertificationResultRepository.markCertificationCoursesAsExported({
         certificationCourseIds: [456, 789],
         filename: 'filename.xml',
+        cpfImportStatus: 'GENERATED',
       });
 
       // then
-      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename');
-      expect(certificationCourses.find(({ id }) => id === 123).cpfFilename).to.be.null;
-      expect(certificationCourses.find(({ id }) => id === 456).cpfFilename).to.equal('filename.xml');
-      expect(certificationCourses.find(({ id }) => id === 789).cpfFilename).to.equal('filename.xml');
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename', 'cpfImportStatus');
+      expect(certificationCourses).to.deep.equal([
+        { id: 123, cpfImportStatus: null, cpfFilename: null },
+        { id: 456, cpfImportStatus: 'GENERATED', cpfFilename: 'filename.xml' },
+        { id: 789, cpfImportStatus: 'GENERATED', cpfFilename: 'filename.xml' },
+      ]);
     });
   });
 
