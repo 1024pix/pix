@@ -155,6 +155,7 @@ const dependencies = {
   tutorialEvaluationRepository: require('../../infrastructure/repositories/tutorial-evaluation-repository'),
   tutorialRepository: require('../../infrastructure/repositories/tutorial-repository'),
   userEmailRepository: require('../../infrastructure/repositories/user-email-repository'),
+  userLoginRepository: require('../../infrastructure/repositories/user-login-repository'),
   userOrgaSettingsRepository: require('../../infrastructure/repositories/user-orga-settings-repository'),
   userRecommendedTrainingRepository: require('../../infrastructure/repositories/user-recommended-training-repository'),
   userReconciliationService: require('../services/user-reconciliation-service'),
