@@ -176,13 +176,14 @@
   </tbody>
 </table>
 
-<Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
-  @showAddAuthenticationMethodModal={{this.showAddAuthenticationMethodModal}}
-  @onChangeNewEmail={{this.onChangeNewEmail}}
-  @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
-  @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
-  @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
-/>
+{{#if this.showAddAuthenticationMethodModal}}
+  <Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
+    @onChangeNewEmail={{this.onChangeNewEmail}}
+    @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
+    @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
+    @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
+  />
+{{/if}}
 
 {{#if this.showReassignGarAuthenticationMethodModal}}
   <Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
