@@ -77,7 +77,6 @@
     "ember-file-upload": "^3.0.5",
     "ember-flatpickr": "^3.0.1",
     "ember-load-initializers": "^2.1.2",
-    "ember-modal-dialog": "^3.0.1",
     "ember-models-table": "^3.4.0",
     "ember-native-dom-helpers": "^0.6.3",
     "ember-page-title": "^6.2.1",
