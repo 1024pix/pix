@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
-const createServer = require('../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | user-orga-settings-controller', function () {
   let server;
