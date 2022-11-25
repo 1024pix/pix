@@ -39,19 +39,18 @@
     </p>
   </div>
 
-  {{#if this.isConfirmationModalDisplayed}}
-    <SessionSupervising::ConfirmationModal
-      @closeConfirmationModal={{this.closeConfirmationModal}}
-      @actionOnConfirmation={{this.actionConfirmation}}
-      @candidate={{this.candidate}}
-      @modalCancelText={{this.modalCancelText}}
-      @modalConfirmationButtonText={{this.modalConfirmationText}}
-      @title="{{this.modalInstructionText}}"
-    >
-      <:description>
-        {{this.modalDescriptionText}}
-      </:description>
-    </SessionSupervising::ConfirmationModal>
+  <SessionSupervising::ConfirmationModal
+    @showModal={{this.isConfirmationModalDisplayed}}
+    @closeConfirmationModal={{this.closeConfirmationModal}}
+    @actionOnConfirmation={{this.actionConfirmation}}
+    @candidate={{this.candidate}}
+    @modalCancelText={{this.modalCancelText}}
+    @modalConfirmationButtonText={{this.modalConfirmationText}}
+    @title="{{this.modalInstructionText}}"
+  >
+    <:description>
+      {{this.modalDescriptionText}}
+    </:description>
+  </SessionSupervising::ConfirmationModal>
 
-  {{/if}}
 </div>
