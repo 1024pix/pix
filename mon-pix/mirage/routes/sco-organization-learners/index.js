@@ -60,6 +60,7 @@ export default function index(config) {
       samlId,
       password: '',
       cgu: false,
+      lang: 'fr',
     };
 
     const user = schema.users.create(newUser);

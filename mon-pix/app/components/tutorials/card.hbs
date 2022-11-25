@@ -15,7 +15,7 @@
         •
         {{@tutorial.format}}
         •
-        {{moment-duration @tutorial.duration}}
+        {{dayjs-duration-humanize @tutorial.duration "seconds"}}
       </p>
       {{#if this.shouldShowActions}}
         <ul class="tutorial-card-content__actions">

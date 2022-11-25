@@ -9,6 +9,7 @@ export default function (config) {
     const createdUser = schema.users.create({
       firstName: 'Lloyd',
       lastName: 'Cé',
+      lang: 'fr',
     });
 
     return {
@@ -56,6 +57,7 @@ export default function (config) {
     const createdUser = schema.users.create({
       firstName: 'Lloyd',
       lastName: 'Cé',
+      lang: 'fr',
       profile,
     });
 

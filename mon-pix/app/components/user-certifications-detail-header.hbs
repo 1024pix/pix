@@ -7,7 +7,7 @@
 
       <p class="user-certifications-detail-header__info-certificate--grey">
         {{t "pages.certificate.issued-on"}}
-        {{moment-format @certification.deliveredAt "D MMMM YYYY"}}
+        {{dayjs-format @certification.deliveredAt "D MMMM YYYY"}}
       </p>
 
       <p>{{@certification.fullName}}</p>
@@ -15,13 +15,13 @@
         {{#if @certification.birthplace}}
           {{t
             "pages.certificate.candidate-birth-complete"
-            birthdate=(moment-format this.birthdateMidnightLocalTime "D MMMM YYYY")
+            birthdate=(dayjs-format this.birthdateMidnightLocalTime "D MMMM YYYY")
             birthplace=@certification.birthplace
           }}
         {{else}}
           {{t
             "pages.certificate.candidate-birth"
-            birthdate=(moment-format this.birthdateMidnightLocalTime "D MMMM YYYY")
+            birthdate=(dayjs-format this.birthdateMidnightLocalTime "D MMMM YYYY")
           }}
         {{/if}}
       </p>
@@ -30,7 +30,7 @@
         <p>{{t "pages.certificate.certification-center"}} {{@certification.certificationCenter}}</p>
       {{/if}}
 
-      <p>{{t "pages.certificate.exam-date"}} {{moment-format @certification.date "D MMMM YYYY"}}</p>
+      <p>{{t "pages.certificate.exam-date"}} {{dayjs-format @certification.date "D MMMM YYYY"}}</p>
 
       {{#if @certification.shouldDisplayProfessionalizingWarning}}
         <p class="user-certifications-detail-header__info-certificate--professionalizing-warning">

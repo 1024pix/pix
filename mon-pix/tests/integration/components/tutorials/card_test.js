@@ -14,16 +14,20 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
         user = { firstName: 'John' };
       }
 
+      const store = this.owner.lookup('service:store');
       this.owner.register('service:currentUser', CurrentUserStub);
-      this.set('tutorial', {
-        title: 'Mon super tutoriel',
-        link: 'https://exemple.net/',
-        source: 'mon-tuto',
-        format: 'vidéo',
-        duration: '00:01:00',
-        isEvaluated: true,
-        isSaved: true,
-      });
+      this.set(
+        'tutorial',
+        store.createRecord('tutorial', {
+          title: 'Mon super tutoriel',
+          link: 'https://exemple.net/',
+          source: 'mon-tuto',
+          format: 'vidéo',
+          duration: '60',
+          userSavedTutorial: store.createRecord('user-saved-tutorial', {}),
+          tutorialEvaluation: store.createRecord('tutorial-evaluation', { status: 'LIKED' }),
+        })
+      );
 
       // when
       await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
@@ -32,9 +36,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card__content').exists();
       assert.ok(find('.tutorial-card-content__link').textContent.includes('Mon super tutoriel'));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.tutorial-card-content__link').href, 'https://exemple.net/');
+      assert.strictEqual(find('.tutorial-card-content__link').href, 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
@@ -52,16 +54,20 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
         user = null;
       }
 
+      const store = this.owner.lookup('service:store');
       this.owner.register('service:currentUser', CurrentUserStub);
-      this.set('tutorial', {
-        title: 'Mon super tutoriel',
-        link: 'https://exemple.net/',
-        source: 'mon-tuto',
-        format: 'vidéo',
-        duration: '00:01:00',
-        isEvaluated: true,
-        isSaved: true,
-      });
+      this.set(
+        'tutorial',
+        store.createRecord('tutorial', {
+          title: 'Mon super tutoriel',
+          link: 'https://exemple.net/',
+          source: 'mon-tuto',
+          format: 'vidéo',
+          duration: '60',
+          userSavedTutorial: store.createRecord('user-saved-tutorial', {}),
+          tutorialEvaluation: store.createRecord('tutorial-evaluation', { status: 'LIKED' }),
+        })
+      );
 
       // when
       await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
@@ -70,9 +76,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card__content').exists();
       assert.ok(find('.tutorial-card-content__link').textContent.includes('Mon super tutoriel'));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.tutorial-card-content__link').href, 'https://exemple.net/');
+      assert.strictEqual(find('.tutorial-card-content__link').href, 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
