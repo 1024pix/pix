@@ -17,7 +17,7 @@ module.exports = async function createAndUpload({
   const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(jobId);
 
   if (cpfCertificationResults.length == 0) {
-    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found (jobId ${jobId})`);
+    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found  (jobId ${jobId})`);
     return;
   }
 
