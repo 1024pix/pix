@@ -148,14 +148,13 @@
   </div>
 </div>
 
-{{#if this.shouldDisplayCertificationCandidateModal}}
-  <CertificationCandidateDetailsModal
-    @closeModal={{this.closeCertificationCandidateDetailsModal}}
-    @candidate={{this.certificationCandidateInDetailsModal}}
-    @displayComplementaryCertification={{@displayComplementaryCertification}}
-    @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
-  />
-{{/if}}
+<CertificationCandidateDetailsModal
+  @showModal={{this.shouldDisplayCertificationCandidateModal}}
+  @closeModal={{this.closeCertificationCandidateDetailsModal}}
+  @candidate={{this.certificationCandidateInDetailsModal}}
+  @displayComplementaryCertification={{@displayComplementaryCertification}}
+  @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+/>
 
 <NewCertificationCandidateModal
   @showModal={{this.showNewCertificationCandidateModal}}
