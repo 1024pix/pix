@@ -40,7 +40,7 @@ module('Acceptance | Trainings | List', function (hooks) {
 
         // when
         const screen = await visit('/trainings/list');
-        await click(screen.getByRole('link', { name: 'Aller à la page suivante' }));
+        await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
 
         // then
         assert.dom(screen.getByText('Formation 11')).exists();
