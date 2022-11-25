@@ -116,7 +116,7 @@
 <PixPagination @pagination={{@sessionSummaries.meta}} />
 
 <SessionDeleteConfirmModal
-  @show={{this.shouldDisplaySessionDeletionModal}}
+  @showModal={{this.shouldDisplaySessionDeletionModal}}
   @close={{this.closeSessionDeletionConfirmModal}}
   @sessionId={{this.currentSessionToBeDeletedId}}
   @enrolledCandidatesCount="{{this.currentEnrolledCandidatesCount}}"

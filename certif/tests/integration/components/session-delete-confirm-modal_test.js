@@ -17,7 +17,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
 
       // when
       const screen = await renderScreen(hbs`<SessionDeleteConfirmModal
-      @show={{this.shouldDisplaySessionDeletionModal}}
+      @showModal={{this.shouldDisplaySessionDeletionModal}}
       @close={{this.closeSessionDeletionConfirmModalStub}}
       @sessionId={{this.currentSessionToBeDeletedId}}
     />`);
@@ -39,7 +39,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
 
       // when
       const screen = await renderScreen(hbs`<SessionDeleteConfirmModal
-      @show={{this.shouldDisplaySessionDeletionModal}}
+      @showModal={{this.shouldDisplaySessionDeletionModal}}
       @close={{this.closeSessionDeletionConfirmModalStub}}
       @sessionId={{this.currentSessionToBeDeletedId}}
     />`);
@@ -59,7 +59,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
       this.currentSessionToBeDeletedId = 123;
 
       const screen = await renderScreen(hbs`<SessionDeleteConfirmModal
-        @show={{this.shouldDisplaySessionDeletionModal}}
+        @showModal={{this.shouldDisplaySessionDeletionModal}}
         @close={{this.closeSessionDeletionConfirmModalStub}}
         @sessionId={{this.currentSessionToBeDeletedId}}
       />`);
@@ -81,7 +81,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
       this.currentSessionToBeDeletedId = 123;
 
       const screen = await renderScreen(hbs`<SessionDeleteConfirmModal
-        @show={{this.shouldDisplaySessionDeletionModal}}
+        @showModal={{this.shouldDisplaySessionDeletionModal}}
         @close={{this.closeSessionDeletionConfirmModalStub}}
         @sessionId={{this.currentSessionToBeDeletedId}}
       />`);
@@ -104,7 +104,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
       this.deleteSessionStub = sinon.stub();
 
       const screen = await renderScreen(hbs`<SessionDeleteConfirmModal
-        @show={{this.shouldDisplaySessionDeletionModal}}
+        @showModal={{this.shouldDisplaySessionDeletionModal}}
         @close={{this.closeSessionDeletionConfirmModalStub}}
         @sessionId={{this.currentSessionToBeDeletedId}}
         @confirm={{this.deleteSessionStub}}
