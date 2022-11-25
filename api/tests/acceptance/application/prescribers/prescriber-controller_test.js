@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const createServer = require('../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | Prescriber-controller', function () {
   let user;

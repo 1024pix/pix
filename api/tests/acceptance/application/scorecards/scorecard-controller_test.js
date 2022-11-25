@@ -4,11 +4,11 @@ const {
   knex,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-} = require('../../test-helper');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
+} = require('../../../test-helper');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;

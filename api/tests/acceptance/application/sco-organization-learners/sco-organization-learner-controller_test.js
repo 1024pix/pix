@@ -4,10 +4,10 @@ const {
   generateValidRequestAuthorizationHeader,
   knex,
   generateIdTokenForExternalUser,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
-const createServer = require('../../../server');
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
+const createServer = require('../../../../server');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Acceptance | Controller | sco-organization-learners', function () {
   let server;
