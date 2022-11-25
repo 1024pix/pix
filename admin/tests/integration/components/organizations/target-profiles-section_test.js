@@ -27,7 +27,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
       this.set('organization', organization);
 
       // when
-      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
+      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Valider' })).isDisabled();
@@ -46,7 +46,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
       this.set('organization', organization);
 
       // when
-      await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
+      await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
       await fillByLabel('ID du ou des profil(s) cible(s)', '1');
       await clickByName('Valider');
 
@@ -69,7 +69,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
+      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
 
       // expect
       assert.dom(screen.queryByRole('button', { name: 'Valider' })).doesNotExist();

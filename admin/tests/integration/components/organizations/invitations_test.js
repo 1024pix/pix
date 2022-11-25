@@ -24,7 +24,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
         this.set('invitations', []);
 
         // when
-        const screen = await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
+        const screen = await render(hbs`<Organizations::Invitations @invitations={{this.invitations}}/>`);
 
         // then
         assert.dom(screen.getByText('Aucune invitation en attente')).exists();
@@ -60,7 +60,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
         // when
         const screen = await render(
           hbs`<Organizations::Invitations
-          @invitations={{invitations}}
+          @invitations={{this.invitations}}
           @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}/>`
         );
 
@@ -121,7 +121,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
         this.set('invitations', []);
 
         // when
-        const screen = await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
+        const screen = await render(hbs`<Organizations::Invitations @invitations={{this.invitations}}/>`);
 
         // then
         assert.dom(screen.getByText('Aucune invitation en attente')).exists();
@@ -157,7 +157,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
         // when
         const screen = await render(
           hbs`<Organizations::Invitations
-          @invitations={{invitations}}
+          @invitations={{this.invitations}}
           @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}/>`
         );
 
