@@ -197,6 +197,7 @@ module('Acceptance | Session supervising', function (hooks) {
     // when
     await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
     await click(firstVisit.getByRole('button', { name: 'Autoriser la reprise du test' }));
+    await firstVisit.findByRole('dialog');
     await click(firstVisit.getByRole('button', { name: "Je confirme l'autorisation" }));
 
     // then
