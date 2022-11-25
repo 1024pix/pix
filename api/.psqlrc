@@ -1,0 +1,4 @@
+\set last_autovaccum 'SELECT schemaname,relname, last_vacuum, last_autovacuum FROM pg_stat_user_tables WHERE last_autovacuum IS NOT NULL ORDER BY last_autovacuum DESC;'
+\set active_queries 'SELECT query_start, query from pg_stat_activity FROM state <> \'idle\' ORDER BY query_start;'
+\set active_queries_count 'SELECT count(*) from pg_stat_activity FROM state <> \'idle\';'
+\set vacuum_in_progress 'SELECT * FROM pg_stat_progress_vacuum INNER JOIN pg_stat_user_tables USING(relid);'
