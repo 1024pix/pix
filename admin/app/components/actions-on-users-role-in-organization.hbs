@@ -63,24 +63,26 @@
       </PixButton>
     </div>
 
-    {{#if this.displayConfirm}}
-      <PixModal @title="Désactivation d'un membre" @onCloseButtonClick={{this.toggleDisplayConfirm}}>
-        <:content>
-          <p>
-            Etes-vous sûr de vouloir désactiver le membre de cette équipe ?
-          </p>
-        </:content>
-        <:footer>
-          <PixButton
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-            @triggerAction={{this.toggleDisplayConfirm}}
-          >
-            Annuler
-          </PixButton>
-          <PixButton @triggerAction={{this.disableOrganizationMembership}}>Confirmer</PixButton>
-        </:footer>
-      </PixModal>
-    {{/if}}
+    <PixModal
+      @title="Désactivation d'un membre"
+      @onCloseButtonClick={{this.toggleDisplayConfirm}}
+      @showModal={{this.displayConfirm}}
+    >
+      <:content>
+        <p>
+          Etes-vous sûr de vouloir désactiver le membre de cette équipe ?
+        </p>
+      </:content>
+      <:footer>
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.toggleDisplayConfirm}}
+        >
+          Annuler
+        </PixButton>
+        <PixButton @triggerAction={{this.disableOrganizationMembership}}>Confirmer</PixButton>
+      </:footer>
+    </PixModal>
   </td>
 {{/if}}

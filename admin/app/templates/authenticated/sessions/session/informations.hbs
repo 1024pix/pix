@@ -158,29 +158,31 @@
   @onDeleteButtonClicked={{this.deleteComment}}
 />
 
-{{#if this.isShowingAssignmentModal}}
-  <PixModal @title="Assignation de la session" @onCloseButtonClick={{this.cancelAssignment}}>
-    <:content>
-      <p>
-        L'utilisateur
-        {{this.sessionModel.assignedCertificationOfficer.fullName}}
-        s'est déjà assigné cette session.
-        <br />
-        Voulez-vous vous quand même vous assigner cette session ?
-      </p>
-    </:content>
-    <:footer>
-      <PixButton
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @size="small"
-        @triggerAction={{this.cancelAssignment}}
-      >
-        Annuler
-      </PixButton>
-      <PixButton @size="small" @triggerAction={{this.confirmAssignment}}>
-        Confirmer
-      </PixButton>
-    </:footer>
-  </PixModal>
-{{/if}}
+<PixModal
+  @title="Assignation de la session"
+  @onCloseButtonClick={{this.cancelAssignment}}
+  @showModal={{this.isShowingAssignmentModal}}
+>
+  <:content>
+    <p>
+      L'utilisateur
+      {{this.sessionModel.assignedCertificationOfficer.fullName}}
+      s'est déjà assigné cette session.
+      <br />
+      Voulez-vous vous quand même vous assigner cette session ?
+    </p>
+  </:content>
+  <:footer>
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+      @triggerAction={{this.cancelAssignment}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton @size="small" @triggerAction={{this.confirmAssignment}}>
+      Confirmer
+    </PixButton>
+  </:footer>
+</PixModal>

@@ -136,6 +136,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       const screen = await visit(`/users/${userToAnonymise.id}`);
       await click(screen.getByRole('button', { name: 'Anonymiser cet utilisateur' }));
 
+      await screen.findByRole('dialog');
+
       // when
       await click(screen.getByRole('button', { name: 'Confirmer' }));
 
@@ -167,6 +169,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       const screen = await visit(`/users/${user.id}`);
       await click(screen.getByRole('button', { name: 'Dissocier' }));
 
+      await screen.findByRole('dialog');
+
       // when
       await clickByName('Oui, je dissocie');
 
@@ -184,6 +188,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
       // when
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
+
+      await screen.findByRole('dialog');
+
       await clickByName('Oui, je supprime');
 
       // then
@@ -209,6 +216,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
       // when
       await click(screen.getByRole('button', { name: 'Supprimer' }));
+
+      await screen.findByRole('dialog');
+
       await clickByName('Oui, je supprime');
 
       // then

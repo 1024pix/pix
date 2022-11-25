@@ -200,6 +200,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       );
       await clickByName('Supprimer');
 
+      await screen.findByRole('dialog');
       // Then
       assert.dom(screen.getByText('Supprimer cette participation ?')).exists();
       await clickByName('Oui, je supprime');
