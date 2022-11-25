@@ -5,6 +5,7 @@ const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
 const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
 const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async (server) => {
   server.route([
@@ -49,6 +50,7 @@ exports.register = async (server) => {
             })
           ),
         },
+        pre: [{ method: securityPreHandlers.checkIfUserIsBlocked }],
         handler: AuthenticationController.createToken,
         tags: ['api'],
         notes: [
