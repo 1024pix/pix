@@ -1,5 +1,6 @@
 /* eslint-disable  no-restricted-syntax */
 const bluebird = require('bluebird');
+const checkIfUserIsBlockedUseCase = require('./usecases/checkIfUserIsBlocked');
 const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin');
 const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif');
 const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemberHasRoleSupport');
@@ -33,6 +34,12 @@ function _replyForbiddenError(h) {
   });
 
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+}
+
+async function checkIfUserIsBlocked(request, h) {
+  const { username } = request.payload;
+  await checkIfUserIsBlockedUseCase.execute(username);
+  return h.response(true);
 }
 
 async function checkAdminMemberHasRoleSuperAdmin(request, h) {
@@ -366,6 +373,7 @@ async function checkUserOwnsCertificationCourse(request, h) {
 /* eslint-enable no-restricted-syntax */
 
 module.exports = {
+  checkIfUserIsBlocked,
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
