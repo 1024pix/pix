@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@1024pix/ember-testing-library';
 
-module('Integration | Component |  users | user-profile', function (hooks) {
+module('Integration | Component | users | user-profile', function (hooks) {
   setupRenderingTest(hooks);
 
   test('should display user’s profile', async function (assert) {

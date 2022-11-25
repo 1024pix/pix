@@ -130,6 +130,8 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         const screen = await visit('/target-profiles/1');
         await clickByName('Marquer comme obsolète');
 
+        await screen.findByRole('dialog');
+
         await clickByName('Oui, marquer comme obsolète');
 
         // then
@@ -150,6 +152,8 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Marquer comme obsolète');
+
+        await screen.findByRole('dialog');
 
         await clickByName('Non, annuler');
 
@@ -216,6 +220,9 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Marquer comme accès simplifié');
+
+        await screen.findByRole('dialog');
+
         await clickByName('Oui, marquer comme accès simplifié');
 
         // then

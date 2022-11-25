@@ -197,6 +197,9 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             // when
             const screen = await visit('/sessions/6');
             await clickByName('Supprimer');
+
+            await screen.findByRole('dialog');
+
             await clickByName('Confirmer');
 
             // then
@@ -231,6 +234,9 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             // when
             const screen = await visit('/sessions/6');
             await clickByName('Supprimer');
+
+            await screen.findByRole('dialog');
+
             await clickByName('Confirmer');
 
             // then

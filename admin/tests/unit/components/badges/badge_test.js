@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 
 import createComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit |  Component | Badges | badge', function (hooks) {
+module('Unit | Component | Badges | badge', function (hooks) {
   setupTest(hooks);
 
   module('isCertifiable', function () {

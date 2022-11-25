@@ -5,7 +5,7 @@ import { render, clickByName, selectByLabelAndOption } from '@1024pix/ember-test
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Integration | Component |  actions-on-users-role-in-organization', function (hooks) {
+module('Integration | Component | actions-on-users-role-in-organization', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when user has access to organization actions scope', function () {
@@ -66,8 +66,14 @@ module('Integration | Component |  actions-on-users-role-in-organization', funct
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      await render(hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`);
+      const screen = await render(
+        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`
+      );
+
       await clickByName("Désactiver l'agent");
+
+      await screen.findByRole('dialog');
+
       await clickByName('Confirmer');
 
       // then

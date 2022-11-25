@@ -38,13 +38,12 @@
       <PixButton @size="small" @isBorderVisible={{true}} @triggerAction={{this.toggleResolveModal}}>Modifier la
         résolution</PixButton>
     {{/if}}
-    {{#if this.showResolveModal}}
-      <Certifications::IssueReports::ResolveIssueReportModal
-        @toggleResolveModal={{this.toggleResolveModal}}
-        @issueReport={{@issueReport}}
-        @resolveIssueReport={{@resolveIssueReport}}
-        @closeResolveModal={{this.closeResolveModal}}
-      />
-    {{/if}}
+    <Certifications::IssueReports::ResolveIssueReportModal
+      @toggleResolveModal={{this.toggleResolveModal}}
+      @issueReport={{@issueReport}}
+      @resolveIssueReport={{@resolveIssueReport}}
+      @closeResolveModal={{this.closeResolveModal}}
+      @displayModal={{this.showResolveModal}}
+    />
   {{/if}}
 </li>

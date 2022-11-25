@@ -1,4 +1,8 @@
-<PixModal @title="Déplacer la méthode de connexion" @onCloseButtonClick={{@toggleReassignGarAuthenticationMethodModal}}>
+<PixModal
+  @title="Déplacer la méthode de connexion"
+  @onCloseButtonClick={{@toggleReassignGarAuthenticationMethodModal}}
+  @showModal={{@isDisplayed}}
+>
   <:content>
     <p class="reassign-authentication-method-modal__form-body__information">
       Vous vous apprêtez à déplacer la méthode Médiacentre sur un autre utilisateur. Cela signifie qu'elle n'existera
