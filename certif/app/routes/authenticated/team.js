@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 
 export default class AuthenticatedTeamRoute extends Route {
   @service currentUser;
+  @service store;
 
   model() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;

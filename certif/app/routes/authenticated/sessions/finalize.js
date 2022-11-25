@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default class SessionsFinalizeRoute extends Route {
   @service notifications;
   @service currentUser;
+  @service store;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();

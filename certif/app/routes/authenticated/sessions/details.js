@@ -4,6 +4,7 @@ import EmberObject from '@ember/object';
 
 export default class SessionsDetailsRoute extends Route {
   @service currentUser;
+  @service store;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();
