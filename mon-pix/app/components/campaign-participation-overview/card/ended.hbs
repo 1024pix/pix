@@ -6,7 +6,7 @@
     <h3 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h3>
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date" datetime="{{@model.sharedAt}}">
-      {{t "pages.campaign-participation-overview.card.finished-at" date=(moment-format @model.sharedAt "DD/MM/YYYY")}}
+      {{t "pages.campaign-participation-overview.card.finished-at" date=(dayjs-format @model.sharedAt "DD/MM/YYYY")}}
     </time>
   </div>
   <section class="campaign-participation-overview-card-content">

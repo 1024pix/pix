@@ -6,7 +6,7 @@ export default class CurrentSessionService extends SessionService {
   @service currentUser;
   @service currentDomain;
   @service intl;
-  @service moment;
+  @service dayjs;
   @service url;
   @service router;
   @service oidcIdentityProviders;
@@ -122,7 +122,8 @@ export default class CurrentSessionService extends SessionService {
   _setLocale(locale) {
     const defaultLocale = 'fr';
     this.intl.setLocale([locale, defaultLocale]);
-    this.moment.setLocale(locale);
+    this.dayjs.setLocale(locale);
+    this.dayjs.self.locale(locale);
   }
 
   _getRouteAfterInvalidation() {

@@ -34,6 +34,7 @@ export default function index(config) {
       firstName: '',
       lastName: '',
       isAnonymous: true,
+      lang: 'fr',
     });
 
     return {
