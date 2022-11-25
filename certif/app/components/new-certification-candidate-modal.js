@@ -21,7 +21,7 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   get complementaryCertifications() {
-    return this.currentUser.currentAllowedCertificationCenterAccess.habilitations;
+    return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
 
   @action
@@ -130,7 +130,7 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   get countryOptions() {
-    return this.args.countries.map((country) => {
+    return this.args.countries?.map((country) => {
       return { label: country.name, value: country.code };
     });
   }

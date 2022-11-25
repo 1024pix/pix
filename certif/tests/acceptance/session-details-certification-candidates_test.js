@@ -142,6 +142,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await click(
             screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`)
           );
+          await screen.findByRole('dialog');
 
           // then
           assert.contains('Détail du candidat');
@@ -266,6 +267,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
 
         // then
+        await screen.findByRole('dialog');
         assert.contains('Inscrire le candidat');
       });
 
