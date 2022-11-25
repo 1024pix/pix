@@ -71,6 +71,20 @@ function trainingBuilder({ databaseBuilder }) {
     duration: '10:00:00',
     locale: 'fr-fr',
   });
+  const training11 = databaseBuilder.factory.buildTraining({
+    title: 'Faire carrière dans la haute couture',
+    link: 'http://www.example11.net',
+    type: 'autoformation',
+    duration: '07:00:00',
+    locale: 'fr-fr',
+  });
+  const training12 = databaseBuilder.factory.buildTraining({
+    title: 'Devenir tiktokeur professionel',
+    link: 'http://www.example12.net',
+    type: 'autoformation',
+    duration: '12:00:00',
+    locale: 'fr-fr',
+  });
   databaseBuilder.factory.buildTargetProfileTraining({
     trainingId: training1.id,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
@@ -109,6 +123,14 @@ function trainingBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildTargetProfileTraining({
     trainingId: training10.id,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+  });
+  databaseBuilder.factory.buildTargetProfileTraining({
+    trainingId: training11.id,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+  });
+  databaseBuilder.factory.buildTargetProfileTraining({
+    trainingId: training12.id,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   });
 }
