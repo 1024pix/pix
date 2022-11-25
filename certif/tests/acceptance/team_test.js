@@ -11,6 +11,7 @@ import {
 } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { waitForDialogClose } from '../helpers/wait-for';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
@@ -65,11 +66,13 @@ module('Acceptance | authenticated | team', function (hooks) {
               await click(
                 screen.getByRole('button', { name: this.intl.t('pages.team.no-referer-section.select-referer-button') })
               );
+              await screen.findByRole('dialog');
               await fillIn(
                 screen.getByRole('combobox', { name: this.intl.t('pages.team.select-referer-modal.title') }),
                 '102'
               );
               await click(screen.getByRole('button', { name: 'Valider la sélection de référent' }));
+              await waitForDialogClose();
 
               // then
               assert
@@ -102,6 +105,7 @@ module('Acceptance | authenticated | team', function (hooks) {
                     name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
                   })
                 );
+                await screen.findByRole('dialog');
 
                 // then
                 assert.dom(screen.getByRole('button', { name: 'Valider la sélection de référent' })).isDisabled();
