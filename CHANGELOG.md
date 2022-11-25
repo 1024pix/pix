@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.292.0 (25/11/2022)
+
+
+### :rocket: Amélioration
+- [#5257](https://github.com/1024pix/pix/pull/5257) [FEATURE] Création d'une route pour récupérer une liste paginée des contenus formatifs
+- [#5255](https://github.com/1024pix/pix/pull/5255) [FEATURE] Monter la version Pix UI de Certif de 14.8.1 à 16.1.0 (PIX-6357)
+- [#5273](https://github.com/1024pix/pix/pull/5273) [FEATURE] Créer la nouvelle table user-logins (PIX-6392)
+
+### :building_construction: Tech
+- [#5282](https://github.com/1024pix/pix/pull/5282) [TECH] Monter `ember-source` en 4.0.1 sur Pix App (PIX-6252).
+- [#4859](https://github.com/1024pix/pix/pull/4859) [TECH] Conserver l'expiration lors de la MàJ d'une clé dans le stockage temporaire en mémoire
+- [#5279](https://github.com/1024pix/pix/pull/5279) [TECH] Remplacer `ember-moment` par `ember-dayjs` sur Pix App (PIX-6408).
+- [#5281](https://github.com/1024pix/pix/pull/5281) [TECH] Suppression du script fix-trigger-session-finalized-handler.
+- [#5272](https://github.com/1024pix/pix/pull/5272) [TECH] Préparer la montée de version de Pix Admin pour Ember 4.X (PIX-6390)
+- [#5274](https://github.com/1024pix/pix/pull/5274) [TECH] Supprimer le package ember-modal-dialog sur Pix Admin (PIX-6238).
+- [#5263](https://github.com/1024pix/pix/pull/5263) [TECH] Retirer les hash dépréciés en Ember 4.x sur Pix Certif (PIX-6255).
+- [#5251](https://github.com/1024pix/pix/pull/5251) [TECH] Valider le feedback à l'entrée de l'API.
+- [#5259](https://github.com/1024pix/pix/pull/5259) [TECH] Mise à jour de Pix Orga sur Ember4.0.1 (Pix-6372)
+
 ## v3.291.0 (23/11/2022)
 
 
