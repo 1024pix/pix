@@ -25,7 +25,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
     );
 
     // then
@@ -41,7 +41,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
     );
 
     // then
@@ -57,7 +57,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
     );
 
     // then
@@ -82,7 +82,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
       // when
       const screen = await render(
-        hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+        hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
       );
 
       // then
@@ -101,7 +101,7 @@ module('Integration | Component | certifications/details-answer', function (hook
       onUpdateRate: () => {},
     });
     const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
     );
     // when
     await selectByLabelAndOption('Sélectionner un résultat', 'ok');
@@ -123,7 +123,7 @@ module('Integration | Component | certifications/details-answer', function (hook
         return resolve();
       },
     });
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`);
 
     // when
     await selectByLabelAndOption('Sélectionner un résultat', 'ok');
@@ -135,7 +135,7 @@ module('Integration | Component | certifications/details-answer', function (hook
       answer: answerData,
       onUpdateRate: () => resolve(),
     });
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`);
 
     // when
     await selectByLabelAndOption('Sélectionner un résultat', 'ok');
@@ -154,7 +154,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     });
 
     // when
-    const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} />`);
+    const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
     // then
     assert

@@ -31,7 +31,7 @@ module('Integration | Component | Campaigns | participations-section', function 
     participations.meta = { rowCount: 2 };
 
     // when
-    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{participations}}/>`);
+    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{this.participations}}/>`);
 
     // then
     assert.strictEqual(screen.getAllByLabelText('participation').length, 2);
@@ -49,7 +49,7 @@ module('Integration | Component | Campaigns | participations-section', function 
 
     // when
     const screen = await render(
-      hbs`<Campaigns::ParticipationsSection @participations={{participations}} @idPixLabel={{idPixLabel}}/>`
+      hbs`<Campaigns::ParticipationsSection @participations={{this.participations}} @idPixLabel={{this.idPixLabel}}/>`
     );
 
     // then
@@ -63,7 +63,7 @@ module('Integration | Component | Campaigns | participations-section', function 
     participations.meta = { rowCount: 2 };
 
     // when
-    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{participations}}/>`);
+    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{this.participations}}/>`);
 
     // then
     assert.dom(screen.getByText('Aucune participation')).exists();
