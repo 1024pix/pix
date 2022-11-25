@@ -33,13 +33,13 @@
     </div>
   </div>
 {{/if}}
-{{#if this.shouldShowRefererSelectionModal}}
-  <SelectRefererModal
-    @toggleRefererModal={{this.toggleRefererModal}}
-    @onSelectReferer={{this.onSelectReferer}}
-    @onValidateReferer={{this.onValidateReferer}}
-    @noSelectedReferer={{not this.selectedReferer.length}}
-    @options={{this.membersSelectOptionsSortedByLastName}}
-  />
-{{/if}}
+
+<SelectRefererModal
+  @showModal={{this.shouldShowRefererSelectionModal}}
+  @toggleRefererModal={{this.toggleRefererModal}}
+  @onSelectReferer={{this.onSelectReferer}}
+  @onValidateReferer={{this.onValidateReferer}}
+  @noSelectedReferer={{not this.selectedReferer.length}}
+  @options={{this.membersSelectOptionsSortedByLastName}}
+/>
 <MembersList @members={{@model.members}} @hasCleaHabilitation={{this.model.hasCleaHabilitation}} />
