@@ -14,4 +14,22 @@ describe('Unit | Domain | Models | UserLogin', function () {
       expect(userLogin.failureCount).to.equal(1);
     });
   });
+
+  describe('#resetUserTemporaryBlocking', function () {
+    it('should reset failure count and reset temporary blocked until', function () {
+      // given
+      const userLogin = new UserLogin({
+        userId: 666,
+        failureCount: 45,
+        temporaryBlockedUntil: new Date('2022-11-25'),
+      });
+
+      // when
+      userLogin.resetUserTemporaryBlocking();
+
+      // then
+      expect(userLogin.failureCount).to.equal(0);
+      expect(userLogin.temporaryBlockedUntil).to.be.null;
+    });
+  });
 });

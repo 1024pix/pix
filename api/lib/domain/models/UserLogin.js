@@ -12,6 +12,11 @@ class UserLogin {
   incrementFailureCount() {
     this.failureCount++;
   }
+
+  resetUserTemporaryBlocking() {
+    this.failureCount = 0;
+    this.temporaryBlockedUntil = null;
+  }
 }
 
 module.exports = UserLogin;
