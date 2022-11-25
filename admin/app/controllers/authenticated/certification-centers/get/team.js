@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 export default class AuthenticatedCertificationCentersGetTeamController extends Controller {
   @service notifications;
   @service errorResponseHandler;
+  @service store;
 
   @tracked userEmailToAdd;
   @tracked errorMessage;
