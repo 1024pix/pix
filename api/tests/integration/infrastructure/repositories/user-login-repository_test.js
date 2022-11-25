@@ -96,4 +96,47 @@ describe('Integration | Repository | UserLoginRepository', function () {
       });
     });
   });
+
+  describe('#findByUsername', function () {
+    it('should return the found user-login by email', async function () {
+      // given
+      databaseBuilder.factory.buildUser({ email: 'otherUser@example.net' });
+      const userId = databaseBuilder.factory.buildUser({ email: 'pouet@example.net' }).id;
+      const userLogin = databaseBuilder.factory.buildUserLogin({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userLoginRepository.findByUsername('POUET@example.net');
+
+      // thens
+      expect(result).to.be.an.instanceOf(UserLogin);
+      expect(result.id).to.equal(userLogin.id);
+    });
+
+    it('should return the found user-login by username', async function () {
+      // given
+      databaseBuilder.factory.buildUser({ username: 'edward123' });
+      const userId = databaseBuilder.factory.buildUser({ username: 'winry123' }).id;
+      const userLogin = databaseBuilder.factory.buildUserLogin({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userLoginRepository.findByUsername('WINry123');
+
+      // thens
+      expect(result).to.be.an.instanceOf(UserLogin);
+      expect(result.id).to.equal(userLogin.id);
+    });
+
+    it('should return null if no user is found', async function () {
+      // given
+      const nonExistentUsername = 'nonExisting@example.net';
+
+      // when
+      const result = await userLoginRepository.findByUsername(nonExistentUsername);
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
 });

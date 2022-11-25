@@ -29,4 +29,16 @@ module.exports = {
     const [userLoginDTO] = await knex('user-logins').where({ id: userLogin.id }).update(userLogin).returning('*');
     return _toDomain(userLoginDTO);
   },
+
+  async findByUsername(username) {
+    const foundUserLogin = await knex
+      .select('user-logins.*')
+      .from('user-logins')
+      .where('users.email', username.toLowerCase())
+      .orWhere('users.username', username.toLowerCase())
+      .join('users', 'users.id', 'user-logins.userId')
+      .first();
+
+    return foundUserLogin ? _toDomain(foundUserLogin) : null;
+  },
 };
