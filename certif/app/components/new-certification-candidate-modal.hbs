@@ -1,4 +1,9 @@
-<PixModal @title="Inscrire un candidat" @onCloseButtonClick={{@closeModal}} class="new-certification-candidate-modal">
+<PixModal
+  @title="Inscrire un candidat"
+  @onCloseButtonClick={{@closeModal}}
+  class="new-certification-candidate-modal"
+  @showModal={{@showModal}}
+>
   <:content>
     <form
       id="new-certification-candidate-form"

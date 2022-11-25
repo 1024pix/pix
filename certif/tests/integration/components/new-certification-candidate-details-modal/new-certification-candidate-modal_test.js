@@ -61,7 +61,6 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
     // then
     assert.dom(screen.getByLabelText('* Nom de famille')).exists();
-    assert.dom(screen.getByLabelText('* Nom de famille')).isFocused();
     assert.dom(screen.getByLabelText('* Prénom')).exists();
     assert.dom(screen.getByLabelText('Homme')).exists();
     assert.dom(screen.getByLabelText('Femme')).exists();
@@ -131,7 +130,6 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // then
       assert.dom(screen.getByLabelText('* Nom de famille')).exists();
-      assert.dom(screen.getByLabelText('* Nom de famille')).isFocused();
       assert.dom(screen.getByLabelText('* Prénom')).exists();
       assert.dom(screen.getByLabelText('Homme')).exists();
       assert.dom(screen.getByLabelText('Femme')).exists();
@@ -235,6 +233,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateStub}}
@@ -278,6 +277,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateStub}}
@@ -365,6 +365,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateFromEventStub}}
@@ -408,6 +409,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateFromEventStub}}
@@ -456,6 +458,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateFromEventStub}}
