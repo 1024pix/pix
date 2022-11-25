@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 import hbs from 'htmlbars-inline-precompile';
+import { waitForDialogClose } from '../../../helpers/wait-for';
 
 module('Integration | Component | SessionSupervising::Header', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -61,9 +62,10 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
+      await screen.findByRole('dialog');
 
       // then
-      assert.dom(screen.getByText('Quitter la surveillance de la session 12345')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Quitter la surveillance de la session 12345' })).exists();
       assert
         .dom(
           screen.getByText(
@@ -93,17 +95,12 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
+      await screen.findByRole('dialog');
       await click(screen.getByRole('button', { name: 'Fermer' }));
+      await waitForDialogClose();
 
       // then
-      assert.dom(screen.queryByText('Quitter la surveillance de la session 12345')).doesNotExist();
-      assert
-        .dom(
-          screen.queryByText(
-            'Attention, assurez-vous que tous les candidats aient terminé leur test avant de quitter la surveillance. Pour reprendre la surveillance de cette session, vous devrez entrer à nouveau son numéro de session et son mot de passe.'
-          )
-        )
-        .doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: 'Quitter la surveillance de la session 12345' })).doesNotExist();
     });
   });
 
@@ -133,18 +130,12 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
-
+      await screen.findByRole('dialog');
       await click(screen.getByRole('button', { name: 'Quitter la surveillance' }));
+      await waitForDialogClose();
 
       // then
-      assert.dom(screen.queryByText('Quitter la surveillance de la session 12345')).doesNotExist();
-      assert
-        .dom(
-          screen.queryByText(
-            'Attention, assurez-vous que tous les candidats aient terminé leur test avant de quitter la surveillance. Pour reprendre la surveillance de cette session, vous devrez entrer à nouveau son numéro de session et son mot de passe.'
-          )
-        )
-        .doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: 'Quitter la surveillance de la session 12345' })).doesNotExist();
     });
   });
 });
