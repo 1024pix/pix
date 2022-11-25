@@ -156,6 +156,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         />
       `);
     await click(screen.getByRole('button', { name: 'Ajouter / supprimer' }));
+    await screen.findByRole('dialog');
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Mes signalements (1)' })).exists();
@@ -188,6 +189,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       `);
 
     await click(screen.getByRole('button', { name: 'Ajouter' }));
+    await screen.findByRole('dialog');
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Signalement du candidat : Alice Alister' })).exists();

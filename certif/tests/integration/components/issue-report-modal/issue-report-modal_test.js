@@ -9,7 +9,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 module('Integration | Component | issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it show candidate informations in title', async function (assert) {
+  test('it show candidate information in title', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -25,6 +25,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     // when
     await render(hbs`
     <IssueReportModal::IssueReportsModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
       @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
@@ -61,6 +62,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     // when
     await render(hbs`
     <IssueReportModal::IssueReportsModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
       @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
@@ -99,6 +101,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     // when
     await render(hbs`
     <IssueReportModal::IssueReportsModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
       @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
@@ -165,6 +168,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     // when
     const screen = await renderScreen(hbs`
     <IssueReportModal::IssueReportsModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
       @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
