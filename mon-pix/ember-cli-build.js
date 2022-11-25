@@ -10,9 +10,7 @@ module.exports = function (defaults) {
     sourcemaps: { enabled: true },
     babel: {
       sourceMaps: 'inline',
-    },
-    'ember-cli-babel': {
-      includePolyfill: true,
+      plugins: [require.resolve('ember-auto-import/babel-plugin')],
     },
     fingerprint: {
       exclude: ['png', 'svg'],
