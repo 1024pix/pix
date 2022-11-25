@@ -12,6 +12,7 @@ export default class ListRoute extends Route {
   };
 
   @service currentUser;
+  @service store;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();

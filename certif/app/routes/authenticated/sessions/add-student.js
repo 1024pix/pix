@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   @service currentUser;
+  @service store;
 
   queryParams = {
     pageNumber: { refreshModel: true },
