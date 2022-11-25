@@ -28,6 +28,7 @@ import {
 } from './handlers/organizations';
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { createAdminMember } from './handlers/admin-members';
+import { findPaginatedTrainingSummaries } from './handlers/trainings';
 
 export default function () {
   this.logging = true;
@@ -160,6 +161,7 @@ export default function () {
   this.get('/admin/organizations/:id/places/capacity', getOrganizationPlacesCapacity);
   this.get('/admin/badges/:id', getBadge);
   this.post('/admin/badges/:id/badge-criteria', createBadgeCriterion);
+
   this.post('/admin/target-profiles');
   this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
   this.get('/admin/target-profiles/:id');
@@ -171,6 +173,8 @@ export default function () {
   this.patch('/admin/target-profiles/:id', updateTargetProfile);
   this.put('/admin/target-profiles/:id/outdate', outdate);
   this.post('/admin/target-profiles/:id/badges', createBadge);
+
+  this.get('/admin/training-summaries', findPaginatedTrainingSummaries);
 
   this.post('/admin/stages', createStage);
 
