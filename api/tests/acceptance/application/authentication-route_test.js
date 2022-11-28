@@ -238,6 +238,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
       });
     });
+
     context('when scope is pix-certif', function () {
       context('when certification center has the supervisor access enabled', function () {
         it('should return http code 200 with accessToken when authentication is ok', async function () {
@@ -285,6 +286,92 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
           // then
           expect(statusCode).to.equal(403);
+        });
+      });
+    });
+
+    context('User blocking', function () {
+      let server;
+
+      beforeEach(async function () {
+        server = await createServer();
+        await server.initialize();
+      });
+
+      context('when user fails to authenticate for the threshold failure count', function () {
+        it('replies an unauthorized error and blocks the user for the blocking time', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser.withRawPassword({
+            email: 'email@without.mb',
+            rawPassword: userPassword,
+            cgu: true,
+          }).id;
+          databaseBuilder.factory.buildUserLogin({ userId, failureCount: 9 });
+          await databaseBuilder.commit();
+
+          const options = _getOptions({ scope: 'pix', username: 'email@without.mb', password: 'wrongPassword' });
+
+          // when
+          const { statusCode } = await server.inject(options);
+
+          // then
+          expect(statusCode).to.equal(401);
+          const userLogin = await knex('user-logins').where({ userId }).first();
+          expect(userLogin.failureCount).to.equal(10);
+          expect(userLogin.temporaryBlockedUntil).to.exist;
+        });
+      });
+
+      context('when user successfully authenticate but still blocked', function () {
+        it('replies a forbidden error and keep on blocking the user for the blocking time', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser.withRawPassword({
+            email: 'email@without.mb',
+            rawPassword: userPassword,
+            cgu: true,
+          }).id;
+          databaseBuilder.factory.buildUserLogin({
+            userId,
+            failureCount: 10,
+            temporaryBlockedUntil: new Date(Date.now() + 3600 * 1000),
+          });
+          await databaseBuilder.commit();
+
+          const options = _getOptions({ scope: 'pix', username: 'email@without.mb', password: userPassword });
+
+          // when
+          const { statusCode } = await server.inject(options);
+
+          // then
+          expect(statusCode).to.equal(403);
+        });
+      });
+
+      context('when user successfully authenticate after being blocked', function () {
+        it('resets the failure count and the temporary blocked until date', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser.withRawPassword({
+            email: 'email@without.mb',
+            rawPassword: userPassword,
+            cgu: true,
+          }).id;
+          databaseBuilder.factory.buildUserLogin({
+            userId,
+            failureCount: 10,
+            temporaryBlockedUntil: new Date('2022-11-28'),
+          });
+          await databaseBuilder.commit();
+
+          const options = _getOptions({ scope: 'pix', username: 'email@without.mb', password: userPassword });
+
+          // when
+          const { statusCode } = await server.inject(options);
+
+          // then
+          expect(statusCode).to.equal(200);
+          const userLogin = await knex('user-logins').where({ userId }).first();
+          expect(userLogin.failureCount).to.equal(0);
+          expect(userLogin.temporaryBlockedUntil).to.be.null;
         });
       });
     });
