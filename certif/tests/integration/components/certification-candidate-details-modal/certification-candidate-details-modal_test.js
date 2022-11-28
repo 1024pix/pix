@@ -229,10 +229,12 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // when
       const screen = await renderScreen(hbs`
         <CertificationCandidateDetailsModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @candidate={{this.candidate}}
         />
       `);
+
       await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 
       // then
@@ -252,6 +254,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // when
       const screen = await renderScreen(hbs`
         <CertificationCandidateDetailsModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @candidate={{this.candidate}}
         />

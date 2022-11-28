@@ -5,6 +5,7 @@ import { authenticateSession } from '../helpers/test-init';
 import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { waitForDialogClose } from '../helpers/wait-for';
 
 const MODAL_TITLE = 'Finalisation de la session';
 
@@ -162,33 +163,25 @@ module('Acceptance | Session Finalization', function (hooks) {
       module('when we add a certification issue report', function () {
         test('it should show "Ajouter / supprimer" button', async function (assert) {
           // given
-          const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', {
-            certificationCourseId: 1,
-          });
-          const certificationReportsWithCertificationIssueReport = server.create('certification-report', {
-            certificationCourseId: 2,
-          });
-
           const certificationReports = [
-            certificationReportsWithCertificationIssueReport,
-            certificationReportsWithoutCertificationIssueReport,
+            server.create('certification-report', {
+              certificationCourseId: 1,
+            }),
           ];
           session.update({ certificationReports });
 
           // when
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-          const addCertificationIssueReportsButtonsBeforeFilling = screen.getAllByText('Ajouter');
-          const addOrDeleteCertificationIssueReportsButtonsBeforeFilling = screen.queryAllByText('Ajouter / supprimer');
 
-          await click(addCertificationIssueReportsButtonsBeforeFilling[1]);
+          const addCertificationIssueReportsButtonsBeforeFilling = screen.getByRole('button', { name: 'Ajouter' });
+
+          await click(addCertificationIssueReportsButtonsBeforeFilling);
+          await screen.findByRole('dialog');
           await click(screen.getByLabelText('C6 Suspicion de fraude'));
-          await click(screen.getByLabelText('Ajouter le signalement'));
-
-          const addOrDeleteCertificationIssueReportsButtonsAfterFilling = screen.getAllByText('Ajouter / supprimer');
+          await click(screen.getByRole('button', { name: 'Ajouter le signalement' }));
 
           // then
-          assert.strictEqual(addOrDeleteCertificationIssueReportsButtonsBeforeFilling.length, 0);
-          assert.strictEqual(addOrDeleteCertificationIssueReportsButtonsAfterFilling.length, 1);
+          assert.dom(screen.getByRole('button', { name: 'Ajouter / supprimer' })).exists();
         });
       });
 
@@ -209,10 +202,11 @@ module('Acceptance | Session Finalization', function (hooks) {
 
           // when
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-          await click(screen.getByText('Ajouter / supprimer'));
-          const allDeleteIssueReportButtons = screen.getAllByLabelText('Supprimer le signalement');
+          await click(screen.getByRole('button', { name: 'Ajouter / supprimer' }));
+          await screen.findByRole('dialog');
+          const allDeleteIssueReportButtons = screen.getAllByRole('button', { name: 'Supprimer le signalement' });
           await click(allDeleteIssueReportButtons[0]);
-          await click(screen.getByLabelText('Fermer'));
+          await click(screen.getByRole('button', { name: 'Fermer' }));
 
           // then
           assert.dom(screen.getByText('1 signalement')).exists();
@@ -381,12 +375,10 @@ module('Acceptance | Session Finalization', function (hooks) {
 
             // when
             const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-
             await click(screen.getByText('Finaliser'));
 
             // then
-            assert.dom(screen.queryByText(MODAL_TITLE)).doesNotExist();
-            assert.dom(screen.queryByText('Finalisation de la session')).doesNotExist();
+            assert.dom(screen.queryByRole('heading', { name: MODAL_TITLE })).doesNotExist();
           });
         });
 
@@ -468,11 +460,13 @@ module('Acceptance | Session Finalization', function (hooks) {
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           await click(screen.getByRole('button', { name: 'Finaliser' }));
-          await click(screen.getByText('Confirmer la finalisation'));
+          await screen.findByRole('dialog');
+          await click(screen.getByRole('button', { name: 'Confirmer la finalisation' }));
+          await waitForDialogClose();
 
           // then
           assert.dom(screen.getByText('Perdu, essaie encore')).exists();
-          assert.dom(screen.queryByText('Confirmer la finalisation')).doesNotExist();
+          assert.dom(screen.queryByRole('heading', { name: 'Finalisation de la session' })).doesNotExist();
         });
       }
     );

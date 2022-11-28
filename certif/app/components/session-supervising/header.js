@@ -4,6 +4,10 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class Header extends Component {
+  @tracked modalDescriptionText;
+  @tracked modalCancelText;
+  @tracked modalConfirmationText;
+  @tracked modalInstructionText = 'Information';
   @tracked isConfirmationModalDisplayed = false;
   @service router;
 

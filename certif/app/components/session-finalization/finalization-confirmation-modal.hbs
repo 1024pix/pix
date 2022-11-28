@@ -2,6 +2,7 @@
   @title="Finalisation de la session"
   @onCloseButtonClick={{@closeModal}}
   class="finalization-confirmation-modal"
+  @showModal={{@showModal}}
 >
   <:content>
     {{#if (and @hasUncheckedHasSeenEndTestScreen @shouldDisplayHasSeenEndTestScreenCheckbox)}}
