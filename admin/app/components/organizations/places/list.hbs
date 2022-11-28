@@ -17,7 +17,7 @@
     {{#each @places as |place|}}
       <tr aria-label="Lot de Places">
         <td class="td--bold">{{place.count}}</td>
-        <td class="td--bold" scope="row">{{place.categoryLabel}}</td>
+        <td class="td--bold">{{place.categoryLabel}}</td>
         <td>
           Du:
           {{dayjs-format place.activationDate "DD/MM/YYYY"}}

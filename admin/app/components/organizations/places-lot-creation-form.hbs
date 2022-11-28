@@ -19,7 +19,7 @@
 
         {{#if @errors.count}}
           <div class="form-field__error">
-            {{@errors.count.0.message}}
+            {{get @errors.count "0.message"}}
           </div>
         {{/if}}
       </div>
@@ -37,7 +37,7 @@
 
         {{#if @errors.activationDate}}
           <div class="form-field__error">
-            {{@errors.activationDate.0.message}}
+            {{get @errors.activationDate "0.message"}}
           </div>
         {{/if}}
       </div>
@@ -52,7 +52,7 @@
 
         {{#if @errors.expirationDate}}
           <div class="form-field__error">
-            {{@errors.expirationDate.0.message}}
+            {{get @errors.expirationDate "0.message"}}
           </div>
         {{/if}}
       </div>
@@ -74,7 +74,7 @@
 
         {{#if @errors.category}}
           <div class="form-field__error">
-            {{@errors.category.0.message}}
+            {{get @errors.category "0.message"}}
           </div>
         {{/if}}
       </div>
@@ -92,7 +92,7 @@
 
         {{#if @errors.reference}}
           <div class="form-field__error">
-            {{@errors.reference.0.message}}
+            {{get @errors.reference "0.message"}}
           </div>
         {{/if}}
       </div>
