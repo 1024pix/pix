@@ -41,7 +41,7 @@
     "@ember/test-helpers": "^2.8.1",
     "@formatjs/intl": "^2.4.0",
     "@fortawesome/ember-fontawesome": "^0.4.1",
-    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@glimmer/component": "^1.0.3",
