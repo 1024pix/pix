@@ -1,7 +1,7 @@
-const SmartFuzz = require('./smart-fuzz');
-const createServer = require('../../server');
+const SmartFuzz = require('../../tooling/smart-fuzz');
+const createServer = require('../../../server');
 
-describe('Unit | Fuzz', function () {
+describe('Acceptance | Fuzz', function () {
   it('should fuzz', async function () {
     const testServer = await createServer();
     try {
