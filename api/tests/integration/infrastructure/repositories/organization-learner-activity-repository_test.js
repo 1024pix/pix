@@ -2,7 +2,7 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const organizationLearnerActivityRepository = require('../../../../lib/infrastructure/repositories/organization-learner-activity-repository');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const { STARTED, SHARED } = CampaignParticipationStatuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 describe('Integration | Infrastructure | Repository | organization-learner-activity', function () {
   describe('#get', function () {
@@ -39,7 +39,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
         type: campaignType,
       });
 
-      databaseBuilder.factory.buildCampaignParticipation({
+      const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         organizationLearnerId,
         status,
@@ -55,6 +55,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       } = await organizationLearnerActivityRepository.get(organizationLearnerId);
 
       //then
+      expect(organizationLearnerParticipation.id).to.equal(participationId);
       expect(organizationLearnerParticipation.status).to.equal(status);
       expect(organizationLearnerParticipation.createdAt).to.deep.equal(createdAt);
       expect(organizationLearnerParticipation.sharedAt).to.deep.equal(sharedAt);
@@ -70,20 +71,19 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({
         organizationId,
-        name: 'other not so great campaign',
         type: CampaignTypes.PROFILES_COLLECTION,
       });
 
       databaseBuilder.factory.buildCampaignParticipation({
+        id: 1,
         campaignId,
         organizationLearnerId,
-        createdAt: new Date('2000-01-01T10:00:00Z'),
       });
 
       databaseBuilder.factory.buildCampaignParticipation({
+        id: 2,
         campaignId,
         otherOrganizationLearnerId,
-        createdAt: new Date('2005-01-01T10:00:00Z'),
       });
 
       await databaseBuilder.commit();
@@ -93,7 +93,58 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
       //then
       expect(participations.length).to.equal(1);
-      expect(participations[0].createdAt).to.deep.equal(new Date('2000-01-01T10:00:00Z'));
+      expect(participations[0].id).to.equal(1);
+    });
+
+    it('Should not return an activity with deleted participations', async function () {
+      //given
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 1,
+        organizationLearnerId,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 2,
+        organizationLearnerId,
+        deletedAt: new Date('2023-01-01'),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      //then
+      expect(participations.length).to.equal(1);
+      expect(participations[0].id).to.equal(1);
+    });
+    it('Should not return an activity with improved participations', async function () {
+      //given
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 1,
+        organizationLearnerId,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 2,
+        organizationLearnerId,
+        isImproved: true,
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      //then
+      expect(participations.length).to.equal(1);
+      expect(participations[0].id).to.equal(1);
     });
 
     it('Should return an activity with the participations in anti-chronological order', async function () {
@@ -115,7 +166,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: firstCampaignId,
         organizationLearnerId,
-        status: SHARED,
         createdAt: new Date('2000-01-01T10:00:00Z'),
         sharedAt: new Date('2000-01-02T10:00:00Z'),
       });
@@ -123,7 +173,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: secondCampaignId,
         organizationLearnerId,
-        status: STARTED,
         createdAt: new Date('2000-01-03T10:00:00Z'),
       });
 
