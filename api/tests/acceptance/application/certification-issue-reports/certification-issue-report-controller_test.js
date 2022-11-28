@@ -4,8 +4,8 @@ const {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-} = require('../../test-helper');
-const createServer = require('../../../server');
+} = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | certification-issue-report-controller', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {
