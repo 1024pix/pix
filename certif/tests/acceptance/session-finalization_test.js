@@ -161,26 +161,21 @@ module('Acceptance | Session Finalization', function (hooks) {
       });
 
       module('when we add a certification issue report', function () {
-        test.skip('it should show "Ajouter / supprimer" button', async function (assert) {
+        test('it should show "Ajouter / supprimer" button', async function (assert) {
           // given
-          const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', {
-            certificationCourseId: 1,
-          });
-          const certificationReportsWithCertificationIssueReport = server.create('certification-report', {
-            certificationCourseId: 2,
-          });
-
           const certificationReports = [
-            certificationReportsWithCertificationIssueReport,
-            certificationReportsWithoutCertificationIssueReport,
+            server.create('certification-report', {
+              certificationCourseId: 1,
+            }),
           ];
           session.update({ certificationReports });
 
           // when
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-          const addCertificationIssueReportsButtonsBeforeFilling = screen.getAllByRole('button', { name: 'Ajouter' });
 
-          await click(addCertificationIssueReportsButtonsBeforeFilling[1]);
+          const addCertificationIssueReportsButtonsBeforeFilling = screen.getByRole('button', { name: 'Ajouter' });
+
+          await click(addCertificationIssueReportsButtonsBeforeFilling);
           await screen.findByRole('dialog');
           await click(screen.getByLabelText('C6 Suspicion de fraude'));
           await click(screen.getByRole('button', { name: 'Ajouter le signalement' }));
