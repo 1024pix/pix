@@ -1,16 +1,18 @@
-<PixMultiSelect
-  @id="multi-select-{{@field}}"
-  @label={{@title}}
-  @innerText={{@placeholder}}
-  @screenReaderOnly={{true}}
-  @loadingMessage={{t "common.filters.loading"}}
-  @emptyMessage={{@emptyMessage}}
-  @isSearchable={{true}}
-  @onSelect={{this.onSelect}}
-  @selected={{@selectedOption}}
-  @options={{@options}}
-  @onLoadOptions={{@onLoadOptions}}
-  as |option|
->
-  {{option.label}}
-</PixMultiSelect>
+{{#if @isLoading}}
+  <div class="multi-select-filter--is-loading placeholder-box"></div>
+{{else}}
+  <PixMultiSelect
+    @id="multi-select-{{@field}}"
+    @label={{@title}}
+    @innerText={{@placeholder}}
+    @screenReaderOnly={{true}}
+    @emptyMessage={{@emptyMessage}}
+    @isSearchable={{true}}
+    @onSelect={{this.onSelect}}
+    @selected={{@selectedOption}}
+    @options={{@options}}
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}
