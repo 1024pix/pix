@@ -61,6 +61,36 @@ module('Integration | Component | menu-bar', function (hooks) {
     });
   });
 
+  module('Trainings tab', function () {
+    module('when admin member have "SUPER_ADMIN", "SUPPORT" or "METIER" as role', function () {
+      test('should contain link to "Trainings" page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: true };
+
+        // when
+        const screen = await render(hbs`{{menu-bar}}`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).exists();
+      });
+    });
+
+    module('when admin member have "CERTIF" as role', function () {
+      test('should not contain link to "Trainings" page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isCertif: true };
+
+        // when
+        const screen = await render(hbs`{{menu-bar}}`);
+
+        // then
+        assert.dom(screen.queryByRole('link', { name: 'Contenus formatifs' })).doesNotExist();
+      });
+    });
+  });
+
   module('Team tab', function () {
     test('should contain link to "team" management page when admin member have "SUPER_ADMIN" as role', async function (assert) {
       // given
