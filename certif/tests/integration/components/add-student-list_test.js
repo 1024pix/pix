@@ -65,6 +65,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       await click(
         screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' })
       );
+      await screen.findByRole('menu');
 
       // then
       assert.dom(screen.getByRole('checkbox', { name: '3A' })).exists();
