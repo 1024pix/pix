@@ -159,4 +159,35 @@ describe('Integration | Repository | certification-center-for-admin', function (
       expect(savedCertificationCenter.isSupervisorAccessEnabled).to.be.true;
     });
   });
+
+  describe('#update', function () {
+    let certificationCenter;
+
+    before(async function () {
+      // given
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({ isSupervisorAccessEnabled: true });
+      await databaseBuilder.commit();
+    });
+
+    it('should update the given certification center', async function () {
+      // when
+      const updatedCertificationCenter = await certificationCenterForAdminRepository.update({
+        id: certificationCenter.id,
+        name: 'Great Oak Certification Center',
+        isSupervisorAccessEnabled: false,
+        updatedAt: now,
+      });
+
+      // then
+      expect(updatedCertificationCenter).to.be.instanceof(CertificationCenterForAdmin);
+      expect(updatedCertificationCenter).to.deep.equal(
+        new CertificationCenterForAdmin({
+          ...certificationCenter,
+          name: 'Great Oak Certification Center',
+          isSupervisorAccessEnabled: false,
+          updatedAt: updatedCertificationCenter.updatedAt,
+        })
+      );
+    });
+  });
 });
