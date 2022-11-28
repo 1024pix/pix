@@ -6,19 +6,19 @@ describe('Unit | UseCase | create-certification-center', function () {
     it('should save and return the certification center', async function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
-      const certificationCenterRepository = { save: sinon.stub().returns(certificationCenter) };
+      const certificationCenterForAdminRepository = { save: sinon.stub().returns(certificationCenter) };
       const complementaryCertificationHabilitationRepository = {};
 
       // when
       const createdCertificationCenter = await createCertificationCenter({
         certificationCenter,
         complementaryCertificationIds: [],
-        certificationCenterRepository,
+        certificationCenterForAdminRepository,
         complementaryCertificationHabilitationRepository,
       });
 
       // then
-      expect(certificationCenterRepository.save).to.be.calledOnceWith(certificationCenter);
+      expect(certificationCenterForAdminRepository.save).to.be.calledOnceWith(certificationCenter);
       expect(createdCertificationCenter).to.deepEqualInstance(certificationCenter);
     });
 
@@ -26,7 +26,7 @@ describe('Unit | UseCase | create-certification-center', function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
       const complementaryCertificationIds = ['1234', '4567'];
-      const certificationCenterRepository = { save: sinon.stub().returns(certificationCenter) };
+      const certificationCenterForAdminRepository = { save: sinon.stub().returns(certificationCenter) };
       const complementaryCertificationHabilitationRepository = {
         save: sinon.stub(),
       };
@@ -35,7 +35,7 @@ describe('Unit | UseCase | create-certification-center', function () {
       await createCertificationCenter({
         certificationCenter,
         complementaryCertificationIds,
-        certificationCenterRepository,
+        certificationCenterForAdminRepository,
         complementaryCertificationHabilitationRepository,
       });
 
