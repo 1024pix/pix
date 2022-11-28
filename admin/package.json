@@ -101,7 +101,7 @@
     "p-queue": "^6.6.1",
     "popper.js": "^1.16.1",
     "prettier": "^2.8.0",
-    "query-string": "^7.0.0",
+    "query-string": "^7.1.1",
     "qunit": "^2.14.0",
     "qunit-dom": "^1.6.0",
     "sass": "^1.32.8",
