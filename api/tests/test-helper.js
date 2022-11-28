@@ -25,13 +25,18 @@ const learningContentBuilder = require('./tooling/learning-content-builder');
 const tokenService = require('../lib/domain/services/token-service');
 const Membership = require('../lib/domain/models/Membership');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
+const isUnitRegExp = new RegExp('/*/unit/*/');
+const isUnit = (path) => isUnitRegExp.test(path);
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
   sinon.restore();
-  cache.flushAll();
   nock.cleanAll();
-  return databaseBuilder.clean();
+  cache.flushAll();
+
+  if (!isUnit(this.currentTest.file)) {
+    return databaseBuilder.clean();
+  }
 });
 
 after(function () {
