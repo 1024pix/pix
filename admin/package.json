@@ -85,7 +85,7 @@
     "ember-template-lint": "^5.0.1",
     "ember-template-lint-plugin-prettier": "^4.1.0",
     "ember-test-selectors": "^6.0.0",
-    "ember-toggle": "^7.0.0",
+    "ember-toggle": "^9.0.3",
     "ember-truth-helpers": "^3.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
