@@ -88,6 +88,18 @@
         </PixTooltip>
       </li>
     {{/if}}
+    {{#if this.accessControl.hasAccessToTrainingsActionsScope}}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right">
+          <:triggerElement>
+            <LinkTo @route="authenticated.trainings.list" class="menu-bar__link">
+              <FaIcon @icon="book-open" @title="Contenus formatifs" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Contenus formatifs</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
     <li class="menu-bar__entry">
       <PixTooltip @position="right" @inline={{true}}>
         <:triggerElement>
