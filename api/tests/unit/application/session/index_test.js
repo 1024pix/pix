@@ -1056,4 +1056,38 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('POST /api/sessions/import', function () {
+    const testFilePath = `${__dirname}/testFile_temp.csv`;
+
+    let headers;
+    let payload;
+
+    beforeEach(async function () {
+      await writeFile(testFilePath, Buffer.alloc(0));
+      const form = new FormData();
+      const knownLength = await stat(testFilePath).size;
+      form.append('file', fs.createReadStream(testFilePath), { knownLength });
+
+      headers = form.getHeaders();
+      payload = await streamToPromise(form);
+    });
+
+    afterEach(async function () {
+      await unlink(testFilePath);
+    });
+
+    it('should exist', async function () {
+      // given
+      sinon.stub(sessionController, 'importSessions').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/sessions/import', payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

@@ -62,4 +62,59 @@ module('Unit | Component | panel-header', function (hooks) {
       assert.ok(component);
     });
   });
+
+  module('#importSessions', function () {
+    test('should call upload with the right parameters', async function (assert) {
+      // given
+      const token = 'a token';
+
+      component.session = {
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            access_token: token,
+          },
+        },
+      };
+      const file = {
+        upload: sinon.stub(),
+      };
+      component.notifications = { success: sinon.stub() };
+
+      // when
+      await component.importSessions(file);
+
+      // then
+      sinon.assert.calledOnce(component.notifications.success);
+      assert.ok(
+        file.upload.calledWith('/api/sessions/import', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      );
+    });
+
+    test('should call the notifications service in case of an error', async function (assert) {
+      // given
+      const token = 'a token';
+      component.session = {
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            access_token: token,
+          },
+        },
+      };
+      const file = {
+        upload: sinon.stub().rejects({ body: { errors: [{ detail: 'error message' }] } }),
+      };
+      component.notifications = { error: sinon.stub() };
+
+      // when
+      await component.importSessions(file);
+
+      // then
+      sinon.assert.calledOnce(component.notifications.error);
+      assert.ok(component);
+    });
+  });
 });

@@ -8,6 +8,18 @@
       >
         {{t "pages.sessions.list.header.session-import-template"}}
       </PixButton>
+
+      <FileUpload
+        @name="file-upload"
+        @for="import-sessions"
+        @accept=".csv"
+        @multiple={{false}}
+        @onfileadd={{this.importSessions}}
+      >
+        <PixButtonLink role="button" tabindex="0">
+          {{t "pages.sessions.list.header.session-import-upload"}}
+        </PixButtonLink>
+      </FileUpload>
     {{/if}}
     <PixButtonLink @route="authenticated.sessions.new">
       {{t "pages.sessions.list.header.session-creation"}}
