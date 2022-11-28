@@ -4,7 +4,7 @@ const settings = require('../../../../lib/config');
 
 describe('Unit | Domain | Models | UserLogin', function () {
   let clock;
-  const now = new Date();
+  const now = new Date('2022-11-28T12:00:00Z');
 
   let originalEnvThresholdFailureCount;
   let originalEnvTemporaryBlockedTime;
@@ -157,6 +157,47 @@ describe('Unit | Domain | Models | UserLogin', function () {
 
         // then
         expect(userLogin.temporaryBlockedUntil).to.be.undefined;
+      });
+    });
+  });
+
+  describe('#hasBeenTemporaryBlocked', function () {
+    context('when user has failure count greater than 0', function () {
+      it('should return true', function () {
+        // given
+        const userLogin = new UserLogin({ failureCount: 1 });
+
+        // when
+        const result = userLogin.hasBeenTemporaryBlocked();
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when user has a temporary blocked until date', function () {
+      it('should return true', function () {
+        // given
+        const userLogin = new UserLogin({ temporaryBlockedUntil: new Date('2022-11-28T15:00:00Z') });
+
+        // when
+        const result = userLogin.hasBeenTemporaryBlocked();
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when user has no failure count nor temporary blocked until date', function () {
+      it('should return false', function () {
+        // given
+        const userLogin = new UserLogin({});
+
+        // when
+        const result = userLogin.hasBeenTemporaryBlocked();
+
+        // then
+        expect(result).to.be.false;
       });
     });
   });
