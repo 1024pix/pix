@@ -26,11 +26,14 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       // when
       const screen = await visit(`/users/${userToAddNewEmail.id}`);
       await clickByName('Ajouter une adresse e-mail');
+
+      await screen.findByRole('dialog');
+
       await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
       await clickByName("Enregistrer l'adresse e-mail");
 
       // then
-      assert.dom(screen.queryByText('Nouvelle adresse e-mail')).doesNotExist();
+      assert.throws(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }));
       assert.dom(
         screen.getByText(`nouvel-email@example.net a bien été rajouté aux méthodes de connexion de l'utilisateur`)
       );
@@ -54,6 +57,9 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       // when
       const screen = await visit(`/users/${userToAddNewEmail.id}`);
       await clickByName('Ajouter une adresse e-mail');
+
+      await screen.findByRole('dialog');
+
       await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
       await clickByName("Enregistrer l'adresse e-mail");
 
@@ -81,13 +87,16 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       const screen = await visit(`/users/${user.id}`);
       await clickByName('Déplacer cette méthode de connexion');
       await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
+
+      await screen.findByRole('dialog');
+
       await clickByName('Valider le déplacement');
 
       // then
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
       assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Médiacentre")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
-      assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
+      assert.throws(screen.getByRole('button', { name: 'Valider le déplacement' }));
     });
   });
 
@@ -112,6 +121,9 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       const screen = await visit(`/users/${user.id}`);
 
       await click(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
+
+      await screen.findByRole('dialog');
+
       await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
       await click(screen.getByRole('button', { name: 'Valider le déplacement' }));
 
@@ -119,7 +131,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
       assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Partenaire OIDC")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
-      assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
+      assert.throws(screen.getByRole('button', { name: 'Valider le déplacement' }));
     });
   });
 
@@ -141,6 +153,9 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       // when
       const screen = await visit(`/users/${user.id}`);
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
+
+      await screen.findByRole('dialog');
+
       await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
 
       // then

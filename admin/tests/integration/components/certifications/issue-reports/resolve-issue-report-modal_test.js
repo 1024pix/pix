@@ -24,6 +24,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
       // Then
@@ -46,6 +47,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
       // Then
@@ -68,6 +70,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
       // When
@@ -93,6 +96,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
       // When
@@ -118,6 +122,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
         // When
@@ -143,6 +148,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
         // When
@@ -181,6 +187,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                      @issueReport={{this.issueReport}}
                      @resolveIssueReport={{this.resolveIssueReport}}
                      @closeResolveModal={{this.closeResolveModal}}
+                     @displayModal={{true}}
                     />`);
 
       // Then
@@ -206,6 +213,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                      @issueReport={{this.issueReport}}
                      @resolvecandidateIssueReport={{this.resolveIssueReport}}
                      @closeResolveModal={{this.closeResolveModal}}
+                     @displayModal={{true}}
                     />`);
 
         // when
@@ -235,6 +243,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
       // Then
@@ -260,6 +269,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
+                   @displayModal={{true}}
                   />`);
 
       // Then

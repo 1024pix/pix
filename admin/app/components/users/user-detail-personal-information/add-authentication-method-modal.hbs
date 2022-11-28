@@ -1,4 +1,8 @@
-<PixModal @title="Ajouter une adresse e-mail" @onCloseButtonClick={{@toggleAddAuthenticationMethodModal}}>
+<PixModal
+  @title="Ajouter une adresse e-mail"
+  @onCloseButtonClick={{@toggleAddAuthenticationMethodModal}}
+  @showModal={{@isDisplayed}}
+>
   <:content>
     <form id="add-authentication-method-modal" {{on "submit" @submitAddingPixAuthenticationMethod}}>
       <PixInput

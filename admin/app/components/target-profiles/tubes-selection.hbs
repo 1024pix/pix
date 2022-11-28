@@ -5,9 +5,11 @@
 >
   <Card class="tubes-selection__card" @title="2. Sélection des sujets">
     <div class="tubes-selection__inline-layout">
-      <label for="framework-list" class="tubes-selection__multi-select-label">Référentiel :</label>
       <PixMultiSelect
         class="tubes-selection__multi-select"
+        @label="Référentiel :"
+        @screenReaderOnly={{true}}
+        @innerText="Séléctionner les référentiels souhaités"
         @id="framework-list"
         @isSearchable={{true}}
         @showOptionsOnInput={{true}}

@@ -176,28 +176,25 @@
   </tbody>
 </table>
 
-{{#if this.showAddAuthenticationMethodModal}}
-  <Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
-    @onChangeNewEmail={{this.onChangeNewEmail}}
-    @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
-    @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
-    @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
-  />
-{{/if}}
+<Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
+  @onChangeNewEmail={{this.onChangeNewEmail}}
+  @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
+  @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
+  @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
+  @isDisplayed={{this.showAddAuthenticationMethodModal}}
+/>
 
-{{#if this.showReassignGarAuthenticationMethodModal}}
-  <Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
-    @onChangeTargetUserId={{this.onChangeTargetUserId}}
-    @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
-    @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
-  />
-{{/if}}
+<Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
+  @onChangeTargetUserId={{this.onChangeTargetUserId}}
+  @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
+  @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
+  @isDisplayed={{this.showReassignGarAuthenticationMethodModal}}
+/>
 
-{{#if this.showReassignOidcAuthenticationMethodModal}}
-  <Users::UserDetailPersonalInformation::ReassignOidcAuthenticationMethodModal
-    @oidcAuthenticationMethod={{this.selectedOidcAuthenticationMethod}}
-    @onChangeTargetUserId={{this.onChangeTargetUserId}}
-    @toggleReassignOidcAuthenticationMethodModal={{this.toggleReassignOidcAuthenticationMethodModal}}
-    @submitReassignOidcAuthenticationMethod={{this.submitReassignOidcAuthenticationMethod}}
-  />
-{{/if}}
+<Users::UserDetailPersonalInformation::ReassignOidcAuthenticationMethodModal
+  @oidcAuthenticationMethod={{this.selectedOidcAuthenticationMethod}}
+  @onChangeTargetUserId={{this.onChangeTargetUserId}}
+  @toggleReassignOidcAuthenticationMethodModal={{this.toggleReassignOidcAuthenticationMethodModal}}
+  @submitReassignOidcAuthenticationMethod={{this.submitReassignOidcAuthenticationMethod}}
+  @isDisplayed={{this.showReassignOidcAuthenticationMethodModal}}
+/>

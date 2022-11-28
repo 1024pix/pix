@@ -1,6 +1,7 @@
 <PixModal
   @title="Déplacer la méthode de connexion"
   @onCloseButtonClick={{fn @toggleReassignOidcAuthenticationMethodModal null}}
+  @showModal={{@isDisplayed}}
 >
   <:content>
     <p class="reassign-authentication-method-modal__form-body__information">

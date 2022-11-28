@@ -93,6 +93,8 @@ module('Acceptance | Organizations | Information management', function (hooks) {
         // when
         await clickByName("Archiver l'organisation");
 
+        await screen.findByRole('dialog');
+
         // then
         assert.dom(screen.getByRole('heading', { name: "Archiver l'organisation Aude Javel Company" })).exists();
         assert.dom(screen.getByText('Êtes-vous sûr de vouloir archiver cette organisation ?')).exists();
@@ -105,6 +107,8 @@ module('Acceptance | Organizations | Information management', function (hooks) {
           });
           const screen = await visit(`/organizations/${organization.id}`);
           await clickByName("Archiver l'organisation");
+
+          await screen.findByRole('dialog');
 
           // when
           await clickByName('Annuler');
@@ -120,6 +124,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
           const screen = await visit(`/organizations/${organization.id}`);
           await clickByName("Archiver l'organisation");
 
+          await screen.findByRole('dialog');
           // when
           await click(screen.getByRole('button', { name: 'Fermer' }));
 
@@ -137,6 +142,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}`);
       await clickByName("Archiver l'organisation");
 
+      await screen.findByRole('dialog');
       // when
       await clickByName('Confirmer');
 
@@ -165,6 +171,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}`);
       await clickByName("Archiver l'organisation");
 
+      await screen.findByRole('dialog');
       // when
       await clickByName('Confirmer');
 
@@ -193,6 +200,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}`);
       await clickByName("Archiver l'organisation");
 
+      await screen.findByRole('dialog');
       // when
       await clickByName('Confirmer');
 
