@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const createServer = require('../../../server');
+const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | certification-report-controller', function () {
   let server, certificationCourseId, userId, sessionId, certificationCenterId;
