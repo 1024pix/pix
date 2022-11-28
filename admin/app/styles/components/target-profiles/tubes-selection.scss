@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 .tubes-selection {
   color: $pix-neutral-70;
   margin-bottom: $spacing-m;
@@ -93,7 +94,7 @@
 
 .area-border-container {
   position: relative;
-  box-shadow: 0 4px 8px rgba(7, 20, 46, 0.08);
+  box-shadow: 0 4px 8px rgb(7 20 46 / 8%);
 
   .area-border {
     position: absolute;

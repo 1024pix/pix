@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 #organizations-get-page {
 
   .organization__information {
@@ -65,7 +66,7 @@
         display: flex;
         align-items: center;
 
-        & > input[type=checkbox] {
+        & > input[type="checkbox"] {
           margin: 0 8px;
           width: 16px;
           height: 16px;

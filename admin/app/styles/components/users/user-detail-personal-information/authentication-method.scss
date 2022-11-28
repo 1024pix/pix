@@ -1,12 +1,15 @@
-.authentication-method__connexions-information {
-  display: flex;
+.authentication-method {
 
-  dt {
-    font-weight: normal;
-  }
+  &__connexions-information {
+    display: flex;
 
-  dd {
-    margin-left: 6px;
+    dt {
+      font-weight: normal;
+    }
+
+    dd {
+      margin-left: 6px;
+    }
   }
 }
 
@@ -43,10 +46,13 @@
   }
 }
 
-.reassign-authentication-method-modal__form-body {
+.reassign-authentication-method-modal {
 
-  p {
-    padding: 0;
-    margin-bottom: 40px;
+  &__form-body {
+
+    p {
+      padding: 0;
+      margin-bottom: 40px;
+    }
   }
 }

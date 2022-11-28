@@ -98,8 +98,11 @@
 
 input {
 
-  &.badge-form-criterion__threshold {
-    width: 134px;
-    margin-bottom: 16px;
+  &.badge-form-criterion {
+
+    &__threshold {
+      width: 134px;
+      margin-bottom: 16px;
+    }
   }
 }
