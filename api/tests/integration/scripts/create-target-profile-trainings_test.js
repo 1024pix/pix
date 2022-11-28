@@ -4,7 +4,7 @@ const {
   checkTargetProfileExistence,
 } = require('../../../scripts/create-target-profile-trainings');
 
-describe('Unit | Scripts | create-target-profile-trainings.js', function () {
+describe('Integration | Scripts | create-target-profile-trainings.js', function () {
   describe('#checkTrainingExistence', function () {
     it(`should throw an error when training doesn't exist`, async function () {
       // given

@@ -14,6 +14,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
   afterEach(async function () {
     await knex('tutorial-evaluations').delete();
+    await knex('user-saved-tutorials').delete();
   });
 
   describe('#createOrUpdate', function () {
