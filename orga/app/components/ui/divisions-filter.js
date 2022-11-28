@@ -1,10 +1,19 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class DivisionsFilter extends Component {
-  @action
-  async onLoadDivisions() {
-    const divisions = await this.args.model.divisions;
-    return divisions?.map(({ name }) => ({ value: name, label: name }));
+  @tracked isLoading;
+
+  constructor() {
+    super(...arguments);
+
+    this.isLoading = true;
+    this.args.model.divisions.then(() => {
+      this.isLoading = false;
+    });
+  }
+
+  get options() {
+    return this.args.model.divisions?.map(({ name }) => ({ value: name, label: name }));
   }
 }

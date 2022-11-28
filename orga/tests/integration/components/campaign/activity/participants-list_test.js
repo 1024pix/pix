@@ -187,8 +187,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     test('it should filter on participation divisions', async function (assert) {
       // given
       this.owner.register('service:current-user', CurrentUserStub);
+      const store = this.owner.lookup('service:store');
+      this.campaign = store.createRecord('campaign', {
+        idPixLabel: 'id',
+        divisions: [store.createRecord('division', { name: '3B' }), store.createRecord('division', { name: '3A' })],
+      });
 
-      this.campaign = { idPixLabel: 'id', divisions: [{ name: '3B' }, { name: '3A' }] };
       this.participations = [];
       this.onFilter = sinon.stub();
 
@@ -198,6 +202,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       await clickByText('Classes');
       await clickByText('3A');
 
+      // then
       assert.ok(this.onFilter.calledWith('divisions', ['3A']));
     });
   });
