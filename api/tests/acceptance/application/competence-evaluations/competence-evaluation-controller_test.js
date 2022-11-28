@@ -1,4 +1,4 @@
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 const {
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,7 +6,7 @@ const {
   knex,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
 describe('Acceptance | API | Competence Evaluations', function () {
   let server;
