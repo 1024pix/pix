@@ -35,6 +35,10 @@ class UserLogin {
         .toDate();
     }
   }
+
+  hasBeenTemporaryBlocked() {
+    return this.failureCount > 0 || !!this.temporaryBlockedUntil;
+  }
 }
 
 module.exports = UserLogin;
