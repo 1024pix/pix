@@ -26,7 +26,7 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
     throw error;
   }
 
-  if (userLogin.isUserTemporaryBlocked()) {
+  if (userLogin.hasBeenTemporaryBlocked()) {
     userLogin.resetUserTemporaryBlocking();
     await userLoginRepository.update(userLogin);
   }
