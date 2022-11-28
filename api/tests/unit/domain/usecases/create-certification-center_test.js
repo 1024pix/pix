@@ -1,5 +1,6 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const createCertificationCenter = require('../../../../lib/domain/usecases/create-certification-center');
+const DataProtectionOfficer = require('../../../../lib/domain/models/DataProtectionOfficer');
 
 describe('Unit | UseCase | create-certification-center', function () {
   describe('#createCertificationCenter', function () {
@@ -8,6 +9,17 @@ describe('Unit | UseCase | create-certification-center', function () {
       const certificationCenter = domainBuilder.buildCertificationCenter();
       const certificationCenterForAdminRepository = { save: sinon.stub().returns(certificationCenter) };
       const complementaryCertificationHabilitationRepository = {};
+      const dataProtectionOfficerRepository = {
+        create: sinon.stub().resolves(
+          new DataProtectionOfficer({
+            id: 1,
+            certificationCenterId: certificationCenter.id,
+            firstName: 'Justin',
+            lastName: 'Ptipeu',
+            email: 'justin.ptipeu@example.net',
+          })
+        ),
+      };
 
       // when
       const createdCertificationCenter = await createCertificationCenter({
@@ -15,6 +27,7 @@ describe('Unit | UseCase | create-certification-center', function () {
         complementaryCertificationIds: [],
         certificationCenterForAdminRepository,
         complementaryCertificationHabilitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
@@ -30,6 +43,17 @@ describe('Unit | UseCase | create-certification-center', function () {
       const complementaryCertificationHabilitationRepository = {
         save: sinon.stub(),
       };
+      const dataProtectionOfficerRepository = {
+        create: sinon.stub().resolves(
+          new DataProtectionOfficer({
+            id: 1,
+            certificationCenterId: certificationCenter.id,
+            firstName: 'Justin',
+            lastName: 'Ptipeu',
+            email: 'justin.ptipeu@example.net',
+          })
+        ),
+      };
 
       // when
       await createCertificationCenter({
@@ -37,10 +61,50 @@ describe('Unit | UseCase | create-certification-center', function () {
         complementaryCertificationIds,
         certificationCenterForAdminRepository,
         complementaryCertificationHabilitationRepository,
+        dataProtectionOfficerRepository,
       });
 
       // then
       expect(complementaryCertificationHabilitationRepository.save).to.be.calledTwice;
+    });
+
+    it('should create a data protection officer while saving and returning the certification center', async function () {
+      // given
+      const certificationCenter = domainBuilder.buildCertificationCenter();
+      const dataProtectionOfficer = {
+        certificationCenterId: certificationCenter.id,
+        firstName: 'Justin',
+        lastName: 'Ptipeu',
+        email: 'justin.ptipeu@example.net',
+      };
+      certificationCenter.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+      certificationCenter.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+      certificationCenter.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+      const certificationCenterForAdminRepository = { save: sinon.stub().returns(certificationCenter) };
+      const dataProtectionOfficerRepository = {
+        create: sinon.stub().resolves(
+          new DataProtectionOfficer({
+            id: 1,
+            certificationCenterId: certificationCenter.id,
+            firstName: 'Justin',
+            lastName: 'Ptipeu',
+            email: 'justin.ptipeu@example.net',
+          })
+        ),
+      };
+      const complementaryCertificationHabilitationRepository = {};
+
+      // when
+      await createCertificationCenter({
+        certificationCenter,
+        complementaryCertificationIds: [],
+        certificationCenterForAdminRepository,
+        dataProtectionOfficerRepository,
+        complementaryCertificationHabilitationRepository,
+      });
+
+      // then
+      expect(dataProtectionOfficerRepository.create).to.be.calledOnceWith(dataProtectionOfficer);
     });
   });
 });

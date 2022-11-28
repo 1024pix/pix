@@ -1,5 +1,14 @@
 class DataProtectionOfficer {
-  constructor({ id, firstName, lastName, email, organizationId, certificationCenterId, createdAt, updatedAt } = {}) {
+  constructor({
+    id,
+    firstName = '',
+    lastName = '',
+    email = '',
+    organizationId,
+    certificationCenterId,
+    createdAt,
+    updatedAt,
+  } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
