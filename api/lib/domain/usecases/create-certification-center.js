@@ -5,10 +5,10 @@ module.exports = async function createCertificationCenter({
   certificationCenter,
   complementaryCertificationIds,
   complementaryCertificationHabilitationRepository,
-  certificationCenterRepository,
+  certificationCenterForAdminRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenter);
-  const createdCertificationCenter = await certificationCenterRepository.save(certificationCenter);
+  const createdCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
 
   for (const complementaryCertificationId of complementaryCertificationIds) {
     const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
