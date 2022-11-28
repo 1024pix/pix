@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { bcryptNumberOfSaltRounds } = require('../../config');
-const UserNotFoundError = require('../errors').UserNotFoundError;
+const PasswordNotMatching = require('../errors').PasswordNotMatching;
 
 module.exports = {
   hashPassword: (password) => bcrypt.hash(password, bcryptNumberOfSaltRounds),
@@ -11,7 +11,7 @@ module.exports = {
   checkPassword: async ({ password, passwordHash }) => {
     const matching = await bcrypt.compare(password, passwordHash);
     if (!matching) {
-      throw new UserNotFoundError();
+      throw new PasswordNotMatching();
     }
   },
 };
