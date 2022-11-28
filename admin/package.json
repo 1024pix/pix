@@ -103,7 +103,7 @@
     "prettier": "^2.8.0",
     "query-string": "^7.1.1",
     "qunit": "^2.14.0",
-    "qunit-dom": "^1.6.0",
+    "qunit-dom": "^2.0.0",
     "sass": "^1.32.8",
     "sinon": "^13.0.1",
     "stylelint": "^13.13.1",
