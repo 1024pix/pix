@@ -25,7 +25,8 @@
     @title={{t "pages.sup-organization-participants.table.column.group"}}
     @onSelect={{@onFilter}}
     @selectedOption={{@groupsFilter}}
-    @onLoadOptions={{this.loadGroups}}
+    @isLoading={{this.isLoadingGroups}}
+    @options={{this.groups}}
     @placeholder={{t "pages.sup-organization-participants.filter.group.label"}}
     @ariaLabel={{t "pages.sup-organization-participants.filter.group.aria-label"}}
     @emptyMessage={{t "pages.sup-organization-participants.filter.group.empty"}}

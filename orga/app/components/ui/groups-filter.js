@@ -1,9 +1,19 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+
 export default class GroupsFilter extends Component {
-  @action
-  async onLoadGroups() {
-    const groups = await this.args.campaign.groups;
-    return groups?.map(({ name }) => ({ value: name, label: name }));
+  @tracked isLoading;
+
+  constructor() {
+    super(...arguments);
+
+    this.isLoading = true;
+    this.args.campaign.groups.then(() => {
+      this.isLoading = false;
+    });
+  }
+
+  get options() {
+    return this.args.campaign.groups?.map(({ name }) => ({ value: name, label: name }));
   }
 }

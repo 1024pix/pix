@@ -187,8 +187,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     test('it should filter on participation divisions', async function (assert) {
       // given
       this.owner.register('service:current-user', CurrentUserStub);
+      const store = this.owner.lookup('service:store');
+      this.campaign = store.createRecord('campaign', {
+        idPixLabel: 'id',
+        divisions: [store.createRecord('division', { name: '3B' }), store.createRecord('division', { name: '3A' })],
+      });
 
-      this.campaign = { idPixLabel: 'id', divisions: [{ name: '3B' }, { name: '3A' }] };
       this.participations = [];
       this.onFilter = sinon.stub();
 
@@ -198,6 +202,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       await clickByText('Classes');
       await clickByText('3A');
 
+      // then
       assert.ok(this.onFilter.calledWith('divisions', ['3A']));
     });
   });
@@ -210,8 +215,11 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     test('it should filter on participants groups', async function (assert) {
       // given
       this.owner.register('service:current-user', CurrentUserStub);
-
-      this.campaign = { idPixLabel: 'id', groups: [{ name: 'M1' }, { name: 'M2' }] };
+      const store = this.owner.lookup('service:store');
+      this.campaign = store.createRecord('campaign', {
+        idPixLabel: 'id',
+        groups: [store.createRecord('group', { name: 'M1' }), store.createRecord('group', { name: 'M2' })],
+      });
       this.participations = [];
       this.onFilter = sinon.stub();
 
@@ -221,6 +229,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       await clickByText('Groupes');
       await clickByText('M2');
 
+      // then
       assert.ok(this.onFilter.calledWith('groups', ['M2']));
     });
   });

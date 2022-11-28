@@ -6,8 +6,25 @@ import { CONNECTION_TYPES } from '../../models/sco-organization-participant';
 export default class ScoList extends Component {
   @service currentUser;
   @service intl;
+  @tracked isLoadingDivisions;
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
+
+  constructor() {
+    super(...arguments);
+
+    this.isLoadingDivisions = true;
+    this.currentUser.organization.divisions.then(() => {
+      this.isLoadingDivisions = false;
+    });
+  }
+
+  get divisions() {
+    return this.currentUser.organization.divisions.map(({ name }) => ({
+      label: name,
+      value: name,
+    }));
+  }
 
   get connectionTypesOptions() {
     return [
@@ -34,16 +51,6 @@ export default class ScoList extends Component {
       },
     ];
   }
-
-  loadDivisions = async () => {
-    const divisions = await this.currentUser.organization.divisions;
-    return divisions.map(({ name }) => {
-      return {
-        label: name,
-        value: name,
-      };
-    });
-  };
 
   @action
   openAuthenticationMethodModal(student) {

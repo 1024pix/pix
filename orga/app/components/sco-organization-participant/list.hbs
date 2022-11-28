@@ -19,7 +19,8 @@
     @title={{t "pages.sco-organization-participants.filter.division.label"}}
     @onSelect={{@onFilter}}
     @selectedOption={{@divisionsFilter}}
-    @onLoadOptions={{this.loadDivisions}}
+    @isLoading={{this.isLoadingDivisions}}
+    @options={{this.divisions}}
     @placeholder={{t "pages.sco-organization-participants.filter.division.label"}}
     @ariaLabel={{t "pages.sco-organization-participants.filter.division.aria-label"}}
     @emptyMessage={{t "pages.sco-organization-participants.filter.division.empty"}}

@@ -1,16 +1,19 @@
-<PixMultiSelect
-  @id="division"
-  @label={{t "common.filters.divisions.title"}}
-  @innerText={{@placeholder}}
-  @screenReaderOnly={{true}}
-  @emptyMessage={{t "common.filters.divisions.empty"}}
-  @loadingMessage={{t "common.filters.loading"}}
-  @selected={{@selected}}
-  @onSelect={{@onSelect}}
-  @onLoadOptions={{this.onLoadDivisions}}
-  @isSearchable={{true}}
-  ...attributes
-  as |option|
->
-  {{option.label}}
-</PixMultiSelect>
+{{#if this.isLoading}}
+  <div class="divisions-filter--is-loading placeholder-box"></div>
+{{else}}
+  <PixMultiSelect
+    @id="division"
+    @label={{t "common.filters.divisions.title"}}
+    @innerText={{@placeholder}}
+    @emptyMessage={{t "common.filters.divisions.empty"}}
+    @screenReaderOnly={{true}}
+    @selected={{@selected}}
+    @onSelect={{@onSelect}}
+    @options={{this.options}}
+    @isSearchable={{true}}
+    ...attributes
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}
