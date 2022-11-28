@@ -194,21 +194,18 @@
   }
 
   &__controls-title {
-    color: $pix-neutral-70;
-    display: inline-block;
+    color: $pix-neutral-90;
     font-size: 0.875rem;
-    font-family: $font-roboto;
     font-weight: 500;
     margin-right: 8px;
-    width: 117px;
   }
 
   &__controls-links {
     align-items: center;
     display: flex;
-    justify-content: right;
-    margin-right: 24px;
     flex-wrap: wrap;
+    justify-content: right;
+    padding: 12px 16px;
 
     @include device-is("desktop") {
       flex-direction: row;
@@ -217,9 +214,11 @@
 
   &__controls-download-button {
     border: 1px solid $pix-neutral-50;
-    color: $pix-neutral-70;
-    margin: 8px 6px;
-    padding: 8px 16px;
+    color: $pix-neutral-90;
+  }
+
+  &__controls-download-button:not(:last-of-type) {
+    margin-right: 8px;
   }
 
   &__controls-icon {
