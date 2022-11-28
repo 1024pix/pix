@@ -1,4 +1,9 @@
-<PixModal @title="Détail du candidat" @onCloseButtonClick={{@closeModal}} class="certification-candidate-details-modal">
+<PixModal
+  @title="Détail du candidat"
+  @onCloseButtonClick={{@closeModal}}
+  class="certification-candidate-details-modal"
+  @showModal={{@showModal}}
+>
   <:content>
     <ul class="certification-candidate-details-modal__list">
       <li class="certification-candidate-details-modal__row">

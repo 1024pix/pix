@@ -13,7 +13,7 @@ export default class CandidateInList extends Component {
   @tracked modalDescriptionText;
   @tracked modalCancelText;
   @tracked modalConfirmationText;
-  @tracked modalInstructionText;
+  @tracked modalInstructionText = 'Information';
   @tracked actionOnConfirmation;
   @service intl;
 

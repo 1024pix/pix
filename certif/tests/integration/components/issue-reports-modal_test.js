@@ -15,7 +15,7 @@ import {
 module('Integration | Component | issue-reports-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it show candidate informations in title', async function (assert) {
+  test('it show candidate information in title', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -32,6 +32,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     // when
     const { getByRole } = await render(hbs`
       <IssueReportModal::IssueReportsModal
+        @showModal={{true}}
         @report={{this.reportToEdit}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
@@ -59,6 +60,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     // when
     const { getByRole } = await render(hbs`
       <IssueReportModal::IssueReportsModal
+        @showModal={{true}}
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
@@ -96,6 +98,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     // when
     await render(hbs`
       <IssueReportModal::IssueReportsModal
+        @showModal={{true}}
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
@@ -136,6 +139,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     // when
     await render(hbs`
       <IssueReportModal::IssueReportsModal
+        @showModal={{true}}
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}

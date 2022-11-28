@@ -4,6 +4,7 @@ import { click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { waitForDialogClose } from '../../helpers/wait-for';
 
 module('Integration | Component | session-summary-list', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -236,6 +237,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+          await screen.findByRole('dialog');
 
           // then
           assert
@@ -271,6 +273,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             // when
             await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+            await screen.findByRole('dialog');
 
             // then
             assert
@@ -305,6 +308,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             // when
             await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+            await screen.findByRole('dialog');
 
             // then
             assert
@@ -341,6 +345,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             // when
             await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+            await screen.findByRole('dialog');
 
             // then
             assert
@@ -368,12 +373,16 @@ module('Integration | Component | session-summary-list', function (hooks) {
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
             await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+            await screen.findByRole('dialog');
 
             // when
             await click(screen.getByRole('button', { name: 'Fermer' }));
+            await waitForDialogClose();
 
             // then
-            assert.dom(screen.queryByText(this.intl.t('pages.sessions.list.delete-modal.title'))).doesNotExist();
+            assert
+              .dom(screen.queryByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
+              .doesNotExist();
           });
         });
       });

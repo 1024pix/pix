@@ -148,23 +148,21 @@
   </div>
 </div>
 
-{{#if this.shouldDisplayCertificationCandidateModal}}
-  <CertificationCandidateDetailsModal
-    @closeModal={{this.closeCertificationCandidateDetailsModal}}
-    @candidate={{this.certificationCandidateInDetailsModal}}
-    @displayComplementaryCertification={{@displayComplementaryCertification}}
-    @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
-  />
-{{/if}}
+<CertificationCandidateDetailsModal
+  @showModal={{this.shouldDisplayCertificationCandidateModal}}
+  @closeModal={{this.closeCertificationCandidateDetailsModal}}
+  @candidate={{this.certificationCandidateInDetailsModal}}
+  @displayComplementaryCertification={{@displayComplementaryCertification}}
+  @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+/>
 
-{{#if this.showNewCertificationCandidateModal}}
-  <NewCertificationCandidateModal
-    @closeModal={{this.closeNewCertificationCandidateModal}}
-    @countries={{@countries}}
-    @saveCandidate={{this.addCertificationCandidate}}
-    @candidateData={{this.newCandidate}}
-    @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
-    @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
-    @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
-  />
-{{/if}}
+<NewCertificationCandidateModal
+  @showModal={{this.showNewCertificationCandidateModal}}
+  @closeModal={{this.closeNewCertificationCandidateModal}}
+  @countries={{@countries}}
+  @saveCandidate={{this.addCertificationCandidate}}
+  @candidateData={{this.newCandidate}}
+  @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
+  @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
+  @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+/>

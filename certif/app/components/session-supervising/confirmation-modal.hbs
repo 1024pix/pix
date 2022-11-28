@@ -1,4 +1,9 @@
-<PixModal @class="pix-modal-dialog" @title={{@title}} @onCloseButtonClick={{@closeConfirmationModal}}>
+<PixModal
+  @class="pix-modal-dialog"
+  @title={{@title}}
+  @onCloseButtonClick={{@closeConfirmationModal}}
+  @showModal={{@showModal}}
+>
   <:content>
     <div class="app-modal-body__warning">
       <p>

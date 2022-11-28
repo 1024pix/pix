@@ -19,6 +19,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
     // when
     const screen = await renderScreen(hbs`
     <SessionFinalization::FinalizationConfirmationModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
       @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
@@ -76,6 +77,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       // when
       const screen = await renderScreen(hbs`
       <SessionFinalization::FinalizationConfirmationModal
+        @showModal={{true}}
         @closeModal={{this.closeModal}}
         @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
         @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
@@ -105,6 +107,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       // when
       const screen = await renderScreen(hbs`
       <SessionFinalization::FinalizationConfirmationModal
+        @showModal={{true}}
         @closeModal={{this.closeModal}}
         @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
         @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
@@ -134,6 +137,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       // when
       const screen = await renderScreen(hbs`
     <SessionFinalization::FinalizationConfirmationModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
       @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}

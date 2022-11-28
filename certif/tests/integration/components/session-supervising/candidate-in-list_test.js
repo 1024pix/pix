@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { waitForDialogClose } from '../../../helpers/wait-for';
 
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -219,6 +220,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+          await screen.findByRole('dialog');
 
           // then
           assert.dom(screen.getByRole('button', { name: "Je confirme l'autorisation" })).exists();
@@ -252,7 +254,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
             await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+            await screen.findByRole('dialog');
             await click(screen.getByRole('button', { name: 'Annuler et fermer la fenêtre de confirmation' }));
+            await waitForDialogClose();
 
             // then
             assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
@@ -279,7 +283,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
             await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+            await screen.findByRole('dialog');
             await click(screen.getByRole('button', { name: 'Fermer' }));
+            await waitForDialogClose();
 
             // then
             assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
@@ -308,7 +314,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // when
               await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
               await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+              await screen.findByRole('dialog');
               await click(screen.getByRole('button', { name: "Je confirme l'autorisation" }));
+              await waitForDialogClose();
 
               // then
               sinon.assert.calledOnce(this.authorizeTestResume);
@@ -338,7 +346,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // when
               await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
               await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+              await screen.findByRole('dialog');
               await click(screen.getByRole('button', { name: "Je confirme l'autorisation" }));
+              await waitForDialogClose();
 
               // then
               sinon.assert.calledOnce(this.authorizeTestResume);
@@ -376,6 +386,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Terminer le test' }));
+          await screen.findByRole('dialog');
           const actions = screen.getAllByRole('button', { name: 'Terminer le test' });
 
           // then
@@ -387,7 +398,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               )
             )
             .exists();
-          assert.dom(screen.getByText('Terminer le test de Drax The Destroyer ?')).exists();
+          assert.dom(screen.getByRole('heading', { name: 'Terminer le test de Drax The Destroyer ?' })).exists();
         });
 
         module('when the confirmation modal "Annuler" button is clicked', function () {
@@ -413,10 +424,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
             await click(screen.getByRole('button', { name: 'Terminer le test' }));
+            await screen.findByRole('dialog');
             await click(screen.getByRole('button', { name: 'Annuler et fermer la fenêtre de confirmation' }));
+            await waitForDialogClose();
 
             // then
-            assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
+            assert.dom(screen.getByRole('button', { name: 'Afficher les options du candidat' })).exists();
+            assert
+              .dom(screen.queryByRole('heading', { name: 'Terminer le test de Drax The Destroyer ?' }))
+              .doesNotExist();
           });
         });
 
@@ -443,10 +459,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
             await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+            await screen.findByRole('dialog');
+
             await click(screen.getByRole('button', { name: 'Fermer' }));
+            await waitForDialogClose();
 
             // then
-            assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
+            assert
+              .dom(screen.queryByRole('heading', { name: 'Autoriser Drax The Destroyer à reprendre son test ?' }))
+              .doesNotExist();
           });
         });
 
@@ -474,8 +495,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // when
               await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
               await click(screen.getByRole('button', { name: 'Terminer le test' }));
+              await screen.findByRole('dialog');
               const [, endTestModal] = screen.getAllByRole('button', { name: 'Terminer le test' });
               await click(endTestModal);
+              await waitForDialogClose();
 
               // then
               sinon.assert.calledOnce(this.endAssessmentForCandidate);
@@ -506,12 +529,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // when
               await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
               await click(screen.getByRole('button', { name: 'Terminer le test' }));
+              await screen.findByRole('dialog');
+
               const [, endTestModal] = screen.getAllByRole('button', { name: 'Terminer le test' });
               await click(endTestModal);
+              await waitForDialogClose();
 
               // then
               sinon.assert.calledOnce(this.endAssessmentBySupervisor);
-              assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
+              assert.dom(screen.queryByRole('heading', { name: 'Terminer le test de Vance Astro ?' })).doesNotExist();
               assert
                 .dom(screen.getByText("Une erreur est survenue, le test de Vance Astro n'a pas pu être terminé."))
                 .exists();

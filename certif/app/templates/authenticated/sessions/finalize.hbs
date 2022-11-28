@@ -50,12 +50,11 @@
   </PixButton>
 </div>
 
-{{#if this.showConfirmModal}}
-  <SessionFinalization::FinalizationConfirmationModal
-    @closeModal={{this.closeModal}}
-    @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
-    @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
-    @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-    @finalizeSession={{this.finalizeSession}}
-  />
-{{/if}}
+<SessionFinalization::FinalizationConfirmationModal
+  @showModal={{this.showConfirmModal}}
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>
