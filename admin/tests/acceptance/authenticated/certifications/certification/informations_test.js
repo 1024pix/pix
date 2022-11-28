@@ -489,7 +489,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             const screen = await visit('/certifications/123');
             await clickByName('Modifier les informations du candidat');
-
+            await screen.findByRole('dialog');
             // when
             await fillByLabel('Nom de famille', 'Summers');
             await fillByLabel('Commune de naissance', 'Sunnydale');
@@ -511,7 +511,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             const screen = await visit('/certifications/123');
             await clickByName('Modifier les informations du candidat');
-
+            await screen.findByRole('dialog');
             // when
             await fillByLabel('Nom de famille', 'Summers');
             await fillByLabel('Commune de naissance', 'Sunnydale');
@@ -526,14 +526,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             const screen = await visit('/certifications/123');
             await clickByName('Modifier les informations du candidat');
-
+            await screen.findByRole('dialog');
             // when
             await fillByLabel('Nom de famille', 'Summers');
             await fillByLabel('Commune de naissance', 'Sunnydale');
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.queryByRole('heading', { name: 'Éditer les informations du candidat' })).doesNotExist();
+            assert.dom(screen.queryByText('Éditer les informations du candidat')).doesNotExist();
           });
         });
 
@@ -550,6 +550,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
+            await screen.findByRole('dialog');
+
             await fillByLabel('Nom de famille', 'Summers');
 
             // when
@@ -571,6 +573,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
+            await screen.findByRole('dialog');
+
             await fillByLabel('Nom de famille', 'Summers');
 
             // when
@@ -592,6 +596,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
+
+            await screen.findByRole('dialog');
+
             await fillByLabel('Nom de famille', 'Summers');
             await clickByName('Enregistrer');
 
@@ -651,6 +658,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les résultats du candidat');
           await clickByName('Enregistrer les résultats du candidat');
+
+          await screen.findByRole('dialog');
+
           await clickByName('Confirmer');
 
           // then
@@ -689,11 +699,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
                 const screen = await visit(`/certifications/${certification.id}`);
                 await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
+
+                await screen.findByRole('dialog');
+
                 await fillByLabel('Résolution', resolution);
 
                 // when
                 await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
-                assert.true(true);
 
                 // then
                 assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
@@ -721,6 +733,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               const screen = await visit(`/certifications/${certification.id}`);
 
               await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
+              await screen.findByRole('dialog');
               await fillByLabel('Résolution', 'Fraude');
 
               // when
@@ -749,6 +762,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           // when
           await clickByName('Annuler la certification');
 
+          await screen.findByRole('dialog');
           // then
           assert
             .dom(
@@ -765,6 +779,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Annuler la certification');
 
+          await screen.findByRole('dialog');
           // when
           await clickByName('Fermer');
 
@@ -778,6 +793,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Annuler la certification');
+
+          await screen.findByRole('dialog');
 
           // when
           await clickByName('Confirmer');
@@ -800,7 +817,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           await clickByName('Désannuler la certification');
-
+          await screen.findByRole('dialog');
           // then
           assert
             .dom(
@@ -817,6 +834,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Désannuler la certification');
 
+          await screen.findByRole('dialog');
+
           // when
           await clickByName('Fermer');
 
@@ -831,6 +850,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Désannuler la certification');
 
+          await screen.findByRole('dialog');
           // when
           await clickByName('Confirmer');
 

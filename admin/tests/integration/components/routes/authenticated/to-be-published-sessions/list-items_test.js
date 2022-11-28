@@ -137,11 +137,12 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       };
       this.toBePublishedSessions = [session];
       this.publishSession = sinon.stub();
-      await render(
+      const screen = await render(
         hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} @publishSession={{this.publishSession}}/>`
       );
       await clickByName('Publier la session numéro 1');
 
+      await screen.findByRole('dialog');
       // when
       await clickByName('Confirmer');
 

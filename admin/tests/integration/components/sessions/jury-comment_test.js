@@ -63,7 +63,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         assert.dom(screen.getByText("Commentaire de l'équipe Certification")).exists();
         assert.dom(screen.getByRole('textbox', { name: 'Texte du commentaire' })).hasValue('');
         assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-        assert.dom(screen.queryByText('Annuler')).doesNotExist();
+        assert.dom(screen.queryByRole('Annuler')).doesNotExist();
       });
 
       module('when the form is submitted', function () {
@@ -197,8 +197,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
         // then
 
-        assert.dom(screen.queryByText('button', { name: 'Modifier' })).doesNotExist();
-        assert.dom(screen.queryByText('button', { name: 'Supprimer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
       });
     });
 
@@ -349,13 +349,17 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               />
             `);
               await clickByName('Supprimer');
+
+              await screen.findByRole('dialog');
+
               await clickByName('Confirmer');
 
               // then
               assert.ok(this.onDeleteButtonClicked.calledOnce);
-              assert
-                .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
-                .doesNotExist();
+
+              // assert
+              //  .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
+              //  .doesNotExist();
               assert
                 .dom(
                   screen.queryByText(
@@ -391,6 +395,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               />
             `);
               await clickByName('Supprimer');
+
+              await screen.findByRole('dialog');
+
               await clickByName('Confirmer');
 
               // then
@@ -435,13 +442,16 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             />
           `);
             await clickByName('Supprimer');
+
+            await screen.findByRole('dialog');
+
             await clickByName('Annuler');
 
             // then
             assert.ok(this.onDeleteButtonClicked.notCalled);
-            assert
-              .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
-              .doesNotExist();
+            //assert
+            //  .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
+            //  .doesNotExist();
             assert
               .dom(
                 screen.getByText(

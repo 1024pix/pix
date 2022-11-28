@@ -6,6 +6,7 @@ export default class DeleteModal extends Component {
   @service notifications;
 
   get message() {
+    if (!this.args.show) return '';
     return `Êtes-vous sûr de vouloir supprimer ce lot de place: ${this.args.organizationPlacesLot.reference} ?`;
   }
 

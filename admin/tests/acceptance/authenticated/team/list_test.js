@@ -83,6 +83,9 @@ module('Acceptance | Team | List', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await clickByName("Désactiver l'agent Anne Estésie");
+
+      await screen.findByRole('dialog');
+
       await clickByName('Confirmer');
 
       // then

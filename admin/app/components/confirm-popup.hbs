@@ -1,18 +1,16 @@
-{{#if @show}}
-  <PixModal @title={{this.title}} @onCloseButtonClick={{@cancel}}>
-    <:content>
-      <p>{{@message}}</p>
-      <p class="confirm-popup__errors">{{@error}}</p>
-    </:content>
+<PixModal @title={{this.title}} @onCloseButtonClick={{@cancel}} @showModal={{@show}}>
+  <:content>
+    <p>{{@message}}</p>
+    <p class="confirm-popup__errors">{{@error}}</p>
+  </:content>
 
-    <:footer>
-      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@cancel}}>
-        {{this.closeTitle}}
-      </PixButton>
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@cancel}}>
+      {{this.closeTitle}}
+    </PixButton>
 
-      <PixButton @triggerAction={{@confirm}} @loadingColor="white" @backgroundColor="blue">
-        {{this.submitTitle}}
-      </PixButton>
-    </:footer>
-  </PixModal>
-{{/if}}
+    <PixButton @triggerAction={{@confirm}} @loadingColor="white" @backgroundColor="blue">
+      {{this.submitTitle}}
+    </PixButton>
+  </:footer>
+</PixModal>

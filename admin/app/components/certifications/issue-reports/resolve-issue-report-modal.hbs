@@ -1,4 +1,4 @@
-<PixModal @title="{{this.actionName}}" @onCloseButtonClick={{@toggleResolveModal}}>
+<PixModal @title="{{this.actionName}}" @onCloseButtonClick={{@toggleResolveModal}} @showModal={{@displayModal}}>
   <:content>
     <PixTextarea
       @id="resolve-reason"

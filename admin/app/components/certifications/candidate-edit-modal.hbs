@@ -1,4 +1,8 @@
-<PixModal @title="Éditer les informations du candidat" @onCloseButtonClick={{this.onCancelButtonsClicked}}>
+<PixModal
+  @title="Éditer les informations du candidat"
+  @onCloseButtonClick={{this.onCancelButtonsClicked}}
+  @showModal={{@isDisplayed}}
+>
   <:content>
     <form id="candidate-edit-form" {{on "submit" this.onFormSubmit}}>
       <p class="candidate-edit-modal--content__required-fields-mention">

@@ -55,8 +55,8 @@ export default class JuryComment extends Component {
   @action
   async confirmDeletion() {
     try {
-      await this.args.onDeleteButtonClicked();
       this.closeDeletionConfirmationModal();
+      await this.args.onDeleteButtonClicked();
     } catch {
       noop();
     }

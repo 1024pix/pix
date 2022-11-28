@@ -86,6 +86,8 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
       await clickByName('Publier la session numéro 2');
 
+      await screen.findByRole('dialog');
+
       // when
       await clickByName('Confirmer');
 
@@ -149,6 +151,8 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
         await clickByName('Publier toutes les sessions');
 
+        await screen.findByRole('dialog');
+
         // when
         await clickByName('Confirmer');
 
@@ -191,5 +195,5 @@ function _assertNoSessionInList(assert, screen) {
 }
 
 function _assertConfirmModalIsClosed(assert, screen) {
-  assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
+  assert.throws(screen.getByRole('heading', { name: 'Merci de confirmer' }));
 }
