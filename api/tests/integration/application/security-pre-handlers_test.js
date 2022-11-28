@@ -221,4 +221,75 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('#checkIfUserIsBlocked', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      const moduleUnderTest = {
+        name: 'security-test',
+        register: async function (server) {
+          server.route([
+            {
+              method: 'POST',
+              path: '/api/token',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                auth: false,
+                pre: [
+                  {
+                    method: (request, h) => securityPreHandlers.checkIfUserIsBlocked(request, h),
+                  },
+                ],
+              },
+            },
+          ]);
+        },
+      };
+      httpServerTest = new HttpTestServer();
+      await httpServerTest.register(moduleUnderTest);
+      httpServerTest.setupAuthentication();
+    });
+
+    describe('when user is not blocked', function () {
+      it('returns 200', async function () {
+        // given
+        databaseBuilder.factory.buildUser({ username: 'lucy123' });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await httpServerTest.requestObject({
+          method: 'POST',
+          url: '/api/token',
+          payload: { username: 'lucy123' },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    describe('when user is temporary blocked', function () {
+      it('returns 403 with specific code', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({ username: 'natsu123' }).id;
+        await databaseBuilder.factory.buildUserLogin({
+          userId,
+          temporaryBlockedUntil: new Date(Date.now() + 3600 * 1000),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await httpServerTest.requestObject({
+          method: 'POST',
+          url: '/api/token',
+          payload: { username: 'natsu123' },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.errors[0].code).to.equal('USER_HAS_BEEN_TEMPORARY_BLOCKED');
+      });
+    });
+  });
 });

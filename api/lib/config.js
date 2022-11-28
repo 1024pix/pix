@@ -172,6 +172,11 @@ module.exports = (function () {
       window: _getNumber(process.env.RATE_LIMIT_DEFAULT_WINDOW, 60),
     },
 
+    userLogins: {
+      thresholdFailureCount: _getNumber(process.env.THRESHOLD_FAILURE_COUNT || 10),
+      temporaryBlockedTime: _getNumber(process.env.TEMPORARY_BLOCKED_TIME_IN_MINUTES || 2),
+    },
+
     caching: {
       redisUrl: process.env.REDIS_URL,
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
