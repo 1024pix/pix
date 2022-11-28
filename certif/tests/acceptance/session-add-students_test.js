@@ -120,6 +120,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         await click(
           screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' })
         );
+        await screen.findByRole('menu');
         await click(screen.getByRole('checkbox', { name: '3A' }));
 
         // then
