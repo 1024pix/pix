@@ -105,22 +105,23 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(result).to.deep.equal({ url: 'url' });
     });
 
-    it('should not change the time to live', function () {
+    it('should not change the time to live', async function () {
       // given
       const keyWithTtl = inMemoryTemporaryStorage.save({
         value: {},
-        expirationDelaySeconds: 1000,
+        expirationDelaySeconds: 0.2,
       });
-      const initialTtl = inMemoryTemporaryStorage._client.getTtl(keyWithTtl);
       const keyWithoutTtl = inMemoryTemporaryStorage.save({ value: {} });
 
       // when
+      await new Promise((resolve) => setTimeout(resolve, 150));
       inMemoryTemporaryStorage.update(keyWithTtl, {});
       inMemoryTemporaryStorage.update(keyWithoutTtl, {});
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // then
-      expect(inMemoryTemporaryStorage._client.getTtl(keyWithTtl)).to.equal(initialTtl);
-      expect(inMemoryTemporaryStorage._client.getTtl(keyWithoutTtl)).to.equal(0);
+      expect(inMemoryTemporaryStorage.get(keyWithTtl)).to.be.undefined;
+      expect(inMemoryTemporaryStorage.get(keyWithoutTtl)).not.to.be.undefined;
     });
   });
 
