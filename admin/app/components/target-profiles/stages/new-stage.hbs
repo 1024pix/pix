@@ -24,7 +24,7 @@
         />
         {{#if @errors.threshold}}
           <div class="form-field__error">
-            {{@errors.threshold.0.message}}
+            {{get @errors.threshold "0.message"}}
           </div>
         {{/if}}
       {{/if}}
@@ -40,7 +40,7 @@
       />
       {{#if @errors.title}}
         <div class="form-field__error">
-          {{@errors.title.0.message}}
+          {{get @errors.title "0.message"}}
         </div>
       {{/if}}
     </div>
