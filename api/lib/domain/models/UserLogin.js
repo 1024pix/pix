@@ -1,3 +1,5 @@
+const settings = require('../../config');
+
 class UserLogin {
   constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
     this.id = id;
@@ -11,6 +13,11 @@ class UserLogin {
 
   incrementFailureCount() {
     this.failureCount++;
+  }
+
+  isUserTemporaryBlocked() {
+    const now = new Date();
+    return !!this.temporaryBlockedUntil && this.temporaryBlockedUntil > now;
   }
 
   resetUserTemporaryBlocking() {
