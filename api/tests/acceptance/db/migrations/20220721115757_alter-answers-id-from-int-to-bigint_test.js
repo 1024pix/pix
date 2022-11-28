@@ -22,7 +22,7 @@ describe('#changeAnswerIdTypeToBigint', function () {
     expect(sequenceDataType[0]['data_type']).to.equal('bigint');
   });
 
-  it('should sequence are correctly reassigned', async function () {
+  it('should reassign sequences', async function () {
     // given
     const [{ id: answerIdInsertedBeforeSwitch }] = await knex('answers')
       .insert({
@@ -48,7 +48,9 @@ describe('#changeAnswerIdTypeToBigint', function () {
         timeSpent: 30,
       })
       .returning('id');
+
     // then
     expect(answerIdInsertedAfterSwitch).to.equal(answerIdInsertedBeforeSwitch + 1);
+    await knex.from('answers').delete().whereIn('id', [answerIdInsertedBeforeSwitch, answerIdInsertedAfterSwitch]);
   });
 });
