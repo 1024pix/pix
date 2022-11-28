@@ -22,32 +22,64 @@ module('Integration | Component | panel-header', function (hooks) {
   });
 
   module('isMassiveSessionManagementEnabled feature toggle', function () {
-    test('it does not render a download button for the mass import template when toggle is set to false', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isMassiveSessionManagementEnabled: false };
-      }
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
+    module('isMassiveSessionManagementEnabled feature toggle is true', function () {
+      test('it renders a download button for the mass import template', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isMassiveSessionManagementEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
 
-      // when
-      const { queryByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+        // when
+        const { getByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
 
-      // then
-      assert.dom(queryByLabelText("Télécharger le template d'import en masse")).doesNotExist();
+        // then
+        assert.dom(getByLabelText("Télécharger le template d'import en masse")).exists();
+      });
+
+      test('it renders an import button for the session mass import', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isMassiveSessionManagementEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+
+        // when
+        const { getByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+
+        // then
+        assert.dom(getByLabelText('Importer en masse')).exists();
+      });
     });
 
-    test('it renders a download button for the mass import template when toggle is set to true', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isMassiveSessionManagementEnabled: true };
-      }
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
+    module('isMassiveSessionManagementEnabled feature toggle is false', function () {
+      test('it does not render a download button for the mass import template', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isMassiveSessionManagementEnabled: false };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
 
-      // when
-      const { getByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+        // when
+        const { queryByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
 
-      // then
-      assert.dom(getByLabelText("Télécharger le template d'import en masse")).exists();
+        // then
+        assert.dom(queryByLabelText("Télécharger le template d'import en masse")).doesNotExist();
+      });
+
+      test('it does not render an import button for the session mass import', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isMassiveSessionManagementEnabled: false };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+
+        // when
+        const { queryByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+
+        // then
+        assert.dom(queryByLabelText('Importer en masse')).doesNotExist();
+      });
     });
   });
 });
