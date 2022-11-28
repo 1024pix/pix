@@ -28,7 +28,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         });
 
         // when
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
@@ -48,7 +48,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         this.set('user', user);
 
         // when
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
         // then
         assert.dom(screen.getByText(this.user.firstName)).exists();
@@ -65,7 +65,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           this.set('user', { cgu: true, lastTermsOfServiceValidatedAt: new Date('2021-12-10') });
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
           assert.dom(screen.getByText('OUI, le 10/12/2021')).exists();
@@ -76,7 +76,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: true, cgu: false });
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
           assert.dom(screen.getByText('NON')).exists();
@@ -90,7 +90,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           });
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
           assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
@@ -101,7 +101,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: false, cgu: true });
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
           assert.dom(screen.getByText('NON')).exists();
@@ -115,7 +115,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           });
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
           assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
@@ -126,7 +126,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           this.set('user', { pixCertifTermsOfServiceAccepted: false, pixOrgaTermsOfServiceAccepted: true, cgu: true });
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
           assert.dom(screen.getByText('NON')).exists();
@@ -169,7 +169,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         this.set('user', user);
 
         // when
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
         await clickByName('Modifier');
 
         // then
@@ -183,7 +183,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           this.set('user', user);
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
           await clickByName('Modifier');
 
           // then
@@ -195,7 +195,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           this.set('user', user);
 
           // when
-          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
           await clickByName('Modifier');
 
           // then
@@ -266,7 +266,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         this.set('user', user);
 
         // when
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
         await clickByName('Modifier');
 
         // then
@@ -290,7 +290,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       test('should show modal', async function (assert) {
         // given
         this.set('user', user);
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
         // when
         await clickByName('Anonymiser cet utilisateur');
@@ -309,7 +309,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       test.skip('should close the modal to cancel action', async function (assert) {
         // given
         this.set('user', user);
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
         await clickByName('Anonymiser cet utilisateur');
 
         await screen.findByRole('dialog');
@@ -339,7 +339,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();

@@ -17,8 +17,9 @@ module('Integration | Component | certification-center-invitations-action', func
     // when
     await render(
       hbs`<CertificationCenters::InvitationsAction
-        @createInvitation={{this.createInvitation}}
-        @onChangeUserEmailToInvite={{this.noop}}/>`
+  @createInvitation={{this.createInvitation}}
+  @onChangeUserEmailToInvite={{this.noop}}
+/>`
     );
     await clickByText('Inviter');
 
@@ -35,8 +36,9 @@ module('Integration | Component | certification-center-invitations-action', func
     // when
     await render(
       hbs`<CertificationCenters::InvitationsAction
-        @createInvitation={{this.createInvitation}}
-        @onChangeUserEmailToInvite={{this.noop}}/>`
+  @createInvitation={{this.createInvitation}}
+  @onChangeUserEmailToInvite={{this.noop}}
+/>`
     );
     await selectByLabelAndOption('Choisir la langue de l’email d’invitation', 'en');
     await clickByText('Inviter');

@@ -111,7 +111,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
       );
 
       // then
@@ -186,7 +186,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
         );
 
         // then
@@ -208,7 +208,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
         );
 
         // then
@@ -232,7 +232,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+        hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
       );
 
       // then
@@ -273,7 +273,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
         );
 
         // then
@@ -296,7 +296,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+          hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}} />`
         );
 
         // then

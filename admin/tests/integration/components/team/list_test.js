@@ -22,7 +22,7 @@ module('Integration | Component | team | list', function (hooks) {
       ]);
 
       // when
-      const screen = await render(hbs`<Team::List @members={{this.members}}/>`);
+      const screen = await render(hbs`<Team::List @members={{this.members}} />`);
 
       // then
       assert.dom(screen.getByRole('row', { name: 'Marie Tim' })).includesText('marie.tim@example.net');
@@ -42,7 +42,7 @@ module('Integration | Component | team | list', function (hooks) {
       ]);
 
       // when
-      const screen = await render(hbs`<Team::List @members={{this.members}}/>`);
+      const screen = await render(hbs`<Team::List @members={{this.members}} />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: "Modifier le rôle de l'agent Marie Tim" })).exists();
@@ -61,7 +61,7 @@ module('Integration | Component | team | list', function (hooks) {
             isSuperAdmin: true,
           },
         ]);
-        const screen = await render(hbs`<Team::List @members={{this.members}}/>`);
+        const screen = await render(hbs`<Team::List @members={{this.members}} />`);
 
         // when
         await clickByName("Désactiver l'agent Marie Tim");
@@ -182,7 +182,7 @@ module('Integration | Component | team | list', function (hooks) {
     this.set('members', []);
 
     // when
-    const screen = await render(hbs`<Team::List @members={{this.members}}/>`);
+    const screen = await render(hbs`<Team::List @members={{this.members}} />`);
 
     // then
     assert.dom(screen.getByText('Aucun résultat')).exists();

@@ -241,7 +241,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}
+  @countries={{this.countries}}
+/>`
       );
 
       await fillByLabel('Nom de famille', 'Belmans');
@@ -287,7 +292,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}
+  @countries={{this.countries}}
+/>`
       );
       await fillByLabel('Nom de famille', 'Belmans');
       await fillByLabel('Prénom', 'Gideona');
@@ -312,7 +322,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       this.countries = [];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}
+  @countries={{this.countries}}
+/>`
       );
 
       // when
@@ -330,7 +345,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       this.countries = [];
       this.onFormSubmitStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @onFormSubmit={{this.onFormSubmitStub}}
+  @countries={{this.countries}}
+/>`
       );
 
       // when
@@ -359,7 +379,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
       this.onFormSubmitStub = sinon.stub();
       await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @onFormSubmit={{this.onFormSubmitStub}}
+  @countries={{this.countries}}
+/>`
       );
       await fillByLabel('Nom de famille', 'Belmans');
       await fillByLabel('Prénom', 'Gideon');
@@ -399,7 +424,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @countries={{this.countries}}
+  @onFormSubmit={{this.onFormSubmitStub}}
+/>`
         );
 
         // when
@@ -443,7 +473,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @countries={{this.countries}}
+  @onFormSubmit={{this.onFormSubmitStub}}
+/>`
         );
 
         // when
@@ -488,7 +523,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal
+  @isDisplayed={{true}}
+  @candidate={{this.candidate}}
+  @countries={{this.countries}}
+  @onFormSubmit={{this.onFormSubmitStub}}
+/>`
         );
 
         // when
@@ -533,7 +573,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
         ];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // when
@@ -562,7 +602,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
         this.countries = [];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // when
@@ -591,7 +631,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
         this.countries = [];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // when

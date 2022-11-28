@@ -20,12 +20,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
 
       // When
       const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // Then
       assert.dom(screen.getByRole('dialog', { name: 'Résoudre ce signalement' })).exists();
@@ -43,12 +43,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
 
       // When
       const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // Then
       assert.dom(screen.getByRole('button', { name: 'Résoudre ce signalement' })).exists();
@@ -66,12 +66,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
       this.closeResolveModal = sinon.stub().returns();
 
       await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // When
       await clickByName('Annuler');
@@ -92,12 +92,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
       this.closeResolveModal = sinon.stub().returns();
 
       await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // When
       await clickByName('Résoudre ce signalement');
@@ -118,12 +118,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
         this.closeResolveModal = sinon.stub().returns();
 
         await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
         // When
         await clickByName('Résoudre ce signalement');
@@ -144,12 +144,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
         this.closeResolveModal = sinon.stub().returns();
 
         await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
         // When
         await fillByLabel('Résolution', 'This is a fraud, its certification has been revoked');
@@ -183,12 +183,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
 
       // When
       const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                     @toggleResolveModal={{this.toggleResolveModal}}
-                     @issueReport={{this.issueReport}}
-                     @resolveIssueReport={{this.resolveIssueReport}}
-                     @closeResolveModal={{this.closeResolveModal}}
-                     @displayModal={{true}}
-                    />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // Then
       assert.dom(screen.getByRole('dialog', { name: 'Modifier la résolution' })).exists();
@@ -209,12 +209,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
         this.closeResolveModal = sinon.stub().returns();
 
         const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                     @toggleResolveModal={{this.toggleResolveModal}}
-                     @issueReport={{this.issueReport}}
-                     @resolvecandidateIssueReport={{this.resolveIssueReport}}
-                     @closeResolveModal={{this.closeResolveModal}}
-                     @displayModal={{true}}
-                    />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolvecandidateIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
         // when
         await clickByName('Modifier la résolution');
@@ -239,12 +239,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
 
       // When
       const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // Then
       assert.dom(screen.getByRole('button', { name: 'Modifier la résolution' })).exists();
@@ -265,12 +265,12 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
 
       // When
       const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
-                   @toggleResolveModal={{this.toggleResolveModal}}
-                   @issueReport={{this.issueReport}}
-                   @resolveIssueReport={{this.resolveIssueReport}}
-                   @closeResolveModal={{this.closeResolveModal}}
-                   @displayModal={{true}}
-                  />`);
+  @toggleResolveModal={{this.toggleResolveModal}}
+  @issueReport={{this.issueReport}}
+  @resolveIssueReport={{this.resolveIssueReport}}
+  @closeResolveModal={{this.closeResolveModal}}
+  @displayModal={{true}}
+/>`);
 
       // Then
       assert.dom(screen.getByRole('textbox', { name: 'Résolution' })).hasValue('resolved by John Doe');

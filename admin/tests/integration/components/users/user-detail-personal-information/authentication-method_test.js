@@ -21,8 +21,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`
-            <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+          );
 
           // then
           assert.dom(screen.getByText('30/10/2020')).exists();
@@ -36,8 +37,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`
-            <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+          );
 
           // then
           assert.dom(screen.getByText('Adresse e-mail non confirmée')).exists();
@@ -51,8 +53,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`
-            <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+          );
 
           // then
           assert.dom(screen.getByText('Date de dernière connexion :')).exists();
@@ -67,8 +70,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`
-            <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+          );
 
           // then
           assert.dom(screen.getByText('Date de dernière connexion :')).exists();
@@ -84,10 +88,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
@@ -101,10 +104,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert
@@ -122,10 +124,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec identifiant")).exists();
@@ -139,10 +140,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert
@@ -160,10 +160,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Médiacentre")).exists();
@@ -178,10 +177,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
@@ -211,10 +209,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
@@ -229,10 +226,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert
@@ -254,11 +250,10 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
-            const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-          @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
-        />`);
+            const screen = await render(hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod
+  @user={{this.user}}
+  @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+/>`);
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
@@ -275,10 +270,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`
-        <Users::UserDetailPersonalInformation::AuthenticationMethod
-          @user={{this.user}}
-        />`);
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+          );
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
@@ -293,10 +287,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-          <Users::UserDetailPersonalInformation::AuthenticationMethod
-            @user={{this.user}}
-          />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.getByRole('button', { name: 'Ajouter une adresse e-mail' })).exists();
@@ -310,10 +303,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(hbs`
-          <Users::UserDetailPersonalInformation::AuthenticationMethod
-            @user={{this.user}}
-          />`);
+            const screen = await render(
+              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+            );
 
             // then
             assert.dom(screen.queryByRole('button', { name: 'Ajouter une adresse e-mail' })).doesNotExist();
@@ -337,7 +329,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
 
       // when
       const screen = await render(
-        hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}}/>`
+        hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
       );
 
       // then

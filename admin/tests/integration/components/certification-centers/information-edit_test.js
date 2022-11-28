@@ -139,9 +139,9 @@ module('Integration | Component | certification-centers/information-edit', funct
         // given
         const screen = await render(
           hbs`<CertificationCenters::InformationEdit
-          @certificationCenter={{this.certificationCenter}}
-          @toggleEditMode={{this.toggleEditModeStub}}
-          />`
+  @certificationCenter={{this.certificationCenter}}
+  @toggleEditMode={{this.toggleEditModeStub}}
+/>`
         );
 
         // when
@@ -158,10 +158,10 @@ module('Integration | Component | certification-centers/information-edit', funct
         // given
         const screen = await render(
           hbs`<CertificationCenters::InformationEdit
-          @certificationCenter={{this.certificationCenter}}
-          @toggleEditMode={{this.toggleEditModeStub}}
-          @onSubmit={{this.onSubmit}}
-          />`
+  @certificationCenter={{this.certificationCenter}}
+  @toggleEditMode={{this.toggleEditModeStub}}
+  @onSubmit={{this.onSubmit}}
+/>`
         );
 
         // when
