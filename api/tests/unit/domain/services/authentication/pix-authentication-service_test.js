@@ -89,7 +89,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
       context('when user is not temporary blocked', function () {
         it('should not reset password failure count', async function () {
           // given
-          const userLogin = { isUserTemporaryBlocked: sinon.stub().returns(false) };
+          const userLogin = { hasBeenTemporaryBlocked: sinon.stub().returns(false) };
           userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
 
           // when
@@ -110,7 +110,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
           const user = domainBuilder.buildUser({ username });
           const resetUserTemporaryBlockingStub = sinon.stub();
           const userLogin = {
-            isUserTemporaryBlocked: sinon.stub().returns(true),
+            hasBeenTemporaryBlocked: sinon.stub().returns(true),
             resetUserTemporaryBlocking: resetUserTemporaryBlockingStub,
           };
           userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
