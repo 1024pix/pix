@@ -37,8 +37,9 @@ module('Integration | Component | certification-centers/information-view', funct
     // when
     const screen = await render(
       hbs`<CertificationCenters::InformationView
-      @availableHabilitations={{this.availableHabilitations}}
-      @certificationCenter={{this.certificationCenter}} />`
+  @availableHabilitations={{this.availableHabilitations}}
+  @certificationCenter={{this.certificationCenter}}
+/>`
     );
 
     // then

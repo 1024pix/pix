@@ -22,7 +22,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
+      hbs`<TargetProfiles::Organizations
+  @organizations={{this.organizations}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
 
     // then
@@ -39,7 +43,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
+      hbs`<TargetProfiles::Organizations
+  @organizations={{this.organizations}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
 
     // then
@@ -56,7 +64,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
+      hbs`<TargetProfiles::Organizations
+  @organizations={{this.organizations}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
 
     assert.dom(screen.getByText('Aucun résultat')).exists();
@@ -68,7 +80,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     await render(
-      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
+      hbs`<TargetProfiles::Organizations
+  @organizations={{this.organizations}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
     await clickByName('Valider le rattachement');
@@ -82,7 +98,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     await render(
-      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
+      hbs`<TargetProfiles::Organizations
+  @organizations={{this.organizations}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
     await fillByLabel("Rattacher les organisations d'un profil cible existant", 1);
     await clickByName('Valider le rattachement à partir de ce profil cible');
@@ -98,7 +118,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
+      hbs`<TargetProfiles::Organizations
+  @organizations={{this.organizations}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
 
     // then

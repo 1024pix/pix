@@ -68,7 +68,7 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     this.set('onChangeFunction', onChangeFunction);
 
     screen = await render(
-      hbs`<TargetProfiles::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}}/>`
+      hbs`<TargetProfiles::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}} />`
     );
   });
 

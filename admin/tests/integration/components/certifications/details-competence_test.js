@@ -35,7 +35,12 @@ module('Integration | Component | certifications/details-competence', function (
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsCompetence @competence={{this.competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{this.externalAction}}/>`
+      hbs`<Certifications::DetailsCompetence
+  @competence={{this.competenceData}}
+  rate={{60}}
+  @juryRate={{false}}
+  @onUpdateRate={{this.externalAction}}
+/>`
     );
 
     // then
@@ -51,7 +56,12 @@ module('Integration | Component | certifications/details-competence', function (
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsCompetence @competence={{this.competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{this.externalAction}}/>`
+      hbs`<Certifications::DetailsCompetence
+  @competence={{this.competenceData}}
+  rate={{60}}
+  @juryRate={{false}}
+  @onUpdateRate={{this.externalAction}}
+/>`
     );
 
     // then
@@ -65,7 +75,12 @@ module('Integration | Component | certifications/details-competence', function (
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsCompetence @competence={{this.competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{this.externalAction}} />`
+      hbs`<Certifications::DetailsCompetence
+  @competence={{this.competenceData}}
+  rate={{60}}
+  juryRate={{70}}
+  @onUpdateRate={{this.externalAction}}
+/>`
     );
 
     // then

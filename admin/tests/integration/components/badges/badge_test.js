@@ -73,7 +73,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
     this.set('targetProfile', targetProfile);
 
     // when
-    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} @targetProfile={{this.targetProfile}}/>`);
+    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} @targetProfile={{this.targetProfile}} />`);
 
     // then
     assert.deepEqual(

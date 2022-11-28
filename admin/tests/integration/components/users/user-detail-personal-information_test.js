@@ -68,7 +68,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
 
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
       await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       await screen.findByRole('dialog');
@@ -130,7 +130,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
 
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
@@ -157,7 +157,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
 
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
       await screen.findByRole('dialog');
@@ -187,7 +187,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
+          hbs`<Users::UserDetailPersonalInformation
+  @user={{this.user}}
+  @removeAuthenticationMethod={{this.removeAuthenticationMethod}}
+/>`
         );
         await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
@@ -227,7 +230,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
       this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when & then
       assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();

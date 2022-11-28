@@ -40,12 +40,14 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
 
     // when
     await render(
-      hbs`<TargetProfiles::TubesSelection::Tube @competence={{this.competence}}
-                          @thematic={{this.thematic}}
-                          @tube={{this.tube}}
-                          @setLevelTube={{this.setLevelTube}}
-                          @selectedTubeIds={{this.selectedTubeIds}}
-                          @tubeLevels={{this.tubeLevels}}/>`
+      hbs`<TargetProfiles::TubesSelection::Tube
+  @competence={{this.competence}}
+  @thematic={{this.thematic}}
+  @tube={{this.tube}}
+  @setLevelTube={{this.setLevelTube}}
+  @selectedTubeIds={{this.selectedTubeIds}}
+  @tubeLevels={{this.tubeLevels}}
+/>`
     );
     const select = document.getElementById('select-level-tube-tubeId1');
 
@@ -60,12 +62,14 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
 
     // when
     await render(
-      hbs`<TargetProfiles::TubesSelection::Tube @competence={{this.competence}}
-                          @thematic={{this.thematic}}
-                          @tube={{this.tube}}
-                          @setLevelTube={{this.setLevelTube}}
-                          @selectedTubeIds={{this.selectedTubeIds}}
-                          @tubeLevels={{this.tubeLevels}}/>`
+      hbs`<TargetProfiles::TubesSelection::Tube
+  @competence={{this.competence}}
+  @thematic={{this.thematic}}
+  @tube={{this.tube}}
+  @setLevelTube={{this.setLevelTube}}
+  @selectedTubeIds={{this.selectedTubeIds}}
+  @tubeLevels={{this.tubeLevels}}
+/>`
     );
     const select = document.getElementById('select-level-tube-tubeId1');
 

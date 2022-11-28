@@ -8,7 +8,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type COMPETENCES', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category="COMPETENCES"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category='COMPETENCES' />`);
 
     // then
     assert.dom(screen.getByText('Les 16 compétences')).exists();
@@ -16,7 +16,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type SUBJECT', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category="SUBJECT"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category='SUBJECT' />`);
 
     // then
     assert.dom(screen.getByText('Thématiques')).exists();
@@ -24,7 +24,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type DISCIPLINE', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category="DISCIPLINE"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category='DISCIPLINE' />`);
 
     // then
     assert.dom(screen.getByText('Disciplinaires')).exists();
@@ -32,7 +32,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type CUSTOM', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category="CUSTOM"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category='CUSTOM' />`);
 
     // then
     assert.dom(screen.getByText('Parcours sur-mesure')).exists();
@@ -40,7 +40,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type PREDEFINED', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category="PREDEFINED"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category='PREDEFINED' />`);
 
     // then
     assert.dom(screen.getByText('Parcours prédéfinis')).exists();
@@ -48,7 +48,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type OTHER', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category="OTHER"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category='OTHER' />`);
 
     // then
     assert.dom(screen.getByText('Autres')).exists();

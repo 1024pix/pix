@@ -29,7 +29,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', participations);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.strictEqual(screen.getAllByLabelText('Participation').length, 2);
@@ -41,7 +41,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', participations);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.dom(screen.getByText('Aucune participation')).exists();
@@ -56,7 +56,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', [participation]);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.dom(screen.getByText('SOMECODE')).exists();
@@ -71,7 +71,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', [participation]);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.dom(screen.getByText('Un nom bien long')).exists();
@@ -87,7 +87,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', [participation]);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.dom(screen.getByText('Some external id')).exists();
@@ -103,7 +103,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', [participation]);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.dom(screen.getByText('01/01/2020')).exists();
@@ -118,7 +118,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', [participation]);
 
       // when
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // then
       assert.dom(screen.getByText('01/01/2022 par')).exists();
@@ -134,7 +134,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.set('participations', [participation]);
 
       // When
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // Then
       assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
@@ -155,7 +155,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.owner.register('service:access-control', AccessControlStub);
 
       // When
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // Then
       assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).exists();
@@ -175,7 +175,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       this.owner.register('service:access-control', AccessControlStub);
 
       // When
-      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}}/>`);
+      const screen = await render(hbs`<Users::CampaignParticipations @participations={{this.participations}} />`);
 
       // Then
       assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
@@ -196,7 +196,10 @@ module('Integration | Component | users | campaign-participation', function (hoo
 
       // When
       const screen = await render(
-        hbs`<Users::CampaignParticipations @participations={{this.participations}} @removeParticipation={{this.removeParticipation}}/>`
+        hbs`<Users::CampaignParticipations
+  @participations={{this.participations}}
+  @removeParticipation={{this.removeParticipation}}
+/>`
       );
       await clickByName('Supprimer');
 

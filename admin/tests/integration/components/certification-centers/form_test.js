@@ -18,7 +18,11 @@ module('Integration | Component | certification-centers/form', function (hooks) 
   test('it renders the new certification center form component', async function (assert) {
     // when
     const screen = await render(
-      hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+      hbs`<CertificationCenters::Form
+  @certificationCenter={{this.certificationCenter}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`
     );
 
     // then
@@ -34,7 +38,11 @@ module('Integration | Component | certification-centers/form', function (hooks) 
     test('should update attribute certificationCenter.type', async function (assert) {
       // given
       await render(
-        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+        hbs`<CertificationCenters::Form
+  @certificationCenter={{this.certificationCenter}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`
       );
 
       // when
@@ -56,7 +64,12 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       this.stub = () => {};
 
       const screen = await render(
-        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @habilitations={{this.habilitations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+        hbs`<CertificationCenters::Form
+  @certificationCenter={{this.certificationCenter}}
+  @habilitations={{this.habilitations}}
+  @onSubmit={{this.stub}}
+  @onCancel={{this.stub}}
+/>`
       );
 
       // when
@@ -78,7 +91,12 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       this.stub = () => {};
 
       const screen = await render(
-        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @habilitations={{this.habilitations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+        hbs`<CertificationCenters::Form
+  @certificationCenter={{this.certificationCenter}}
+  @habilitations={{this.habilitations}}
+  @onSubmit={{this.stub}}
+  @onCancel={{this.stub}}
+/>`
       );
 
       // when
