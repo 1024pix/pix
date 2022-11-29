@@ -122,6 +122,29 @@ module('Integration | Component | signin form', function (hooks) {
           this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE)
         );
       });
+
+      module('blocking', function () {
+        test('displays a specific error when is user is temporary blocked', async function (assert) {
+          // given
+          const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_TEMPORARY_BLOCKED.MESSAGE, {
+            url: '/mot-de-passe-oublie',
+            htmlSafe: true,
+          });
+          class sessionService extends Service {
+            authenticateUser = sinon.stub().rejects({ status: 403 });
+          }
+          this.owner.register('service:session', sessionService);
+          await render(hbs`<SigninForm />`);
+
+          // when
+          await fillIn('input#login', 'user.temporary-blocked@example.net');
+          await fillIn('input#password', 'password');
+          await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+
+          // then
+          assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
+        });
+      });
     });
 
     module('when domain is pix.org', function () {
