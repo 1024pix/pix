@@ -7,11 +7,21 @@ const divisionSerializer = require('../../infrastructure/serializers/jsonapi/div
 const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
 const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer');
 const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
+const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const map = require('lodash/map');
 
 module.exports = {
+  async saveSession(request) {
+    const userId = request.auth.credentials.userId;
+    const session = sessionSerializer.deserialize(request.payload);
+
+    const newSession = await usecases.createSession({ userId, session });
+
+    return sessionSerializer.serialize({ session: newSession });
+  },
+
   async create(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
     const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
