@@ -2,9 +2,89 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const certificationCenterInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
+const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const Session = require('../../../../lib/domain/models/Session');
+
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
 describe('Unit | Controller | certifications-center-controller', function () {
+  describe('#saveSession', function () {
+    let request;
+    let expectedSession;
+    const userId = 274939274;
+    beforeEach(function () {
+      expectedSession = new Session({
+        certificationCenter: 'Université de dressage de loutres',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-12-08',
+        time: '14:30',
+        description: 'ahah',
+        accessCode: 'ABCD12',
+      });
+
+      sinon.stub(usecases, 'createSession').resolves();
+      sinon.stub(sessionSerializer, 'deserialize').returns(expectedSession);
+      sinon.stub(sessionSerializer, 'serialize');
+
+      request = {
+        payload: {
+          data: {
+            type: 'sessions',
+            attributes: {
+              'certification-center': 'Université de dressage de loutres',
+              address: 'Nice',
+              room: '28D',
+              examiner: 'Antoine Toutvenant',
+              date: '2017-12-08',
+              time: '14:30',
+              description: 'ahah',
+            },
+          },
+        },
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+      };
+    });
+
+    it('should save the session', async function () {
+      // when
+      await certificationCenterController.saveSession(request, hFake);
+
+      // then
+      expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
+    });
+
+    it('should return the saved session in JSON API', async function () {
+      // given
+      const jsonApiSession = {
+        data: {
+          type: 'sessions',
+          id: 12,
+          attributes: {},
+        },
+      };
+      const savedSession = new Session({
+        id: '12',
+        certificationCenter: 'Université de dressage de loutres',
+      });
+
+      usecases.createSession.resolves(savedSession);
+      sessionSerializer.serialize.returns(jsonApiSession);
+
+      // when
+      const response = await certificationCenterController.saveSession(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(jsonApiSession);
+      expect(sessionSerializer.serialize).to.have.been.calledWith({ session: savedSession });
+    });
+  });
+
   describe('#getStudents', function () {
     it('should return a paginated serialized list of students', async function () {
       // given
