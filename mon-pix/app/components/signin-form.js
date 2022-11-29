@@ -48,12 +48,16 @@ export default class SigninForm extends Component {
 
   _findErrorMessage(statusCode) {
     const httpStatusCodeMessages = {
-      400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      401: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
-      429: ENV.APP.API_ERROR_MESSAGES.TOO_MANY_REQUESTS.MESSAGE,
-      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      400: this.intl.t(ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE),
+      401: this.intl.t(ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE),
+      403: this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_HAS_BEEN_TEMPORARY_BLOCKED.MESSAGE, {
+        url: '/mot-de-passe-oublie',
+        htmlSafe: true,
+      }),
+      429: this.intl.t(ENV.APP.API_ERROR_MESSAGES.TOO_MANY_REQUESTS.MESSAGE),
+      default: this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE),
     };
-    return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
+    return httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default'];
   }
 
   async _updateExpiredPassword(passwordResetToken) {
