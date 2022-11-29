@@ -107,6 +107,46 @@ describe('Acceptance | Controller | authentication-controller', function () {
         expect(response.result.errors[0].detail).equal('Erreur, vous devez changer votre mot de passe.');
         expect(response.result.errors[0].meta).to.exist;
       });
+
+      context('when user needs to refresh his access token', function () {
+        it('returns a 200 with a new access token', async function () {
+          // given
+          const { result: accessTokenResult } = await server.inject({
+            method: 'POST',
+            url: '/api/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              grant_type: 'password',
+              username: userEmailAddress,
+              password: userPassword,
+              scope: 'pix',
+            }),
+          });
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              grant_type: 'refresh_token',
+              refresh_token: accessTokenResult.refresh_token,
+            }),
+          });
+
+          // then
+          const result = response.result;
+          expect(response.statusCode).to.equal(200);
+          expect(result.token_type).to.equal('bearer');
+          expect(result.access_token).to.exist;
+          expect(result.user_id).to.equal(userId);
+          expect(result.refresh_token).to.exist;
+        });
+      });
     }
 
     context('with rate limit disabled', function () {
