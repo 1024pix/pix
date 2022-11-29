@@ -70,6 +70,7 @@
     "ember-cli-terser": "^4.0.2",
     "ember-composable-helpers": "^4.5.0",
     "ember-data": "~3.28.6",
+    "ember-dayjs": "^0.10.3",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.1.2",
     "ember-file-upload": "^2.7.1",
