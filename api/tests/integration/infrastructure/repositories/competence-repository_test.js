@@ -15,15 +15,21 @@ describe('Integration | Repository | competence-repository', function () {
           {
             ...expectedArea,
             competenceIds: [expectedCompetence.id],
-            titleFrFr: expectedArea.title,
+            title_i18n: {
+              fr: expectedArea.title,
+            },
           },
         ],
         competences: [
           {
             ...expectedCompetence,
             areaId: expectedArea.id,
-            descriptionFrFr: expectedCompetence.description,
-            nameFrFr: expectedCompetence.name,
+            description_i18n: {
+              fr: expectedCompetence.description,
+            },
+            name_i18n: {
+              fr: expectedCompetence.name,
+            },
           },
         ],
       };
@@ -49,15 +55,21 @@ describe('Integration | Repository | competence-repository', function () {
           {
             ...expectedArea,
             competenceIds: [expectedCompetence.id],
-            titleEnUs: expectedArea.title,
+            title_i18n: {
+              en: expectedArea.title,
+            },
           },
         ],
         competences: [
           {
             ...expectedCompetence,
             areaId: expectedArea.id,
-            descriptionEnUs: expectedCompetence.description,
-            nameEnUs: expectedCompetence.name,
+            description_i18n: {
+              en: expectedCompetence.description,
+            },
+            name_i18n: {
+              en: expectedCompetence.name,
+            },
           },
         ],
       };
@@ -84,15 +96,21 @@ describe('Integration | Repository | competence-repository', function () {
           {
             ...expectedArea,
             competenceIds: [expectedCompetence.id],
-            titleEnUs: expectedArea.title,
+            title_i18n: {
+              en: expectedArea.title,
+            },
           },
         ],
         competences: [
           {
             ...expectedCompetence,
             areaId: expectedArea.id,
-            descriptionEnUs: expectedCompetence.description,
-            nameEnUs: expectedCompetence.name,
+            description_i18n: {
+              en: expectedCompetence.description,
+            },
+            name_i18n: {
+              en: expectedCompetence.name,
+            },
           },
         ],
       };
@@ -117,13 +135,21 @@ describe('Integration | Repository | competence-repository', function () {
         competences: [
           {
             ...competence1,
-            descriptionFrFr: competence1.description,
-            nameFrFr: competence1.name,
+            description_i18n: {
+              fr: competence1.description,
+            },
+            name_i18n: {
+              fr: competence1.name,
+            },
           },
           {
             ...competence2,
-            descriptionFrFr: competence2.description,
-            nameFrFr: competence2.name,
+            description_i18n: {
+              fr: competence2.description,
+            },
+            name_i18n: {
+              fr: competence2.name,
+            },
           },
         ],
       };
@@ -146,8 +172,12 @@ describe('Integration | Repository | competence-repository', function () {
         competences: [
           {
             ...competence,
-            descriptionEnUs: competence.description,
-            nameEnUs: competence.name,
+            description_i18n: {
+              en: competence.description,
+            },
+            name_i18n: {
+              en: competence.name,
+            },
           },
         ],
       };
@@ -173,13 +203,21 @@ describe('Integration | Repository | competence-repository', function () {
         competences: [
           {
             ...pixCompetence,
-            descriptionFrFr: pixCompetence.description,
-            nameFrFr: pixCompetence.name,
+            description_i18n: {
+              fr: pixCompetence.description,
+            },
+            name_i18n: {
+              fr: pixCompetence.name,
+            },
           },
           {
             ...nonPixCompetence,
-            descriptionFrFr: nonPixCompetence.description,
-            nameFrFr: nonPixCompetence.name,
+            description_i18n: {
+              fr: nonPixCompetence.description,
+            },
+            name_i18n: {
+              fr: nonPixCompetence.name,
+            },
           },
         ],
       };
@@ -203,8 +241,12 @@ describe('Integration | Repository | competence-repository', function () {
         competences: [
           {
             ...competence,
-            descriptionEnUs: competence.description,
-            nameEnUs: competence.name,
+            description_i18n: {
+              en: competence.description,
+            },
+            name_i18n: {
+              en: competence.name,
+            },
           },
         ],
       };

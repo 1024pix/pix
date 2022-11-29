@@ -163,7 +163,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
       learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
         {
           id: 'recArea1',
-          titleFrFr: 'area1_Title',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
           color: 'specialColor',
           competences: [
             {

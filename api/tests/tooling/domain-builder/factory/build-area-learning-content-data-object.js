@@ -11,8 +11,10 @@ module.exports = function buildAreaLearningContentDataObject({
     id,
     code,
     name,
-    titleFrFr,
-    titleEnUs,
+    title_i18n: {
+      fr: titleFrFr,
+      en: titleEnUs,
+    },
     competenceIds,
     color,
   };
