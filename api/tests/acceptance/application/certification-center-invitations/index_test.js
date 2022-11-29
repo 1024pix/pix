@@ -9,14 +9,19 @@ const CertificationCenterInvitation = require('../../../../lib/domain/models/Cer
 const createServer = require('../../../../server');
 
 describe('Acceptance | API | Certification center invitations', function () {
-  afterEach(async function () {
-    await knex('certification-center-memberships').delete();
+  let server;
+
+  beforeEach(async function () {
+    server = await createServer();
   });
 
   describe('POST /api/certification-center-invitations/{id}/accept', function () {
+    afterEach(async function () {
+      await knex('certification-center-memberships').delete();
+    });
+
     it('it should return an HTTP code 204', async function () {
       // given
-      const server = await createServer();
       databaseBuilder.factory.buildUser({ id: 293, email: 'user@example.net' });
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
@@ -64,11 +69,43 @@ describe('Acceptance | API | Certification center invitations', function () {
     });
   });
 
+  describe('GET /api/certification-center-invitations/{id}', function () {
+    it('should return the certification-center invitation and 200 status code', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre des Pixous' }).id;
+      const certificationCenterInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
+        certificationCenterId,
+        status: CertificationCenterInvitation.StatusType.PENDING,
+        code: 'ABCDEFGH01',
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/certification-center-invitations/${certificationCenterInvitationId}?code=ABCDEFGH01`,
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'certification-center-invitations',
+          id: certificationCenterInvitationId.toString(),
+          attributes: {
+            'certification-center-id': certificationCenterId,
+            'certification-center-name': 'Centre des Pixous',
+            status: CertificationCenterInvitation.StatusType.PENDING,
+          },
+        },
+      });
+    });
+  });
+
   describe('DELETE /api/admin/certification-centers/{id}/invitations/{certificationCenterInvitationId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
-
       const adminMember = await insertUserWithRoleSuperAdmin();
       const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
         certificationCenterId: databaseBuilder.factory.buildCertificationCenter().id,

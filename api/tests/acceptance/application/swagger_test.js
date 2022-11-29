@@ -1,14 +1,14 @@
 const { expect } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | lib | swagger', function () {
+describe('Acceptance | Controller | swagger', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET swagger.json', function () {
+  describe('GET /api/swagger.json', function () {
     describe('Resource access management', function () {
       it('should respond with a 200', async function () {
         // given

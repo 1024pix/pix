@@ -4,8 +4,8 @@ const {
   insertUserWithRoleSuperAdmin,
   databaseBuilder,
   sinon,
-} = require('../../test-helper');
-const createServer = require('../../../server');
+} = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | Certification Center Membership', function () {
   let server;
