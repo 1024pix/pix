@@ -108,56 +108,20 @@ describe('Unit | Domain | Models | UserLogin', function () {
     });
   });
 
-  describe('#blockUserTemporarilyWhenFailureCountThresholdReached', function () {
-    context('when threshold is exactly reached', function () {
-      it('should set temporary block until date', function () {
-        // given
-        const exactThreshold = 10;
-        const userLogin = new UserLogin({
-          userId: 666,
-          failureCount: exactThreshold,
-        });
-
-        // when
-        userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
-
-        // then
-        expect(userLogin.temporaryBlockedUntil).to.deepEqualInstance(new Date('2022-11-28T12:02:00Z'));
+  describe('#blockUserTemporarily', function () {
+    it('should set temporary block until date', function () {
+      // given
+      const multipleOfThreshold = 10 * 2;
+      const userLogin = new UserLogin({
+        userId: 666,
+        failureCount: multipleOfThreshold,
       });
-    });
 
-    context('when a multiple of threshold is exactly reached', function () {
-      it('should set temporary block until date', function () {
-        // given
-        const multipleOfThreshold = 10 * 2;
-        const userLogin = new UserLogin({
-          userId: 666,
-          failureCount: multipleOfThreshold,
-        });
+      // when
+      userLogin.blockUserTemporarily();
 
-        // when
-        userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
-
-        // then
-        expect(userLogin.temporaryBlockedUntil).to.deepEqualInstance(new Date('2022-11-28T12:04:00Z'));
-      });
-    });
-
-    context('when threshold is not reached', function () {
-      it('should not set temporary block until date', function () {
-        // given
-        const beforeThresholdFailureCount = 10 - 1;
-        const userLogin = new UserLogin({
-          userId: 666,
-          failureCount: beforeThresholdFailureCount,
-        });
-
-        // when
-        userLogin.blockUserTemporarilyWhenFailureCountThresholdReached();
-
-        // then
-        expect(userLogin.temporaryBlockedUntil).to.be.undefined;
-      });
+      // then
+      expect(userLogin.temporaryBlockedUntil).to.deepEqualInstance(new Date('2022-11-28T12:04:00Z'));
     });
   });
 
@@ -253,6 +217,34 @@ describe('Unit | Domain | Models | UserLogin', function () {
 
       // then
       expect(userLogin.blockedAt).to.deepEqualInstance(new Date('2022-11-28T12:00:00Z'));
+    });
+  });
+
+  describe('#shouldBlockUserTemporarily', function () {
+    context('when failure count is lower than failure count threshold', function () {
+      it('returns false', function () {
+        // given
+        const userLogin = new UserLogin({ failureCount: 5 });
+
+        // when
+        const result = userLogin.shouldBlockUserTemporarily();
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    context('when failure count equals failure count threshold', function () {
+      it('returns true', function () {
+        // given
+        const userLogin = new UserLogin({ failureCount: 20 });
+
+        // when
+        const result = userLogin.shouldBlockUserTemporarily();
+
+        // then
+        expect(result).to.be.true;
+      });
     });
   });
 });
