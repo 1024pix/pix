@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v3.293.0 (29/11/2022)
+
+
+### :rocket: Amélioration
+- [#5303](https://github.com/1024pix/pix/pull/5303) [FEATURE] Informer les utilisateurs dont le compte a été bloqué temporairement (PIX-6406)
+- [#5298](https://github.com/1024pix/pix/pull/5298) [FEATURE] Monter la version de Pix UI sur Certif de 18.0.1 à 20.2.3 (PIX-6361).
+- [#5276](https://github.com/1024pix/pix/pull/5276) [FEATURE] Bloquer temporairement un utilisateur qui se trompe beaucoup de mot de passe (PIX-6384)
+- [#5291](https://github.com/1024pix/pix/pull/5291) [FEATURE] Créer l'entrée de menu pour les contenus formatifs dans Admin (PIX-6319)
+- [#5269](https://github.com/1024pix/pix/pull/5269) [FEATURE] Monter la version de Pix UI sur Certif de 16.1.0 à 18.0.1 (PIX-6358)
+- [#5278](https://github.com/1024pix/pix/pull/5278) [FEATURE] Envoi du fichier d'import de sessions et validations des champs de session (PIX-6173).
+- [#5286](https://github.com/1024pix/pix/pull/5286) [FEATURE] Utiliser le composant `PixPagination` de Pix UI dans Admin (PIX-6414)
+- [#5275](https://github.com/1024pix/pix/pull/5275) [FEATURE] Création de la page des contenus formatif dans Pix Admin (PIX-6329)
+
+### :building_construction: Tech
+- [#5285](https://github.com/1024pix/pix/pull/5285) [TECH] Analyser les lenteurs de BDD
+- [#5294](https://github.com/1024pix/pix/pull/5294) [TECH] Déplacement de tests d'acceptance des controllers dans des sous dossiers
+- [#5280](https://github.com/1024pix/pix/pull/5280) [TECH] Monter la version de Pix-UI en  20.2.3 sur Pix Admin (PIX-6393)
+- [#5297](https://github.com/1024pix/pix/pull/5297) [TECH] Supprimer @ember/jquery sur Pix Admin (PIX-6261). 
+- [#5289](https://github.com/1024pix/pix/pull/5289) [TECH] Supprime les log de niveau de log au démarrage
+- [#5264](https://github.com/1024pix/pix/pull/5264) [TECH] Supprime l'utilisation de la propriété onLoadOptions avec le composant PixMultiSelect (PIX-6383)
+- [#5252](https://github.com/1024pix/pix/pull/5252) [TECH] Déplacement de tests d'acceptance des controllers dans des sous dossiers
+- [#5283](https://github.com/1024pix/pix/pull/5283) [TECH] Documenter le choix du framework frontend
+- [#5267](https://github.com/1024pix/pix/pull/5267) [TECH] Préparer Pix Certif pour la montée de version d'Ember en 4.X (PIX-6386)
+
+### :bug: Correction
+- [#5305](https://github.com/1024pix/pix/pull/5305) [BUGFIX][API] Ne pas vérifier si l'utilisateur est bloqué lorsqu'une requête pour rafraichir le token d'accès est initiée (PIX-6432)
+- [#5290](https://github.com/1024pix/pix/pull/5290) [BUGFIX] Test instable sur `inMemoryTemporaryStorage.update()`
+
 ## v3.292.0 (25/11/2022)
 
 
