@@ -6,12 +6,14 @@ const {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../test-helper');
-const createServer = require('../../../server');
-const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
-const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const ComplementaryCertificationCourseResult = require('../../../lib/domain/models/ComplementaryCertificationCourseResult');
+} = require('../../../test-helper');
+const createServer = require('../../../../server');
+const {
+  CertificationIssueReportCategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;

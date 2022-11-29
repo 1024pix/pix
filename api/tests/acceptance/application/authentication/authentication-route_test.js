@@ -1,11 +1,11 @@
 const querystring = require('querystring');
-const { expect, databaseBuilder, knex } = require('../../test-helper');
-const tokenService = require('../../../lib/domain/services/token-service');
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const settings = require('../../../lib/config');
-const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const tokenService = require('../../../../lib/domain/services/token-service');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const settings = require('../../../../lib/config');
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | authentication-controller', function () {
   afterEach(async function () {

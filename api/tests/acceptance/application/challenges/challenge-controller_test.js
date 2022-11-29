@@ -1,5 +1,5 @@
-const { learningContentBuilder, expect, mockLearningContent } = require('../../test-helper');
-const createServer = require('../../../server');
+const { learningContentBuilder, expect, mockLearningContent } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | ChallengeController', function () {
   let server;
