@@ -39,6 +39,10 @@ class UserLogin {
   hasBeenTemporaryBlocked() {
     return this.failureCount > 0 || !!this.temporaryBlockedUntil;
   }
+
+  isUserBlocked() {
+    return !!this.blockedAt || this.failureCount >= settings.userLogins.limitFailureCount;
+  }
 }
 
 module.exports = UserLogin;

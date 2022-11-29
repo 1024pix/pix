@@ -201,4 +201,45 @@ describe('Unit | Domain | Models | UserLogin', function () {
       });
     });
   });
+
+  describe('#isUserBlocked', function () {
+    context('when user reaches the limit failure count', function () {
+      it('returns true', function () {
+        // given
+        const userLogin = new UserLogin({ failureCount: 50 });
+
+        // when
+        const result = userLogin.isUserBlocked();
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when user has blockedAt date', function () {
+      it('returns true', function () {
+        // given
+        const userLogin = new UserLogin({ blockedAt: new Date('2022-11-29') });
+
+        // when
+        const result = userLogin.isUserBlocked();
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when user has no failure count nor blockedAt date', function () {
+      it('returns false', function () {
+        // given
+        const userLogin = new UserLogin({});
+
+        // when
+        const result = userLogin.isUserBlocked();
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });

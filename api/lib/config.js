@@ -175,6 +175,7 @@ module.exports = (function () {
     userLogins: {
       thresholdFailureCount: _getNumber(process.env.THRESHOLD_FAILURE_COUNT || 10),
       temporaryBlockedTime: _getNumber(process.env.TEMPORARY_BLOCKED_TIME_IN_MINUTES || 2),
+      limitFailureCount: _getNumber(process.env.LIMIT_FAILURE_COUNT || 50),
     },
 
     caching: {
