@@ -1,6 +1,9 @@
 import ApplicationAdapter from './application';
+import { inject as service } from '@ember/service';
 
 export default class SessionAdapter extends ApplicationAdapter {
+  @service currentUser;
+
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
     if (adapterOptions && adapterOptions.finalization) {
@@ -9,6 +12,11 @@ export default class SessionAdapter extends ApplicationAdapter {
     }
 
     return url;
+  }
+
+  urlForCreateRecord() {
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/session`;
   }
 
   updateRecord(store, type, snapshot) {

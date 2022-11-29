@@ -45,7 +45,7 @@ export default function () {
     }
   });
 
-  this.post('/sessions');
+  this.post('/certification-centers/:certificationCenterId/session');
 
   this.get('/sessions/:id', function (schema, request) {
     const sessionId = request.params.id;
