@@ -85,15 +85,16 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     });
 
     context('when stages', function () {
-      const stages = [
-        { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0 },
-        { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20 },
-        { title: 'palier 3', message: 'Tu as le palier 3', threshold: 40 },
-        { title: 'palier 4', message: 'Tu as le palier 4', threshold: 60 },
-        { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
-      ];
-
       it('when user has reached a stage', function () {
+        // given
+        const stages = [
+          { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0 },
+          { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20 },
+          { title: 'palier 3', message: 'Tu as le palier 3', threshold: 40 },
+          { title: 'palier 4', message: 'Tu as le palier 4', threshold: 60 },
+          { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
+        ];
+
         // when
         const result = CampaignParticipationResult.buildFrom({
           campaignParticipationId,
@@ -129,6 +130,66 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               totalSkillsCount: 1,
               testedSkillsCount: 1,
               validatedSkillsCount: 1,
+            },
+            {
+              id: 2,
+              name: 'Désobéissance civile',
+              index: '6.9',
+              areaColor: 'wild-strawberry',
+              areaName: 'area 2',
+              totalSkillsCount: 3,
+              testedSkillsCount: 1,
+              validatedSkillsCount: 0,
+            },
+          ],
+        });
+      });
+
+      it('when user has not reached a stage', function () {
+        // given
+        const stages = [
+          { title: 'palier 1', message: 'Tu as le palier 1', threshold: 20 },
+          { title: 'palier 2', message: 'Tu as le palier 2', threshold: 40 },
+          { title: 'palier 3', message: 'Tu as le palier 3', threshold: 60 },
+          { title: 'palier 4', message: 'Tu as le palier 4', threshold: 80 },
+        ];
+
+        // when
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          stages,
+          skillIds,
+          knowledgeElements: [
+            new KnowledgeElement({ skillId: 1, status: 'invalidated' }),
+            new KnowledgeElement({ skillId: 2, status: 'invalidated' }),
+            new KnowledgeElement({ skillId: 7, status: 'invalidated' }),
+          ],
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 0,
+          knowledgeElementsCount: 2,
+          reachedStage: {
+            starCount: 0,
+          },
+          stageCount: 4,
+          competenceResults: [
+            {
+              id: 1,
+              name: 'Economie symbiotique',
+              index: '5.1',
+              areaColor: 'jaffa',
+              areaName: 'area 1',
+              totalSkillsCount: 1,
+              testedSkillsCount: 1,
+              validatedSkillsCount: 0,
             },
             {
               id: 2,

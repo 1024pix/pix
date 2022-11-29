@@ -584,38 +584,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           threshold: 100,
         });
         databaseBuilder.factory.buildStage({ targetProfileId: otherTargetProfileId });
-        const knowledgeElementsAttributes = [
-          {
-            userId,
-            skillId: 'skill1',
-            competenceId: 'rec1',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
-          },
-          {
-            userId,
-            skillId: 'skill2',
-            competenceId: 'rec1',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
-          },
-          {
-            userId,
-            skillId: 'skill3',
-            competenceId: 'rec2',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.INVALIDATED,
-          },
-          {
-            userId,
-            skillId: 'skill4',
-            competenceId: 'rec2',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
-          },
-        ];
-
-        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
 
         await databaseBuilder.commit();
         const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
@@ -633,6 +601,55 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           title: 'Stage2',
         });
         expect(participantResult.stageCount).to.equal(4);
+      });
+
+      it('returns no stage if their is no stage 0 and the user fails everything', async function () {
+        const { id: otherTargetProfileId } = databaseBuilder.factory.buildTargetProfile();
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          masteryRate: 0,
+          sharedAt: new Date('2020-01-02'),
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+        databaseBuilder.factory.buildStage({
+          id: 1,
+          title: 'Stage1',
+          message: 'Message1',
+          targetProfileId: targetProfile.id,
+          threshold: 10,
+        });
+        databaseBuilder.factory.buildStage({
+          id: 2,
+          title: 'Stage2',
+          message: 'Message2',
+          targetProfileId: targetProfile.id,
+          threshold: 50,
+        });
+        databaseBuilder.factory.buildStage({
+          id: 3,
+          title: 'Stage3',
+          message: 'Message3',
+          targetProfileId: targetProfile.id,
+          threshold: 100,
+        });
+        databaseBuilder.factory.buildStage({ targetProfileId: otherTargetProfileId });
+
+        await databaseBuilder.commit();
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          targetProfile,
+          badges: [],
+          locale: 'FR',
+        });
+        expect(participantResult.reachedStage).to.deep.include({
+          starCount: 0,
+        });
+        expect(participantResult.stageCount).to.equal(3);
       });
     });
 

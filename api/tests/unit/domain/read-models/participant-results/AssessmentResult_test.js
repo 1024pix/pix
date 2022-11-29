@@ -257,6 +257,44 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       expect(assessmentResult.reachedStage).to.deep.include({ id: 2, title: 'Stage2', starCount: 2 });
       expect(assessmentResult.stageCount).to.equal(3);
     });
+
+    it('gives no reached stage if user fails everything', function () {
+      const competences = [
+        {
+          id: 'rec1',
+          name: 'C1',
+          index: '1.1',
+          areaName: 'Domaine1',
+          areaColor: 'Couleur1',
+          skillIds: ['skill1', 'skill2', 'skill3'],
+        },
+      ];
+
+      const knowledgeElements = [
+        domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.INVALIDATED }),
+        domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
+        domainBuilder.buildKnowledgeElement({ skillId: 'skill3', status: KnowledgeElement.StatusType.INVALIDATED }),
+      ];
+      const participationResults = { knowledgeElements, acquiredBadgeIds: [], masteryRate: '0' };
+
+      const stages = [
+        { id: 1, title: 'Stage1', message: 'message1', threshold: 25 },
+        { id: 2, title: 'Stage2', message: 'message2', threshold: 60 },
+        { id: 3, title: 'Stage3', message: 'message3', threshold: 90 },
+      ];
+
+      const assessmentResult = new AssessmentResult({
+        participationResults,
+        stages,
+        badgeResultsDTO: [],
+        competences,
+        isCampaignMultipleSendings: false,
+        isOrganizationLearnerActive: false,
+      });
+
+      expect(assessmentResult.reachedStage).to.deep.include({ starCount: 0 });
+      expect(assessmentResult.stageCount).to.equal(3);
+    });
   });
 
   describe('when the target profile has badges', function () {
