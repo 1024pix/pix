@@ -83,6 +83,10 @@ module.exports = function (environment) {
           CODE: '401',
           MESSAGE: 'api-error-messages.login-unauthorized-error',
         },
+        USER_HAS_BEEN_TEMPORARY_BLOCKED: {
+          CODE: '403',
+          MESSAGE: 'api-error-messages.login-user-temporary-blocked-error',
+        },
         TOO_MANY_REQUESTS: {
           CODE: '429',
           MESSAGE: 'api-error-messages.too-many-requests-error',

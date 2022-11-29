@@ -11,6 +11,11 @@ function parseQueryString(queryString) {
 
 export default function (schema, request) {
   const queryParams = parseQueryString(request.requestBody);
+
+  if (queryParams.username == 'user.temporary-blocked@example.net') {
+    return new Response(403, {}, 'USER_HAS_BEEN_TEMPORARY_BLOCKED');
+  }
+
   let foundUser = schema.users.findBy({ email: queryParams.username });
   if (!foundUser) {
     foundUser = schema.users.findBy({ username: queryParams.username });
