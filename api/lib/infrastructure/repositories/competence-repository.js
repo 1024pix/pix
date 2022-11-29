@@ -7,21 +7,13 @@ const competenceDatasource = require('../datasources/learning-content/competence
 const { NotFoundError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { PIX_ORIGIN } = require('../../domain/constants');
-const { getTranslatedText } = require('../../domain/services/get-translated-text');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text');
 
 function _toDomain({ competenceData, areaDatas, locale }) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
-  const translatedCompetenceName = getTranslatedText(locale, {
-    frenchText: competenceData.nameFrFr,
-    englishText: competenceData.nameEnUs,
-  });
-  const translatedCompetenceDescription = getTranslatedText(locale, {
-    frenchText: competenceData.descriptionFrFr,
-    englishText: competenceData.descriptionEnUs,
-  });
-  const translatedAreaTitle = areaData
-    ? getTranslatedText(locale, { frenchText: areaData.titleFrFr, englishText: areaData.titleEnUs })
-    : '';
+  const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);
+  const translatedCompetenceDescription = getTranslatedKey(competenceData.description_i18n, locale);
+  const translatedAreaTitle = areaData ? getTranslatedKey(areaData.title_i18n, locale) : '';
 
   return new Competence({
     id: competenceData.id,
@@ -70,7 +62,7 @@ module.exports = {
   async getCompetenceName({ id, locale }) {
     try {
       const competence = await competenceDatasource.get(id);
-      return getTranslatedText(locale, { frenchText: competence.nameFrFr, englishText: competence.nameEnUs });
+      return getTranslatedKey(competence.name_i18n, locale);
     } catch (err) {
       if (err instanceof LearningContentResourceNotFound) {
         throw new NotFoundError('La compétence demandée n’existe pas');

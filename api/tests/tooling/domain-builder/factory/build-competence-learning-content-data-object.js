@@ -24,14 +24,18 @@ module.exports = function buildCompetenceLearningContentDataObject({
   return {
     id,
     name,
-    nameFrFr,
-    nameEnUs,
+    name_i18n: {
+      fr: nameFrFr,
+      en: nameEnUs,
+    },
     index,
     areaId,
     origin,
     skillIds,
     description,
-    descriptionFrFr,
-    descriptionEnUs,
+    description_i18n: {
+      fr: descriptionFrFr,
+      en: descriptionEnUs,
+    },
   };
 };

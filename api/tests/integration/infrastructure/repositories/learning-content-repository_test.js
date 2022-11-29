@@ -612,7 +612,7 @@ function _buildDomainAreasFromLearningContent({ areas }, locale) {
   return areas.map((area) =>
     domainBuilder.buildArea({
       ...area,
-      title: area[locale === 'en' ? 'titleEnUs' : 'titleFrFr'],
+      title: area.title_i18n[locale],
     })
   );
 }
@@ -621,8 +621,8 @@ function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
   return competences.map((competence) =>
     domainBuilder.buildCompetence({
       ...competence,
-      name: competence[locale === 'en' ? 'nameEnUs' : 'nameFrFr'],
-      description: competence[locale === 'en' ? 'descriptionEnUs' : 'descriptionFrFr'],
+      name: competence.name_i18n[locale],
+      description: competence.description_i18n[locale],
     })
   );
 }
@@ -631,7 +631,7 @@ function _buildDomainThematicsFromLearningContent({ thematics }, locale) {
   return thematics.map((thematic) =>
     domainBuilder.buildThematic({
       ...thematic,
-      name: thematic[locale === 'en' ? 'nameEnUs' : 'name'],
+      name: thematic.name_i18n[locale],
     })
   );
 }
@@ -640,8 +640,8 @@ function _buildDomainTubesFromLearningContent({ tubes }, locale) {
   return tubes.map((tube) =>
     domainBuilder.buildTube({
       ...tube,
-      practicalTitle: tube[locale === 'en' ? 'practicalTitleEnUs' : 'practicalTitleFrFr'],
-      practicalDescription: tube[locale === 'en' ? 'practicalDescriptionEnUs' : 'practicalDescriptionFrFr'],
+      practicalTitle: tube.practicalTitle_i18n[locale],
+      practicalDescription: tube.practicalDescription_i18n[locale],
     })
   );
 }

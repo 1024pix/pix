@@ -22,8 +22,12 @@ describe('Integration | Repository | tube-repository', function () {
             name: 'tubeName',
             title: 'tubeTitle',
             description: 'tubeDescription',
-            practicalTitleFrFr: 'translatedPracticalTitle',
-            practicalDescriptionFrFr: 'translatedPracticalDescription',
+            practicalTitle_i18n: {
+              fr: 'translatedPracticalTitle',
+            },
+            practicalDescription_i18n: {
+              fr: 'translatedPracticalDescription',
+            },
             competenceId: 'recCompetence0',
           },
         ],
@@ -65,8 +69,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
-        practicalTitleFrFr: 'translatedPracticalTitle0',
-        practicalDescriptionFrFr: 'translatedPracticalDescription0',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle0',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription0',
+        },
         competenceId: 'recCompetence0',
       };
 
@@ -75,8 +83,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
-        practicalTitleFrFr: 'translatedPracticalTitle1',
-        practicalDescriptionFrFr: 'translatedPracticalDescription1',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle1',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription1',
+        },
         competenceId: 'recCompetence1',
       };
       mockLearningContent({ tubes: [learningContentTube0, learningContentTube1] });
@@ -119,8 +131,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
-        practicalTitleFrFr: 'translatedPracticalTitle0',
-        practicalDescriptionFrFr: 'translatedPracticalDescription0',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle0',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription0',
+        },
         competenceId: 'recCompetence0',
       };
 
@@ -129,8 +145,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
-        practicalTitleFrFr: 'translatedPracticalTitle1',
-        practicalDescriptionFrFr: 'translatedPracticalDescription1',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle1',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription1',
+        },
         competenceId: 'recCompetence1',
       };
       mockLearningContent({ tubes: [learningContentTube1, learningContentTube0] });
@@ -162,8 +182,12 @@ describe('Integration | Repository | tube-repository', function () {
               name: 'tubeName',
               title: 'tubeTitle',
               description: 'tubeDescription',
-              practicalTitleFrFr: 'translatedPracticalTitle',
-              practicalDescriptionFrFr: 'translatedPracticalDescription',
+              practicalTitle_i18n: {
+                fr: 'translatedPracticalTitle',
+              },
+              practicalDescription_i18n: {
+                fr: 'translatedPracticalDescription',
+              },
               competenceId: 'recCompetence0',
             },
           ],
@@ -198,10 +222,14 @@ describe('Integration | Repository | tube-repository', function () {
               name: 'tubeName',
               title: 'tubeTitle',
               description: 'tubeDescription',
-              practicalTitleFrFr: 'translatedPracticalTitle',
-              practicalTitleEnUs: 'translatedPracticalTitleEnUs',
-              practicalDescriptionFrFr: 'translatedPracticalDescription',
-              practicalDescriptionEnUs: 'translatedPracticalDescriptionEnUs',
+              practicalTitle_i18n: {
+                fr: 'translatedPracticalTitle',
+                en: 'translatedPracticalTitleEnUs',
+              },
+              practicalDescription_i18n: {
+                fr: 'translatedPracticalDescription',
+                en: 'translatedPracticalDescriptionEnUs',
+              },
               competenceId: 'recCompetence0',
             },
           ],
@@ -226,10 +254,14 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
-        practicalTitleFrFr: 'practicalTitreFR0',
-        practicalTitleEnUs: 'practicalTitreEN0',
-        practicalDescriptionFrFr: 'practicalDescriptionFR0',
-        practicalDescriptionEnUs: 'practicalDescriptionEN0',
+        practicalTitle_i18n: {
+          fr: 'practicalTitreFR0',
+          en: 'practicalTitreEN0',
+        },
+        practicalDescription_i18n: {
+          fr: 'practicalDescriptionFR0',
+          en: 'practicalDescriptionEN0',
+        },
         competenceId: 'recCompetence0',
       };
       const learningContentTube1 = {
@@ -237,10 +269,14 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
-        practicalTitleFrFr: 'practicalTitreFR1',
-        practicalTitleEnUs: 'practicalTitreEN1',
-        practicalDescriptionFrFr: 'practicalDescriptionFR1',
-        practicalDescriptionEnUs: 'practicalDescriptionEN1',
+        practicalTitle_i18n: {
+          fr: 'practicalTitreFR1',
+          en: 'practicalTitreEN1',
+        },
+        practicalDescription_i18n: {
+          fr: 'practicalDescriptionFR1',
+          en: 'practicalDescriptionEN1',
+        },
         competenceId: 'recCompetence1',
       };
       const learningContentTube2 = {
@@ -248,10 +284,14 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName2',
         title: 'tubeTitle2',
         description: 'tubeDescription2',
-        practicalTitleFrFr: 'practicalTitreFR2',
-        practicalTitleEnUs: 'practicalTitreEN2',
-        practicalDescriptionFrFr: 'practicalDescriptionFR2',
-        practicalDescriptionEnUs: 'practicalDescriptionEN2',
+        practicalTitle_i18n: {
+          fr: 'practicalTitreFR2',
+          en: 'practicalTitreEN2',
+        },
+        practicalDescription_i18n: {
+          fr: 'practicalDescriptionFR2',
+          en: 'practicalDescriptionEN2',
+        },
         competenceId: 'recCompetence1',
       };
       const skills = [
@@ -346,8 +386,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
-        practicalTitleFrFr: 'translatedPracticalTitle0',
-        practicalDescriptionFrFr: 'translatedPracticalDescription0',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle0',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription0',
+        },
         competenceId: 'recCompetence0',
       };
 
@@ -356,8 +400,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
-        practicalTitleFrFr: 'translatedPracticalTitle1',
-        practicalDescriptionFrFr: 'translatedPracticalDescription1',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle1',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription1',
+        },
         competenceId: 'recCompetence1',
       };
 
@@ -366,8 +414,12 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName2',
         title: 'tubeTitle2',
         description: 'tubeDescription2',
-        practicalTitleFrFr: 'translatedPracticalTitle2',
-        practicalDescriptionFrFr: 'translatedPracticalDescription2',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle2',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription2',
+        },
         competenceId: 'recCompetence2',
       };
 
@@ -415,10 +467,14 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
-        practicalTitleFrFr: 'translatedPracticalTitle0',
-        practicalDescriptionFrFr: 'translatedPracticalDescription0',
-        practicalTitleEnUs: 'translatedPracticalTitle0EnUs',
-        practicalDescriptionEnUs: 'translatedPracticalDescription0EnUs',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle0',
+          en: 'translatedPracticalTitle0EnUs',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription0',
+          en: 'translatedPracticalDescription0EnUs',
+        },
         competenceId: 'recCompetence0',
       };
 
@@ -427,10 +483,14 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
-        practicalTitleFrFr: 'translatedPracticalTitle1',
-        practicalDescriptionFrFr: 'translatedPracticalDescription1',
-        practicalTitleEnUs: 'translatedPracticalTitle1EnUs',
-        practicalDescriptionEnUs: 'translatedPracticalDescription1EnUs',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle1',
+          en: 'translatedPracticalTitle1EnUs',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription1',
+          en: 'translatedPracticalDescription1EnUs',
+        },
         competenceId: 'recCompetence1',
       };
 
@@ -439,10 +499,14 @@ describe('Integration | Repository | tube-repository', function () {
         name: 'tubeName2',
         title: 'tubeTitle2',
         description: 'tubeDescription2',
-        practicalTitleFrFr: 'translatedPracticalTitle2',
-        practicalDescriptionFrFr: 'translatedPracticalDescription2',
-        practicalTitleEnUs: 'translatedPracticalTitle2EnUs',
-        practicalDescriptionEnUs: 'translatedPracticalDescription2EnUs',
+        practicalTitle_i18n: {
+          fr: 'translatedPracticalTitle2',
+          en: 'translatedPracticalTitle2EnUs',
+        },
+        practicalDescription_i18n: {
+          fr: 'translatedPracticalDescription2',
+          en: 'translatedPracticalDescription2EnUs',
+        },
         competenceId: 'recCompetence2',
       };
 

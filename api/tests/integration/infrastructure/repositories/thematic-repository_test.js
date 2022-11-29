@@ -9,7 +9,7 @@ describe('Integration | Repository | thematic-repository', function () {
       const thematic = domainBuilder.buildThematic({ id: 'recThematic1', name: 'frName' });
 
       const learningContent = {
-        thematics: [thematic],
+        thematics: [{ ...thematic, name_i18n: { fr: 'frName' } }],
       };
 
       mockLearningContent(learningContent);
@@ -27,7 +27,7 @@ describe('Integration | Repository | thematic-repository', function () {
       const thematic = domainBuilder.buildThematic({ id: 'recThematic1', name: 'enName' });
 
       const learningContent = {
-        thematics: [{ ...thematic, name: 'frName', nameEnUs: 'enName' }],
+        thematics: [{ ...thematic, name_i18n: { fr: 'frName', en: 'enName' } }],
       };
 
       mockLearningContent(learningContent);
@@ -46,8 +46,10 @@ describe('Integration | Repository | thematic-repository', function () {
     // given
     const thematic0 = {
       id: 'recThematic0',
-      name: 'thematic0',
-      nameEnUs: 'thematic0EnUs',
+      name_i18n: {
+        fr: 'thematic0',
+        en: 'thematic0EnUs',
+      },
       index: 1,
       tubeIds: ['recTube0'],
       competenceId,
@@ -55,8 +57,10 @@ describe('Integration | Repository | thematic-repository', function () {
 
     const thematic1 = {
       id: 'recThematic1',
-      name: 'thematic1',
-      nameEnUs: 'thematic1EnUs',
+      name_i18n: {
+        fr: 'thematic1',
+        en: 'thematic1EnUs',
+      },
       index: 1,
       tubeIds: ['recTube1'],
       competenceId,
@@ -67,8 +71,10 @@ describe('Integration | Repository | thematic-repository', function () {
       thematic1,
       {
         id: 'recThematic2',
-        name: 'thematic2',
-        nameEnUs: 'thematic2EnUs',
+        name_i18n: {
+          fr: 'thematic2',
+          en: 'thematic2EnUs',
+        },
         index: 1,
         tubeIds: ['recTube2'],
         competenceId: 'competence1',
@@ -139,24 +145,30 @@ describe('Integration | Repository | thematic-repository', function () {
     beforeEach(function () {
       const learningContentThematic0 = {
         id: 'recThematic0',
-        name: 'nameThemaFR0',
-        nameEnUs: 'nameThemaEN0',
+        name_i18n: {
+          fr: 'nameThemaFR0',
+          en: 'nameThemaEN0',
+        },
         index: 'indexThema0',
         description: 'tubeDescription0',
         competenceId: 'recComp0',
       };
       const learningContentThematic1 = {
         id: 'recThematic1',
-        name: 'nameThemaFR1',
-        nameEnUs: 'nameThemaEN1',
+        name_i18n: {
+          fr: 'nameThemaFR1',
+          en: 'nameThemaEN1',
+        },
         index: 'indexThema1',
         description: 'tubeDescription1',
         competenceId: 'recComp1',
       };
       const learningContentThematic2 = {
         id: 'recThematic2',
-        name: 'nameThemaFR2',
-        nameEnUs: 'nameThemaEN2',
+        name_i18n: {
+          fr: 'nameThemaFR2',
+          en: 'nameThemaEN2',
+        },
         index: 'indexThema2',
         description: 'tubeDescription2',
         competenceId: 'recComp2',

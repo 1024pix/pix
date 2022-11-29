@@ -102,7 +102,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recArea1',
-              titleFrFr: 'area1_Title',
+              title_i18n: {
+                fr: 'area1_Title',
+              },
               color: 'area1_color',
               code: 'area1_code',
               frameworkId: 'fmk1',
@@ -112,7 +114,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recArea1_Competence1',
-              nameFrFr: 'competence1_1_name',
+              name_i18n: {
+                fr: 'competence1_1_name',
+              },
               index: 'competence1_1_index',
               areaId: 'recArea1',
               skillIds: ['recArea1_Competence1_Tube1_Skill2'],
@@ -120,7 +124,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             },
             {
               id: 'recArea1_Competence2',
-              nameFrFr: 'competence1_2_name',
+              name_i18n: {
+                fr: 'competence1_2_name',
+              },
               index: 'competence1_2_index',
               areaId: 'recArea1',
               skillIds: ['recArea1_Competence2_Tube1_Skill1'],
@@ -131,14 +137,22 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recArea1_Competence1_Tube1',
               competenceId: 'recArea1_Competence1',
-              practicalTitleFrFr: 'tube1_1_1_practicalTitle',
-              practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
+              practicalTitle_i18n: {
+                fr: 'tube1_1_1_practicalTitle',
+              },
+              practicalDescription_i18n: {
+                fr: 'tube1_1_1_practicalDescription',
+              },
             },
             {
               id: 'recArea1_Competence2_Tube1',
               competenceId: 'recArea1_Competence2',
-              practicalTitleFrFr: 'tube1_2_1_practicalTitle',
-              practicalDescriptionFrFr: 'tube1_2_1_practicalDescriptionFrFr',
+              practicalTitle_i18n: {
+                fr: 'tube1_2_1_practicalTitle',
+              },
+              practicalDescription_i18n: {
+                fr: 'tube1_2_1_practicalDescriptionFrFr',
+              },
             },
           ],
           skills: [
@@ -267,8 +281,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recArea1',
-              titleFrFr: 'titleFR',
-              titleEnUs: 'titleEN',
+              title_i18n: {
+                fr: 'titleFR',
+                en: 'titleEN',
+              },
               color: 'area1_color',
               code: 'area1_code',
               frameworkId: 'fmk1',
@@ -278,8 +294,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompetence1',
-              nameFrFr: 'nameFR',
-              nameEnUs: 'nameEN',
+              name_i18n: {
+                fr: 'nameFR',
+                en: 'nameEN',
+              },
               index: 'competence1_index',
               areaId: 'recArea1',
               skillIds: ['recSkill1'],
@@ -290,8 +308,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             {
               id: 'recTube1',
               competenceId: 'recCompetence1',
-              practicalTitleFrFr: 'practicalTitleFR',
-              practicalTitleEnUs: 'practicalTitleEN',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR',
+                en: 'practicalTitleEN',
+              },
               practicalDescriptionFrFr: 'tube_desc',
             },
           ],
@@ -405,7 +425,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recAreaA',
-              titleFrFr: 'titleFRA',
+              title_i18n: {
+                fr: 'titleFRA',
+              },
               color: 'colorA',
               code: 'codeA',
               frameworkId: 'fmk1',
@@ -415,7 +437,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompA',
-              nameFrFr: 'nameFRA',
+              name_i18n: {
+                fr: 'nameFRA',
+              },
               index: '1',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -436,7 +460,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recTube2',
               competenceId: 'recCompA',
               name: 'tubeName2',
-              practicalTitleFrFr: 'practicalTitleFR2',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR2',
+              },
             },
           ],
         };
@@ -535,7 +561,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recAreaA',
-              titleFrFr: 'titleFRA',
+              title_i18n: {
+                fr: 'titleFRA',
+              },
               color: 'colorA',
               code: 'codeA',
               frameworkId: 'fmk1',
@@ -545,7 +573,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompA',
-              nameFrFr: 'nameFRA',
+              name_i18n: {
+                fr: 'nameFRA',
+              },
               index: '1',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -553,7 +583,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
             },
             {
               id: 'recCompB',
-              nameFrFr: 'nameFRB',
+              name_i18n: {
+                fr: 'nameFRB',
+              },
               index: '5',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -563,28 +595,36 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           thematics: [
             {
               id: 'recThemA',
-              name: 'nameFRA',
+              name_i18n: {
+                fr: 'nameFRA',
+              },
               index: '1',
               competenceId: 'recCompA',
               tubeIds: ['recTube1'],
             },
             {
               id: 'recThemB',
-              name: 'nameFRB',
+              name_i18n: {
+                fr: 'nameFRB',
+              },
               index: '2',
               competenceId: 'recCompA',
               tubeIds: ['recTube2'],
             },
             {
               id: 'recThemC',
-              name: 'nameFRC',
+              name_i18n: {
+                fr: 'nameFRC',
+              },
               index: '1',
               competenceId: 'recCompB',
               tubeIds: ['recTube3'],
             },
             {
               id: 'recThemD',
-              name: 'nameFRD',
+              name_i18n: {
+                fr: 'nameFRD',
+              },
               index: '4',
               competenceId: 'recCompB',
               tubeIds: ['recTube4'],
@@ -595,25 +635,33 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recTube1',
               competenceId: 'recCompA',
               name: 'tubeName1',
-              practicalTitleFrFr: 'practicalTitleFR1',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR1',
+              },
             },
             {
               id: 'recTube2',
               competenceId: 'recCompA',
               name: 'tubeName2',
-              practicalTitleFrFr: 'practicalTitleFR2',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR2',
+              },
             },
             {
               id: 'recTube3',
               competenceId: 'recCompB',
               name: 'tubeName3',
-              practicalTitleFrFr: 'practicalTitleFR3',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR3',
+              },
             },
             {
               id: 'recTube4',
               competenceId: 'recCompB',
               name: 'tubeName4',
-              practicalTitleFrFr: 'practicalTitleFR4',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR4',
+              },
             },
           ],
           skills: [
@@ -828,8 +876,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           areas: [
             {
               id: 'recAreaA',
-              titleFrFr: 'titleFRA',
-              titleEnUs: 'titleENA',
+              title_i18n: {
+                fr: 'titleFRA',
+                en: 'titleENA',
+              },
               color: 'colorA',
               code: 'codeA',
               frameworkId: 'fmk1',
@@ -839,8 +889,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [
             {
               id: 'recCompA',
-              nameFrFr: 'nameFRA',
-              nameEnUs: 'nameENA',
+              name_i18n: {
+                fr: 'nameFRA',
+                en: 'nameENA',
+              },
               index: '1',
               areaId: 'recAreaA',
               origin: 'Pix',
@@ -850,8 +902,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           thematics: [
             {
               id: 'recThemA',
-              name: 'nameFRA',
-              nameEnUs: 'nameENA',
+              name_i18n: {
+                fr: 'nameFRA',
+                en: 'nameENA',
+              },
               index: '1',
               competenceId: 'recCompA',
               tubeIds: ['recTube1'],
@@ -862,8 +916,10 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recTube1',
               competenceId: 'recCompA',
               name: 'tubeName1',
-              practicalTitleFrFr: 'practicalTitleFR1',
-              practicalTitleEnUs: 'practicalTitleEN1',
+              practicalTitle_i18n: {
+                fr: 'practicalTitleFR1',
+                en: 'practicalTitleEN1',
+              },
             },
           ],
           skills: [

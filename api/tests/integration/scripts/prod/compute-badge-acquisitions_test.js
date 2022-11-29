@@ -80,12 +80,16 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       const learningContent = [
         {
           id: 'recArea1',
-          titleFrFr: 'area1_Title',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
           color: 'someColor',
           competences: [
             {
               id: 'competenceId',
-              nameFrFr: 'Mener une recherche et une veille d’information',
+              name_i18n: {
+                fr: 'Mener une recherche et une veille d’information',
+              },
               index: '1.1',
               tubes: [
                 {
@@ -216,12 +220,16 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       const learningContent = [
         {
           id: 'recArea1',
-          titleFrFr: 'area1_Title',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
           color: 'someColor',
           competences: [
             {
               id: 'competenceId',
-              nameFrFr: 'Mener une recherche et une veille d’information',
+              name_i18n: {
+                fr: 'Mener une recherche et une veille d’information',
+              },
               index: '1.1',
               tubes: [
                 {

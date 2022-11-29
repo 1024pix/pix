@@ -1,14 +1,11 @@
 const Area = require('../../domain/models/Area');
 const areaDatasource = require('../datasources/learning-content/area-datasource');
 const competenceRepository = require('./competence-repository');
-const { getTranslatedText } = require('../../domain/services/get-translated-text');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text');
 const _ = require('lodash');
 
 function _toDomain({ areaData, locale }) {
-  const translatedTitle = getTranslatedText(locale, {
-    frenchText: areaData.titleFrFr,
-    englishText: areaData.titleEnUs,
-  });
+  const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);
   return new Area({
     id: areaData.id,
     code: areaData.code,

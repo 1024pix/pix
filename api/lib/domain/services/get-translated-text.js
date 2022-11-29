@@ -1,11 +1,7 @@
-const { ENGLISH_SPOKEN } = require('../../domain/constants').LOCALE;
+const { FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
 
-function getTranslatedText(locale, translations = { frenchText: '', englishText: '' }) {
-  if (locale === ENGLISH_SPOKEN) {
-    return translations.englishText;
-  }
-
-  return translations.frenchText;
+function getTranslatedKey(key, locale) {
+  return key?.[locale] || key?.[FRENCH_SPOKEN];
 }
 
-module.exports = { getTranslatedText };
+module.exports = { getTranslatedKey };

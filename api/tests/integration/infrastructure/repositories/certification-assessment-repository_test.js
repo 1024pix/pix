@@ -12,14 +12,18 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       areas: [
         {
           id: 'recArea1',
-          titleFrFr: 'area1_Title',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
           competenceIds: ['recArea1_Competence1'],
         },
       ],
       competences: [
         {
           id: 'recArea1_Competence1',
-          nameFrFr: 'competence1_1_name',
+          name_i18n: {
+            fr: 'competence1_1_name',
+          },
           index: 'competence1_1_index',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
@@ -29,8 +33,12 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         {
           id: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
-          practicalTitleFrFr: 'tube1_1_1_practicalTitle',
-          practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
+          practicalTitle_i18n: {
+            fr: 'tube1_1_1_practicalTitle',
+          },
+          practicalDescription_i18n: {
+            fr: 'tube1_1_1_practicalDescription',
+          },
         },
       ],
       skills: [

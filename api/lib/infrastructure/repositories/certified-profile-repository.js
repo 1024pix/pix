@@ -76,7 +76,7 @@ async function _createCertifiedTubes(certifiedSkills) {
   const certifiedSkillsByTube = _.groupBy(certifiedSkills, 'tubeId');
   const learningContentTubes = await tubeDatasource.findByRecordIds(Object.keys(certifiedSkillsByTube));
   return learningContentTubes.map((learningContentTube) => {
-    const name = learningContentTube.practicalTitleFrFr;
+    const name = learningContentTube.practicalTitle_i18n.fr;
     return new CertifiedTube({
       id: learningContentTube.id,
       name,
@@ -91,7 +91,7 @@ async function _createCertifiedCompetences(certifiedTubes) {
     Object.keys(certifiedTubesByCompetence)
   );
   return learningContentCompetences.map((learningContentCompetence) => {
-    const name = learningContentCompetence.nameFrFr;
+    const name = learningContentCompetence.name_i18n.fr;
     return new CertifiedCompetence({
       id: learningContentCompetence.id,
       name,
@@ -105,7 +105,7 @@ async function _createCertifiedAreas(certifiedCompetences) {
   const certifiedCompetencesByArea = _.groupBy(certifiedCompetences, 'areaId');
   const learningContentAreas = await areaDatasource.findByRecordIds(Object.keys(certifiedCompetencesByArea));
   return learningContentAreas.map((learningContentArea) => {
-    const name = learningContentArea.titleFrFr;
+    const name = learningContentArea.title_i18n.fr;
     return new CertifiedArea({
       id: learningContentArea.id,
       name,

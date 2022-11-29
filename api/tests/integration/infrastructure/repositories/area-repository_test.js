@@ -9,8 +9,10 @@ describe('Integration | Repository | area-repository', function () {
       id: 'recArea0',
       code: 'area0code',
       name: 'area0name',
-      titleFrFr: 'area0titleFr',
-      titleEnUs: 'area0titleEn',
+      title_i18n: {
+        fr: 'area0titleFr',
+        en: 'area0titleEn,',
+      },
       color: 'area0color',
       frameworkId: 'recFmk123',
       competenceIds: ['recCompetence0'],
@@ -19,8 +21,10 @@ describe('Integration | Repository | area-repository', function () {
       id: 'recArea1',
       code: 'area1code',
       name: 'area1name',
-      titleFrFr: 'area1titleFr',
-      titleEnUs: 'area1titleEn',
+      title_i18n: {
+        fr: 'area1titleFr',
+        en: 'area1titleEn,',
+      },
       color: 'area1color',
       frameworkId: 'recFmk456',
       competenceIds: [],
@@ -44,7 +48,7 @@ describe('Integration | Repository | area-repository', function () {
           id: area0.id,
           code: area0.code,
           name: area0.name,
-          title: area0.titleFrFr,
+          title: area0.title_i18n.fr,
           color: area0.color,
           frameworkId: area0.frameworkId,
           competences: [],
@@ -53,7 +57,7 @@ describe('Integration | Repository | area-repository', function () {
           id: area1.id,
           code: area1.code,
           name: area1.name,
-          title: area1.titleFrFr,
+          title: area1.title_i18n.fr,
           color: area1.color,
           frameworkId: area1.frameworkId,
           competences: [],
@@ -69,8 +73,8 @@ describe('Integration | Repository | area-repository', function () {
         const areas = await areaRepository.list({ locale });
 
         // then
-        expect(areas[0].title).to.equal(area0.titleEnUs);
-        expect(areas[1].title).to.equal(area1.titleEnUs);
+        expect(areas[0].title).to.equal(area0.title_i18n.en);
+        expect(areas[1].title).to.equal(area1.title_i18n.en);
       });
     });
 
@@ -83,8 +87,8 @@ describe('Integration | Repository | area-repository', function () {
         const areas = await areaRepository.list({ locale });
 
         // then
-        expect(areas[0].title).to.equal(area0.titleFrFr);
-        expect(areas[1].title).to.equal(area1.titleFrFr);
+        expect(areas[0].title).to.equal(area0.title_i18n.fr);
+        expect(areas[1].title).to.equal(area1.title_i18n.fr);
       });
     });
   });
@@ -97,8 +101,10 @@ describe('Integration | Repository | area-repository', function () {
             id: 'recArea0',
             code: 'area0code',
             name: 'area0name',
-            titleFrFr: 'area0titleFr',
-            titleEnUs: 'area0titleEn',
+            title_i18n: {
+              fr: 'area0titleFr',
+              en: 'area0titleEn',
+            },
             color: 'area0color',
             frameworkId: 'recFmk123',
             competenceIds: ['recCompetence0'],
@@ -125,8 +131,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea0',
         code: 'area0code',
         name: 'area0name',
-        titleFrFr: 'area0titleFr',
-        titleEnUs: 'area0titleEn',
+        title_i18n: {
+          fr: 'area0titleFr',
+          en: 'area0titleEn',
+        },
         color: 'area0color',
         frameworkId: 'recFmk123',
         competenceIds: ['recCompetence0', 'recCompetence1'],
@@ -136,8 +144,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea1',
         code: 'area1code',
         name: 'area1name',
-        titleFrFr: 'area1titleFr',
-        titleEnUs: 'area1titleEn',
+        title_i18n: {
+          fr: 'area1titleFr',
+          en: 'area1titleEn',
+        },
         color: 'area1color',
         frameworkId: 'recFmk456',
         competenceIds: ['recCompetence2', 'recCompetence3'],
@@ -168,7 +178,7 @@ describe('Integration | Repository | area-repository', function () {
           id: area0.id,
           code: area0.code,
           name: area0.name,
-          title: area0.titleFrFr,
+          title: area0.title_i18n.fr,
           color: area0.color,
           frameworkId: area0.frameworkId,
         });
@@ -178,7 +188,7 @@ describe('Integration | Repository | area-repository', function () {
           id: area1.id,
           code: area1.code,
           name: area1.name,
-          title: area1.titleFrFr,
+          title: area1.title_i18n.fr,
           color: area1.color,
           frameworkId: area1.frameworkId,
         });
@@ -193,8 +203,10 @@ describe('Integration | Repository | area-repository', function () {
       id: 'recArea0',
       code: 'area0code',
       name: 'area0name',
-      titleFrFr: 'area0titleFr',
-      titleEnUs: 'area0titleEn',
+      title_i18n: {
+        fr: 'area0titleFr',
+        en: 'area0titleEn',
+      },
       color: 'area0color',
       frameworkId: 'framework1',
       competenceIds: ['recCompetence0', 'recCompetence1'],
@@ -204,8 +216,10 @@ describe('Integration | Repository | area-repository', function () {
       id: 'recArea1',
       code: 'area1code',
       name: 'area1name',
-      titleFrFr: 'area1titleFr',
-      titleEnUs: 'area1titleEn',
+      title_i18n: {
+        fr: 'area1titleFr',
+        en: 'area1titleEn',
+      },
       color: 'area1color',
       frameworkId: 'framework2',
       competenceIds: ['recCompetence2', 'recCompetence3'],
@@ -217,34 +231,50 @@ describe('Integration | Repository | area-repository', function () {
         {
           id: 'recCompetence0',
           areaId: 'recArea0',
-          nameFrFr: 'competence0NameFr',
-          nameEnUs: 'competence0NameEn',
-          descriptionFrFr: 'competence0DescriptionFr',
-          descriptionEnUs: 'competence0DescriptionEn',
+          name_i18n: {
+            fr: 'competence0NameFr',
+            en: 'competence0NameEn',
+          },
+          description_i18n: {
+            fr: 'competence0DescriptionFr',
+            en: 'competence0DescriptionEn',
+          },
         },
         {
           id: 'recCompetence1',
           areaId: 'recArea0',
-          nameFrFr: 'competence1NameFr',
-          nameEnUs: 'competence1NameEn',
-          descriptionFrFr: 'competence1DescriptionFr',
-          descriptionEnUs: 'competence1DescriptionEn',
+          name_i18n: {
+            fr: 'competence1NameFr',
+            en: 'competence1NameEn',
+          },
+          description_i18n: {
+            fr: 'competence1DescriptionFr',
+            en: 'competence1DescriptionEn',
+          },
         },
         {
           id: 'recCompetence2',
           areaId: 'recArea1',
-          nameFrFr: 'competence2NameFr',
-          nameEnUs: 'competence2NameEn',
-          descriptionFrFr: 'competence2DescriptionFr',
-          descriptionEnUs: 'competence2DescriptionEn',
+          name_i18n: {
+            fr: 'competence2NameFr',
+            en: 'competence2NameEn',
+          },
+          description_i18n: {
+            fr: 'competence2DescriptionFr',
+            en: 'competence2DescriptionEn',
+          },
         },
         {
           id: 'recCompetence3',
           areaId: 'recArea1',
-          nameFrFr: 'competence3NameFr',
-          nameEnUs: 'competence3NameEn',
-          descriptionFrFr: 'competence3DescriptionFr',
-          descriptionEnUs: 'competence3DescriptionEn',
+          name_i18n: {
+            fr: 'competence3NameFr',
+            en: 'competence3NameEn',
+          },
+          description_i18n: {
+            fr: 'competence3DescriptionFr',
+            en: 'competence3DescriptionEn',
+          },
         },
       ],
     };
@@ -263,7 +293,7 @@ describe('Integration | Repository | area-repository', function () {
         id: area0.id,
         code: area0.code,
         name: area0.name,
-        title: area0.titleFrFr,
+        title: area0.title_i18n.fr,
         color: area0.color,
         frameworkId: area0.frameworkId,
       });
@@ -287,7 +317,7 @@ describe('Integration | Repository | area-repository', function () {
         id: area0.id,
         code: area0.code,
         name: area0.name,
-        title: area0.titleEnUs,
+        title: area0.title_i18n.en,
         color: area0.color,
         frameworkId: area0.frameworkId,
       });
@@ -325,8 +355,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea0',
         code: 1,
         name: 'area_name0',
-        titleFrFr: 'area_title0FR',
-        titleEnUs: 'area_title0EN',
+        title_i18n: {
+          fr: 'area_title0FR',
+          en: 'area_title0EN',
+        },
         color: 'blue0',
         frameworkId: 'recFwkId0',
       };
@@ -335,8 +367,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea1',
         code: 4,
         name: 'area_name1',
-        titleFrFr: 'area_title1FR',
-        titleEnUs: 'area_title1EN',
+        title_i18n: {
+          fr: 'area_title1FR',
+          en: 'area_title1EN',
+        },
         color: 'blue1',
         frameworkId: 'recFwkId1',
       };
@@ -345,8 +379,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea2',
         code: 6,
         name: 'area_name2',
-        titleFrFr: 'area_title2FR',
-        titleEnUs: 'area_title2EN',
+        title_i18n: {
+          fr: 'area_title2FR',
+          en: 'area_title2EN',
+        },
         color: 'blue2',
         frameworkId: 'recFwkId2',
       };
@@ -383,8 +419,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea0',
         code: 1,
         name: 'area_name0',
-        titleFrFr: 'area_title0FR',
-        titleEnUs: 'area_title0EN',
+        title_i18n: {
+          fr: 'area_title0FR',
+          en: 'area_title0EN',
+        },
         color: 'blue0',
         frameworkId: 'recFwkId0',
       };
@@ -393,8 +431,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea1',
         code: 4,
         name: 'area_name1',
-        titleFrFr: 'area_title1FR',
-        titleEnUs: 'area_title1EN',
+        title_i18n: {
+          fr: 'area_title1FR',
+          en: 'area_title1EN',
+        },
         color: 'blue1',
         frameworkId: 'recFwkId1',
       };
@@ -403,8 +443,10 @@ describe('Integration | Repository | area-repository', function () {
         id: 'recArea2',
         code: 6,
         name: 'area_name2',
-        titleFrFr: 'area_title2FR',
-        titleEnUs: 'area_title2EN',
+        title_i18n: {
+          fr: 'area_title2FR',
+          en: 'area_title2EN',
+        },
         color: 'blue2',
         frameworkId: 'recFwkId2',
       };

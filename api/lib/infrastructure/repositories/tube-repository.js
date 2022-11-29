@@ -4,17 +4,11 @@ const Tube = require('../../domain/models/Tube');
 const tubeDatasource = require('../datasources/learning-content/tube-datasource');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 
-const { getTranslatedText } = require('../../domain/services/get-translated-text');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text');
 
 function _toDomain({ tubeData, locale }) {
-  const translatedPracticalTitle = getTranslatedText(locale, {
-    frenchText: tubeData.practicalTitleFrFr,
-    englishText: tubeData.practicalTitleEnUs,
-  });
-  const translatedPracticalDescription = getTranslatedText(locale, {
-    frenchText: tubeData.practicalDescriptionFrFr,
-    englishText: tubeData.practicalDescriptionEnUs,
-  });
+  const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
+  const translatedPracticalDescription = getTranslatedKey(tubeData.practicalDescription_i18n, locale);
 
   return new Tube({
     id: tubeData.id,
