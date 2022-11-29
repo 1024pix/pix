@@ -242,4 +242,17 @@ describe('Unit | Domain | Models | UserLogin', function () {
       });
     });
   });
+
+  describe('#blockUser', function () {
+    it('blocks user', function () {
+      // given
+      const userLogin = new UserLogin({});
+
+      // when
+      userLogin.blockUser();
+
+      // then
+      expect(userLogin.blockedAt).to.deepEqualInstance(new Date('2022-11-28T12:00:00Z'));
+    });
+  });
 });
