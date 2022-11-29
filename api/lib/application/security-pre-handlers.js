@@ -37,8 +37,12 @@ function _replyForbiddenError(h) {
 }
 
 async function checkIfUserIsBlocked(request, h) {
-  const { username } = request.payload;
-  await checkIfUserIsBlockedUseCase.execute(username);
+  const { username, grant_type: grantType } = request.payload;
+
+  if (grantType === 'password') {
+    await checkIfUserIsBlockedUseCase.execute(username);
+  }
+
   return h.response(true);
 }
 
