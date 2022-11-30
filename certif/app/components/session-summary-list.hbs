@@ -58,8 +58,8 @@
               </td>
               <td>{{sessionSummary.address}}</td>
               <td>{{sessionSummary.room}}</td>
-              <td>{{moment-format sessionSummary.date "DD/MM/YYYY" allow-empty=true}}</td>
-              <td>{{moment-format sessionSummary.time "HH:mm" "HH:mm:ss" allow-empty=true}}</td>
+              <td>{{dayjs-format sessionSummary.date "DD/MM/YYYY" allow-empty=true}}</td>
+              <td>{{dayjs-format sessionSummary.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}</td>
               <td>{{sessionSummary.examiner}}</td>
               <td>{{sessionSummary.enrolledCandidatesCount}}</td>
               <td>{{sessionSummary.effectiveCandidatesCount}}</td>

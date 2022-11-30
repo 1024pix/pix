@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
-import moment from 'moment';
 import { inject as service } from '@ember/service';
 
 export default class SessionsUpdateRoute extends Route {
   @service currentUser;
   @service store;
+  @service dayjs;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();
@@ -12,7 +12,8 @@ export default class SessionsUpdateRoute extends Route {
 
   async model({ session_id }) {
     const session = await this.store.findRecord('session', session_id);
-    session.time = moment(session.time, 'HH:mm:ss').format('HH:mm');
+    this.dayjs.extend('customParseFormat');
+    session.time = this.dayjs.self(session.time, 'HH:mm:ss').format('HH:mm');
     return session;
   }
 
@@ -21,7 +22,6 @@ export default class SessionsUpdateRoute extends Route {
   }
 
   deactivate() {
-    // eslint-disable-next-line ember/no-controller-access-in-routes
     this.controller.model.rollbackAttributes();
   }
 }
