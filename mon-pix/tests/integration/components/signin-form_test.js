@@ -125,14 +125,14 @@ module('Integration | Component | signin form', function (hooks) {
         module('when is user is temporary blocked', function () {
           test('displays a specific error', async function (assert) {
             // given
-            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_TEMPORARY_BLOCKED.MESSAGE, {
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_TEMPORARY_BLOCKED.MESSAGE, {
               url: '/mot-de-passe-oublie',
               htmlSafe: true,
             });
             class sessionService extends Service {
               authenticateUser = sinon
                 .stub()
-                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_HAS_BEEN_TEMPORARY_BLOCKED' }] } });
+                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_IS_TEMPORARY_BLOCKED' }] } });
             }
             this.owner.register('service:session', sessionService);
             await render(hbs`<SigninForm />`);
@@ -150,14 +150,14 @@ module('Integration | Component | signin form', function (hooks) {
         module('when is user blocked', function () {
           test('displays a specific error', async function (assert) {
             // given
-            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_BLOCKED.MESSAGE, {
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_BLOCKED.MESSAGE, {
               url: 'https://support.pix.org/support/tickets/new',
               htmlSafe: true,
             });
             class sessionService extends Service {
               authenticateUser = sinon
                 .stub()
-                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_HAS_BEEN_BLOCKED' }] } });
+                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_IS_BLOCKED' }] } });
             }
             this.owner.register('service:session', sessionService);
             await render(hbs`<SigninForm />`);

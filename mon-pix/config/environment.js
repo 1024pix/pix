@@ -83,11 +83,11 @@ module.exports = function (environment) {
           CODE: '401',
           MESSAGE: 'api-error-messages.login-unauthorized-error',
         },
-        USER_HAS_BEEN_TEMPORARY_BLOCKED: {
+        USER_IS_TEMPORARY_BLOCKED: {
           CODE: '403',
           MESSAGE: 'api-error-messages.login-user-temporary-blocked-error',
         },
-        USER_HAS_BEEN_BLOCKED: {
+        USER_IS_BLOCKED: {
           CODE: '403',
           MESSAGE: 'api-error-messages.login-user-blocked-error',
         },
