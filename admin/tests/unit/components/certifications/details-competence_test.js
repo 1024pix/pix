@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | certifications/details-competence', function (hooks) {
