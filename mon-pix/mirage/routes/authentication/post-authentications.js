@@ -13,11 +13,11 @@ export default function (schema, request) {
   const queryParams = parseQueryString(request.requestBody);
 
   if (queryParams.username === 'user.blocked@example.net') {
-    return new Response(403, {}, 'USER_HAS_BEEN_BLOCKED');
+    return new Response(403, {}, 'USER_IS_BLOCKED');
   }
 
   if (queryParams.username == 'user.temporary-blocked@example.net') {
-    return new Response(403, {}, 'USER_HAS_BEEN_TEMPORARY_BLOCKED');
+    return new Response(403, {}, 'USER_IS_TEMPORARY_BLOCKED');
   }
 
   let foundUser = schema.users.findBy({ email: queryParams.username });
