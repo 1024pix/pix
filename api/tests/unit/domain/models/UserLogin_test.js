@@ -247,4 +247,32 @@ describe('Unit | Domain | Models | UserLogin', function () {
       });
     });
   });
+
+  describe('#shouldBlockUser', function () {
+    context('when failure count is lower than the limit failure count', function () {
+      it('returns false', function () {
+        // given
+        const userLogin = new UserLogin({ failureCount: 49 });
+
+        // when
+        const result = userLogin.shouldBlockUser();
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    context('when failure count equals the limit failure count', function () {
+      it('returns true', function () {
+        // given
+        const userLogin = new UserLogin({ failureCount: 50 });
+
+        // when
+        const result = userLogin.shouldBlockUser();
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+  });
 });

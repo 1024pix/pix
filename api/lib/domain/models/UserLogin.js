@@ -41,6 +41,10 @@ class UserLogin {
     return this.failureCount > 0 || !!this.temporaryBlockedUntil;
   }
 
+  shouldBlockUser() {
+    return this.failureCount >= settings.userLogins.limitFailureCount;
+  }
+
   blockUser() {
     this.blockedAt = new Date();
   }
