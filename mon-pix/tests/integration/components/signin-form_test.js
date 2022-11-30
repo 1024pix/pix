@@ -15,9 +15,7 @@ const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 module('Integration | Component | signin form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('Rendering', async function () {
+  module('Rendering', function () {
     test('should display an input for identifiant field', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
