@@ -1,7 +1,7 @@
-<Card @title="Définir un ou plusieurs critères d'optention">
+<Card @title="Définir un ou plusieurs critères d'obtention">
   <p>
     Vous pouvez définir des critères de réussite du résultat thématique sur une liste de sujets ET/OU sur l’ensemble du
-    profil cible. Toutes les conditions devront être remplies pour obtenir le badge.
+    profil cible. Toutes les conditions devront être remplies pour obtenir le résultat thématique.
   </p>
   <div class="badge-form-criteria-choice">
     <PixCheckbox
@@ -16,7 +16,7 @@
       @checked={{this.hasCappedTubesCriteria}}
       {{on "change" this.onHasCappedTubesCriteriaChange}}
     >
-      Sur une sélection de sujet du profil cible
+      Sur une sélection de sujets du profil cible
     </PixCheckbox>
   </div>
   {{#if this.hasCampaignCriterion}}
@@ -39,7 +39,7 @@
       @triggerAction={{this.addCappedTubeCriterion}}
     >
       <FaIcon @icon="plus" />
-      Ajouter une nouvelle sélection de sujet
+      Ajouter une nouvelle sélection de sujets
     </PixButton>
   {{/if}}
 </Card>

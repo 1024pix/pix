@@ -87,7 +87,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
           await visit(`/target-profiles/1/badges/new`);
 
           // when
-          await fillByLabel('Nom du badge :', 'clé_du_badge');
+          await fillByLabel('Nom du résultat thématique :', 'clé_du_badge');
           await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage');
           await fillByLabel("Texte alternatif pour l'image :", 'texte alternatif à l‘image');
           await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'clé unique');

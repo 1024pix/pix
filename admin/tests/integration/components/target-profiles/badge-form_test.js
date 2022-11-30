@@ -132,7 +132,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('checkbox', { name: "Sur l'ensemble du profil cible" })).exists();
-      assert.dom(screen.getByRole('checkbox', { name: 'Sur une sélection de sujet du profil cible' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' })).exists();
     });
 
     test('it should display campaign-participation criterion form on click', async function (assert) {
@@ -148,7 +148,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     test('it should display capped tubes criterion form on click', async function (assert) {
       // when
       const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujet du profil cible' }));
+      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
 
       // then
       assert
@@ -156,14 +156,14 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
         .exists();
       assert.dom(screen.getByLabelText('* Taux de réussite pour obtenir le RT :')).exists();
       assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujet' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' })).exists();
     });
 
     test('it should add a new criteria on click', async function (assert) {
       // when
       const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujet du profil cible' }));
-      await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujet' }));
+      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+      await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
 
       // then
       assert.strictEqual(
@@ -176,8 +176,8 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     test('it should delete criteria on click', async function (assert) {
       // when
       const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujet du profil cible' }));
-      await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujet' }));
+      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+      await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
       // then
@@ -191,9 +191,9 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     test('it should remove all caped tubes criteria when checkox is unchecked ', async function (assert) {
       // when
       const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujet du profil cible' }));
-      await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujet' }));
-      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujet du profil cible' }));
+      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+      await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
+      await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
 
       // then
       assert.strictEqual(
