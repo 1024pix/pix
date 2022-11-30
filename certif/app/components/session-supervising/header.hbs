@@ -15,9 +15,9 @@
       sessionId=@session.id
     }}</h1>
   <time class="session-supervising-header__date">
-    {{moment-format @session.date "DD/MM/YYYY"}}
+    {{dayjs-format @session.date "DD/MM/YYYY"}}
     ·
-    {{moment-format @session.time "HH:mm" "HH:mm:ss" allow-empty=true}}
+    {{dayjs-format @session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
   </time>
 
   <div>

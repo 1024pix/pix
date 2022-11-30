@@ -33,12 +33,13 @@ module('Unit | Route | application', function (hooks) {
       test('it should update the locale to fr-fr', async function (assert) {
         // given
         const intlSetLocaleStub = sinon.stub();
-        const momentSetLocaleStub = sinon.stub();
-        const momentStub = Service.create({
-          setLocale: momentSetLocaleStub,
-        });
+        const dayjsSetLocaleStub = sinon.stub();
         const intlStub = Service.create({
           setLocale: intlSetLocaleStub,
+        });
+        const dayjsStub = Service.create({
+          setLocale: dayjsSetLocaleStub,
+          self: { locale: sinon.stub() },
         });
         const currentDomainStub = {
           getExtension: () => 'fr',
@@ -46,15 +47,16 @@ module('Unit | Route | application', function (hooks) {
         const route = this.owner.lookup('route:application');
 
         route.set('intl', intlStub);
+        route.set('dayjs', dayjsStub);
         route.set('currentDomain', currentDomainStub);
-        route.set('moment', momentStub);
 
         // when
         await route.handleLocale('fr');
 
         // then
         assert.expect(0);
-        sinon.assert.calledWith(intlSetLocaleStub, ['fr-fr', 'fr']);
+        sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
+        sinon.assert.calledWith(dayjsSetLocaleStub, 'fr');
       });
     });
 
@@ -62,9 +64,10 @@ module('Unit | Route | application', function (hooks) {
       test('it should update the locale to fr', async function (assert) {
         // given
         const intlSetLocaleStub = sinon.stub();
-        const momentSetLocaleStub = sinon.stub();
-        const momentStub = Service.create({
-          setLocale: momentSetLocaleStub,
+        const dayjsSetLocaleStub = sinon.stub();
+        const dayjsStub = Service.create({
+          setLocale: dayjsSetLocaleStub,
+          self: { locale: sinon.stub() },
         });
         const intlStub = Service.create({
           setLocale: intlSetLocaleStub,
@@ -76,7 +79,7 @@ module('Unit | Route | application', function (hooks) {
 
         route.set('intl', intlStub);
         route.set('currentDomain', currentDomainStub);
-        route.set('moment', momentStub);
+        route.set('dayjs', dayjsStub);
 
         // when
         await route.handleLocale('fr');
@@ -84,6 +87,7 @@ module('Unit | Route | application', function (hooks) {
         // then
         assert.expect(0);
         sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
+        sinon.assert.calledWith(dayjsSetLocaleStub, 'fr');
       });
     });
   });

@@ -25,6 +25,10 @@ module.exports = function (defaults) {
     'ember-cli-template-lint': {
       testGenerator: 'qunit',
     },
+    'ember-dayjs': {
+      locales: ['fr'],
+      plugins: ['customParseFormat'],
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
