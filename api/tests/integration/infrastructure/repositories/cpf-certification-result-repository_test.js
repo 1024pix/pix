@@ -1,6 +1,7 @@
 const { databaseBuilder, domainBuilder, expect, knex } = require('../../../test-helper');
 const cpfCertificationResultRepository = require('../../../../lib/infrastructure/repositories/cpf-certification-result-repository');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const { cpfImportStatus } = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#getIdsByTimeRange', function () {
@@ -519,14 +520,14 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       // when
       await cpfCertificationResultRepository.updateCertificationImportStatus({
         certificationCourseIds: [123, 456],
-        cpfImportStatus: 'PENDING',
+        cpfImportStatus: cpfImportStatus.PENDING,
       });
 
       // then
       const certificationCourses = await knex('certification-courses').select('id', 'cpfImportStatus').orderBy('id');
       expect(certificationCourses).to.deep.equal([
-        { id: 123, cpfImportStatus: 'PENDING' },
-        { id: 456, cpfImportStatus: 'PENDING' },
+        { id: 123, cpfImportStatus: cpfImportStatus.PENDING },
+        { id: 456, cpfImportStatus: cpfImportStatus.PENDING },
         { id: 789, cpfImportStatus: null },
       ]);
     });
