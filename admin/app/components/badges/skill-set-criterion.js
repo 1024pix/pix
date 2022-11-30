@@ -14,10 +14,14 @@ export default class SkillSetCriterion extends Component {
     return this.args.targetProfile.oldAreas
       .toArray()
       .flatMap((area) => area.competences.toArray().flatMap((competence) => competence.tubes.toArray()))
-      .filter((tube) => tube.skills.any((skill) => skillIds.includes(skill.id)))
       .map((tube) => ({
+        tube,
+        skills: tube.skills.filter((skill) => skillIds.includes(skill.id)),
+      }))
+      .filter(({ skills }) => skills.length !== 0)
+      .map(({ tube, skills }) => ({
         tubeTitle: tube.practicalTitle,
-        skillsWithAllLevels: this.allLevels.map((level) => tube.skills.find((skill) => skill.difficulty === level)),
+        skillsWithAllLevels: this.allLevels.map((level) => skills.find((skill) => skill.difficulty === level)),
       }));
   }
 }
