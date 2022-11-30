@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 const { plannerJob } = require('../../../../config').cpf;
 const logger = require('../../../logger');
+const { cpfImportStatus } = require('../../../../domain/models/CertificationCourse');
 const _ = require('lodash');
 
 module.exports = async function planner({ pgBoss, cpfCertificationResultRepository, jobId }) {
@@ -21,7 +22,7 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
     await cpfCertificationResultRepository.markCertificationToExport({
       certificationCourseIds,
       batchId,
-      cpfImportStatus: 'PENDING',
+      cpfImportStatus: cpfImportStatus.PENDING,
     });
 
     pgBoss.send('CpfExportBuilderJob', {
