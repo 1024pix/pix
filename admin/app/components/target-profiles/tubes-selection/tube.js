@@ -4,7 +4,14 @@ import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 export default class Tube extends Component {
   get levelOptions() {
-    return levelOptions;
+    return Array.from({ length: this._maxLevel }, (_, index) => ({
+      value: index + 1,
+      label: `${index + 1}`,
+    }));
+  }
+
+  get _maxLevel() {
+    return this.args.tube.level ?? 8;
   }
 
   get state() {
@@ -12,7 +19,7 @@ export default class Tube extends Component {
   }
 
   get selectedLevel() {
-    return this.args.tubeLevels[this.args.tube.id] ?? 8;
+    return this.args.tubeLevels[this.args.tube.id] ?? this._maxLevel;
   }
 
   get checked() {
@@ -36,38 +43,3 @@ export default class Tube extends Component {
     this.args.setLevelTube(tubeId, level);
   }
 }
-
-const levelOptions = [
-  {
-    value: 1,
-    label: '1',
-  },
-  {
-    value: 2,
-    label: '2',
-  },
-  {
-    value: 3,
-    label: '3',
-  },
-  {
-    value: 4,
-    label: '4',
-  },
-  {
-    value: 5,
-    label: '5',
-  },
-  {
-    value: 6,
-    label: '6',
-  },
-  {
-    value: 7,
-    label: '7',
-  },
-  {
-    value: 8,
-    label: '8',
-  },
-];

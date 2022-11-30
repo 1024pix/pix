@@ -6,7 +6,12 @@ const TABLE_NAME = 'badge-criteria';
 
 module.exports = {
   async save({ badgeCriterion }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-    const savedBadgeCriterion = await (knexTransaction ?? knex)(TABLE_NAME).insert(badgeCriterion).returning('*');
+    const data = {
+      ...badgeCriterion,
+      // WORKAROUND: jsonb array needs to be stringified see https://knexjs.org/guide/schema-builder.html#json
+      cappedTubes: badgeCriterion.cappedTubes ? JSON.stringify(badgeCriterion.cappedTubes) : null,
+    };
+    const savedBadgeCriterion = await (knexTransaction ?? knex)(TABLE_NAME).insert(data).returning('*');
     return new BadgeCriterion(savedBadgeCriterion[0]);
   },
 };

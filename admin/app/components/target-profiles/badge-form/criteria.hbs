@@ -1,0 +1,45 @@
+<Card @title="Définir un ou plusieurs critères d'obtention">
+  <p>
+    Vous pouvez définir des critères de réussite du résultat thématique sur une liste de sujets ET/OU sur l’ensemble du
+    profil cible. Toutes les conditions devront être remplies pour obtenir le résultat thématique.
+  </p>
+  <div class="badge-form-criteria-choice">
+    <PixCheckbox
+      @id="hasCampaignCriterion"
+      @checked={{this.hasCampaignCriterion}}
+      {{on "change" this.onHasCampaignCriterionChange}}
+    >
+      Sur l'ensemble du profil cible
+    </PixCheckbox>
+    <PixCheckbox
+      @id="hasCappedTubesCriteria"
+      @checked={{this.hasCappedTubesCriteria}}
+      {{on "change" this.onHasCappedTubesCriteriaChange}}
+    >
+      Sur une sélection de sujets du profil cible
+    </PixCheckbox>
+  </div>
+  {{#if this.hasCampaignCriterion}}
+    <TargetProfiles::BadgeForm::CampaignCriterion @onThresholdChange={{this.onCampaignThresholdChange}} />
+  {{/if}}
+  {{#if this.hasCappedTubesCriteria}}
+    {{#each @badge.cappedTubesCriteria as |criterion index|}}
+      <TargetProfiles::BadgeForm::CappedTubesCriterion
+        @id={{concat "cappedTubeCriterion" index}}
+        @areas={{@areas}}
+        @onThresholdChange={{fn this.onCappedTubesThresholdChange criterion}}
+        @onTubesSelectionChange={{fn this.onCappedTubesSelectionChange criterion}}
+        @remove={{fn this.removeCappedTubeCriterion index}}
+      />
+    {{/each}}
+    <PixButton
+      class="badge-form-criterion__add"
+      @backgroundColor="blue"
+      @size="small"
+      @triggerAction={{this.addCappedTubeCriterion}}
+    >
+      <FaIcon @icon="plus" />
+      Ajouter une nouvelle sélection de sujets
+    </PixButton>
+  {{/if}}
+</Card>

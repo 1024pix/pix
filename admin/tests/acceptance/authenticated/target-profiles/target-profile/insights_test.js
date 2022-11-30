@@ -27,7 +27,11 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       hooks.beforeEach(async function () {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const targetProfile = this.server.create('target-profile', { id: 1, name: 'Profil cible du ghetto' });
+        const targetProfile = this.server.create('target-profile', {
+          id: 1,
+          name: 'Profil cible du ghetto',
+          isNewFormat: false,
+        });
         const badge1 = this.server.create('badge', { id: 100, title: 'My badge 1' });
         const badge2 = this.server.create('badge', { id: 200, title: 'My badge 2' });
         targetProfile.update({ badges: [badge1, badge2] });
@@ -83,7 +87,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
           await visit(`/target-profiles/1/badges/new`);
 
           // when
-          await fillByLabel('Nom du badge :', 'clé_du_badge');
+          await fillByLabel('Nom du résultat thématique :', 'clé_du_badge');
           await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage');
           await fillByLabel("Texte alternatif pour l'image :", 'texte alternatif à l‘image');
           await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'clé unique');

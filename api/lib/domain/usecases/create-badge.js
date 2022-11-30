@@ -9,15 +9,17 @@ module.exports = async function createBadge({
   targetProfileRepository,
   skillSetRepository,
 }) {
-  const { campaignThreshold, skillSetThreshold, skillSetName, skillSetSkillsIds, ...badge } = badgeCreation;
+  const { campaignThreshold, skillSetThreshold, cappedTubesCriteria, skillSetName, skillSetSkillsIds, ...badge } =
+    badgeCreation;
 
   return DomainTransaction.execute(async (domainTransaction) => {
     await targetProfileRepository.get(targetProfileId, domainTransaction);
     await badgeRepository.isKeyAvailable(badge.key, domainTransaction);
 
     const isCampaignThresholdValid = campaignThreshold || campaignThreshold === 0;
+    const hasCappedTubesCriteria = cappedTubesCriteria?.length > 0;
 
-    if (!isCampaignThresholdValid && !skillSetThreshold) {
+    if (!isCampaignThresholdValid && !skillSetThreshold && !hasCappedTubesCriteria) {
       throw new MissingBadgeCriterionError();
     }
 
@@ -63,6 +65,28 @@ module.exports = async function createBadge({
       );
     }
 
+    if (hasCappedTubesCriteria) {
+      const allCappedTubes = cappedTubesCriteria.flatMap(({ cappedTubes }) => cappedTubes);
+
+      await targetProfileRepository.hasTubesWithLevels(
+        { targetProfileId, tubesWithLevels: allCappedTubes },
+        domainTransaction
+      );
+
+      for (const criterion of cappedTubesCriteria) {
+        await badgeCriteriaRepository.save(
+          {
+            badgeCriterion: {
+              badgeId: savedBadge.id,
+              threshold: criterion.threshold,
+              scope: 'CappedTubes',
+              cappedTubes: criterion.cappedTubes,
+            },
+          },
+          domainTransaction
+        );
+      }
+    }
     return savedBadge;
   });
 };
