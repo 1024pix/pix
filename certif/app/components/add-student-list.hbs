@@ -46,7 +46,7 @@
                 <td>{{student.division}}</td>
                 <td>{{student.lastName}}</td>
                 <td>{{student.firstName}}</td>
-                <td class="add-student-list__column-birthdate">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+                <td class="add-student-list__column-birthdate">{{dayjs-format student.birthdate "DD/MM/YYYY"}}</td>
               </tr>
             {{else}}
               <tr class="add-student-list__row" {{on "click" (fn this.toggleItem student)}}>
@@ -56,7 +56,7 @@
                 <td>{{student.division}}</td>
                 <td>{{student.lastName}}</td>
                 <td>{{student.firstName}}</td>
-                <td class="add-student-list__column-birthdate">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+                <td class="add-student-list__column-birthdate">{{dayjs-format student.birthdate "DD/MM/YYYY"}}</td>
               </tr>
             {{/if}}
           {{/each}}

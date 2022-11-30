@@ -22,7 +22,7 @@
       {{/if}}
     </div>
     <div class="session-supervising-candidate-in-list__details">
-      {{moment-format @candidate.birthdate "DD/MM/YYYY"}}
+      {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}
       {{#if @candidate.extraTimePercentage}}
         ·
         {{t "pages.session-supervising.candidate-in-list.extra-time"}}

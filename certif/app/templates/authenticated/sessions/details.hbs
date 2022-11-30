@@ -12,14 +12,14 @@
       <div class="session-details-header-datetime__date">
         <h2 class="label-text session-details-content__label">Date</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
-          {{moment-format this.session.date "dddd DD MMM YYYY" allow-empty=true locale="fr"}}
+          {{dayjs-format this.session.date "dddd DD MMM YYYY" allow-empty=true locale="fr"}}
         </span>
       </div>
 
       <div>
         <h2 class="label-text session-details-content__label">Heure de début (heure locale)</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
-          {{moment-format this.session.time "HH:mm" "HH:mm:ss" allow-empty=true}}
+          {{dayjs-format this.session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
         </span>
       </div>
     </div>

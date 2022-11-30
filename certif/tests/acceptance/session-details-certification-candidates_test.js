@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import moment from 'moment';
 import { authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Session Details Certification Candidates', function (hooks) {
   setupApplicationTest(hooks);
@@ -53,7 +52,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
     test('it should redirect from candidates to session list on click on return button', async function (assert) {
       // when
-      const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+      const screen = await visit(`/sessions/${session.id}/candidats`);
       await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
 
       // then
@@ -118,18 +117,21 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
       test('it should display the list of certification candidates ', async function (assert) {
         // given
+        const dayjs = this.owner.lookup('service:dayjs');
         const aCandidate = candidates[0];
 
         // when
-        await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+        const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
         // then
-        assert.dom('table tbody tr').exists({ count: 3 });
-        assert.contains(`${aCandidate.lastName}`);
-        assert.contains(`${aCandidate.firstName}`);
-        assert.contains(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
-        assert.contains(`${aCandidate.resultRecipientEmail}`);
-        assert.contains(`${aCandidate.externalId}`);
+        assert.strictEqual(screen.getAllByRole('row').length, 4);
+        assert.dom(screen.getByRole('cell', { name: aCandidate.lastName })).exists();
+        assert.dom(screen.getByRole('cell', { name: aCandidate.firstName })).exists();
+        assert
+          .dom(screen.getByRole('cell', { name: dayjs.self(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY') }))
+          .exists();
+        assert.contains(aCandidate.resultRecipientEmail);
+        assert.dom(screen.getByRole('cell', { name: aCandidate.externalId })).exists();
       });
 
       module('when the details button is clicked', function () {
@@ -138,7 +140,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           const aCandidate = candidates[0];
 
           // when
-          const screen = await visitScreen(`/sessions/${sessionWithCandidates.id}/candidats`);
+          const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           await click(
             screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`)
           );
@@ -263,7 +265,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         server.create('country', []);
 
         // when
-        const screen = await visitScreen(`/sessions/${sessionWithoutCandidates.id}/candidats`);
+        const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
         await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
 
         // then
@@ -291,7 +293,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           );
 
           // when
-          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+          const screen = await visit(`/sessions/${session.id}/candidats`);
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
           await _fillFormWithCorrectData(screen);
           await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
@@ -308,7 +310,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           test('it should display a success notification', async function (assert) {
             // when
-            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            const screen = await visit(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
@@ -319,7 +321,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           test('it should add a new candidate', async function (assert) {
             // when
-            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            const screen = await visit(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
@@ -333,7 +335,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // given
               allowedCertificationCenterAccess.update({ type: 'SUP' });
 
-              const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+              const screen = await visit(`/sessions/${session.id}/candidats`);
               await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
               await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
               await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');

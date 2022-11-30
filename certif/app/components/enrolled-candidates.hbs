@@ -72,7 +72,7 @@
             <tr>
               <td>{{candidate.lastName}}</td>
               <td>{{candidate.firstName}}</td>
-              <td>{{moment-format candidate.birthdate "DD/MM/YYYY"}}</td>
+              <td>{{dayjs-format candidate.birthdate "DD/MM/YYYY"}}</td>
               {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
                 <td>{{candidate.birthCity}}</td>
                 <td>{{candidate.birthCountry}}</td>

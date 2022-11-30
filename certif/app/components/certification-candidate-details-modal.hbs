@@ -22,7 +22,7 @@
         <span class="certification-candidate-details-modal__row__label">Date de naissance</span>
         {{#if @candidate.birthdate}}
           <span class="certification-candidate-details-modal__row__value">
-            {{moment-format @candidate.birthdate "DD/MM/YYYY"}}
+            {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}
           </span>
         {{else}}
           <span class="certification-candidate-details-modal__row__value">
