@@ -3,6 +3,12 @@ const Joi = require('joi').extend(require('@joi/date'));
 const { EntityValidationError } = require('../errors');
 
 const ABORT_REASONS = ['candidate', 'technical'];
+const cpfImportStatus = {
+  ERROR: 'ERROR',
+  READY_TO_SEND: 'READY_TO_SEND',
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+};
 
 class CertificationCourse {
   constructor({
@@ -249,5 +255,7 @@ function _sanitizedString(string) {
 
   return withUnifiedWithSpaces;
 }
+
+CertificationCourse.cpfImportStatus = cpfImportStatus;
 
 module.exports = CertificationCourse;

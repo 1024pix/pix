@@ -1,5 +1,6 @@
 const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
+const { cpfImportStatus } = require('../../../../../../lib/domain/models/CertificationCourse');
 const { PassThrough, Readable } = require('stream');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
@@ -72,6 +73,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
         certificationCourseIds: [12, 20, 33, 98, 114],
         filename: 'pix-cpf-export-20220101-114327.xml.gz',
+        cpfImportStatus: cpfImportStatus.READY_TO_SEND,
       });
 
       expect(loggerSpy).to.not.have.been.called;
