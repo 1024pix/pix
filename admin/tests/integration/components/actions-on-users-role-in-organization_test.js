@@ -52,11 +52,14 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
       this.owner.register('service:access-control', AccessControlStub);
 
       const store = this.owner.lookup('service:store');
+
       const organizationMembership = store.createRecord('organizationMembership', {
         role: 'ADMIN',
-        save: sinon.stub(),
         reload: sinon.stub(),
       });
+
+      sinon.stub(organizationMembership, 'save').resolves();
+
       this.set('organizationMembership', organizationMembership);
 
       const notificationSuccessStub = sinon.stub();
