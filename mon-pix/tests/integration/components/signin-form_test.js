@@ -130,13 +130,40 @@ module('Integration | Component | signin form', function (hooks) {
               htmlSafe: true,
             });
             class sessionService extends Service {
-              authenticateUser = sinon.stub().rejects({ status: 403 });
+              authenticateUser = sinon
+                .stub()
+                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_HAS_BEEN_TEMPORARY_BLOCKED' }] } });
             }
             this.owner.register('service:session', sessionService);
             await render(hbs`<SigninForm />`);
 
             // when
             await fillIn('input#login', 'user.temporary-blocked@example.net');
+            await fillIn('input#password', 'password');
+            await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+
+            // then
+            assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
+          });
+        });
+
+        module('when is user blocked', function () {
+          test('displays a specific error', async function (assert) {
+            // given
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_BLOCKED.MESSAGE, {
+              url: 'https://support.pix.org/support/tickets/new',
+              htmlSafe: true,
+            });
+            class sessionService extends Service {
+              authenticateUser = sinon
+                .stub()
+                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_HAS_BEEN_BLOCKED' }] } });
+            }
+            this.owner.register('service:session', sessionService);
+            await render(hbs`<SigninForm />`);
+
+            // when
+            await fillIn('input#login', 'user.blocked@example.net');
             await fillIn('input#password', 'password');
             await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
