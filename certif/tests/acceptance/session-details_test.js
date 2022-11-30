@@ -95,7 +95,7 @@ module('Acceptance | Session Details', function (hooks) {
         server.create('session', {
           id: 123,
           date: '2019-02-18',
-          time: '14:00',
+          time: '14:00:00',
           address: '123 rue des peupliers',
           room: 'Salle 101',
           examiner: 'Winston',
@@ -106,13 +106,13 @@ module('Acceptance | Session Details', function (hooks) {
         const screen = await visit('/sessions/123');
 
         // then
-        assert.dom('.session-details-header__title h1').hasText('Session 123');
+        assert.dom(screen.getByRole('heading', { name: 'Session 123' })).exists();
         assert.dom(screen.getByText('123 rue des peupliers')).exists();
         assert.dom(screen.getByText('Salle 101')).exists();
         assert.dom(screen.getByText('Winston')).exists();
         assert.dom(screen.getByText('ABC123')).exists();
-        assert.dom('.session-details-header-datetime__date .content-text').hasText('lundi 18 févr. 2019');
-        assert.contains('14:00');
+        assert.dom(screen.getByText('lundi 18 févr. 2019')).exists();
+        assert.dom(screen.getByText('14:00')).exists();
       });
 
       test('it should show issue report sheet download button', async function (assert) {

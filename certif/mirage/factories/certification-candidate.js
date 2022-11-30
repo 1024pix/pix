@@ -1,6 +1,6 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default Factory.extend({
   firstName() {
@@ -12,7 +12,7 @@ export default Factory.extend({
   },
 
   birthdate() {
-    return moment(faker.date.past(30)).format('YYYY-MM-DD');
+    return dayjs(faker.date.past(30)).format('YYYY-MM-DD');
   },
 
   birthCity() {

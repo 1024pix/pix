@@ -6,7 +6,7 @@ export default class ApplicationRoute extends Route {
   @service featureToggles;
   @service intl;
   @service currentDomain;
-  @service moment;
+  @service dayjs;
 
   async beforeModel(transition) {
     await this.featureToggles.load();
@@ -25,7 +25,7 @@ export default class ApplicationRoute extends Route {
     const domainFr = 'fr';
 
     if (domain === domainFr) {
-      this._setLocale('fr-fr');
+      this._setLocale(domainFr);
       return;
     }
 
@@ -39,6 +39,7 @@ export default class ApplicationRoute extends Route {
   _setLocale(locale) {
     const defaultLocale = 'fr';
     this.intl.setLocale([locale, defaultLocale]);
-    this.moment.setLocale(locale);
+    this.dayjs.setLocale(locale);
+    this.dayjs.self.locale(locale);
   }
 }

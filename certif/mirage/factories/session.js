@@ -1,6 +1,6 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { CREATED } from 'pix-certif/models/session';
 
 export default Factory.extend({
@@ -13,7 +13,7 @@ export default Factory.extend({
   },
 
   date() {
-    return moment(faker.date.recent()).format('YYYY-MM-DD');
+    return dayjs(faker.date.recent()).format('YYYY-MM-DD');
   },
 
   description() {
