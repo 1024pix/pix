@@ -54,7 +54,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "dayjs": "^1.11.6",
     "ember-api-actions": "^0.2.9",
-    "ember-auto-import": "^1.12.2",
+    "ember-auto-import": "^2.4.3",
     "ember-cli": "^4.6.0",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.26.11",
@@ -105,6 +105,7 @@
     "sass": "^1.56.1",
     "sinon": "^14.0.2",
     "stylelint": "^14.15.0",
-    "stylelint-config-standard": "^29.0.0"
+    "stylelint-config-standard": "^29.0.0",
+    "webpack": "^5.75.0"
   }
 }
