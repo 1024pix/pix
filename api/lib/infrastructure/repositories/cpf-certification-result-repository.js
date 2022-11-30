@@ -33,12 +33,28 @@ module.exports = {
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
-  async markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
-    return knex('certification-courses').update({ cpfFilename: filename }).whereIn('id', certificationCourseIds);
+  async markCertificationCoursesAsExported({ certificationCourseIds, filename, cpfImportStatus }) {
+    const now = new Date();
+
+    return knex('certification-courses')
+      .update({ cpfFilename: filename, cpfImportStatus, updatedAt: now })
+      .whereIn('id', certificationCourseIds);
   },
 
-  async markCertificationToExport({ certificationCourseIds, batchId }) {
-    return knex('certification-courses').update({ cpfFilename: batchId }).whereIn('id', certificationCourseIds);
+  async markCertificationToExport({ certificationCourseIds, batchId, cpfImportStatus }) {
+    const now = new Date();
+
+    return knex('certification-courses')
+      .update({ cpfFilename: batchId, cpfImportStatus, updatedAt: now })
+      .whereIn('id', certificationCourseIds);
+  },
+
+  async updateCertificationImportStatus({ certificationCourseIds, cpfImportStatus }) {
+    const now = new Date();
+
+    return knex('certification-courses')
+      .update({ cpfImportStatus, updatedAt: now })
+      .whereIn('id', certificationCourseIds);
   },
 };
 
