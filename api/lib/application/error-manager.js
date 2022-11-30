@@ -84,6 +84,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserIsTemporaryBlocked) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
+  if (error instanceof DomainErrors.UserIsBlocked) {
+    return new HttpErrors.ForbiddenError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.AccountRecoveryUserAlreadyConfirmEmail) {
     return new HttpErrors.ConflictError(error.message);
   }

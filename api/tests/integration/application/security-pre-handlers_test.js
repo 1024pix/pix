@@ -316,5 +316,28 @@ describe('Integration | Application | SecurityPreHandlers', function () {
         expect(statusCode).to.equal(200);
       });
     });
+
+    describe('when user is blocked', function () {
+      it('returns 403', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({ username: 'natsu123' }).id;
+        await databaseBuilder.factory.buildUserLogin({
+          userId,
+          blockedAt: new Date(),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await httpServerTest.requestObject({
+          method: 'POST',
+          url: '/api/token',
+          payload: { username: 'natsu123', grant_type: 'password' },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.errors[0].code).to.equal('USER_HAS_BEEN_BLOCKED');
+      });
+    });
   });
 });

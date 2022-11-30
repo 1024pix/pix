@@ -26,18 +26,31 @@ class UserLogin {
     this.temporaryBlockedUntil = null;
   }
 
-  blockUserTemporarilyWhenFailureCountThresholdReached() {
-    const isThresholdReached = this.failureCount % settings.userLogins.thresholdFailureCount === 0;
-    if (isThresholdReached) {
-      const rest = this.failureCount / settings.userLogins.thresholdFailureCount;
-      this.temporaryBlockedUntil = dayjs()
-        .add(Math.pow(settings.userLogins.temporaryBlockedTime, rest), 'minute')
-        .toDate();
-    }
+  shouldBlockUserTemporarily() {
+    return this.failureCount % settings.userLogins.thresholdFailureCount === 0;
+  }
+
+  blockUserTemporarily() {
+    const rest = this.failureCount / settings.userLogins.thresholdFailureCount;
+    this.temporaryBlockedUntil = dayjs()
+      .add(Math.pow(settings.userLogins.temporaryBlockedTime, rest), 'minute')
+      .toDate();
   }
 
   hasBeenTemporaryBlocked() {
     return this.failureCount > 0 || !!this.temporaryBlockedUntil;
+  }
+
+  shouldBlockUser() {
+    return this.failureCount >= settings.userLogins.limitFailureCount;
+  }
+
+  blockUser() {
+    this.blockedAt = new Date();
+  }
+
+  isUserBlocked() {
+    return !!this.blockedAt || this.failureCount >= settings.userLogins.limitFailureCount;
   }
 }
 

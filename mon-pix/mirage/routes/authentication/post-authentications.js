@@ -12,6 +12,10 @@ function parseQueryString(queryString) {
 export default function (schema, request) {
   const queryParams = parseQueryString(request.requestBody);
 
+  if (queryParams.username === 'user.blocked@example.net') {
+    return new Response(403, {}, 'USER_HAS_BEEN_BLOCKED');
+  }
+
   if (queryParams.username == 'user.temporary-blocked@example.net') {
     return new Response(403, {}, 'USER_HAS_BEEN_TEMPORARY_BLOCKED');
   }

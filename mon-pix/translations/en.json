@@ -26,6 +26,7 @@
     },
     "login-unauthorized-error": "There was an error in the email address or username/password entered.",
     "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or <a href=\"{ url }\">reset your password here</a>.",
+    "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please <a href=\"{ url }\">contact us</a> to unblock it.",
     "register-error": {
       "s51": "{ value }",
       "s52": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S52)",

@@ -944,6 +944,12 @@ class UserIsTemporaryBlocked extends DomainError {
   }
 }
 
+class UserIsBlocked extends DomainError {
+  constructor(message = 'User has been blocked.', code = 'USER_HAS_BEEN_BLOCKED') {
+    super(message, code);
+  }
+}
+
 class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -1367,6 +1373,7 @@ module.exports = {
   UserCouldNotBeReconciledError,
   UserHasAlreadyLeftSCO,
   UserIsTemporaryBlocked,
+  UserIsBlocked,
   UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
