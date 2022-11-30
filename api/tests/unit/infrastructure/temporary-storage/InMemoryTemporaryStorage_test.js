@@ -109,15 +109,15 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       // given
       const keyWithTtl = inMemoryTemporaryStorage.save({
         value: {},
-        expirationDelaySeconds: 0.2,
+        expirationDelaySeconds: 1,
       });
       const keyWithoutTtl = inMemoryTemporaryStorage.save({ value: {} });
 
       // when
-      await new Promise((resolve) => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       inMemoryTemporaryStorage.update(keyWithTtl, {});
       inMemoryTemporaryStorage.update(keyWithoutTtl, {});
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       // then
       expect(inMemoryTemporaryStorage.get(keyWithTtl)).to.be.undefined;
