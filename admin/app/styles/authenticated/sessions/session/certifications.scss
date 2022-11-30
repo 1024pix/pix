@@ -5,7 +5,7 @@
     justify-content: space-between;
     margin-bottom: 20px;
   }
-
+  /* stylelint-disable selector-class-pattern */
   td.certification-list-page__cell--important,
   span.certification-list-page__cell--important {
     color: $pix-information-dark;

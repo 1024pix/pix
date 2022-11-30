@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 .certification-center-information {
 
   h1 {
@@ -53,7 +54,7 @@
       align-self: center;
     }
 
-    input[type=checkbox] {
+    input[type="checkbox"] {
       width: 1rem;
       height: 1rem;
     }
@@ -87,7 +88,7 @@
         align-self: center;
       }
 
-      input[type=checkbox] {
+      input[type="checkbox"] {
         width: 1rem;
         height: 1rem;
       }

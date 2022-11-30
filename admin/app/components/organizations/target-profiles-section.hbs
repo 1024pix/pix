@@ -34,9 +34,9 @@
         {{#if @organization.targetProfileSummaries}}
           <tbody>
             {{#each @organization.sortedTargetProfileSummaries as |summary|}}
+              {{! template-lint-disable no-invalid-interactive }}
               <tr
                 aria-label="Profil cible"
-                role="button"
                 {{on "click" (fn this.goToTargetProfilePage summary.id)}}
                 class="tr--clickable"
               >

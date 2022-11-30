@@ -40,7 +40,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
 
     // when
     const screen = await render(
-      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`
     );
 
     // then
@@ -61,7 +61,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
 
     // when
     const screen = await render(
-      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`
     );
 
     // then
@@ -87,7 +87,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
 
       // when
       const screen = await render(
-        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`
       );
 
       // then
@@ -111,7 +111,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       };
       this.toBePublishedSessions = [session];
       const screen = await render(
-        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`
       );
 
       // when
@@ -138,7 +138,10 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       this.toBePublishedSessions = [session];
       this.publishSession = sinon.stub();
       const screen = await render(
-        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} @publishSession={{this.publishSession}}/>`
+        hbs`<ToBePublishedSessions::ListItems
+  @toBePublishedSessions={{this.toBePublishedSessions}}
+  @publishSession={{this.publishSession}}
+/>`
       );
       await clickByName('Publier la session numéro 1');
 

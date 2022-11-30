@@ -34,11 +34,12 @@ module('Integration | Component | organization-team-section', function (hooks) {
 
     // when
     const screen = await render(hbs`<Organizations::TeamSection
-      @organizationMemberships={{this.organizationMemberships}}
-      @addOrganizationMembership={{this.noop}}
-      @createOrganizationInvitation={{this.noop}}
-      @triggerFiltering={{this.noop}}
-      @selectRoleForSearch={{this.noop}}/>`);
+  @organizationMemberships={{this.organizationMemberships}}
+  @addOrganizationMembership={{this.noop}}
+  @createOrganizationInvitation={{this.noop}}
+  @triggerFiltering={{this.noop}}
+  @selectRoleForSearch={{this.noop}}
+/>`);
 
     // then
     assert.strictEqual(screen.getAllByLabelText('Membre').length, 2);

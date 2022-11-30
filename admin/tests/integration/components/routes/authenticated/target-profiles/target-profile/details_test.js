@@ -11,7 +11,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     this.areas = [];
 
     // when
-    const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}}/>`);
+    const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}} />`);
 
     // then
     assert.dom(screen.getByText('Profil cible vide.')).exists();

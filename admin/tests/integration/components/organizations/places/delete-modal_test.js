@@ -58,11 +58,11 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
 
       // when
       const screen = await render(hbs`<Organizations::Places::DeleteModal
-        @organizationId={{this.organizationId}}
-        @organizationPlacesLot={{this.places}}
-        @show={{this.showDisplayModal}}
-        @toggle={{this.toggleDisplayModal}}
-        />`);
+  @organizationId={{this.organizationId}}
+  @organizationPlacesLot={{this.places}}
+  @show={{this.showDisplayModal}}
+  @toggle={{this.toggleDisplayModal}}
+/>`);
 
       // then
       assert.dom(screen.getByText('Supprimer un lot de place')).exists();
@@ -80,11 +80,11 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
 
       // when
       await render(hbs`<Organizations::Places::DeleteModal
-        @organizationId={{this.organizationId}}
-        @organizationPlacesLot={{this.places}}
-        @show={{this.showDisplayModal}}
-        @toggle={{this.toggleDisplayModal}}
-        />`);
+  @organizationId={{this.organizationId}}
+  @organizationPlacesLot={{this.places}}
+  @show={{this.showDisplayModal}}
+  @toggle={{this.toggleDisplayModal}}
+/>`);
       await clickByText('Annuler');
 
       // then
@@ -102,12 +102,12 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
 
       // when
       await render(hbs`<Organizations::Places::DeleteModal
-        @organizationId={{this.organizationId}}
-        @organizationPlacesLot={{this.places}}
-        @show={{this.showDisplayModal}}
-        @toggle={{this.toggleDisplayModal}}
-        @refreshModel={{this.refreshModel}}
-        />`);
+  @organizationId={{this.organizationId}}
+  @organizationPlacesLot={{this.places}}
+  @show={{this.showDisplayModal}}
+  @toggle={{this.toggleDisplayModal}}
+  @refreshModel={{this.refreshModel}}
+/>`);
       await clickByText('Confirmer');
 
       // then
@@ -138,11 +138,11 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
 
       // when
       await render(hbs`<Organizations::Places::DeleteModal
-        @organizationId={{this.organizationId}}
-        @organizationPlacesLot={{this.places}}
-        @show={{this.showDisplayModal}}
-        @toggle={{this.toggleDisplayModal}}
-        />`);
+  @organizationId={{this.organizationId}}
+  @organizationPlacesLot={{this.places}}
+  @show={{this.showDisplayModal}}
+  @toggle={{this.toggleDisplayModal}}
+/>`);
       await clickByText('Confirmer');
 
       // then

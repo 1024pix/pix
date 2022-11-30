@@ -16,10 +16,11 @@ module('Integration | Component | organization-team-actions-section', function (
 
     // when
     await render(hbs`<Organizations::TeamActionsSection
-      @addOrganizationMembership={{this.addOrganizationMembership}}
-      @createOrganizationInvitation={{this.noop}}
-      @triggerFiltering={{this.noop}}
-      @onChangeUserEmailToAdd={{this.noop}} />`);
+  @addOrganizationMembership={{this.addOrganizationMembership}}
+  @createOrganizationInvitation={{this.noop}}
+  @triggerFiltering={{this.noop}}
+  @onChangeUserEmailToAdd={{this.noop}}
+/>`);
 
     await fillByLabel('Ajouter un membre', 'user@example.net');
     await clickByName('Ajouter un membre');
