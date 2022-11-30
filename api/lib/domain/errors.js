@@ -939,13 +939,13 @@ class UserHasAlreadyLeftSCO extends DomainError {
 }
 
 class UserIsTemporaryBlocked extends DomainError {
-  constructor(message = 'User has been temporary blocked.', code = 'USER_HAS_BEEN_TEMPORARY_BLOCKED') {
+  constructor(message = 'User has been temporary blocked.', code = 'USER_IS_TEMPORARY_BLOCKED') {
     super(message, code);
   }
 }
 
 class UserIsBlocked extends DomainError {
-  constructor(message = 'User has been blocked.', code = 'USER_HAS_BEEN_BLOCKED') {
+  constructor(message = 'User has been blocked.', code = 'USER_IS_BLOCKED') {
     super(message, code);
   }
 }

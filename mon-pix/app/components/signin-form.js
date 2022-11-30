@@ -50,13 +50,13 @@ export default class SigninForm extends Component {
     let httpStatusCodeMessages;
 
     switch (errorCode) {
-      case 'USER_HAS_BEEN_TEMPORARY_BLOCKED':
-        return this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_HAS_BEEN_TEMPORARY_BLOCKED.MESSAGE, {
+      case 'USER_IS_TEMPORARY_BLOCKED':
+        return this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.MESSAGE, {
           url: '/mot-de-passe-oublie',
           htmlSafe: true,
         });
-      case 'USER_HAS_BEEN_BLOCKED':
-        return this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_HAS_BEEN_BLOCKED.MESSAGE, {
+      case 'USER_IS_BLOCKED':
+        return this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.MESSAGE, {
           url: 'https://support.pix.org/support/tickets/new',
           htmlSafe: true,
         });
