@@ -147,14 +147,16 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
 
       context('When username exists and password does not match', function () {
         context('When user failed to login for the first time', function () {
-          it('should throw passwordNotMatching error and create an user logins', async function () {
+          it('throws passwordNotMatching error, increment user failure count and create an user logins', async function () {
             // given
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
-            const incrementFailureCountStub = sinon.stub();
             const userLoginCreated = {
-              incrementFailureCount: incrementFailureCountStub,
-              blockUserTemporarilyWhenFailureCountThresholdReached: sinon.stub(),
+              incrementFailureCount: sinon.stub(),
+              shouldBlockUserTemporarily: sinon.stub().returns(false),
+              blockUserTemporarily: sinon.stub(),
+              shouldBlockUser: sinon.stub().returns(false),
+              blockUser: sinon.stub(),
             };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(null);
             userLoginRepository.create.resolves(userLoginCreated);
@@ -168,23 +170,25 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
 
             // then
             expect(userLoginRepository.create).to.have.been.calledWith({ userId: user.id });
-            expect(incrementFailureCountStub).to.have.been.calledOnce;
+            expect(userLoginCreated.incrementFailureCount).to.have.been.calledOnce;
+            expect(userLoginCreated.blockUserTemporarily).to.not.have.been.called;
+            expect(userLoginCreated.blockUser).to.not.have.been.called;
             expect(userLoginRepository.update).to.have.been.calledWith(userLoginCreated);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
           });
         });
 
         context('When user failed to login multiple times', function () {
-          it('should throw passwordNotMatching error and update the user logins', async function () {
+          it('throws passwordNotMatching error, block temporarily the user and update the user logins', async function () {
             // given
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
-            const incrementFailureCountStub = sinon.stub();
-            const blockUserTemporarilyWhenFailureCountThresholdReachedStub = sinon.stub();
             const userLogin = {
-              incrementFailureCount: incrementFailureCountStub,
-              blockUserTemporarilyWhenFailureCountThresholdReached:
-                blockUserTemporarilyWhenFailureCountThresholdReachedStub,
+              incrementFailureCount: sinon.stub(),
+              shouldBlockUserTemporarily: sinon.stub().returns(true),
+              blockUserTemporarily: sinon.stub(),
+              shouldBlockUser: sinon.stub().returns(false),
+              blockUser: sinon.stub(),
             };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
 
@@ -197,10 +201,42 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
 
             // then
             expect(userLoginRepository.create).to.not.have.been.called;
-            expect(incrementFailureCountStub).to.have.been.calledOnce;
-            expect(blockUserTemporarilyWhenFailureCountThresholdReachedStub).to.have.been.calledOnce;
+            expect(userLogin.incrementFailureCount).to.have.been.calledOnce;
+            expect(userLogin.blockUserTemporarily).to.have.been.calledOnce;
+            expect(userLogin.blockUser).to.not.have.been.called;
             expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
+          });
+        });
+
+        context('When user failure count reaches limit', function () {
+          it('throws passwordNotMatching error, block the user and update the user logins', async function () {
+            // given
+            userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
+            encryptionService.checkPassword.rejects(new PasswordNotMatching());
+            const userLogin = {
+              incrementFailureCount: sinon.stub(),
+              shouldBlockUserTemporarily: sinon.stub().returns(false),
+              blockUserTemporarily: sinon.stub(),
+              shouldBlockUser: sinon.stub().returns(true),
+              blockUser: sinon.stub(),
+            };
+            userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
+
+            // when
+            const error = await catchErr(pixAuthenticationService.getUserByUsernameAndPassword)({
+              username,
+              password,
+              userRepository,
+            });
+
+            // then
+            expect(userLoginRepository.create).to.not.have.been.called;
+            expect(error).to.be.an.instanceof(PasswordNotMatching);
+            expect(userLogin.incrementFailureCount).to.have.been.calledOnce;
+            expect(userLogin.blockUser).to.have.been.calledOnce;
+            expect(userLogin.blockUserTemporarily).to.not.have.been.called;
+            expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
           });
         });
       });

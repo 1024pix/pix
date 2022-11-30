@@ -15,9 +15,7 @@ const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 module('Integration | Component | signin form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('Rendering', async function () {
+  module('Rendering', function () {
     test('should display an input for identifiant field', async function (assert) {
       // when
       await render(hbs`<SigninForm />`);
@@ -124,25 +122,54 @@ module('Integration | Component | signin form', function (hooks) {
       });
 
       module('blocking', function () {
-        test('displays a specific error when is user is temporary blocked', async function (assert) {
-          // given
-          const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_TEMPORARY_BLOCKED.MESSAGE, {
-            url: '/mot-de-passe-oublie',
-            htmlSafe: true,
+        module('when is user is temporary blocked', function () {
+          test('displays a specific error', async function (assert) {
+            // given
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_TEMPORARY_BLOCKED.MESSAGE, {
+              url: '/mot-de-passe-oublie',
+              htmlSafe: true,
+            });
+            class sessionService extends Service {
+              authenticateUser = sinon
+                .stub()
+                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_HAS_BEEN_TEMPORARY_BLOCKED' }] } });
+            }
+            this.owner.register('service:session', sessionService);
+            await render(hbs`<SigninForm />`);
+
+            // when
+            await fillIn('input#login', 'user.temporary-blocked@example.net');
+            await fillIn('input#password', 'password');
+            await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+
+            // then
+            assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
           });
-          class sessionService extends Service {
-            authenticateUser = sinon.stub().rejects({ status: 403 });
-          }
-          this.owner.register('service:session', sessionService);
-          await render(hbs`<SigninForm />`);
+        });
 
-          // when
-          await fillIn('input#login', 'user.temporary-blocked@example.net');
-          await fillIn('input#password', 'password');
-          await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+        module('when is user blocked', function () {
+          test('displays a specific error', async function (assert) {
+            // given
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_HAS_BEEN_BLOCKED.MESSAGE, {
+              url: 'https://support.pix.org/support/tickets/new',
+              htmlSafe: true,
+            });
+            class sessionService extends Service {
+              authenticateUser = sinon
+                .stub()
+                .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_HAS_BEEN_BLOCKED' }] } });
+            }
+            this.owner.register('service:session', sessionService);
+            await render(hbs`<SigninForm />`);
 
-          // then
-          assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
+            // when
+            await fillIn('input#login', 'user.blocked@example.net');
+            await fillIn('input#password', 'password');
+            await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+
+            // then
+            assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
+          });
         });
       });
     });
