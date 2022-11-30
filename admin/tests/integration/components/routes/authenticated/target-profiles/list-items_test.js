@@ -16,7 +16,10 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
   test('it should display header with name, id and status', async function (assert) {
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
+      hbs`<TargetProfiles::ListSummaryItems
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToTargetProfilePage={{this.goToTargetProfilePage}}
+/>`
     );
 
     // then
@@ -28,7 +31,10 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
   test('it should display search inputs', async function (assert) {
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
+      hbs`<TargetProfiles::ListSummaryItems
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToTargetProfilePage={{this.goToTargetProfilePage}}
+/>`
     );
 
     // then
@@ -46,7 +52,11 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}} />`
+      hbs`<TargetProfiles::ListSummaryItems
+  @summaries={{this.summaries}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToTargetProfilePage={{this.goToTargetProfilePage}}
+/>`
     );
 
     // then
@@ -63,7 +73,11 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
+      hbs`<TargetProfiles::ListSummaryItems
+  @summaries={{this.summaries}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToTargetProfilePage={{this.goToTargetProfilePage}}
+/>`
     );
 
     // then
@@ -81,7 +95,11 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
+      hbs`<TargetProfiles::ListSummaryItems
+  @summaries={{this.summaries}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToTargetProfilePage={{this.goToTargetProfilePage}}
+/>`
     );
 
     // then
@@ -98,7 +116,11 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
+      hbs`<TargetProfiles::ListSummaryItems
+  @summaries={{this.summaries}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToTargetProfilePage={{this.goToTargetProfilePage}}
+/>`
     );
 
     // then

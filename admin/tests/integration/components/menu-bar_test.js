@@ -13,7 +13,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
 
     // when
-    const screen = await render(hbs`{{menu-bar}}`);
+    const screen = await render(hbs`<MenuBar />`);
 
     // then
     assert.dom(screen.getByRole('navigation', { name: 'Navigation principale' })).exists();
@@ -25,7 +25,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
 
     // when
-    const screen = await render(hbs`{{menu-bar}}`);
+    const screen = await render(hbs`<MenuBar />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Organisations' })).exists();
@@ -39,7 +39,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         currentUser.adminMember = { isSuperAdmin: true };
 
         // when
-        const screen = await render(hbs`{{menu-bar}}`);
+        const screen = await render(hbs`<MenuBar />`);
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Profils cibles' })).exists();
@@ -53,7 +53,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         currentUser.adminMember = { isCertif: true };
 
         // when
-        const screen = await render(hbs`{{menu-bar}}`);
+        const screen = await render(hbs`<MenuBar />`);
 
         // then
         assert.dom(screen.queryByRole('link', { name: 'Profils cibles' })).doesNotExist();
@@ -98,7 +98,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       currentUser.adminMember = { isSuperAdmin: true };
 
       // when
-      const screen = await render(hbs`{{menu-bar}}`);
+      const screen = await render(hbs`<MenuBar />`);
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Équipe' })).exists();
@@ -110,7 +110,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       currentUser.adminMember = { isSuperAdmin: false };
 
       // when
-      const screen = await render(hbs`{{menu-bar}}`);
+      const screen = await render(hbs`<MenuBar />`);
 
       // then
       assert.dom(screen.queryByRole('link', { name: 'Équipe' })).doesNotExist();
@@ -123,7 +123,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
 
     // when
-    const screen = await render(hbs`{{menu-bar}}`);
+    const screen = await render(hbs`<MenuBar />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Utilisateurs' })).exists();
@@ -135,7 +135,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
 
     // when
-    const screen = await render(hbs`{{menu-bar}}`);
+    const screen = await render(hbs`<MenuBar />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).exists();
@@ -150,7 +150,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       this.owner.register('service:accessControl', AccessControlStub);
 
       // when
-      const screen = await render(hbs`{{menu-bar}}`);
+      const screen = await render(hbs`<MenuBar />`);
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Certifications' })).exists();
@@ -164,7 +164,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       this.owner.register('service:accessControl', AccessControlStub);
 
       // when
-      const screen = await render(hbs`{{menu-bar}}`);
+      const screen = await render(hbs`<MenuBar />`);
 
       // then
       assert.dom(screen.queryByRole('link', { name: 'Certifications' })).doesNotExist();
@@ -177,7 +177,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
 
     // when
-    const screen = await render(hbs`{{menu-bar}}`);
+    const screen = await render(hbs`<MenuBar />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Centres de certification' })).exists();
@@ -191,7 +191,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         currentUser.adminMember = { isSuperAdmin: true };
 
         // when
-        const screen = await render(hbs`{{menu-bar}}`);
+        const screen = await render(hbs`<MenuBar />`);
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Outils' })).exists();
@@ -205,7 +205,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         currentUser.adminMember = { isSuperAdmin: false };
 
         // when
-        const screen = await render(hbs`{{menu-bar}}`);
+        const screen = await render(hbs`<MenuBar />`);
 
         // then
         assert.dom(screen.queryByRole('link', { name: 'Outils' })).doesNotExist();
@@ -219,7 +219,7 @@ module('Integration | Component | menu-bar', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
 
     // when
-    const screen = await render(hbs`{{menu-bar}}`);
+    const screen = await render(hbs`<MenuBar />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Se déconnecter' })).exists();

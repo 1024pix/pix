@@ -22,7 +22,7 @@ module('Integration | Component | Organizations | Places | Capacity', function (
       this.set('placesCapacity', placesCapacity);
 
       // when
-      const screen = await render(hbs`<Organizations::Places::Capacity @placesCapacity={{this.placesCapacity}}/>`);
+      const screen = await render(hbs`<Organizations::Places::Capacity @placesCapacity={{this.placesCapacity}} />`);
 
       // then
       assert.dom(screen.queryByText('7777')).exists();

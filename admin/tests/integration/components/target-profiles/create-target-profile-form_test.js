@@ -40,10 +40,11 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   test('it should display the items', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.targetProfile}}
-      @frameworks={{this.frameworks}}
-      @onSubmit={{this.onSubmit}}
-      @onCancel={{this.onCancel}}/>`);
+  @targetProfile={{this.targetProfile}}
+  @frameworks={{this.frameworks}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`);
 
     // then
     assert.dom(screen.getByLabelText('Nom (obligatoire) :')).exists();
@@ -58,11 +59,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   test('it should call onSubmit when form is valid', async function (assert) {
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.targetProfile}}
-      @frameworks={{this.frameworks}}
-      @refreshAreas={{this.refreshAreas}}
-      @onSubmit={{this.onSubmit}}
-      @onCancel={{this.onCancel}}/>`);
+  @targetProfile={{this.targetProfile}}
+  @frameworks={{this.frameworks}}
+  @refreshAreas={{this.refreshAreas}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`);
 
     await triggerEvent('form', 'submit');
 
@@ -73,11 +75,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.targetProfile}}
-      @frameworks={{this.frameworks}}
-      @refreshAreas={{this.refreshAreas}}
-      @onSubmit={{this.onSubmit}}
-      @onCancel={{this.onCancel}}/>`);
+  @targetProfile={{this.targetProfile}}
+  @frameworks={{this.frameworks}}
+  @refreshAreas={{this.refreshAreas}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`);
 
     await clickByName('Annuler');
 

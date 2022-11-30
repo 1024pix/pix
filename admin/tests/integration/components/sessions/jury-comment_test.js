@@ -24,13 +24,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         this.comment = null;
 
         // when
-        const screen = await render(hbs`
-        <Sessions::JuryComment
-          @author={{this.author}}
-          @date={{this.date}}
-          @comment={{this.comment}}
-        />
-      `);
+        const screen = await render(
+          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+        );
 
         // then
         assert.dom(screen.queryByRole('textbox', { name: 'Texte du commentaire' })).doesNotExist();
@@ -51,13 +47,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         this.comment = null;
 
         // when
-        const screen = await render(hbs`
-        <Sessions::JuryComment
-          @author={{this.author}}
-          @date={{this.date}}
-          @comment={{this.comment}}
-        />
-      `);
+        const screen = await render(
+          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+        );
 
         // then
         assert.dom(screen.getByText("Commentaire de l'équipe Certification")).exists();
@@ -84,14 +76,12 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             });
 
             // when
-            const screen = await render(hbs`
-          <Sessions::JuryComment
-              @author={{this.author}}
-              @date={{this.date}}
-              @comment={{this.comment}}
-              @onFormSubmit={{this.onFormSubmit}}
-            />
-          `);
+            const screen = await render(hbs`<Sessions::JuryComment
+  @author={{this.author}}
+  @date={{this.date}}
+  @comment={{this.comment}}
+  @onFormSubmit={{this.onFormSubmit}}
+/>`);
             await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
             await clickByName('Enregistrer');
 
@@ -116,14 +106,12 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             this.onFormSubmit = sinon.stub().rejects();
 
             // when
-            const screen = await render(hbs`
-            <Sessions::JuryComment
-              @author={{this.author}}
-              @date={{this.date}}
-              @comment={{this.comment}}
-              @onFormSubmit={{this.onFormSubmit}}
-            />
-          `);
+            const screen = await render(hbs`<Sessions::JuryComment
+  @author={{this.author}}
+  @date={{this.date}}
+  @comment={{this.comment}}
+  @onFormSubmit={{this.onFormSubmit}}
+/>`);
             await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
             await clickByName('Enregistrer');
 
@@ -150,13 +138,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
       // when
-      const screen = await render(hbs`
-        <Sessions::JuryComment
-          @author={{this.author}}
-          @date={{this.date}}
-          @comment={{this.comment}}
-        />
-      `);
+      const screen = await render(
+        hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+      );
 
       // then
       assert.dom(screen.getByText("Commentaire de l'équipe Certification")).exists();
@@ -187,13 +171,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
         // when
-        const screen = await render(hbs`
-        <Sessions::JuryComment
-          @author={{this.author}}
-          @date={{this.date}}
-          @comment={{this.comment}}
-        />
-      `);
+        const screen = await render(
+          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+        );
 
         // then
 
@@ -217,13 +197,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
           // when
-          const screen = await render(hbs`
-          <Sessions::JuryComment
-            @author={{this.author}}
-            @date={{this.date}}
-            @comment={{this.comment}}
-          />
-        `);
+          const screen = await render(
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          );
           await clickByName('Modifier');
 
           // then
@@ -251,13 +227,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
           // when
-          const screen = await render(hbs`
-          <Sessions::JuryComment
-            @author={{this.author}}
-            @date={{this.date}}
-            @comment={{this.comment}}
-          />
-        `);
+          const screen = await render(
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          );
           await clickByName('Modifier');
           await clickByName('Annuler');
 
@@ -278,13 +250,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           this.comment = 'Qui promène son chien est au bout de la laisse.';
 
           // when
-          const screen = await render(hbs`
-          <Sessions::JuryComment
-            @author={{this.author}}
-            @date={{this.date}}
-            @comment={{this.comment}}
-          />
-        `);
+          const screen = await render(
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          );
           await clickByName('Modifier');
           await fillByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
           await clickByName('Annuler');
@@ -308,13 +276,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
 
           // when
-          const screen = await render(hbs`
-          <Sessions::JuryComment
-            @author={{this.author}}
-            @date={{this.date}}
-            @comment={{this.comment}}
-          />
-        `);
+          const screen = await render(
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          );
           await clickByName('Supprimer');
 
           // then
@@ -340,14 +304,12 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               });
 
               // when
-              const screen = await render(hbs`
-              <Sessions::JuryComment
-                @author={{this.author}}
-                @date={{this.date}}
-                @comment={{this.comment}}
-                @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
-              />
-            `);
+              const screen = await render(hbs`<Sessions::JuryComment
+  @author={{this.author}}
+  @date={{this.date}}
+  @comment={{this.comment}}
+  @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+/>`);
               await clickByName('Supprimer');
 
               await screen.findByRole('dialog');
@@ -386,14 +348,12 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               this.onDeleteButtonClicked = sinon.stub().rejects();
 
               // when
-              const screen = await render(hbs`
-              <Sessions::JuryComment
-                @author={{this.author}}
-                @date={{this.date}}
-                @comment={{this.comment}}
-                @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
-              />
-            `);
+              const screen = await render(hbs`<Sessions::JuryComment
+  @author={{this.author}}
+  @date={{this.date}}
+  @comment={{this.comment}}
+  @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+/>`);
               await clickByName('Supprimer');
 
               await screen.findByRole('dialog');
@@ -433,14 +393,12 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             this.onDeleteButtonClicked = sinon.stub();
 
             // when
-            const screen = await render(hbs`
-            <Sessions::JuryComment
-              @author={{this.author}}
-              @date={{this.date}}
-              @comment={{this.comment}}
-              @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
-            />
-          `);
+            const screen = await render(hbs`<Sessions::JuryComment
+  @author={{this.author}}
+  @date={{this.date}}
+  @comment={{this.comment}}
+  @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+/>`);
             await clickByName('Supprimer');
 
             await screen.findByRole('dialog');
@@ -481,13 +439,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
           // when
-          const screen = await render(hbs`
-        <Sessions::JuryComment
-          @author={{this.author}}
-          @date={{this.date}}
-          @comment={{this.comment}}
-        />
-        `);
+          const screen = await render(
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          );
           this.set('author', 'XXXX');
           this.set('date', new Date(today));
           this.set('comment', 'Saperlipopette, quelle experience!');

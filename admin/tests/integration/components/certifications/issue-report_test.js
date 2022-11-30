@@ -26,7 +26,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
     this.owner.register('service:access-control', AccessControlStub);
 
     // When
-    const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+    const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
     // Then
     assert
@@ -51,7 +51,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
         this.owner.register('service:access-control', AccessControlStub);
 
         // When
-        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
         // Then
         assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
@@ -71,7 +71,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
         this.owner.register('service:access-control', AccessControlStub);
 
         // When
-        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
         // Then
         assert.dom(screen.queryByRole('button', { name: 'Résoudre le signalement' })).doesNotExist();
@@ -94,7 +94,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       this.owner.register('service:access-control', AccessControlStub);
 
       // When
-      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
       // Then
       assert.dom(screen.queryByRole('button', { name: 'Résoudre le signalement' })).doesNotExist();
@@ -118,7 +118,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
         this.owner.register('service:access-control', AccessControlStub);
 
         // When
-        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
         // Then
 
@@ -144,7 +144,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
         this.owner.register('service:access-control', AccessControlStub);
 
         // When
-        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
         // Then
         assert.dom(screen.queryByRole('button', { name: 'Modifier la résolution' })).doesNotExist();
@@ -230,7 +230,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       this.set('issueReport', issueReport);
 
       // when
-      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}} />`);
 
       // then
       assert.dom(screen.getByText(expectedLabel, { exact: false })).exists();

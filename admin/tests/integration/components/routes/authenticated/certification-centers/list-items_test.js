@@ -25,7 +25,10 @@ module('Integration | Component | routes/authenticated/certification-centers | l
 
     // when
     await render(
-      hbs`<CertificationCenters::ListItems @certificationCenters={{this.certificationCenters}} @triggerFiltering={{this.triggerFiltering}} />`
+      hbs`<CertificationCenters::ListItems
+  @certificationCenters={{this.certificationCenters}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`
     );
 
     // then

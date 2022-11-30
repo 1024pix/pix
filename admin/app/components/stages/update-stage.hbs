@@ -41,7 +41,7 @@
       <Input
         id="prescriberTitle"
         @type="text"
-        class="form-control {{if (v-get this.form "prescriberTitle" "isInvalid") "is-invalid"}}"
+        class="form-control {{if (v-get this.form 'prescriberTitle' 'isInvalid') 'is-invalid'}}"
         @value={{this.form.prescriberTitle}}
       />
 
@@ -57,7 +57,7 @@
       </label>
       <Textarea
         id="prescriberDescription"
-        class="form-control {{if (v-get this.form "prescriberDescription" "isInvalid") "is-invalid"}}"
+        class="form-control {{if (v-get this.form 'prescriberDescription' 'isInvalid') 'is-invalid'}}"
         @value={{this.form.prescriberDescription}}
         rows="4"
       />

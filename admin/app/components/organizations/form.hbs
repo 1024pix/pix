@@ -15,14 +15,14 @@
       />
       {{#if @organization.errors.name}}
         <div class="form-field__error">
-          {{@organization.errors.name.0.message}}
+          {{get @organization.errors.name "0.message"}}
         </div>
       {{/if}}
     </div>
 
     <div class="form-field form-group">
       <label class="form-field__label" for="organizationType">Type : </label>
-      <div id="organizationTypeSelector" class="form-field__select {{if @organization.errors.type " is-invalid" ""}}">
+      <div id="organizationTypeSelector" class="form-field__select {{if @organization.errors.type ' is-invalid' ''}}">
         <PixSelect
           @onChange={{this.selectOrganizationType}}
           @options={{this.organizationTypes}}
@@ -55,7 +55,7 @@
       />
       {{#if @organization.errors.documentationUrl}}
         <div class="form-field__error">
-          {{@organization.errors.documentationUrl.0.message}}
+          {{get @organization.errors.documentationUrl "0.message"}}
         </div>
       {{/if}}
     </div>

@@ -29,7 +29,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}}/>`);
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}} />`);
 
       // then
       assert.dom(screen.getByText('Jean Claude')).exists();
@@ -48,7 +48,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}}/>`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`
       );
 
       // then
@@ -65,7 +65,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}}/>`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`
       );
 
       // then
@@ -81,7 +81,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}}/>`);
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}} />`);
 
       // then
       assert.dom(screen.getByText('01/01/2020')).exists();
@@ -96,7 +96,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}}/>`);
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}} />`);
 
       // then
       assert.dom(screen.getByText('01/01/2022 par')).exists();
@@ -122,7 +122,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
     test('it should display save and cancel button', async function (assert) {
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+        hbs`<Campaigns::ParticipationRow
+  @participation={{this.participation}}
+  @idPixLabel={{this.idPixLabel}}
+  @updateParticipantExternalId={{this.updateParticipantExternalId}}
+/>`
       );
       await clickByName('Modifier');
 
@@ -134,7 +138,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
     test('it should update participantExternalId on save', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+        hbs`<Campaigns::ParticipationRow
+  @participation={{this.participation}}
+  @idPixLabel={{this.idPixLabel}}
+  @updateParticipantExternalId={{this.updateParticipantExternalId}}
+/>`
       );
       await clickByName('Modifier');
 
@@ -151,7 +159,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
     test('it should update participantExternalId with null if participantExternalId only  has blank space', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+        hbs`<Campaigns::ParticipationRow
+  @participation={{this.participation}}
+  @idPixLabel={{this.idPixLabel}}
+  @updateParticipantExternalId={{this.updateParticipantExternalId}}
+/>`
       );
       await clickByName('Modifier');
 
@@ -168,7 +180,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
     test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+        hbs`<Campaigns::ParticipationRow
+  @participation={{this.participation}}
+  @idPixLabel={{this.idPixLabel}}
+  @updateParticipantExternalId={{this.updateParticipantExternalId}}
+/>`
       );
       await clickByName('Modifier');
 
@@ -185,7 +201,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
     test('it should not update participantExternalId on cancel', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+        hbs`<Campaigns::ParticipationRow
+  @participation={{this.participation}}
+  @idPixLabel={{this.idPixLabel}}
+  @updateParticipantExternalId={{this.updateParticipantExternalId}}
+/>`
       );
       await clickByName('Modifier');
 
@@ -215,7 +235,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       //when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}}/>`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`
       );
 
       // expect

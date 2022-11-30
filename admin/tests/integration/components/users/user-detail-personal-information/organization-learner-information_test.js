@@ -24,7 +24,10 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+            hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
           );
 
           // then
@@ -40,7 +43,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -57,7 +63,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -76,7 +85,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -93,7 +105,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -110,7 +125,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -128,7 +146,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -146,7 +167,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -163,7 +187,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -181,7 +208,10 @@ module(
 
         // when
         await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
         await clickByName('Dissocier');
 
@@ -201,7 +231,10 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+  @user={{this.user}}
+  @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+/>`
         );
 
         // then
@@ -222,7 +255,7 @@ module(
 
         // When
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}}/>`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} />`
         );
 
         // Then

@@ -15,7 +15,7 @@
       />
       {{#if @certificationCenter.errors.name}}
         <div class="form-field__error">
-          {{@certificationCenter.errors.name.0.message}}
+          {{get @certificationCenter.errors.name "0.message"}}
         </div>
       {{/if}}
     </div>
@@ -24,7 +24,7 @@
       <label class="form-field__label" for="certificationCenterTypeSelector">Type d'établissement</label>
       <div
         class="form-field__select
-          {{if @certificationCenter.errors.type " is-invalid" ""}}
+          {{if @certificationCenter.errors.type ' is-invalid' ''}}
           certification-center-form__select-type"
       >
         <PixSelect
@@ -60,7 +60,7 @@
       />
       {{#if @certificationCenter.errors.externalId}}
         <div class="form-field__error">
-          {{@certificationCenter.errors.externalId.0.message}}
+          {{get @certificationCenter.errors.externalId "0.message"}}
         </div>
       {{/if}}
     </div>

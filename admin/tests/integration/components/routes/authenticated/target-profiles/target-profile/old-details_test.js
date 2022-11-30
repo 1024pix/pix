@@ -12,7 +12,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     this.targetProfile = store.createRecord('target-profile', { oldAreas: [] });
 
     // when
-    const screen = await render(hbs`<TargetProfiles::OldDetails @targetProfile={{this.targetProfile}}/>`);
+    const screen = await render(hbs`<TargetProfiles::OldDetails @targetProfile={{this.targetProfile}} />`);
 
     // then
     assert.dom(screen.getByText('Profil cible vide.')).exists();

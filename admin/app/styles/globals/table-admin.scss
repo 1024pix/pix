@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 .table-admin {
   margin-bottom: $spacing-s;
 
@@ -29,7 +30,7 @@
   }
 
   tbody > tr:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: rgb(0 0 0 / 3%);
   }
 
   .col-status {
@@ -51,6 +52,6 @@
 }
 
 .table-admin-empty {
-  margin: 48px auto 36px auto;
+  margin: 48px auto 36px;
   text-align: center;
 }

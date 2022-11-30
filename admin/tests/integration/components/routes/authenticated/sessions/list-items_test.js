@@ -138,7 +138,10 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('certificationCenterType', 'SCO');
       this.set('updateCertificationCenterTypeFilter', (newValue) => this.set('certificationCenterType', newValue));
       await render(
-        hbs`<Sessions::ListItems @certificationCenterType={{this.certificationCenterType}} @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}/>`
+        hbs`<Sessions::ListItems
+  @certificationCenterType={{this.certificationCenterType}}
+  @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
+/>`
       );
 
       // when
@@ -182,7 +185,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('status', 'finalized');
       this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
       await render(
-        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}}/>`
+        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} />`
       );
 
       // when
@@ -224,7 +227,10 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         this.set('resultsSentToPrescriberAt', newValue)
       );
       await render(
-        hbs`<Sessions::ListItems @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}} @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}/>`
+        hbs`<Sessions::ListItems
+  @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
+  @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
+/>`
       );
 
       // when

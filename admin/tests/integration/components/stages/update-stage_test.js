@@ -38,7 +38,12 @@ module('Integration | Component | UpdateStage', function (hooks) {
   test('it should display the fields and buttons', async function (assert) {
     // when
     const screen = await render(
-      hbs`<Stages::UpdateStage @stage={{this.stage}} @isTypeLevel={{false}} @stageTypeName="Seuil" @toggleEditMode={{this.toggleEditMode}} />`
+      hbs`<Stages::UpdateStage
+  @stage={{this.stage}}
+  @isTypeLevel={{false}}
+  @stageTypeName='Seuil'
+  @toggleEditMode={{this.toggleEditMode}}
+/>`
     );
 
     // then
@@ -58,7 +63,13 @@ module('Integration | Component | UpdateStage', function (hooks) {
     test('it should display level field', async function (assert) {
       // when
       const screen = await render(
-        hbs`<Stages::UpdateStage @stage={{this.stage}} @maxLevel={{this.maxLevel}} @isTypeLevel={{true}} @stageTypeName="Niveau" @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Stages::UpdateStage
+  @stage={{this.stage}}
+  @maxLevel={{this.maxLevel}}
+  @isTypeLevel={{true}}
+  @stageTypeName='Niveau'
+  @toggleEditMode={{this.toggleEditMode}}
+/>`
       );
 
       // then
@@ -81,7 +92,12 @@ module('Integration | Component | UpdateStage', function (hooks) {
   test('it should display an error text when the title has more than 255 characters', async function (assert) {
     // when
     const screen = await render(
-      hbs`<Stages::UpdateStage @stage={{this.stage}} @isTypeLevel={{false}} @stageTypeName="Seuil" @toggleEditMode={{this.toggleEditMode}} />`
+      hbs`<Stages::UpdateStage
+  @stage={{this.stage}}
+  @isTypeLevel={{false}}
+  @stageTypeName='Seuil'
+  @toggleEditMode={{this.toggleEditMode}}
+/>`
     );
 
     await fillByLabel('Titre pour le prescripteur', 'a'.repeat(256));
@@ -93,7 +109,12 @@ module('Integration | Component | UpdateStage', function (hooks) {
   test('it should call updateStage when form is valid', async function (assert) {
     //when
     await render(
-      hbs`<Stages::UpdateStage @stage={{this.stage}} @isTypeLevel={{false}} @stageTypeName="Seuil" @toggleEditMode={{this.toggleEditMode}} />`
+      hbs`<Stages::UpdateStage
+  @stage={{this.stage}}
+  @isTypeLevel={{false}}
+  @stageTypeName='Seuil'
+  @toggleEditMode={{this.toggleEditMode}}
+/>`
     );
     await fillByLabel('Titre pour le prescripteur', 'Nouveau titre');
     await clickByName('Enregistrer');
@@ -105,7 +126,12 @@ module('Integration | Component | UpdateStage', function (hooks) {
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(
-      hbs`<Stages::UpdateStage @stage={{this.stage}} @isTypeLevel={{false}} @stageTypeName="Seuil" @toggleEditMode={{this.toggleEditMode}} />`
+      hbs`<Stages::UpdateStage
+  @stage={{this.stage}}
+  @isTypeLevel={{false}}
+  @stageTypeName='Seuil'
+  @toggleEditMode={{this.toggleEditMode}}
+/>`
     );
     await clickByName('Enregistrer');
 

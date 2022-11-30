@@ -27,7 +27,7 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
     this.summaries = summaries;
 
     // when
-    const screen = await render(hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}}  />`);
+    const screen = await render(hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} />`);
 
     // then
     assert.strictEqual(screen.getAllByLabelText('Contenu formatif').length, 2);
