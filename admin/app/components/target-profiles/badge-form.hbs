@@ -1,8 +1,8 @@
 <form {{on "submit" this.createBadgeAndCriteria}} class="badge-form">
-  <section class="page-section">
-    <h2>Création d'un résultat thématique</h2>
+  <h2>Création d'un résultat thématique</h2>
+  <Card class="create-target-profile__card" @title="Informations">
     <div class="badge-form__text-field">
-      <label for="title">Nom du badge : </label>
+      <label for="title">Nom du résultat thématique : </label>
       <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
     </div>
     <div class="badge-form__text-field">
@@ -14,7 +14,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          Voir la liste des badges
+          Voir la liste des résultats thématiques
         </a>
       </p>
       <Input
@@ -63,79 +63,23 @@
         id="isAlwaysVisible"
       />
     </div>
-  </section>
-
-  <section class="page-section">
-    <h3>Définir un ou plusieurs critères</h3>
-
-    <p>
-      Vous pouvez définir un critère de réussite du RT sur une liste d’acquis ET/OU sur l’ensemble du profil cible.
-      Toutes les conditions devront être remplies pour obtenir le badge. Laissez vide les critères qui ne sont pas
-      souhaités.
-    </p>
-
-    <div>
-      <h4>Sur une liste d'acquis</h4>
-
-      <div class="badge-form-criteria">
-        <div class="badge-form__text-field badge-form-criteria__threshold">
-          <label for="skillSetThreshold">Taux de réussite :</label>
-          <Input
-            id="skillSetThreshold"
-            class="form-control"
-            @type="number"
-            min="1"
-            max="100"
-            @value={{this.badge.skillSetThreshold}}
-          />
-        </div>
-
-        <div class="badge-form-criteria__skill-set">
-          <div class="badge-form__text-field">
-            <label for="skillSetName">Nom de la liste :</label>
-            <Input id="skillSetName" class="form-control" @type="text" @value={{this.badge.skillSetName}} />
-          </div>
-
-          <div class="badge-form__text-field">
-            <label for="skillSetSkills">Liste des acquis :</label>
-            <Textarea id="skillSetSkills" class="form-control" @value={{this.skillSetSkills}} rows="4" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <h4>Sur l'ensemble du profil cible</h4>
-
-      <div class="badge-form-criteria">
-        <div class="badge-form__text-field badge-form-criteria__threshold">
-          <label for="campaignParticipationThreshold">Taux de réussite global :</label>
-          <Input
-            id="campaignParticipationThreshold"
-            class="form-control"
-            @type="number"
-            min="0"
-            max="100"
-            @value={{this.badge.campaignThreshold}}
-          />
-        </div>
-      </div>
-    </div>
-
+  </Card>
+  {{#if @targetProfile.isNewFormat}}
+    <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.newAreas}} />
     <div class="badge-form__action-buttons">
       <PixButtonLink
         class="badge-form-action-buttons__cancel"
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
-        @size="small"
         @route="authenticated.target-profiles.target-profile.insights"
       >
         Annuler
       </PixButtonLink>
-      <PixButton @backgroundColor="green" @size="small" @type="submit">
-        Créer le badge
+      <PixButton @backgroundColor="green" @type="submit">
+        Enregistrer le RT
       </PixButton>
     </div>
-  </section>
-
+  {{else}}
+    <TargetProfiles::BadgeForm::OldCriteria @badge={{this.badge}} @skillSetSkills={{this.skillSetSkills}} />
+  {{/if}}
 </form>

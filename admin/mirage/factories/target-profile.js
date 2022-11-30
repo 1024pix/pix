@@ -46,7 +46,11 @@ export default Factory.extend({
   },
 
   afterCreate(targetProfile, server) {
-    if (targetProfile.newAreas.models.length === 0 && targetProfile.oldAreas.models.length === 0) {
+    if (
+      targetProfile.newAreas.models.length === 0 &&
+      targetProfile.oldAreas.models.length === 0 &&
+      targetProfile.isNewFormat !== false
+    ) {
       const tubeTrois = server.create('new-tube', {
         id: 'tubeNiveauTrois',
         name: '@tubeNiveauTrois',
@@ -94,7 +98,9 @@ export default Factory.extend({
       });
       targetProfile.update({ newAreas: [areaUn] });
     }
-    if (targetProfile.newAreas.length !== 0) targetProfile.update({ isNewFormat: true });
-    if (targetProfile.oldAreas.length !== 0) targetProfile.update({ isNewFormat: false });
+    if (targetProfile.isNewFormat == null) {
+      if (targetProfile.newAreas.length !== 0) targetProfile.update({ isNewFormat: true });
+      if (targetProfile.oldAreas.length !== 0) targetProfile.update({ isNewFormat: false });
+    }
   },
 });

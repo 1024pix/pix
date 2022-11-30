@@ -334,202 +334,409 @@ describe('Acceptance | Route | target-profiles', function () {
   });
 
   describe('POST /api/admin/target-profiles/{id}/badges', function () {
-    beforeEach(async function () {
-      mockLearningContent(learningContent);
-    });
+    context('Badge with skill Set', function () {
+      afterEach(async function () {
+        await knex('skill-sets').delete();
+        await knex('badge-criteria').delete();
+        await knex('badges').delete();
+      });
 
-    afterEach(async function () {
-      await knex('skill-sets').delete();
-      await knex('badge-criteria').delete();
-      await knex('badges').delete();
-    });
+      it('should not create a badge if there are no associated criteria', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser.withRole();
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        await databaseBuilder.commit();
+        const badgeCreation = {
+          key: 'TOTO23',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          message: 'Bravo !',
+          title: 'Le super badge',
+          'is-certifiable': false,
+          'campaign-threshold': null,
+          'skill-set-threshold': null,
+          'is-always-visible': true,
+          'capped-tubes-criteria': [],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
+          },
+        };
 
-    it('should not create a badge if there are no associated criteria', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser.withRole();
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      await databaseBuilder.commit();
-      const badgeCreation = {
-        key: 'TOTO23',
-        'alt-message': 'alt-message',
-        'image-url': 'https//images.example.net',
-        message: 'Bravo !',
-        title: 'Le super badge',
-        'is-certifiable': false,
-        'campaign-threshold': null,
-        'skill-set-threshold': null,
-        'is-always-visible': true,
-      };
-      const options = {
-        method: 'POST',
-        url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should create badge with empty message and title', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser.withRole();
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        await databaseBuilder.commit();
+        const badgeCreation = {
+          key: 'TOTO23',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          'is-certifiable': false,
+          'is-always-visible': true,
+          'campaign-threshold': '99',
+          message: '',
+          title: null,
+          'capped-tubes-criteria': [],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const expectedResult = {
           data: {
-            type: 'badge-creations',
-            attributes: badgeCreation,
+            attributes: {
+              'alt-message': 'alt-message',
+              'image-url': 'https//images.example.net',
+              'is-certifiable': false,
+              'is-always-visible': true,
+              key: 'TOTO23',
+              message: '',
+              title: null,
+            },
+            type: 'badges',
           },
-        },
-      };
+        };
+        expect(response.statusCode).to.equal(201);
+        expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+      });
 
-      // when
-      const response = await server.inject(options);
+      it('should create a badge with at least one criterion', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser.withRole();
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki9' });
+        await databaseBuilder.commit();
+        const badgeCreation = {
+          key: 'TOTO23',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          message: 'Bravo !',
+          title: 'Le super badge',
+          'is-certifiable': false,
+          'is-always-visible': true,
+          'campaign-threshold': '99',
+          'skill-set-threshold': '66',
+          'skill-set-name': "c'est le nom du lot d'acquis !",
+          'skill-set-skills-ids': ['aki1', 'aki3', 'aki9'],
+          'capped-tubes-criteria': [],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
+          },
+        };
 
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
+        // when
+        const response = await server.inject(options);
 
-    it('should create badge with empty message and title', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser.withRole();
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      await databaseBuilder.commit();
-      const badgeCreation = {
-        key: 'TOTO23',
-        'alt-message': 'alt-message',
-        'image-url': 'https//images.example.net',
-        'is-certifiable': false,
-        'is-always-visible': true,
-        'campaign-threshold': '99',
-        message: '',
-        title: null,
-      };
-      const options = {
-        method: 'POST',
-        url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
+        // then
+        const expectedResult = {
           data: {
-            type: 'badge-creations',
-            attributes: badgeCreation,
+            attributes: {
+              'alt-message': 'alt-message',
+              'image-url': 'https//images.example.net',
+              'is-certifiable': false,
+              'is-always-visible': true,
+              key: 'TOTO23',
+              message: 'Bravo !',
+              title: 'Le super badge',
+            },
+            type: 'badges',
           },
-        },
-      };
+        };
+        expect(response.statusCode).to.equal(201);
+        expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+      });
 
-      // when
-      const response = await server.inject(options);
-
-      // then
-      const expectedResult = {
-        data: {
-          attributes: {
-            'alt-message': 'alt-message',
-            'image-url': 'https//images.example.net',
-            'is-certifiable': false,
-            'is-always-visible': true,
-            key: 'TOTO23',
-            message: '',
-            title: null,
+      it('should not create a badge nor criteria', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser.withRole();
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
+        await databaseBuilder.commit();
+        const badgeCreation = {
+          key: 'TOTO23',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          message: 'Bravo !',
+          title: 'Le super badge',
+          'is-certifiable': false,
+          'is-always-visible': true,
+          'campaign-threshold': '99',
+          'skill-set-threshold': '66',
+          'skill-set-name': "c'est le nom du lot d'acquis !",
+          'skill-set-skills-ids': ['aki1', 'aki3', 'aki9'],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
           },
-          type: 'badges',
-        },
-      };
-      expect(response.statusCode).to.equal(201);
-      expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const expectedError = {
+          errors: [
+            {
+              detail: 'Les acquis suivants ne font pas partie du profil cible : aki9',
+              status: '400',
+              title: 'Default Bad Request',
+            },
+          ],
+        };
+        expect(response.statusCode).to.equal(400);
+        expect(response.result).to.deep.equal(expectedError);
+      });
     });
+    context('Badge with capped tubes', function () {
+      let user, targetProfileId;
+      beforeEach(async function () {
+        user = databaseBuilder.factory.buildUser.withRole();
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId1', level: 3 });
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId2', level: 2 });
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId3', level: 4 });
+        await databaseBuilder.commit();
+      });
+      afterEach(async function () {
+        await knex('badge-criteria').delete();
+        await knex('badges').delete();
+      });
+      it('should create a badge with capped tubes criterion', async function () {
+        const badgeCreation = {
+          key: 'badge1',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          message: 'Bravo !',
+          title: 'Le super badge',
+          'is-certifiable': false,
+          'is-always-visible': true,
+          'campaign-threshold': '99',
+          'capped-tubes-criteria': [
+            {
+              threshold: '50',
+              cappedTubes: [
+                {
+                  id: 'tubeId1',
+                  level: 2,
+                },
+                {
+                  id: 'tubeId2',
+                  level: 2,
+                },
+              ],
+            },
+          ],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
+          },
+        };
 
-    it('should create a badge with at least one criterion', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser.withRole();
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki9' });
-      await databaseBuilder.commit();
-      const badgeCreation = {
-        key: 'TOTO23',
-        'alt-message': 'alt-message',
-        'image-url': 'https//images.example.net',
-        message: 'Bravo !',
-        title: 'Le super badge',
-        'is-certifiable': false,
-        'is-always-visible': true,
-        'campaign-threshold': '99',
-        'skill-set-threshold': '66',
-        'skill-set-name': "c'est le nom du lot d'acquis !",
-        'skill-set-skills-ids': ['aki1', 'aki3', 'aki9'],
-      };
-      const options = {
-        method: 'POST',
-        url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
+        // when
+        const response = await server.inject(options);
+        const cappedTubesCriterion = await knex('badge-criteria').select().where('scope', 'CappedTubes').first();
+        const campaignCriterion = await knex('badge-criteria').select().where('scope', 'CampaignParticipation').first();
+
+        // then
+        const expectedResult = {
           data: {
-            type: 'badge-creations',
-            attributes: badgeCreation,
+            attributes: {
+              'alt-message': 'alt-message',
+              'image-url': 'https//images.example.net',
+              'is-certifiable': false,
+              'is-always-visible': true,
+              key: 'badge1',
+              message: 'Bravo !',
+              title: 'Le super badge',
+            },
+            type: 'badges',
           },
-        },
-      };
+        };
 
-      // when
-      const response = await server.inject(options);
+        const expectedCappedTubesCriterion = {
+          scope: 'CappedTubes',
+          threshold: 50,
+          badgeId: parseInt(response.result.data.id, 10),
+          skillSetIds: null,
+          cappedTubes: [
+            { id: 'tubeId1', level: 2 },
+            { id: 'tubeId2', level: 2 },
+          ],
+        };
 
-      // then
-      const expectedResult = {
-        data: {
-          attributes: {
-            'alt-message': 'alt-message',
-            'image-url': 'https//images.example.net',
-            'is-certifiable': false,
-            'is-always-visible': true,
-            key: 'TOTO23',
-            message: 'Bravo !',
-            title: 'Le super badge',
+        const expectedCampaignCriterion = {
+          scope: 'CampaignParticipation',
+          threshold: 99,
+          badgeId: parseInt(response.result.data.id, 10),
+          skillSetIds: null,
+          cappedTubes: null,
+        };
+        expect(response.statusCode).to.equal(201);
+        expect(omit(response.result, 'data.id')).to.deep.equal(expectedResult);
+        expect(omit(cappedTubesCriterion, 'id')).to.deep.equal(expectedCappedTubesCriterion);
+        expect(omit(campaignCriterion, 'id')).to.deep.equal(expectedCampaignCriterion);
+      });
+
+      it('should not create a badge if capped tubes criterion tube id is not into target profile', async function () {
+        const badgeCreation = {
+          key: 'badge1',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          message: 'Bravo !',
+          title: 'Le super badge',
+          'is-certifiable': false,
+          'is-always-visible': true,
+          'campaign-threshold': '99',
+          'capped-tubes-criteria': [
+            {
+              threshold: '50',
+              cappedTubes: [
+                {
+                  id: 'tubeId1',
+                  level: 2,
+                },
+                {
+                  id: 'wrongId',
+                  level: 2,
+                },
+              ],
+            },
+          ],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
           },
-          type: 'badges',
-        },
-      };
-      expect(response.statusCode).to.equal(201);
-      expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
-    });
+        };
 
-    it('should not create a badge nor criteria', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser.withRole();
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
-      await databaseBuilder.commit();
-      const badgeCreation = {
-        key: 'TOTO23',
-        'alt-message': 'alt-message',
-        'image-url': 'https//images.example.net',
-        message: 'Bravo !',
-        title: 'Le super badge',
-        'is-certifiable': false,
-        'is-always-visible': true,
-        'campaign-threshold': '99',
-        'skill-set-threshold': '66',
-        'skill-set-name': "c'est le nom du lot d'acquis !",
-        'skill-set-skills-ids': ['aki1', 'aki3', 'aki9'],
-      };
-      const options = {
-        method: 'POST',
-        url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            type: 'badge-creations',
-            attributes: badgeCreation,
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const expectedError = {
+          errors: [
+            {
+              detail: 'Le sujet wrongId ne fait pas partie du profil cible',
+              status: '422',
+              title: 'Unprocessable entity',
+            },
+          ],
+        };
+        expect(response.statusCode).to.equal(422);
+        expect(response.result).to.deep.equal(expectedError);
+      });
+      it('should not create a badge if capped tubes criterion level is not into target profile', async function () {
+        const badgeCreation = {
+          key: 'badge1',
+          'alt-message': 'alt-message',
+          'image-url': 'https//images.example.net',
+          message: 'Bravo !',
+          title: 'Le super badge',
+          'is-certifiable': false,
+          'is-always-visible': true,
+          'campaign-threshold': '99',
+          'capped-tubes-criteria': [
+            {
+              threshold: '50',
+              cappedTubes: [
+                {
+                  id: 'tubeId1',
+                  level: 8,
+                },
+                {
+                  id: 'wrongId',
+                  level: 2,
+                },
+              ],
+            },
+          ],
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'badge-creations',
+              attributes: badgeCreation,
+            },
           },
-        },
-      };
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      const expectedError = {
-        errors: [
-          {
-            detail: 'Les acquis suivants ne font pas partie du profil cible : aki9',
-            status: '400',
-            title: 'Default Bad Request',
-          },
-        ],
-      };
-      expect(response.statusCode).to.equal(400);
-      expect(response.result).to.deep.equal(expectedError);
+        // then
+        const expectedError = {
+          errors: [
+            {
+              detail: 'Le niveau 8 dépasse le niveau max du sujet tubeId1',
+              status: '422',
+              title: 'Unprocessable entity',
+            },
+          ],
+        };
+        expect(response.statusCode).to.equal(422);
+        expect(response.result).to.deep.equal(expectedError);
+      });
     });
   });
 

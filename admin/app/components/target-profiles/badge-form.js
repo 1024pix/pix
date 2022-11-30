@@ -19,6 +19,7 @@ export default class BadgeForm extends Component {
     campaignThreshold: null,
     skillSetThreshold: null,
     skillSetName: '',
+    cappedTubesCriteria: [],
   };
 
   imageName = '';

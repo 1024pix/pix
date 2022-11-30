@@ -155,6 +155,30 @@ module.exports = {
     return true;
   },
 
+  async hasTubesWithLevels(
+    { targetProfileId, tubesWithLevels },
+    { knexTransaction } = DomainTransaction.emptyTransaction()
+  ) {
+    const tubeIds = tubesWithLevels.map(({ id }) => id);
+
+    const result = await (knexTransaction ?? knex)('target-profile_tubes')
+      .whereIn('tubeId', tubeIds)
+      .andWhere('targetProfileId', targetProfileId);
+
+    for (const tubeWithLevel of tubesWithLevels) {
+      const targetProfileTube = result.find(({ tubeId }) => tubeId === tubeWithLevel.id);
+      if (!targetProfileTube) {
+        throw new ObjectValidationError(`Le sujet ${tubeWithLevel.id} ne fait pas partie du profil cible`);
+      }
+
+      if (tubeWithLevel.level > targetProfileTube.level) {
+        throw new ObjectValidationError(
+          `Le niveau ${tubeWithLevel.level} dépasse le niveau max du sujet ${tubeWithLevel.id}`
+        );
+      }
+    }
+  },
+
   async findStages({ targetProfileId }) {
     const stages = await knex('stages').where({ targetProfileId }).orderBy(['stages.threshold', 'stages.level']);
     return stages.map((stage) => new Stage(stage));
