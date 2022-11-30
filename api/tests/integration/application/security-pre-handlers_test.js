@@ -294,7 +294,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        expect(response.result.errors[0].code).to.equal('USER_HAS_BEEN_TEMPORARY_BLOCKED');
+        expect(response.result.errors[0].code).to.equal('USER_IS_TEMPORARY_BLOCKED');
       });
     });
 
@@ -336,7 +336,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        expect(response.result.errors[0].code).to.equal('USER_HAS_BEEN_BLOCKED');
+        expect(response.result.errors[0].code).to.equal('USER_IS_BLOCKED');
       });
     });
   });
