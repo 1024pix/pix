@@ -64,12 +64,6 @@ module.exports = function (environment) {
       sessionSupervisingPollingRate: process.env.SESSION_SUPERVISING_POLLING_RATE ?? 5000,
     },
 
-    moment: {
-      // To cherry-pick specific locale support into your application.
-      // Full list of locales: https://github.com/moment/moment/tree/2.10.3/locale
-      includeLocales: ['fr'],
-    },
-
     matomo: {},
 
     formBuilderLinkUrl: 'https://form-eu.123formbuilder.com/41052/form',
