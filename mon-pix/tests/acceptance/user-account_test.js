@@ -1,6 +1,6 @@
 import { currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { contains } from '../helpers/contains';
@@ -30,7 +30,7 @@ module('Acceptance | User account page', function (hooks) {
     hooks.beforeEach(async function () {
       // given
       user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
     });
 
     test('should display my account page', async function (assert) {

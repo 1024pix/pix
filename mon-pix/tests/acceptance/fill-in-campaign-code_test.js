@@ -3,7 +3,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { waitForDialog } from '../helpers/wait-for';
@@ -22,7 +22,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
   module('When connected', function () {
     test('should disconnect when cliking on the link', async function (assert) {
       // given
-      await authenticateByEmail(user);
+      await authenticate(user);
       const screen = await visit('/campagnes');
 
       // when
@@ -37,7 +37,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
   module('Explanation link', function () {
     test('should redirect on the right support page', async function (assert) {
       // given
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/campagnes');
 
       // when

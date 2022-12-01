@@ -1,6 +1,6 @@
 import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import { clickByLabel } from '../helpers/click-by-label';
 import { invalidateSession } from '../helpers/invalidate-session';
@@ -17,7 +17,7 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
 
   hooks.beforeEach(async function () {
     studentInfo = server.create('user', 'withEmail');
-    await authenticateByEmail(studentInfo);
+    await authenticate(studentInfo);
     campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
     await resumeCampaignOfTypeAssessmentByCode(campaign.code, true);
   });

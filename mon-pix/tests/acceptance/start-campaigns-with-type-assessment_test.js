@@ -1,6 +1,6 @@
 import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -172,7 +172,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
     module('When user is logged in', function (hooks) {
       hooks.beforeEach(async function () {
-        await authenticateByEmail(prescritUser);
+        await authenticate(prescritUser);
       });
 
       module('When campaign is not restricted', function () {

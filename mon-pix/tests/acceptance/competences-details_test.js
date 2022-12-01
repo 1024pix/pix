@@ -1,6 +1,6 @@
 import { find, click, currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
@@ -26,7 +26,7 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
     let scorecardWithoutRemainingDaysBeforeImproving;
 
     hooks.beforeEach(async function () {
-      await authenticateByEmail(user);
+      await authenticate(user);
       scorecardWithPoints = user.scorecards.models[0];
       scorecardWithRemainingDaysBeforeReset = user.scorecards.models[1];
       scorecardWithoutPoints = user.scorecards.models[2];

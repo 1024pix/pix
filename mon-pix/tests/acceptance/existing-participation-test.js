@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
@@ -19,7 +19,7 @@ module('Acceptance | Existing Participation', function (hooks) {
         firstName: 'First',
         lastName: 'Last',
       });
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       const screen = await visit('/campagnes/123/participation-existante');
