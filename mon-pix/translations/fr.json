@@ -951,7 +951,6 @@
             "label": "Mon identifiant"
           }
         },
-        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr.",
         "not-me": "Ce n'est pas moi",
         "rgpd-legal-notice": "Pour savoir comment tes données sont traitées et quels sont tes droits, tu peux lire les",
         "rgpd-legal-notice-link": "Mentions d'information.",
@@ -1310,7 +1309,6 @@
       },
       "first-title": "Inscrivez-vous",
       "instructions": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
-      "legal-information": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l'accès au service offert par Pix. Elles sont conservées pendant une durée de 5 ans maximum à compter du dernier accès au compte utilisateur, et archivées selon les délais de prescription légale (5 ans). Elles sont destinées à Pix et à ses prestataires techniques exclusivement. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpd@pix.fr.",
       "subtitle": {
         "link": "connectez-vous à votre compte"
       }
