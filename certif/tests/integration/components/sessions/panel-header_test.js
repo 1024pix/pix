@@ -45,10 +45,10 @@ module('Integration | Component | panel-header', function (hooks) {
         this.owner.register('service:featureToggles', FeatureTogglesStub);
 
         // when
-        const { getByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+        const screen = await render(hbs`<Sessions::PanelHeader />`);
 
         // then
-        assert.dom(getByLabelText('Importer en masse')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Importer en masse' })).exists();
       });
     });
 

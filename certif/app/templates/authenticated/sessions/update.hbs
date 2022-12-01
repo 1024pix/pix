@@ -55,14 +55,14 @@
         Date de début
       </label>
       <EmberFlatpickr
-        @id="session-date"
+        id="session-date"
         @altFormat="d/m/Y"
         @altInput={{true}}
         @onChange={{this.onDatePicked}}
         @dateFormat="Y-m-d"
         @locale="fr"
         @name="session-date"
-        @class="input input--small"
+        class="input input--small"
         @date={{readonly this.session.date}}
       />
       {{#each this.session.errors.date as |error|}}
@@ -78,7 +78,7 @@
         Heure de début (heure locale)
       </label>
       <EmberFlatpickr
-        @id="session-time"
+        id="session-time"
         @onChange={{this.onTimePicked}}
         @onClose={{this.onTimePicked}}
         @enableTime={{true}}
@@ -87,7 +87,7 @@
         @time_24hr={{true}}
         @enableSeconds={{false}}
         @name="session-time"
-        @class="input input--small"
+        class="input input--small"
         @date={{readonly this.session.time}}
       />
       {{#each this.session.errors.time as |error|}}

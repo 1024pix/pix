@@ -305,7 +305,7 @@
                     <Input
                       @type="checkbox"
                       id={{concat "complementaryCertification_" index}}
-                      @checked={{contains complementaryCertification @candidateData.complementaryCertifications}}
+                      @checked={{includes complementaryCertification @candidateData.complementaryCertifications}}
                       {{on "input" (fn this.updateComplementaryCertifications complementaryCertification)}}
                     />
                     {{complementaryCertification.label}}

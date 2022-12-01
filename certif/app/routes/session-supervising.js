@@ -6,14 +6,18 @@ import { inject as service } from '@ember/service';
 export default class SessionSupervisingRoute extends Route {
   @service store;
 
-  model(params) {
-    const sessionForSupervising = this.store.queryRecord('session-for-supervising', { sessionId: params.session_id });
-
-    this.poller = setInterval(() => {
-      this.store.queryRecord('session-for-supervising', { sessionId: params.session_id });
-    }, ENV.APP.sessionSupervisingPollingRate);
+  async model(params) {
+    const sessionForSupervising = await this.store.queryRecord('session-for-supervising', {
+      sessionId: params.session_id,
+    });
 
     return sessionForSupervising;
+  }
+
+  afterModel(model) {
+    this.poller = setInterval(async () => {
+      await this.store.queryRecord('session-for-supervising', { sessionId: model.id });
+    }, ENV.APP.sessionSupervisingPollingRate);
   }
 
   deactivate() {
