@@ -92,4 +92,39 @@ describe('Acceptance | Controller | organization-learner', function () {
       });
     });
   });
+  describe('GET /api/organization-learners/{id}/activity', function () {
+    let options;
+    let organizationId;
+    let organizationLearnerId;
+    let userId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        organizationLearnerId,
+      });
+      await databaseBuilder.commit();
+    });
+
+    describe('Success case', function () {
+      it('should return the organizationLearner activity (participations) and a 200 status code response', async function () {
+        //given
+        options = {
+          method: 'GET',
+          url: `/api/organization-learners/${organizationLearnerId}/activity`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('organization-learner-activities');
+      });
+    });
+  });
 });
