@@ -108,7 +108,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       '"% de progression";' +
@@ -172,7 +172,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       `"${idPixLabel}";` +
@@ -232,7 +232,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       '"% de progression";' +
@@ -291,7 +291,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       '"% de progression";' +
@@ -359,7 +359,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       '"% de progression";' +
@@ -427,7 +427,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       '"% de progression";' +
@@ -487,7 +487,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Nom de la campagne";' +
-        '"Nom du Profil Cible";' +
+        '"Parcours";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
         '"Groupe";' +
@@ -547,7 +547,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Nom de la campagne";' +
-        '"Nom du Profil Cible";' +
+        '"Parcours";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
         '"Classe";' +
@@ -627,7 +627,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
-      '"Nom du Profil Cible";' +
+      '"Parcours";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
       '"% de progression";' +

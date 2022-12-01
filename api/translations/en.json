@@ -22,7 +22,7 @@
         "ok": "OK"
       },
       "success-rate": "Success rate (/{{value}})",
-      "target-profile-name": "Target profile’s name",
+      "target-profile-name": "Customised test",
       "thematic-result-name": "{{name}} (Y/N)"
     },
     "common": {
