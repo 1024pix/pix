@@ -52,7 +52,7 @@ describe('a11y', () => {
       { url: '/accueil' },
       { url: '/campagnes' },
       { url: '/campagnes/NERA/evaluation/resultats' },
-      { url: '/certifications', skipFailures: true },
+      { url: '/certifications' },
       { url: '/competences' },
       { url: '/competences/recH9MjIzN54zXlwr/details', skipFailures: true },
       { url: '/mes-certifications' },
