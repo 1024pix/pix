@@ -5,6 +5,12 @@ import { inject as service } from '@ember/service';
 export default class CertificationRoute extends Route {
   @service errorNotifier;
   @service accessControl;
+  @service router;
+  @service store;
+
+  model(params) {
+    return this.store.findRecord('certification', params.certification_id);
+  }
 
   beforeModel() {
     this.accessControl.restrictAccessTo(['isSuperAdmin', 'isCertif', 'isSupport'], 'authenticated');
@@ -18,6 +24,6 @@ export default class CertificationRoute extends Route {
   @action
   error(anError) {
     this.errorNotifier.notify(anError);
-    this.transitionTo('authenticated.certifications');
+    this.router.transitionTo('authenticated.certifications');
   }
 }

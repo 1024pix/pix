@@ -3,12 +3,14 @@ import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 import debounce from 'lodash/debounce';
 import config from 'pix-admin/config/environment';
+import { inject as service } from '@ember/service';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class TargetProfileOrganizationsController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'id', 'name', 'type', 'externalId'];
   DEBOUNCE_MS = config.pagination.debounce;
+  @service router;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
@@ -31,6 +33,6 @@ export default class TargetProfileOrganizationsController extends Controller {
 
   @action
   goToOrganizationPage(organizationId) {
-    this.transitionToRoute('authenticated.organizations.get', organizationId);
+    this.router.transitionTo('authenticated.organizations.get', organizationId);
   }
 }
