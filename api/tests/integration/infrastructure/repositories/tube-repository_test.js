@@ -1,19 +1,23 @@
-const { expect, mockLearningContent } = require('../../../test-helper');
-const Tube = require('../../../../lib/domain/models/Tube');
+const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
 const tubeRepository = require('../../../../lib/infrastructure/repositories/tube-repository');
 
 describe('Integration | Repository | tube-repository', function () {
   describe('#get', function () {
     it('should return the tube', async function () {
       // given
-      const expectedTube = new Tube({
+      const expectedTube = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName',
         title: 'tubeTitle',
         description: 'tubeDescription',
         practicalTitle: 'translatedPracticalTitle',
         practicalDescription: 'translatedPracticalDescription',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
+        skills: [],
       });
       const learningContent = {
         tubes: [
@@ -28,7 +32,11 @@ describe('Integration | Repository | tube-repository', function () {
             practicalDescription_i18n: {
               fr: 'translatedPracticalDescription',
             },
+            isMobileCompliant: true,
+            isTabletCompliant: true,
             competenceId: 'recCompetence0',
+            thematicId: 'thematicCoucou',
+            skillIds: ['skillSuper', 'skillGenial'],
           },
         ],
       };
@@ -38,31 +46,40 @@ describe('Integration | Repository | tube-repository', function () {
       const tube = await tubeRepository.get(expectedTube.id);
 
       // then
-      expect(tube).to.be.instanceof(Tube);
-      expect(tube).to.deep.equal(expectedTube);
+      expect(tube).to.deepEqualInstance(expectedTube);
     });
   });
 
   describe('#list', function () {
     it('should return the tubes', async function () {
       // given
-      const tube0 = new Tube({
+      const tube0 = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
         practicalTitle: 'translatedPracticalTitle0',
         practicalDescription: 'translatedPracticalDescription0',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
+        skills: [],
       });
-      const tube1 = new Tube({
+      const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1',
         practicalDescription: 'translatedPracticalDescription1',
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillPoire', 'skillPeche'],
+        skills: [],
       });
       const learningContentTube0 = {
         id: 'recTube0',
@@ -75,7 +92,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription0',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
       };
 
       const learningContentTube1 = {
@@ -89,7 +110,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription1',
         },
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillPoire', 'skillPeche'],
       };
       mockLearningContent({ tubes: [learningContentTube0, learningContentTube1] });
 
@@ -106,24 +131,34 @@ describe('Integration | Repository | tube-repository', function () {
   describe('#findByNames', function () {
     it('should return the tubes ordered by name', async function () {
       // given
-      const tube0 = new Tube({
+      const tube0 = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
         practicalTitle: 'translatedPracticalTitle0',
         practicalDescription: 'translatedPracticalDescription0',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
+        skills: [],
       });
 
-      const tube1 = new Tube({
+      const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1',
         practicalDescription: 'translatedPracticalDescription1',
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillPoire', 'skillPeche'],
+        skills: [],
       });
 
       const learningContentTube0 = {
@@ -137,7 +172,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription0',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
       };
 
       const learningContentTube1 = {
@@ -151,7 +190,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription1',
         },
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillPoire', 'skillPeche'],
       };
       mockLearningContent({ tubes: [learningContentTube1, learningContentTube0] });
 
@@ -166,14 +209,19 @@ describe('Integration | Repository | tube-repository', function () {
     context('when no locale is provided (using default locale)', function () {
       it('should return the tubes with default locale translation', async function () {
         // given
-        const expectedTube = new Tube({
+        const expectedTube = domainBuilder.buildTube({
           id: 'recTube0',
           name: 'tubeName',
           title: 'tubeTitle',
           description: 'tubeDescription',
           practicalTitle: 'translatedPracticalTitle',
           practicalDescription: 'translatedPracticalDescription',
+          isMobileCompliant: true,
+          isTabletCompliant: true,
           competenceId: 'recCompetence0',
+          thematicId: 'thematicCoucou',
+          skillIds: ['skillSuper', 'skillGenial'],
+          skills: [],
         });
         const learningContent = {
           tubes: [
@@ -188,7 +236,11 @@ describe('Integration | Repository | tube-repository', function () {
               practicalDescription_i18n: {
                 fr: 'translatedPracticalDescription',
               },
+              isMobileCompliant: true,
+              isTabletCompliant: true,
               competenceId: 'recCompetence0',
+              thematicId: 'thematicCoucou',
+              skillIds: ['skillSuper', 'skillGenial'],
             },
           ],
         };
@@ -206,14 +258,19 @@ describe('Integration | Repository | tube-repository', function () {
     context('when specifying a locale', function () {
       it('should return the tubes with appropriate translation', async function () {
         // given
-        const expectedTube = new Tube({
+        const expectedTube = domainBuilder.buildTube({
           id: 'recTube0',
           name: 'tubeName',
           title: 'tubeTitle',
           description: 'tubeDescription',
           practicalTitle: 'translatedPracticalTitleEnUs',
           practicalDescription: 'translatedPracticalDescriptionEnUs',
+          isMobileCompliant: true,
+          isTabletCompliant: true,
           competenceId: 'recCompetence0',
+          thematicId: 'thematicCoucou',
+          skillIds: ['skillSuper', 'skillGenial'],
+          skills: [],
         });
         const learningContent = {
           tubes: [
@@ -230,7 +287,11 @@ describe('Integration | Repository | tube-repository', function () {
                 fr: 'translatedPracticalDescription',
                 en: 'translatedPracticalDescriptionEnUs',
               },
+              isMobileCompliant: true,
+              isTabletCompliant: true,
               competenceId: 'recCompetence0',
+              thematicId: 'thematicCoucou',
+              skillIds: ['skillSuper', 'skillGenial'],
             },
           ],
         };
@@ -262,7 +323,11 @@ describe('Integration | Repository | tube-repository', function () {
           fr: 'practicalDescriptionFR0',
           en: 'practicalDescriptionEN0',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
       };
       const learningContentTube1 = {
         id: 'recTube1',
@@ -277,7 +342,11 @@ describe('Integration | Repository | tube-repository', function () {
           fr: 'practicalDescriptionFR1',
           en: 'practicalDescriptionEN1',
         },
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillBien'],
       };
       const learningContentTube2 = {
         id: 'recTube2',
@@ -292,7 +361,11 @@ describe('Integration | Repository | tube-repository', function () {
           fr: 'practicalDescriptionFR2',
           en: 'practicalDescriptionEN2',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCuisse',
+        skillIds: ['skillPoulet'],
       };
       const skills = [
         {
@@ -313,23 +386,33 @@ describe('Integration | Repository | tube-repository', function () {
 
     it('should return a list of tubes (locale FR - default)', async function () {
       // given
-      const tube1 = new Tube({
+      const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
         practicalTitle: 'practicalTitreFR1',
         practicalDescription: 'practicalDescriptionFR1',
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillBien'],
+        skills: [],
       });
-      const tube2 = new Tube({
+      const tube2 = domainBuilder.buildTube({
         id: 'recTube2',
         name: 'tubeName2',
         title: 'tubeTitle2',
         description: 'tubeDescription2',
         practicalTitle: 'practicalTitreFR2',
         practicalDescription: 'practicalDescriptionFR2',
+        isMobileCompliant: true,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCuisse',
+        skillIds: ['skillPoulet'],
+        skills: [],
       });
 
       // when
@@ -341,23 +424,33 @@ describe('Integration | Repository | tube-repository', function () {
 
     it('should return a list of tubes (locale EN)', async function () {
       // given
-      const tube1 = new Tube({
+      const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
         practicalTitle: 'practicalTitreEN1',
         practicalDescription: 'practicalDescriptionEN1',
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillBien'],
+        skills: [],
       });
-      const tube2 = new Tube({
+      const tube2 = domainBuilder.buildTube({
         id: 'recTube2',
         name: 'tubeName2',
         title: 'tubeTitle2',
         description: 'tubeDescription2',
         practicalTitle: 'practicalTitreEN2',
         practicalDescription: 'practicalDescriptionEN2',
+        isMobileCompliant: true,
+        isTabletCompliant: false,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCuisse',
+        skillIds: ['skillPoulet'],
+        skills: [],
       });
 
       // when
@@ -371,14 +464,19 @@ describe('Integration | Repository | tube-repository', function () {
   describe('#findActiveByRecordIds', function () {
     it('should return a list of active tubes', async function () {
       // given
-      const tube1 = new Tube({
+      const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1',
         practicalDescription: 'translatedPracticalDescription1',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillCool'],
+        skills: [],
       });
 
       const learningContentTube0 = {
@@ -392,7 +490,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription0',
         },
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
       };
 
       const learningContentTube1 = {
@@ -406,7 +508,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription1',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillCool'],
       };
 
       const learningContentTube2 = {
@@ -420,7 +526,11 @@ describe('Integration | Repository | tube-repository', function () {
         practicalDescription_i18n: {
           fr: 'translatedPracticalDescription2',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: false,
         competenceId: 'recCompetence2',
+        thematicId: 'thematicFruit',
+        skillIds: [],
       };
 
       const skills = [
@@ -452,14 +562,19 @@ describe('Integration | Repository | tube-repository', function () {
 
     it('should return a list of english active tubes', async function () {
       // given
-      const tube1 = new Tube({
+      const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1EnUs',
         practicalDescription: 'translatedPracticalDescription1EnUs',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillCool'],
+        skills: [],
       });
 
       const learningContentTube0 = {
@@ -475,7 +590,11 @@ describe('Integration | Repository | tube-repository', function () {
           fr: 'translatedPracticalDescription0',
           en: 'translatedPracticalDescription0EnUs',
         },
+        isMobileCompliant: false,
+        isTabletCompliant: false,
         competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
       };
 
       const learningContentTube1 = {
@@ -491,7 +610,11 @@ describe('Integration | Repository | tube-repository', function () {
           fr: 'translatedPracticalDescription1',
           en: 'translatedPracticalDescription1EnUs',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: true,
         competenceId: 'recCompetence1',
+        thematicId: 'thematicCava',
+        skillIds: ['skillCool'],
       };
 
       const learningContentTube2 = {
@@ -507,7 +630,11 @@ describe('Integration | Repository | tube-repository', function () {
           fr: 'translatedPracticalDescription2',
           en: 'translatedPracticalDescription2EnUs',
         },
+        isMobileCompliant: true,
+        isTabletCompliant: false,
         competenceId: 'recCompetence2',
+        thematicId: 'thematicFruit',
+        skillIds: [],
       };
 
       const skills = [

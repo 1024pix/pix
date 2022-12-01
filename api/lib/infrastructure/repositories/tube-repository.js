@@ -20,6 +20,8 @@ function _toDomain({ tubeData, locale }) {
     isMobileCompliant: tubeData.isMobileCompliant,
     isTabletCompliant: tubeData.isTabletCompliant,
     competenceId: tubeData.competenceId,
+    thematicId: tubeData.thematicId,
+    skillIds: tubeData.skillIds,
   });
 }
 

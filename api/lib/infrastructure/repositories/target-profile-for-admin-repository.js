@@ -112,25 +112,18 @@ async function _getLearningContent_new(targetProfileId, tubesData, locale) {
     );
   }
 
-  const competenceIds = _.keys(_.groupBy(tubes, 'competenceId'));
+  const thematicIds = _.keys(_.groupBy(tubes, 'thematicId'));
+  const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
+
+  const competenceIds = _.keys(_.groupBy(thematics, 'competenceId'));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
 
-  const thematicIds = competences.flatMap((competence) => competence.thematicIds);
-  const uniqThematicIds = _.uniq(thematicIds);
-  const allCompetenceThematics = await thematicRepository.findByRecordIds(uniqThematicIds, locale);
-  const thematics = allCompetenceThematics.filter((thematic) =>
-    thematic.tubeIds.some((tubeId) => tubeIds.includes(tubeId))
-  );
-
-  const areaIds = _.map(competences, (competence) => competence.areaId);
-  const uniqAreaIds = _.uniq(areaIds);
-  const areas = await areaRepository.findByRecordIds({ areaIds: uniqAreaIds, locale });
+  const areaIds = _.keys(_.groupBy(competences, 'areaId'));
+  const areas = await areaRepository.findByRecordIds({ areaIds, locale });
 
   for (const tube of tubes) {
     const tubeData = tubesData.find((data) => tube.id === data.tubeId);
     tube.level = tubeData.level;
-    const correspondingThematic = thematics.find((thematic) => thematic.tubeIds.includes(tube.id));
-    tube.thematicId = correspondingThematic.id;
   }
 
   return {

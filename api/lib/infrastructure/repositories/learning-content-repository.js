@@ -77,10 +77,11 @@ async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
 }
 
 async function _getLearningContentByTubes(tubes, locale) {
-  const tubeIds = _.uniq(tubes.map((tube) => tube.id));
-  const thematics = await thematicRepository.list({ locale });
-  const goodThematics = thematics.filter((thematic) => tubeIds.some((tubeId) => thematic.tubeIds.includes(tubeId)));
-  goodThematics.forEach((thematic) => (thematic.tubes = tubes.filter((tube) => thematic.tubeIds.includes(tube.id))));
+  const thematicIds = _.uniq(tubes.map((tube) => tube.thematicId));
+  const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
+  thematics.forEach((thematic) => {
+    thematic.tubes = tubes.filter((tube) => tube.thematicId === thematic.id);
+  });
 
   const competenceIds = _.uniq(tubes.map((tube) => tube.competenceId));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
@@ -89,7 +90,7 @@ async function _getLearningContentByTubes(tubes, locale) {
     competence.tubes = tubes.filter((tube) => {
       return tube.competenceId === competence.id;
     });
-    competence.thematics = goodThematics.filter((thematic) => {
+    competence.thematics = thematics.filter((thematic) => {
       return thematic.competenceId === competence.id;
     });
   });

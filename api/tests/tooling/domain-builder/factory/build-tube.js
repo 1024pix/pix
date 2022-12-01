@@ -12,6 +12,8 @@ module.exports = function buildTube({
   isTabletCompliant = false,
   skills = buildSkillCollection(),
   competenceId = 'recCOMP123',
+  thematicId = 'thematic123',
+  skillIds = ['skillABC', 'skillDEF'],
 } = {}) {
   return new Tube({
     id,
@@ -24,5 +26,7 @@ module.exports = function buildTube({
     isTabletCompliant,
     skills,
     competenceId,
+    thematicId,
+    skillIds,
   });
 };
