@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 export default class CertificationDetailsRoute extends Route {
   model() {
-    return this.modelFor('authenticated.certifications');
+    return this.modelFor('authenticated.certifications.certification');
   }
 
   setupController(controller, model) {
