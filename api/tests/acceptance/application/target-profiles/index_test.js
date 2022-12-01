@@ -821,7 +821,7 @@ describe('Acceptance | Route | target-profiles', function () {
         thematics: [
           { id: 'recThematic', name_i18n: { fr: 'somename' }, tubeIds: ['recTube'], competenceId: 'recCompetence' },
         ],
-        tubes: [{ id: 'recTube', competenceId: 'recCompetence' }],
+        tubes: [{ id: 'recTube', thematicId: 'recThematic' }],
         skills: [{ id: 'recSkill', tubeId: 'recTube', status: 'actif', level: 5, name: 'skill5' }],
         challenges: [],
       };

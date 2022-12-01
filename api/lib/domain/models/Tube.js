@@ -12,7 +12,9 @@ class Tube {
     isTabletCompliant,
     skills = [],
     competenceId,
-  } = {}) {
+    thematicId,
+    skillIds,
+  }) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -22,6 +24,8 @@ class Tube {
     this.isTabletCompliant = isTabletCompliant;
     this.skills = skills;
     this.competenceId = competenceId;
+    this.thematicId = thematicId;
+    this.skillIds = skillIds;
 
     if (name) {
       this.name = name;
