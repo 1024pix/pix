@@ -12,7 +12,7 @@ describe('Unit | UseCase | get-framework-areas', function () {
     expectedFrameworkResult;
 
   beforeEach(function () {
-    expectedTubesResult = [{ id: 'tubeId1', mobile: false, tablet: true }];
+    expectedTubesResult = [{ id: 'tubeId1', isMobileCompliant: false, isTabletCompliant: true }];
     expectedThematicsResult = [{ id: 'thematicId', tubeIds: ['tubeId1'] }];
     expectedAreasResult = [{ id: 'areaId1', competences: [{ id: 'competenceId1' }] }];
     expectedFrameworkResult = { id: 'frameworkId', name: 'framework' };
