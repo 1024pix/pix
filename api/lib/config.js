@@ -253,6 +253,15 @@ module.exports = (function () {
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
 
+    fwb: {
+      clientId: process.env.FWB_CLIENT_ID,
+      clientSecret: process.env.FWB_CLIENT_SECRET,
+      tokenUrl: process.env.FWB_TOKEN_URL,
+      authenticationUrl: process.env.FWB_AUTHENTICATION_URL,
+      userInfoUrl: process.env.FWB_USER_INFO_URL,
+      accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
+
     authenticationSession: {
       temporaryStorage: {
         expirationDelaySeconds:
