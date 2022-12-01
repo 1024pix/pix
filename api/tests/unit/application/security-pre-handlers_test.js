@@ -7,6 +7,7 @@ const checkAdminMemberHasRoleCertifUseCase = require('../../../lib/application/u
 const checkAdminMemberHasRoleSupportUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSupport');
 const checkAdminMemberHasRoleMetierUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
+const checkUserBelongsToLearnersOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToLearnersOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
@@ -472,6 +473,75 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // when
         const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+  describe('#checkUserBelongsToOrganizationLearnerOrganization', function () {
+    let belongsToLearnerOrganizationStub;
+    let request;
+    beforeEach(function () {
+      belongsToLearnerOrganizationStub = sinon.stub(checkUserBelongsToLearnersOrganizationUseCase, 'execute');
+      request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234,
+          },
+        },
+        params: { id: 5678 },
+      };
+    });
+
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and belongs to the same organization as the learner', async function () {
+        // given
+        belongsToLearnerOrganizationStub.resolves(true);
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it("should forbid resource access when user does not belong to the learner's organization", async function () {
+        // given
+        belongsToLearnerOrganizationStub.resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // if organization learner ressource is missing, a 403 error response is sent not to give further information to unauthorized people
+
+        // given
+        belongsToLearnerOrganizationStub.rejects(new Error());
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
