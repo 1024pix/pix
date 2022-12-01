@@ -3,7 +3,7 @@
     <PixTag class="campaign-participation-overview-card-header__tag" @compact={{true}} @color="grey-light">
       {{t "pages.campaign-participation-overview.card.tag.finished"}}
     </PixTag>
-    <h3 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h3>
+    <h2 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h2>
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date" datetime="{{@model.sharedAt}}">
       {{t "pages.campaign-participation-overview.card.finished-at" date=(dayjs-format @model.sharedAt "DD/MM/YYYY")}}
