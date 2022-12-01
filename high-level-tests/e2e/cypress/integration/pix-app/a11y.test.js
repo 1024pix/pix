@@ -57,7 +57,7 @@ describe('a11y', () => {
       { url: '/competences/recH9MjIzN54zXlwr/details', skipFailures: true },
       { url: '/mes-certifications' },
       { url: '/mes-formations' },
-      { url: '/mes-parcours', skipFailures: true },
+      { url: '/mes-parcours' },
       { url: '/mes-tutos/enregistres' },
       { url: '/mes-tutos/recommandes' },
       { url: '/mon-compte/informations-personnelles' },
