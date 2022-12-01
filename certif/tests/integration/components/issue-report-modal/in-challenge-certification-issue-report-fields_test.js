@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import {
-  certificationIssueReportCategories,
   categoryToLabel,
+  certificationIssueReportCategories,
   certificationIssueReportSubcategories,
-  subcategoryToLabel,
   subcategoryToCode,
+  subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
 import { RadioButtonCategoryWithSubcategoryAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 

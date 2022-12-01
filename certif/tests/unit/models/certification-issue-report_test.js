@@ -3,12 +3,12 @@ import { setupTest } from 'ember-qunit';
 import map from 'lodash/map';
 
 import {
+  categoryToCode,
+  categoryToLabel,
   certificationIssueReportCategories,
   certificationIssueReportSubcategories,
-  categoryToLabel,
-  subcategoryToLabel,
-  categoryToCode,
   subcategoryToCode,
+  subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
 
 module('Unit | Model | certification issue report', function (hooks) {
