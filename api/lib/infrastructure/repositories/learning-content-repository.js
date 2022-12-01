@@ -79,7 +79,9 @@ async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
 async function _getLearningContentByTubes(tubes, locale) {
   const thematicIds = _.uniq(tubes.map((tube) => tube.thematicId));
   const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
-  thematics.forEach((thematic) => (thematic.tubes = tubes.filter((tube) => tube.thematicId === thematic.id)));
+  thematics.forEach((thematic) => {
+    thematic.tubes = tubes.filter((tube) => tube.thematicId === thematic.id);
+  });
 
   const competenceIds = _.uniq(tubes.map((tube) => tube.competenceId));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
