@@ -4,10 +4,11 @@ import Controller from '@ember/controller';
 
 export default class NewController extends Controller {
   @service notifications;
+  @service router;
 
   @action
   goBackToOrganizationList() {
-    this.transitionToRoute('authenticated.organizations');
+    this.router.transitionTo('authenticated.organizations');
   }
 
   @action
@@ -16,7 +17,7 @@ export default class NewController extends Controller {
     try {
       await this.model.save();
       this.notifications.success('L’organisation a été créée avec succès.');
-      this.transitionToRoute('authenticated.organizations.get', this.model.id);
+      this.router.transitionTo('authenticated.organizations.get', this.model.id);
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
     }

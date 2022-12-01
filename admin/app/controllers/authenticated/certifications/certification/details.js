@@ -13,6 +13,7 @@ export default class CertificationDetailsController extends Controller {
 
   @service('mark-store') _markStore;
   @service accessControl;
+  @service router;
 
   @alias('details.percentageCorrectAnswers') rate;
   @alias('details.totalScore') score;
@@ -67,7 +68,7 @@ export default class CertificationDetailsController extends Controller {
         return marks;
       }, {}),
     });
-    this.transitionToRoute('authenticated.certifications.certification.informations', this.details.id);
+    this.router.transitionTo('authenticated.certifications.certification.informations', this.details.id);
   }
 }
 
