@@ -43,9 +43,11 @@ module.exports = {
             .map((thematic) => {
               return {
                 ...thematic,
-                tubes: framework.tubes.filter(({ id }) => {
-                  return thematic.tubeIds.includes(id);
-                }),
+                tubes: framework.tubes
+                  .filter(({ id }) => {
+                    return thematic.tubeIds.includes(id);
+                  })
+                  .map((tube) => ({ ...tube, mobile: tube.isMobileCompliant, tablet: tube.isTabletCompliant })),
               };
             })
             .filter((thematic) => {

@@ -21,12 +21,6 @@ module.exports = async function getFrameworkAreas({
 
   const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
   const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
-  for (const tube of tubes) {
-    tube.mobile = tube.isMobileCompliant;
-    tube.tablet = tube.isTabletCompliant;
-    delete tube.isMobileCompliant;
-    delete tube.isTabletCompliant;
-  }
 
   return { areas: areasWithCompetences, thematics, tubes };
 };
