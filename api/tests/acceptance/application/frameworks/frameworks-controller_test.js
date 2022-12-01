@@ -64,6 +64,8 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           fr: 'description pratique',
         },
         competenceId: 'competenceId',
+        isMobileCompliant: false,
+        isTabletCompliant: false,
       },
     ],
     skills: [
@@ -71,12 +73,6 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         id: 'skillId',
         status: 'actif',
         tubeId: 'tubeId',
-      },
-    ],
-    challenges: [
-      {
-        id: 'challengeId',
-        skillId: 'skillId',
       },
     ],
   };

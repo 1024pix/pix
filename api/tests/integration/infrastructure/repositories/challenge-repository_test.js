@@ -522,7 +522,7 @@ function _buildSkill({ id }) {
   };
 }
 
-function _buildChallenge({ id, skill, status = 'validé', genealogy = 'Prototype 1' }) {
+function _buildChallenge({ id, skill, status = 'validé' }) {
   return {
     id,
     attachments: ['URL pièce jointe'],
@@ -542,7 +542,6 @@ function _buildChallenge({ id, skill, status = 'validé', genealogy = 'Prototype
     difficulty: 0,
     answer: undefined,
     responsive: 'Smartphone/Tablette',
-    genealogy,
     competenceId: 'recCOMP1',
     skillId: skill.id,
     alpha: 0,

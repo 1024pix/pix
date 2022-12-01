@@ -41,7 +41,6 @@ describe('Unit | Domain | Models | Challenge', function () {
         discriminant: 0.75,
         difficulty: -0.23,
         responsive: 'Smartphone',
-        genealogy: 'Prototype 1',
       };
 
       // when

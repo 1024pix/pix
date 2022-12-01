@@ -7,6 +7,8 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
       // given
       const tube = domainBuilder.buildTube({
         id: 'tubeId',
+        isMobileCompliant: true,
+        isTabletCompliant: false,
       });
 
       const thematicWithTube = domainBuilder.buildThematic({
@@ -53,6 +55,8 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
               name: '@tubeName',
               'practical-title': 'titre pratique',
               'practical-description': 'description pratique',
+              mobile: true,
+              tablet: false,
             },
             relationships: {
               skills: {
