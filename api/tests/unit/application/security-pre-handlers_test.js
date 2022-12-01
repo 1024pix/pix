@@ -480,6 +480,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       });
     });
   });
+
   describe('#checkUserBelongsToOrganizationLearnerOrganization', function () {
     let belongsToLearnerOrganizationStub;
     let request;

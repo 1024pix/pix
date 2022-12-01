@@ -6,6 +6,7 @@ const {
 } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
+const Membership = require('../../../../lib/domain/models/Membership');
 
 describe('Acceptance | Controller | organization-learner', function () {
   let server;
@@ -93,27 +94,26 @@ describe('Acceptance | Controller | organization-learner', function () {
     });
   });
   describe('GET /api/organization-learners/{id}/activity', function () {
-    let options;
-    let organizationId;
-    let organizationLearnerId;
-    let userId;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
-      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
-      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
-        organizationLearnerId,
-      });
-      await databaseBuilder.commit();
-    });
-
     describe('Success case', function () {
       it('should return the organizationLearner activity (participations) and a 200 status code response', async function () {
         //given
-        options = {
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
+        const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId,
+        });
+
+        databaseBuilder.factory.buildMembership({
+          organizationId,
+          userId,
+          organizationRole: Membership.roles.MEMBER,
+        });
+        await databaseBuilder.commit();
+
+        const options = {
           method: 'GET',
           url: `/api/organization-learners/${organizationLearnerId}/activity`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -124,6 +124,7 @@ describe('Acceptance | Controller | organization-learner', function () {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('organization-learner-activities');
+        expect(response.result.data.id).to.equal(organizationLearnerId.toString());
       });
     });
   });

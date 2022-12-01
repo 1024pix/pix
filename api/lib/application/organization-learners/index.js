@@ -54,6 +54,12 @@ exports.register = async function (server) {
       method: 'GET',
       path: '/api/organization-learners/{id}/activity',
       config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToLearnersOrganization,
+            assign: 'belongsToLearnersOrganization',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationLearnerId,
@@ -61,7 +67,7 @@ exports.register = async function (server) {
         },
         handler: organizationLearnerController.getActivity,
         notes: [
-          "- **Cette route sera restreinte aux membres authentifiés d'une organisation**\n" +
+          "- **Cette route est restreinte aux membres authentifiés d'une organisation**\n" +
             "- Récupération de l'activité du prescrit\n",
         ],
         tags: ['api', 'organization-learners-activity'],

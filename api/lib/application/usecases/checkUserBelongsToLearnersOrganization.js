@@ -3,13 +3,12 @@ const membershipRepository = require('../../infrastructure/repositories/membersh
 const organizationLearnerRepository = require('../../infrastructure/repositories/organization-learner-repository');
 
 module.exports = {
-  execute(userId, organizationLearnerId) {
-    return organizationLearnerRepository
-      .get(organizationLearnerId)
-      .then((organizationLearner) =>
-        membershipRepository
-          .findByUserIdAndOrganizationId({ userId, organizationId: organizationLearner.organizationId })
-          .then((memberships) => !_.isEmpty(memberships))
-      );
+  async execute(userId, organizationLearnerId) {
+    const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+    const memberships = await membershipRepository.findByUserIdAndOrganizationId({
+      userId,
+      organizationId: organizationLearner.organizationId,
+    });
+    return !_.isEmpty(memberships);
   },
 };
