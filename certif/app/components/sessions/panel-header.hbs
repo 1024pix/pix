@@ -8,18 +8,16 @@
       >
         {{t "pages.sessions.list.header.session-import-template"}}
       </PixButton>
+      {{! template-lint-disable require-presentational-children }}
+      {{#let (file-queue name="file-upload" onFileAdded=this.importSessions) as |queue|}}
+        <label class="file-upload">
+          <PixButtonLink role="button" tabindex="0">
+            {{t "pages.sessions.list.header.session-import-upload"}}
+          </PixButtonLink>
+        </label>
+        <input type="file" accept=".csv" hidden {{queue.selectFile}} />
+      {{/let}}
 
-      <FileUpload
-        @name="file-upload"
-        @for="import-sessions"
-        @accept=".csv"
-        @multiple={{false}}
-        @onfileadd={{this.importSessions}}
-      >
-        <PixButtonLink role="button" tabindex="0">
-          {{t "pages.sessions.list.header.session-import-upload"}}
-        </PixButtonLink>
-      </FileUpload>
     {{/if}}
     <PixButtonLink @route="authenticated.sessions.new">
       {{t "pages.sessions.list.header.session-creation"}}
