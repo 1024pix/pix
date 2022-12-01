@@ -144,8 +144,8 @@ class TP_Thematic {
             name: tube.name,
             practicalTitle: tube.practicalTitle,
             level: tube.level,
-            mobile: tube.mobile,
-            tablet: tube.tablet,
+            mobile: tube.isMobileCompliant,
+            tablet: tube.isTabletCompliant,
           })
       );
   }

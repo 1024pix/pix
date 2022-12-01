@@ -81,6 +81,8 @@ const buildLearningContent = function (learningContent) {
                 fr: tube.practicalDescriptionFr || tube.practicalDescription,
                 en: tube.practicalDescriptionEn || tube.practicalDescription,
               },
+              isMobileCompliant: tube.isMobileCompliant,
+              isTabletCompliant: tube.isTabletCompliant,
               competenceId: competence.id,
             };
           });

@@ -17,6 +17,8 @@ function _toDomain({ tubeData, locale }) {
     description: tubeData.description,
     practicalTitle: translatedPracticalTitle,
     practicalDescription: translatedPracticalDescription,
+    isMobileCompliant: tubeData.isMobileCompliant,
+    isTabletCompliant: tubeData.isTabletCompliant,
     competenceId: tubeData.competenceId,
   });
 }
