@@ -40,7 +40,7 @@ module('Acceptance | authenticated/sessions/session/certifications', function (h
       await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/1/certifications?pageNumber=2&pageSize=10');
+      assert.strictEqual(currentURL(), '/sessions/1/certifications?pageNumber=2');
       const lastSummary = juryCertificationSummaries.at(-1);
       assert.dom(screen.queryByText(lastSummary.id)).exists();
       const numberOfLineForHeadAndBody = 2;
