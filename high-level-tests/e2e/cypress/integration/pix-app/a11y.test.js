@@ -54,7 +54,7 @@ describe('a11y', () => {
       { url: '/campagnes/NERA/evaluation/resultats' },
       { url: '/certifications' },
       { url: '/competences' },
-      { url: '/competences/recH9MjIzN54zXlwr/details', skipFailures: true },
+      { url: '/competences/recH9MjIzN54zXlwr/details' },
       { url: '/mes-certifications' },
       { url: '/mes-formations' },
       { url: '/mes-parcours' },
