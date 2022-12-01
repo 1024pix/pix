@@ -1,6 +1,6 @@
 import { find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -12,7 +12,7 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
   module('Challenge answered: the answers inputs should be disabled', function (hooks) {
     hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       const challenge = server.create('challenge', 'forCompetenceEvaluation');
       const answer = server.create('answer', 'skipped', { assessment, challenge });
@@ -36,7 +36,7 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
 
     hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
         instruction: 'Instruction [lien](http://www.a.link.example.url)',
@@ -117,7 +117,7 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
         isAnonymous: true,
       });
 
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);

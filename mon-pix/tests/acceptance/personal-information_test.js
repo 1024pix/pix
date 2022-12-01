@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | personal-information', function (hooks) {
@@ -19,7 +19,7 @@ module('Acceptance | personal-information', function (hooks) {
         password: 'pixi',
         lang: 'fr',
       });
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       const screen = await visit('/mon-compte/informations-personnelles');

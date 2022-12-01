@@ -3,7 +3,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | Sitemap', function (hooks) {
   setupApplicationTest(hooks);
@@ -16,7 +16,7 @@ module('Acceptance | Sitemap', function (hooks) {
 
   module('When visiting /plan-du-site', function (hooks) {
     hooks.beforeEach(async function () {
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/plan-du-site');
     });
 

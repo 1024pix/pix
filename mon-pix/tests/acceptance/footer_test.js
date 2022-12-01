@@ -2,7 +2,7 @@ import { find } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import { visit } from '@ember/test-helpers';
 import setupIntl from '../helpers/setup-intl';
@@ -19,7 +19,7 @@ module('Acceptance | Footer', function (hooks) {
 
   module('Authenticated cases as simple user', function (hooks) {
     hooks.beforeEach(async function () {
-      await authenticateByEmail(user);
+      await authenticate(user);
     });
 
     test('should not be displayed while in campaign', async function (assert) {

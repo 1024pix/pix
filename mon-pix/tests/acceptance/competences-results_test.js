@@ -1,6 +1,6 @@
 import { find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -17,7 +17,7 @@ module('Acceptance | competences results', function (hooks) {
 
   module('Authenticated cases as simple user', function (hooks) {
     hooks.beforeEach(async function () {
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       this.server.create('assessment', {
         id: assessmentId,

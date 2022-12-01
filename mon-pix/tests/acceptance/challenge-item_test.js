@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { click, find, triggerEvent, visit } from '@ember/test-helpers';
 
 module('Acceptance | Displaying a challenge of any type', function (hooks) {
@@ -33,7 +33,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               const user = server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: false,
               });
-              await authenticateByEmail(user);
+              await authenticate(user);
 
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -126,7 +126,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               const user = server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: true,
               });
-              await authenticateByEmail(user);
+              await authenticate(user);
 
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -178,7 +178,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
-            await authenticateByEmail(user);
+            await authenticate(user);
           });
 
           module('when assessment is of type certification', function (hooks) {
@@ -243,7 +243,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
-            await authenticateByEmail(user);
+            await authenticate(user);
             assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeUnfocus');
             server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
@@ -269,7 +269,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
-            await authenticateByEmail(user);
+            await authenticate(user);
           });
 
           module('when user goes to another assessment', function () {
@@ -328,7 +328,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 const user = server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: false,
                 });
-                await authenticateByEmail(user);
+                await authenticate(user);
 
                 assessment = server.create('assessment', 'ofCompetenceEvaluationType');
                 server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
@@ -372,7 +372,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 const user = server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: true,
                 });
-                await authenticateByEmail(user);
+                await authenticate(user);
 
                 assessment = server.create('assessment', 'ofCompetenceEvaluationType');
                 server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
@@ -441,7 +441,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             hooks.beforeEach(async function () {
               // given
               const user = server.create('user', 'withEmail');
-              await authenticateByEmail(user);
+              await authenticate(user);
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 

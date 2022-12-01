@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, currentURL } from '@ember/test-helpers';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | mes-tutos', function (hooks) {
   setupApplicationTest(hooks);
@@ -12,7 +12,7 @@ module('Acceptance | mes-tutos', function (hooks) {
   module('When the new tutorials page is disabled', function (hooks) {
     hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
     });
 
     test('user is redirected to /mes-tutos/recommandes when visiting /mes-tutos', async function (assert) {

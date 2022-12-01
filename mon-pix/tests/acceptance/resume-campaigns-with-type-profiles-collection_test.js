@@ -1,6 +1,6 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import {
   resumeCampaignOfTypeProfilesCollectionByCode,
   completeCampaignOfTypeProfilesCollectionByCode,
@@ -21,7 +21,7 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
 
   hooks.beforeEach(async function () {
     studentInfo = server.create('user', 'withEmail');
-    await authenticateByEmail(studentInfo);
+    await authenticate(studentInfo);
     campaign = server.create('campaign', { idPixLabel: 'email', type: PROFILES_COLLECTION });
     await resumeCampaignOfTypeProfilesCollectionByCode(campaign.code, true);
   });

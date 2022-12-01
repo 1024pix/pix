@@ -1,6 +1,6 @@
 import { click, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -21,7 +21,7 @@ module('Acceptance | Tutorial | Actions', function (hooks) {
     server.create('competence-evaluation', { user, competenceId, assessment });
 
     // when
-    await authenticateByEmail(user);
+    await authenticate(user);
     await visit('/mes-tutos');
   });
 

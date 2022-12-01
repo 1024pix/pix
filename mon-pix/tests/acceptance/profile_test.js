@@ -1,6 +1,6 @@
 import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
@@ -18,7 +18,7 @@ module('Acceptance | Profile', function (hooks) {
 
   module('Authenticated cases as simple user', function (hooks) {
     hooks.beforeEach(async function () {
-      await authenticateByEmail(user);
+      await authenticate(user);
     });
 
     test('can visit /competences', async function (assert) {

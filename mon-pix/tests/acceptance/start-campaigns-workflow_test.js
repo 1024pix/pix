@@ -7,7 +7,7 @@ import { Response } from 'miragejs';
 
 import { clickByLabel } from '../helpers/click-by-label';
 import { fillInByLabel } from '../helpers/fill-in-by-label';
-import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
+import { authenticate, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { currentSession } from 'ember-simple-auth/test-support';
 import ENV from 'mon-pix/config/environment';
@@ -525,7 +525,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
     module('When user is logged in', function (hooks) {
       hooks.beforeEach(async function () {
-        await authenticateByEmail(prescritUser);
+        await authenticate(prescritUser);
       });
 
       module('When campaign is not restricted', function () {

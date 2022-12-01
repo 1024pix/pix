@@ -1,6 +1,6 @@
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -16,7 +16,7 @@ module('Acceptance | Profile | Start competence', function (hooks) {
 
   module('Authenticated cases as simple user', function (hooks) {
     hooks.beforeEach(async function () {
-      await authenticateByEmail(user);
+      await authenticate(user);
     });
 
     test('can start a competence', async function (assert) {
