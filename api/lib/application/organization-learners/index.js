@@ -50,6 +50,23 @@ exports.register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/organization-learners/{id}/activity',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationLearnerId,
+          }),
+        },
+        handler: organizationLearnerController.getActivity,
+        notes: [
+          "- **Cette route sera restreinte aux membres authentifiés d'une organisation**\n" +
+            "- Récupération de l'activité du prescrit\n",
+        ],
+        tags: ['api', 'organization-learners-activity'],
+      },
+    },
   ]);
 };
 
