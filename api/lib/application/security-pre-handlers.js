@@ -302,7 +302,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
 }
 
 async function checkUserBelongsToLearnersOrganization(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
+  if (!request.auth.credentials) {
     return _replyForbiddenError(h);
   }
 
