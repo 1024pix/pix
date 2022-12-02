@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class ListRoute extends Route {
   @service accessControl;
+  @service store;
 
   queryParams = {
     pageNumber: { refreshModel: true },
@@ -18,6 +19,7 @@ export default class ListRoute extends Route {
 
   async model(params) {
     let trainingSummaries;
+
     try {
       trainingSummaries = await this.store.query('training-summary', {
         page: {

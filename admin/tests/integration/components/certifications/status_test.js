@@ -45,8 +45,8 @@ module('Integration | Component | certifications/status', function (hooks) {
     });
 
     [
-      { status: 'validated', statusLabel: 'Validée' },
-      { status: 'rejected', statusLabel: 'Rejetée' },
+      { status: 'validated', statusLabelToValidate: 'Validée' },
+      { status: 'rejected', statusLabelToValidate: 'Rejetée' },
     ].forEach((juryCertificationSummary) => {
       test(`it renders ${juryCertificationSummary.status}`, async function (assert) {
         // given
@@ -62,7 +62,7 @@ module('Integration | Component | certifications/status', function (hooks) {
 
         // then
         assert.dom('span.certification-list-page__cell--important').doesNotExist();
-        assert.dom('span').hasText(record.statusLabel);
+        assert.dom('span').hasText(record.statusLabelToValidate);
       });
     });
   });

@@ -45,7 +45,9 @@ module('Unit | Route | authenticated/certifications/certification', function (ho
       notify: sinon.stub().resolves(),
     };
     route.errorNotifier = errorNotifierStub;
-    route.transitionTo = () => {};
+
+    sinon.stub(route.router, 'transitionTo');
+    route.router.transitionTo.resolves();
 
     // when
     route.send('error');
