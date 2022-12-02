@@ -1,4 +1,3 @@
-const dayjs = require('dayjs');
 const settings = require('../../config');
 
 class UserLogin {
@@ -27,14 +26,12 @@ class UserLogin {
   }
 
   shouldBlockUserTemporarily() {
-    return this.failureCount % settings.userLogins.thresholdFailureCount === 0;
+    return this.failureCount % settings.login.temporaryBlockingThresholdFailureCount === 0;
   }
 
   blockUserTemporarily() {
-    const rest = this.failureCount / settings.userLogins.thresholdFailureCount;
-    this.temporaryBlockedUntil = dayjs()
-      .add(Math.pow(settings.userLogins.temporaryBlockedTime, rest), 'minute')
-      .toDate();
+    const commonRatio = Math.pow(2, this.failureCount / settings.login.temporaryBlockingThresholdFailureCount - 1);
+    this.temporaryBlockedUntil = new Date(Date.now() + settings.login.temporaryBlockingBaseTimeMs * commonRatio);
   }
 
   hasBeenTemporaryBlocked() {
@@ -42,7 +39,7 @@ class UserLogin {
   }
 
   shouldBlockUser() {
-    return this.failureCount >= settings.userLogins.limitFailureCount;
+    return this.failureCount >= settings.login.blockingLimitFailureCount;
   }
 
   blockUser() {
@@ -50,7 +47,7 @@ class UserLogin {
   }
 
   isUserBlocked() {
-    return !!this.blockedAt || this.failureCount >= settings.userLogins.limitFailureCount;
+    return !!this.blockedAt || this.failureCount >= settings.login.blockingLimitFailureCount;
   }
 }
 
