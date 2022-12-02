@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v3.294.0 (02/12/2022)
+
+
+### :rocket: Amélioration
+- [#5268](https://github.com/1024pix/pix/pull/5268) [FEATURE] Intégrer l'interconnexion avec le nouveau partenaire : FWB (PIX-6381)
+- [#5277](https://github.com/1024pix/pix/pull/5277) [FEATURE] Creer un script pour retrouver les certifications CFP non envoyés (PIX-6257)
+- [#5309](https://github.com/1024pix/pix/pull/5309) [FEATURE] Bloquer définitivement l'utilisateur après 50 entrées de mots de passe erronés (PIX-6385)
+- [#5224](https://github.com/1024pix/pix/pull/5224) [FEATURE] Création de RT par sujets cappés (PIX-5595)
+
+### :building_construction: Tech
+- [#5317](https://github.com/1024pix/pix/pull/5317) [TECH] Supprimer le texte RGPD sur la double mire Pix Certif (PIX-6136)
+- [#5320](https://github.com/1024pix/pix/pull/5320) [TECH] Supprimer le texte RGPD sur la double mire Pix Orga (PIX-6244)
+- [#5228](https://github.com/1024pix/pix/pull/5228) [TECH] Utiliser les nouveaux attributs thematicId et skillIds du modèle Tube (PIX-6460)
+- [#5139](https://github.com/1024pix/pix/pull/5139) [TECH] Utiliser les nouveaux attributs de compatibilité machine ajoutés aux Tubes dans la release LCMS (PIX-6456)
+- [#5304](https://github.com/1024pix/pix/pull/5304) [TECH] Monter Ember en v3.28.8 sur PixAdmin (Pix-6429)
+- [#5270](https://github.com/1024pix/pix/pull/5270) [TECH] Ajout de shell.nix pour le gestionnaire de package nix.
+- [#5313](https://github.com/1024pix/pix/pull/5313) [TECH] Better blocking error codes
+- [#5296](https://github.com/1024pix/pix/pull/5296) [TECH] Monter les versions des packages Pix Admin avant Ember 4.x (Pix-6415)
+- [#5310](https://github.com/1024pix/pix/pull/5310) [TECH] Remplacer `ember-moment` par `ember-dayjs` sur Pix Certif (PIX-6426). 
+- [#5266](https://github.com/1024pix/pix/pull/5266) [TECH] Utilise les nouvelles clefs de traduction du référentiel
+
+### :bug: Correction
+- [#5316](https://github.com/1024pix/pix/pull/5316) [BUGFIX] Modale signalements lors finalisation session et modale inscription candidat individuel (PIX-6463)
+- [#5307](https://github.com/1024pix/pix/pull/5307) [BUGFIX] Modification du texte de l'erreur E11 (PIX-6370)
+- [#5302](https://github.com/1024pix/pix/pull/5302) [BUGFIX] Fix des marges des boutons sur la page de détail d'une session (PIX-6369)
+- [#5312](https://github.com/1024pix/pix/pull/5312) [BUGFIX] Stabiliser le test flaky sur InMemoryTemporaryStorage.update()
+
+### :coffee: Autre
+- [#5308](https://github.com/1024pix/pix/pull/5308) [FEATURE/TECH/BUGFIX] Design tabulation (PIX-5790)
+
 ## v3.293.0 (29/11/2022)
 
 
