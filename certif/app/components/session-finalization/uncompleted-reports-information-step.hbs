@@ -107,19 +107,23 @@
     </tbody>
   </table>
 
-  <IssueReportModal::AddIssueReportModal
-    @showModal={{this.showAddIssueReportModal}}
-    @closeModal={{this.closeAddIssueReportModal}}
-    @report={{this.reportToEdit}}
-    @maxlength={{@issueReportDescriptionMaxLength}}
-  />
+  {{#if this.showAddIssueReportModal}}
+    <IssueReportModal::AddIssueReportModal
+      @showModal={{this.showAddIssueReportModal}}
+      @closeModal={{this.closeAddIssueReportModal}}
+      @report={{this.reportToEdit}}
+      @maxlength={{@issueReportDescriptionMaxLength}}
+    />
+  {{/if}}
 
-  <IssueReportModal::IssueReportsModal
-    @showModal={{this.showIssueReportsModal}}
-    @closeModal={{this.closeIssueReportsModal}}
-    @onClickIssueReport={{this.openAddIssueReportModal}}
-    @onClickDeleteIssueReport={{@onIssueReportDeleteButtonClicked}}
-    @report={{this.reportToEdit}}
-  />
+  {{#if this.showIssueReportsModal}}
+    <IssueReportModal::IssueReportsModal
+      @showModal={{this.showIssueReportsModal}}
+      @closeModal={{this.closeIssueReportsModal}}
+      @onClickIssueReport={{this.openAddIssueReportModal}}
+      @onClickDeleteIssueReport={{@onIssueReportDeleteButtonClicked}}
+      @report={{this.reportToEdit}}
+    />
+  {{/if}}
 
 </div>
