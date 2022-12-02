@@ -19,9 +19,11 @@ describe('Unit | Service | certification-badges-service', function () {
       const badge1 = domainBuilder.buildBadge({ id: 1 });
       const badge2 = domainBuilder.buildBadge({ id: 2 });
       const badge3 = domainBuilder.buildBadge({ id: 3 });
+      const badge4 = domainBuilder.buildBadge({ id: 4 });
       const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge1 });
       const highestBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge2 });
       const highestBadgeAcquisition3 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge3 });
+      const highestBadgeAcquisition4 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge4 });
       const badgeStillValid1 = domainBuilder.buildBadgeForCalculation.mockObtainable({
         id: badge1.id,
       });
@@ -49,6 +51,9 @@ describe('Unit | Service | certification-badges-service', function () {
       getByCertifiableBadgeAcquisitionStub
         .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition3 })
         .resolves(badgeStillValid3);
+      getByCertifiableBadgeAcquisitionStub
+        .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition4 })
+        .resolves(null);
 
       // when
       const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions(args);

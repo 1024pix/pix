@@ -149,6 +149,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
         targetProfileId,
         campaignSkillsId
       );
+      _buildBadgeWithUnrealisableCriteria(targetProfileId, campaignSkillsId);
       await databaseBuilder.commit();
 
       // when
@@ -198,6 +199,7 @@ function _buildBadgeWithCampaignParticipationAndCappedTubes(targetProfileId, cam
   const cappedTubesDTO = [
     { id: 'recTubeA', level: 1 },
     { id: 'recTubeB', level: 4 },
+    { id: 'recTubeC', level: 1 },
   ];
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.CAPPED_TUBES,
@@ -261,4 +263,19 @@ function _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(targetProfileI
     key: 'BADGE_2_KEY',
     badgeCriteria: [criterion1, criterion2, criterion3],
   });
+}
+
+function _buildBadgeWithUnrealisableCriteria(targetProfileId) {
+  const badgeId = databaseBuilder.factory.buildBadge({
+    key: 'BADGE_3_KEY',
+    targetProfileId,
+  }).id;
+  const cappedTubesDTO = [{ id: 'recTubeC', level: 1 }];
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.CAPPED_TUBES,
+    threshold: 60,
+    badgeId,
+    cappedTubes: JSON.stringify(cappedTubesDTO),
+  });
+  return null;
 }
