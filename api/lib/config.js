@@ -172,10 +172,12 @@ module.exports = (function () {
       window: _getNumber(process.env.RATE_LIMIT_DEFAULT_WINDOW, 60),
     },
 
-    userLogins: {
-      thresholdFailureCount: _getNumber(process.env.THRESHOLD_FAILURE_COUNT || 10),
-      temporaryBlockedTime: _getNumber(process.env.TEMPORARY_BLOCKED_TIME_IN_MINUTES || 2),
-      limitFailureCount: _getNumber(process.env.LIMIT_FAILURE_COUNT || 50),
+    login: {
+      temporaryBlockingThresholdFailureCount: _getNumber(
+        process.env.LOGIN_TEMPORARY_BLOCKING_THRESHOLD_FAILURE_COUNT || 10
+      ),
+      temporaryBlockingBaseTimeMs: ms(process.env.LOGIN_TEMPORARY_BLOCKING_BASE_TIME || '2m'),
+      blockingLimitFailureCount: _getNumber(process.env.LOGIN_BLOCKING_LIMIT_FAILURE_COUNT || 50),
     },
 
     caching: {
