@@ -1,7 +1,7 @@
 import { click, find } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
@@ -17,7 +17,7 @@ module('Acceptance | Challenge page banner', function (hooks) {
   hooks.beforeEach(async function () {
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { title: 'SomeTitle' });
-    await authenticateByEmail(user);
+    await authenticate(user);
   });
 
   module('When user is starting a campaign assessment', function () {

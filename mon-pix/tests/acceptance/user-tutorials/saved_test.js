@@ -3,7 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { find, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { authenticateByEmail } from '../../helpers/authentication';
+import { authenticate } from '../../helpers/authentication';
 
 module('Acceptance | User-tutorials | Saved', function (hooks) {
   setupApplicationTest(hooks);
@@ -13,7 +13,7 @@ module('Acceptance | User-tutorials | Saved', function (hooks) {
   hooks.beforeEach(async function () {
     const numberOfTutorials = 100;
     user = server.create('user', 'withEmail');
-    await authenticateByEmail(user);
+    await authenticate(user);
     await server.db.tutorials.remove();
     server.createList('tutorial', numberOfTutorials, 'withUserSavedTutorial');
   });

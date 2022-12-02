@@ -3,7 +3,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
@@ -34,7 +34,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
     test('is possible when user is connected', async function (assert) {
       // given
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       await visit('/accueil');
@@ -54,7 +54,7 @@ module('Acceptance | User dashboard page', function (hooks) {
     module('when user is on campaign start page', function () {
       test('it should change menu on click on disconnect link', async function (assert) {
         // given
-        await authenticateByEmail(user);
+        await authenticate(user);
         const screen = await visit('/campagnes');
 
         // when
@@ -88,7 +88,7 @@ module('Acceptance | User dashboard page', function (hooks) {
             createdAt: new Date('2020-04-20T04:05:06Z'),
             isShared: false,
           });
-          await authenticateByEmail(user);
+          await authenticate(user);
         });
 
         hooks.afterEach(async function () {
@@ -126,7 +126,7 @@ module('Acceptance | User dashboard page', function (hooks) {
             createdAt: new Date('2020-04-20T04:05:06Z'),
             isShared: false,
           });
-          await authenticateByEmail(user);
+          await authenticate(user);
         });
 
         hooks.afterEach(async function () {
@@ -152,7 +152,7 @@ module('Acceptance | User dashboard page', function (hooks) {
     test('should display recommended-competences section', async function (assert) {
       // given
       const user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       await visit('/accueil');
@@ -164,7 +164,7 @@ module('Acceptance | User dashboard page', function (hooks) {
     test('should display the link to profile', async function (assert) {
       // given
       const user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       const screen = await visit('/accueil');
@@ -184,7 +184,7 @@ module('Acceptance | User dashboard page', function (hooks) {
     test('should display the improvable-competences section', async function (assert) {
       // given
       const user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       const screen = await visit('/accueil');
@@ -197,7 +197,7 @@ module('Acceptance | User dashboard page', function (hooks) {
   module('started-competences', function (hooks) {
     hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/accueil');
     });
 
@@ -230,7 +230,7 @@ module('Acceptance | User dashboard page', function (hooks) {
       module('when user has closable information', function () {
         test('should close new dashboard information on user click', async function (assert) {
           // given
-          await authenticateByEmail(user);
+          await authenticate(user);
           await visit('/accueil');
           assert.dom('.new-information').exists();
 
@@ -262,7 +262,7 @@ module('Acceptance | User dashboard page', function (hooks) {
           campaignParticipation.assessment.update({ state: 'completed' });
           user.update({ codeForLastProfileToShare: campaign.code });
 
-          await authenticateByEmail(user);
+          await authenticate(user);
         });
 
         module('when user has not shared his results', function () {
@@ -310,7 +310,7 @@ module('Acceptance | User dashboard page', function (hooks) {
         user = server.create('user', 'withEmail', 'hasSeenNewDashboardInfo');
 
         // when
-        await authenticateByEmail(user);
+        await authenticate(user);
 
         // then
         assert.dom('.new-information__content').doesNotExist();

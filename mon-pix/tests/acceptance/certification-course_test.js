@@ -2,7 +2,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click, currentURL, find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';
@@ -33,7 +33,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
       module('When user is not certifiable', function (hooks) {
         hooks.beforeEach(async function () {
           user = server.create('user', 'withEmail', 'notCertifiable');
-          await authenticateByEmail(user);
+          await authenticate(user);
           return visit('/certifications');
         });
 
@@ -50,7 +50,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
       module('When user is certifiable', function (hooks) {
         hooks.beforeEach(async function () {
           user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
-          await authenticateByEmail(user);
+          await authenticate(user);
           return visit('/certifications');
         });
 
@@ -320,7 +320,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             nonEligibleSubscriptions: [],
           });
 
-          await authenticateByEmail(user);
+          await authenticate(user);
           await visit('/certifications');
           await fillCertificationJoiner({
             sessionId: '1',
@@ -357,7 +357,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           });
 
           // when
-          await authenticateByEmail(user);
+          await authenticate(user);
           await visit(`/certifications/${certificationCourse.id}/results`);
 
           // then
@@ -397,7 +397,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               nonEligibleSubscriptions: [],
             });
 
-            await authenticateByEmail(user);
+            await authenticate(user);
             await visit('/certifications');
             await fillCertificationJoiner({
               sessionId: '1',
@@ -438,7 +438,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           });
 
           // when
-          await authenticateByEmail(user);
+          await authenticate(user);
           await visit(`/certifications/${certificationCourse.id}/results`);
 
           // then

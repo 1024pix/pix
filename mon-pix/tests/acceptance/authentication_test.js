@@ -18,17 +18,13 @@ module('Acceptance | Authentication', function (hooks) {
   });
 
   module('Success cases', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('Accessing to the default page page while disconnected', async function () {
+    module('Accessing to the default page page while disconnected', function () {
       test('should redirect to the connexion page', async function (assert) {
         // when
         await visit('/');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/connexion');
+        assert.strictEqual(currentURL(), '/connexion');
       });
     });
 
@@ -38,9 +34,7 @@ module('Acceptance | Authentication', function (hooks) {
         await authenticateByEmail(user);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/accueil');
+        assert.strictEqual(currentURL(), '/accueil');
       });
     });
   });
@@ -56,9 +50,7 @@ module('Acceptance | Authentication', function (hooks) {
       await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
 
     module('when user should change password', function () {
@@ -70,9 +62,7 @@ module('Acceptance | Authentication', function (hooks) {
         await authenticateByUsername(user);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+        assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
       });
     });
   });

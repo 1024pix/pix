@@ -1,6 +1,6 @@
 import { currentURL, findAll, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -26,7 +26,7 @@ module('Acceptance | User certifications page', function (hooks) {
 
     test('should be accessible when user is connected', async function (assert) {
       // given
-      await authenticateByEmail(userWithNoCertificates);
+      await authenticate(userWithNoCertificates);
 
       // when
       await visit('/mes-certifications');
@@ -41,7 +41,7 @@ module('Acceptance | User certifications page', function (hooks) {
   module('Display', function () {
     test('should render the banner', async function (assert) {
       // when
-      await authenticateByEmail(userWithNoCertificates);
+      await authenticate(userWithNoCertificates);
       await visit('/mes-certifications');
 
       // then
@@ -50,7 +50,7 @@ module('Acceptance | User certifications page', function (hooks) {
 
     test('should render a title for the page', async function (assert) {
       // when
-      await authenticateByEmail(userWithNoCertificates);
+      await authenticate(userWithNoCertificates);
       await visit('/mes-certifications');
 
       // then
@@ -59,7 +59,7 @@ module('Acceptance | User certifications page', function (hooks) {
 
     test('should render the panel which contains informations about certifications of the connected user', async function (assert) {
       // when
-      await authenticateByEmail(userWithNoCertificates);
+      await authenticate(userWithNoCertificates);
       await visit('/mes-certifications');
 
       // then
@@ -69,7 +69,7 @@ module('Acceptance | User certifications page', function (hooks) {
     module('when user has no certificates', function () {
       test('should dislpay the no certificates panel', async function (assert) {
         // when
-        await authenticateByEmail(userWithNoCertificates);
+        await authenticate(userWithNoCertificates);
         await visit('/mes-certifications');
 
         // then
@@ -83,7 +83,7 @@ module('Acceptance | User certifications page', function (hooks) {
         const userWithSomeCertificates = server.create('user', 'withEmail', 'withSomeCertificates');
 
         // when
-        await authenticateByEmail(userWithSomeCertificates);
+        await authenticate(userWithSomeCertificates);
         await visit('/mes-certifications');
 
         // then

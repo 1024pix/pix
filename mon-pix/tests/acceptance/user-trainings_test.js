@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, currentURL, find } from '@ember/test-helpers';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | mes-formations', function (hooks) {
   setupApplicationTest(hooks);
@@ -15,7 +15,7 @@ module('Acceptance | mes-formations', function (hooks) {
       user = server.create('user', 'withEmail', 'withSomeTrainings');
 
       // when
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/');
 
       // then
@@ -30,7 +30,7 @@ module('Acceptance | mes-formations', function (hooks) {
       user = server.create('user', 'withEmail', 'withSomeTrainings');
 
       // when
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/mes-formations');
 
       // then

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import {
-  authenticateByEmail,
+  authenticate,
   authenticateByGAR,
   authenticateByUsername,
   generateGarAuthenticationURLHash,
@@ -30,7 +30,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       };
       const user = server.create('user', 'withEmail', userDetails);
       server.create('authentication-method', 'withPixIdentityProvider', { user });
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       await visit('/mon-compte/methodes-de-connexion');
@@ -64,7 +64,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
 
       // when
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
@@ -97,7 +97,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
         email: 'john.doe@example.net',
       };
       const user = server.create('user', 'withEmail', userDetails);
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       await visit('/mon-compte/methodes-de-connexion');
@@ -112,7 +112,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       // given
       const user = server.create('user', 'withEmail');
       server.create('authentication-method', 'withPixIdentityProvider', { user });
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit('/mon-compte/methodes-de-connexion');
       await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
 
@@ -128,7 +128,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       // given
       const user = server.create('user', 'withEmail');
       server.create('authentication-method', 'withPixIdentityProvider', { user });
-      await authenticateByEmail(user);
+      await authenticate(user);
       const newEmail = 'new-email@example.net';
       await visit('/mon-compte/methodes-de-connexion');
 

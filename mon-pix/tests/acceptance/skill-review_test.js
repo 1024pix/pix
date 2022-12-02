@@ -1,6 +1,6 @@
 import { findAll, currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { click, fillIn } from '@ember/test-helpers';
@@ -48,7 +48,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
       hooks.beforeEach(async function () {
         // given
-        await authenticateByEmail(user);
+        await authenticate(user);
         const competenceResult = server.create('competence-result', {
           name: competenceResultName,
           masteryPercentage: 85,
@@ -293,7 +293,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
     test('should redirect to default page on click when user is connected', async function (assert) {
       // given
-      await authenticateByEmail(user);
+      await authenticate(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
       await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
