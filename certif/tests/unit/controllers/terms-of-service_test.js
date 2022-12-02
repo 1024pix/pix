@@ -9,7 +9,8 @@ module('Unit | Controller | terms-of-service', function (hooks) {
   module('#action submit', function (hooks) {
     hooks.beforeEach(function () {
       controller = this.owner.lookup('controller:terms-of-service');
-      controller.transitionToRoute = sinon.stub().resolves();
+      sinon.stub(controller.router, 'transitionTo');
+      controller.router.transitionTo.resolves();
       controller.currentUser = { certificationPointOfContact: { save: sinon.stub().resolves() } };
     });
 
@@ -29,7 +30,7 @@ module('Unit | Controller | terms-of-service', function (hooks) {
       await controller.send('submit');
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'authenticated.sessions.list');
+      sinon.assert.calledWith(controller.router.transitionTo, 'authenticated.sessions.list');
       assert.ok(controller);
     });
 

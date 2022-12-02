@@ -9,6 +9,7 @@ export default class ListController extends Controller {
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
   @service currentUser;
+  @service router;
 
   get displayNoSessionPanel() {
     return !this.model.meta.hasSessions;
@@ -16,6 +17,6 @@ export default class ListController extends Controller {
 
   @action
   goToSessionDetails(sessionId) {
-    this.transitionToRoute('authenticated.sessions.details', sessionId);
+    this.router.transitionTo('authenticated.sessions.details', sessionId);
   }
 }

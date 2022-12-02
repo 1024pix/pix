@@ -2,9 +2,11 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 export default class SessionsUpdateController extends Controller {
   @alias('model') session;
+  @service router;
 
   get pageTitle() {
     return "Modification d'une session | Session ${this.session.id} | Pix Certif";
@@ -14,12 +16,12 @@ export default class SessionsUpdateController extends Controller {
   async updateSession(event) {
     event.preventDefault();
     await this.session.save();
-    this.transitionToRoute('authenticated.sessions.details', this.session.id);
+    this.router.transitionTo('authenticated.sessions.details', this.session.id);
   }
 
   @action
   cancel() {
-    this.transitionToRoute('authenticated.sessions.details', this.session.id);
+    this.router.transitionTo('authenticated.sessions.details', this.session.id);
   }
 
   @action
