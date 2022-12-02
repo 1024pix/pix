@@ -25,7 +25,9 @@ module('Unit | Route | authenticated/sessions/session', function (hooks) {
       notify: sinon.stub().resolves(),
     };
     route.errorNotifier = errorNotifierStub;
-    route.transitionTo = () => {};
+
+    sinon.stub(route.router, 'transitionTo');
+    route.router.transitionTo.resolves();
 
     // when
     route.send('error');

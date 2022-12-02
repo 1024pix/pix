@@ -8,7 +8,11 @@
           <img src="{{this.rootURL}}/logo-placeholder.png" alt="" role="presentation" />
         {{/if}}
 
-        <FileUpload @name="logo" @accept="image/*" @onfileadd={{this.updateLogo}} />
+        {{#let (file-queue name="photos" onFileAdded=this.updateLogo) as |queue|}}
+          <label class="file-upload">
+            <input type="file" accept="image/*" hidden {{queue.selectFile}} />
+          </label>
+        {{/let}}
       </figure>
     </div>
 

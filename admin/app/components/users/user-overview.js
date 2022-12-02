@@ -1,5 +1,6 @@
+import Object, { action } from '@ember/object';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import Object, { action, computed } from '@ember/object';
+import { none } from '@ember/object/computed';
 import { validator, buildValidations } from 'ember-cp-validations';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -44,18 +45,18 @@ const Validations = buildValidations({
         presence: true,
         ignoreBlank: true,
         message: "L'adresse e-mail ne peut pas être vide.",
-        disabled: computed.none('model.email'),
+        disabled: none('model.email'),
       }),
       validator('length', {
         max: 255,
         message: "La longueur de l'adresse e-mail ne doit pas excéder 255 caractères.",
-        disabled: computed.none('model.email'),
+        disabled: none('model.email'),
       }),
       validator('format', {
         ignoreBlank: true,
         type: 'email',
         message: "L'adresee e-mail n'a pas le bon format.",
-        disabled: computed.none('model.email'),
+        disabled: none('model.email'),
       }),
     ],
   },
@@ -65,13 +66,13 @@ const Validations = buildValidations({
         presence: true,
         ignoreBlank: true,
         message: "L'identifiant ne peut pas être vide.",
-        disabled: computed.none('model.username'),
+        disabled: none('model.username'),
       }),
       validator('length', {
         min: 1,
         max: 255,
         message: 'La longueur du nom ne doit pas excéder 255 caractères.',
-        disabled: computed.none('model.username'),
+        disabled: none('model.username'),
       }),
     ],
   },

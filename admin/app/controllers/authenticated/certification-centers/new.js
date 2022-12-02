@@ -4,10 +4,11 @@ import Controller from '@ember/controller';
 
 export default class NewController extends Controller {
   @service notifications;
+  @service router;
 
   @action
   goBackToCertificationCentersList() {
-    this.transitionToRoute('authenticated.certification-centers');
+    this.router.transitionTo('authenticated.certification-centers');
   }
 
   @action
@@ -22,7 +23,7 @@ export default class NewController extends Controller {
     try {
       await certificationCenter.save();
       this.notifications.success('Le centre de certification a été créé avec succès.');
-      this.transitionToRoute('authenticated.certification-centers.get', certificationCenter.id);
+      this.router.transitionTo('authenticated.certification-centers.get', certificationCenter.id);
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
     }
