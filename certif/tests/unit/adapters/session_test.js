@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -29,6 +30,27 @@ module('Unit | Adapter | session', function (hooks) {
 
       // then
       assert.ok(url.endsWith('/sessions/123/finalization'));
+    });
+  });
+
+  module('#urlForCreateRecord', () => {
+    test('should build save url from certification center id', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+      });
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const adapter = this.owner.lookup('adapter:session');
+
+      // when
+      const url = await adapter.urlForCreateRecord();
+
+      // then
+      assert.ok(url.endsWith('/certification-centers/123/session'));
     });
   });
 
