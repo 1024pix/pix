@@ -44,7 +44,7 @@ module.exports = {
       );
       badges.push(badge);
     }
-    return badges;
+    return _.compact(badges);
   },
 
   async findByCampaignId({ campaignId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -81,7 +81,7 @@ module.exports = {
       );
       badges.push(badge);
     }
-    return badges;
+    return _.compact(badges);
   },
 
   async getByCertifiableBadgeAcquisition({
@@ -141,22 +141,26 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
     if (badgeCriterionDTO.scope === SCOPES.CAPPED_TUBES) {
       let skillIds = [];
       for (const cappedTubeDTO of badgeCriterionDTO.cappedTubes) {
-        const skillsForTube = campaignSkillsByTube[cappedTubeDTO.id];
+        const skillsForTube = campaignSkillsByTube[cappedTubeDTO.id] || [];
         const skillsUnderOrEqualLevel = skillsForTube
           .filter((skill) => skill.difficulty <= cappedTubeDTO.level)
           .map(({ id }) => id);
         skillIds = [...skillIds, ...skillsUnderOrEqualLevel];
       }
-      badgeCriteria.push(
-        new BadgeCriterion({
-          threshold: badgeCriterionDTO.threshold,
-          skillIds,
-        })
-      );
+      if (skillIds.length > 0) {
+        badgeCriteria.push(
+          new BadgeCriterion({
+            threshold: badgeCriterionDTO.threshold,
+            skillIds,
+          })
+        );
+      }
     }
   }
-  return new BadgeForCalculation({
-    id: badgeDTO.id,
-    badgeCriteria,
-  });
+  return badgeCriteria.length > 0
+    ? new BadgeForCalculation({
+        id: badgeDTO.id,
+        badgeCriteria,
+      })
+    : null;
 }
