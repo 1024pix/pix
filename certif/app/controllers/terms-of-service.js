@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 export default class TermsOfServiceController extends Controller {
   @service currentUser;
   @service notifications;
+  @service router;
 
   @action
   async submit() {
@@ -13,7 +14,7 @@ export default class TermsOfServiceController extends Controller {
         adapterOptions: { acceptPixCertifTermsOfService: true },
       });
       this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted = true;
-      return this.transitionToRoute('authenticated.sessions.list');
+      this.router.transitionTo('authenticated.sessions.list');
     } catch (errorResponse) {
       this.notifications.error('Une erreur est survenue.');
     }
