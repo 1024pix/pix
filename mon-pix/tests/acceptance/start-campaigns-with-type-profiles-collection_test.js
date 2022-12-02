@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -160,7 +160,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
 
     module('When user is logged in', function (hooks) {
       hooks.beforeEach(async function () {
-        await authenticateByEmail(campaignParticipant);
+        await authenticate(campaignParticipant);
       });
 
       module('When campaign is not restricted', function () {

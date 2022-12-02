@@ -2,7 +2,7 @@ import { find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | Checkpoint', function (hooks) {
   setupApplicationTest(hooks);
@@ -67,7 +67,7 @@ module('Acceptance | Checkpoint', function (hooks) {
       const user = server.create('user', 'withEmail', {
         isAnonymous: true,
       });
-      await authenticateByEmail(user);
+      await authenticate(user);
 
       // when
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);

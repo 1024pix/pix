@@ -3,7 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { find, click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { authenticateByEmail } from '../../helpers/authentication';
+import { authenticate } from '../../helpers/authentication';
 import { waitForDialog } from '../../helpers/wait-for';
 
 module('Acceptance | User-tutorials | Recommended', function (hooks) {
@@ -13,7 +13,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
 
   hooks.beforeEach(async function () {
     user = server.create('user', 'withEmail');
-    await authenticateByEmail(user);
+    await authenticate(user);
     await server.db.tutorials.remove();
   });
 
@@ -91,9 +91,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
         await click(screen.getByRole('button', { name: 'Voir les résultats' }));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/mes-tutos/recommandes?competences=1&pageNumber=1');
+        assert.strictEqual(currentURL(), '/mes-tutos/recommandes?competences=1&pageNumber=1');
         assert.dom('.tutorial-card').exists({ count: 1 });
         assert.dom('.pix-sidebar--hidden').exists();
       });
@@ -101,6 +99,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
       module('when user access again to tutorials recommended page', function () {
         test('should reset competences filters', async function (assert) {
           // given
+          server.createList('tutorial', 1);
           const screen = await visit('/mes-tutos/recommandes?competences=1&pageNumber=1');
 
           // when
@@ -108,9 +107,7 @@ module('Acceptance | User-tutorials | Recommended', function (hooks) {
           await click(screen.getByRole('link', { name: 'Recommandés' }));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/mes-tutos/recommandes');
+          assert.strictEqual(currentURL(), '/mes-tutos/recommandes');
         });
       });
     });

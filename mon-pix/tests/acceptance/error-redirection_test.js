@@ -1,6 +1,6 @@
 import { currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -15,7 +15,7 @@ module('Acceptance | Error page', function (hooks) {
 
   test('should display the error page when the api returned an error which is not 401', async function (assert) {
     // given
-    await authenticateByEmail(user);
+    await authenticate(user);
     this.server.get('/certifications', { errors: [{ code: 500 }] }, 500);
 
     // when

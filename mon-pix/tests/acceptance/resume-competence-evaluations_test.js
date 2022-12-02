@@ -1,6 +1,6 @@
 import { fillIn, currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
@@ -40,7 +40,7 @@ module('Acceptance | Competence Evaluations | Resume Competence Evaluations', f
 
     module('When user is logged in', function (hooks) {
       hooks.beforeEach(async function () {
-        await authenticateByEmail(user);
+        await authenticate(user);
       });
 
       module('When competence evaluation exists', function (hooks) {
