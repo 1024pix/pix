@@ -2,9 +2,11 @@
   <section class="page-size">
     <p class="page-size__label">{{t "common.pagination.result-by-page"}}</p>
     <PixSelect
-      aria-label={{t "common.pagination.action.select-page-size"}}
-      class="page-size__choice"
-      @selectedOption={{this.pageSize}}
+      @label={{t "common.pagination.action.select-page-size"}}
+      @screenReaderOnly={{true}}
+      @hideDefaultOption={{true}}
+      @className="page-size__choice"
+      @value={{this.pageSize}}
       @onChange={{this.changePageSize}}
       @options={{this.pageOptions}}
     />

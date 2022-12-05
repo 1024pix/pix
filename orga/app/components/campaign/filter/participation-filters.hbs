@@ -8,13 +8,15 @@
     @onClearFilters={{@onResetFilter}}
   >
     {{#if this.displayStatusFilter}}
+      {{! TODO : Corriger le style qui est cassé}}
       <PixSelect
-        aria-label={{t "pages.campaign-results.filters.type.status.title"}}
+        @label={{t "pages.campaign-results.filters.type.status.title"}}
+        @screenReaderOnly={{true}}
         @options={{this.statusOptions}}
         @onChange={{this.onSelectStatus}}
-        @selectedOption={{@selectedStatus}}
-        @emptyOptionLabel={{t "pages.campaign-results.filters.type.status.empty"}}
-        @emptyOptionNotSelectable={{false}}
+        @value={{@selectedStatus}}
+        @placeholder={{t "pages.campaign-results.filters.type.status.empty"}}
+        @hideDefaultOption={{false}}
       />
     {{/if}}
     {{#if this.displayDivisionFilter}}
