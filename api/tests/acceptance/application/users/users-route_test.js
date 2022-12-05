@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-anonymize-user', function () {
+describe('Acceptance | Route | users', function () {
   describe('POST /admin/users/:id/anonymize', function () {
     it("anomymizes user, removes authentication methods and disables user's certification center and organisation memberships", async function () {
       // given
