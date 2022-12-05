@@ -20,6 +20,7 @@ export default class User extends Model {
 
   // includes
   @belongsTo('profile') profile;
+  @belongsTo('user-login') userLogin;
 
   @hasMany('organization-membership') organizationMemberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;
