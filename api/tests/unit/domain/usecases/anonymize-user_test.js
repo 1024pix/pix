@@ -3,16 +3,17 @@ const anonymizeUser = require('../../../../lib/domain/usecases/anonymize-user');
 
 describe('Unit | UseCase | anonymize-user', function () {
   let clock;
+  const now = new Date('2003-04-05T03:04:05Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(new Date('2003-04-05T03:04:05Z'));
+    clock = sinon.useFakeTimers(now);
   });
 
   afterEach(function () {
     clock.restore();
   });
 
-  it("deletes all authentication methods, revokes all user's refresh tokens, disables all user's organisation membership and anonymize user", async function () {
+  it("deletes all authentication methods, revokes all user's refresh tokens, disables all user's organisation memberships, disables all user's certification center memberships and anonymize user", async function () {
     // given
     const userId = 1;
     const updatedByUserId = 2;
@@ -27,6 +28,7 @@ describe('Unit | UseCase | anonymize-user', function () {
     const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
     const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
     const membershipRepository = { disableMembershipsByUserId: sinon.stub() };
+    const certificationCenterMembershipRepository = { disableMembershipsByUserId: sinon.stub() };
 
     // when
     await anonymizeUser({
@@ -35,6 +37,7 @@ describe('Unit | UseCase | anonymize-user', function () {
       authenticationMethodRepository,
       refreshTokenService,
       membershipRepository,
+      certificationCenterMembershipRepository,
       updatedByUserId,
     });
 
@@ -46,6 +49,10 @@ describe('Unit | UseCase | anonymize-user', function () {
     expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWith({
       userId,
       updatedByUserId,
+    });
+    expect(certificationCenterMembershipRepository.disableMembershipsByUserId).to.have.been.calledWith({
+      updatedByUserId,
+      userId,
     });
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly(
       userId,
