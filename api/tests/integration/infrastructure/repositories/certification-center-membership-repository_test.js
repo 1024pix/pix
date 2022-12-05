@@ -336,7 +336,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
-  describe('#disable', function () {
+  describe('#disableById', function () {
     const now = new Date('2019-01-01T05:06:07Z');
     let clock;
 
@@ -506,6 +506,160 @@ describe('Integration | Repository | Certification Center Membership', function 
 
         // then
         expect(result).to.be.null;
+      });
+    });
+  });
+
+  describe('#disableMembershipsByUserId', function () {
+    const now = new Date('2022-12-05');
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    context('when there is multiple memberships for the specified user id', function () {
+      it('disables all memberships', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const updatedByUserId = databaseBuilder.factory.buildUser().id;
+        const firstCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const secondCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const firstMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: firstCertificationCenterId,
+          createdAt: now,
+        });
+        const secondMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: secondCertificationCenterId,
+          createdAt: now,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: databaseBuilder.factory.buildUser().id,
+          certificationCenterId: secondCertificationCenterId,
+          createdAt: now,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        await certificationCenterMembershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
+
+        // then
+        const expectedMemberships = [
+          {
+            ...firstMembership,
+            createdAt: now,
+            disabledAt: now,
+            updatedByUserId,
+          },
+          {
+            ...secondMembership,
+            createdAt: now,
+            disabledAt: now,
+            updatedByUserId,
+          },
+        ];
+        const disabledMemberships = await knex('certification-center-memberships')
+          .returning('*')
+          .whereNotNull('disabledAt')
+          .where({ userId });
+        expect(disabledMemberships.length).to.equal(2);
+        expect(disabledMemberships).to.deep.include.members(expectedMemberships);
+      });
+
+      it('disables only the memberships which are not yet disabled', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const updatedByUserId = databaseBuilder.factory.buildUser().id;
+        const firstCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const secondCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const firstMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: firstCertificationCenterId,
+          createdAt: now,
+        });
+        const secondMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          updatedByUserId,
+          certificationCenterId: secondCertificationCenterId,
+          createdAt: now,
+          disabledAt: now,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: databaseBuilder.factory.buildUser().id,
+          certificationCenterId: secondCertificationCenterId,
+          createdAt: now,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        await certificationCenterMembershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
+
+        // then
+        const expectedMemberships = [
+          {
+            ...secondMembership,
+          },
+          {
+            ...firstMembership,
+            disabledAt: now,
+            updatedByUserId,
+          },
+        ];
+        const disabledMemberships = await knex('certification-center-memberships')
+          .returning('*')
+          .whereNotNull('disabledAt')
+          .andWhere({ userId });
+        expect(disabledMemberships.length).to.equal(2);
+        expect(disabledMemberships).to.deep.include.members(expectedMemberships);
+      });
+    });
+
+    context('when memberships are already disabled for the specified user id', function () {
+      it('does nothing', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const updatedByUserId = databaseBuilder.factory.buildUser().id;
+        const firstCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const secondCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          updatedByUserId,
+          certificationCenterId: firstCertificationCenterId,
+          createdAt: now,
+          disabledAt: now,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          updatedByUserId,
+          certificationCenterId: secondCertificationCenterId,
+          createdAt: now,
+          disabledAt: now,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: databaseBuilder.factory.buildUser().id,
+          certificationCenterId: secondCertificationCenterId,
+          createdAt: now,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        await certificationCenterMembershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
+
+        // then
+        const disabledMemberships = await knex('certification-center-memberships')
+          .returning('*')
+          .whereNotNull('disabledAt')
+          .andWhere({ userId });
+        expect(disabledMemberships.length).to.equal(2);
       });
     });
   });
