@@ -195,4 +195,10 @@ export default class UserOverview extends Component {
 
     this.toggleDisplayAnonymizeModal();
   }
+
+  @action
+  async unblockUserAccount() {
+    const userLogin = await this.args.user.userLogin;
+    await userLogin.save({ adapterOptions: { unblockUserAccount: true, userId: this.args.user.id } });
+  }
 }

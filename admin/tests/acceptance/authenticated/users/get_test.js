@@ -177,6 +177,37 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     });
   });
 
+  module('when administrator click on unblock button', function () {
+    test('should unblock the user', async function (assert) {
+      // given
+      await buildAndAuthenticateUser(this.server, {
+        email: 'john.harry@example.net',
+        username: 'john.harry121297',
+      });
+      const userLogin = server.create('user-login', {
+        blockedAt: new Date('2021-02-01T03:00:00Z'),
+        temporaryBlockedUntil: null,
+        failureCount: 50,
+      });
+      const userToUnblock = server.create('user', {
+        firstName: 'Jane',
+        lastName: 'Harry',
+        email: 'jane.harry@example.net',
+        username: 'jane.harry050697',
+        userLogin,
+      });
+
+      const screen = await visit(`/users/${userToUnblock.id}`);
+
+      // when
+      await clickByName("Débloquer l'utilisateur");
+
+      // then
+      assert.dom(screen.queryByText('Bloqué à :')).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: "Débloquer l'utilisateur" })).doesNotExist();
+    });
+  });
+
   module('when administrator click on dissociate button', function () {
     test('should not display registration any more', async function (assert) {
       // given

@@ -5,6 +5,7 @@ const _includes = [
   'authenticationMethods',
   'organizationMemberships',
   'certificationCenterMemberships',
+  'userLogin',
 ];
 
 export default ApplicationSerializer.extend({
