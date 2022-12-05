@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
@@ -130,6 +131,84 @@ module('Integration | Component | users | user-overview', function (hooks) {
 
           // then
           assert.dom(screen.getByText('NON')).exists();
+        });
+      });
+
+      module('login information', function (hooks) {
+        let clock;
+        const now = new Date('2022-11-28T12:00:00Z');
+
+        hooks.beforeEach(function () {
+          clock = sinon.useFakeTimers({ now });
+        });
+
+        hooks.afterEach(function () {
+          clock.restore();
+        });
+
+        test('should only display failure count if user is not blocked', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const userLogin = store.createRecord('user-login', {
+            blockedAt: null,
+            temporaryBlockedUntil: null,
+            failureCount: 0,
+          });
+          const user = store.createRecord('user', { userLogin });
+          this.set('user', user);
+
+          // when
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+          // then
+          assert.dom(screen.queryByText('Utilisateur totalement bloqué le :')).doesNotExist();
+          assert.dom(screen.queryByText("Utilisateur temporairement bloqué jusqu'au :")).doesNotExist();
+          assert.dom(screen.getByText('Nombre de tentatives de connexion en erreur :')).exists();
+          assert.dom(screen.getByText('0')).exists();
+        });
+
+        test('should display dates when user is temporarily blocked', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const userLogin = store.createRecord('user-login', {
+            blockedAt: null,
+            temporaryBlockedUntil: new Date('2022-12-10T16:00:00Z'),
+            failureCount: 50,
+          });
+          const user = store.createRecord('user', { userLogin });
+          this.set('user', user);
+
+          // when
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+          // then
+          assert.dom(screen.getByText('Nombre de tentatives de connexion en erreur :')).exists();
+          assert.dom(screen.getByText('50')).exists();
+          assert.dom(screen.getByText("Utilisateur temporairement bloqué jusqu'au :")).exists();
+          assert.dom(screen.getByText('28/11/2022', { exact: false })).exists();
+          assert.dom(screen.queryByText('Utilisateur totalement bloqué le :')).doesNotExist();
+        });
+
+        test('should display dates when user is blocked', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const userLogin = store.createRecord('user-login', {
+            blockedAt: new Date('2021-02-01T03:00:00Z'),
+            temporaryBlockedUntil: null,
+            failureCount: 50,
+          });
+          const user = store.createRecord('user', { userLogin });
+          this.set('user', user);
+
+          // when
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+          // then
+          assert.dom(screen.getByText('Nombre de tentatives de connexion en erreur :')).exists();
+          assert.dom(screen.getByText('50')).exists();
+          assert.dom(screen.getByText('Utilisateur totalement bloqué le :')).exists();
+          assert.dom(screen.getByText('01/02/2021', { exact: false })).exists();
+          assert.dom(screen.queryByText("Utilisateur temporairement bloqué jusqu'au :")).doesNotExist();
         });
       });
     });
