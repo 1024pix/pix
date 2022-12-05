@@ -2,13 +2,12 @@
   <div class="divisions-filter--is-loading placeholder-box"></div>
 {{else}}
   <PixMultiSelect
-    @id="division"
     @label={{t "common.filters.divisions.title"}}
-    @innerText={{@placeholder}}
+    @placeholder={{@placeholder}}
     @emptyMessage={{t "common.filters.divisions.empty"}}
     @screenReaderOnly={{true}}
-    @selected={{@selected}}
-    @onSelect={{@onSelect}}
+    @values={{@selected}}
+    @onChange={{@onSelect}}
     @options={{this.options}}
     @isSearchable={{true}}
     ...attributes

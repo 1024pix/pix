@@ -74,8 +74,8 @@ export default class ParticipationFilters extends Component {
   }
 
   @action
-  onSelectStatus(e) {
-    this.args.onFilter('status', e.target.value);
+  onSelectStatus(status) {
+    this.args.onFilter('status', status);
   }
 
   @action

@@ -2,14 +2,13 @@
   <div class="multi-select-filter--is-loading placeholder-box"></div>
 {{else}}
   <PixMultiSelect
-    @id="multi-select-{{@field}}"
     @label={{@title}}
-    @innerText={{@placeholder}}
+    @placeholder={{@placeholder}}
     @screenReaderOnly={{true}}
     @emptyMessage={{@emptyMessage}}
     @isSearchable={{true}}
-    @onSelect={{this.onSelect}}
-    @selected={{@selectedOption}}
+    @onChange={{this.onSelect}}
+    @values={{@selectedOption}}
     @options={{@options}}
     as |option|
   >

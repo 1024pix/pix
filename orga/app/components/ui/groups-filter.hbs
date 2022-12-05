@@ -2,14 +2,13 @@
   <div class="groups-filter--is-loading placeholder-box"></div>
 {{else}}
   <PixMultiSelect
-    @id="group"
     @label={{t "pages.campaign-results.filters.type.groups.title"}}
-    @innerText={{t "pages.campaign-results.filters.type.groups.title"}}
+    @placeholder={{t "pages.campaign-results.filters.type.groups.title"}}
     @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
     @screenReaderOnly={{true}}
     @isSearchable={{true}}
-    @onSelect={{@onSelect}}
-    @selected={{@selectedGroups}}
+    @onChange={{@onSelect}}
+    @values={{@selectedGroups}}
     @options={{this.options}}
     ...attributes
     as |option|

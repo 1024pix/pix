@@ -32,11 +32,13 @@
       <div id="selectOrganizationRole">
         <PixSelect
           class="table__input"
-          aria-label="{{t 'pages.team-members.actions.select-role.label'}}"
-          placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
+          @label="{{t 'pages.team-members.actions.select-role.label'}}"
+          @screenReaderOnly={{true}}
+          @hideDefaultOption={{true}}
+          @placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
           @onChange={{this.setRoleSelection}}
           @options={{this.organizationRoles}}
-          @selectedOption={{@membership.organizationRole}}
+          @value={{@membership.organizationRole}}
         />
       </div>
     </td>
