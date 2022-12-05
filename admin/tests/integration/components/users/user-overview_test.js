@@ -69,6 +69,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
+          assert.dom(screen.getByText('CGU Pix App validé :')).exists();
           assert.dom(screen.getByText('OUI, le 10/12/2021')).exists();
         });
 
@@ -94,6 +95,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
+          assert.dom(screen.getByText('CGU Pix Orga validé :')).exists();
           assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
         });
 
@@ -119,6 +121,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
 
           // then
+          assert.dom(screen.getByText('CGU Pix Certif validé :')).exists();
           assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
         });
 
