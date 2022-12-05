@@ -19,6 +19,7 @@ module.exports = {
         const badgeForCalculation = await badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
           certifiableBadgeAcquisition,
         });
+        if (!badgeForCalculation) return null;
         const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeElements);
         return isBadgeValid ? certifiableBadgeAcquisition : null;
       }
