@@ -5,9 +5,11 @@ const CertificationCenterForAdmin = require('../../domain/models/CertificationCe
 const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 const { NotFoundError } = require('../../domain/errors');
 
+const CERTIFICATION_CENTERS_TABLE_NAME = 'certification-centers';
+
 module.exports = {
   async get(id) {
-    const certificationCenter = await knex('certification-centers')
+    const certificationCenter = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
       .select({
         id: 'certification-centers.id',
         name: 'certification-centers.name',
@@ -54,36 +56,39 @@ module.exports = {
       });
     });
 
-    return new CertificationCenterForAdmin({
-      id: certificationCenter.id,
-      name: certificationCenter.name,
-      type: certificationCenter.type,
-      externalId: certificationCenter.externalId,
-      habilitations: certificationCenter.habilitations,
-      isSupervisorAccessEnabled: certificationCenter.isSupervisorAccessEnabled,
-      dataProtectionOfficerFirstName: certificationCenter.dataProtectionOfficerFirstName,
-      dataProtectionOfficerLastName: certificationCenter.dataProtectionOfficerLastName,
-      dataProtectionOfficerEmail: certificationCenter.dataProtectionOfficerEmail,
-      createdAt: certificationCenter.createdAt,
-      updatedAt: certificationCenter.updatedAt,
-    });
+    return _toDomain(certificationCenter);
+  },
+
+  async save(certificationCenter) {
+    const data = _.pick(certificationCenter, ['name', 'type', 'externalId', 'isSupervisorAccessEnabled']);
+    const [certificationCenterCreated] = await knex(CERTIFICATION_CENTERS_TABLE_NAME).returning('*').insert(data);
+    return _toDomain(certificationCenterCreated);
   },
 
   async update(certificationCenter) {
     const data = _.pick(certificationCenter, ['name', 'type', 'externalId', 'isSupervisorAccessEnabled']);
 
-    const [certificationCenterRow] = await knex('certification-centers')
+    const [certificationCenterRow] = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
       .update(data)
       .where({ id: certificationCenter.id })
       .returning('*');
 
-    return new CertificationCenterForAdmin({
-      id: certificationCenterRow.id,
-      name: certificationCenterRow.name,
-      type: certificationCenterRow.type,
-      isSupervisorAccessEnabled: certificationCenterRow.isSupervisorAccessEnabled,
-      createdAt: certificationCenterRow.createdAt,
-      updatedAt: certificationCenterRow.updatedAt,
-    });
+    return _toDomain(certificationCenterRow);
   },
 };
+
+function _toDomain(certificationCenterDTO) {
+  return new CertificationCenterForAdmin({
+    id: certificationCenterDTO.id,
+    name: certificationCenterDTO.name,
+    type: certificationCenterDTO.type,
+    externalId: certificationCenterDTO.externalId,
+    habilitations: certificationCenterDTO.habilitations,
+    isSupervisorAccessEnabled: certificationCenterDTO.isSupervisorAccessEnabled,
+    dataProtectionOfficerFirstName: certificationCenterDTO.dataProtectionOfficerFirstName,
+    dataProtectionOfficerLastName: certificationCenterDTO.dataProtectionOfficerLastName,
+    dataProtectionOfficerEmail: certificationCenterDTO.dataProtectionOfficerEmail,
+    createdAt: certificationCenterDTO.createdAt,
+    updatedAt: certificationCenterDTO.updatedAt,
+  });
+}

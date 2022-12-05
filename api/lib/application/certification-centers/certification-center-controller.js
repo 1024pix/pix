@@ -23,13 +23,13 @@ module.exports = {
   },
 
   async create(request) {
-    const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
+    const certificationCenter = certificationCenterForAdminSerializer.deserialize(request.payload);
     const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
     const createdCertificationCenter = await usecases.createCertificationCenter({
       certificationCenter,
       complementaryCertificationIds,
     });
-    return certificationCenterSerializer.serialize(createdCertificationCenter);
+    return certificationCenterForAdminSerializer.serialize(createdCertificationCenter);
   },
 
   async update(request) {
