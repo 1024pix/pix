@@ -1,28 +1,15 @@
 const { expect, sinon } = require('../../../test-helper');
 const UserLogin = require('../../../../lib/domain/models/UserLogin');
-const settings = require('../../../../lib/config');
-
 describe('Unit | Domain | Models | UserLogin', function () {
   let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
-  let originalEnvThresholdFailureCount;
-  let originalEnvTemporaryBlockedTime;
-
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now });
-
-    originalEnvThresholdFailureCount = settings.userLogins.thresholdFailureCount;
-    settings.userLogins.thresholdFailureCount = 10;
-    originalEnvTemporaryBlockedTime = settings.userLogins.temporaryBlockedTime;
-    settings.userLogins.temporaryBlockedTime = 2;
   });
 
   afterEach(function () {
     clock.restore();
-
-    settings.userLogins.thresholdFailureCount = originalEnvThresholdFailureCount;
-    settings.userLogins.temporaryBlockedTime = originalEnvTemporaryBlockedTime;
   });
 
   describe('#incrementFailureCount', function () {
