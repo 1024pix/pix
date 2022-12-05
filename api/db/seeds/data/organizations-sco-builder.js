@@ -315,6 +315,47 @@ function _buildMiddleSchools({ databaseBuilder }) {
     lastName: userWhoHasLeftSCO.lastName,
     used: true,
   });
+
+  // Great Oak School - anonymization purpose
+  const greatOakSchool = databaseBuilder.factory.buildOrganization({
+    type: 'SCO',
+    name: 'Great Oak School',
+    isManagingStudents: true,
+    email: 'great.oak.school@example.net',
+    externalId: SCO_COLLEGE_EXTERNAL_ID,
+    documentationUrl: 'https://pix.fr/',
+    provinceCode: '12',
+    identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+    createdBy: middleSchoolsCreator.id,
+  });
+  const greatOakSchoolAdmin = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Haldir',
+    lastName: 'Adceran',
+    email: 'haldir.adceran@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+    pixOrgaTermsOfServiceAccepted: true,
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+  });
+  const greatOakSchoolMember = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Katar',
+    lastName: 'Orilee',
+    email: 'katar.orilee@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+    pixOrgaTermsOfServiceAccepted: true,
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+  });
+  databaseBuilder.factory.buildMembership({
+    userId: greatOakSchoolAdmin.id,
+    organizationId: greatOakSchool.id,
+    organizationRole: Membership.roles.ADMIN,
+  });
+  databaseBuilder.factory.buildMembership({
+    userId: greatOakSchoolMember.id,
+    organizationId: greatOakSchool.id,
+    organizationRole: Membership.roles.MEMBER,
+  });
 }
 
 function _buildHighSchools({ databaseBuilder }) {
