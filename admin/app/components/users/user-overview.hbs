@@ -130,6 +130,23 @@
             <span>CGU Pix Certif validé : </span>
             <span>{{this.userHasValidatePixCertifTermsOfService}}</span>
           </div>
+          <br />
+          <div>
+            <span>Nombre de tentatives de connexion en erreur : </span>
+            <span>{{@user.userLogin.failureCount}}</span>
+          </div>
+          {{#if @user.userLogin.blockedAt}}
+            <div>
+              <span>Utilisateur totalement bloqué le : </span>
+              <span> {{dayjs-format @user.userLogin.blockedAt "DD/MM/YYYY HH:mm"}}</span>
+            </div>
+          {{/if}}
+          {{#if this.shouldDisplayTemporaryBlockedDate}}
+            <div>
+              <span>Utilisateur temporairement bloqué jusqu'au : </span>
+              <span>{{dayjs-format @user.userLogin.temporaryBlockedUntil "DD/MM/YYYY HH:mm"}}</span>
+            </div>
+          {{/if}}
         </div>
         <div>
           <PixButtonLink

@@ -106,6 +106,14 @@ export default class UserOverview extends Component {
     return !!(this.args.user.email || this.args.user.username);
   }
 
+  get shouldDisplayTemporaryBlockedDate() {
+    const userIsTemporaryBlockedUntilDate = this.args.user?.userLogin?.get('temporaryBlockedUntil');
+    if (userIsTemporaryBlockedUntilDate) {
+      return dayjs().isBefore(dayjs(userIsTemporaryBlockedUntilDate));
+    }
+    return false;
+  }
+
   get userHasValidatePixAppTermsOfService() {
     return this._formatValidatedTermsOfServiceText(this.args.user.lastTermsOfServiceValidatedAt, this.args.user.cgu);
   }
