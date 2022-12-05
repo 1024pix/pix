@@ -90,6 +90,29 @@ exports.register = async function (server) {
       },
     },
     {
+      method: 'PUT',
+      path: '/api/admin/users/{id}/unblock',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+          },
+        ],
+        handler: userController.unblockUserAccount,
+        notes: ["- Permet à un administrateur de débloquer le compte d'un utilisateur"],
+        tags: ['api', 'admin', 'user', 'unblock'],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/users/{id}/add-pix-authentication-method',
       config: {
