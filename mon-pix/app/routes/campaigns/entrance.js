@@ -47,6 +47,12 @@ export default class Entrance extends Route {
 
     try {
       await campaignParticipation.save();
+
+      // Reload the user to display "My customised tests" link on the navbar menu
+      if (!this.currentUser.user?.hasAssessmentParticipations) {
+        this.currentUser.load();
+      }
+
       this.campaignStorage.set(campaign.code, 'hasParticipated', true);
     } catch (err) {
       const error = get(err, 'errors[0]', {});
