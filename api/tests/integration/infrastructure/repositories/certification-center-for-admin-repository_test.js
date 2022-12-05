@@ -4,11 +4,11 @@ const CertificationCenterForAdmin = require('../../../../lib/domain/models/Certi
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | certification-center-for-admin', function () {
-  let clock, now;
+  let clock;
+  const now = new Date('2021-11-16');
 
   beforeEach(function () {
-    now = new Date('2021-11-16');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, shouldClearNativeTimers: true });
   });
 
   afterEach(function () {
@@ -136,6 +136,58 @@ describe('Integration | Repository | certification-center-for-admin', function (
         // then
         expect(error).to.be.instanceOf(NotFoundError);
       });
+    });
+  });
+
+  describe('#save', function () {
+    it('should save the given certification center', async function () {
+      // given
+      const certificationCenter = new CertificationCenterForAdmin({
+        name: 'CertificationCenterName',
+        type: 'SCO',
+        isSupervisorAccessEnabled: true,
+      });
+
+      // when
+      const savedCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
+
+      // then
+      expect(savedCertificationCenter).to.be.instanceof(CertificationCenterForAdmin);
+      expect(savedCertificationCenter.id).to.exist;
+      expect(savedCertificationCenter.name).to.equal('CertificationCenterName');
+      expect(savedCertificationCenter.type).to.equal('SCO');
+      expect(savedCertificationCenter.isSupervisorAccessEnabled).to.be.true;
+    });
+  });
+
+  describe('#update', function () {
+    let certificationCenter;
+
+    before(async function () {
+      // given
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({ isSupervisorAccessEnabled: true });
+      await databaseBuilder.commit();
+    });
+
+    it('should update the given certification center', async function () {
+      // when
+      const updatedCertificationCenter = await certificationCenterForAdminRepository.update({
+        id: certificationCenter.id,
+        name: 'Great Oak Certification Center',
+        isSupervisorAccessEnabled: false,
+        updatedAt: now,
+      });
+
+      // then
+      expect(updatedCertificationCenter).to.be.instanceof(CertificationCenterForAdmin);
+      expect(updatedCertificationCenter).to.deep.equal(
+        new CertificationCenterForAdmin({
+          ...certificationCenter,
+          name: 'Great Oak Certification Center',
+          isSupervisorAccessEnabled: false,
+          updatedAt: updatedCertificationCenter.updatedAt,
+        })
+      );
     });
   });
 });

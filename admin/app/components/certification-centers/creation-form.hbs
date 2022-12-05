@@ -1,0 +1,92 @@
+<form class="form certification-center-form" {{on "submit" @onSubmit}}>
+
+  <section class="form-section">
+
+    <PixInput
+      @id="certificationCenterName"
+      @label="Nom du centre"
+      onchange={{this.handleCenterNameChange}}
+      class="form-field"
+      required={{true}}
+      aria-required={{true}}
+    />
+
+    <div class="form-field">
+      <PixSelect
+        @id="certificationCenterTypeSelector"
+        @label="Type d'établissement"
+        @options={{this.certificationCenterTypes}}
+        @isSearchable={{false}}
+        @emptyOptionNotSelectable={{true}}
+        @emptyOptionLabel={{"-- Choisissez --"}}
+        @onChange={{this.selectCertificationCenterType}}
+        required={{true}}
+        aria-required={{true}}
+        as |certificationCenterType|
+      >
+        {{certificationCenterType.label}}
+      </PixSelect>
+    </div>
+
+    <PixInput
+      @id="certificationCenterExternalId"
+      @label="Identifiant externe"
+      onchange={{this.handleExternalIdChange}}
+      class="form-field"
+    />
+
+    <PixInput
+      @id="dataProtectionOfficerFirstName"
+      {{on "change" this.handleDataProtectionOfficerFirstNameChange}}
+      @label="Prénom du DPO"
+      class="form-field"
+    />
+
+    <PixInput
+      @id="dataProtectionOfficerLastName"
+      {{on "change" this.handleDataProtectionOfficerLastNameChange}}
+      @label="Nom du DPO"
+      class="form-field"
+    />
+
+    <PixInput
+      @id="dataProtectionOfficerEmail"
+      {{on "change" this.handleDataProtectionOfficerEmailChange}}
+      @label="Adresse e-mail du DPO"
+      class="form-field"
+    />
+
+    <div class="form-field certification-center-form__supervisor-access-checkbox">
+      <PixCheckbox @id="supervisor-portal" @labelSize="small" onChange={{this.toggleSupervisorAccess}}>
+        Espace surveillant
+      </PixCheckbox>
+    </div>
+
+    <section>
+      <h1 class="habilitations-title">Habilitations aux certifications complémentaires</h1>
+      <ul class="form-field habilitations-checkbox-list">
+        {{#each @habilitations as |habilitation index|}}
+          <li class="habilitation-entry">
+            <PixCheckbox
+              @id={{concat "habilitation_" index}}
+              @labelSize="small"
+              onChange={{fn this.updateGrantedHabilitation habilitation}}
+            >
+              {{habilitation.label}}
+            </PixCheckbox>
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+  </section>
+
+  <section class="form-section form-actions">
+    <PixButton
+      @size="small"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{false}}
+      @triggerAction={{@onCancel}}
+    >Annuler</PixButton>
+    <PixButton @type="submit" @size="small">Ajouter</PixButton>
+  </section>
+</form>
