@@ -46,6 +46,12 @@ class UserLogin {
     this.blockedAt = new Date();
   }
 
+  unblockUser() {
+    this.failureCount = 0;
+    this.temporaryBlockedUntil = null;
+    this.blockedAt = null;
+  }
+
   isUserBlocked() {
     return !!this.blockedAt || this.failureCount >= settings.login.blockingLimitFailureCount;
   }
