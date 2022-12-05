@@ -10,12 +10,12 @@
       </PixButton>
       {{! template-lint-disable require-presentational-children }}
       {{#let (file-queue name="file-upload" onFileAdded=this.importSessions) as |queue|}}
-        <label class="file-upload">
+        <label for="session-import" class="file-upload">
           <PixButtonLink role="button" tabindex="0">
             {{t "pages.sessions.list.header.session-import-upload"}}
           </PixButtonLink>
         </label>
-        <input type="file" accept=".csv" hidden {{queue.selectFile}} />
+        <input id="session-import" type="file" accept=".csv" hidden {{queue.selectFile}} />
       {{/let}}
 
     {{/if}}
