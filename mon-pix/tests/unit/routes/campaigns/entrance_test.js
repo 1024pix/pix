@@ -52,7 +52,7 @@ module('Unit | Route | Entrance', function (hooks) {
     hooks.beforeEach(function () {
       campaignParticipationStub = { save: sinon.stub(), deleteRecord: sinon.stub() };
       route.store = { createRecord: sinon.stub().returns(campaignParticipationStub), queryRecord: sinon.stub() };
-      route.currentUser = { user: {} };
+      route.currentUser = { user: {}, load: sinon.stub() };
     });
 
     test('should save new campaign participation', async function (assert) {
@@ -67,6 +67,7 @@ module('Unit | Route | Entrance', function (hooks) {
 
       //then
       sinon.assert.called(campaignParticipationStub.save);
+      sinon.assert.called(route.currentUser.load);
       assert.ok(true);
     });
 
@@ -78,12 +79,14 @@ module('Unit | Route | Entrance', function (hooks) {
       });
       route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(true);
       route.campaignStorage.get.withArgs(campaign.code, 'retry').returns(true);
+      route.currentUser.user.hasAssessmentParticipations = true;
 
       //when
       await route.afterModel(campaign);
 
       //then
       sinon.assert.called(campaignParticipationStub.save);
+      sinon.assert.notCalled(route.currentUser.load);
       assert.ok(true);
     });
 
@@ -99,6 +102,7 @@ module('Unit | Route | Entrance', function (hooks) {
 
       //then
       sinon.assert.notCalled(route.store.createRecord);
+      sinon.assert.notCalled(route.currentUser.load);
       assert.ok(true);
     });
 
@@ -116,6 +120,7 @@ module('Unit | Route | Entrance', function (hooks) {
         // eslint-disable-next-line no-empty
       } catch (err) {}
       sinon.assert.called(campaignParticipationStub.deleteRecord);
+      sinon.assert.notCalled(route.currentUser.load);
       assert.ok(true);
     });
 
@@ -133,6 +138,7 @@ module('Unit | Route | Entrance', function (hooks) {
       await route.afterModel(campaign);
 
       //then
+      sinon.assert.notCalled(route.currentUser.load);
       sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', null);
       sinon.assert.calledWith(
         route.router.replaceWith,
@@ -155,6 +161,7 @@ module('Unit | Route | Entrance', function (hooks) {
       //when
       await route.afterModel(campaign);
 
+      sinon.assert.notCalled(route.currentUser.load);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.existing-participation', campaign.code);
       assert.ok(true);
     });
