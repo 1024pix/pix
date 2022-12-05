@@ -8,21 +8,26 @@ const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-anonymize-user', function () {
   describe('POST /admin/users/:id/anonymize', function () {
-    it('should anomymize user and remove authentication methods', async function () {
+    it('anomymizes user, removes authentication methods and disables user organisation memberships', async function () {
       // given
       const server = await createServer();
-      const user = databaseBuilder.factory.buildUser.withRawPassword();
       const superAdmin = await insertUserWithRoleSuperAdmin();
-      const options = {
+      const user = databaseBuilder.factory.buildUser.withRawPassword();
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId,
+        userId: user.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
         method: 'POST',
         url: `/api/admin/users/${user.id}/anonymize`,
         payload: {},
         headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
-      };
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
+      });
 
       // then
       expect(response.statusCode).to.equal(200);

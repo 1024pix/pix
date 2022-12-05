@@ -9,6 +9,8 @@ module.exports = function buildMembership({
   organizationRole = Membership.roles.MEMBER,
   organizationId,
   userId,
+  createdAt = new Date(),
+  updatedAt = new Date(),
   disabledAt,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -19,6 +21,8 @@ module.exports = function buildMembership({
     organizationId,
     organizationRole,
     userId,
+    createdAt,
+    updatedAt,
     disabledAt,
   };
   return databaseBuffer.pushInsertable({

@@ -918,28 +918,24 @@ describe('Unit | Controller | user-controller', function () {
     it('should call the anonymize user usecase', async function () {
       // given
       const userId = 1;
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-      };
+      const updatedByUserId = 2;
       const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
       const userDetailsForAdmin = Symbol('userDetailsForAdmin');
-      sinon.stub(usecases, 'anonymizeUser').withArgs({ userId }).resolves(userDetailsForAdmin);
-      sinon
-        .stub(userAnonymizedDetailsForAdminSerializer, 'serialize')
-        .withArgs(userDetailsForAdmin)
-        .returns(anonymizedUserSerialized);
+      sinon.stub(usecases, 'anonymizeUser').resolves(userDetailsForAdmin);
+      sinon.stub(userAnonymizedDetailsForAdminSerializer, 'serialize').returns(anonymizedUserSerialized);
 
       // when
-      const response = await userController.anonymizeUser(request, hFake);
+      const response = await userController.anonymizeUser(
+        {
+          auth: { credentials: { userId: updatedByUserId } },
+          params: { id: userId },
+        },
+        hFake
+      );
 
       // then
+      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId, updatedByUserId });
+      expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWith(userDetailsForAdmin);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(anonymizedUserSerialized);
     });
