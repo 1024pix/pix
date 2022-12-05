@@ -17,6 +17,7 @@ class UserDetailsForAdmin {
     lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt,
     emailConfirmedAt,
+    userLogin,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -35,6 +36,7 @@ class UserDetailsForAdmin {
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
     this.lastLoggedAt = lastLoggedAt;
     this.emailConfirmedAt = emailConfirmedAt;
+    this.userLogin = userLogin;
   }
 }
 

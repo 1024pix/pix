@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         emailConfirmedAt: now,
         organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
+        userLogin: [{ id: 123, failureCount: 8 }],
       });
 
       // when
@@ -67,6 +68,14 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
                 related: `/api/admin/users/${userDetailsForAdmin.id}/profile`,
               },
             },
+            'user-login': {
+              data: [
+                {
+                  id: '123',
+                  type: 'userLogins',
+                },
+              ],
+            },
             'organization-memberships': {
               links: {
                 related: `/api/admin/users/${userDetailsForAdmin.id}/organizations`,
@@ -105,6 +114,11 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             },
             id: `${userDetailsForAdmin.authenticationMethods[0].id}`,
             type: 'authenticationMethods',
+          },
+          {
+            attributes: { 'failure-count': 8 },
+            id: '123',
+            type: 'userLogins',
           },
         ],
       });

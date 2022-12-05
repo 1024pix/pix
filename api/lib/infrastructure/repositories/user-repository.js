@@ -21,6 +21,7 @@ const Organization = require('../../domain/models/Organization');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+const UserLogin = require('../../domain/models/UserLogin');
 
 module.exports = {
   getByEmail(email) {
@@ -96,43 +97,39 @@ module.exports = {
       });
   },
 
-  getUserDetailsForAdmin(userId) {
-    return BookshelfUser.where({ id: userId })
-      .fetch({
-        columns: [
-          'id',
-          'firstName',
-          'lastName',
-          'email',
-          'username',
-          'cgu',
-          'pixOrgaTermsOfServiceAccepted',
-          'pixCertifTermsOfServiceAccepted',
-          'createdAt',
-          'lang',
-          'lastTermsOfServiceValidatedAt',
-          'lastPixOrgaTermsOfServiceValidatedAt',
-          'lastPixCertifTermsOfServiceValidatedAt',
-          'lastLoggedAt',
-          'emailConfirmedAt',
-        ],
-        withRelated: [
-          {
-            organizationLearners: (query) => {
-              query.leftJoin('organizations', 'organization-learners.organizationId', 'organizations.id').orderBy('id');
-            },
-          },
-          'organizationLearners.organization',
-          'authenticationMethods',
-        ],
-      })
-      .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
+  async getUserDetailsForAdmin(userId) {
+    const userDTO = await knex('users')
+      .leftJoin('user-logins', 'user-logins.userId', 'users.id')
+      .select([
+        'users.*',
+        'user-logins.id AS userLoginId',
+        'user-logins.failureCount',
+        'user-logins.temporaryBlockedUntil',
+        'user-logins.blockedAt',
+      ])
+      .where({ 'users.id': userId })
+      .first();
+
+    if (!userDTO) {
+      throw new UserNotFoundError(`User not found for ID ${userId}`);
+    }
+
+    const authenticationMethodsDTO = await knex('authentication-methods')
+      .select(['authentication-methods.id', 'identityProvider'])
+      .join('users', 'users.id', 'authentication-methods.userId')
+      .where({ userId });
+
+    const organizationLearnersDTO = await knex('organization-learners')
+      .select([
+        'organization-learners.*',
+        'organizations.name AS organizationName',
+        'organizations.isManagingStudents AS organizationIsManagingStudents',
+      ])
+      .join('organizations', 'organizations.id', 'organization-learners.organizationId')
+      .where({ userId })
+      .orderBy('id');
+
+    return _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO });
   },
 
   findPaginatedFiltered({ filter, page }) {
@@ -399,6 +396,53 @@ module.exports = {
     await knex('users').where({ id: userId }).update({ lastLoggedAt: now });
   },
 };
+
+function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO }) {
+  const organizationLearners = organizationLearnersDTO.map(
+    (organizationLearnerDTO) =>
+      new OrganizationLearnerForAdmin({
+        id: organizationLearnerDTO.id,
+        firstName: organizationLearnerDTO.firstName,
+        lastName: organizationLearnerDTO.lastName,
+        birthdate: organizationLearnerDTO.birthdate,
+        division: organizationLearnerDTO.division,
+        group: organizationLearnerDTO.group,
+        organizationId: organizationLearnerDTO.organizationId,
+        organizationName: organizationLearnerDTO.organizationName,
+        createdAt: organizationLearnerDTO.createdAt,
+        updatedAt: organizationLearnerDTO.updatedAt,
+        isDisabled: organizationLearnerDTO.isDisabled,
+        organizationIsManagingStudents: organizationLearnerDTO.organizationIsManagingStudents,
+      })
+  );
+  const userLogin = new UserLogin({
+    id: userDTO.userLoginId,
+    userId: userDTO.userId,
+    failureCount: userDTO.failureCount,
+    temporaryBlockedUntil: userDTO.temporaryBlockedUntil,
+    blockedAt: userDTO.blockedAt,
+  });
+  return new UserDetailsForAdmin({
+    id: userDTO.id,
+    firstName: userDTO.firstName,
+    lastName: userDTO.lastName,
+    username: userDTO.username,
+    email: userDTO.email,
+    cgu: userDTO.cgu,
+    pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
+    createdAt: userDTO.createdAt,
+    lang: userDTO.lang,
+    lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
+    lastLoggedAt: userDTO.lastLoggedAt,
+    emailConfirmedAt: userDTO.emailConfirmedAt,
+    organizationLearners,
+    authenticationMethods: authenticationMethodsDTO,
+    userLogin,
+  });
+}
 
 function _toUserDetailsForAdminDomain(bookshelfUser) {
   const rawUserDetailsForAdmin = bookshelfUser.toJSON();
