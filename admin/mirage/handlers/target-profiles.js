@@ -87,12 +87,21 @@ function outdate(schema, request) {
   return new Response(204);
 }
 
-function createBadge(schema) {
-  return schema.create('badge', {});
-}
-
-function createBadgeCriterion(schema) {
-  return schema.create('badge-criterion', {});
+function createBadge(schema, request) {
+  const params = JSON.parse(request.requestBody);
+  //console.log(params);
+  const targetProfile = schema.targetProfiles.find(request.params.id);
+  const criteria = [];
+  if (params.data.attributes['campaign-threshold'])
+    criteria.push(
+      schema.create('badge-criterion', {
+        scope: 'CampaignParticipation',
+        threshold: parseInt(params.data.attributes['campaign-threshold']),
+      })
+    );
+  const createdBadge = schema.create('badge', { ...params, criteria });
+  targetProfile.update({ badges: [...targetProfile.badges.models, createdBadge] });
+  return createdBadge;
 }
 
 function markTargetProfileAsSimplifiedAccess(schema, request) {
@@ -107,7 +116,6 @@ export {
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
   createBadge,
-  createBadgeCriterion,
   findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,

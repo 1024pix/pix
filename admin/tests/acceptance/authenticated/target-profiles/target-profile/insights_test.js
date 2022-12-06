@@ -132,7 +132,25 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
-      test('should be able to add a new stage', async function (assert) {
+      test('it should cancel stage edition', async function (assert) {
+        // given
+        server.create('stage', { id: 100, title: 'titre initial', targetProfile });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+        await clickByName('Voir détail');
+        await clickByName('Éditer');
+        await fillByLabel('Titre', 'titre modifié');
+        await clickByName('Annuler');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
+        assert.dom(screen.getByText('titre initial')).exists();
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      });
+
+      test('it should add a new stage', async function (assert) {
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
@@ -146,57 +164,178 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
     });
-    /*
-    module('badges', function () {
-      test('should be able to see the details of a badge', async function (assert) {
+
+    module('Badges', function () {
+      test('it should display existing badges', async function (assert) {
         // given
-        await visit(`/target-profiles/1/insights`);
+        const badge1 = server.create('badge', { id: 100, key: 'KEY_BADGE_1' });
+        const badge2 = server.create('badge', { id: 101, key: 'KEY_BADGE_2' });
+        targetProfile.update({ badges: [badge1, badge2] });
 
         // when
-        await clickByName('Détails du badge My badge 1');
-
-        //then
-        assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
-      });
-
-      test('should redirect to badge creation page on link click', async function (assert) {
-        // given
-        await visit(`/target-profiles/1/insights`);
-
-        // when
-        await clickByName('Nouveau résultat thématique');
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
 
         // then
-        assert.strictEqual(currentURL(), `/target-profiles/1/badges/new`);
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+        assert.dom(screen.getByText('KEY_BADGE_1')).exists();
+        assert.dom(screen.getByText('KEY_BADGE_2')).exists();
       });
 
-      test('should redirect to insights parent page when badge creation is cancelled', async function (assert) {
+      test('it should display badge details when clicking on "Voir détail"', async function (assert) {
         // given
-        await visit(`/target-profiles/1/badges/new`);
+        const badge = server.create('badge', {
+          id: 100,
+          key: 'KEY_BADGE_1',
+          title: 'tagada',
+          message: 'Coucou les zamis',
+          imageUrl: 'image.png',
+          altMessage: 'alt COUCOU LES ZAMIS',
+          isCertifiable: true,
+          isAlwaysVisible: true,
+          criteria: [],
+        });
+        targetProfile.update({ badges: [badge] });
 
         // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+        await clickByName('Détails du badge tagada');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
+        assert.dom(screen.getByText('ID : 100')).exists();
+        assert.dom(screen.getByText('Nom du résultat thématique : tagada')).exists();
+        assert.dom(screen.getByText("Nom de l'image : image.png")).exists();
+        assert.dom(screen.getByText('Clé : KEY_BADGE_1')).exists();
+        assert.dom(screen.getByText('Message : Coucou les zamis')).exists();
+        assert.dom(screen.getByText('Message alternatif : alt COUCOU LES ZAMIS')).exists();
+        assert.dom(screen.getByText('Certifiable')).exists();
+        assert.dom(screen.getByText('Lacunes')).exists();
+        assert.deepEqual(
+          screen.getByTestId('triste').innerText,
+          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil-cible.'
+        );
+      });
+
+      test('it should go back to insights when clicking on target profile header in details page', async function (assert) {
+        const badge = server.create('badge', { id: 100, key: 'KEY_BADGE_1', title: 'tagada' });
+        targetProfile.update({ badges: [badge] });
+
+        // when
+        await visit('/target-profiles/1/badges/100');
+        await clickByName('Profil-cible extra croustillant');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+      });
+
+      test('it should edit the badge information', async function (assert) {
+        // given
+        const badge = server.create('badge', {
+          id: 100,
+          key: 'OLD_KEY',
+          title: 'ancien titre',
+          message: 'ancien message',
+          imageUrl: 'old_image.png',
+          altMessage: 'ancien alt',
+          isCertifiable: false,
+          isAlwaysVisible: true,
+          criteria: [],
+        });
+        targetProfile.update({ badges: [badge] });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+        await clickByName('Détails du badge ancien titre');
+        await clickByName('Éditer');
+        await fillByLabel('* Titre :', 'nouveau titre');
+        await fillByLabel('* Clé :', 'NEW_KEY');
+        await fillByLabel('Message :', 'nouveau message');
+        await fillByLabel("* Nom de l'image (svg) :", 'new_image.svg');
+        await fillByLabel('* Message Alternatif :', 'nouveau alt');
+        await clickByName('Certifiable :');
+        await clickByName('Lacunes :');
+        await clickByName('Enregistrer');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
+        assert.dom(screen.getByText('ID : 100')).exists();
+        assert.dom(screen.getByText('Nom du résultat thématique : nouveau titre')).exists();
+        assert.dom(screen.getByText("Nom de l'image : new_image.svg")).exists();
+        assert.dom(screen.getByText('Clé : NEW_KEY')).exists();
+        assert.dom(screen.getByText('Message : nouveau message')).exists();
+        assert.dom(screen.getByText('Message alternatif : nouveau alt')).exists();
+        assert.dom(screen.getByText('Certifiable')).exists();
+        assert.dom(screen.queryByText('Lacunes')).doesNotExist();
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      });
+
+      test('it should cancel badge edition', async function (assert) {
+        // given
+        const badge = server.create('badge', { id: 100, title: 'tagada' });
+        targetProfile.update({ badges: [badge] });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+        await clickByName('Détails du badge tagada');
+        await clickByName('Éditer');
+        await fillByLabel('* Titre :', 'tsouintsouin');
         await clickByName('Annuler');
 
         // then
-        assert.strictEqual(currentURL(), `/target-profiles/1/insights`);
+        assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
+        assert.dom(screen.getByText('Nom du résultat thématique : tagada')).exists();
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
-      test('should redirect to insights parent page when badge creation is done', async function (assert) {
-        // given
-        await visit(`/target-profiles/1/badges/new`);
-
+      test('it should create a badge', async function (assert) {
         // when
-        await fillByLabel('Nom du résultat thématique :', 'clé_du_badge');
-        await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage');
-        await fillByLabel("Texte alternatif pour l'image :", 'texte alternatif à l‘image');
-        await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'clé unique');
-        await fillByLabel('Taux de réussite global :', '65');
-        await clickByName('Créer le badge');
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+        await clickByName('Nouveau résultat thématique');
+        await fillByLabel('Nom du résultat thématique :', 'Mon nouveau RT');
+        await fillByLabel("Nom de l'image (svg) :", 'troll.png');
+        await fillByLabel("Texte alternatif pour l'image :", 'Je mets du png je fais ce que je veux');
+        await fillByLabel('Message :', 'message de mon RT');
+        await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'MY_BADGE');
+        await clickByName('Certifiable :');
+        await clickByName('Lacunes :');
+        await clickByName("Sur l'ensemble du profil cible");
+        await fillByLabel('* Taux de réussite pour obtenir le RT :', 50);
+        await clickByName('Enregistrer le RT');
+        await clickByName('Détails du badge Mon nouveau RT');
 
         // then
-        assert.strictEqual(currentURL(), `/target-profiles/1/insights`);
+        assert.strictEqual(currentURL(), '/target-profiles/1/badges/1');
+        assert.dom(screen.getByText('ID : 1')).exists();
+        assert.dom(screen.getByText('Nom du résultat thématique : Mon nouveau RT')).exists();
+        assert.dom(screen.getByText("Nom de l'image : troll.png")).exists();
+        assert.dom(screen.getByText('Clé : MY_BADGE')).exists();
+        assert.dom(screen.getByText('Message : message de mon RT')).exists();
+        assert.dom(screen.getByText('Message alternatif : Je mets du png je fais ce que je veux')).exists();
+        assert.dom(screen.getByText('Certifiable')).exists();
+        assert.dom(screen.getByText('Lacunes')).exists();
+        assert.deepEqual(
+          screen.getByTestId('triste').innerText,
+          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil-cible.'
+        );
+      });
+
+      test('it should cancel badge creation', async function (assert) {
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+        await clickByName('Nouveau résultat thématique');
+        await clickByName('Annuler');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        assert.dom(screen.queryByText('Voir détail')).doesNotExist();
       });
     });
-    */
   });
 });
