@@ -181,50 +181,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             .hasText('La liste des candidats a été importée avec succès.');
         });
 
-        test.skip('it should display the error message when uploading an invalid file', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new File(['foo'], 'invalid-file');
-
-          // when
-          await selectFiles('input[id|="upload-attendance-sheet"]', file);
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText(
-              "Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau."
-            );
-        });
-
-        test.skip('it should display the error message when uploading a file with validation error', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new File(['foo'], 'validation-error');
-
-          // when
-          await selectFiles('input[id|="upload-attendance-sheet"]', file);
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
-        });
-
-        test.skip('it should display a specific error message when importing is forbidden', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new File(['foo'], 'forbidden-import');
-
-          // when
-          await selectFiles('input[id|="upload-attendance-sheet"]', file);
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText("La session a débuté, il n'est plus possible de modifier la liste des candidats.");
-        });
-
         test('it should display a warning when the import is not allowed', async function (assert) {
           // given
           server.create('certification-candidate', { sessionId: sessionWithCandidates.id, isLinked: true });
