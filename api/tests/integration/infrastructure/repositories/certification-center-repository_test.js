@@ -429,7 +429,8 @@ describe('Integration | Repository | Certification Center', function () {
           await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(matchingCertificationCenters).to.deepEqualArray([
+        expect(matchingCertificationCenters.length).to.equal(3);
+        expect(matchingCertificationCenters).to.deep.include.members([
           expectedCertificationCenter1,
           expectedCertificationCenter2,
           expectedCertificationCenter3,
