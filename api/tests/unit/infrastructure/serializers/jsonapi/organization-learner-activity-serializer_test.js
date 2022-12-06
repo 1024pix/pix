@@ -38,15 +38,15 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
           id: '25',
           attributes: {},
           relationships: {
-            participations: {
+            'organization-learner-participations': {
               data: [
                 {
                   id: '99999',
-                  type: 'participations',
+                  type: 'organizationLearnerParticipations',
                 },
                 {
                   id: '100000',
-                  type: 'participations',
+                  type: 'organizationLearnerParticipations',
                 },
               ],
             },
@@ -55,7 +55,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
         included: [
           {
             id: '99999',
-            type: 'participations',
+            type: 'organizationLearnerParticipations',
             attributes: {
               'campaign-type': 'PROFILES_COLLECTION',
               'campaign-name': 'La 1ère campagne',
@@ -66,7 +66,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
           },
           {
             id: '100000',
-            type: 'participations',
+            type: 'organizationLearnerParticipations',
             attributes: {
               'campaign-type': 'ASSESSMENT',
               'campaign-name': 'La 2ème campagne',
