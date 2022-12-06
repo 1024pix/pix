@@ -134,8 +134,6 @@ export default class LoginForm extends Component {
             : this.ERROR_MESSAGES.STATUS_401;
         case '403':
           return this.ERROR_MESSAGES.STATUS_403;
-        case '429':
-          return this.ERROR_MESSAGES.STATUS_429;
         default:
           return this.ERROR_MESSAGES.DEFAULT;
       }
@@ -151,7 +149,6 @@ export default class LoginForm extends Component {
       STATUS_401: this.intl.t('pages.login-form.errors.status.401'),
       STATUS_401_SHOULD_CHANGE_PASSWORD: this.intl.t('pages.login-form.errors.status.401-should-change-password'),
       STATUS_403: this.intl.t('pages.login-form.errors.status.403'),
-      STATUS_429: this.intl.t('pages.login-form.errors.status.429'),
     };
   }
 }

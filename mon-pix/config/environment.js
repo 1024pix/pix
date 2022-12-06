@@ -91,10 +91,6 @@ module.exports = function (environment) {
           CODE: '403',
           MESSAGE: 'api-error-messages.login-user-blocked-error',
         },
-        TOO_MANY_REQUESTS: {
-          CODE: '429',
-          MESSAGE: 'api-error-messages.too-many-requests-error',
-        },
         INTERNAL_SERVER_ERROR: {
           CODE: '500',
           MESSAGE: 'api-error-messages.internal-server-error',

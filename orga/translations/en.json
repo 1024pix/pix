@@ -594,8 +594,7 @@
         "status": {
           "401": "Missing or invalid credentials",
           "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
-          "401-should-change-password": "An error occurred. Please change your password.",
-          "429": "Too many requests in a short time. Please retry in a few minutes."
+          "401-should-change-password": "An error occurred. Please change your password."
         }
       },
       "forgot-password": "Forgot your password?",
