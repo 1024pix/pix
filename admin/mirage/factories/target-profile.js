@@ -34,7 +34,7 @@ export default Factory.extend({
   },
 
   category() {
-    return 'Cuisine';
+    return 'OTHER';
   },
 
   isSimplifiedAccess() {
@@ -92,6 +92,7 @@ export default Factory.extend({
       const areaUn = server.create('new-area', {
         id: 'areaUn',
         title: 'areaUn',
+        code: '1',
         color: 'blue',
         frameworkId: 'frameworkId',
         competences: [competenceUn],
