@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { find } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import { fillByLabel, clickByText, render } from '@1024pix/ember-testing-library';
@@ -8,10 +8,12 @@ import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Activity::ParticipantsList', function (hooks) {
+  let store;
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     this.set('noop', sinon.stub());
+    store = this.owner.lookup('service:store');
   });
 
   test('it should display participations details', async function (assert) {
@@ -149,14 +151,15 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
         prescriber = 1;
       }
       this.owner.register('service:current-user', CurrentUserStub);
-      this.campaign = { type: 'ASSESSMENT' };
+      this.campaign = store.createRecord('campaign', { type: 'ASSESSMENT' });
       this.participations = [];
       this.selectedStatus = 'TO_SHARE';
 
-      await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @selectedStatus={{this.selectedStatus}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}
+      const screen =
+        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @selectedStatus={{this.selectedStatus}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}
       />`);
-
-      assert.strictEqual(find('[aria-label="Statut"]').selectedOptions[0].value, 'TO_SHARE');
+      click(screen.getByLabelText('Statut'));
+      assert.ok(await screen.findByRole('option', { name: "En attente d'envoi", selected: true }));
     });
 
     test('should filter on participations status', async function (assert) {
@@ -165,14 +168,16 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
         prescriber = 1;
       }
       this.owner.register('service:current-user', CurrentUserStub);
-      this.campaign = { type: 'ASSESSMENT' };
+      this.campaign = store.createRecord('campaign', { type: 'ASSESSMENT' });
       this.participations = [];
       this.onFilter = sinon.stub();
 
-      await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.onFilter}}
+      const screen =
+        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.onFilter}}
         />`);
 
-      await fillByLabel('Statut', 'SHARED');
+      await click(screen.getByLabelText('Statut'));
+      await click(await screen.findByRole('option', { name: 'Résultats reçus' }));
 
       assert.ok(this.onFilter.calledWith('status', 'SHARED'));
     });
