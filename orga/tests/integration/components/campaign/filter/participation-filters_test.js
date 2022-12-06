@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { click, find } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { render, clickByName, fillByLabel, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
@@ -211,9 +211,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           );
 
           await click(screen.getByLabelText(t('pages.campaign-results.filters.type.stages')));
-          await click('[for="stage-stage1"]');
-          debugger;
-          await waitForElementToBeRemoved(() => screen.queryByLabelText('1 étoiles sur 1'));
+          await click(await screen.findByRole('checkbox', { name: '1 étoiles sur 1' }));
 
           // then
           assert.ok(triggerFiltering.calledWith('stages', ['stage1']));
@@ -279,10 +277,12 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('triggerFiltering', triggerFiltering);
 
           // when
-          await render(
+          const screen = await render(
             hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
           );
-          await click('[for="badge-badge1"]');
+
+          await click(screen.getByLabelText(t('pages.campaign-results.filters.type.badges')));
+          await click(await screen.findByRole('checkbox', { name: 'Les bases' }));
 
           // then
           assert.ok(triggerFiltering.calledWith('badges', ['badge1']));
@@ -349,10 +349,15 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('triggerFiltering', triggerFiltering);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
-        await fillByLabel(t('pages.campaign-results.filters.type.status.title'), 'STARTED');
+        await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
+        await click(
+          await screen.findByRole('option', {
+            name: t('pages.campaign-activity.status.STARTED-assessment'),
+          })
+        );
 
         // then
         assert.ok(triggerFiltering.calledWith('status', 'STARTED'));
@@ -371,12 +376,20 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} @selectedStatus="STARTED" />`
         );
+        await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
 
         // then
-        assert.strictEqual(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
+        assert
+          .dom(
+            await screen.findByRole('option', {
+              name: t('pages.campaign-activity.status.STARTED-assessment'),
+              selected: true,
+            })
+          )
+          .exists();
       });
 
       test('it should display 3 statuses for assessment campaign', async function (assert) {
@@ -392,13 +405,22 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
         );
 
         // then
-        const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
-        assert.deepEqual(values, ['', 'STARTED', 'TO_SHARE', 'SHARED']);
+        await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
+        const options = await screen.findAllByRole('option');
+        assert.deepEqual(
+          options.map((option) => option.innerText),
+          [
+            t('pages.campaign-results.filters.type.status.empty'),
+            t('pages.campaign-activity.status.STARTED-assessment'),
+            t('pages.campaign-activity.status.TO_SHARE-assessment'),
+            t('pages.campaign-activity.status.SHARED-assessment'),
+          ]
+        );
       });
 
       test('it should display 2 statuses for profiles collection campaign', async function (assert) {
@@ -414,13 +436,21 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}}/>`
         );
 
         // then
-        const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
-        assert.deepEqual(values, ['', 'TO_SHARE', 'SHARED']);
+        await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
+        const options = await screen.findAllByRole('option');
+        assert.deepEqual(
+          options.map((option) => option.innerText),
+          [
+            t('pages.campaign-results.filters.type.status.empty'),
+            t('pages.campaign-activity.status.TO_SHARE-profile'),
+            t('pages.campaign-activity.status.SHARED-profile'),
+          ]
+        );
       });
     });
 
@@ -478,10 +508,15 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('triggerFiltering', triggerFiltering);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
-        await click('[for="division-d1"]');
+        await click(screen.getByLabelText(t('pages.campaign-results.filters.type.divisions.placeholder')));
+        await click(
+          await screen.findByRole('checkbox', {
+            name: 'd1',
+          })
+        );
 
         // then
         assert.ok(triggerFiltering.calledWith('divisions', ['d1']));
@@ -526,10 +561,15 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('triggerFiltering', triggerFiltering);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}}/>`
         );
-        await click('[for="group-d1"]');
+        await click(screen.getByLabelText(t('pages.campaign-results.filters.type.groups.title')));
+        await click(
+          await screen.findByRole('checkbox', {
+            name: 'd1',
+          })
+        );
 
         // then
         assert.ok(triggerFiltering.calledWith('groups', ['d1']));
