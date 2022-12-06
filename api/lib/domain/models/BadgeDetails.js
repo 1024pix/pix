@@ -15,8 +15,9 @@ class BadgeDetails {
 }
 
 class BadgeCriterion {
-  constructor({ id, scope, threshold, skillSets, cappedTubes }) {
+  constructor({ id, name, scope, threshold, skillSets, cappedTubes }) {
     this.id = id;
+    this.name = name;
     this.scope = scope;
     this.threshold = threshold;
     this.skillSets = skillSets;
@@ -26,6 +27,7 @@ class BadgeCriterion {
   toDTO() {
     return {
       id: this.id,
+      name: this.name,
       scope: this.scope,
       threshold: this.threshold,
       skillSets: this.skillSets.map((skillSet) => skillSet.toDTO()),
