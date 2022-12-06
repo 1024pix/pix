@@ -28,7 +28,6 @@ export default class ToggableLoginForm extends Component {
     STATUS_404: this.intl.t('pages.login-or-register.login-form.errors.status.404'),
     STATUS_409: this.intl.t('pages.login-or-register.login-form.errors.status.409'),
     STATUS_412: this.intl.t('pages.login-or-register.login-form.errors.status.412'),
-    STATUS_429: this.intl.t('pages.login-or-register.login-form.errors.status.429'),
   };
 
   @action
@@ -135,8 +134,6 @@ export default class ToggableLoginForm extends Component {
           return this.ERROR_MESSAGES.STATUS_409;
         case '412':
           return this.ERROR_MESSAGES.STATUS_412;
-        case '429':
-          return this.ERROR_MESSAGES.STATUS_429;
         default:
           return this.ERROR_MESSAGES.DEFAULT;
       }

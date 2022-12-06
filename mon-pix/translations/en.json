@@ -34,8 +34,7 @@
       "s61": "{ value }",
       "s62": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S62)",
       "s63": "You already have a Pix account through your virtual learning environment (\"ENT\") in another school '<br> 'To continue, contact a teacher who can give you access to this account using Pix Orga.'<br>'(Code S63)"
-    },
-    "too-many-requests-error": "Too many requests in a short time. Please retry in a few minutes."
+    }
   },
   "application": {
     "description": "Pix is an online platform open to all (pupils, students, anyone working or in professional training, seniors) designed to assess, develop and certify digital skills"
