@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
-import { upload } from 'ember-file-upload/test-support';
+import { selectFiles } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit } from '@1024pix/ember-testing-library';
 
@@ -161,7 +161,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           const file = new File(['foo'], `${sessionWithCandidates.id}.addTwoCandidates`);
 
           // when
-          await upload('#upload-attendance-sheet', file);
+          await selectFiles('input[id|="upload-attendance-sheet"]', file);
 
           // then
           assert.dom('table tbody tr').exists({ count: 2 });
@@ -173,56 +173,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           const file = new File(['foo'], 'valid-file');
 
           // when
-          await upload('#upload-attendance-sheet', file);
+          await selectFiles('input[id|="upload-attendance-sheet"]', file);
 
           // then
           assert
             .dom('[data-test-notification-message="success"]')
             .hasText('La liste des candidats a été importée avec succès.');
-        });
-
-        test('it should display the error message when uploading an invalid file', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new File(['foo'], 'invalid-file');
-
-          // when
-          await upload('#upload-attendance-sheet', file);
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText(
-              "Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau."
-            );
-        });
-
-        test('it should display the error message when uploading a file with validation error', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new File(['foo'], 'validation-error');
-
-          // when
-          await upload('#upload-attendance-sheet', file);
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
-        });
-
-        test('it should display a specific error message when importing is forbidden', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new File(['foo'], 'forbidden-import');
-
-          // when
-          await upload('#upload-attendance-sheet', file);
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText("La session a débuté, il n'est plus possible de modifier la liste des candidats.");
         });
 
         test('it should display a warning when the import is not allowed', async function (assert) {

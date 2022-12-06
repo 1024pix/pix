@@ -14,7 +14,7 @@ module('Unit | Controller | authenticated/sessions/update', function (hooks) {
     hooks.beforeEach(function () {
       controller = this.owner.lookup('controller:authenticated/sessions/update');
       event = { preventDefault: sinon.stub() };
-      controller.transitionToRoute = sinon.stub();
+      sinon.stub(controller.router, 'transitionTo');
       session.save = sinon.stub().resolves();
       controller.model = session;
     });
@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated/sessions/update', function (hooks) {
       await controller.send('updateSession', event);
 
       // then
-      assert.ok(controller.transitionToRoute.calledWith('authenticated.sessions.details', sessionId));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.sessions.details', sessionId));
     });
   });
 
@@ -51,7 +51,7 @@ module('Unit | Controller | authenticated/sessions/update', function (hooks) {
 
     hooks.beforeEach(function () {
       controller = this.owner.lookup('controller:authenticated/sessions/update');
-      controller.transitionToRoute = sinon.stub();
+      sinon.stub(controller.router, 'transitionTo');
       controller.model = session;
     });
 
@@ -60,7 +60,7 @@ module('Unit | Controller | authenticated/sessions/update', function (hooks) {
       await controller.send('cancel');
 
       // then
-      assert.ok(controller.transitionToRoute.calledWith('authenticated.sessions.details', sessionId));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.sessions.details', sessionId));
     });
   });
 
