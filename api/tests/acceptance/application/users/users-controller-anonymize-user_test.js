@@ -8,7 +8,7 @@ const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-anonymize-user', function () {
   describe('POST /admin/users/:id/anonymize', function () {
-    it('anomymizes user, removes authentication methods and disables user organisation memberships', async function () {
+    it("anomymizes user, removes authentication methods and disables user's certification center and organisation memberships", async function () {
       // given
       const server = await createServer();
       const superAdmin = await insertUserWithRoleSuperAdmin();
@@ -16,6 +16,11 @@ describe('Acceptance | Controller | users-controller-anonymize-user', function (
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({
         organizationId,
+        userId: user.id,
+      });
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
         userId: user.id,
       });
 

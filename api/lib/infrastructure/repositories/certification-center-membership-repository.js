@@ -153,4 +153,11 @@ module.exports = {
 
     return _toDomain(refererCertificationCenterMembership);
   },
+
+  async disableMembershipsByUserId({ userId, updatedByUserId }) {
+    await knex('certification-center-memberships')
+      .whereNull('disabledAt')
+      .andWhere({ userId })
+      .update({ disabledAt: new Date(), updatedByUserId });
+  },
 };

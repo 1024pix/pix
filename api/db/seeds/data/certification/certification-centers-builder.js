@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const { DEFAULT_PASSWORD } = require('../users-builder');
+
 const SCO_COLLEGE_CERTIF_CENTER_ID = 1;
 const SCO_COLLEGE_CERTIF_CENTER_NAME = 'Centre SCO Collège des Anne-Étoiles';
 const SCO_LYCEE_CERTIF_CENTER_ID = 13;
@@ -280,6 +282,25 @@ function certificationCentersBuilder({ databaseBuilder }) {
       type: types[_.random(0, 2)],
     });
   }
+
+  // Great Oak Certification Center - anonymization purpose
+  const greatOakCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
+    name: 'Great Oak Certification Center',
+    type: 'SCO',
+  });
+  const greatOakCertificationCenterMember = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Hijuro',
+    lastName: 'Butora',
+    email: 'hijuro.butora@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+    pixCertifTermsOfServiceAccepted: true,
+    lastPixCertifTermsOfServiceValidatedAt: new Date(),
+  });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    certificationCenterId: greatOakCertificationCenter.id,
+    userId: greatOakCertificationCenterMember.id,
+  });
 }
 
 module.exports = {

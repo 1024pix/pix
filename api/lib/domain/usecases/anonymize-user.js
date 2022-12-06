@@ -4,6 +4,7 @@ module.exports = async function anonymizeUser({
   userRepository,
   authenticationMethodRepository,
   membershipRepository,
+  certificationCenterMembershipRepository,
   refreshTokenService,
 }) {
   const anonymizedUser = {
@@ -16,5 +17,6 @@ module.exports = async function anonymizeUser({
   await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
   await refreshTokenService.revokeRefreshTokensForUserId({ userId });
   await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
+  await certificationCenterMembershipRepository.disableMembershipsByUserId({ updatedByUserId, userId });
   return userRepository.updateUserDetailsForAdministration(userId, anonymizedUser);
 };
