@@ -1,4 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
+const _ = require('lodash');
 const OrganizationForAdmin = require('../../../domain/models/OrganizationForAdmin');
 const Tag = require('../../../domain/models/Tag');
 
@@ -70,7 +71,7 @@ module.exports = {
     }
 
     const organization = new OrganizationForAdmin({
-      id: parseInt(json.data.id),
+      id: _.isNil(json.data.id) ? null : parseInt(json.data.id),
       name: attributes.name,
       type: attributes.type,
       email: attributes.email,
