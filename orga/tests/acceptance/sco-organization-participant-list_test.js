@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent } from '@ember/test-helpers';
+import { find, currentURL, triggerEvent, click } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl from '../helpers/setup-intl';
 import authenticateSession from '../helpers/authenticate-session';
 
 import {
@@ -14,6 +15,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Sco Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   let organizationId;
@@ -137,8 +139,15 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
         test('it should display the students list filtered by connection type', async function (assert) {
           // when
-          await visit('/eleves');
-          await fillByLabel('Rechercher par méthode de connexion', 'email');
+          const screen = await visit('/eleves');
+          await click(
+            screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.aria-label'))
+          );
+          await click(
+            await screen.findByRole('option', {
+              name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
+            })
+          );
 
           // then
           assert.strictEqual(currentURL(), '/eleves?connexionType=email');
