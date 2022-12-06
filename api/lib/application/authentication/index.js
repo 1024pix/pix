@@ -1,6 +1,4 @@
 const Joi = require('joi');
-const crypto = require('crypto');
-const config = require('../../config');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
 const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
@@ -13,24 +11,6 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/token',
       config: {
-        plugins: {
-          rateLimit: {
-            enabled: () => config.rateLimit.enabled,
-            key: (request) => {
-              const baseKey = (() => {
-                if (request.payload.grant_type === 'password') {
-                  return request.payload.username;
-                } else {
-                  return request.payload.refresh_token;
-                }
-              })();
-              return crypto
-                .createHash('sha256')
-                .update(baseKey || '')
-                .digest('hex');
-            },
-          },
-        },
         auth: false,
         payload: {
           allow: 'application/x-www-form-urlencoded',

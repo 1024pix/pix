@@ -7,7 +7,6 @@ const plugins = [
   Vision,
   require('./i18n'),
   require('./pino'),
-  require('./rate-limit'),
   ...(config.sentry.enabled ? [require('./sentry')] : []),
 ];
 

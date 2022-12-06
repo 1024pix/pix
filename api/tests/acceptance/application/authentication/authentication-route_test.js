@@ -2,7 +2,6 @@ const querystring = require('querystring');
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const settings = require('../../../../lib/config');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 const createServer = require('../../../../server');
@@ -30,12 +29,88 @@ describe('Acceptance | Controller | authentication-controller', function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
       await databaseBuilder.commit();
+      server = await createServer();
     });
 
-    function apiTokenTests() {
-      it('should return a 200 with an access token and a refresh token when authentication is ok', async function () {
-        // given / when
-        const response = await server.inject({
+    it('should return a 200 with an access token and a refresh token when authentication is ok', async function () {
+      // given / when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username: userEmailAddress,
+          password: userPassword,
+          scope: 'pix-orga',
+        }),
+      });
+
+      // then
+      const result = response.result;
+      expect(response.statusCode).to.equal(200);
+      expect(result.token_type).to.equal('bearer');
+      expect(result.access_token).to.exist;
+      expect(result.user_id).to.equal(userId);
+      expect(result.refresh_token).to.exist;
+    });
+
+    it('should return a 400 if grant type is invalid', async function () {
+      // when
+      const errorResponse = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'appleSauce',
+        }),
+      });
+
+      // then
+      expect(errorResponse.statusCode).to.equal(400);
+    });
+
+    it('should return http code 401 when user should change password', async function () {
+      // given
+      databaseBuilder.factory.buildUser.withRawPassword({
+        username: 'beth.rave1212',
+        rawPassword: userPassword,
+        cgu: true,
+        shouldChangePassword: true,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username: 'beth.rave1212',
+          password: userPassword,
+          scope: 'pix',
+        }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(401);
+      expect(response.result.errors[0].title).equal('PasswordShouldChange');
+      expect(response.result.errors[0].detail).equal('Erreur, vous devez changer votre mot de passe.');
+      expect(response.result.errors[0].meta).to.exist;
+    });
+
+    context('when user needs to refresh his access token', function () {
+      it('returns a 200 with a new access token', async function () {
+        // given
+        const { result: accessTokenResult } = await server.inject({
           method: 'POST',
           url: '/api/token',
           headers: {
@@ -45,7 +120,20 @@ describe('Acceptance | Controller | authentication-controller', function () {
             grant_type: 'password',
             username: userEmailAddress,
             password: userPassword,
-            scope: 'pix-orga',
+            scope: 'pix',
+          }),
+        });
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            grant_type: 'refresh_token',
+            refresh_token: accessTokenResult.refresh_token,
           }),
         });
 
@@ -56,200 +144,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
         expect(result.access_token).to.exist;
         expect(result.user_id).to.equal(userId);
         expect(result.refresh_token).to.exist;
-      });
-
-      it('should return a 400 if grant type is invalid', async function () {
-        // when
-        const errorResponse = await server.inject({
-          method: 'POST',
-          url: '/api/token',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-          },
-          payload: querystring.stringify({
-            grant_type: 'appleSauce',
-          }),
-        });
-
-        // then
-        expect(errorResponse.statusCode).to.equal(400);
-      });
-
-      it('should return http code 401 when user should change password', async function () {
-        // given
-        databaseBuilder.factory.buildUser.withRawPassword({
-          username: 'beth.rave1212',
-          rawPassword: userPassword,
-          cgu: true,
-          shouldChangePassword: true,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject({
-          method: 'POST',
-          url: '/api/token',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-          },
-          payload: querystring.stringify({
-            grant_type: 'password',
-            username: 'beth.rave1212',
-            password: userPassword,
-            scope: 'pix',
-          }),
-        });
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.result.errors[0].title).equal('PasswordShouldChange');
-        expect(response.result.errors[0].detail).equal('Erreur, vous devez changer votre mot de passe.');
-        expect(response.result.errors[0].meta).to.exist;
-      });
-
-      context('when user needs to refresh his access token', function () {
-        it('returns a 200 with a new access token', async function () {
-          // given
-          const { result: accessTokenResult } = await server.inject({
-            method: 'POST',
-            url: '/api/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              grant_type: 'password',
-              username: userEmailAddress,
-              password: userPassword,
-              scope: 'pix',
-            }),
-          });
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              grant_type: 'refresh_token',
-              refresh_token: accessTokenResult.refresh_token,
-            }),
-          });
-
-          // then
-          const result = response.result;
-          expect(response.statusCode).to.equal(200);
-          expect(result.token_type).to.equal('bearer');
-          expect(result.access_token).to.exist;
-          expect(result.user_id).to.equal(userId);
-          expect(result.refresh_token).to.exist;
-        });
-      });
-    }
-
-    context('with rate limit disabled', function () {
-      let previousRateLimit;
-      beforeEach(async function () {
-        previousRateLimit = { ...settings.rateLimit };
-        settings.rateLimit.enabled = false;
-        server = await createServer();
-        await server.initialize();
-      });
-      afterEach(function () {
-        settings.rateLimit = previousRateLimit;
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      apiTokenTests();
-    });
-
-    context('with rate limit enabled in logOnlyMode', function () {
-      let previousRateLimit;
-
-      beforeEach(async function () {
-        previousRateLimit = { ...settings.rateLimit };
-        settings.rateLimit.enabled = true;
-        settings.rateLimit.logOnly = true;
-        server = await createServer();
-        await server.initialize();
-      });
-      afterEach(function () {
-        settings.rateLimit = previousRateLimit;
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      apiTokenTests();
-
-      it('should not return 429 errors when the rate limit is reached', async function () {
-        settings.rateLimit.limit = 1;
-        await server.inject({
-          method: 'POST',
-          url: '/api/token',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-          },
-          payload: querystring.stringify({
-            grant_type: 'password',
-            username: 'test',
-            password: 'test',
-          }),
-        });
-        const response = await server.inject({
-          method: 'POST',
-          url: '/api/token',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-          },
-          payload: querystring.stringify({
-            grant_type: 'password',
-            username: 'test',
-            password: 'test2',
-          }),
-        });
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
-
-    context('when the rate limit is active', function () {
-      let previousRateLimit;
-
-      beforeEach(async function () {
-        previousRateLimit = { ...settings.rateLimit };
-        settings.rateLimit.enabled = true;
-        settings.rateLimit.logOnly = false;
-        server = await createServer();
-        await server.initialize();
-      });
-      afterEach(function () {
-        settings.rateLimit = previousRateLimit;
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      apiTokenTests();
-
-      it('should returns 429 TOO_MANY_REQUESTS when the rate limit is reached', async function () {
-        settings.rateLimit.limit = 1;
-        const options = {
-          method: 'POST',
-          url: '/api/token',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-          },
-          payload: querystring.stringify({
-            grant_type: 'password',
-            username: 'test',
-            password: 'test',
-          }),
-        };
-        await server.inject(options);
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(429);
       });
     });
 
@@ -331,13 +225,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
     });
 
     context('User blocking', function () {
-      let server;
-
-      beforeEach(async function () {
-        server = await createServer();
-        await server.initialize();
-      });
-
       context('when user fails to authenticate for the threshold failure count', function () {
         it('replies an unauthorized error and blocks the user for the blocking time', async function () {
           // given
