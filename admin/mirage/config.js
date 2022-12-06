@@ -452,4 +452,6 @@ export default function () {
       ],
     };
   });
+  this.get('/admin/stages/:id');
+  this.patch('/admin/stages/:id');
 }
