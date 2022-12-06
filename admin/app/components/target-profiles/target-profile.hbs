@@ -98,7 +98,12 @@
     <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@model}} class="navbar-item">
       Détails
     </LinkTo>
-    <LinkTo @route="authenticated.target-profiles.target-profile.organizations" @model={{@model}} class="navbar-item">
+    <LinkTo
+      @route="authenticated.target-profiles.target-profile.organizations"
+      @model={{@model}}
+      class="navbar-item"
+      aria-label="Organisations du profil-cible"
+    >
       Organisations
     </LinkTo>
     <LinkTo @route="authenticated.target-profiles.target-profile.insights" @model={{@model}} class="navbar-item">
