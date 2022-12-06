@@ -28,7 +28,7 @@ async function get(organizationLearnerId) {
         campaignType: participation.type,
       })
   );
-  return new OrganizationLearnerActivity({ participations });
+  return new OrganizationLearnerActivity({ organizationLearnerId, participations });
 }
 
 module.exports = { get };

@@ -24,7 +24,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       expect(organizationLearnerActivity.participations.length).to.equal(0);
     });
 
-    it('Should return an activity with all attributes of existing participations', async function () {
+    it('Should return an activity with all related attributes', async function () {
       //given
       const status = SHARED;
       const createdAt = new Date('2000-01-01T10:00:00Z');
@@ -51,10 +51,12 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
       //when
       const {
+        organizationLearnerId: id,
         participations: [organizationLearnerParticipation],
       } = await organizationLearnerActivityRepository.get(organizationLearnerId);
 
       //then
+      expect(id).to.equal(organizationLearnerId);
       expect(organizationLearnerParticipation.id).to.equal(participationId);
       expect(organizationLearnerParticipation.status).to.equal(status);
       expect(organizationLearnerParticipation.createdAt).to.deep.equal(createdAt);
