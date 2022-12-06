@@ -6,6 +6,7 @@ const buildUser = require('./build-user');
 module.exports = function buildCertificationCenterMembership({
   id = databaseBuffer.getNextId(),
   userId,
+  updatedByUserId,
   certificationCenterId,
   createdAt = new Date('2020-01-01'),
   disabledAt,
@@ -17,6 +18,7 @@ module.exports = function buildCertificationCenterMembership({
   const values = {
     id,
     userId,
+    updatedByUserId,
     certificationCenterId,
     createdAt,
     disabledAt,
