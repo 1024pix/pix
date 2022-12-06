@@ -41,12 +41,11 @@
     {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
-        @id="stage"
         @label={{t "pages.campaign-results.filters.type.stages"}}
-        @innerText={{t "pages.campaign-results.filters.type.stages"}}
+        @placeholder={{t "pages.campaign-results.filters.type.stages"}}
         @screenReaderOnly={{true}}
-        @onSelect={{this.onSelectStage}}
-        @selected={{@selectedStages}}
+        @onChange={{this.onSelectStage}}
+        @values={{@selectedStages}}
         @options={{this.stageOptions}}
         class="participant-filter-banner__stages"
         as |stage|
@@ -56,12 +55,11 @@
     {{/if}}
     {{#if this.displayBadgesFilter}}
       <PixMultiSelect
-        @id="badge"
         @label={{t "pages.campaign-results.filters.type.badges"}}
-        @innerText={{t "pages.campaign-results.filters.type.badges"}}
+        @placeholder={{t "pages.campaign-results.filters.type.badges"}}
         @screenReaderOnly={{true}}
-        @onSelect={{this.onSelectBadge}}
-        @selected={{@selectedBadges}}
+        @onChange={{this.onSelectBadge}}
+        @values={{@selectedBadges}}
         @options={{this.badgeOptions}}
         class="participant-filter-banner__badges"
         as |badge|
