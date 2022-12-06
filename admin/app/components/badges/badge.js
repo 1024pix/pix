@@ -37,26 +37,22 @@ export default class Badge extends Component {
     event.preventDefault();
 
     try {
-      const badge = await this.store.findRecord('badge', this.args.badge.id);
-      const updatedBadge = this._updateBadgeFields(badge);
-      updatedBadge.save();
+      const badgeDTO = {
+        title: this.form.title,
+        key: this.form.key,
+        message: this.form.message,
+        altMessage: this.form.altMessage,
+        isCertifiable: this.form.isCertifiable,
+        isAlwaysVisible: this.form.isAlwaysVisible,
+        imageUrl: this.IMAGE_BASE_URL + this.form.imageName,
+      };
+      await this.args.onUpdateBadge(badgeDTO);
       this.notifications.success('Le résultat thématique a été mis à jour.');
       this.editMode = false;
     } catch (error) {
       console.error(error);
       this.notifications.error('Erreur lors de la mise à jour du résultat thématique.');
     }
-  }
-
-  _updateBadgeFields(badge) {
-    badge.title = this.form.title;
-    badge.key = this.form.key;
-    badge.message = this.form.message;
-    badge.altMessage = this.form.altMessage;
-    badge.isCertifiable = this.form.isCertifiable;
-    badge.isAlwaysVisible = this.form.isAlwaysVisible;
-    badge.imageUrl = this.IMAGE_BASE_URL + this.form.imageName;
-    return badge;
   }
 
   @action
