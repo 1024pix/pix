@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { createOrganization } = require('../../../../lib/domain/usecases');
-const Organization = require('../../../../lib/domain/models/Organization');
+const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
@@ -9,77 +9,58 @@ describe('Unit | UseCase | create-organization', function () {
     sinon.stub(organizationCreationValidator, 'validate');
   });
 
-  context('Green cases', function () {
-    let name;
-    let type;
-    let externalId;
-    let provinceCode;
-    let documentationUrl;
-    let organizationRepository;
-
-    beforeEach(function () {
-      name = 'ACME';
-      type = 'PRO';
-      externalId = 'externalId';
-      provinceCode = 'provinceCode';
-      documentationUrl = 'https://pix.fr';
-      organizationCreationValidator.validate.returns();
-
-      organizationRepository = { create: sinon.stub() };
-      organizationRepository.create.resolves();
+  it('validates organization properties and saves it', async function () {
+    // given
+    const organization = new OrganizationForAdmin({
+      name: 'ACME',
+      type: 'PRO',
+      externalId: 'externalId',
+      provinceCode: 'provinceCode',
+      documentationUrl: 'https://pix.fr',
+      dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
     });
 
-    it('should validate params (name + type + documentationUrl)', async function () {
-      // when
-      await createOrganization({ name, type, documentationUrl, externalId, provinceCode, organizationRepository });
+    const organizationForAdminRepository = { save: sinon.stub().resolves({ id: 1 }) };
+    const dataProtectionOfficerRepository = { create: sinon.stub().resolves({}) };
 
-      // then
-      expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type, documentationUrl });
+    organizationCreationValidator.validate.returns();
+
+    // when
+    await createOrganization({
+      dataProtectionOfficerRepository,
+      organization,
+      organizationForAdminRepository,
     });
 
-    it('should create a new Organization Entity with Super Admin userId', async function () {
-      // given
-      const superAdminUserId = 10;
-      const createdBy = superAdminUserId;
-      const expectedOrganization = new Organization({
-        createdBy,
-        name,
-        documentationUrl,
-        type,
-        externalId,
-        provinceCode,
-      });
-
-      // when
-      await createOrganization({
-        createdBy,
-        externalId,
-        name,
-        provinceCode,
-        type,
-        documentationUrl,
-        organizationRepository,
-      });
-
-      // then
-      expect(organizationRepository.create).to.have.been.calledWith(expectedOrganization);
+    // then
+    expect(organizationCreationValidator.validate).to.have.been.calledWith(organization);
+    expect(dataProtectionOfficerRepository.create).to.have.been.calledWith({
+      organizationId: 1,
+      firstName: undefined,
+      lastName: undefined,
+      email: 'justin.ptipeu@example.net',
     });
+    expect(organizationForAdminRepository.save).to.have.been.calledWith(organization);
   });
 
-  context('Red cases', function () {
-    it('should reject an EntityValidationError when params are not valid', async function () {
-      // given
-      const name = 'ACME';
-      const type = 'PRO';
-      const organizationRepository = {};
+  context('Error cases', function () {
+    context('when params are not valid', function () {
+      it('rejects an EntityValidationError', async function () {
+        // given
+        const organization = new OrganizationForAdmin({
+          name: 'ACME',
+          type: 'PRO',
+        });
+        const organizationRepository = {};
 
-      organizationCreationValidator.validate.throws(new EntityValidationError({}));
+        organizationCreationValidator.validate.throws(new EntityValidationError({}));
 
-      // when
-      const error = await catchErr(createOrganization)({ name, type, organizationRepository });
+        // when
+        const error = await catchErr(createOrganization)({ organization, organizationRepository });
 
-      // then
-      expect(error).to.be.an.instanceOf(EntityValidationError);
+        // then
+        expect(error).to.be.an.instanceOf(EntityValidationError);
+      });
     });
   });
 });
