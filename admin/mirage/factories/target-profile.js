@@ -45,6 +45,10 @@ export default Factory.extend({
     return 1000;
   },
 
+  isNewFormat() {
+    return true;
+  },
+
   afterCreate(targetProfile, server) {
     if (
       targetProfile.newAreas.models.length === 0 &&
