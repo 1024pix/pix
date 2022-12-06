@@ -1,5 +1,5 @@
-import Response from 'ember-cli-mirage/response';
-import { upload } from 'ember-file-upload/mirage';
+import { Response } from 'miragejs';
+import { uploadHandler } from 'ember-file-upload';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 
@@ -116,7 +116,7 @@ export default function () {
 
   this.post(
     '/sessions/:id/certification-candidates/import',
-    upload(function (schema, request) {
+    uploadHandler(function (schema, request) {
       const { name } = request.requestBody.file;
       if (name === 'invalid-file') {
         return new Response(

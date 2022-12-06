@@ -55,9 +55,10 @@ module('Acceptance | Session Update', function (hooks) {
     assert.dom(screen.getByRole('textbox', { name: 'Surveillant(s)' })).hasValue(session.examiner);
     assert.dom(screen.getByRole('textbox', { name: 'Nom du site' })).hasValue(session.address);
     assert.dom(screen.getByRole('textbox', { name: 'Observations' })).hasValue(session.description);
-    assert.dom(screen.getByRole('textbox', { name: 'Heure de début (heure locale)' })).hasValue('14:00');
+    assert.dom(screen.getByText('Heure de début (heure locale)')).exists();
     assert.dom(screen.getByText('Date de début')).exists();
     assert.dom('#session-date').hasValue('2020-01-01');
+    assert.dom('#session-time').hasValue('14:00');
   });
 
   test('it should allow to update a session and redirect to the session details', async function (assert) {

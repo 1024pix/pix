@@ -1,6 +1,6 @@
 import { helper } from '@ember/component/helper';
 
-function formatPercentage([value, ..._]) {
+export function formatPercentage([value, ..._]) {
   if (value) {
     return `${truncateDecimalPlaces(value)} %`;
   }

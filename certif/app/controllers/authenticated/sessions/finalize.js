@@ -11,6 +11,7 @@ import trim from 'lodash/trim';
 export default class SessionsFinalizeController extends Controller {
   @service currentUser;
   @service notifications;
+  @service router;
 
   @alias('model') session;
 
@@ -84,7 +85,7 @@ export default class SessionsFinalizeController extends Controller {
       }
     }
     this.showConfirmModal = false;
-    this.transitionToRoute('authenticated.sessions.details', this.session.id);
+    this.router.transitionTo('authenticated.sessions.details', this.session.id);
   }
 
   @action
