@@ -81,7 +81,10 @@ module('Acceptance | Campaign Activity', function (hooks) {
       // when
       const screen = await visit('/campagnes/1');
 
-      await fillByLabel('Statut', 'STARTED');
+      await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
+      await click(
+        await screen.findByRole('option', { name: this.intl.t('pages.campaign-activity.status.STARTED-assessment') })
+      );
       await clickByName('Effacer les filtres');
 
       // then
@@ -129,9 +132,12 @@ module('Acceptance | Campaign Activity', function (hooks) {
   module('when prescriber set filters', () => {
     test('should set status filter', async function (assert) {
       // when
-      await visit('/campagnes/1');
+      const screen = await visit('/campagnes/1');
 
-      await fillByLabel('Statut', 'STARTED');
+      await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
+      await click(
+        await screen.findByRole('option', { name: this.intl.t('pages.campaign-activity.status.STARTED-assessment') })
+      );
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/1?status=STARTED');
