@@ -361,9 +361,6 @@
         "SUBJECT": "Thématiques"
       },
       "tags-title": "Filtrer la recherche :",
-      "target-profiles": {
-        "chevron": "Afficher le menu déroulant des profils cibles"
-      },
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
       "test-title": {
