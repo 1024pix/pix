@@ -558,6 +558,7 @@ describe('Acceptance | Route | target-profiles', function () {
           'campaign-threshold': '99',
           'capped-tubes-criteria': [
             {
+              name: 'awesome tube group',
               threshold: '50',
               cappedTubes: [
                 {
@@ -606,6 +607,7 @@ describe('Acceptance | Route | target-profiles', function () {
         };
 
         const expectedCappedTubesCriterion = {
+          name: 'awesome tube group',
           scope: 'CappedTubes',
           threshold: 50,
           badgeId: parseInt(response.result.data.id, 10),
@@ -617,6 +619,7 @@ describe('Acceptance | Route | target-profiles', function () {
         };
 
         const expectedCampaignCriterion = {
+          name: null,
           scope: 'CampaignParticipation',
           threshold: 99,
           badgeId: parseInt(response.result.data.id, 10),

@@ -37,6 +37,11 @@ export default class Criteria extends Component {
   }
 
   @action
+  onCappedTubesNameChange(criterion, e) {
+    criterion.name = e.target.value;
+  }
+
+  @action
   onCappedTubesSelectionChange(criterion, selection) {
     criterion.cappedTubes = selection;
   }

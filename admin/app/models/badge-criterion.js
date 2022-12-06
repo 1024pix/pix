@@ -5,6 +5,7 @@ export default class BadgeCriterion extends Model {
   @attr('number') threshold;
   @attr() skillSets;
   @attr() cappedTubes;
+  @attr() name;
 
   get isCampaignScope() {
     return this.scope === 'CampaignParticipation';

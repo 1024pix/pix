@@ -33,6 +33,7 @@ const buildBadgeDetails = function buildBadgeDetails({
 buildBadgeDetails.buildBadgeCriterion_CampaignParticipation = function ({ id = 456, threshold = 80 }) {
   return new BadgeCriterion({
     id,
+    name: null,
     scope: SCOPES.CAMPAIGN_PARTICIPATION,
     threshold,
     skillSets: [],
@@ -50,6 +51,7 @@ buildBadgeDetails.buildBadgeCriterion_SkillSets = function ({
   });
   return new BadgeCriterion({
     id,
+    name: null,
     scope: SCOPES.SKILL_SET,
     threshold,
     skillSets,
@@ -59,6 +61,7 @@ buildBadgeDetails.buildBadgeCriterion_SkillSets = function ({
 
 buildBadgeDetails.buildBadgeCriterion_CappedTubes = function ({
   id = 456,
+  name = null,
   threshold = 80,
   cappedTubesDTO = [
     { tubeId: 'recTube1', level: 4 },
@@ -70,6 +73,7 @@ buildBadgeDetails.buildBadgeCriterion_CappedTubes = function ({
   });
   return new BadgeCriterion({
     id,
+    name,
     scope: SCOPES.CAPPED_TUBES,
     threshold,
     skillSets: [],

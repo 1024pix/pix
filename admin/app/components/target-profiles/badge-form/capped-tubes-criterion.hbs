@@ -7,6 +7,12 @@
   </header>
   <main>
     <PixInput
+      @id={{concat @id "criterionName"}}
+      class="badge-form-criterion__name"
+      @label="Nom du critère :"
+      {{on "change" @onNameChange}}
+    />
+    <PixInput
       @id={{@id}}
       class="badge-form-criterion__threshold"
       type="number"

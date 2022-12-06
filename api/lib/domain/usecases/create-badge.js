@@ -78,6 +78,7 @@ module.exports = async function createBadge({
           {
             badgeCriterion: {
               badgeId: savedBadge.id,
+              name: criterion.name,
               threshold: criterion.threshold,
               scope: 'CappedTubes',
               cappedTubes: criterion.cappedTubes,
