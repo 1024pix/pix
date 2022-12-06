@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render, click, find } from '@ember/test-helpers';
+import { click, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
+import { render, clickByName, fillByLabel, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
@@ -206,10 +206,14 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.set('triggerFiltering', triggerFiltering);
 
           // when
-          await render(
+          const screen = await render(
             hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
           );
+
+          await click(screen.getByLabelText(t('pages.campaign-results.filters.type.stages')));
           await click('[for="stage-stage1"]');
+          debugger;
+          await waitForElementToBeRemoved(() => screen.queryByLabelText('1 étoiles sur 1'));
 
           // then
           assert.ok(triggerFiltering.calledWith('stages', ['stage1']));
