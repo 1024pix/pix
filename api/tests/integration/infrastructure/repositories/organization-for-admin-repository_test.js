@@ -419,4 +419,31 @@ describe('Integration | Repository | Organization-for-admin', function () {
       });
     });
   });
+
+  describe('#save', function () {
+    afterEach(async function () {
+      await knex('organizations').delete();
+    });
+
+    it('saves the given organization', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
+      await databaseBuilder.commit();
+
+      const organization = new OrganizationForAdmin({
+        name: 'Organization SCO',
+        type: 'SCO',
+        createdBy: superAdminUserId,
+      });
+
+      // when
+      const savedOrganization = await organizationForAdminRepository.save(organization);
+
+      // then
+      expect(savedOrganization).to.be.instanceOf(OrganizationForAdmin);
+      expect(savedOrganization.name).to.equal('Organization SCO');
+      expect(savedOrganization.type).to.equal('SCO');
+      expect(savedOrganization.createdBy).to.equal(superAdminUserId);
+    });
+  });
 });
