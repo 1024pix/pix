@@ -1,5 +1,6 @@
 class OrganizationLearnerActivity {
-  constructor({ participations }) {
+  constructor({ organizationLearnerId, participations }) {
+    this.organizationLearnerId = organizationLearnerId;
     this.participations = participations;
   }
 }

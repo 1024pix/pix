@@ -8,6 +8,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
     it('should convert an organization learner activity read-model object into JSON API data', function () {
       // given
       const organizationLearnerActivity = new OrganizationLearnerActivity({
+        organizationLearnerId: 25,
         participations: [
           new OrganizationLearnerParticipation({
             id: '99999',
@@ -34,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
       expect(json).to.deep.equal({
         data: {
           type: 'organization-learner-activities',
+          id: '25',
           attributes: {},
           relationships: {
             participations: {
