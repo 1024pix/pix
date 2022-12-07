@@ -5,8 +5,8 @@
   font-family: $font-open-sans;
 
   ul {
-    list-style: none;
     margin-right: 10px;
+    list-style: none;
 
     a {
       color: $pix-primary-60;
@@ -19,7 +19,7 @@
     align-items: flex-start;
     width: 90%;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: auto;
       margin-left: -10%;
     }
@@ -30,10 +30,10 @@
 
   &__title {
     margin-top: 48px;
+    color: $pix-neutral-90;
     font-weight: $font-normal;
     font-size: 3rem;
     line-height: 4.125rem;
-    color: $pix-neutral-90;
   }
 
   &__items {
@@ -41,13 +41,13 @@
     flex-direction: column;
     padding: 0;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: auto;
     }
 
     a:visited {
-      text-decoration: none;
       color: $pix-primary_80;
+      text-decoration: none;
     }
   }
 }
@@ -55,9 +55,9 @@
 .sitemap-content-items {
 
   &__link {
+    margin-top: 32px;
     font-weight: $font-normal;
     font-size: 2rem;
-    margin-top: 32px;
 
     &--title {
       color: $pix-neutral-60;
@@ -70,8 +70,8 @@
   &__resources {
 
     li::before {
-      content: "•";
       color: $pix-neutral-45;
+      content: "•";
     }
   }
 }
@@ -79,8 +79,8 @@
 .sitemap-content-items-link-skills {
 
   li::before {
-    content: "•";
     color: $pix-neutral-45;
+    content: "•";
   }
 
   &__skill {

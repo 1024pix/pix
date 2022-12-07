@@ -15,8 +15,8 @@
 
   &__proposal-label {
     align-items: center;
-    font-weight: $font-normal;
     width: 100%;
+    font-weight: $font-normal;
 
     p {
       display: inline;
@@ -31,25 +31,25 @@
     color: inherit;
   }
 
-  &__answer-details[data-goodness='good'] {
+  &__answer-details[data-goodness="good"] {
     display: inline;
     color: $pix-success-70;
     font-weight: $font-heavy;
   }
 
-  &__answer-details[data-goodness='bad'][data-checked='yes'] {
+  &__answer-details[data-goodness="bad"][data-checked="yes"] {
     display: inline;
     text-decoration: line-through;
   }
 
-  &__answer-details[data-goodness='bad'][data-checked='no'] {
+  &__answer-details[data-goodness="bad"][data-checked="no"] {
     display: inline;
   }
 
   .qcm-panel__proposal-checkbox {
-    margin: 4px 10px;
     min-width: 18px;
     min-height: 18px;
+    margin: 4px 10px;
     border: 1.2px solid $pix-neutral-90;
     border-radius: 2px;
   }

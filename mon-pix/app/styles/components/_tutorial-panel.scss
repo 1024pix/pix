@@ -11,7 +11,7 @@
   margin-bottom: 10px;
   padding: 20px 0 40px;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     flex-direction: row;
   }
 }
@@ -24,11 +24,11 @@
 }
 
 .tutorial-panel__tutorials-container {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   & .tutorial-card {
     margin-bottom: 16px;
@@ -36,10 +36,10 @@
 }
 
 .tutorial-panel__tutorial-info {
+  margin: -5px 5px 0;
   color: $pix-neutral-50;
   font-size: 0.813rem;
   line-height: 1.25rem;
-  margin: -5px 5px 0;
 }
 
 .tutorial-panel__hint-title {
@@ -51,7 +51,7 @@
   font-family: $font-open-sans;
 
   & p {
-    padding: 12px 12px 0 12px;
+    padding: 12px 12px 0;
   }
 }
 
@@ -60,6 +60,6 @@
 }
 
 .tutorial-panel__hint-picto {
-  padding: 0 20px;
   min-width: 100px;
+  padding: 0 20px;
 }

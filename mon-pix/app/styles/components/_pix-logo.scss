@@ -1,6 +1,6 @@
 .pix-logo {
-  display: inline-block;
   position: relative;
+  display: inline-block;
   text-align: left;
 
   &__link {
@@ -16,7 +16,7 @@
   &__image {
     width: 60px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       width: 71px;
     }
   }

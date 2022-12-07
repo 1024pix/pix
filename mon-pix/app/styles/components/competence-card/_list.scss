@@ -13,7 +13,7 @@ $scorecard-width: 212px;
     }
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;

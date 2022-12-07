@@ -1,17 +1,17 @@
 .new-information {
   display: flex;
-  align-items: center;
   flex-direction: column-reverse;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 16px;
+  align-items: center;
   width: 100%;
+  margin-bottom: 16px;
+  padding: 10px;
+  border-radius: 10px;
 
   &:last-child {
     margin-bottom: 0;
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -24,30 +24,30 @@
   &__close {
     align-self: flex-end;
     padding: 3px 10px 6px;
+    font-size: 1.5rem;
     background-color: transparent;
     border: none;
-    font-size: 1.5rem;
 
     &:hover {
       cursor: pointer;
     }
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       align-self: flex-start;
     }
   }
 
   &--yellow-background {
-    background: linear-gradient(-225deg, rgba(254, 220, 65, 0.55) 0%, rgba(255, 159, 0, 0.55) 100%);
+    background: linear-gradient(-225deg, rgb(254 220 65 / 55%) 0%, rgb(255 159 0 / 55%) 100%);
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin-top: 40px;
     }
   }
 
   &--blue-gradient-background {
+    background-color: rgb(5 108 255);
     background-image: $pix-primary-app-gradient;
-    background-color: rgb(5, 108, 255);
   }
 
   &--yellow-gradient-background {
@@ -65,7 +65,7 @@
   &--align-text-center {
     text-align: center;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       text-align: left;
     }
   }
@@ -80,39 +80,39 @@
 
   &__text {
     display: inline-block;
+    padding: 0 10px 14px;
     font-weight: $font-light;
     font-size: 1.5rem;
     line-height: 2rem;
-    padding: 0 10px 14px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       padding: 16px 0 14px 24px;
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       padding: 12px 0;
     }
 
     h2 {
-      font-size: 1.125rem;
-      font-weight: $font-semi-bold;
-      font-family: $font-open-sans;
-      letter-spacing: 0;
-      line-height: 1.875rem;
       margin-bottom: 14px;
+      font-weight: $font-semi-bold;
+      font-size: 1.125rem;
+      font-family: $font-open-sans;
+      line-height: 1.875rem;
+      letter-spacing: 0;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         font-size: 1.5rem;
         line-height: 2rem;
       }
     }
 
     p {
-      font-size: 0.875rem;
-      font-weight: $font-normal;
-      letter-spacing: 0.009rem;
-      line-height: 1.375rem;
       margin: 0;
+      font-weight: $font-normal;
+      font-size: 0.875rem;
+      line-height: 1.375rem;
+      letter-spacing: 0.009rem;
     }
   }
 }
@@ -120,11 +120,11 @@
 .new-information-content-text {
 
   &__button {
+    display: inline-table;
     margin-top: 20px;
     padding: 10px 20px;
-    display: inline-table;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin: 0;
     }
   }
@@ -132,16 +132,16 @@
   &__link {
     display: none;
     margin-top: 14px;
-    font-size: 0.875rem;
     font-weight: $font-normal;
-    letter-spacing: 0.009rem;
+    font-size: 0.875rem;
     line-height: 1.375rem;
+    letter-spacing: 0.009rem;
 
     .fa-arrow-right {
       margin-right: 5px;
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       display: inline-table;
     }
 

@@ -21,9 +21,9 @@
 
   &__resend {
     display: flex;
+    margin-bottom: 12px;
     opacity: 0;
     transition: opacity 0.2s ease-in;
-    margin-bottom: 12px;
 
     p {
       margin: 0;
@@ -34,13 +34,13 @@
     }
 
     button {
-      padding: 0;
       margin-left: 2px;
+      padding: 0;
+      color: $pix-primary;
+      font-size: 1rem;
+      font-family: $font-roboto;
       background-color: transparent;
       border: none;
-      font-family: $font-roboto;
-      font-size: 1rem;
-      color: $pix-primary;
       cursor: pointer;
     }
   }

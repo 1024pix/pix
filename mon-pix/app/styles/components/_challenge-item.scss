@@ -2,18 +2,18 @@
   border: 3px solid transparent;
 
   &--focused {
+    z-index: 1;
     border: 3px dashed $pix-neutral-70;
     border-radius: 10px;
-    z-index: 1;
   }
 }
 
 .challenge-response {
+  margin: 6px;
   font-size: 0.938rem;
   background-color: $pix-neutral-10;
-  margin: 6px;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     font-size: 1.25rem;
   }
 
@@ -22,10 +22,10 @@
   }
 
   a {
-    text-decoration: underline;
     color: $pix-primary;
+    text-decoration: underline;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       display: inline-block;
     }
 
@@ -41,15 +41,15 @@
   }
 
   &__instructions {
-    font-size: 1rem;
     font-weight: $font-normal;
+    font-size: 1rem;
   }
 
   &__proposal {
-    font-size: 1.25rem;
-    color: $pix-neutral-80;
-    margin-bottom: 10px;
     margin-top: 10px;
+    margin-bottom: 10px;
+    color: $pix-neutral-80;
+    font-size: 1.25rem;
 
     &--paragraph {
       display: flex;
@@ -69,8 +69,8 @@
   }
 
   &__proposal-label {
-    font-weight: $font-normal;
     width: 100%;
+    font-weight: $font-normal;
   }
 
   &__alert {
@@ -79,11 +79,11 @@
 }
 
 .proposal-text {
-  font-weight: $font-normal;
   width: 100%;
+  font-weight: $font-normal;
+  line-height: 1.625rem;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  line-height: 1.625rem;
 
   p {
     margin: 0;
@@ -98,18 +98,17 @@ form .challenge-response {
 
   &__locked-overlay {
     position: absolute;
-    opacity: 0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    opacity: 0;
   }
 
   .qroc-proposal {
     display: flex;
-    align-items: center;
-    gap: $spacing-xs;
     flex-wrap: wrap;
+    gap: $spacing-xs;
+    align-items: center;
 
     .qroc_input-label {
       display: inline;

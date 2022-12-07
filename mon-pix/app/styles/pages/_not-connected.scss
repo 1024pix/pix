@@ -1,16 +1,16 @@
 .not-connected {
-  background: $pix-primary-app-gradient;
   height: 100vh;
   padding-top: 5%;
+  background: $pix-primary-app-gradient;
 
-  @include device-is('tablet') {
-    padding-left: 20%;
+  @include device-is("tablet") {
     padding-right: 20%;
+    padding-left: 20%;
   }
 
   &__container {
-    text-align: center;
     padding: 15%;
+    text-align: center;
   }
 
   &__logo {
@@ -20,10 +20,10 @@
 
   &__text-block {
     padding-top: 30px;
-    text-align: center;
-    line-height: 46px;
-    font-size: 1.875rem;
-    font-weight: $font-light;
     color: $pix-neutral-80;
+    font-weight: $font-light;
+    font-size: 1.875rem;
+    line-height: 46px;
+    text-align: center;
   }
 }

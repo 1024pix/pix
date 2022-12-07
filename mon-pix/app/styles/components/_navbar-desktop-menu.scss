@@ -4,13 +4,13 @@
 }
 
 .navbar-desktop-menu-links__list {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  flex-wrap: wrap;
   display: flex;
-  justify-content: flex-end;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 .navbar-desktop-menu-links__item {
@@ -19,9 +19,9 @@
   justify-content: center;
   height: 40px;
   margin-left: 20px;
-  border: none;
   color: $pix-neutral-45;
   text-transform: uppercase;
+  border: none;
 }
 
 .navbar-header--white .navbar-desktop-menu-links__item {
@@ -29,18 +29,18 @@
 }
 
 .navbar-desktop-menu-links__item:first-child {
-  background: transparent;
+  justify-content: normal;
   padding: 0;
   font-size: 0.813rem;
-  justify-content: normal;
+  background: transparent;
 }
 
 .navbar-desktop-menu-links__link {
-  text-transform: uppercase;
-  font-size: 0.813rem;
-  padding-left: 0;
   width: 100%;
+  padding-left: 0;
   color: inherit;
+  font-size: 0.813rem;
+  text-transform: uppercase;
 
   &.active,
   &:hover,
@@ -52,14 +52,14 @@
 }
 
 .navbar-menu-signup-link {
-  border-radius: 20px;
-  font-size: 0.813rem;
-  text-align: center;
-  color: $pix-primary;
-  border: 2px solid $pix-primary;
   width: 140px;
   padding: 10px;
+  color: $pix-primary;
+  font-size: 0.813rem;
+  text-align: center;
   background-color: transparent;
+  border: 2px solid $pix-primary;
+  border-radius: 20px;
 
   &:hover,
   &:focus,

@@ -1,11 +1,11 @@
 .challenge {
 
   &__content {
-    max-width: 990px;
     width: 100%;
+    max-width: 990px;
     padding: 0 20px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       padding: 0;
     }
   }
@@ -17,25 +17,25 @@
 
   &__focused-out-overlay {
     position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: block;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(0 0 0 / 50%);
   }
 
   &__feedback {
     z-index: 1;
+    width: 100%;
+    max-width: 990px;
     margin-bottom: 20px;
     padding: 0 20px;
-    width: 100%;
     text-align: left;
-    max-width: 990px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       padding: 0;
     }
   }
@@ -45,26 +45,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: $pix-primary-70;
+    background-color: rgba($pix-primary-20, 0.9);
     border-radius: 51px;
     box-shadow: 0 10px 20px 0 rgba($pix-content-dark, 0.06);
-    background-color: rgba($pix-primary-20, 0.9);
-    color: $pix-primary-70;
 
     &.challenge__info-alert--hide {
-      opacity: 0;
       height: 0;
+      opacity: 0;
     }
 
     &.challenge__info-alert--show,
     &:focus.challenge__info-alert--could-show {
-      opacity: 1;
-      height: auto;
-      bottom: 10px;
-      margin: 20px auto 0 auto;
-      padding: 24px 32px;
       position: sticky;
+      bottom: 10px;
+      height: auto;
+      margin: 20px auto 0;
+      padding: 24px 32px;
+      opacity: 1;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         padding: 24px 98px;
       }
     }
@@ -75,25 +75,25 @@
   font-family: $font-roboto;
 
   &__icon {
-    height: 55px;
     width: 49px;
+    height: 55px;
     margin-bottom: 8px;
-    background-image: url('/images/focused-challenge-info-alert-icon.svg');
+    background-image: url("/images/focused-challenge-info-alert-icon.svg");
   }
 
   &__title {
-    font-size: 1.125rem;
+    margin: auto 0 7px;
     font-weight: $font-medium;
-    letter-spacing: 0.011rem;
+    font-size: 1.125rem;
     line-height: 1.625rem;
-    margin: auto 0 7px 0;
+    letter-spacing: 0.011rem;
   }
 
   &__subtitle {
-    font-size: 0.875rem;
-    font-weight: $font-light;
-    letter-spacing: 0.009rem;
-    line-height: 1.375rem;
     margin: 0;
+    font-weight: $font-light;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    letter-spacing: 0.009rem;
   }
 }

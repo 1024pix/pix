@@ -1,4 +1,4 @@
-@import 'challenge-embed-simulator';
+@import "challenge-embed-simulator";
 
 .challenge-statement {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
@@ -8,16 +8,16 @@
 .challenge-statement__instruction-section {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
   font-size: 0.938rem;
   font-family: $font-open-sans;
-  margin-bottom: 20px;
 
   hr {
     border-top: 1px solid $pix-neutral-15;
     border-bottom: none;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     font-size: 1.25rem;
   }
 }
@@ -40,10 +40,10 @@
     }
 
     a {
-      text-decoration: underline;
       color: $pix-primary;
+      text-decoration: underline;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         display: inline-block;
       }
 
@@ -62,16 +62,16 @@
 
 .challenge-statement__illustration-section {
   display: block;
-  text-align: center;
-  border-top: 1px solid $pix-neutral-20;
   box-sizing: content-box;
   padding: 10px 0;
+  text-align: center;
+  border-top: 1px solid $pix-neutral-20;
 }
 
 .challenge-statement__attachments-section {
-  background-color: $pix-neutral-15;
-  text-align: center;
   padding: 20px;
+  text-align: center;
+  background-color: $pix-neutral-15;
 }
 
 .challenge-statement__text {
@@ -79,56 +79,56 @@
 }
 
 .challenge-statement__help-icon {
+  position: relative;
   display: inline-block;
   margin: 0 5px;
-  cursor: pointer;
   color: $pix-primary;
-  position: relative;
+  cursor: pointer;
 }
 
 .challenge-statement__help-tooltip {
-  visibility: hidden;
-  color: $pix-neutral-22;
-  text-align: justify;
-  border-radius: 6px;
-  padding: 15px;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  z-index: 999;
   width: 430px;
   height: auto;
-  background-color: $pix-neutral-0;
-  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px $pix-neutral-20;
-  position: absolute;
-  z-index: 999;
-  left: 50%;
   margin-left: -400px;
-  bottom: 30px;
+  padding: 15px;
+  color: $pix-neutral-22;
+  text-align: justify;
+  background-color: $pix-neutral-0;
+  border: solid 1px $pix-neutral-20;
+  border-radius: 6px;
+  box-shadow: 1px 1px 1px 0 rgb(0 0 0 / 10%);
+  visibility: hidden;
 }
 
 /* XXX tooltip bottom arrow */
 .challenge-statement__help-tooltip::before {
-  content: '';
   position: absolute;
   top: 100%;
   left: 400px;
-  margin-left: -10px;
   width: 0;
   height: 0;
+  margin-left: -10px;
   border-top: 10px solid $pix-neutral-20;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
+  content: "";
 }
 
 .challenge-statement__help-tooltip::after {
-  content: '';
   position: absolute;
   top: 100%;
   left: 400px;
-  margin-left: -8px;
   width: 0;
   height: 0;
+  margin-left: -8px;
   border-top: 8px solid white;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent;
+  content: "";
 }
 
 /* XXX the magic trick to manage tooltip appearing at icon mouse hover */
@@ -137,8 +137,8 @@
 }
 
 .challenge-statement__help-text {
-  font-size: 0.875rem;
   color: $pix-neutral-80;
+  font-size: 0.875rem;
 }
 
 .challenge-statement__file-options {
@@ -147,16 +147,16 @@
 }
 
 .challenge-statement__file-option {
-  list-style-type: none;
   display: inline-block;
-  padding: 0 15px;
   margin: 5px;
+  padding: 0 15px;
+  list-style-type: none;
 }
 
 .challenge-statement__file-option-label {
+  font-weight: $font-normal;
   font-size: 1rem;
   line-height: 10px;
-  font-weight: $font-normal;
 }
 
 .challenge-statement__action {
@@ -169,11 +169,11 @@
 .challenge-statement__action-link {
   width: 156px;
   height: 46px;
-  border-radius: 23px;
-  background-color: $pix-primary;
   color: $pix-neutral-0;
-  cursor: pointer;
   text-align: center;
+  background-color: $pix-primary;
+  border-radius: 23px;
+  cursor: pointer;
 }
 
 .challenge-statement__action-link:hover,
@@ -187,8 +187,8 @@
   font-size: 0.825rem;
 
   &--link {
-    text-decoration: underline;
     color: $pix-primary-60;
+    text-decoration: underline;
 
     &:active,
     &:focus,
@@ -212,9 +212,9 @@
 
 .challenge-statement__action-label {
   width: 76px;
-  line-height: 46px;
-  font-size: 1rem;
   font-weight: $font-heavy;
+  font-size: 1rem;
+  line-height: 46px;
   text-transform: uppercase;
 }
 
@@ -224,11 +224,11 @@
 
   button {
     padding: 0;
-    font-size: 1rem;
     color: $pix-primary;
     font-weight: 500;
-    border: none;
+    font-size: 1rem;
     background-color: transparent;
+    border: none;
     cursor: pointer;
 
     &:hover,

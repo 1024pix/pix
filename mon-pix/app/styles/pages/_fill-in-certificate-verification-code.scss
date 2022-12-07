@@ -1,11 +1,11 @@
 .fill-in-certificate-verification-code {
   max-width: max-content;
-  padding: 48px 24px;
   margin: 0 auto 32px;
+  padding: 48px 24px;
   font-family: $font-roboto;
   text-align: center;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 48px 60px;
   }
 
@@ -16,17 +16,17 @@
 
     .form__title {
       margin-bottom: 16px;
-      font-size: 2rem;
-      font-weight: $font-light;
-      font-family: $font-open-sans;
       color: $pix-neutral-80;
+      font-weight: $font-light;
+      font-size: 2rem;
+      font-family: $font-open-sans;
     }
 
     .form__description {
       max-width: 500px;
+      margin-bottom: 32px;
       color: $pix-neutral-60;
       font-weight: $font-light;
-      margin-bottom: 32px;
       line-height: 22px;
     }
 
@@ -35,13 +35,13 @@
       flex-direction: column;
 
       label {
-        color: $pix-neutral-100;
-        font-size: 0.875rem;
-        font-weight: $font-normal;
         margin-bottom: 6px;
-        text-align: left;
-        letter-spacing: 0.15px;
+        color: $pix-neutral-100;
+        font-weight: $font-normal;
+        font-size: 0.875rem;
         line-height: 22px;
+        letter-spacing: 0.15px;
+        text-align: left;
       }
 
       input {
@@ -57,15 +57,15 @@
     }
 
     .form__actions {
+      width: calc(276px + 4px + 0.5ch + 1px);
       margin-top: 24px;
       padding: 14px 20px;
-      width: calc(276px + 4px + 0.5ch + 1px);
     }
 
     .form__error--validation {
+      margin: 16px 10px 0;
       color: $pix-error-60;
       font-size: 0.875rem;
-      margin: 16px 10px 0 10px;
     }
 
     .form__error--not-found {

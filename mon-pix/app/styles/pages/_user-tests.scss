@@ -1,47 +1,47 @@
 .user-tests-banner {
-  width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   max-width: 980px;
+  height: 270px;
   margin: auto;
   margin-bottom: 16px;
-  font-family: $font-roboto;
-  font-weight: $font-light;
   padding: 0 20px;
+  font-weight: $font-light;
+  font-family: $font-roboto;
   text-align: center;
-  height: 270px;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     text-align: left;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     padding: 0;
   }
 
   &__icon {
     display: none;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       position: absolute;
-      display: block;
-      bottom: 0;
       right: 50px;
+      bottom: 0;
+      display: block;
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       right: 70px;
     }
   }
 
   &__title {
-    margin: 0 0 8px;
     width: 100%;
-    font-size: 3rem;
-    font-weight: 300;
+    margin: 0 0 8px;
     color: $pix-neutral-0;
+    font-weight: 300;
+    font-size: 3rem;
   }
 }
 
@@ -49,11 +49,11 @@
   width: 100%;
   max-width: 980px;
   margin: auto;
-  font-family: $font-roboto;
-  font-weight: $font-light;
   padding: 0 20px;
+  font-weight: $font-light;
+  font-family: $font-roboto;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     padding: 0;
   }
 }

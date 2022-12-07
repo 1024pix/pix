@@ -1,49 +1,49 @@
 .score-label {
+  color: $pix-neutral-100;
   font-size: 0.625rem;
   letter-spacing: 0.156rem;
   text-transform: uppercase;
-  color: $pix-neutral-100;
 }
 
 .score-value {
-  font-size: 2.875rem;
-  line-height: 2.875rem;
-  font-family: $font-open-sans;
   color: $pix-neutral-110;
+  font-size: 2.875rem;
+  font-family: $font-open-sans;
+  line-height: 2.875rem;
 }
 
 @mixin tutorial-panel-title($color) {
-  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
-  font-family: $font-open-sans;
-  font-size: 1.375rem;
-  text-align: center;
-  color: $pix-neutral-80;
-  font-weight: $font-semi-bold;
-  margin-bottom: 20px;
   position: relative;
   z-index: 1;
+  margin-bottom: 20px;
+  color: $pix-neutral-80;
+  font-weight: $font-semi-bold;
+  font-size: 1.375rem;
+  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
+  font-family: $font-open-sans;
+  text-align: center;
 
   &::before {
-    border-top: 2px solid #DFDFDF;
-    content: "";
-    margin: 0 auto;
     position: absolute;
     top: 50%;
-    left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
+    left: 0;
     z-index: -1;
+    width: 100%;
+    margin: 0 auto;
+    border-top: 2px solid #DFDFDF;
+    content: "";
   }
 
   span {
-    background: $color;
     display: inline;
+    background: $color;
     box-shadow: 15px 0 0 $color, -15px 0 0 $color;
     box-decoration-break: clone;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     font-size: 1.375rem;
     line-height: 26px;
   }
@@ -55,7 +55,7 @@
   padding: 10px;
   font-size: 0.75rem;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 10px 0;
   }
 }

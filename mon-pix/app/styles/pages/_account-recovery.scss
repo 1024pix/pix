@@ -1,23 +1,23 @@
 .account-recovery {
-  background-color: $pix-neutral-0;
-  min-height: 100vh;
   display: flex;
+  min-height: 100vh;
   padding: 30px;
+  background-color: $pix-neutral-0;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 56px 60px;
   }
 
   &__content {
     position: relative;
-    background-color: $pix-neutral-0;
     display: flex;
     flex-direction: column;
+    background-color: $pix-neutral-0;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
+      flex: 1 1 0;
       flex-direction: row;
       align-items: center;
-      flex: 1 1 0;
 
       .pix-logo {
         position: absolute;
@@ -38,7 +38,7 @@
     &--image {
       display: none;
 
-      @include device-is('desktop') {
+      @include device-is("desktop") {
         display: flex;
         flex-basis: 40%;
         justify-content: flex-end;
@@ -53,13 +53,13 @@
     &--step {
       padding-top: 30px;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         max-width: 600px;
       }
 
-      @include device-is('desktop') {
-        padding-top: 0;
+      @include device-is("desktop") {
         flex-basis: 60%;
+        padding-top: 0;
       }
 
       &--content {
@@ -68,29 +68,29 @@
     }
 
     &--title {
-      color: $pix-neutral-90;
-      font-family: $font-open-sans;
-      font-size: 1.5rem;
-      line-height: 32px;
       margin-bottom: 16px;
+      color: $pix-neutral-90;
       font-weight: 400;
+      font-size: 1.5rem;
+      font-family: $font-open-sans;
+      line-height: 32px;
     }
 
     &--information-text {
+      margin: 0;
       color: $pix-neutral-90;
       font-family: $font-roboto;
-      margin: 0;
 
       a {
         color: $pix-communication-dark;
       }
 
       &--details {
-        color: $pix-neutral-90;
-        font-family: $font-roboto;
-        font-size: 0.875rem;
         margin-top: 16px;
         margin-bottom: 24px;
+        color: $pix-neutral-90;
+        font-size: 0.875rem;
+        font-family: $font-roboto;
 
         a {
           color: $pix-communication-dark;
@@ -100,7 +100,7 @@
           display: flex;
           align-items: center;
 
-          input[type='checkbox'] {
+          input[type="checkbox"] {
             margin-right: 16px;
             cursor: pointer;
           }

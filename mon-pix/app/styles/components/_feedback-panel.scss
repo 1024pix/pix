@@ -1,26 +1,26 @@
 .feedback-panel {
+  z-index: 1;
+  margin-top: 16px;
+  padding: 5px 15px;
   color: $pix-neutral-60;
   font-size: 0.938rem;
-  margin-top: 16px;
-  z-index: 1;
   background-color: white;
   border-radius: 10px;
-  padding: 5px 15px;
 }
 
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__open-button {
-  border: none;
-  background-color: transparent;
   padding: 0;
-  cursor: pointer;
   color: $pix-neutral-50;
-  font-family: $font-roboto;
   font-weight: $font-medium;
   font-size: 0.875rem;
+  font-family: $font-roboto;
   line-height: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .feedback-panel__open-button:hover,
@@ -64,13 +64,13 @@
 }
 
 .feedback-panel__field {
-  width: 100%;
-  border-radius: 3px;
-  background-color: $pix-neutral-0;
-  border: solid 1px $pix-neutral-20;
   box-sizing: border-box;
+  width: 100%;
   padding: 8px;
   font-size: 0.875rem;
+  background-color: $pix-neutral-0;
+  border: solid 1px $pix-neutral-20;
+  border-radius: 3px;
 }
 
 .feedback-panel__category-selection {
@@ -79,24 +79,24 @@
 }
 
 .feedback-panel__dropdown {
-  font-family: $font-roboto;
-  font-size: 0.938rem;
-  color: $pix-neutral-80;
-  margin: 5px 0;
   width: 100%;
+  margin: 5px 0;
+  color: $pix-neutral-80;
+  font-size: 0.938rem;
+  font-family: $font-roboto;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     width: 40%;
   }
 }
 
 .feedback-panel__quick-help {
-  font-size: 0.938rem;
   margin-top: 20px;
+  padding: 20px;
   font-weight: bold;
+  font-size: 0.938rem;
   word-break: break-word;
   background-color: $pix-neutral-0;
-  padding: 20px;
   border: dashed $pix-neutral-70;
 
   & .tuto-icon {
@@ -116,12 +116,12 @@
 }
 
 .feedback-panel__button {
-  border-radius: 3px;
   box-sizing: border-box;
+  margin: 0 10px 20px 0;
   padding: 10px 20px;
   background-color: $pix-neutral-20;
   border: 1px solid $pix-neutral-40;
-  margin: 0 10px 20px 0;
+  border-radius: 3px;
 
   &[disabled] {
     opacity: 0.3;
@@ -129,8 +129,8 @@
 }
 
 .feedback-panel__button--send {
-  background-color: $pix-neutral-50;
   color: white;
+  background-color: $pix-neutral-50;
 
   &:hover,
   &:focus {
@@ -155,11 +155,11 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view--mercix {
-  text-align: center;
-  font-size: 1.125rem;
-  color: $pix-neutral-80;
   padding-top: 20px;
   padding-bottom: 10px;
+  color: $pix-neutral-80;
+  font-size: 1.125rem;
+  text-align: center;
 }
 
 .feedback-panel__alert {

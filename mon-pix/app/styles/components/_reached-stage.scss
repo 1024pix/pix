@@ -1,10 +1,10 @@
 .reached-stage {
   display: flex;
   flex-direction: column;
+  margin: 20px auto 0;
   background: $pix-neutral-0;
-  border: 1px solid rgb(231, 231, 231);
+  border: 1px solid rgb(231 231 231);
   border-radius: 16px;
-  margin: 20px auto 0 auto;
 
   &__score {
     padding: 43px 20px 20px;
@@ -12,18 +12,18 @@
 
   &__image {
     width: 100%;
-    border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
   }
 }
 
 .reached-stage-score {
 
   &__stars {
-    min-width: 200px;
-    max-width: 250px;
     display: flex;
     justify-content: center;
+    min-width: 200px;
+    max-width: 250px;
   }
 
   &__stars img {
@@ -32,10 +32,10 @@
   }
 
   &__percentage-text {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    font-weight: $font-medium;
     color: $pix-neutral-40;
+    font-weight: $font-medium;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
     text-align: center;
   }
 }
