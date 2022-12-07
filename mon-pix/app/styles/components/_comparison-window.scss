@@ -13,13 +13,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1.3px dashed $pix-neutral-40;
     max-width: 991px;
-    border-radius: 5px;
-    padding: 36px 0 28px;
     margin: 0 15px 15px;
+    padding: 36px 0 28px;
+    border: 1.3px dashed $pix-neutral-40;
+    border-radius: 5px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       margin: 0 40px 20px;
     }
   }
@@ -28,14 +28,14 @@
 .comparison-windows-content-body-default-message-container {
 
   &__default-message-title {
-    font-family: $font-open-sans;
-    font-size: 1.063rem;
-    text-align: center;
+    margin: 10px 25px 40px;
     color: $pix-neutral-110;
     font-weight: $font-semi-bold;
-    margin: 10px 25px 40px 25px;
+    font-size: 1.063rem;
+    font-family: $font-open-sans;
+    text-align: center;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       line-height: 26px;
     }
   }
@@ -46,14 +46,14 @@
   align-items: stretch;
 
   &__text {
-    font-size: 1rem;
-    font-weight: $font-bold;
-    color: $pix-success-70;
-    display: flex;
-    margin-left: 10px;
-    margin-top: 10px;
     position: relative;
     bottom: 3px;
+    display: flex;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: $pix-success-70;
+    font-weight: $font-bold;
+    font-size: 1rem;
     overflow-wrap: break-word;
   }
 

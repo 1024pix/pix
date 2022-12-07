@@ -1,6 +1,6 @@
 /* stylelint-disable no-descending-specificity */
 
-@include device-is('tablet') {
+@include device-is("tablet") {
 
   .competence-card {
     flex-direction: column;
@@ -10,18 +10,18 @@
 
   .competence-card__title {
     height: 125px;
+    padding: 10px 0;
     overflow: hidden;
     text-align: center;
-    padding: 10px 0;
   }
 
   .competence-card__wrapper {
 
     &::after {
-      right: -200px;
-      left: -200px;
       top: -330px;
+      right: -200px;
       bottom: 0;
+      left: -200px;
       width: auto;
     }
 
@@ -58,25 +58,25 @@
 
   .competence-card__area-name {
     z-index: 2;
-    font-size: 0.7rem;
-    font-weight: $font-medium;
     margin: 0;
+    font-weight: $font-medium;
+    font-size: 0.7rem;
   }
 
   .competence-card__competence-name {
     z-index: 2;
-    font-size: 1.17rem;
-    font-weight: $font-bold;
     margin: 0 3px;
     padding-top: 10px;
+    font-weight: $font-bold;
+    font-size: 1.17rem;
   }
 
   .competence-card__body {
     position: absolute;
     top: 80px;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
     flex-direction: column;
     height: auto;
     margin-top: 10px;
@@ -108,9 +108,9 @@
   }
 
   .competence-card__button:hover .competence-card-button__arrow {
-    opacity: 1;
-    right: 20px;
     top: -2px;
+    right: 20px;
+    opacity: 1;
   }
 
   .competence-card:hover .competence-card__body {
@@ -139,14 +139,14 @@
   }
 
   .competence-card__congrats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 130px;
     height: 140px;
-    background: url('/images/scorecard-congrats.svg') no-repeat center center;
-    background-size: contain;
     margin: -10px -5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: url("/images/scorecard-congrats.svg") no-repeat center center;
+    background-size: contain;
 
     &--with-magnification {
 
@@ -163,8 +163,8 @@
 
   .competence-card__score-value--congrats {
     color: $pix-neutral-0;
-    font-size: 2.813rem;
     font-weight: $font-bold;
+    font-size: 2.813rem;
   }
 
   .competence-card__congrats-message {
@@ -176,9 +176,9 @@
     width: 100%;
     height: 34px;
     color: $pix-neutral-70;
-    font-family: $font-open-sans;
-    font-size: 0.938rem;
     font-weight: $font-bold;
+    font-size: 0.938rem;
+    font-family: $font-open-sans;
     letter-spacing: 0.063rem;
     text-transform: uppercase;
   }
@@ -188,38 +188,38 @@
     margin-top: 3px;
     margin-bottom: -4px;
     color: $pix-neutral-30;
-    opacity: 0;
-    text-transform: uppercase;
     font-size: 0.625rem;
-    transition: opacity 0.1s linear;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.1s linear;
   }
 
   .competence-card__interactions {
     position: absolute;
     bottom: -34px;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 34px;
     visibility: visible;
-    z-index: 1;
     transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transition-delay: 0s;
 
     .competence-card__button {
       position: relative;
-      height: 34px;
       min-width: 140px;
+      height: 34px;
     }
 
     .competence-card-button__label {
       position: absolute;
       top: 0;
+      right: 0;
       bottom: 2px;
       left: 0;
-      right: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -229,13 +229,13 @@
     .competence-card-button__arrow {
       position: absolute;
       top: 0;
-      bottom: 0;
       right: 36px;
+      bottom: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0;
       margin-left: 8px;
+      opacity: 0;
       transition: all 0.1s linear;
     }
   }
@@ -253,16 +253,16 @@
   .competence-card-improvement-countdown {
 
     &__label {
+      color: $pix-neutral-60;
       font-size: 0.6875rem;
       letter-spacing: 0.0075rem;
-      color: $pix-neutral-60;
     }
 
     &__count {
+      margin-top: 6px;
+      color: $pix-neutral-90;
       font-size: 1rem;
       letter-spacing: 0.01rem;
-      color: $pix-neutral-90;
-      margin-top: 6px;
     }
   }
 }

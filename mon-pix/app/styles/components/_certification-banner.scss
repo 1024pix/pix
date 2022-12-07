@@ -6,42 +6,42 @@
 
   &--certification {
     display: flex;
-    justify-content: space-around;
     align-items: flex-start;
+    justify-content: space-around;
     width: 100%;
     height: 270px;
-    background: $pix-primary-certif-gradient;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
     color: $pix-neutral-0;
+    background: $pix-primary-certif-gradient;
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
   }
 }
 
-@include device-is('tablet') {
+@include device-is("tablet") {
 
   .assessment-banner {
 
     &__title {
       display: block;
+      width: 250px;
       white-space: nowrap;
       text-overflow: ellipsis;
-      width: 250px;
     }
   }
 }
 
 .certification-number {
-  margin-left: auto;
-  text-align: right;
-  color: $pix-neutral-0;
   width: 170px;
+  margin-left: auto;
+  color: $pix-neutral-0;
+  text-align: right;
 
   &__label {
-    opacity: 0.5;
     text-transform: uppercase;
+    opacity: 0.5;
   }
 
   &__value {
-    font-size: 1.875rem;
     font-weight: bold;
+    font-size: 1.875rem;
   }
 }

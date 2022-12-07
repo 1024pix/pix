@@ -1,19 +1,19 @@
 .no-certification-panel {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 200px;
-  background-color: white;
   color: $pix-neutral-80;
-  font-family: $font-open-sans;
   font-size: 1.063rem;
+  font-family: $font-open-sans;
+  background-color: white;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     margin: 0 50px;
     font-size: 1.25rem;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     margin: 0 100px;
   }
 }

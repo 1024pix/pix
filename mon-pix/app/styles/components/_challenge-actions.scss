@@ -1,17 +1,17 @@
 @mixin action-button($text-color) {
   margin: 0 1px;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     margin: 0 5px;
   }
 
   &-text {
-    font-size: 0.8rem;
     color: $text-color;
-    text-transform: uppercase;
+    font-size: 0.8rem;
     letter-spacing: 0.03rem;
+    text-transform: uppercase;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       font-size: 1rem;
     }
   }
@@ -20,22 +20,22 @@
 .rounded-panel__row.challenge-actions {
   padding: 20px 0;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 20px;
   }
 }
 
 .challenge-actions {
-  background-color: $pix-neutral-10;
-  margin: 6px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  margin: 6px;
+  background-color: $pix-neutral-10;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     flex-direction: row;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
   }
 
   &__group {
@@ -56,27 +56,27 @@
   }
 
   &__already-answered {
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: $font-semi-bold;
-    color: $pix-neutral-70;
-    letter-spacing: 0.031rem;
     margin-right: 20px;
+    color: $pix-neutral-70;
+    font-weight: $font-semi-bold;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.031rem;
   }
 
   &__alert-message {
     display: flex;
     align-items: center;
     max-width: 600px;
-    color: $pix-neutral-90;
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    font-weight: $font-normal;
-    letter-spacing: 0.009rem;
-    line-height: 1.375rem;
     margin: 0 auto 24px 12px;
+    color: $pix-neutral-90;
+    font-weight: $font-normal;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
+    letter-spacing: 0.009rem;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin-bottom: 0;
     }
   }
@@ -85,9 +85,9 @@
 .challenge-actions-alert-message {
 
   &__icon {
-    font-size: 1rem;
-    margin-left: 0;
     margin-right: 20px;
+    margin-left: 0;
     color: $pix-neutral-45;
+    font-size: 1rem;
   }
 }

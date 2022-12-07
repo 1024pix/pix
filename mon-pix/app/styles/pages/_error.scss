@@ -7,20 +7,20 @@
   &__error {
     margin: 20px;
     padding: 20px;
-    background: $pix-neutral-15;
     color: $pix-neutral-45;
+    background: $pix-neutral-15;
   }
 
   &__error-title {
-    font-size: 0.938rem;
     font-weight: 600;
+    font-size: 0.938rem;
   }
 }
 
 .error-page__body-section {
   width: 100%;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     max-width: 980px;
   }
 }
@@ -29,33 +29,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 20px;
   padding: 40px;
   border-bottom: 1px dashed $pix-neutral-50;
-  margin: 0 20px;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     padding: 80px 0;
   }
 
   p {
-    text-align: left;
     font-size: 0.625rem;
+    text-align: left;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       text-align: center;
     }
   }
 }
 
 .error-page-main-content__title {
-  font-size: 1.25rem;
   padding-bottom: 20px;
+  font-size: 1.25rem;
 }
 
 .error-page__index-link {
   margin-top: 20px;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     margin-top: 40px;
   }
 }

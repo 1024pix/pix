@@ -1,48 +1,47 @@
-
 .proposal-paragraph {
 
-  input[type=checkbox] {
+  input[type="checkbox"] {
     flex-shrink: 0;
   }
 
-  input[type=checkbox]::before {
+  input[type="checkbox"]::before {
     position: relative;
-    height: 18px;
-    width: 18px;
     top: -3px;
-    border: 2px solid $pix-neutral-40;
-    content: ' ';
     display: block;
-    background-color: $pix-neutral-0;
-    border-radius: 10%;
     box-sizing: border-box;
-  }
-
-  input[type=checkbox]:checked::before {
-    border-color: $pix-primary;
-    background-color: $pix-primary;
-  }
-
-  input[type=checkbox]:checked::after {
-    height: 18px;
     width: 18px;
+    height: 18px;
+    background-color: $pix-neutral-0;
+    border: 2px solid $pix-neutral-40;
+    border-radius: 10%;
+    content: " ";
+  }
+
+  input[type="checkbox"]:checked::before {
+    background-color: $pix-primary;
+    border-color: $pix-primary;
+  }
+
+  input[type="checkbox"]:checked::after {
     position: relative;
     top: -21px;
-    font-size: 0.875rem;
+    display: block;
+    width: 18px;
+    height: 18px;
     color: $pix-neutral-0;
     font-weight: $font-bold;
-    content: '✓';
-    display: block;
+    font-size: 0.875rem;
     text-align: center;
+    content: "✓";
   }
 
-  input[type=checkbox]:focus::before,
-  input[type=checkbox]:hover::before {
-    box-shadow: 0 0 0 8px rgba($pix-primary, 0.1);
+  input[type="checkbox"]:focus::before,
+  input[type="checkbox"]:hover::before {
     border-color: $pix-primary;
+    box-shadow: 0 0 0 8px rgba($pix-primary, 0.1);
   }
 
-  input[type=checkbox]:active::before {
+  input[type="checkbox"]:active::before {
     box-shadow: 0 0 0 8px rgba($pix-primary, 0.3);
   }
 }

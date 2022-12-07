@@ -1,11 +1,11 @@
 .certification-ender {
-  max-width: 990px;
   width: calc(100% - 16px);
+  max-width: 990px;
   margin: -150px auto;
-  line-height: 1.875rem;
-  background-color: $pix-neutral-0;
   padding-top: 10px;
   overflow: hidden;
+  line-height: 1.875rem;
+  background-color: $pix-neutral-0;
 
   &__image {
     display: block;
@@ -23,30 +23,30 @@
   }
 
   &__candidate-name {
-    color: $pix-neutral-60;
     display: block;
-    font-family: $font-open-sans;
+    color: $pix-neutral-60;
     font-weight: normal;
     font-size: 1.25rem;
+    font-family: $font-open-sans;
     line-height: 45px;
   }
 
   &__candidate-title {
-    color: $pix-success-70;
     display: block;
-    font-family: $font-open-sans;
+    color: $pix-success-70;
     font-size: 2rem;
+    font-family: $font-open-sans;
     line-height: 64px;
   }
 
   &__candidate-message {
-    color: $pix-neutral-50;
     display: block;
-    font-family: $font-roboto;
-    font-size: 1rem;
-    line-height: 22px;
-    margin: 16px auto auto;
     width: 272px;
+    margin: 16px auto auto;
+    color: $pix-neutral-50;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    line-height: 22px;
   }
 
   &__remote-certification {
@@ -56,8 +56,8 @@
 
       &__content {
         margin-left: 16px;
-        font-size: 14px;
         color: $pix-neutral-50;
+        font-size: 14px;
         line-height: 20px;
       }
     }
@@ -72,51 +72,51 @@
   }
 
   &__candidate-disconnect-tip {
-    color: $pix-neutral-50;
     display: block;
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    line-height: 22px;
-    margin: auto;
     width: 272px;
+    margin: auto;
+    color: $pix-neutral-50;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 22px;
   }
 
   &__results {
-    background-color: $pix-neutral-10;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
     margin: 8px;
     padding: 16px 24px;
+    background-color: $pix-neutral-10;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
   }
 
   &__results-disclaimer {
-    color: $pix-success-70;
-    font-family: $font-open-sans;
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 23px;
     margin-bottom: 8px;
+    color: $pix-success-70;
+    font-weight: 600;
+    font-size: 0.875rem;
+    font-family: $font-open-sans;
+    line-height: 23px;
     text-transform: uppercase;
   }
 
   &__results-title {
-    color: $pix-neutral-90;
     display: block;
-    font-family: $font-open-sans;
-    font-size: 1.25rem;
     margin-bottom: 6px;
+    color: $pix-neutral-90;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
   }
 
   &__results-steps {
-    color: $pix-neutral-60;
     display: block;
-    font-family: $font-roboto;
+    color: $pix-neutral-60;
     font-size: 0.875rem;
+    font-family: $font-roboto;
     line-height: 22px;
   }
 }
 
-@include device-is('tablet') {
+@include device-is("tablet") {
 
   .certification-ender {
     display: flex;
@@ -125,21 +125,21 @@
     justify-content: center;
 
     &__finished-test {
-      align-items: center;
       display: flex;
+      align-items: center;
       width: 100%;
     }
 
     &__image {
+      order: 2;
       height: 250px;
       margin: 0;
-      order: 2;
     }
 
     &__candidate {
-      margin: 64px 56px 16px;
       order: 1;
       width: 55%;
+      margin: 64px 56px 16px;
       text-align: left;
     }
 
@@ -166,10 +166,10 @@
     }
 
     &__results-example {
-      align-items: center;
       display: flex;
-      padding-right: 45px;
+      align-items: center;
       width: 40%;
+      padding-right: 45px;
     }
 
     &__results-instructions {

@@ -7,10 +7,10 @@
 .qcu-solution-panel {
 
   a {
-    text-decoration: underline;
     color: $pix-primary;
+    text-decoration: underline;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       display: inline-block;
     }
 
@@ -24,13 +24,13 @@
   }
 
   &__proposal-item {
-    line-height: 1.2rem;
-    font-weight: $font-normal;
-    margin-left: 7px;
-    width: 100%;
+    position: relative;
     display: flex;
     flex-direction: row;
-    position: relative;
+    width: 100%;
+    margin-left: 7px;
+    font-weight: $font-normal;
+    line-height: 1.2rem;
   }
 
   &__radio-button {
@@ -44,12 +44,12 @@
       color: inherit;
     }
 
-    &[data-goodness='good'] {
+    &[data-goodness="good"] {
       color: $pix-success-70;
       font-weight: $font-heavy;
     }
 
-    &[data-goodness='bad'][data-checked='yes'] {
+    &[data-goodness="bad"][data-checked="yes"] {
       text-decoration: line-through;
 
       & a {

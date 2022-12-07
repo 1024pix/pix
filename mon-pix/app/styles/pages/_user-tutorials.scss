@@ -1,97 +1,97 @@
 .user-tutorials-banner {
   margin: 0 24px;
-  font-family: $font-roboto;
-  font-weight: $font-light;
   padding-bottom: 16px;
+  font-weight: $font-light;
+  font-family: $font-roboto;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     max-width: 1280px;
-    padding: 0 20px 16px 20px;
     margin: 0 auto;
+    padding: 0 20px 16px;
   }
 
   &__title {
     color: $pix-neutral-90;
+    font-weight: $font-normal;
     font-size: 2rem;
     font-family: $font-open-sans;
-    font-weight: $font-normal;
-    letter-spacing: 0.0093rem;
     line-height: 2.6875rem;
+    letter-spacing: 0.0093rem;
   }
 
   &__description {
     margin: 0;
-    padding: 8px 0 32px 0;
+    padding: 8px 0 32px;
     color: $pix-neutral-60;
-    font-family: $font-roboto;
     font-weight: $font-normal;
     font-size: 1rem;
-    letter-spacing: 0.0093rem;
+    font-family: $font-roboto;
     line-height: 1.375rem;
+    letter-spacing: 0.0093rem;
   }
 
   &__filters {
     display: flex;
-    gap: 16px;
     flex-wrap: wrap;
+    gap: 16px;
     align-items: center;
-    list-style: none;
+    min-height: 45px;
     margin: 0;
     padding: 0;
-    min-height: 45px;
+    list-style: none;
   }
 }
 
 .user-tutorials-content {
-  padding-top: 20px;
-  width: 100%;
-  min-height: inherit;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-height: inherit;
+  padding-top: 20px;
 
   &__container {
     width: 100%;
     margin: 0 auto;
     padding: 0 20px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       max-width: 1280px;
     }
   }
 
   &__cards {
-    list-style: none;
-    padding: 0;
     display: grid;
-    grid-template-columns: 1fr;
     grid-auto-rows: min-content;
-    row-gap: 16px;
+    grid-template-columns: 1fr;
     width: 100%;
     margin: 0 0 32px;
+    padding: 0;
+    list-style: none;
+    row-gap: 16px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       grid-template-columns: 1fr 1fr;
+      margin: 0 auto 32px;
       column-gap: 24px;
-      margin: 0 auto 32px auto;
     }
   }
 
   &__saved-empty,
   &__recommended-empty {
-    align-items: center;
     display: flex;
-    align-self: center;
-    margin: 75px auto 0 auto;
     flex-direction: column-reverse;
+    align-items: center;
+    align-self: center;
     max-width: 1037px;
-    row-gap: 20px;
+    margin: 75px auto 0;
     padding: 0 20px;
     text-align: center;
+    row-gap: 20px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       flex-direction: row;
-      column-gap: 100px;
       text-align: left;
+      column-gap: 100px;
     }
   }
 }
@@ -119,31 +119,31 @@
 }
 
 .user-tutorials-no-tutorial {
-  background: $pix-neutral-20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 980px;
   margin: 24px 16px;
   padding: 32px 16px 24px;
-  text-align: center;
-  align-items: center;
   color: $pix-neutral-80;
-  display: flex;
-  flex-direction: column;
+  text-align: center;
+  background: $pix-neutral-20;
 
-  @include device-is('tablet') {
-    text-align: left;
+  @include device-is("tablet") {
     flex-direction: row;
-    padding: 24px;
     align-items: flex-start;
+    padding: 24px;
+    text-align: left;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     margin: 24px auto;
   }
 
   &__illustration {
     margin-bottom: 16px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin-bottom: 0;
     }
   }
@@ -155,19 +155,19 @@
       margin: 0 3px;
     }
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       padding: 0 0 0 32px;
     }
   }
 
   &-instructions__title {
     margin: 0 0 8px;
-    font-family: $font-open-sans;
     font-weight: $font-normal;
-    letter-spacing: 0;
+    font-family: $font-open-sans;
     line-height: 2.5rem;
+    letter-spacing: 0;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       line-height: 3.375rem;
     }
   }

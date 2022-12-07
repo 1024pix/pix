@@ -1,12 +1,12 @@
 .skip-link {
   position: absolute;
-  padding: 0.5em;
+  z-index: 1;
   margin: 8px;
+  padding: 0.5em;
   color: $pix-neutral-0;
   background-color: $pix-primary;
   transform: translateY(calc(-100% - 8px));
   transition: transform 0.3s;
-  z-index: 1;
 
   &:focus,
   &:active {

@@ -1,23 +1,23 @@
 .confirmation-step-account-information {
-  list-style: none;
   padding: 0;
+  list-style: none;
 }
 
 .confirmation-step-account-information__field {
+  max-width: 400px;
+  height: 65px;
+  margin-bottom: 8px;
+  padding: 12px 20px;
+  color: $pix-neutral-70;
+  font-weight: 500;
   background: $pix-neutral-10;
   border-radius: 8px;
-  height: 65px;
-  max-width: 400px;
-  padding: 12px 20px;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: $pix-neutral-70;
 
   & > div:first-of-type {
-    color: $pix-neutral-70;
-    font-family: $font-roboto;
-    font-size: 0.875rem;
     margin-bottom: 6px;
+    color: $pix-neutral-70;
     font-weight: normal;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
   }
 }

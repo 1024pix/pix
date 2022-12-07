@@ -1,8 +1,8 @@
 .assessment-results {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .assessment-results__assessment-banner {
@@ -10,26 +10,26 @@
 }
 
 .assessment-results__content {
-  max-width: 800px;
   width: 100%;
-  padding: 30px;
+  max-width: 800px;
   margin-top: -175px;
+  padding: 30px;
   background: $pix-neutral-0;
   border-radius: 10px;
-  box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 7px 14px 0 rgb(12 22 58 / 10%), 0 3px 6px 0 rgb(0 0 0 / 10%);
 }
 
 /* XXX : See https://github.com/sgmap/pix/issues/211 */
-.assessment-results [data-lines='2'] + div .tooltip-inner {
+.assessment-results [data-lines="2"] + div .tooltip-inner {
   padding-top: 3px;
 }
 
 /* Title
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results__title {
+  margin: 0 0 30px;
   font-weight: $font-medium;
   font-family: $font-open-sans;
-  margin: 0 0 30px;
   text-transform: uppercase;
 }
 
@@ -54,10 +54,10 @@
 }
 
 .assessment-results__link-back {
-  text-transform: uppercase;
-  font-size: 1rem;
-  font-weight: $font-semi-bold;
-  text-align: center;
-  font-family: $font-open-sans;
   color: $pix-neutral-0;
+  font-weight: $font-semi-bold;
+  font-size: 1rem;
+  font-family: $font-open-sans;
+  text-align: center;
+  text-transform: uppercase;
 }

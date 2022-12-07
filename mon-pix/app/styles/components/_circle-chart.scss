@@ -37,8 +37,8 @@
   }
 
   &--slice {
-    stroke: $pix-information-light;
     animation: progress 1s ease-out forwards;
+    stroke: $pix-information-light;
   }
 
   &--jaffa {
@@ -64,11 +64,11 @@
 
 .circle-chart__text {
   position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
 }

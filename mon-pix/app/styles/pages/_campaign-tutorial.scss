@@ -1,39 +1,39 @@
 .campaign-tutorial {
-  background: $pix-secondary-app-gradient;
+  display: flex;
   width: 100%;
   height: 100vh;
-  display: flex;
+  background: $pix-secondary-app-gradient;
 
   &__container {
-    margin: auto;
     max-width: 800px;
     min-height: 600px;
+    margin: auto;
     padding: 30px 40px;
 
-    @include device-is('tablet') {
-      padding: 30px 10px;
+    @include device-is("tablet") {
       width: 800px;
       min-height: 600px;
+      padding: 30px 10px;
       padding-top: 85px;
     }
   }
 
   &__title {
     color: $pix-primary;
-    font-family: $font-open-sans;
-    font-size: 1.25rem;
     font-weight: 600;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
     line-height: 40px;
     text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       font-size: 1.875rem;
     }
   }
 
   &__explanation-icon {
-    text-align: center;
     margin: 40px;
+    text-align: center;
 
     img {
       width: 160px;
@@ -43,12 +43,12 @@
 
   &__explanation-text {
     color: $pix-neutral-100;
-    font-family: $font-open-sans;
     font-size: 1.125rem;
-    text-align: center;
+    font-family: $font-open-sans;
     white-space: pre-line;
+    text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       font-size: 1.25rem;
     }
   }
@@ -60,17 +60,17 @@
     margin-top: 10px;
     margin-bottom: 30px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin-top: 15px;
     }
 
     .dot {
-      margin: 2px;
-      height: 10px;
+      display: inline-block;
       width: 10px;
+      height: 10px;
+      margin: 2px;
       background-color: $pix-neutral-22;
       border-radius: 50%;
-      display: inline-block;
 
       &__active {
         background-color: $pix-primary;
@@ -80,13 +80,13 @@
 
   &__next-button {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     margin: auto;
   }
 
   &__start-campaign-button {
-    margin: auto auto 50px auto;
+    margin: auto auto 50px;
   }
 
   &__buttons {

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     padding: 10px 0;
   }
 
@@ -10,7 +10,7 @@
   &__email-input {
     max-width: 260px;
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       max-width: 100%;
     }
   }
@@ -24,17 +24,17 @@
   }
 
   &__informations {
-    font-size: 0.875rem;
-    border-top: 1px solid $pix-neutral-20;
     padding: 32px 0 16px;
     color: $pix-neutral-70;
+    font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 1.5rem;
+    border-top: 1px solid $pix-neutral-20;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin-right: 8px;
-      letter-spacing: 0.13px;
       line-height: 1.2rem;
+      letter-spacing: 0.13px;
     }
 
     p {
@@ -50,12 +50,12 @@
       margin-left: 24px;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       flex-direction: column-reverse;
 
       button:last-child {
-        margin-left: 0;
         margin-bottom: 16px;
+        margin-left: 0;
       }
     }
   }

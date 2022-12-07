@@ -1,7 +1,7 @@
 .hexagon-score {
   width: 132px;
   height: 148px;
-  background: url('/images/background/hexa-pix-blue.svg') no-repeat center center;
+  background: url("/images/background/hexa-pix-blue.svg") no-repeat center center;
   background-size: cover;
 
   &__content {
@@ -12,21 +12,21 @@
 
 @mixin hexagon-score-title {
   color: $pix-neutral-100;
-  font-family: $font-roboto;
   font-size: 0.875rem;
+  font-family: $font-roboto;
   letter-spacing: 0.219rem;
 }
 
 @mixin hexagon-score-pix-score {
   color: $pix-neutral-110;
-  font-family: $font-open-sans;
   font-size: 2.875rem;
+  font-family: $font-open-sans;
 }
 
 @mixin hexagon-score-pix-total {
   color: $pix-neutral-60;
-  font-family: $font-roboto;
   font-size: 0.813rem;
+  font-family: $font-roboto;
   border-top: 1px solid $pix-neutral-30;
 }
 
@@ -36,9 +36,9 @@
     @include hexagon-score-title;
 
     position: absolute;
-    width: 100%;
-    left: 1px;
     top: 26px;
+    left: 1px;
+    width: 100%;
     text-transform: uppercase;
   }
 
@@ -46,30 +46,30 @@
     @include hexagon-score-pix-score;
 
     position: absolute;
-    width: 100%;
     top: 40px;
+    width: 100%;
   }
 
   &__pix-total {
     @include hexagon-score-pix-total;
 
     position: absolute;
-    width: 70px;
-    left: 31px;
     top: 100px;
-    padding: 3px 8px 0;
+    left: 31px;
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-around;
+    width: 70px;
+    padding: 3px 8px 0;
 
     .pix-tooltip__content {
       max-width: 19rem;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         max-width: 40rem;
       }
 
-      @include device-is('desktop') {
+      @include device-is("desktop") {
         max-width: 19rem;
       }
     }
@@ -90,10 +90,10 @@
 }
 
 .hexagon-score-information__text {
-  font-family: $font-open-sans;
-  font-size: 1rem;
-  line-height: 1.6rem;
   display: block;
+  font-size: 1rem;
+  font-family: $font-open-sans;
+  line-height: 1.6rem;
 
   &--strong {
     font-weight: $font-bold;
@@ -102,21 +102,21 @@
 
 .hexagon-score-information__close {
   float: right;
-  font-size: 1.25rem;
-  padding: 10px;
   margin-top: -10px;
+  padding: 10px;
+  font-size: 1.25rem;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     display: none;
   }
 }
 
 .hexagon-score-content-pix-total__icon {
-  padding: 0;
   margin-left: 4px;
+  padding: 0;
+  color: inherit;
   line-height: 0;
   background: none;
-  color: inherit;
   border: none;
   cursor: pointer;
 

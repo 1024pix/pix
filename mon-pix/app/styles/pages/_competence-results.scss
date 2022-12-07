@@ -11,58 +11,58 @@
     &-result-comment {
       margin: 0;
       color: $pix-neutral-0;
+      font-weight: $font-bold;
       font-size: 3rem;
       font-family: $font-open-sans;
-      font-weight: $font-bold;
     }
 
-    @include device-is('tablet') {
-      padding: 30px;
+    @include device-is("tablet") {
       margin: 12px;
+      padding: 30px;
     }
 
     &--congrats {
-      background: url('/images/background/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
-      text-align: center;
       padding: 1rem;
       padding-top: 18rem;
       padding-bottom: 30px;
+      text-align: center;
+      background: url("/images/background/banners/congrats-mobile.png") center -240px no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
 
-      @include device-is('tablet') {
-        background: url('/images/background/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
-        justify-content: center;
+      @include device-is("tablet") {
         align-items: flex-start;
-        background-position: left -70px center;
+        justify-content: center;
         padding: 3rem;
         padding-left: 22rem;
+        background: url("/images/background/banners/congrats.png") top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+        background-position: left -70px center;
       }
 
-      @include device-is('desktop') {
+      @include device-is("desktop") {
         padding-left: 27rem;
       }
     }
 
     &--not-bad {
-      background: url('/images/background/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
-      text-align: center;
       padding: 1rem;
       padding-top: 18rem;
+      text-align: center;
+      background: url("/images/background/banners/not-bad.png") top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
 
-      @include device-is('tablet') {
-        justify-content: center;
+      @include device-is("tablet") {
         align-items: flex-start;
-        background-position: right -70px center;
+        justify-content: center;
         padding-top: 1rem;
+        background-position: right -70px center;
       }
 
-      @include device-is('desktop') {
+      @include device-is("desktop") {
         background-position: right center;
       }
     }
 
     &--too-bad {
       padding: 40px;
-      background: url('/images/background/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      background: url("/images/background/banners/too-bad.png") center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
     }
   }
 }
@@ -74,7 +74,7 @@
     &--tablet {
       display: none;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         display: inherit;
       }
     }
@@ -82,29 +82,29 @@
     &--mobile {
       display: inherit;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         display: none;
       }
     }
   }
 
   &__subtitle {
-    color: $pix-neutral-0;
-    font-family: $font-open-sans;
-    font-size: 1.125rem;
     margin-top: 14px;
+    color: $pix-neutral-0;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: 400px;
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       width: inherit;
     }
 
     &--left {
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         text-align: left;
       }
     }
@@ -112,7 +112,7 @@
     &--small {
       width: 300px;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         width: 450px;
       }
     }
@@ -121,7 +121,7 @@
   &__text {
     display: flex;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       padding-top: 20px;
     }
 
@@ -135,20 +135,20 @@
 
   &__results {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     padding-top: 16px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: column;
       padding-top: 0;
     }
 
     &--spaced {
-      padding: 0 10px;
       flex-direction: column;
+      padding: 0 10px;
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         padding: 0 30px;
       }
     }
@@ -159,15 +159,15 @@
 
   &__label {
     color: $pix-neutral-0;
-    font-family: $font-open-sans;
     font-size: 0.875rem;
+    font-family: $font-open-sans;
   }
 
   &__value {
-    color: $pix-neutral-0;
-    font-family: $font-open-sans;
-    font-size: 1.5rem;
     padding: 0 10px;
+    color: $pix-neutral-0;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
     text-transform: capitalize;
   }
 }
