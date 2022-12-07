@@ -54,7 +54,8 @@
     max-width: 980px;
     margin-bottom: 32px;
     padding: 40px 10px;
-    box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 0.1), 0 3px 6px 0 rgb(0 0 0 / 0.1);
+    /* stylelint-disable color-function-notation */
+    box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 1), 0 3px 6px 0 rgb(0 0 0 / 10%);
 
     @include device-is("tablet") {
       padding: 32px 48px;
