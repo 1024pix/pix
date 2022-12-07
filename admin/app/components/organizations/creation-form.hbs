@@ -11,27 +11,21 @@
       aria-required={{true}}
     />
 
-    <div class="form-field form-group">
-      <label class="form-field__label" for="organizationType">Type : </label>
-      <div id="organizationTypeSelector" class="form-field__select {{if @organization.errors.type ' is-invalid' ''}}">
-        <PixSelect
-          @onChange={{this.selectOrganizationType}}
-          @options={{this.organizationTypes}}
-          @isSearchable={{false}}
-          aria-label="Sélectionner un type d'organisation"
-          @emptyOptionNotSelectable={{true}}
-          @emptyOptionLabel=""
-          as |organizationType|
-        >
-          {{organizationType.label}}
-        </PixSelect>
-      </div>
-      {{#each @organization.errors.type as |error|}}
-        <div class="form-field__error">
-          {{error.message}}
-        </div>
-      {{/each}}
-    </div>
+    <PixSelect
+      @id="organizationTypeSelector"
+      @onChange={{this.handleOrganizationTypeSelectionChange}}
+      @options={{this.organizationTypes}}
+      @isSearchable={{false}}
+      @label="Sélectionner un type d'organisation"
+      @emptyOptionNotSelectable={{true}}
+      @emptyOptionLabel=""
+      required={{true}}
+      aria-required={{true}}
+      class="form-field"
+      as |organizationType|
+    >
+      {{organizationType.label}}
+    </PixSelect>
 
     <PixInput
       @id="documentationUrl"
