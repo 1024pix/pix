@@ -124,6 +124,19 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
       const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
       const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+      const organization = server.create('organization', {});
+      const organizationMembership = server.create('organization-membership', {
+        organizationId: organization.id,
+        organizationName: 'Organization #1',
+        organizationType: 'SCO',
+      });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Certification Center #1',
+        type: 'SCO',
+      });
+      const certificationCenterMembership = server.create('certification-center-membership', {
+        certificationCenter,
+      });
       const userToAnonymise = server.create('user', {
         firstName: 'Jane',
         lastName: 'Harry',
@@ -131,6 +144,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
         username: 'jane.harry050697',
         isAuthenticatedFromGar: false,
         authenticationMethods: [pixAuthenticationMethod, garAuthenticationMethod],
+        organizationMemberships: [organizationMembership],
+        certificationCenterMemberships: [certificationCenterMembership],
       });
 
       const screen = await visit(`/users/${userToAnonymise.id}`);
@@ -138,10 +153,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
       await screen.findByRole('dialog');
 
-      // when
+      // when & then #1
       await click(screen.getByRole('button', { name: 'Confirmer' }));
 
-      // then
       assert.dom(screen.getByText(`prenom_${userToAnonymise.id}`)).exists();
       assert.dom(screen.getByText(`nom_${userToAnonymise.id}`)).exists();
       assert.dom(screen.getByText(`email_${userToAnonymise.id}@example.net`)).exists();
@@ -150,6 +164,16 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
+
+      // when & then #2
+      await click(screen.getByRole('link', { name: 'Organisations de l’utilisateur' }));
+      assert.deepEqual(currentURL(), `/users/${userToAnonymise.id}/organizations`);
+      assert.dom(screen.queryByText('Organization #1')).doesNotExist();
+
+      // when & then #3
+      await click(screen.getByLabelText('Centres de certification auxquels appartient l´utilisateur'));
+      assert.deepEqual(currentURL(), `/users/${userToAnonymise.id}/certification-center-memberships`);
+      assert.dom(screen.queryByText('Certification Center #1')).doesNotExist();
     });
   });
 
