@@ -12,4 +12,14 @@ export default class OrganizationCreationForm extends Component {
   selectOrganizationType(event) {
     this.args.organization.type = event.target.value;
   }
+
+  @action
+  handleOrganizationNameChange(event) {
+    this.args.organization.name = event.target.value;
+  }
+
+  @action
+  handleDocumentationUrlChange(event) {
+    this.args.organization.documentationUrl = event.target.value;
+  }
 }

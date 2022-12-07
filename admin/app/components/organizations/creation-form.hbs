@@ -2,23 +2,14 @@
 
   <section class="form-section">
 
-    <div class="form-field form-group">
-      <label class="form-field__label" for="organizationName">Nom : </label>
-      <Input
-        class={{if
-          @organization.errors.name
-          "form-field__text form-control is-invalid"
-          "form-field__text form-control"
-        }}
-        id="organizationName"
-        @value={{@organization.name}}
-      />
-      {{#if @organization.errors.name}}
-        <div class="form-field__error">
-          {{get @organization.errors.name "0.message"}}
-        </div>
-      {{/if}}
-    </div>
+    <PixInput
+      @id="organizationName"
+      @label="Nom : "
+      onchange={{this.handleOrganizationNameChange}}
+      class="form-field"
+      required={{true}}
+      aria-required={{true}}
+    />
 
     <div class="form-field form-group">
       <label class="form-field__label" for="organizationType">Type : </label>
@@ -42,23 +33,12 @@
       {{/each}}
     </div>
 
-    <div class="form-field form-group">
-      <label class="form-field__label" for="documentationUrl">Lien vers la documentation : </label>
-      <Input
-        class={{if
-          @organization.errors.documentationUrl
-          "form-field__text form-control is-invalid"
-          "form-field__text form-control"
-        }}
-        id="documentationUrl"
-        @value={{@organization.documentationUrl}}
-      />
-      {{#if @organization.errors.documentationUrl}}
-        <div class="form-field__error">
-          {{get @organization.errors.documentationUrl "0.message"}}
-        </div>
-      {{/if}}
-    </div>
+    <PixInput
+      @id="documentationUrl"
+      @label="Lien vers la documentation : "
+      onchange={{this.handleDocumentationUrlChange}}
+      class="form-field"
+    />
   </section>
 
   <section class="form-section form-actions form-section--actions">
