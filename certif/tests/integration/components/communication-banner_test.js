@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'pix-certif/config/environment';
 
@@ -33,10 +33,10 @@ module('Integration | Component | communication-banner', function (hooks) {
     ENV.APP.BANNER.TYPE = 'information';
 
     // when
-    await render(hbs`<CommunicationBanner />`);
+    const screen = await render(hbs`<CommunicationBanner />`);
 
     // then
-    assert.dom('.pix-banner--information').exists();
-    assert.dom('.pix-banner--information').containsText('information banner text ...');
+    assert.dom(screen.getByText('information banner text ...')).exists();
+    assert.dom(screen.getByRole('button', { name: 'Fermer' })).exists();
   });
 });
