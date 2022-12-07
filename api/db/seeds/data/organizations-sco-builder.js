@@ -1,5 +1,5 @@
 const Membership = require('../../../lib/domain/models/Membership');
-const { DEFAULT_PASSWORD } = require('./users-builder');
+const { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } = require('./users-builder');
 const { SamlIdentityProviders } = require('../../../lib/domain/constants/saml-identity-providers');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
@@ -83,6 +83,11 @@ function _buildMiddleSchools({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: SCO_ADMIN_ID,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+  databaseBuilder.factory.buildMembership({
+    userId: PIX_ALL_ORGA_ID,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     organizationRole: Membership.roles.ADMIN,
   });
@@ -487,6 +492,12 @@ function _buildFarmingSchools({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: SCO_ADMIN_ID,
+    organizationId: SCO_AGRI_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: PIX_ALL_ORGA_ID,
     organizationId: SCO_AGRI_ID,
     organizationRole: Membership.roles.ADMIN,
   });
