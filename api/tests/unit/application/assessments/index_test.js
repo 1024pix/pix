@@ -96,7 +96,7 @@ describe('Unit | Application | Router | assessment-router', function () {
     });
   });
 
-  describe('POST /api/admin/assessments/{id}/auto-validate-next-challenge', function () {
+  describe('POST /api/admin/assessments/{id}/always-ok-validate-next-challenge', function () {
     let originalEnvValue;
 
     beforeEach(async function () {
@@ -123,7 +123,7 @@ describe('Unit | Application | Router | assessment-router', function () {
       // when
       const { statusCode } = await httpTestServer.request(
         'POST',
-        `/api/admin/assessments/123/auto-validate-next-challenge`
+        `/api/admin/assessments/123/always-ok-validate-next-challenge`
       );
 
       // then

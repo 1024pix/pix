@@ -178,7 +178,7 @@ exports.register = async (server) => {
   if (featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled) {
     routes.push({
       method: 'POST',
-      path: '/api/admin/assessments/{id}/auto-validate-next-challenge',
+      path: '/api/admin/assessments/{id}/always-ok-validate-next-challenge',
       config: {
         pre: [
           {
