@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByText, render, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { clickByText, render, clickByName } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 
@@ -141,12 +142,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.owner.register('service:current-user', CurrentUserAdminStub);
         this.set('membership', memberMembership);
 
-        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
+        const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
         // when
-        await selectByLabelAndOption('Sélectionner un rôle', 'ADMIN');
+        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(await screen.findByRole('option', { name: 'Administrateur' }));
         await clickByText('Enregistrer');
 
         // then
@@ -160,12 +162,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
         this.owner.register('service:current-user', CurrentUserAdminStub);
 
-        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
+        const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
         // when
-        await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
+        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(await screen.findByRole('option', { name: 'Membre' }));
         await clickByText('Enregistrer');
 
         // then
@@ -181,12 +184,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
         this.owner.register('service:current-user', CurrentUserAdminStub);
 
-        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
+        const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
         // when
-        await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
+        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(await screen.findByRole('option', { name: 'Membre' }));
         await clickByText('Enregistrer');
 
         // then
@@ -205,12 +209,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         const notifications = this.owner.lookup('service:notifications');
         sinon.stub(notifications, 'error');
 
-        await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
+        const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}}/>`);
         await clickByName('Gérer');
         await clickByText('Modifier le rôle');
 
         // when
-        await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
+        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(await screen.findByRole('option', { name: 'Membre' }));
         await clickByText('Enregistrer');
 
         // then
