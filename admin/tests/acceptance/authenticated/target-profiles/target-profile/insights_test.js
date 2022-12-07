@@ -91,7 +91,16 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
       test('it should display stage details when clicking on "Voir détail"', async function (assert) {
         // given
-        server.create('stage', { id: 100, title: 'premier palier', targetProfile });
+        server.create('stage', {
+          id: 100,
+          level: 1,
+          threshold: null,
+          title: 'premier palier',
+          message: 'message palier',
+          prescriberTitle: 'titre prescripteur',
+          prescriberDescription: 'description prescripteur',
+          targetProfile,
+        });
 
         // when
         const screen = await visit('/target-profiles/1');
@@ -100,7 +109,12 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
-        assert.dom(screen.getByText('Palier 100')).exists();
+        assert.dom(screen.getByText('ID : 100')).exists();
+        assert.dom(screen.getByText('Niveau : 1')).exists();
+        assert.dom(screen.getByText('Titre : premier palier')).exists();
+        assert.dom(screen.getByText('Message : message palier')).exists();
+        assert.dom(screen.getByText('Titre pour le prescripteur : titre prescripteur')).exists();
+        assert.dom(screen.getByText('Description pour le prescripteur : description prescripteur')).exists();
       });
 
       test('it should go back to insights when clicking on target profile header in details page', async function (assert) {
@@ -116,19 +130,36 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
       test('it should edit the stage information', async function (assert) {
         // given
-        server.create('stage', { id: 100, title: 'titre initial', targetProfile });
+        server.create('stage', {
+          id: 100,
+          threshold: 10,
+          title: 'ancien titre',
+          message: 'ancien message',
+          prescriberTitle: 'ancien titre prescripteur',
+          prescriberDescription: 'ancienne description prescripteur',
+          targetProfile,
+        });
 
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
         await clickByName('Voir détail');
         await clickByName('Éditer');
-        await fillByLabel('Titre', 'titre modifié');
+        await fillByLabel('Seuil', 20);
+        await fillByLabel('Titre', 'nouveau titre');
+        await fillByLabel('Message', 'nouveau message');
+        await fillByLabel('Titre pour le prescripteur', 'nouveau titre prescripteur');
+        await fillByLabel('Description pour le prescripteur', 'nouvelle description prescripteur');
         await clickByName('Enregistrer');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
-        assert.dom(screen.getByText('titre modifié')).exists();
+        assert.dom(screen.getByText('ID : 100')).exists();
+        assert.dom(screen.getByText('Seuil : 20')).exists();
+        assert.dom(screen.getByText('Titre : nouveau titre')).exists();
+        assert.dom(screen.getByText('Message : nouveau message')).exists();
+        assert.dom(screen.getByText('Titre pour le prescripteur : nouveau titre prescripteur')).exists();
+        assert.dom(screen.getByText('Description pour le prescripteur : nouvelle description prescripteur')).exists();
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
@@ -146,7 +177,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
-        assert.dom(screen.getByText('titre initial')).exists();
+        assert.dom(screen.getByText('Titre : titre initial')).exists();
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
