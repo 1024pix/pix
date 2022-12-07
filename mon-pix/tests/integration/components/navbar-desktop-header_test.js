@@ -20,11 +20,6 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
       await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    test('should be rendered', function (assert) {
-      // then
-      assert.dom('.navbar-desktop-header__container').exists();
-    });
-
     test('should display the Pix logo', function (assert) {
       // then
       assert.dom('.navbar-desktop-header-logo').exists();
@@ -70,10 +65,6 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
       this.owner.register('service:currentUser', currentUserService);
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);
-    });
-
-    test('should be rendered', function (assert) {
-      assert.dom('.navbar-desktop-header').exists();
     });
 
     test('should display the link "J\'ai un code"', function (assert) {
@@ -158,11 +149,6 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
       await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    test('should be rendered', function (assert) {
-      // then
-      assert.dom('.navbar-desktop-header__container').exists();
-    });
-
     test('should display the Pix logo', function (assert) {
       // then
       assert.dom('.navbar-desktop-header-logo').exists();
@@ -202,11 +188,6 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
 
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>`);
-    });
-
-    test('should be rendered', function (assert) {
-      // then
-      assert.dom('.navbar-desktop-header__container').exists();
     });
 
     test('should display the Pix logo', function (assert) {
