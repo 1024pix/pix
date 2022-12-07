@@ -9,7 +9,7 @@ export default class OrganizationCreationForm extends Component {
   ];
 
   @action
-  selectOrganizationType(event) {
+  handleOrganizationTypeSelectionChange(event) {
     this.args.organization.type = event.target.value;
   }
 
