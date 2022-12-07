@@ -15,6 +15,7 @@ export default class TargetProfileDetailsController extends Controller {
 
   buildCompetenceViewModel(competence) {
     return {
+      id: competence.id,
       title: `${competence.index} ${competence.name}`,
       thematics: competence.thematics.sortBy('index').map((thematic) => this.buildThematicViewModel(thematic)),
     };
@@ -30,6 +31,7 @@ export default class TargetProfileDetailsController extends Controller {
 
   buildTubeViewModel(tube) {
     return {
+      id: tube.id,
       title: `${tube.name} : ${tube.practicalTitle}`,
       level: tube.level,
       mobile: tube.mobile,
