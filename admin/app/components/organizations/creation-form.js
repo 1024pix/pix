@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
-export default class OrganizationForm extends Component {
+export default class OrganizationCreationForm extends Component {
   organizationTypes = [
     { value: 'PRO', label: 'Organisation professionnelle' },
     { value: 'SCO', label: 'Établissement scolaire' },

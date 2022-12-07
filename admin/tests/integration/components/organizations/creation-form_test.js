@@ -4,7 +4,7 @@ import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | organizations/form', function (hooks) {
+module('Integration | Component | organizations/creation-form', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -16,7 +16,7 @@ module('Integration | Component | organizations/form', function (hooks) {
   test('it renders', async function (assert) {
     // when
     const screen = await render(
-      hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+      hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
     );
 
     // then
@@ -31,7 +31,7 @@ module('Integration | Component | organizations/form', function (hooks) {
     test('should update attribute organization.type', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+        hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
       );
 
       // when
