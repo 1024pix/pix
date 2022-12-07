@@ -1,6 +1,6 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
-const { DEFAULT_PASSWORD } = require('./users-builder');
+const { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } = require('./users-builder');
 
 const SUP_UNIVERSITY_ID = 2;
 const SUP_STUDENT_ASSOCIATED_ID = 888;
@@ -49,6 +49,12 @@ function organizationsSupBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: supUser1.id,
+    organizationId: SUP_UNIVERSITY_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: PIX_ALL_ORGA_ID,
     organizationId: SUP_UNIVERSITY_ID,
     organizationRole: Membership.roles.ADMIN,
   });
