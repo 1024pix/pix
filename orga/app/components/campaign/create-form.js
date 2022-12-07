@@ -86,10 +86,6 @@ export default class CreateForm extends Component {
     return this.args.membersSortedByFullName.map((member) => ({ value: member.id, label: member.fullName }));
   }
 
-  _isTargetProfileInputEmpty() {
-    return document.getElementById('campaign-target-profile').value.length === 0;
-  }
-
   @action
   cleanInput() {
     const input = document.getElementById('campaign-target-profile');
