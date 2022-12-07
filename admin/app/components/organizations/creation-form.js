@@ -22,4 +22,19 @@ export default class OrganizationCreationForm extends Component {
   handleDocumentationUrlChange(event) {
     this.args.organization.documentationUrl = event.target.value;
   }
+
+  @action
+  handleDataProtectionOfficerFirstNameChange(event) {
+    this.args.organization.dataProtectionOfficerFirstName = event.target.value;
+  }
+
+  @action
+  handleDataProtectionOfficerLastNameChange(event) {
+    this.args.organization.dataProtectionOfficerLastName = event.target.value;
+  }
+
+  @action
+  handleDataProtectionOfficerEmailChange(event) {
+    this.args.organization.dataProtectionOfficerEmail = event.target.value;
+  }
 }

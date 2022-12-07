@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { render, selectByLabelAndOption, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -38,10 +38,25 @@ module('Integration | Component | organizations/creation-form', function (hooks)
       await selectByLabelAndOption("Sélectionner un type d'organisation", 'SCO');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.organization.type, 'SCO');
+      assert.strictEqual(this.organization.type, 'SCO');
       assert.dom(screen.getByText('Établissement scolaire')).exists();
     });
+  });
+
+  test('Adds data protection officer information', async function (assert) {
+    // given
+    await render(
+      hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+    );
+
+    // when
+    await fillByLabel('Prénom du DPO', 'Justin');
+    await fillByLabel('Nom du DPO', 'Ptipeu');
+    await fillByLabel('Adresse e-mail du DPO', 'justin.ptipeu@example.net');
+
+    // then
+    assert.strictEqual(this.organization.dataProtectionOfficerFirstName, 'Justin');
+    assert.strictEqual(this.organization.dataProtectionOfficerLastName, 'Ptipeu');
+    assert.strictEqual(this.organization.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
   });
 });
