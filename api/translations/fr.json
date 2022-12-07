@@ -34,7 +34,7 @@
         "ok": "OK"
       },
       "success-rate": "Palier obtenu (/{{value}})",
-      "target-profile-name": "Nom du Profil Cible",
+      "target-profile-name": "Parcours",
       "thematic-result-name": "{{name}} obtenu (O/N)"
     },
     "common": {
