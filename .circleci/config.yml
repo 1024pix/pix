@@ -4,13 +4,40 @@ setup: true
 
 orbs:
   path-filtering: circleci/path-filtering@0.0.1
+  continuation: sandbox/continuation@0.0.3
+
+jobs:
+  auto:
+    docker:
+      - image: cimg/base
+    resource_class: small
+    steps:
+      - unless:
+          condition:
+            equal: [api,<<pipeline.trigger_source>>]
+          steps:
+          - path-filtering/filter:
+              mapping: |
+                api/.* build-and-test-api true
+                mon-pix/.* build-and-test true
+              # Optional, defaults to main:
+              base-revision: dev
+  manual:
+    docker:
+      - image: cimg/base
+    resource_class: small
+    steps:
+      - when:
+          condition:
+            equal: [api,<<pipeline.trigger_source>>]
+          steps:
+          - continuation/continue:
+              parameters: '{ "build-and-test-api": true,"build-and-test": true}'
+              configuration_path: ./config.yml
 
 workflows:
-  setup-workflow:
+  setup-workflow-auto:
     jobs:
-      - path-filtering/filter:
-          mapping: |
-            api/.* build-and-test-api true
-            mon-pix/.* build-and-test true
-          # Optional, defaults to main:
-          base-revision: dev
+      - auto
+      - manual
+
