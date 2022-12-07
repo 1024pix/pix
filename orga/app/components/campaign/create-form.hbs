@@ -134,7 +134,10 @@
           @options={{this.targetProfilesOptions}}
           @hideDefaultOption={{true}}
           @value={{this.targetProfile.id}}
-          {{! TODO: Mettre un message quand il y a aucune option }}
+          @errorMessage="{{if
+            @errors.targetProfile
+            (t 'api-errors-messages.campaign-creation.target-profile-required')
+          }}"
           @emptySearchMessage=""
           @placeholder={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
           @isSearchable={{true}}
@@ -143,11 +146,6 @@
           aria-describedby="target-profile-info"
           aria-required={{true}}
         />
-        {{#if @errors.targetProfile}}
-          <div class="form__error error-message">
-            {{display-campaign-errors @errors.targetProfile}}
-          </div>
-        {{/if}}
         {{#if this.targetProfile}}
           <div class="form__field-info" id="target-profile-info">
             <span class="form__field-info-title">
