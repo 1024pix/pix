@@ -35,6 +35,27 @@
     />
   </section>
 
+  <section class="form-section">
+    <PixInput
+      @id="dataProtectionOfficerFirstName"
+      @label="Prénom du DPO"
+      onchange={{this.handleDataProtectionOfficerFirstNameChange}}
+      class="form-field"
+    />
+    <PixInput
+      @id="dataProtectionOfficerLastName"
+      @label="Nom du DPO"
+      onchange={{this.handleDataProtectionOfficerLastNameChange}}
+      class="form-field"
+    />
+    <PixInput
+      @id="dataProtectionOfficerEmail"
+      @label="Adresse e-mail du DPO"
+      onchange={{this.handleDataProtectionOfficerEmailChange}}
+      class="form-field"
+    />
+  </section>
+
   <section class="form-section form-actions form-section--actions">
     <PixButton
       @size="small"
