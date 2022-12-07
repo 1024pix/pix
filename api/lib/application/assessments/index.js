@@ -1,11 +1,9 @@
 const Joi = require('joi');
+const { featureToggles } = require('../../config');
 const assessmentController = require('./assessment-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
-
-// eslint-disable-next-line node/no-process-env
-const NOT_RUNNING_IN_PRODUCTION = process.env.NODE_ENV != 'production';
 
 exports.register = async (server) => {
   const routes = [
@@ -177,7 +175,7 @@ exports.register = async (server) => {
     },
   ];
 
-  if (NOT_RUNNING_IN_PRODUCTION) {
+  if (featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled) {
     routes.push({
       method: 'POST',
       path: '/api/admin/assessments/{id}/auto-validate-next-challenge',

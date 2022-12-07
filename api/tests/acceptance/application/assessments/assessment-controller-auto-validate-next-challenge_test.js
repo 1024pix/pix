@@ -7,6 +7,7 @@ const {
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
+const settings = require('../../../../lib/config');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
@@ -46,13 +47,21 @@ const learningContent = [
 ];
 
 describe('Acceptance | API | assessment-controller-auto-validate-next-challenge', function () {
+  let originalEnvValue;
   let server;
   let assessmentId;
 
   beforeEach(async function () {
+    originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
+    settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
+
     server = await createServer();
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
+  });
+
+  afterEach(function () {
+    settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = originalEnvValue;
   });
 
   describe('POST /api/admin/assessments/:id/auto-validate-next-challenge', function () {
