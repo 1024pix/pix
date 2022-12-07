@@ -64,7 +64,7 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
     settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = originalEnvValue;
   });
 
-  describe('POST /api/admin/assessments/:id/auto-validate-next-challenge', function () {
+  describe('POST /api/admin/assessments/:id/always-ok-validate-next-challenge', function () {
     let userId;
 
     beforeEach(async function () {
@@ -87,7 +87,7 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
       // when
       const response = await server.inject({
         method: 'POST',
-        url: `/api/admin/assessments/${assessmentId}/auto-validate-next-challenge`,
+        url: `/api/admin/assessments/${assessmentId}/always-ok-validate-next-challenge`,
         headers: {
           authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
         },
