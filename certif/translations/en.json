@@ -40,8 +40,7 @@
             "403": "Access to this Pix Certif space is limited to invited members. Each Pix Certif space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
             "404": "This email address doesn't match any Pix user.",
             "409": "This invitation has been already accepted or cancelled.",
-            "412": "This invitation has already been accepted.",
-            "429": "Too many requests in a short time. Please retry in a few minutes."
+            "412": "This invitation has already been accepted."
           }
         },
         "title": "Already have an account?",
