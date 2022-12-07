@@ -64,7 +64,6 @@ export default class SigninForm extends Component {
         httpStatusCodeMessages = {
           400: this.intl.t(ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE),
           401: this.intl.t(ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE),
-          429: this.intl.t(ENV.APP.API_ERROR_MESSAGES.TOO_MANY_REQUESTS.MESSAGE),
           default: this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE),
         };
         return httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default'];

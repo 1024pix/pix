@@ -594,8 +594,7 @@
         "status": {
           "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
           "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
-          "401-should-change-password": "Erreur, vous devez changer votre mot de passe.",
-          "429": "Trop d'essais en peu de temps. Réessayez dans quelques minutes."
+          "401-should-change-password": "Erreur, vous devez changer votre mot de passe."
         }
       },
       "forgot-password": "Mot de passe oublié ?",

@@ -45,7 +45,6 @@ export default class LoginForm extends Component {
       504: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
       401: error,
       403: error,
-      429: error,
       default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default'];

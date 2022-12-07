@@ -8,7 +8,6 @@ const { disconnect } = require('./db/knex-database-connection');
 const cache = require('./lib/infrastructure/caches/learning-content-cache');
 const temporaryStorage = require('./lib/infrastructure/temporary-storage/index');
 const redisMonitor = require('./lib/infrastructure/utils/redis-monitor');
-const redisRateLimiter = require('./lib/infrastructure/utils/redis-rate-limiter');
 
 let server;
 
@@ -33,8 +32,6 @@ async function _exitOnSignal(signal) {
   await temporaryStorage.quit();
   logger.info('Closing connexions to redis monitor...');
   await redisMonitor.quit();
-  logger.info('Closing connexions to redis rate limiter...');
-  await redisRateLimiter.quit();
   logger.info('Exiting process...');
 }
 
