@@ -1,6 +1,15 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": "stylelint-config-standard-scss",
   "rules": {
+    "scss/operator-no-unspaced": null,
+    "selector-class-pattern": null,
+    "scss/no-global-function-names": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "scss/at-mixin-pattern": null,
+    "scss/at-extend-no-missing-placeholder": null,
+    "selector-id-pattern": null,
+    "selector-pseudo-class-no-unknown": null,
+    "scss/double-slash-comment-whitespace-inside": null,
     "at-rule-no-unknown": [
       true, { "ignoreAtRules": ["else", "extend", "if", "include", "mixin", "warn"] }
     ],
