@@ -1,4 +1,5 @@
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+const settings = require('../../../../lib/config');
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 const moduleUnderTest = require('../../../../lib/application/assessments');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
@@ -96,6 +97,17 @@ describe('Unit | Application | Router | assessment-router', function () {
   });
 
   describe('POST /api/admin/assessments/{id}/auto-validate-next-challenge', function () {
+    let originalEnvValue;
+
+    beforeEach(async function () {
+      originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
+      settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
+    });
+
+    afterEach(function () {
+      settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = originalEnvValue;
+    });
+
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
       // given
       sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
