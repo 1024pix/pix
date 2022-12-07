@@ -4,6 +4,7 @@ WORKDIR /code
 COPY . .
 
 RUN npm ci
+RUN npm install -g ember-cli 
 
 CMD [ "npm", "run", "start:watch" ]
 
