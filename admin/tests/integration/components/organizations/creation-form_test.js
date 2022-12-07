@@ -59,4 +59,17 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     assert.strictEqual(this.organization.dataProtectionOfficerLastName, 'Ptipeu');
     assert.strictEqual(this.organization.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
   });
+
+  test('Credits can be added', async function (assert) {
+    // given
+    await render(
+      hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+    );
+
+    // when
+    await fillByLabel('Crédits', 120);
+
+    // then
+    assert.strictEqual(this.organization.credit, 120);
+  });
 });

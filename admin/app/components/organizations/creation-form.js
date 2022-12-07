@@ -24,6 +24,11 @@ export default class OrganizationCreationForm extends Component {
   }
 
   @action
+  handleCreditsChange(event) {
+    this.args.organization.credit = +event.target.value;
+  }
+
+  @action
   handleDataProtectionOfficerFirstNameChange(event) {
     this.args.organization.dataProtectionOfficerFirstName = event.target.value;
   }
