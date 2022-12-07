@@ -13,6 +13,9 @@ services:
       target: dev
     volumes:
       - ../api:/code 
-      - ./dev/api/node_modules/:/code/node_modules/  
+      - api_node_modules:/code/node_modules/  
       - .env:/code/.env 
     command: ["bash", "-c", "npm install && npm run start:watch"]
+
+volumes:
+  api_node_modules:
