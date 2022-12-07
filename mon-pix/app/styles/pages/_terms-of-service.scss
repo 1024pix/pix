@@ -9,39 +9,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 581px;
   margin: auto;
   padding: 40px 32px;
   background: white;
   border-radius: 8px;
-  max-width: 581px;
 
   &__logo {
     margin-bottom: 24px;
 
     & img {
       display: flex;
-      margin: auto;
       height: 75px;
+      margin: auto;
     }
   }
 
   &__title,
   &__description {
-    text-align: center;
     color: $pix-neutral-80;
     font-family: $font-roboto;
+    text-align: center;
   }
 
   &__title {
+    margin-bottom: 8px;
     font-weight: 300;
     font-size: 2.125rem;
-    margin-bottom: 8px;
   }
 
   &__description {
     margin-bottom: 40px;
-    font-size: 1rem;
     font-weight: normal;
+    font-size: 1rem;
   }
 
   &__actions {
@@ -54,9 +54,9 @@
 .terms-of-service-form-conditions {
 
   &__validation-error {
+    margin-top: 16px;
     color: $error;
     font-weight: normal;
-    margin-top: 16px;
   }
 }
 

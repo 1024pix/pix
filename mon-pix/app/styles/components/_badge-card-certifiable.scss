@@ -6,15 +6,15 @@
 }
 
 .badge-card-certifiable {
-  align-items: center;
-  background-color: $pix-success-5;
-  border-radius: 16px;
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
   justify-content: center;
   margin-bottom: 20px;
   padding: 20px 35px;
+  background-color: $pix-success-5;
+  border-radius: 16px;
 
   &--not-acquired {
     background-color: $pix-neutral-10;
@@ -26,14 +26,14 @@
   }
 
   &__header h3 {
-    font-size: 1.25rem;
     font-weight: $font-normal;
+    font-size: 1.25rem;
   }
 
-  @include device-is('tablet') {
-    height: 253px;
+  @include device-is("tablet") {
     flex-grow: 0;
     width: calc(50% - 10px);
+    height: 253px;
 
     &:nth-child(even) {
       margin-left: 20px;

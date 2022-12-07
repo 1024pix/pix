@@ -1,13 +1,13 @@
 .rounded-panel {
+  margin-bottom: 30px;
   background-color: $pix-neutral-0;
   border-radius: 10px;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
-  margin-bottom: 30px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
 
   &--strong {
     padding-bottom: 30px;
     border-radius: 10px;
-    box-shadow: 0 50px 54px -40px rgba(0, 0, 0, 0.4), 0 7px 14px 0 rgba(12, 22, 58, 0.1);
+    box-shadow: 0 50px 54px -40px rgb(0 0 0 / 40%), 0 7px 14px 0 rgb(12 22 58 / 10%);
   }
 
   &--over-background-banner {
@@ -16,7 +16,7 @@
     width: 100%;
     margin-top: -205px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       max-width: 980px;
     }
   }
@@ -35,16 +35,16 @@
 }
 
 .rounded-panel hr {
-  margin-left: -20px;
   margin-right: -20px;
+  margin-left: -20px;
 }
 
 .rounded-panel-one-line-header {
   margin-bottom: 16px;
   text-align: center;
 
-  @include device-is('tablet') {
-    margin: 0 14px 30px 14px;
+  @include device-is("tablet") {
+    margin: 0 14px 30px;
     text-align: left;
   }
 }
@@ -52,13 +52,13 @@
 .rounded-panel-header-with-components {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  align-items: center;
 
-  @include device-is('tablet') {
-    height: 205px;
+  @include device-is("tablet") {
     flex-direction: row;
+    height: 205px;
     border-bottom: 1px dashed $pix-neutral-22;
   }
 }
@@ -74,7 +74,7 @@
     justify-content: center;
     margin: 10px 0;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin: 0 30px 0 0;
     }
   }
@@ -90,19 +90,19 @@
     flex-direction: column;
     align-items: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: row;
       overflow: auto;
     }
   }
 
   &__competence-card {
-    margin: 12px 10px;
     width: 100%;
+    margin: 12px 10px;
 
-    @include device-is('tablet') {
-      margin: 16px 10px;
+    @include device-is("tablet") {
       width: auto;
+      margin: 16px 10px;
     }
 
     &:first-child,
@@ -111,7 +111,7 @@
     }
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     width: auto;
   }
 }
@@ -123,14 +123,14 @@
   }
 
   &__content--first-title {
-    font-size: 1.625rem;
     color: $pix-neutral-90;
-    font-family: $font-open-sans;
     font-weight: $font-light;
-    letter-spacing: 0.009rem;
+    font-size: 1.625rem;
+    font-family: $font-open-sans;
     line-height: 2.75rem;
+    letter-spacing: 0.009rem;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       font-size: 2rem;
       line-height: 3.375rem;
     }
@@ -141,7 +141,7 @@
 .rounded-panel-title {
   text-align: center;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     display: block;
     text-align: left;
   }

@@ -1,10 +1,10 @@
 .student-information-form {
 
   &__tooltip {
-    display: block;
     position: absolute;
     right: 0;
     z-index: 100;
+    display: block;
     color: $pix-communication-dark;
 
     strong {

@@ -4,24 +4,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 24px;
     width: auto;
+    padding: 10px 24px;
   }
 
   &__burger-icon {
+    display: inline-flex;
     padding: 0;
-    background: none;
-    border: none;
     color: $pix-neutral-70;
     font-size: 1.625rem;
-    display: inline-flex;
+    background: none;
+    border: none;
     cursor: pointer;
   }
 
   &__logo {
     display: flex;
-    margin-left: auto;
     align-items: center;
+    margin-left: auto;
   }
 }
 
@@ -30,8 +30,8 @@
   &__marianne {
 
     > img {
-      margin-left: 12px;
       height: 45px;
+      margin-left: 12px;
     }
   }
 }

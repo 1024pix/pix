@@ -1,17 +1,17 @@
 .button {
-  font-family: $font-roboto;
-  font-size: 1rem;
+  padding: 5px;
+  color: $pix-neutral-0;
   font-weight: 500;
+  font-size: 1rem;
+  font-family: $font-roboto;
   letter-spacing: 0.012rem;
   text-align: center;
-  border-radius: 5px;
   background-color: $pix-primary;
-  color: $pix-neutral-0;
-  cursor: pointer;
   border: none;
+  border-radius: 5px;
   outline: none;
+  cursor: pointer;
   transition: background-color 0.2s ease;
-  padding: 5px 5px;
 
   &:hover,
   &:active,
@@ -31,13 +31,13 @@
   }
 
   &--uppercase {
-    text-transform: uppercase;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
   &--round {
-    padding-left: 20px;
     padding-right: 20px;
+    padding-left: 20px;
     border-radius: 25px;
   }
 
@@ -65,9 +65,9 @@
   }
 
   &--grey {
+    color: $pix-neutral-80;
     background: $pix-neutral-15;
     border: 2px solid $pix-neutral-40;
-    color: $pix-neutral-80;
 
     &:hover,
     &:active,
@@ -78,8 +78,8 @@
   }
 
   &--green {
-    background: $pix-success-60;
     color: white;
+    background: $pix-success-60;
 
     &:hover,
     &:active,
@@ -89,8 +89,8 @@
   }
 
   &--red {
-    background: $pix-error-60;
     color: $pix-neutral-0;
+    background: $pix-error-60;
 
     &:hover,
     &:active,
@@ -101,25 +101,25 @@
   }
 
   &--yellow {
-    background: $pix-warning-10;
     color: $pix-neutral-100;
     font-weight: $font-bold;
     font-size: 0.906rem;
-    box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    background: $pix-warning-10;
+    box-shadow: 0 2px 6px 0 rgb(12 22 58 / 11%), 0 1px 3px 0 rgb(0 0 0 / 8%);
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-warning-10;
       color: $pix-neutral-100;
+      background-color: $pix-warning-10;
     }
   }
 
   &--dark-grey {
-    background-color: $pix-neutral-60;
     color: $pix-neutral-0;
     font-weight: $font-bold;
     font-size: 0.938rem;
+    background-color: $pix-neutral-60;
 
     &:hover,
     &:active,
@@ -129,8 +129,8 @@
   }
 
   &--white {
-    background-color: $pix-neutral-0;
     color: $pix-neutral-110;
+    background-color: $pix-neutral-0;
 
     &:hover,
     &:active,
@@ -140,8 +140,8 @@
   }
 
   &--no-color {
-    background-color: transparent;
     color: $pix-neutral-100;
+    background-color: transparent;
 
     &:hover,
     &:active,
@@ -161,21 +161,21 @@
     }
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 14px 20px;
   }
 }
 
 .icon-button {
-  color: $pix-neutral-60;
   padding: 4px 8px;
-  border: none;
+  color: $pix-neutral-60;
   font-size: 1rem;
   background-color: transparent;
-  cursor: pointer;
-  outline: none;
-  transition: 0.2s ease;
+  border: none;
   border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease;
 
   &:hover,
   &:active {
@@ -185,22 +185,22 @@
 
 .loader-in-button {
   display: flex;
-  background: url('/images/loader-white.svg') no-repeat center;
+  background: url("/images/loader-white.svg") no-repeat center;
   background-size: 50px;
 }
 
 .link {
-  outline: none;
-  border: none;
-  background-color: inherit;
   color: $pix-primary;
   text-decoration: none;
+  background-color: inherit;
+  border: none;
+  outline: none;
 
   &:hover,
   &:focus,
   &:active {
-    text-decoration: underline;
     color: $pix-primary-60;
+    text-decoration: underline;
     cursor: pointer;
   }
 

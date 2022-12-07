@@ -4,26 +4,26 @@
   @mixin leftElement {
     position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 
   @mixin rightElement {
     min-width: 90px;
-    text-align: center;
     padding-right: 36px;
+    text-align: center;
   }
 
   &__title {
     @include leftElement;
 
-    font-family: $font-roboto;
+    padding-left: 16px;
+    font-weight: normal;
     font-size: 0.9rem;
+    font-family: $font-roboto;
+    line-height: 1rem;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    padding-left: 16px;
-    line-height: 1rem;
-    font-weight: normal;
 
     &--level {
       @include rightElement;
@@ -35,12 +35,12 @@
   &__competence {
     @include leftElement;
 
-    color: $pix-neutral-80;
     height: 100%;
-    font-family: $font-open-sans;
-    font-size: 1rem;
-    padding: 20px 0 20px 36px;
     margin: 0;
+    padding: 20px 0 20px 36px;
+    color: $pix-neutral-80;
+    font-size: 1rem;
+    font-family: $font-open-sans;
 
     &--level {
       @include rightElement;
@@ -51,12 +51,12 @@
 
     &::before {
       position: absolute;
-      content: "";
+      top: 10px;
       left: 16px;
       width: 3px;
       height: calc(100% - 20px);
       border-radius: 1.5px;
-      top: 10px;
+      content: "";
     }
 
     &--disabled {
@@ -69,9 +69,9 @@
   }
 
   > * {
-    border-bottom: 1.5px $pix-neutral-10 solid;
     height: 75px;
     min-height: 60px;
+    border-bottom: 1.5px $pix-neutral-10 solid;
   }
 
   > :last-child {
@@ -117,13 +117,13 @@
   @include coloriseElements($environment-light);
 }
 
-@include device-is('mobile') {
+@include device-is("mobile") {
 
   .user-certifications-detail-competence {
 
     &__title {
-      font-size: 0.875rem;
       font-weight: $font-normal;
+      font-size: 0.875rem;
 
       &--level {
         padding-right: 0;

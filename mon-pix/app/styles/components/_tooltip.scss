@@ -1,30 +1,30 @@
 .tooltip {
 
   &__tag {
-    border: none;
-    background-color: transparent;
     position: relative;
+    top: 6px;
     width: 45px;
     height: 40px;
     margin-top: -23px;
     margin-right: -17px;
-    top: 6px;
-    background-size: contain;
+    background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
+    border: none;
 
-    @include device-is('tablet') {
-      margin-top: -25px;
+    @include device-is("tablet") {
       width: 85px;
       height: 80px;
+      margin-top: -25px;
     }
 
     &--focused {
-      background-image: url('/images/tag-focused-challenge.svg');
+      background-image: url("/images/tag-focused-challenge.svg");
     }
 
     &--regular {
-      background-image: url('/images/tag-regular-challenge.svg');
+      background-image: url("/images/tag-regular-challenge.svg");
     }
   }
 }
@@ -40,33 +40,33 @@
 
   &__information {
     position: absolute;
-    background-color: $pix-neutral-0;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
+    top: -10px;
+    right: 50px;
     z-index: 300;
-    min-width: 220px;
     width: 40vw;
+    min-width: 220px;
     max-width: 300px;
     padding: 24px;
-    right: 50px;
-    top: -10px;
+    background-color: $pix-neutral-0;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
 
-    @include device-is('tablet') {
-      right: 80px;
+    @include device-is("tablet") {
       top: -60px;
+      right: 80px;
     }
 
     &::before {
-      content: " ";
       position: absolute;
       top: 20px;
       left: 100%;
       margin-top: -5px;
-      border-width: 15px;
-      border-style: solid;
       border-color: transparent transparent transparent white;
+      border-style: solid;
+      border-width: 15px;
+      content: " ";
 
-      @include device-is('tablet') {
+      @include device-is("tablet") {
         top: 80px;
       }
     }
@@ -85,10 +85,10 @@
 
   &__title {
     margin-bottom: 16px;
-    line-height: 1rem;
-    font-family: $font-roboto;
-    font-size: 1.125rem;
     font-weight: $font-medium;
+    font-size: 1.125rem;
+    font-family: $font-roboto;
+    line-height: 1rem;
 
     &--focused {
       font-weight: $font-bold;
@@ -96,13 +96,13 @@
   }
 
   &__text {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    line-height: 1.375rem;
     display: block;
-    text-align: left;
     font-weight: $font-normal;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
     letter-spacing: 0;
+    text-align: left;
   }
 
   &__button {

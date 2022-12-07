@@ -1,34 +1,34 @@
 .logged-user-details {
-  margin: auto 0;
   display: flex;
+  margin: auto 0;
 }
 
 .caret {
+  display: inline-block;
   width: 0;
   height: 0;
-  border-style: solid;
-  border-width: 4px 4px 0 4px;
-  border-color: $pix-neutral-60 transparent transparent transparent;
-  display: inline-block;
   margin: auto 0 auto 2px;
+  border-color: $pix-neutral-60 transparent transparent transparent;
+  border-style: solid;
+  border-width: 4px 4px 0;
 }
 
 .logged-user-name__link {
-  text-decoration: none;
   color: $pix-neutral-60;
-  cursor: pointer;
   font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
 
   &:visited,
   &:focus,
   &:active {
-    text-decoration: none;
     color: $pix-neutral-60;
+    text-decoration: none;
   }
 
   &:hover {
-    text-decoration: none;
     color: $pix-primary-40;
+    text-decoration: none;
 
     > .caret {
       border-color: $pix-primary-40 transparent transparent transparent;
@@ -37,48 +37,48 @@
 }
 
 .logged-user-name {
-  word-break: break-all;
-  font-family: $font-roboto;
-  letter-spacing: 0.031rem;
-  text-align: right;
-  color: $pix-neutral-60;
-  text-transform: capitalize;
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0;
-  border: none;
-  background-color: transparent;
   display: flex;
   align-items: center;
+  max-width: 150px;
+  padding: 0;
+  overflow: hidden;
+  color: $pix-neutral-60;
+  font-family: $font-roboto;
+  letter-spacing: 0.031rem;
+  white-space: nowrap;
+  text-align: right;
+  text-transform: capitalize;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  background-color: transparent;
+  border: none;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     max-width: none;
   }
 }
 
 .logged-user-menu {
   position: absolute;
-  right: 0;
   top: 80px;
+  right: 0;
   z-index: 999;
-  background-color: $pix-neutral-0;
-  max-width: 380px;
   min-width: 240px;
-  border-radius: 4px;
+  max-width: 380px;
   overflow: hidden;
-  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
+  background-color: $pix-neutral-0;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgb(60 64 67 / 8%), 0 1px 3px 1px rgb(60 64 67 / 16%);
 
   &__details {
+    padding: 12px 16px;
     color: $pix-neutral-80;
     background-color: $pix-neutral-10;
-    padding: 12px 16px;
   }
 
   &__actions {
-    padding-left: 0;
     margin: 0;
+    padding-left: 0;
 
     & > li {
       list-style: none;
@@ -87,26 +87,26 @@
 }
 
 .logged-user-menu-details__fullname {
-  font-size: 1rem;
-  font-weight: $font-bold;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: $font-bold;
+  font-size: 1rem;
+  white-space: nowrap;
   text-transform: capitalize;
+  text-overflow: ellipsis;
 }
 
 .logged-user-menu__link {
   display: flex;
   align-items: center;
-  font-size: 0.938rem;
   padding: 12px 16px;
   color: $pix-neutral-80;
-  transition: background-color 0.1s linear;
+  font-size: 0.938rem;
   border-top: 1px solid $pix-neutral-15;
+  transition: background-color 0.1s linear;
 
   &:hover {
-    text-decoration: none;
     color: $pix-neutral-80;
+    text-decoration: none;
     background-color: $pix-neutral-10;
   }
 

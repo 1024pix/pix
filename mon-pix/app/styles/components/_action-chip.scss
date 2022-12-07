@@ -1,23 +1,23 @@
 .action-chip {
   width: 36px;
   height: 36px;
-  background: $pix-neutral-0;
-  border-radius: 50%;
-  border: 1px solid $pix-neutral-10;
   text-align: center;
+  background: $pix-neutral-0;
+  border: 1px solid $pix-neutral-10;
+  border-radius: 50%;
 
   &__icon {
-    left: calc(50% - 20px / 2);
     top: 0%;
     bottom: 0%;
+    left: calc(50% - 20px / 2);
     color: $pix-neutral-50;
     font-size: 18px;
   }
 
   &:hover {
-    cursor: pointer;
-    border: 1.4px solid $pix-neutral-50;
     background: $pix-neutral-10;
+    border: 1.4px solid $pix-neutral-50;
+    cursor: pointer;
   }
 
   &:disabled {
@@ -42,8 +42,8 @@
 
     &:focus-visible {
       background-color: $pix-primary;
-      box-shadow: 0 0 0 3px $pix-primary;
       border-color: $pix-neutral-0;
+      box-shadow: 0 0 0 3px $pix-primary;
 
       .action-chip__icon {
         color: $pix-neutral-0;
@@ -53,9 +53,9 @@
 
   &:not(.action-chip--selected):focus-visible {
     background-color: $pix-neutral-60;
-    box-shadow: 0 0 0 3px $pix-neutral-60;
     border-color: $pix-neutral-0;
     outline: none;
+    box-shadow: 0 0 0 3px $pix-neutral-60;
 
     .action-chip__icon {
       color: $pix-neutral-0;

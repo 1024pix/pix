@@ -4,17 +4,17 @@
   align-items: center;
   width: auto;
   height: 110px;
-  border-radius: 4px;
-  border: none;
-  outline: none;
   padding: 8px 0;
   background-color: $pix-neutral-0;
+  border: none;
+  border-radius: 4px;
+  outline: none;
 
   &:nth-child(odd) {
     background: $pix-neutral-10;
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     height: 70px;
     padding: 0;
   }
@@ -22,40 +22,40 @@
 
 .result-item__instruction {
   width: 82%;
-  font-size: 1rem;
   margin-left: 10px;
   overflow: hidden;
+  font-size: 1rem;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     width: 60%;
     margin-left: 30px;
   }
 }
 
 .result-item__correction {
-  font-size: 0.75rem;
   margin-right: 26px;
   margin-left: 35px;
+  font-size: 0.75rem;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     margin-left: auto;
   }
 }
 
 .result-item__correction-button {
+  color: $pix-primary-60;
   font-weight: $font-normal;
   font-size: 0.875rem;
-  color: $pix-primary-60;
+  background-color: transparent;
   border: none;
   outline: none;
-  background-color: transparent;
 
   &:hover,
   &:focus,
   &:active {
     color: $dark-blue-pro;
-    cursor: pointer;
     text-decoration: underline;
+    cursor: pointer;
   }
 }
 
@@ -63,7 +63,7 @@
   margin-left: 10px;
   font-size: 1.375rem;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     margin-left: 30px;
   }
 

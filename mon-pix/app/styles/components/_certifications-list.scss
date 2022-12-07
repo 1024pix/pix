@@ -1,11 +1,11 @@
 .certifications-list {
-  background-color: transparent;
   justify-content: space-around;
-  font-size: 0.625rem;
   color: $pix-neutral-80;
+  font-size: 0.625rem;
   font-family: $font-open-sans;
+  background-color: transparent;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     font-size: 0.875rem;
   }
 }
@@ -24,11 +24,11 @@
 
 .certifications-list__table-row-item {
   display: flex;
+  flex-basis: 0;
   flex-flow: row nowrap;
   flex-grow: 1;
-  flex-basis: 0;
-  padding: 5px 2%;
   align-items: center;
+  padding: 5px 2%;
 }
 
 .certifications-list__table-header {
@@ -60,7 +60,7 @@
 }
 
 .certifications-list__table-body {
-  border-radius: 5px;
   background-color: white;
-  box-shadow: 0 2px 6px 0 rgba(51, 51, 51, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  box-shadow: 0 2px 6px 0 rgb(51 51 51 / 10%), 0 1px 3px 0 rgb(0 0 0 / 8%);
 }

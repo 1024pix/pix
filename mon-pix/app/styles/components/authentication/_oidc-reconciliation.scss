@@ -3,60 +3,60 @@
   &__title,
   &__subtitle,
   &__information {
-    text-align: center;
     color: $pix-neutral-90;
+    text-align: center;
   }
 
   &__title {
     @include h2;
 
-    text-align: center;
     padding-top: $spacing-l;
+    text-align: center;
   }
 
   &__subtitle {
     @include h4;
 
-    padding: $spacing-s 0 $spacing-xxs 0;
-    margin: 0;
     display: block;
+    margin: 0;
+    padding: $spacing-s 0 $spacing-xxs 0;
   }
 
   &__information {
     @include subheading;
 
-    font-weight: 400;
     margin-bottom: $spacing-xxl;
+    font-weight: 400;
   }
 
   &__container {
     display: flex;
-    min-height: 500px;
     flex-direction: column;
     align-items: center;
+    min-height: 500px;
   }
 
   &__user-information {
-    background-color: $pix-neutral-10;
-    width: 570px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: $spacing-xs;
+    width: 570px;
     padding-top: $spacing-l;
+    background-color: $pix-neutral-10;
+    border-radius: $spacing-xs;
 
     svg {
-      color: $pix-neutral-50;
-      height: 120px;
       min-width: 120px;
+      height: 120px;
+      color: $pix-neutral-50;
     }
 
     p {
       @include h4;
 
-      color: $pix-neutral-90;
-      padding-top: $spacing-xs;
       margin: 0;
+      padding-top: $spacing-xs;
+      color: $pix-neutral-90;
     }
   }
 
@@ -78,30 +78,29 @@
     p {
       @include subheading;
 
-      font-weight: 400;
       color: $pix-neutral-90;
+      font-weight: 400;
     }
   }
 
   &__user-authentication-methods-list {
+    padding: $spacing-l $spacing-xl;
     background-color: $pix-neutral-0;
     border-radius: $spacing-xs;
-    padding: $spacing-l $spacing-xl;
 
     dd,
     dt {
       display: inline;
+      color: $pix-neutral-90;
 
       @include text-large;
-
-      color: $pix-neutral-90;
     }
 
     dt {
       display: inline-block;
-      font-weight: 500;
       width: 38%;
       padding: $spacing-xxs 0;
+      font-weight: 500;
     }
   }
 
@@ -113,8 +112,8 @@
   }
 
   &__arrow {
-    height: 70px;
     min-width: 50px;
+    height: 70px;
     color: $pix-neutral-15;
   }
 
@@ -142,10 +141,10 @@
   }
 
   &__action-buttons {
-    padding-top: $spacing-l;
-    width: 100%;
     display: flex;
-    justify-content: center;
     gap: $spacing-m;
+    justify-content: center;
+    width: 100%;
+    padding-top: $spacing-l;
   }
 }

@@ -8,16 +8,16 @@
     justify-content: space-between;
     width: 97vw;
     max-width: 880px;
-    border-radius: 10px;
     padding: 20px 3px;
+    border-radius: 10px;
 
-    @include device-is('large-screen') {
+    @include device-is("large-screen") {
       width: 100vw;
-      padding: 40px 100px;
       max-width: 1080px;
+      padding: 40px 100px;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       align-items: center;
       padding: 20px 2px;
     }
@@ -32,35 +32,35 @@
 
   &__logo {
     display: flex;
+    width: 159px;
     height: 123px;
     margin: auto;
-    width: 159px;
   }
 
   &__invitation {
-    font-family: $font-roboto;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: $pix-neutral-60;
-    text-align: center;
     margin-top: 24px;
+    color: $pix-neutral-60;
+    font-weight: 500;
+    font-size: 1.25rem;
+    font-family: $font-roboto;
+    text-align: center;
   }
 
   &__forms-container {
     display: flex;
-    margin-top: 10px;
-    min-height: 500px;
     flex-flow: row;
     justify-content: space-around;
+    min-height: 500px;
+    margin-top: 10px;
 
-    @include device-is('large-screen') {
+    @include device-is("large-screen") {
       flex-flow: row;
       justify-content: space-between;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       flex-flow: column;
-      margin: 10px 20px 0 20px;
+      margin: 10px 20px 0;
     }
   }
 
@@ -68,7 +68,7 @@
     display: flex;
     flex-direction: column;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: 360px;
     }
   }
@@ -86,9 +86,6 @@
     flex-direction: column;
     max-height: 0;
     overflow-y: hidden;
-    -webkit-transition: max-height 0.4s ease-in-out;
-    -moz-transition: max-height 0.4s ease-in-out;
-    -o-transition: max-height 0.4s ease-in-out;
     transition: max-height 0.4s ease-in-out;
 
     &--expanded {
@@ -98,9 +95,9 @@
 }
 
 .form-title {
-  color: $pix-neutral-100;
-  font-family: $font-open-sans;
-  font-size: 1.875rem;
-  font-weight: $font-light;
   margin-bottom: 20px;
+  color: $pix-neutral-100;
+  font-weight: $font-light;
+  font-size: 1.875rem;
+  font-family: $font-open-sans;
 }

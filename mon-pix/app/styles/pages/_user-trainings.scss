@@ -1,46 +1,46 @@
 .user-trainings-banner {
   margin: 0 24px;
-  font-family: $font-roboto;
-  font-weight: $font-light;
   padding-bottom: 16px;
+  font-weight: $font-light;
+  font-family: $font-roboto;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     max-width: 1280px;
-    padding: 0 20px 16px 20px;
     margin: 0 auto;
+    padding: 0 20px 16px;
   }
 
   &__title {
     color: $pix-neutral-90;
+    font-weight: $font-normal;
     font-size: 2rem;
     font-family: $font-open-sans;
-    font-weight: $font-normal;
-    letter-spacing: 0.0093rem;
     line-height: 2.6875rem;
+    letter-spacing: 0.0093rem;
   }
 
   &__description {
     margin: 0;
-    padding: 8px 0 32px 0;
+    padding: 8px 0 32px;
     color: $pix-neutral-60;
-    font-family: $font-roboto;
     font-weight: $font-normal;
     font-size: 1rem;
-    letter-spacing: 0.0093rem;
+    font-family: $font-roboto;
     line-height: 1.375rem;
+    letter-spacing: 0.0093rem;
   }
 }
 
 .user-trainings-content {
-  padding: 20px 32px;
-  width: 100%;
-  min-height: inherit;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-height: inherit;
   margin: 24px auto;
+  padding: 20px 32px;
   color: $pix-neutral-90;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 40px 0;
   }
 
@@ -53,24 +53,24 @@
     margin: 0 auto;
     padding: 0 20px;
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       max-width: 1280px;
     }
   }
 
   &__list {
     display: grid;
-    padding: 0;
     grid-template-columns: 1fr;
+    padding: 0;
     column-gap: 24px;
-    row-gap: 24px;
     list-style: none;
+    row-gap: 24px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }

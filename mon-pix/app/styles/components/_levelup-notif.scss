@@ -1,22 +1,22 @@
 .levelup {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: fixed;
   top: 10px;
   right: 10px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 300px;
   height: 80px;
+  color: $pix-neutral-70;
+  background-color: rgb(255 255 255 / 92%);
   border-radius: 5px;
   box-shadow: 0 0 10px $pix-neutral-80;
-  color: $pix-neutral-70;
-  animation-duration: 1s;
   animation-name: slidein;
+  animation-duration: 1s;
   user-select: none;
-  background-color: rgba(255, 255, 255, 0.92);
-  z-index: 100;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     width: 362px;
   }
 
@@ -28,9 +28,9 @@
     position: absolute;
     top: 31px;
     left: 45px;
+    font-weight: $font-bold;
     font-size: 1.5rem;
     font-family: $font-open-sans;
-    font-weight: $font-bold;
   }
 
   &__competence {
@@ -41,25 +41,25 @@
   }
 
   &__close {
-    background-color: transparent;
-    cursor: pointer;
-    color: $pix-neutral-50;
-    font-size: 1.5rem;
-    width: 70px;
-    border: none;
-    border-left: 1px solid $pix-neutral-20;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 70px;
     padding: 0;
+    color: $pix-neutral-50;
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: none;
+    border-left: 1px solid $pix-neutral-20;
+    cursor: pointer;
 
     &:hover,
     &:focus,
     &:active {
       color: $pix-neutral-70;
       background-color: $pix-neutral-15;
-      border-bottom-right-radius: 5px;
       border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
     }
   }
 }
@@ -67,23 +67,23 @@
 .levelup-competence {
 
   &__level {
-    font-size: 1rem;
+    margin-bottom: 2px;
     font-weight: $font-bold;
+    font-size: 1rem;
     font-family: $font-open-sans;
     text-transform: uppercase;
-    margin-bottom: 2px;
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       font-size: 0.875rem;
     }
   }
 
   &__name {
     font-size: 0.875rem;
-    line-height: 1.125rem;
     font-family: $font-roboto;
+    line-height: 1.125rem;
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       font-size: 0.813rem;
     }
   }
@@ -92,12 +92,12 @@
 @keyframes slidein {
 
   from {
-    opacity: 0;
     right: -500px;
+    opacity: 0;
   }
 
   to {
-    opacity: 1;
     right: 10px;
+    opacity: 1;
   }
 }

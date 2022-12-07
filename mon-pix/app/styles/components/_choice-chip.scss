@@ -1,35 +1,35 @@
 .pix-choice-chip {
-  border-radius: 50px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: $font-medium;
-  white-space: nowrap;
-  letter-spacing: 0.028rem;
-  cursor: pointer;
-  background: $pix-neutral-10;
-  border: 2px solid transparent;
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-decoration: none;
+  justify-content: center;
   padding: 6px 16px;
   color: $pix-neutral-50;
+  font-weight: $font-medium;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.028rem;
+  white-space: nowrap;
+  text-decoration: none;
+  background: $pix-neutral-10;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
 
   &--active {
-    background: $pix-primary-10;
     color: $pix-primary-70;
+    background: $pix-primary-10;
   }
 
   &:hover {
-    background: $pix-neutral-20;
     color: $pix-neutral-90;
+    background: $pix-neutral-20;
   }
 
   &:focus-visible {
+    color: $pix-neutral-0;
     background-color: $pix-neutral-60;
-    box-shadow: 0 0 0 2px $pix-neutral-60;
     border-color: $pix-neutral-0;
     outline: none;
-    color: $pix-neutral-0;
+    box-shadow: 0 0 0 2px $pix-neutral-60;
   }
 }

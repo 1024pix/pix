@@ -1,9 +1,9 @@
 .send-profile-header {
-  padding: 30px 10px;
   margin-top: -160px;
   margin-bottom: 32px;
+  padding: 30px 10px;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     padding: 32px 24px;
   }
 
@@ -20,40 +20,40 @@
 
   &__title {
     color: $pix-neutral-90;
-    font-family: $font-open-sans;
-    font-size: 2rem;
-    text-align: center;
     font-weight: $font-light;
+    font-size: 2rem;
+    font-family: $font-open-sans;
+    text-align: center;
   }
 
   &__instruction {
+    margin: 30px;
     color: $pix-neutral-90;
+    font-weight: $font-light;
     font-size: 1.25rem;
     font-family: $font-open-sans;
     line-height: 2.5rem;
     text-align: center;
-    margin: 30px;
-    font-weight: $font-light;
   }
 
   &__form {
     display: flex;
     flex-flow: column;
     align-items: center;
-    border-radius: 6px;
-    background-color: $pix-neutral-10;
     padding: 20px;
+    background-color: $pix-neutral-10;
+    border-radius: 6px;
   }
 
   &__profile {
-    border-top: 1px dashed  $pix-neutral-22;
-    padding-top: 36px;
-    padding-bottom: 22px;
-    margin-top: 24px;
-    margin-bottom: 39px;
     display: flex;
     flex-flow: column;
     align-items: center;
+    margin-top: 24px;
+    margin-bottom: 39px;
+    padding-top: 36px;
+    padding-bottom: 22px;
+    border-top: 1px dashed  $pix-neutral-22;
 
     &--with-border-bottom {
       border-bottom: 1px dashed  $pix-neutral-22;
@@ -66,29 +66,29 @@
   }
 
   &__recipient {
-    color: $pix-neutral-90;
-    font-family: $font-open-sans;
-    font-size: 1.25rem;
-    font-weight: $font-medium;
     margin-top: 0;
+    color: $pix-neutral-90;
+    font-weight: $font-medium;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
   }
 }
 
 .send-profile-disabled-share {
 
   &__text {
-    font-size: 1.375rem;
     max-width: 640px;
     margin: 30px auto 60px;
-    font-family: $font-open-sans;
-    font-weight: $font-light;
     color: $pix-neutral-35;
+    font-weight: $font-light;
+    font-size: 1.375rem;
+    font-family: $font-open-sans;
     text-align: center;
   }
 
   &__back-to-home {
-    font-size: 1rem;
     font-weight: $font-bold;
+    font-size: 1rem;
     font-family: $font-open-sans;
     text-align: center;
   }

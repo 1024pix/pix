@@ -1,9 +1,11 @@
 input.input-code {
   box-sizing: content-box;
-  border: solid 2px $pix-neutral-20;
-  border-radius: 3px;
   min-height: 50px;
   padding: 0 1px 1px 0.5ch;
+  color: $pix-neutral-70;
+  font-size: 1.875rem;
+  font-family: $font-roboto-mono;
+  letter-spacing: 0.5ch;
   text-transform: uppercase;
   background:
     repeating-linear-gradient(
@@ -14,10 +16,8 @@ input.input-code {
         transparent 1.5ch
       ) 0 96%/98% 2px no-repeat;
   background-origin: content-box;
-  color: $pix-neutral-70;
-  font-size: 1.875rem;
-  font-family: $font-roboto-mono;
-  letter-spacing: 0.5ch;
+  border: solid 2px $pix-neutral-20;
+  border-radius: 3px;
 
   @media all and (-ms-high-contrast: none) {
     //display differently for IE because 1 character (ch) is equal to 1.162

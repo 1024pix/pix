@@ -2,15 +2,15 @@
 
   &__panel {
     padding-top: 30px;
-    padding-left: 12px;
     padding-right: 12px;
+    padding-left: 12px;
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
 
     &__panel {
-      padding-left: 30px;
       padding-right: 30px;
+      padding-left: 30px;
     }
   }
 }
