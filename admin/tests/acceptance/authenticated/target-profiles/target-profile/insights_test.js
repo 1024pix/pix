@@ -1,4 +1,4 @@
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, fillIn, click } from '@ember/test-helpers';
 import { visit, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -323,6 +323,52 @@ module('Acceptance | Target Profile Insights', function (hooks) {
       });
 
       test('it should create a badge', async function (assert) {
+        // given
+        const tubeThematicDeux = server.create('new-tube', {
+          id: 'tubeThematicDeuxNiveauQuatre',
+          name: '@tubeThematicDeuxNiveauQuatre',
+          practicalTitle: 'Mon tube thématique 2 de niveau quatre',
+          practicalDescription: 'Un tube très intéressant de niveau quatre',
+          mobile: false,
+          tablet: true,
+          level: 4,
+        });
+        const tubeThematicUn = server.create('new-tube', {
+          id: 'tubeThematicUnNiveauDeux',
+          name: '@tubeThematicUnNiveauDeux',
+          practicalTitle: 'Mon tube thématiqe 1 de niveau deux',
+          mobile: false,
+          tablet: false,
+          level: 2,
+        });
+        const thematicDeux = server.create('new-thematic', {
+          id: 'thematicDeux',
+          index: '2',
+          name: 'thematicDeux',
+          tubes: [tubeThematicDeux],
+        });
+        const thematicUn = server.create('new-thematic', {
+          id: 'thematicUn',
+          index: '1',
+          name: 'thematicUn',
+          tubes: [tubeThematicUn],
+        });
+        const competenceUn = server.create('new-competence', {
+          id: 'competenceUn',
+          name: 'competenceUn',
+          index: '1.1',
+          thematics: [thematicUn, thematicDeux],
+        });
+        const areaUn = server.create('new-area', {
+          id: 'areaUn',
+          title: 'areaUn',
+          code: '1',
+          color: 'blue',
+          frameworkId: 'frameworkId',
+          competences: [competenceUn],
+        });
+        targetProfile.update({ newAreas: [areaUn] });
+
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
@@ -335,7 +381,37 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         await clickByName('Certifiable :');
         await clickByName('Lacunes :');
         await clickByName("Sur l'ensemble du profil cible");
-        await fillByLabel('* Taux de réussite pour obtenir le RT :', 50);
+        await clickByName('Sur une sélection de sujets du profil cible');
+        await clickByName('Ajouter une nouvelle sélection de sujets');
+
+        const [tubeGroupNameInput] = screen.getAllByLabelText('Nom du critère :');
+        await fillIn(tubeGroupNameInput, "Le tube de l'année");
+
+        const thresholdInputs = screen.getAllByLabelText('* Taux de réussite requis :');
+        await fillIn(thresholdInputs[0], 50);
+        await fillIn(thresholdInputs[1], 60);
+        await fillIn(thresholdInputs[2], 70);
+
+        const areaButtons = screen.getAllByText('1 · areaUn');
+        await click(areaButtons[0]);
+        await click(areaButtons[1]);
+
+        const competenceButtons = screen.getAllByText('1.1 competenceUn');
+        await click(competenceButtons[0]);
+        await click(competenceButtons[1]);
+
+        const thematicUnButtons = screen.getAllByText('thematicUn');
+        await click(thematicUnButtons[0]);
+        const thematicDeuxButtons = screen.getAllByText('thematicDeux');
+        await click(thematicDeuxButtons[1]);
+
+        const selectLevelTubeThematicUnNiveauDeux = screen.getAllByTestId('select-level-tube-tubeThematicUnNiveauDeux');
+        const selectLevelTubeThematicDeuxNiveauQuatre = screen.getAllByTestId(
+          'select-level-tube-tubeThematicDeuxNiveauQuatre'
+        );
+        await fillIn(selectLevelTubeThematicUnNiveauDeux[0], 2);
+        await fillIn(selectLevelTubeThematicDeuxNiveauQuatre[1], 3);
+
         await clickByName('Enregistrer le RT');
         await clickByName('Détails du badge Mon nouveau RT');
 
@@ -352,6 +428,15 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
           'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil-cible.'
+        );
+        const labelsForCappedTubes = screen.getAllByTestId('toujourstriste');
+        assert.deepEqual(
+          labelsForCappedTubes[0].innerText,
+          "L'évalué doit obtenir 60% sur le groupe Le tube de l'année possédant les sujets plafonnés par niveau suivants :"
+        );
+        assert.deepEqual(
+          labelsForCappedTubes[1].innerText,
+          "L'évalué doit obtenir 70% sur tous les sujets plafonnés par niveau suivants :"
         );
       });
 

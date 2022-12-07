@@ -2,6 +2,7 @@ import {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  createTargetProfile,
   findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
@@ -262,7 +263,7 @@ export default function () {
 
   this.get('/admin/frameworks');
 
-  this.post('/admin/target-profiles');
+  this.post('/admin/target-profiles', createTargetProfile);
   this.get('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);
