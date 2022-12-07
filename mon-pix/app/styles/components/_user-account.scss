@@ -1,34 +1,34 @@
 .user-account {
 
   &__title {
-    margin: 0 0 8px;
-    padding-bottom: 26px;
-    font-family: $font-open-sans;
-    font-size: 3rem;
-    font-weight: 300;
-    color: $pix-neutral-0;
     position: relative;
     right: 0;
+    margin: 0 0 8px;
+    padding-bottom: 26px;
+    color: $pix-neutral-0;
+    font-weight: 300;
+    font-size: 3rem;
+    font-family: $font-open-sans;
     text-align: center;
   }
 
   &__validation-title {
-    text-align: center;
-    font-size: 1.5rem;
     padding-bottom: 16px;
     color: $pix-neutral-90;
-    font-family: $font-open-sans;
     font-weight: 400;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+    text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       text-align: start;
     }
   }
 
   &__menu-and-content {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
 
     .pix-block {
       width: auto;
@@ -36,8 +36,8 @@
   }
 
   &__menu-block {
-    margin: 32px 26px;
     height: max-content;
+    margin: 32px 26px;
 
     .user-account-menu {
 
@@ -56,15 +56,15 @@
         }
 
         &:last-child a {
-          border-radius: 0 0 4px 4px;
           border-bottom: none;
+          border-radius: 0 0 4px 4px;
         }
       }
 
       &__link {
         display: block;
-        color: $pix-neutral-60;
         padding: 16px 60px 16px 20px;
+        color: $pix-neutral-60;
 
         svg {
           margin-right: 8px;
@@ -87,21 +87,21 @@
 
   &__content.pix-block {
     flex-grow: 1;
-    height: max-content;
-    padding: 14px 24px;
-    margin: 32px 0;
     max-width: 600px;
+    height: max-content;
+    margin: 32px 0;
+    padding: 14px 24px;
 
-    @include device-is('mobile') {
-      padding: 16px;
+    @include device-is("mobile") {
       min-width: 100%;
       max-width: 100%;
       margin: 0;
+      padding: 16px;
     }
   }
 
   &__error-message {
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       max-width: 520px;
       margin-bottom: 10px;
     }

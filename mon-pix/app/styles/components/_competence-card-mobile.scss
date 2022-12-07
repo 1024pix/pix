@@ -3,47 +3,47 @@
   top: 0;
   overflow: hidden;
   font-family: $font-roboto;
-  box-shadow: $box-shadow-competence-cards;
+  background-color: white;
   border: 1px solid $pix-neutral-20;
   border-radius: 11px;
+  box-shadow: $box-shadow-competence-cards;
   transition: all 0.1s linear;
-  -webkit-tap-highlight-color: rgba($pix-neutral-60, 0.3);
   pointer-events: none;
-  background-color: white;
+  -webkit-tap-highlight-color: rgba($pix-neutral-60, 0.3);
 
   &--interactive {
     pointer-events: auto;
   }
 
   & a {
-    text-decoration: none;
     color: $pix-neutral-0;
+    text-decoration: none;
   }
 }
 
 .competence-card__title {
+  position: relative;
   display: flex;
   flex-direction: column;
-  color: $pix-neutral-0;
-  height: 100%;
-  position: relative;
-  transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.99);
-  overflow: visible;
-  padding: 16px 12px;
   width: 100%;
+  height: 100%;
+  padding: 16px 12px;
+  overflow: visible;
+  color: $pix-neutral-0;
+  transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.99);
 }
 
 .competence-card__wrapper {
 
   &::after {
+    position: absolute;
+    top: -90px;
+    right: -50px;
+    bottom: -90px;
+    left: -80px;
     width: 110%;
     border-radius: 100%;
-    position: absolute;
-    content: '';
-    right: -50px;
-    left: -80px;
-    top: -90px;
-    bottom: -90px;
+    content: "";
   }
 
   &--jaffa::after {
@@ -68,41 +68,42 @@
 }
 
 .competence-card__area-name {
-  font-size: 0.688rem;
-  letter-spacing: 0.031rem;
-  opacity: 0.8;
-  text-transform: uppercase;
-  font-weight: $font-bold;
   position: relative;
   margin-bottom: 8px;
+  font-weight: $font-bold;
+  font-size: 0.688rem;
+  letter-spacing: 0.031rem;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
 .competence-card__competence-name {
-  font-size: 1.125rem;
-  font-weight: $font-medium;
   position: relative;
+  font-weight: $font-medium;
+  font-size: 1.125rem;
 }
 
 .competence-card__body {
+  z-index: 1;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  height: 80px;
   margin: 10px;
   border: 0 solid rgba($pix-neutral-0, 0.4);
   transition: border 0.1s ease-in;
-  z-index: 1;
-  height: 80px;
 
   &--white-background {
+    padding: 5px;
     background-color: white;
     background-clip: padding-box;
     border-radius: 50%;
-    padding: 5px;
   }
 }
 
 .competence-card__link {
+  z-index: 1;
   display: flex;
   align-items: center;
   padding: 5px;
@@ -111,7 +112,6 @@
   border: 0 solid rgba($pix-neutral-0, 0.4);
   border-radius: 50%;
   transition: border 0.1s ease-in;
-  z-index: 1;
 }
 
 .competence-card__level {
@@ -131,14 +131,14 @@
 }
 
 .competence-card__congrats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 130px;
   height: 140px;
-  background: url('/images/scorecard-congrats.svg') no-repeat center center;
-  background-size: contain;
   margin: -10px -5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: url("/images/scorecard-congrats.svg") no-repeat center center;
+  background-size: contain;
 
   &--small {
     width: 90px;

@@ -1,12 +1,12 @@
 .sign-form-page {
   display: flex;
+  align-items: center;
   justify-content: center;
-  background: $pix-primary-app-gradient;
-  background-size: cover;
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  align-items: center;
+  background: $pix-primary-app-gradient;
+  background-size: cover;
 
   abbr {
     text-decoration: none;
@@ -18,16 +18,16 @@
   &__container {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-around;
     width: 95%;
     max-width: 609px;
-    border-radius: 10px;
-    background-color: $pix-neutral-0;
     margin: 0 auto;
     padding: 20px 10px;
+    background-color: $pix-neutral-0;
+    border-radius: 10px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: 609px;
       margin: 20px 0;
       padding: 40px 80px;
@@ -42,19 +42,19 @@
   }
 
   &__body {
-    align-items: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
   }
 
   &__notification-message {
     width: 100%;
-    text-align: center;
     color: $pix-neutral-0;
-    font-size: 1rem;
     font-weight: 400;
+    font-size: 1rem;
     line-height: 1.625rem;
+    text-align: center;
 
     &--success {
       color: $pix-success-70;
@@ -76,13 +76,13 @@
 
   &__subtitle {
     display: flex;
-    padding: 5px 20px 24px 20px;
     flex-direction: column;
-    text-align: center;
-    font-family: $font-open-sans;
+    padding: 5px 20px 24px;
     font-size: 1rem;
+    font-family: $font-open-sans;
+    text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: row;
     }
   }
@@ -91,7 +91,7 @@
     width: 100%;
     margin: 10px 0 40px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin: 24px 0 40px;
 
       &--short {
@@ -113,15 +113,15 @@
   }
 
   &__input {
-    max-width: 449px;
     width: 100%;
+    max-width: 449px;
     padding: 0 20px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       padding: 0;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       padding: 0;
     }
   }
@@ -129,18 +129,18 @@
   &__bottom-button {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 5px auto 20px;
 
     &--big {
       margin: 10px auto;
 
-      @include device-is('desktop') {
+      @include device-is("desktop") {
         margin: 30px auto;
       }
 
-      @include device-is('mobile') {
+      @include device-is("mobile") {
         width: 280px;
       }
     }
@@ -148,36 +148,36 @@
 
   &__bottom-decoration {
     width: 100%;
+    margin: 30px 0 40px;
+    line-height: 0.1rem;
     text-align: center;
     border-bottom: 1.5px solid $pix-neutral-20;
-    line-height: 0.1rem;
-    margin: 30px 0 40px;
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       width: 100%;
     }
 
     span {
-      font-size: 16px;
-      color: $pix-neutral-80;
-      background: $pix-neutral-0;
       padding: 0 10px;
+      color: $pix-neutral-80;
+      font-size: 16px;
+      background: $pix-neutral-0;
     }
   }
 
   &__pole-emploi-connect-link {
     $pole-emploi: #1B2E57;
 
-    border-radius: 100px;
     display: flex;
     align-items: center;
+    padding: 7px 10px 7px 13px;
+    color: $pix-neutral-0;
+    font-weight: bold;
+    font-size: 14px;
     text-decoration: none;
     background-color: $pole-emploi;
-    color: $pix-neutral-0;
-    padding: 7px 10px 7px 13px;
-    font-size: 14px;
-    font-weight: bold;
     border: 2px solid transparent;
+    border-radius: 100px;
 
     &:focus,
     &:hover,
@@ -197,49 +197,49 @@
 
   &__forgotten-password-link {
     align-self: flex-end;
-    margin: 5px 0 20px 0;
+    margin: 5px 0 20px;
   }
 }
 
 // Text Styles
 
 .sign-form-title {
-  font-family: $font-open-sans;
-  color: $pix-neutral-80;
   margin: 0;
-  font-size: 1.563rem;
+  color: $pix-neutral-80;
   font-weight: $font-light;
+  font-size: 1.563rem;
+  font-family: $font-open-sans;
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     font-size: 2.25rem;
   }
 }
 
 .sign-form-subtitle {
-  font-family: $font-open-sans;
   color: $pix-neutral-80;
-  font-size: 0.938rem;
   font-weight: $font-light;
+  font-size: 0.938rem;
+  font-family: $font-open-sans;
   line-height: 28px;
   text-align: center;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     font-size: 1.375rem;
   }
 }
 
 .sign-form-instruction {
-  font-size: 0.938rem;
-  font-weight: $font-light;
   color: $pix-neutral-80;
+  font-weight: $font-light;
+  font-size: 0.938rem;
 }
 
 .sign-form-text {
   color: $pix-neutral-80;
-  font-family: $font-open-sans;
   font-size: 0.625rem;
+  font-family: $font-open-sans;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     font-size: 0.938rem;
   }
 }

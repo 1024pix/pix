@@ -3,7 +3,7 @@
   margin-bottom: 32px;
   padding: 14px 24px;
 
-  @include device-is('mobile') {
+  @include device-is("mobile") {
 
     .pix-block {
       padding: 16px;
@@ -12,14 +12,14 @@
 }
 
 .user-certifications-detail-header {
-  font-family: $font-open-sans;
   display: flex;
   flex-direction: row;
   padding: 32px 0;
+  font-family: $font-open-sans;
 
   &__info-certificate {
-    color: $pix-neutral-80;
     align-self: center;
+    color: $pix-neutral-80;
 
     & > * {
       margin: 0;
@@ -57,29 +57,29 @@
     }
   }
 
-  @include device-is('mobile') {
+  @include device-is("mobile") {
     flex-wrap: wrap;
     justify-content: center;
     padding: 16px;
   }
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     flex-wrap: wrap;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     flex-wrap: nowrap;
   }
 }
 
 .attestation-and-verification-code {
+  padding: 16px 20px;
   background-color: $pix-neutral-10;
   border-radius: 8px;
-  padding: 16px 20px;
 
   .attestation {
-    font-size: 0.875rem;
     margin: auto;
+    font-size: 0.875rem;
     text-align: center;
 
     button {
@@ -88,9 +88,9 @@
     }
 
     &__error-message {
-      color: $error;
       max-width: 250px;
       margin-top: 15px;
+      color: $error;
     }
   }
 
@@ -100,66 +100,66 @@
   }
 
   .verification-code {
-    font-family: $font-open-sans;
-    color: $pix-neutral-90;
     max-width: 250px;
     margin: auto;
+    color: $pix-neutral-90;
+    font-family: $font-open-sans;
     letter-spacing: 0;
 
     &__title {
       display: flex;
-      font-size: 1rem;
       padding: 0;
       padding-bottom: 8px;
       font-weight: initial;
+      font-size: 1rem;
     }
 
     &__box {
-      padding: 10px 20px;
-      border: 1.5px $pix-neutral-22 dashed;
-      border-radius: 4px;
-      background-color: $pix-neutral-5;
       display: flex;
       align-items: baseline;
       justify-content: center;
+      padding: 10px 20px;
+      background-color: $pix-neutral-5;
+      border: 1.5px $pix-neutral-22 dashed;
+      border-radius: 4px;
 
       .verification-code__code {
-        padding: 0;
         margin: 0;
-        font-size: 1.25rem;
-        font-weight: bold;
-        letter-spacing: 0.3px;
         margin-right: 6px;
+        padding: 0;
+        font-weight: bold;
+        font-size: 1.25rem;
+        letter-spacing: 0.3px;
       }
 
       .verification-code__copy-button {
-        border: none;
-        background: none;
-        cursor: pointer;
         padding: 0;
         color: $pix-primary;
         font-size: 1.25rem;
+        background: none;
+        border: none;
+        cursor: pointer;
 
         &:hover { color: darken($pix-primary, 20%); }
       }
     }
 
     &__informations {
-      font-size: 0.8125rem;
       margin: 0;
       margin-top: 8px;
+      font-size: 0.8125rem;
       line-height: 20px;
     }
   }
 
-  @include device-is('tablet') {
-    margin-left: 0;
+  @include device-is("tablet") {
     flex-grow: 1;
+    margin-left: 0;
   }
 
-  @include device-is('desktop') {
-    margin-left: auto;
+  @include device-is("desktop") {
     flex-grow: 0;
+    margin-left: auto;
 
     .verification-code,
     .attestation {

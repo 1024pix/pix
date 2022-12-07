@@ -1,10 +1,10 @@
 .skill-review {
 
   &__banner {
-    width: 100%;
-    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
   }
 
   &__result-and-action {
@@ -14,7 +14,7 @@
     justify-content: center;
     margin: auto;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: row;
       align-items: flex-start;
       justify-content: flex-start;
@@ -22,14 +22,14 @@
   }
 
   &__retry {
-    border-top: 1px dashed $pix-neutral-22;
     color: $pix-neutral-100;
-    text-align: center;
+    font-weight: $font-light;
     font-size: 1.125rem;
     font-family: $font-open-sans;
-    font-weight: $font-light;
+    text-align: center;
+    border-top: 1px dashed $pix-neutral-22;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin-top: 32px;
       padding: 0 32px;
       font-size: 1.5rem;
@@ -54,9 +54,9 @@
     max-width: 980px;
     margin-bottom: 32px;
     padding: 40px 10px;
-    box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 0.1), 0 3px 6px 0 rgba(black, 0.1);
+    box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 0.1), 0 3px 6px 0 rgb(0 0 0 / 0.1);
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       padding: 32px 48px;
     }
   }
@@ -66,15 +66,15 @@
   }
 
   &__organization-message {
-    border-radius: 5px;
     display: flex;
-    padding: 24px;
     flex-direction: column;
+    padding: 24px;
+    border-radius: 5px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: row;
-      border-radius: 32px 0 32px 32px;
       padding: 32px;
+      border-radius: 32px 0 32px 32px;
     }
   }
 
@@ -83,20 +83,20 @@
   }
 
   &__begin-improvement {
-    border-bottom: 1px dashed $pix-neutral-22;
-    padding: 30px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 30px;
+    padding: 30px;
+    border-bottom: 1px dashed $pix-neutral-22;
   }
 
   &__explain-text {
-    font-size: 1.5rem;
     color: $pix-neutral-60;
-    line-height: 33px;
     font-weight: $font-light;
+    font-size: 1.5rem;
+    line-height: 33px;
   }
 
   &__improvement-button {
@@ -104,32 +104,32 @@
   }
 
   &__net-promoter-score {
-    align-items: center;
     display: flex;
     gap: 40px;
+    align-items: center;
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       flex-direction: column;
     }
   }
 
   &-net-promoter-score__logo > img {
-    height: 103px;
-    min-width: 123px;
     width: 123px;
+    min-width: 123px;
+    height: 103px;
   }
 
   &-net-promoter-score__content {
-    align-items: flex-start;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 
     > h2 {
       color: $pix-neutral-60;
       font-size: 16px;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       align-items: center;
       text-align: center;
     }
@@ -139,8 +139,8 @@
 .skill-review-retry {
 
   &__button {
-    font-size: 0.875rem;
     padding: 10px;
+    font-size: 0.875rem;
   }
 }
 
@@ -148,33 +148,33 @@
 
   &__title {
     color: $pix-neutral-100;
-    font-family: $font-open-sans;
     font-size: 1.5rem;
+    font-family: $font-open-sans;
     text-align: center;
   }
 
   &__description {
     margin: 0.5rem 0 2rem;
-    font-family: $font-open-sans;
-    font-size: 1.125rem;
     color: $pix-neutral-45;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
     line-height: 1.8rem;
     text-align: center;
   }
 
   &__list {
     display: grid;
-    padding: 0;
     grid-template-columns: 1fr;
+    padding: 0;
     column-gap: 24px;
-    row-gap: 24px;
     list-style: none;
+    row-gap: 24px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       grid-template-columns: 1fr 1fr;
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       grid-template-columns: 1fr 1fr 1fr;
     }
   }
@@ -202,11 +202,11 @@
   }
 
   &__text {
-    padding-left: 14px;
     margin-top: 14px;
+    padding-left: 14px;
     color: $pix-neutral-60;
-    font-family: $font-open-sans;
     font-size: 0.875rem;
+    font-family: $font-open-sans;
   }
 }
 
@@ -220,8 +220,8 @@
   }
 
   &__border {
-    padding: 0.5rem 0;
     margin-right: 1rem;
+    padding: 0.5rem 0;
     border-style: solid;
     border-width: 1.5px;
     border-radius: 1.5px;
@@ -257,22 +257,22 @@
 
   &__circle-chart-value {
     color: $pix-neutral-100;
-    font-family: $font-roboto;
     font-size: 1.938rem;
+    font-family: $font-roboto;
   }
 }
 
 .skill-review-organization-message {
 
   &__logo {
-    text-align: center;
     margin-bottom: 16px;
+    text-align: center;
 
     img {
       width: 118px;
     }
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       min-width: 118px;
       margin-right: 32px;
       margin-bottom: 0;
@@ -280,25 +280,25 @@
   }
 
   &__title {
-    color: $pix-neutral-60;
-    font-family: $font-open-sans;
-    font-size: 1rem;
-    font-weight: $font-bold;
     margin: 0;
+    color: $pix-neutral-60;
+    font-weight: $font-bold;
+    font-size: 1rem;
+    font-family: $font-open-sans;
   }
 
   &__organization-name {
+    margin: 8px 0;
     color: $pix-neutral-90;
+    font-weight: $font-normal;
     font-size: 1.5rem;
     font-family: $font-open-sans;
-    font-weight: $font-normal;
-    margin: 8px 0;
   }
 
   &__text {
     color: $pix-neutral-90;
-    font-family: $font-roboto;
     font-size: 1rem;
+    font-family: $font-roboto;
     line-height: 1.625rem;
 
     p {
@@ -307,14 +307,14 @@
   }
 
   &__link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 12px;
+    color: $pix-neutral-0;
+    font-size: 0.875rem;
+    text-decoration: none;
     background-color: $pix-primary;
     border-radius: 4px;
-    color: $pix-neutral-0;
-    padding: 8px 12px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.875rem;
-    margin-top: 12px;
     cursor: pointer;
 
     svg {
@@ -326,32 +326,32 @@
 .skill-review-result-abstract {
 
   &__text {
+    margin: 16px 0;
+    color: $pix-neutral-90;
+    font-weight: $font-light;
+    font-size: 1.625rem;
+    font-family: $font-open-sans;
+    line-height: 2.75rem;
+    letter-spacing: 0.009rem;
     text-align: center;
     text-transform: none;
-    margin: 16px 0;
-    font-size: 1.625rem;
-    color: $pix-neutral-90;
-    font-family: $font-open-sans;
-    font-weight: $font-light;
-    letter-spacing: 0.009rem;
-    line-height: 2.75rem;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       font-size: 2rem;
       line-height: 3.375rem;
     }
 
     > strong {
-      color: $pix-primary;
       display: inline-block;
+      color: $pix-primary;
       font-weight: 300;
     }
   }
 
   &__subtext {
+    margin: 40px 0;
     color: $pix-neutral-90;
     font-weight: $font-bold;
-    margin: 40px 0;
     text-align: center;
   }
 
@@ -360,13 +360,13 @@
   }
 
   &__share-container {
-    padding: 16px 40px 0 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding: 16px 40px 0;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
 
       &--left {
         align-items: flex-start;
@@ -376,22 +376,22 @@
 }
 
 .badge-container {
-  border-bottom: 1px dashed $pix-neutral-22;
-  padding-bottom: 24px;
   margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed $pix-neutral-22;
 }
 
 .skill-review-result-detail {
 
   &__badge-subtitle {
-    color: $pix-neutral-100;
-    font-family: $font-open-sans;
-    font-size: 1.5rem;
-    font-weight: $font-normal;
     margin: 0 0 24px;
+    color: $pix-neutral-100;
+    font-weight: $font-normal;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       text-align: left;
     }
   }
@@ -399,11 +399,11 @@
   &__information {
     display: flex;
     align-items: center;
-    text-align: left;
-    margin: 10px;
     max-width: 850px;
+    margin: 10px;
+    text-align: left;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin: auto;
     }
   }
@@ -411,87 +411,87 @@
   &__table-header {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    text-align: center;
+    justify-content: space-between;
     margin-bottom: 32px;
+    text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: row;
     }
   }
 
   &__subtitle {
-    color: $pix-neutral-100;
-    font-family: $font-open-sans;
-    font-size: 1.5rem;
-    font-weight: $font-normal;
     margin-bottom: 32px;
+    color: $pix-neutral-100;
+    font-weight: $font-normal;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
   }
 }
 
 .skill-review-share {
 
   &__stage-congrats {
+    padding: 20px 40px 0;
     text-align: center;
-    padding: 20px 40px 0 40px;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       text-align: left;
     }
   }
 
   &__legal {
     margin: 4px 0;
-    font-family: $font-roboto;
-    font-size: 0.85rem;
     color: $pix-neutral-45;
-    line-height: 2rem;
     font-weight: $font-normal;
+    font-size: 0.85rem;
+    font-family: $font-roboto;
+    line-height: 2rem;
   }
 
   &__thanks {
-    font-family: $font-open-sans;
+    margin-bottom: 16px;
+    padding: 16px;
+    color: $pix-success-70;
     font-weight: $font-semi-bold;
     font-size: 1rem;
+    font-family: $font-open-sans;
     line-height: 2rem;
-    padding: 16px;
-    margin-bottom: 16px;
-    border-radius: 4px;
-    color: $pix-success-70;
     background-color: $pix-success-5;
+    border-radius: 4px;
   }
 
   &__error {
+    padding-bottom: 10px;
     color: $pix-warning-60;
     font-size: 0.938rem;
-    padding-bottom: 10px;
   }
 
   &__back-to-home {
-    font-size: 1rem;
+    margin-bottom: 16px;
     font-weight: $font-bold;
+    font-size: 1rem;
     font-family: $font-open-sans;
     text-align: center;
-    margin-bottom: 16px;
   }
 
   &__badge-icons {
     display: flex;
+    flex-basis: 100%;
     flex-direction: column;
     height: 89px;
-    flex-basis: 100%;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       flex-direction: row;
     }
   }
 
   &__button {
-    margin: 0 auto;
     max-width: fit-content;
+    margin: 0 auto;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin: 0;
     }
   }
@@ -516,10 +516,10 @@
   }
 
   &--not-certifiable {
+    margin: 16px 0 0;
     background-color: $pix-neutral-10;
-    margin: 16px 0 0 0;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       margin: 0 0 0 16px;
     }
   }
@@ -528,9 +528,9 @@
 .skill-review-share-error {
 
   &__message {
+    padding-bottom: 10px;
     color: #F45C00;
     font-size: 0.938rem;
-    padding-bottom: 10px;
   }
 
   &__button {
@@ -541,8 +541,8 @@
 
 .skill-review__disabled-share {
   position: relative;
-  text-align: center;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .skill-review-disabled-share {
@@ -552,31 +552,31 @@
   }
 
   &__text {
-    font-size: 1.375rem;
-    line-height: 30px;
     max-width: 640px;
     margin: 30px auto 60px;
-    font-family: $font-open-sans;
-    font-weight: $font-light;
     color: $pix-neutral-35;
+    font-weight: $font-light;
+    font-size: 1.375rem;
+    font-family: $font-open-sans;
+    line-height: 30px;
   }
 }
 
 .stage-congrats {
 
   &__title {
-    font-family: $font-open-sans;
-    font-size: 1.875rem;
-    font-weight: $font-bold;
-    color: $pix-neutral-100;
     padding-bottom: 10px;
+    color: $pix-neutral-100;
+    font-weight: $font-bold;
+    font-size: 1.875rem;
+    font-family: $font-open-sans;
   }
 
   &__message {
-    font-family: $font-open-sans;
-    font-size: 1.125rem;
-    font-weight: $font-normal;
     color: $pix-neutral-45;
+    font-weight: $font-normal;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
     line-height: 1.8rem;
 
     & p {

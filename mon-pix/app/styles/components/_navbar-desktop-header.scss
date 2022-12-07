@@ -1,13 +1,13 @@
 .navbar-desktop-header {
 
   &__container {
-    margin: 0 auto;
-    max-width: 1280px;
+    position: relative;
     display: flex;
     flex-direction: row;
-    padding: 20px;
     align-items: center;
-    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
   }
 }
 
@@ -15,10 +15,10 @@
 
   &__menu {
     display: flex;
-    margin-left: 68px;
-    margin-right: 20px;
-    padding-left: 0;
     width: 100%;
+    margin-right: 20px;
+    margin-left: 68px;
+    padding-left: 0;
   }
 }
 
@@ -30,35 +30,35 @@
   }
 
   &__item {
-    margin-left: 20px;
     margin-right: 20px;
+    margin-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
     list-style: none;
   }
 
   &__link {
+    color: $pix-neutral-60;
     font-size: 1rem;
     font-family: $font-roboto;
-    color: $pix-neutral-60;
     text-decoration: none;
 
     &.active {
-      text-decoration: none;
       padding-bottom: 5px;
       color: $pix-primary-60;
+      text-decoration: none;
       border-bottom: 2px solid $pix-primary-60;
     }
 
     &:focus {
-      text-decoration: none;
       color: $pix-neutral-60;
+      text-decoration: none;
     }
 
     &:hover {
+      color: $pix-primary-60;
       text-decoration: none;
       cursor: pointer;
-      color: $pix-primary-60;
     }
   }
 }
@@ -74,20 +74,20 @@
 
 .navbar-desktop-header-right {
   display: flex;
-  padding: 0;
+  justify-content: flex-end;
   margin: 0;
   margin-left: auto;
-  justify-content: flex-end;
+  padding: 0;
 }
 
 /* Logo
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .navbar-desktop-header-logo {
-  display: flex;
   position: relative;
-  align-items: center;
+  display: flex;
   gap: 40px;
+  align-items: center;
 
   &__link {
     display: inline-block;

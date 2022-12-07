@@ -19,15 +19,15 @@
 }
 
 button.routable-modal--close {
-  background: transparent;
-  padding: 0;
+  float: right;
   margin: 0;
+  padding: 0;
+  color: $grey-45;
   font-size: 1.25rem;
   line-height: 0.938rem;
+  background: transparent;
   border: 0;
-  color: $grey-45;
   cursor: pointer;
-  float: right;
 }
 
 button.routable-modal--close:hover,

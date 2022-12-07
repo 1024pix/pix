@@ -1,14 +1,14 @@
 .user-account-panel__item {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: $spacing-m;
-  border-top: $pix-neutral-15 1px solid;
+  justify-content: space-between;
   padding-top: 16px;
   padding-bottom: 16px;
+  border-top: $pix-neutral-15 1px solid;
 
   &--with-success-message {
-    margin: 20px 0 0 0;
+    margin: 20px 0 0;
   }
 
   &:first-child {
@@ -32,17 +32,17 @@
 }
 
 .user-account-panel-item__label {
-  min-width: 200px;
   display: flex;
   align-items: center;
+  min-width: 200px;
   margin: 0;
 }
 
 .user-account-panel-item__value {
-  color: $pix-neutral-50;
-  margin: 0;
   display: flex;
   align-items: center;
+  margin: 0;
+  color: $pix-neutral-50;
 }
 
 .user-account-panel-item__edit-button {

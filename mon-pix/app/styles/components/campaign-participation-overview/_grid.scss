@@ -1,27 +1,27 @@
 .campaign-participation-overview-grid {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
+  flex-wrap: wrap;
   padding: 0;
 
-  @include device-is('tablet') {
+  @include device-is("tablet") {
     flex-direction: row;
   }
 
   &__item {
-    list-style-type: none;
     margin-bottom: 16px;
+    list-style-type: none;
 
     &:last-child {
       margin-bottom: 0;
     }
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: calc(50% - 16px);
       margin: 8px;
     }
 
-    @include device-is('desktop') {
+    @include device-is("desktop") {
       width: calc(33% - 16px);
       margin: 8px;
     }

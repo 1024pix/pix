@@ -3,7 +3,7 @@
 /* stylelint-disable no-descending-specificity */
 
 .certification-starter {
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     padding: 50px 70px 40px;
   }
 }
@@ -11,27 +11,27 @@
 .certification-start-page {
 
   &__block {
-    padding: 12px;
     max-width: 980px;
     margin-bottom: 32px;
+    padding: 12px;
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       padding: 16px;
     }
   }
 
   &__errors {
+    margin: 5px;
     color: $pix-warning-60;
     font-size: 0.875rem;
     text-align: start;
-    margin: 5px 5px 5px 5px;
 
     &__list {
 
       li {
+        margin: 8px 0 0 16px;
         text-align: start;
         list-style: disc;
-        margin: 8px 0 0 16px;
       }
     }
 
@@ -43,14 +43,14 @@
   }
 
   &__link-to-user-certifications {
-    background-color: $pix-neutral-10;
-    border-radius: 8px;
-    color: $pix-neutral-70;
     display: flex;
     gap: 8px;
     justify-content: center;
     margin-top: 16px;
     padding: 16px;
+    color: $pix-neutral-70;
+    background-color: $pix-neutral-10;
+    border-radius: 8px;
 
     a,
     a:visited {
@@ -60,24 +60,24 @@
   }
 
   &__title {
-    color: $pix-neutral-100;
-    font-family: $font-open-sans;
-    font-size: 2.625rem;
-    font-weight: $font-light;
-    text-align: center;
     margin-bottom: 20px;
+    color: $pix-neutral-100;
+    font-weight: $font-light;
+    font-size: 2.625rem;
+    font-family: $font-open-sans;
+    text-align: center;
   }
 }
 
 .certification-starter-subscriptions {
+  margin-bottom: 32px;
   color: $pix-neutral-90;
   font-size: 0.875rem;
-  margin-bottom: 32px;
 
   &-container {
-    background-color: $pix-neutral-10;
     padding: 16px 0;
     text-align: center;
+    background-color: $pix-neutral-10;
 
     &-title {
       font-size: 1rem;
@@ -85,8 +85,8 @@
 
     &-items {
       display: flex;
-      justify-content: center;
       gap: 8px;
+      justify-content: center;
 
       &__eligible-item,
       &__non-eligible-item {
@@ -104,11 +104,11 @@
     }
 
     &__non-eligible {
-      align-items: center;
-      background-color: $yellow-alert-light;
-      color: $yellow-alert-dark;
       display: flex;
+      align-items: center;
       padding: 10px 16px;
+      color: $yellow-alert-dark;
+      background-color: $yellow-alert-light;
     }
 
     &__info-icon {
@@ -118,32 +118,32 @@
 }
 
 .certification-start-page__order {
-  color: $pix-neutral-80;
   display: block;
-  font-family: $font-open-sans;
-  font-weight: $font-light;
-  font-size: 1.25rem;
-  line-height: 28px;
-  text-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
+  color: $pix-neutral-80;
+  font-weight: $font-light;
+  font-size: 1.25rem;
+  font-family: $font-open-sans;
+  line-height: 28px;
+  text-align: center;
 }
 
 .certification-start-page__cgu {
+  margin: 5px 30px;
   color: $pix-neutral-80;
   font-size: 0.75rem;
   line-height: 18px;
   text-align: justify;
-  margin: 5px 30px 5px 30px;
 }
 
 .certification-start-page__session-code-input {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  align-items: center;
   margin-top: 20px;
   margin-bottom: 15px;
-  align-items: center;
 }
 
 #certificationStarterSessionCode {
@@ -151,60 +151,62 @@
   $nb-characters: 6;
   $total-width: $nb-characters * (1ch + $space-between-dashes);
 
-  text-transform: uppercase;
+  display: inline-block;
   box-sizing: content-box;
-  border: solid 2px $pix-neutral-20;
-  border-radius: 3px;
-  outline: none;
+  width: $total-width;
   height: 50px;
   padding: 0 0.2ch 1px 0.5ch;
-  display: inline-block;
-  width: $total-width;
+  font-size: 1.875rem;
+  font-family: $font-roboto-mono;
+  letter-spacing: $space-between-dashes;
+  text-transform: uppercase;
   background: repeating-linear-gradient(90deg,
     $pix-neutral-22 0,
     $pix-neutral-22 1ch,
     transparent 0,
     transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
-  font-size: 1.875rem;
-  font-family: $font-roboto-mono;
-  letter-spacing: $space-between-dashes;
   background-position-x: 0.5ch;
   background-position-y: 2.5ch;
+  border: solid 2px $pix-neutral-20;
+  border-radius: 3px;
+  outline: none;
 
   @media all and (-ms-high-contrast: none) {
     $ie11-modifier: 1.162;
     $space-between-dashes: $ie11-modifier*0.6ch;
     $total-width: $nb-characters * ($ie11-modifier * 1.2ch + $space-between-dashes);
-    //display differently for IE because 1 character (ch) is equal to 1.162
-    line-height: 0.7;
+
     width: $total-width;
     padding: 0 0 1px 1ch;
+
+    //display differently for IE because 1 character (ch) is equal to 1.162
+    line-height: 0.7;
     letter-spacing: $space-between-dashes;
     background: repeating-linear-gradient(90deg,
       $pix-neutral-22 0,
       $pix-neutral-22 1.3ch,
       transparent 0,
       transparent 1.3ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
-    background-origin: content-box;
-    background-position-y: 2.8ch*$ie11-modifier;
     background-position-x: 0.1ch*$ie11-modifier;
+    background-position-y: 2.8ch*$ie11-modifier;
+    background-origin: content-box;
   }
 
   &:focus {
-    outline: none;
     color: $pix-neutral-70;
+    outline: none;
   }
 }
 
 .certification-start-page__field-button {
   display: flex;
   justify-content: center;
-  margin-bottom: 25px;
   margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .certification-start-page__submit_button {
-  white-space: nowrap;
   width: content-box;
   min-width: 150px;
+  white-space: nowrap;
 }

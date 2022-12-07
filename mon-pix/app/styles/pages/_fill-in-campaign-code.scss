@@ -1,46 +1,46 @@
 .fill-in-campaign-code {
 
   &__container {
-    padding: 16px 16px $spacing-s;
-    margin-bottom: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    margin-bottom: 32px;
+    padding: 16px 16px $spacing-s;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       padding: $spacing-xl;
     }
   }
 
   &__title {
+    margin-bottom: $spacing-l;
     font-weight: $font-light;
     text-align: center;
-    margin-bottom: $spacing-l;
   }
 
   &__instruction {
-    color: $pix-neutral-100;
-    font-family: $font-open-sans;
-    font-size: 1.219rem;
-    text-align: center;
-    font-weight: $font-light;
-    margin-bottom: $spacing-s;
     max-width: 600px;
+    margin-bottom: $spacing-s;
+    color: $pix-neutral-100;
+    font-weight: $font-light;
+    font-size: 1.219rem;
+    font-family: $font-open-sans;
+    text-align: center;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: 75vw;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       width: 75vw;
     }
   }
 
   &__form-field {
     display: inline-block;
-    text-align: left;
     margin-bottom: $spacing-s;
+    text-align: left;
 
     input {
       width: 13.6ch;
@@ -50,8 +50,8 @@
   &__form {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 
   &__actions {
@@ -62,31 +62,31 @@
   }
 
   &__error {
+    margin-bottom: $spacing-s;
     color: $pix-warning-60;
     font-size: 0.875rem;
     text-align: center;
-    margin-bottom: $spacing-s;
   }
 
   &__warning {
+    margin-top: $spacing-s;
+    margin-bottom: $spacing-s;
     color: $pix-neutral-90;
     font-size: 0.875rem;
     text-align: center;
-    margin-bottom: $spacing-s;
-    margin-top: $spacing-s;
   }
 
   &__explanation {
-    text-align: center;
-    padding-top: 25px;
-    border-top: 1px solid $pix-neutral-15;
     max-width: 600px;
+    padding-top: 25px;
+    text-align: center;
+    border-top: 1px solid $pix-neutral-15;
 
-    @include device-is('tablet') {
+    @include device-is("tablet") {
       width: 75vw;
     }
 
-    @include device-is('mobile') {
+    @include device-is("mobile") {
       width: 75vw;
     }
   }

@@ -6,39 +6,39 @@
 }
 
 .form-textfield__label {
-  font-size: 0.938rem;
-  font-weight: $font-medium;
   color: $pix-neutral-80;
+  font-weight: $font-medium;
+  font-size: 0.938rem;
   letter-spacing: 0.031rem;
 }
 
 .form-textfield__help {
-  text-transform: none;
   font-weight: normal;
   letter-spacing: normal;
+  text-transform: none;
 }
 
 .form-textfield__date {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
   & .form-textfield__input-field-container,
   input {
-    text-align: center;
     width: 30%;
+    text-align: center;
   }
 }
 
 .form-textfield__input-field-container {
   display: flex;
-  height: 46px;
-  border-radius: 3px;
   align-items: center;
-  border: 2px solid $pix-neutral-20;
-  background-color: $pix-neutral-0;
   width: 100%;
+  height: 46px;
+  background-color: $pix-neutral-0;
+  border: 2px solid $pix-neutral-20;
+  border-radius: 3px;
 
   &:hover,
   &:focus,
@@ -46,7 +46,7 @@
     border: 2px solid $pix-primary-40;
   }
 
-  @include device-is('desktop') {
+  @include device-is("desktop") {
     height: 50px;
   }
 }
@@ -75,13 +75,13 @@
 }
 
 .form-textfield__input-field-container input {
-  height: 40px;
   flex-grow: 1;
+  height: 40px;
+  padding: 0 10px;
+  color: $pix-neutral-50;
   border: none;
   border-radius: 3px;
   outline: none;
-  color: $pix-neutral-50;
-  padding: 0 10px;
 
   &:focus {
     outline: none;
@@ -98,8 +98,8 @@
 }
 
 .form-textfield__message {
-  text-transform: none;
   font-size: 0.875rem;
+  text-transform: none;
 }
 
 .form-textfield__message--error {
@@ -120,20 +120,20 @@
 
 .form-textfield__icon {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   margin-top: 2px;
 }
 
 .form-textfield__icons {
   height: 20px;
   margin: 6px 8px;
-  border: none;
   background: none;
+  border: none;
 
   &:focus {
     outline: 1px solid $pix-primary;
-    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+    box-shadow: 0 0 5px 0 rgb(61 104 255 / 50%);
   }
 }
 
@@ -141,14 +141,14 @@
 
   &__button {
     display: flex;
-    border: none;
+    margin: 10px;
     padding: 0;
     background: none;
-    margin: 10px;
+    border: none;
 
     &:focus {
       outline: 1px solid $pix-primary;
-      box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+      box-shadow: 0 0 5px 0 rgb(61 104 255 / 50%);
     }
   }
 
@@ -160,10 +160,10 @@
 .form-textfield-icon-button {
 
   &__eye {
-    color: $pix-neutral-60;
-    transition: 0.5s;
-    font-size: 1.125rem;
     margin-top: 1px;
+    color: $pix-neutral-60;
+    font-size: 1.125rem;
+    transition: 0.5s;
 
     &:hover {
       color: $pix-neutral-100;
