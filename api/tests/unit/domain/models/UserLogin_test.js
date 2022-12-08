@@ -262,4 +262,24 @@ describe('Unit | Domain | Models | UserLogin', function () {
       });
     });
   });
+
+  describe('#unblockUser', function () {
+    it('should reset failure count and reset temporary blocked until', function () {
+      // given
+      const userLogin = new UserLogin({
+        userId: 666,
+        failureCount: 50,
+        temporaryBlockedUntil: new Date('2022-11-25'),
+        blockedAt: new Date('2022-12-01'),
+      });
+
+      // when
+      userLogin.unblockUser();
+
+      // then
+      expect(userLogin.failureCount).to.equal(0);
+      expect(userLogin.temporaryBlockedUntil).to.be.null;
+      expect(userLogin.blockedAt).to.be.null;
+    });
+  });
 });

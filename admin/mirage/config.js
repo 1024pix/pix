@@ -277,6 +277,17 @@ export default function () {
     });
   });
 
+  this.put('/admin/users/:id/unblock', (schema, request) => {
+    const userId = request.params.id;
+    const user = schema.users.findBy({ id: userId });
+    const userLogin = schema.userLogins.findBy({ id: user.userLoginId });
+    return userLogin.update({
+      blockedAt: null,
+      temporaryBlockedUntil: null,
+      failureCount: 0,
+    });
+  });
+
   this.post('/admin/users/:id/remove-authentication', (schema, request) => {
     const userId = request.params.id;
     const params = JSON.parse(request.requestBody);
