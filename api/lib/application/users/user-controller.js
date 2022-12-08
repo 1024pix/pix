@@ -18,6 +18,7 @@ const campaignParticipationForUserManagementSerializer = require('../../infrastr
 const userOrganizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
+const userLoginSerializer = require('../../infrastructure/serializers/jsonapi/user-login-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
@@ -270,6 +271,12 @@ module.exports = {
     const adminMemberId = request.auth.credentials.userId;
     const user = await usecases.anonymizeUser({ userId: userToAnonymizeId, updatedByUserId: adminMemberId });
     return h.response(userAnonymizedDetailsForAdminSerializer.serialize(user)).code(200);
+  },
+
+  async unblockUserAccount(request, h) {
+    const userId = request.params.id;
+    const userLogin = await usecases.unblockUserAccount({ userId });
+    return h.response(userLoginSerializer.serialize(userLogin)).code(200);
   },
 
   async removeAuthenticationMethod(request, h) {

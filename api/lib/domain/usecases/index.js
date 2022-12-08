@@ -413,6 +413,7 @@ module.exports = injectDependencies(
     startWritingCampaignProfilesCollectionResultsToStream: require('./start-writing-campaign-profiles-collection-results-to-stream'),
     superviseSession: require('./supervise-session'),
     unarchiveCampaign: require('./unarchive-campaign'),
+    unblockUserAccount: require('./unblock-user-account'),
     unpublishSession: require('./unpublish-session'),
     reassignAuthenticationMethodToAnotherUser: require('./reassign-authentication-method-to-another-user'),
     updateAdminMember: require('./update-admin-member'),
