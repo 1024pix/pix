@@ -60,6 +60,13 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre } =
         certificationCandidateData;
 
+      let complementaryCertificationSubscriptionsCount = 0;
+
+      [hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre].forEach(
+        (complementaryCertificationSubscription) =>
+          complementaryCertificationSubscription ? complementaryCertificationSubscriptionsCount++ : false
+      );
+
       if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
         certificationCandidateData.birthINSEECode = `0${birthINSEECode}`;
       if (birthPostalCode && birthPostalCode.length < 5)
@@ -73,6 +80,13 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         certificationCpfCityRepository,
         certificationCpfCountryRepository,
       });
+
+      if (complementaryCertificationSubscriptionsCount > 1) {
+        line = parseInt(line) + 1;
+        throw new CertificationCandidatesImportError({
+          message: `Ligne ${line} : Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire.`,
+        });
+      }
 
       if (cpfBirthInformation.hasFailed()) {
         _handleBirthInformationValidationError(cpfBirthInformation, line);

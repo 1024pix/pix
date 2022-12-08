@@ -240,7 +240,61 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
   });
 
   context('when certification center has habilitations', function () {
-    it('should return extracted and validated certification candidates with complementary certifications', async function () {
+    context('when a candidate is imported with more than one complementary certification', function () {
+      it('should throw un error', async function () {
+        // given
+        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          label: 'CléA Numérique',
+          key: CLEA,
+        });
+        const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          label: 'Pix+ Droit',
+          key: PIX_PLUS_DROIT,
+        });
+
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+          certificationCenterId,
+          complementaryCertificationId: cleaComplementaryCertification.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+          certificationCenterId,
+          complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
+        });
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+
+        await databaseBuilder.commit();
+
+        const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ko_test.ods`;
+        const odsBuffer = await readFile(odsFilePath);
+
+        // when
+        const error = await catchErr(
+          certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+        )({
+          sessionId,
+          odsBuffer,
+          certificationCpfService,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+          certificationCenterRepository,
+          complementaryCertificationRepository,
+          isSco: false,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(CertificationCandidatesImportError);
+
+        expect(error.message).to.equal(
+          "Ligne 13 : Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire."
+        );
+      });
+    });
+
+    it('should return extracted and validated certification candidates with complementary certification', async function () {
       // given
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'CléA Numérique',
@@ -303,7 +357,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             sessionId,
             billingMode: 'FREE',
             complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
               domainBuilder.buildComplementaryCertification(pixPlusEdu1erDegreComplementaryCertification),
             ],
           },
@@ -343,9 +396,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             billingMode: 'FREE',
             complementaryCertifications: [
               domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
-              domainBuilder.buildComplementaryCertification(pixPlusDroitComplementaryCertification),
-              domainBuilder.buildComplementaryCertification(pixPlusEdu1erDegreComplementaryCertification),
-              domainBuilder.buildComplementaryCertification(pixPlusEdu2ndDegreComplementaryCertification),
             ],
           },
           {
