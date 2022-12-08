@@ -19,6 +19,7 @@ module.exports = function buildUserDetailsForAdmin({
   emailConfirmedAt,
   organizationLearners = [],
   authenticationMethods = [],
+  userLogin = [],
 } = {}) {
   return new UserDetailsForAdmin({
     id,
@@ -39,5 +40,6 @@ module.exports = function buildUserDetailsForAdmin({
     isAuthenticatedFromGAR,
     organizationLearners,
     authenticationMethods,
+    userLogin,
   });
 };

@@ -32,6 +32,7 @@ module.exports = {
         'participations',
         'organizationMemberships',
         'certificationCenterMemberships',
+        'userLogin',
       ],
       organizationLearners: {
         ref: 'id',
@@ -54,6 +55,11 @@ module.exports = {
         ref: 'id',
         includes: true,
         attributes: ['identityProvider'],
+      },
+      userLogin: {
+        ref: 'id',
+        includes: true,
+        attributes: ['blockedAt', 'temporaryBlockedUntil', 'failureCount'],
       },
       profile: {
         ref: 'id',
@@ -128,6 +134,11 @@ module.exports = {
         ref: 'id',
         includes: true,
         attributes: ['identityProvider'],
+      },
+      userLogin: {
+        ref: 'id',
+        includes: true,
+        attributes: ['blockedAt', 'createdAt', 'updatedAt', 'temporaryBlockedUntil', 'failureCount'],
       },
     }).serialize(usersDetailsForAdmin);
   },
