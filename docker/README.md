@@ -3,7 +3,7 @@
 
 2 environnements sont proposés :  
 - Environnement par défaut : build les container en mode "production". Les instances front sont build et servies par un nginx.
-- Dev : les containers sont démarrées avec Node afin de permettre le développement local. 
+- Dev : les containers sont démarrés avec Node afin de permettre le développement local. 
 
 Les environnements sont disponible grace au multi-stage Dockerfile.
 https://docs.docker.com/develop/develop-images/multistage-build/
@@ -60,10 +60,10 @@ alias dcall="docker-compose -f docker-compose.yaml -f docker-compose-dev-api.yam
 
 ## Node_modules : 
 
-Dans l'environnement de dev, les node_modules sont stockés dans un volumes dédiés et ne sont pas dans le dossier de travail afin d'ignorer les possibles modifications / différences entre l'environement local et docker.
+Dans l'environnement de dev, les node_modules sont stockés dans un volumes dédié et ne sont pas dans le dossier de travail afin d'ignorer les possibles modifications / différences entre l'environement local et docker.
 
 En cas de problème et afin de repartir à zéro sur les node_modules, supprimez le volume : 
-docker volume rm <VOLUME_NAME> (voir fichier docker-compose front dev)
+`docker volume rm <VOLUME_NAME>` (voir fichier docker-compose front dev)
 
 
 ## Rappel des URLs en local: 
