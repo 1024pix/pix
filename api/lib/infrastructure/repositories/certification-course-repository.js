@@ -131,6 +131,13 @@ module.exports = {
     return bookshelfCertificationCourses.map(toDomain);
   },
 
+  async saveLastAssessmentResultId({ certificationCourseId, lastAssessmentResultId }) {
+    return knex('certification-course-last-assessment-result')
+      .insert({ certificationCourseId, lastAssessmentResultId })
+      .onConflict('certificationCourseId')
+      .merge(['lastAssessmentResultId']);
+  },
+
   toDomain,
 };
 
