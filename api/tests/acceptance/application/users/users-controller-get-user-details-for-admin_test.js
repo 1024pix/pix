@@ -55,6 +55,14 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
         const superAdmin = await insertUserWithRoleSuperAdmin();
 
         const user = databaseBuilder.factory.buildUser({ username: 'brice.glace0712' });
+        const blockedAt = new Date('2022-12-07');
+        const temporaryBlockedUntil = new Date('2022-12-06');
+        const userLoginId = databaseBuilder.factory.buildUserLogin({
+          failureCount: 666,
+          blockedAt,
+          temporaryBlockedUntil,
+          userId: user.id,
+        }).id;
 
         await databaseBuilder.commit();
 
@@ -69,61 +77,72 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
         });
 
         // then
-        const expectedScorecardJSONApi = {
-          data: {
-            attributes: {
-              cgu: true,
-              'created-at': new Date(),
-              email: user.email,
-              'email-confirmed-at': null,
-              'first-name': user.firstName,
-              lang: 'fr',
-              'last-logged-at': new Date(),
-              'last-name': user.lastName,
-              'last-pix-certif-terms-of-service-validated-at': null,
-              'last-pix-orga-terms-of-service-validated-at': null,
-              'last-terms-of-service-validated-at': null,
-              'pix-certif-terms-of-service-accepted': false,
-              'pix-orga-terms-of-service-accepted': false,
-              username: user.username,
-            },
-            id: `${user.id}`,
-            relationships: {
-              'authentication-methods': {
-                data: [],
-              },
-              'certification-center-memberships': {
-                links: {
-                  related: `/api/admin/users/${user.id}/certification-center-memberships`,
-                },
-              },
-              'organization-learners': {
-                data: [],
-              },
-              profile: {
-                links: {
-                  related: `/api/admin/users/${user.id}/profile`,
-                },
-              },
-              'organization-memberships': {
-                links: {
-                  related: `/api/admin/users/${user.id}/organizations`,
-                },
-              },
-              participations: {
-                links: {
-                  related: `/api/admin/users/${user.id}/participations`,
-                },
-              },
-            },
-            type: 'users',
-          },
-          included: undefined,
-        };
-
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
-        expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
+        expect(response.result.data.id).to.deep.equal(`${user.id}`);
+        expect(response.result.data.type).to.deep.equal('users');
+
+        expect(response.result.data.attributes).to.deep.equal({
+          cgu: true,
+          'created-at': new Date(),
+          email: user.email,
+          'email-confirmed-at': null,
+          'first-name': user.firstName,
+          lang: 'fr',
+          'last-logged-at': new Date(),
+          'last-name': user.lastName,
+          'last-pix-certif-terms-of-service-validated-at': null,
+          'last-pix-orga-terms-of-service-validated-at': null,
+          'last-terms-of-service-validated-at': null,
+          'pix-certif-terms-of-service-accepted': false,
+          'pix-orga-terms-of-service-accepted': false,
+          username: user.username,
+        });
+
+        expect(response.result.data.relationships).to.deep.equal({
+          'authentication-methods': {
+            data: [],
+          },
+          'certification-center-memberships': {
+            links: {
+              related: `/api/admin/users/${user.id}/certification-center-memberships`,
+            },
+          },
+          'organization-learners': {
+            data: [],
+          },
+          profile: {
+            links: {
+              related: `/api/admin/users/${user.id}/profile`,
+            },
+          },
+          'organization-memberships': {
+            links: {
+              related: `/api/admin/users/${user.id}/organizations`,
+            },
+          },
+          'user-login': {
+            data: {
+              id: `${userLoginId}`,
+              type: 'userLogins',
+            },
+          },
+          participations: {
+            links: {
+              related: `/api/admin/users/${user.id}/participations`,
+            },
+          },
+        });
+        expect(response.result.included).to.deep.equal([
+          {
+            id: `${userLoginId}`,
+            type: 'userLogins',
+            attributes: {
+              'failure-count': 666,
+              'blocked-at': blockedAt,
+              'temporary-blocked-until': temporaryBlockedUntil,
+            },
+          },
+        ]);
       });
     });
   });

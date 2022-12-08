@@ -26,9 +26,7 @@ module('Unit | Component | users | user-overview', function (hooks) {
       const actualUrl = component.externalURL;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actualUrl, expectedUrl);
+      assert.strictEqual(actualUrl, expectedUrl);
     });
   });
 
@@ -66,6 +64,61 @@ module('Unit | Component | users | user-overview', function (hooks) {
 
         // when & then
         assert.false(component.canModifyEmail);
+      });
+    });
+  });
+
+  module('#shouldDisplayTemporaryBlockedDate', function () {
+    module('when user has no login informations yet', function () {
+      test('should not display temporary blocked date', function (assert) {
+        // given
+        const component = createGlimmerComponent('component:users/user-overview');
+
+        // when && then
+        assert.false(component.shouldDisplayTemporaryBlockedDate);
+      });
+    });
+
+    module('when user has login but not temporary blocked', function () {
+      test('should not display temporary blocked date', function (assert) {
+        // given
+        const component = createGlimmerComponent('component:users/user-overview');
+        const user = { firstName: 'Lisa', lastName: 'Dupont' };
+        component.args.user = user;
+        const getTemporaryBlockedUntilProperty = () => null;
+        const userLoginProxy = { get: getTemporaryBlockedUntilProperty };
+        component.args.user.userLogin = userLoginProxy;
+
+        // when && then
+        assert.false(component.shouldDisplayTemporaryBlockedDate);
+      });
+    });
+
+    module('when user has login and temporary blocked date', function () {
+      test('should display temporary blocked date when now date is after temporaty blocked date', function (assert) {
+        // given
+        const component = createGlimmerComponent('component:users/user-overview');
+        const user = { firstName: 'Lisa', lastName: 'Dupont' };
+        const getTemporaryBlockedUntilProperty = () => new Date(Date.now() + 3600 * 1000);
+        const userLoginProxy = { get: getTemporaryBlockedUntilProperty };
+        component.args.user = user;
+        component.args.user.userLogin = userLoginProxy;
+
+        // when && then
+        assert.true(component.shouldDisplayTemporaryBlockedDate);
+      });
+
+      test('should not display temporary blocked date when now date is before temporaty blocked date', function (assert) {
+        // given
+        const component = createGlimmerComponent('component:users/user-overview');
+        const user = { firstName: 'Lisa', lastName: 'Dupont' };
+        component.args.user = user;
+        const getTemporaryBlockedUntilProperty = () => new Date(Date.now() - 3600 * 1000);
+        const userLoginProxy = { get: getTemporaryBlockedUntilProperty };
+        component.args.user.userLogin = userLoginProxy;
+
+        // when && then
+        assert.false(component.shouldDisplayTemporaryBlockedDate);
       });
     });
   });

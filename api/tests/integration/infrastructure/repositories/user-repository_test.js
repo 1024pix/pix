@@ -701,6 +701,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     context('when user has organizationLearners', function () {
       it('should return the user with his organizationLearner', async function () {
         // given
+        const randomUser = databaseBuilder.factory.buildUser();
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();
         const firstOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
@@ -713,6 +714,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           id: 2,
           userId: userInDB.id,
           organizationId: secondOrganizationInDB.id,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          id: 3,
+          userId: randomUser.id,
+          organizationId: firstOrganizationInDB.id,
         });
         await databaseBuilder.commit();
 
@@ -740,6 +746,20 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
+    context("when user doesn't have organizationLearners", function () {
+      it('should return the user with an empty array', async function () {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin.organizationLearners.length).to.equal(0);
+      });
+    });
+
     context('when user has authentication methods', function () {
       it('should return the user with his authentication methods', async function () {
         // given
@@ -755,6 +775,59 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
         // then
         expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
+      });
+    });
+
+    context('when user is anonymized', function () {
+      it('should return an empty array', async function () {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin.authenticationMethods.length).to.equal(0);
+      });
+    });
+
+    context('when user has login details', function () {
+      let clock;
+      const now = new Date('2022-02-02');
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('should return the user with his login details', async function () {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId: userInDB.id,
+        });
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
+        databaseBuilder.factory.buildUserLogin({
+          id: 12345,
+          userId: userInDB.id,
+          failureCount: 5,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin.userLogin).to.deep.include({
+          id: 12345,
+          blockedAt: null,
+          temporaryBlockedUntil: null,
+          failureCount: 5,
+        });
       });
     });
   });
