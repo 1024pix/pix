@@ -2,7 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
-const { ALL_TREATMENTS } = require('../constants');
+const { getEnabledTreatments } = require('./services-utils');
 const { validateAnswer } = require('./string-comparison-service');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -61,7 +61,7 @@ module.exports = {
       throw new YamlParsingError();
     }
 
-    const enabledTreatments = ALL_TREATMENTS.filter((treatment) => !deactivations[treatment]);
+    const enabledTreatments = getEnabledTreatments(true, deactivations);
 
     let treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
     const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);

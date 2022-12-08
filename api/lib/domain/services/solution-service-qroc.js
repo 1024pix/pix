@@ -9,7 +9,7 @@ const { validateAnswer } = require('./string-comparison-service');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
-const { ALL_TREATMENTS } = require('../constants');
+const { getEnabledTreatments } = require('./services-utils');
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {
@@ -52,7 +52,7 @@ function _getAnswerStatusFromNumberMatching(answer, solutions) {
 
 function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments) {
 
-  const enabledTreatments = shouldApplyTreatments ? ALL_TREATMENTS.filter((treatment) => !deactivations[treatment]) : [];
+  const enabledTreatments = getEnabledTreatments(shouldApplyTreatments, deactivations);
   const treatedAnswer = applyTreatments(applyPreTreatments(answer), enabledTreatments);
   const treatedSolutions = map(solutions, solution => applyTreatments(solution, enabledTreatments));
 
