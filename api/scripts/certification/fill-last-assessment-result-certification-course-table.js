@@ -8,7 +8,7 @@ const bluebird = require('bluebird');
 const DEFAULT_COUNT = 20000;
 const DEFAULT_CONCURRENCY = 2;
 
-const ASSOC_TABLE_NAME = 'certification-course-last-assessment-result';
+const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 
 const addLastAssessmentResultCertificationCourse = async ({ count, concurrency }) => {
   logger.info('\tRécupération des certifications éligibles...');

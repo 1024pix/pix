@@ -1,4 +1,4 @@
-const TABLE_NAME = 'certification-course-last-assessment-result';
+const TABLE_NAME = 'certification-courses-last-assessment-results';
 
 exports.up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, function (table) {
