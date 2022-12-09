@@ -508,7 +508,7 @@ describe('Integration | Repository | Certification Course', function () {
 
     afterEach(function () {
       // given
-      return knex('certification-course-last-assessment-result').delete();
+      return knex('certification-courses-last-assessment-results').delete();
     });
 
     it('should insert certification course id and its last assessment result id', async function () {
@@ -523,7 +523,7 @@ describe('Integration | Repository | Certification Course', function () {
         lastAssessmentResultId: 6,
       });
       // then
-      const result = await knex('certification-course-last-assessment-result').select('*');
+      const result = await knex('certification-courses-last-assessment-results').select('*');
       expect(result).to.deep.equal([{ lastAssessmentResultId: 6, certificationCourseId }]);
     });
 
@@ -533,7 +533,7 @@ describe('Integration | Repository | Certification Course', function () {
       databaseBuilder.factory.buildAssessmentResult({ id: 6, assessmentId: 5 });
       databaseBuilder.factory.buildAssessmentResult({ id: 7, assessmentId: 5 });
       await databaseBuilder.commit();
-      await knex('certification-course-last-assessment-result').insert({
+      await knex('certification-courses-last-assessment-results').insert({
         lastAssessmentResultId: 6,
         certificationCourseId,
       });
@@ -545,7 +545,7 @@ describe('Integration | Repository | Certification Course', function () {
       });
 
       // then
-      const result = await knex('certification-course-last-assessment-result').select('*');
+      const result = await knex('certification-courses-last-assessment-results').select('*');
       expect(result).to.deep.equal([{ lastAssessmentResultId: 7, certificationCourseId }]);
     });
   });

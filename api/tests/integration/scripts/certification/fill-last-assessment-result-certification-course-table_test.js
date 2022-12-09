@@ -3,7 +3,7 @@ const {
   addLastAssessmentResultCertificationCourse,
 } = require('../../../../scripts/certification/fill-last-assessment-result-certification-course-table');
 
-const ASSOC_TABLE_NAME = 'certification-course-last-assessment-result';
+const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 
 const OLD_UPDATED_AT = new Date('2020-01-01');
 const NEW_UPDATED_AT = new Date('2022-02-02');

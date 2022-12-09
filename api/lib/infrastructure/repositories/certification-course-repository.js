@@ -132,7 +132,7 @@ module.exports = {
   },
 
   async saveLastAssessmentResultId({ certificationCourseId, lastAssessmentResultId }) {
-    return knex('certification-course-last-assessment-result')
+    return knex('certification-courses-last-assessment-results')
       .insert({ certificationCourseId, lastAssessmentResultId })
       .onConflict('certificationCourseId')
       .merge(['lastAssessmentResultId']);
