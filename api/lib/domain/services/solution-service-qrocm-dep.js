@@ -37,6 +37,30 @@ function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   }
 }
 
+
+function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
+
+  let solutionsNotFound = _.clone(treatedSolutions);
+
+  return _.reduce(treatedAnswers, (goodAnswerNb, answer) => {
+
+    let result = goodAnswerNb;
+
+    const solutionKey = _.findKey(solutionsNotFound, (solutionList) => {
+      return validateAnswer(answer, solutionList, _.includes(enabledTreatments, 't3'));
+    });
+
+    if(solutionKey) {
+      solutionsNotFound = _.omit(solutionsNotFound, solutionKey);
+      result += 1;
+    }
+
+    return result;
+
+  }, 0);
+}
+
+
 module.exports = {
   match({ answerValue, solution }) {
     const yamlSolution = solution.value;
@@ -63,21 +87,10 @@ module.exports = {
 
     const enabledTreatments = getEnabledTreatments(true, deactivations);
 
-    let treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
     const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
 
-    const numberOfGoodAnswers = _.reduce(treatedAnswers, (goodAnswerNb, answer) => {
-      let result = goodAnswerNb;
-      _.forEach(treatedSolutions, (solutionList, solutionKey) => {
-        if(validateAnswer(answer, solutionList, _.includes(enabledTreatments, 't3'))) {
-          treatedSolutions = _.omit(treatedSolutions, solutionKey);
-          result += 1;
-          return false;
-        }
-        return true;
-      });
-      return result;
-    }, 0);
+    const numberOfGoodAnswers = _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
     return _formatResult(scoring, numberOfGoodAnswers, _.size(answers));
   },
