@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         criteria: [badge1Criteria1, badge1Criteria2],
       });
       const badge2Criteria1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CappedTubes({
+        name: 'super tubes group',
         id: 3000,
         threshold: 50,
         cappedTubesDTO: [
@@ -194,6 +195,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             type: 'badge-criteria',
             id: '1000',
             attributes: {
+              name: null,
               threshold: 80,
               scope: SCOPES.SKILL_SET,
               'skill-sets': [
@@ -213,6 +215,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             type: 'badge-criteria',
             id: '2000',
             attributes: {
+              name: null,
               threshold: 70,
               scope: SCOPES.CAMPAIGN_PARTICIPATION,
               'skill-sets': [],
@@ -250,6 +253,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             type: 'badge-criteria',
             id: '3000',
             attributes: {
+              name: 'super tubes group',
               threshold: 50,
               scope: SCOPES.CAPPED_TUBES,
               'skill-sets': [],
