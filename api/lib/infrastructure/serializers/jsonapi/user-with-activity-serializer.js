@@ -10,6 +10,7 @@ module.exports = {
         'username',
         'cgu',
         'lastTermsOfServiceValidatedAt',
+        'lastDataProtectionPolicySeenAt',
         'mustValidateTermsOfService',
         'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted',

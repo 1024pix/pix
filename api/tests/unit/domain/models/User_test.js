@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | User', function () {
         lastTermsOfServiceValidatedAt: '2020-05-04T13:40:00.000Z',
         mustValidateTermsOfService: true,
         isAnonymous: false,
+        lastDataProtectionPolicySeenAt: '2022-05-04T13:00:00.000Z',
       };
 
       // when
@@ -29,6 +30,7 @@ describe('Unit | Domain | Models | User', function () {
       expect(user.lastTermsOfServiceValidatedAt).to.equal(rawData.lastTermsOfServiceValidatedAt);
       expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
       expect(user.isAnonymous).to.equal(rawData.isAnonymous);
+      expect(user.lastDataProtectionPolicySeenAt).to.equal('2022-05-04T13:00:00.000Z');
     });
   });
 
