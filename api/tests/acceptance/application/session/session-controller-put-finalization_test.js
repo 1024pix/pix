@@ -96,6 +96,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
 
     describe('Success case', function () {
       afterEach(async function () {
+        await knex('certification-course-last-assessment-result').delete();
         await knex('certification-issue-reports').delete();
         await knex('finalized-sessions').delete();
         await knex('competence-marks').delete();
