@@ -142,7 +142,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Critère d’obtention sur l’ensemble du profil cible' })).exists();
-      assert.dom(screen.getByLabelText('* Taux de réussite pour obtenir le RT :')).exists();
+      assert.dom(screen.getByLabelText('* Taux de réussite requis :')).exists();
     });
 
     test('it should display capped tubes criterion form on click', async function (assert) {
@@ -154,7 +154,8 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       assert
         .dom(screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }))
         .exists();
-      assert.dom(screen.getByLabelText('* Taux de réussite pour obtenir le RT :')).exists();
+      assert.dom(screen.getByLabelText('Nom du critère :')).exists();
+      assert.dom(screen.getByLabelText('* Taux de réussite requis :')).exists();
       assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
       assert.dom(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' })).exists();
     });

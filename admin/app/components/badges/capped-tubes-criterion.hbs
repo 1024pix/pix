@@ -1,7 +1,14 @@
 <p data-testid="toujourstriste">
   L'évalué doit obtenir
   <strong>{{@criterion.threshold}}%</strong>
-  sur tous les sujets plafonnés par niveau suivants :
+  {{#if @criterion.name}}
+    sur le groupe
+    <strong>{{@criterion.name}}</strong>
+    possédant
+  {{else}}
+    sur tous
+  {{/if}}
+  les sujets plafonnés par niveau suivants :
 </p>
 
 {{#each this.areasForView as |area|}}
