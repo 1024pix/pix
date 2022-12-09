@@ -783,23 +783,16 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     // eslint-disable-next-line mocha/no-setup-in-describe
-    allCases.forEach(function (testCase) {
-      it(
-        testCase.when +
-          ', should return ' +
-          testCase.output +
-          ' when answer is "' +
-          testCase.answer +
-          '" and solution is "' +
-          testCase.solution +
-          '"',
+    
+    allCases.forEach(function ({when, output, answer, solution, scoring, deactivations }) {
+      it(`${when} should return ${output} when answer is "${answer}" and solution is "${solution}"`,
         function () {
-          const solution = {
-            value: testCase.solution,
-            scoring: testCase.scoring,
-            deactivations: testCase.deactivations,
+          const solutionResult = {
+            value: solution,
+            scoring: scoring,
+            deactivations: deactivations,
           };
-          expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+          expect(service.match({ answerValue: answer, solution: solutionResult })).to.deep.equal(output);
         }
       );
     });

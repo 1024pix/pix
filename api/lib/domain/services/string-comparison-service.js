@@ -23,11 +23,11 @@ function getSmallestLevenshteinDistance(comparative, alternatives) {
   return _(alternatives).map(getLevenshteinDistance).min();
 }
 
-function validateAnswer(inputString, references, useLevenshteinRatio) {
+function validateAnswer(answer, solutions, useLevenshteinRatio) {
   if ( useLevenshteinRatio ) {
-    return getSmallestLevenshteinRatio(inputString, references) <= LEVENSHTEIN_DISTANCE_MAX_RATE; 
+    return getSmallestLevenshteinRatio(answer, solutions) <= LEVENSHTEIN_DISTANCE_MAX_RATE; 
   }
-  return _.includes(references, inputString);
+  return _.includes(solutions, answer);
 }
 
 module.exports = {

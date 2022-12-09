@@ -23,7 +23,7 @@ function applyPreTreatments(value) {
   return value.toString().normalize('NFC').replace(/\u00A0/g, ' ');
 }
 
-const treatmentMap = {
+const treatments = {
   t1: normalizeAndRemoveAccents,
   t2: removeSpecialCharacters
 }
@@ -33,7 +33,10 @@ function applyTreatments(string, enabledTreatments) {
   if (_.isEmpty(enabledTreatments)) {
     return result;
   }
-  _(enabledTreatments).sort().each(treatment => { result = _.get(treatmentMap, treatment, r => r)(result); });
+  _(enabledTreatments).sort().each(treatment => { 
+  	const treatmentFunction = _.get(treatments, treatment); 
+  	result = treatmentFunction ? treatmentFunction(result) : result; 
+  });
   return result;
 }
 
@@ -42,5 +45,5 @@ module.exports = {
   removeSpecialCharacters,
   applyPreTreatments,
   applyTreatments,
-  treatmentMap,
+  treatments,
 };
