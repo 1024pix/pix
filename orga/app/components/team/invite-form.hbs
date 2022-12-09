@@ -2,14 +2,12 @@
 <form {{on "submit" @onSubmit}} class="form" ...attributes>
 
   <div class="form__field">
-    <label for="email" class="label">{{t "pages.team-new-item.input-label"}}</label>
-    <Input
-      id="email"
-      @type="email"
+    <PixTextarea
+      @id="email"
+      @label={{t "pages.team-new-item.input-label"}}
+      type="email"
       @value={{@email}}
-      name="email"
-      class="input"
-      multiple={{true}}
+      class="invite-form__email-field"
       aria-required="true"
       required="required"
     />

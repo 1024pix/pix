@@ -20,6 +20,6 @@ Then(`je vois {int} membre\(s\)`, (numberOfMembers) => {
 
 When(`j'invite {string} à rejoindre l'organisation`, (emailAddresses) => {
   cy.contains('Inviter un membre').click();
-  cy.contains('Adresse(s) e-mail').parent().within(() => cy.get('input').type(emailAddresses));
+  cy.contains('Adresse(s) e-mail').parent().within(() => cy.get('textarea').type(emailAddresses));
   cy.get('button').contains('Inviter').click();
 });
