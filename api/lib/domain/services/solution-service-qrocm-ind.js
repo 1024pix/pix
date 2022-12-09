@@ -5,6 +5,7 @@ const logger = require('../../infrastructure/logger');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
 const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants');
+const { useLevenshteinRatio } = require('./services-utils');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
@@ -50,7 +51,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qroc
       );
       throw new YamlParsingError();
     }
-    if (enabledTreatments.includes('t3') && qrocBlocksTypes[answerKey] != 'select') {
+    if (useLevenshteinRatio(enabledTreatments) && qrocBlocksTypes[answerKey] != 'select') {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);

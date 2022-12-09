@@ -3,13 +3,13 @@ const {
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
 } = require('../../../lib/infrastructure/utils/string-utils');
-const { every, includes, isEmpty, isString, map } = require('lodash');
+const { every, isEmpty, isString, map } = require('lodash');
 const { applyTreatments, applyPreTreatments } = require('./validation-treatments');
 const { validateAnswer } = require('./string-comparison-service');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
-const { getEnabledTreatments } = require('./services-utils');
+const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils');
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {
@@ -56,5 +56,5 @@ function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, sh
   const treatedAnswer = applyTreatments(applyPreTreatments(answer), enabledTreatments);
   const treatedSolutions = map(solutions, solution => applyTreatments(solution, enabledTreatments));
 
-  return validateAnswer(treatedAnswer, treatedSolutions, includes( enabledTreatments ,'t3') ) ? AnswerStatus.OK : AnswerStatus.KO;
+  return validateAnswer(treatedAnswer, treatedSolutions, useLevenshteinRatio(enabledTreatments)) ? AnswerStatus.OK : AnswerStatus.KO;
 }
