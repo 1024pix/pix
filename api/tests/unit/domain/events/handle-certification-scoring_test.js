@@ -27,6 +27,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       get: sinon.stub(),
       update: sinon.stub(),
       getCreationDate: sinon.stub(),
+      saveLastAssessmentResultId: sinon.stub(),
     };
     competenceMarkRepository = { save: sinon.stub() };
   });
@@ -94,6 +95,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         // then
         expect(AssessmentResult.buildAlgoErrorResult).to.not.have.been.called;
         expect(assessmentResultRepository.save).to.not.have.been.called;
+        expect(certificationCourseRepository.saveLastAssessmentResultId).to.not.have.been.called;
         expect(certificationCourseRepository.update).to.not.have.been.called;
       });
     });
@@ -104,7 +106,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       let certificationCourse;
 
       beforeEach(function () {
-        errorAssessmentResult = Symbol('ErrorAssessmentResult');
+        errorAssessmentResult = domainBuilder.buildAssessmentResult({ id: 98 });
         certificationCourse = domainBuilder.buildCertificationCourse({
           id: certificationCourseId,
           completedAt: null,
@@ -112,7 +114,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
         scoringCertificationService.calculateCertificationAssessmentScore.rejects(computeError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
-        assessmentResultRepository.save.resolves();
+        assessmentResultRepository.save.resolves(errorAssessmentResult);
         certificationCourseRepository.get
           .withArgs(certificationAssessment.certificationCourseId)
           .resolves(certificationCourse);
@@ -155,7 +157,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           emitter: 'PIX-ALGO',
         });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(errorAssessmentResult);
-
+        expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+          certificationCourseId: 1234,
+          lastAssessmentResultId: 98,
+        });
         expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
           new CertificationCourse({
             ...certificationCourse.toDTO(),
@@ -220,6 +225,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           emitter: 'PIX-ALGO',
         });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
+        expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+          certificationCourseId: 1234,
+          lastAssessmentResultId: 99,
+        });
         expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
           new CertificationCourse({
             ...certificationCourse.toDTO(),
