@@ -1,7 +1,7 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
-const { DEFAULT_PASSWORD } = require('./users-builder');
+const { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } = require('./users-builder');
 const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
 
 const PRO_COMPANY_ID = 1;
@@ -64,6 +64,12 @@ function organizationsProBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: proUser1.id,
+    organizationId: PRO_COMPANY_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: PIX_ALL_ORGA_ID,
     organizationId: PRO_COMPANY_ID,
     organizationRole: Membership.roles.ADMIN,
   });
