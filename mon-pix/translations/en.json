@@ -90,6 +90,10 @@
     "skip-links": {
       "skip-to-content": "Skip to main content",
       "skip-to-footer": "Skip to footer"
+    },
+    "data-protection-policy-information-banner" : {
+      "url-label": "Personal data protection policy.",
+      "title": "Please note that our personal data protection policy has been updated. To take a look at what's changing, click here: "
     }
   },
   "navigation": {
