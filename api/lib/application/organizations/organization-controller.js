@@ -40,30 +40,16 @@ module.exports = {
     return organizationForAdminSerializer.serialize(organizationDetails);
   },
 
-  create: (request) => {
-    const {
-      name,
-      type,
-      email,
-      'external-id': externalId,
-      'province-code': provinceCode,
-      'logo-url': logoUrl,
-      'documentation-url': documentationUrl,
-    } = request.payload.data.attributes;
-
+  async create(request) {
     const superAdminUserId = extractUserIdFromRequest(request);
-    return usecases
-      .createOrganization({
-        createdBy: superAdminUserId,
-        name,
-        type,
-        externalId,
-        provinceCode,
-        logoUrl,
-        email,
-        documentationUrl,
-      })
-      .then(organizationSerializer.serialize);
+    const organization = organizationForAdminSerializer.deserialize(request.payload);
+
+    organization.createdBy = +superAdminUserId;
+
+    const createdOrganization = await usecases.createOrganization({ organization });
+    const serializedOrganization = organizationForAdminSerializer.serialize(createdOrganization);
+
+    return serializedOrganization;
   },
 
   async updateOrganizationInformation(request) {

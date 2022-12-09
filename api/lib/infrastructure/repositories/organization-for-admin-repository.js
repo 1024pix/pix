@@ -5,6 +5,8 @@ const { knex } = require('../../../db/knex-database-connection');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
 const _ = require('lodash');
 
+const ORGANIZATIONS_TABLE_NAME = 'organizations';
+
 function _toDomain(rawOrganization) {
   const organization = new OrganizationForAdmin({
     id: rawOrganization.id,
@@ -40,7 +42,7 @@ function _toDomain(rawOrganization) {
 
 module.exports = {
   async get(id) {
-    const organization = await knex('organizations')
+    const organization = await knex(ORGANIZATIONS_TABLE_NAME)
       .select({
         id: 'organizations.id',
         name: 'organizations.name',
@@ -108,7 +110,7 @@ module.exports = {
       'identityProviderForCampaigns',
     ]);
 
-    const [organizationDB] = await knex('organizations')
+    const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
       .update(organizationRawData)
       .where({ id: organization.id })
       .returning('*');
@@ -138,8 +140,14 @@ module.exports = {
 
     await knex('memberships').where({ organizationId: id, disabledAt: null }).update({ disabledAt: archiveDate });
 
-    await knex('organizations')
+    await knex(ORGANIZATIONS_TABLE_NAME)
       .where({ id: id, archivedBy: null })
       .update({ archivedBy: archivedBy, archivedAt: archiveDate });
+  },
+
+  async save(organization) {
+    const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
+    const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
+    return _toDomain(organizationCreated);
   },
 };
