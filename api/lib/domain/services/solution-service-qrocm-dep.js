@@ -2,7 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
-const { getEnabledTreatments } = require('./services-utils');
+const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils');
 const { validateAnswer } = require('./string-comparison-service');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -47,7 +47,7 @@ function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatm
     let result = goodAnswerNb;
 
     const solutionKey = _.findKey(solutionsNotFound, (solutionList) => {
-      return validateAnswer(answer, solutionList, _.includes(enabledTreatments, 't3'));
+      return validateAnswer(answer, solutionList, useLevenshteinRatio(enabledTreatments));
     });
 
     if(solutionKey) {
