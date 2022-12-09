@@ -1,44 +1,44 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const Organization = require('../../../../lib/domain/models/Organization');
+const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
+const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
+const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
 
 const createOrganization = require('../../../../lib/domain/usecases/create-organization');
 
 describe('Integration | UseCases | create-organization', function () {
   afterEach(async function () {
+    await knex('data-protection-officers').delete();
     await knex('organizations').delete();
   });
 
-  it('should create and return an Organization', async function () {
+  it('returns newly created organization', async function () {
     // given
     const superAdminUserId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
 
-    const externalId = 'externalId';
-    const name = 'ACME';
-    const provinceCode = 'provinceCode';
-    const type = 'PRO';
-    const documentationUrl = 'https://pix.fr';
+    const organization = new OrganizationForAdmin({
+      name: 'ACME',
+      type: 'PRO',
+      documentationUrl: 'https://pix.fr',
+      createdBy: superAdminUserId,
+    });
 
     // when
-    const result = await createOrganization({
-      createdBy: superAdminUserId,
-      externalId,
-      documentationUrl,
-      name,
-      provinceCode,
-      type,
-      organizationRepository,
+    const createdOrganization = await createOrganization({
+      organization,
+      dataProtectionOfficerRepository,
+      organizationForAdminRepository,
     });
 
     // then
-    expect(result).to.be.instanceOf(Organization);
-    expect(result.createdBy).to.be.equal(superAdminUserId);
-    expect(result.externalId).to.be.equal(externalId);
-    expect(result.name).to.be.equal(name);
-    expect(result.provinceCode).to.be.equal(provinceCode);
-    expect(result.type).to.be.equal(type);
-    expect(result.documentationUrl).to.be.equal(documentationUrl);
+    expect(createdOrganization).to.be.instanceOf(OrganizationForAdmin);
+    expect(createdOrganization.createdBy).to.be.equal(superAdminUserId);
+    expect(createdOrganization.name).to.be.equal(organization.name);
+    expect(createdOrganization.type).to.be.equal(organization.type);
+    expect(createdOrganization.documentationUrl).to.be.equal(organization.documentationUrl);
+    expect(createdOrganization.dataProtectionOfficerFirstName).to.be.null;
+    expect(createdOrganization.dataProtectionOfficerLastName).to.be.null;
+    expect(createdOrganization.dataProtectionOfficerEmail).to.be.null;
   });
 });

@@ -52,41 +52,41 @@ describe('Acceptance | Application | organization-controller', function () {
     });
 
     afterEach(async function () {
+      await knex('data-protection-officers').delete();
       await knex('organizations').delete();
     });
 
     describe('Success case', function () {
-      it('should return 200 HTTP status code', async function () {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should create and return the new organization', async function () {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        const createdOrganization = response.result.data.attributes;
-        expect(createdOrganization.name).to.equal('The name of the organization');
-        expect(createdOrganization.type).to.equal('PRO');
-        expect(createdOrganization['documentation-url']).to.equal('https://kingArthur.com');
-      });
-
-      it('should save the Super Admin userId creating the Organization', async function () {
+      it('returns 200 HTTP status code with the created organization', async function () {
         // given
         const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
         await databaseBuilder.commit();
 
-        options.headers.authorization = generateValidRequestAuthorizationHeader(superAdminUserId);
-
         // when
-        const response = await server.inject(options);
+        const { result, statusCode } = await server.inject({
+          method: 'POST',
+          url: '/api/admin/organizations',
+          payload: {
+            data: {
+              type: 'organizations',
+              attributes: {
+                name: 'The name of the organization',
+                type: 'PRO',
+                'documentation-url': 'https://kingArthur.com',
+                'data-protection-officer-email': 'justin.ptipeu@example.net',
+              },
+            },
+          },
+          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
+        });
 
         // then
-        const createdOrganization = response.result.data.attributes;
+        expect(statusCode).to.equal(200);
+        const createdOrganization = result.data.attributes;
+        expect(createdOrganization.name).to.equal('The name of the organization');
+        expect(createdOrganization.type).to.equal('PRO');
+        expect(createdOrganization['documentation-url']).to.equal('https://kingArthur.com');
+        expect(createdOrganization['data-protection-officer-email']).to.equal('justin.ptipeu@example.net');
         expect(createdOrganization['created-by']).to.equal(superAdminUserId);
       });
     });

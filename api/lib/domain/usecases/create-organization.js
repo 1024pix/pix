@@ -1,17 +1,23 @@
-const Organization = require('../models/Organization');
 const organizationCreationValidator = require('../validators/organization-creation-validator');
 
 module.exports = async function createOrganization({
-  createdBy,
-  externalId,
-  logoUrl,
-  name,
-  type,
-  provinceCode,
-  documentationUrl,
-  organizationRepository,
+  organization,
+  dataProtectionOfficerRepository,
+  organizationForAdminRepository,
 }) {
-  organizationCreationValidator.validate({ name, type, documentationUrl });
-  const organization = new Organization({ createdBy, name, type, logoUrl, externalId, provinceCode, documentationUrl });
-  return organizationRepository.create(organization);
+  organizationCreationValidator.validate(organization);
+  const createdOrganization = await organizationForAdminRepository.save(organization);
+
+  const dataProtectionOfficer = await dataProtectionOfficerRepository.create({
+    organizationId: createdOrganization.id,
+    firstName: organization.dataProtectionOfficerFirstName,
+    lastName: organization.dataProtectionOfficerLastName,
+    email: organization.dataProtectionOfficerEmail,
+  });
+
+  createdOrganization.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+  createdOrganization.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+  createdOrganization.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+
+  return createdOrganization;
 };
