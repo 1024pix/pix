@@ -82,6 +82,7 @@ const buildUser = function buildUser({
   emailConfirmedAt = null,
   hasBeenAnonymised = false,
   hasBeenAnonymisedBy = null,
+  lastDataProtectionPolicySeenAt = null,
 } = {}) {
   email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
@@ -110,6 +111,7 @@ const buildUser = function buildUser({
     emailConfirmedAt,
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
+    lastDataProtectionPolicySeenAt,
   };
 
   return databaseBuffer.pushInsertable({
