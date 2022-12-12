@@ -650,6 +650,37 @@
         }
       }
     },
+    "organization-learner": {
+      "activity": {
+        "empty-state": "No activity yet. As soon as {organizationLearnerFirstName} {organizationLearnerLastName} participates in a campaign, you will be able to follow their progress here.",
+        "title": "Activity",
+        "participations-title": "Participations",
+        "participation-list": {
+          "table": {
+            "description": "Participations",
+            "column": {
+              "campaign-name": "Campaign",
+              "campaign-type": "Type",
+              "created-at": "Started on",
+              "shared-at": "Sent on",
+              "status": "Status"
+            },
+            "row-title": "Participation"
+          },
+          "status": {
+            "STARTED-ASSESSMENT": "In progress",
+            "TO_SHARE-ASSESSMENT": "Pending results",
+            "SHARED-ASSESSMENT": "Submitted results",
+            "TO_SHARE-PROFILES_COLLECTION": "Pending profile",
+            "SHARED-PROFILES_COLLECTION": "Submitted profile"
+          },
+          "type": {
+            "ASSESSMENT": "Assessment",
+            "PROFILES_COLLECTION": "Profiles collection"
+          }
+        }
+      }
+    },
     "organization-participants": {
       "empty-state": {
         "message": "No participants yet!",
@@ -981,6 +1012,15 @@
         "diploma": "Diplomas unknown: {diplomas}; ",
         "study-scheme": "Study schemes unknown: {studySchemes}; "
       }
+    },
+    "sup-organization-participant-activity": {
+      "title": "Student activity"
+    },
+    "sco-organization-participant-activity": {
+      "title": "Student activity"
+    },
+    "organization-participant-activity": {
+      "title": "Participant activity"
     },
     "team-invitations": {
       "title": "Team invitations",
