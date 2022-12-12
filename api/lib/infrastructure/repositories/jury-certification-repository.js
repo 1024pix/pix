@@ -114,18 +114,7 @@ async function _toDomainWithComplementaryCertifications({
   badgeKeyAndLabelsGroupedByTargetProfile,
 }) {
   const certificationIssueReports = certificationIssueReportDTOs.map(
-    (certificationIssueReport) =>
-      new CertificationIssueReport({
-        id: certificationIssueReport.id,
-        certificationCourseId: certificationIssueReport.certificationCourseId,
-        category: certificationIssueReport.category,
-        description: certificationIssueReport.description,
-        subcategory: certificationIssueReport.subcategory,
-        questionNumber: certificationIssueReport.questionNumber,
-        resolvedAt: certificationIssueReport.resolvedAt,
-        resolution: certificationIssueReport.resolution,
-        hasBeenAutomaticallyResolved: certificationIssueReport.hasBeenAutomaticallyResolved,
-      })
+    (certificationIssueReport) => new CertificationIssueReport({ ...certificationIssueReport })
   );
 
   const [complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults] =

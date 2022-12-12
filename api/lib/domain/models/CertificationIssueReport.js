@@ -91,6 +91,7 @@ class CertificationIssueReport {
     id,
     certificationCourseId,
     category,
+    categoryId,
     description,
     subcategory,
     questionNumber,
@@ -101,6 +102,7 @@ class CertificationIssueReport {
     this.id = id;
     this.certificationCourseId = certificationCourseId;
     this.category = category;
+    this.categoryId = categoryId;
     this.subcategory = subcategory;
     this.description = description;
     this.questionNumber = questionNumber;

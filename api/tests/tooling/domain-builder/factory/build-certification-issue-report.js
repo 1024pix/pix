@@ -7,6 +7,7 @@ const {
 const buildCertificationIssueReport = function ({
   id = 123,
   certificationCourseId,
+  categoryId = null,
   category = CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
   subcategory = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   description = 'Une super description',
@@ -18,6 +19,7 @@ const buildCertificationIssueReport = function ({
   return new CertificationIssueReport({
     id,
     certificationCourseId,
+    categoryId,
     category,
     subcategory,
     description,
@@ -36,6 +38,8 @@ buildCertificationIssueReport.impactful = function ({
   resolvedAt,
   resolution,
   hasBeenAutomaticallyResolved,
+  category = CertificationIssueReportCategories.FRAUD,
+  categoryId,
 } = {}) {
   return buildCertificationIssueReport({
     id,
@@ -44,7 +48,8 @@ buildCertificationIssueReport.impactful = function ({
     questionNumber,
     resolvedAt,
     resolution,
-    category: CertificationIssueReportCategories.FRAUD,
+    categoryId,
+    category,
     subcategory: null,
     hasBeenAutomaticallyResolved,
   });
@@ -58,6 +63,8 @@ buildCertificationIssueReport.notImpactful = function ({
   resolvedAt,
   resolution,
   hasBeenAutomaticallyResolved,
+  category = CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+  categoryId,
 } = {}) {
   return buildCertificationIssueReport({
     id,
@@ -66,7 +73,8 @@ buildCertificationIssueReport.notImpactful = function ({
     questionNumber,
     resolvedAt,
     resolution,
-    category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+    categoryId,
+    category,
     subcategory: null,
     hasBeenAutomaticallyResolved,
   });
