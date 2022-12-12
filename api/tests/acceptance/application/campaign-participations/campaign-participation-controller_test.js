@@ -396,6 +396,8 @@ describe('Acceptance | API | Campaign Participations', function () {
         locale: training.locale,
         title: training.title,
         type: training.type,
+        'editor-name': training.editorName,
+        'editor-logo-url': training.editorLogoUrl,
       });
     });
   });
