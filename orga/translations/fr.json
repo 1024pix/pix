@@ -650,6 +650,37 @@
         }
       }
     },
+    "organization-learner": {
+      "activity": {
+        "empty-state": "Aucune activité pour l’instant ! Envoyez une campagne à {organizationLearnerFirstName} {organizationLearnerLastName} et commencez à suivre sa progression.",
+        "title": "Activité",
+        "participations-title": "Participations",
+        "participation-list": {
+          "table": {
+            "description": "Participations",
+            "column": {
+              "campaign-name": "Campagne",
+              "campaign-type": "Type",
+              "created-at": "Date de début",
+              "shared-at": "Date d'envoi",
+              "status": "Statut"
+            },
+            "row-title": "Participation"
+          },
+          "status": {
+            "STARTED-ASSESSMENT": "En cours",
+            "TO_SHARE-ASSESSMENT": "En attente d'envoi",
+            "SHARED-ASSESSMENT": "Résultats reçus",
+            "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi",
+            "SHARED-PROFILES_COLLECTION": "Profil reçu"
+          },
+          "type": {
+            "ASSESSMENT": "Evaluation",
+            "PROFILES_COLLECTION": "Collecte de profil"
+          }
+        }
+      }
+    },
     "organization-participants": {
       "empty-state": {
         "message": "Aucun participant pour l’instant !",
@@ -981,6 +1012,15 @@
         "diploma": "Diplômes non reconnus : {diplomas}; ",
         "study-scheme": "Régimes non reconnus : {studySchemes}; "
       }
+    },
+    "sup-organization-participant-activity": {
+      "title": "Activité de l'étudiant"
+    },
+    "sco-organization-participant-activity": {
+      "title": "Activité de l'élève"
+    },
+    "organization-participant-activity": {
+      "title": "Activité du participant"
     },
     "team-invitations": {
       "title": "Invitations",
