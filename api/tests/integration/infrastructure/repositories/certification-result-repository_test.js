@@ -60,11 +60,19 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
-      databaseBuilder.factory.buildAssessmentResult({
+      const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId2,
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
+      }).id;
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: certificationCourseId1,
+        lastAssessmentResultId: assessmentResultId1,
+      });
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: certificationCourseId2,
+        lastAssessmentResultId: assessmentResultId2,
       });
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
@@ -588,11 +596,19 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
-      databaseBuilder.factory.buildAssessmentResult({
+      const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId2,
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
+      }).id;
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: certificationCourseId1,
+        lastAssessmentResultId: assessmentResultId1,
+      });
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: certificationCourseId2,
+        lastAssessmentResultId: assessmentResultId2,
       });
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
@@ -767,6 +783,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId,
+        lastAssessmentResultId: assessmentResultId,
+      });
+
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,
@@ -937,6 +958,10 @@ async function _buildCertificationResultInSession(sessionId) {
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
   }).id;
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId,
+    lastAssessmentResultId: assessmentResultId,
+  });
   const competenceMarkId = databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   }).id;
@@ -957,6 +982,10 @@ async function _buildCertificationResultWithCandidate(sessionId) {
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
   }).id;
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId,
+    lastAssessmentResultId: assessmentResultId,
+  });
   const competenceMarkId = databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   }).id;

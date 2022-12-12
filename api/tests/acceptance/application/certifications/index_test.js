@@ -44,6 +44,10 @@ describe('Acceptance | API | Certifications', function () {
       emitter: 'PIX-ALGO',
       status: 'validated',
     });
+    databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+      certificationCourseId: certificationCourse.id,
+      lastAssessmentResultId: assessmentResult.id,
+    });
     const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificationCourse.id,
       name: 'patisseries au fruits',
