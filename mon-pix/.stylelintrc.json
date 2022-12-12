@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-rational-order"],
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-rational-order", "stylelint-config-prettier"],
   "rules": {
     "scss/operator-no-unspaced": null,
     "selector-class-pattern": null,
@@ -11,13 +11,12 @@
     "selector-pseudo-class-no-unknown": null,
     "scss/double-slash-comment-whitespace-inside": null,
     "scss/double-slash-comment-empty-line-before": null,
-    "at-rule-no-unknown": [
-      true, { "ignoreAtRules": ["else", "extend", "if", "include", "mixin", "warn"] }
-    ],
+    "at-rule-no-unknown": [true, { "ignoreAtRules": ["else", "extend", "if", "include", "mixin", "warn"] }],
     "color-hex-case": "upper",
     "color-hex-length": "long",
     "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }],
     "rule-empty-line-before": ["always-multi-line", { "ignore": ["after-comment"] }],
-    "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }]
+    "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }],
+    "string-quotes": "single"
   }
 }
