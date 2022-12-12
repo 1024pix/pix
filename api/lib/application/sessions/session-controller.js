@@ -49,15 +49,6 @@ module.exports = {
     return sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
   },
 
-  async save(request) {
-    const userId = request.auth.credentials.userId;
-    const session = sessionSerializer.deserialize(request.payload);
-
-    const newSession = await usecases.createSession({ userId, session });
-
-    return sessionSerializer.serialize({ session: newSession });
-  },
-
   async update(request) {
     const userId = request.auth.credentials.userId;
     const session = sessionSerializer.deserialize(request.payload);

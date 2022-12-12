@@ -175,18 +175,6 @@ exports.register = async (server) => {
       },
     },
     {
-      method: 'POST',
-      path: '/api/sessions',
-      config: {
-        handler: sessionController.save,
-        tags: ['api', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
-        ],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/sessions/{id}/finalization',
       config: {
