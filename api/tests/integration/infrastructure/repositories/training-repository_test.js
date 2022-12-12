@@ -282,6 +282,8 @@ describe('Integration | Repository | training-repository', function () {
       const attributesToUpdate = {
         title: 'Mon nouveau titre',
         link: 'https://example.net/mon-nouveau-lien',
+        editorName: 'Mon nouvel editeur',
+        editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
       };
 
       // when
@@ -293,6 +295,8 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.link).to.equal(attributesToUpdate.link);
       expect(updatedTraining.locale).to.equal(training.locale);
       expect(updatedTraining.type).to.equal(training.type);
+      expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
+      expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.updatedAt).to.be.above(currentTraining.updatedAt);
     });
 
@@ -309,6 +313,8 @@ describe('Integration | Repository | training-repository', function () {
       const attributesToUpdate = {
         title: 'Mon nouveau titre',
         link: 'https://example.net/mon-nouveau-lien',
+        editorName: 'Mon nouvel editeur',
+        editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
       };
 
       // when
@@ -318,6 +324,8 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining).to.be.instanceOf(Training);
       expect(updatedTraining.title).to.equal(attributesToUpdate.title);
       expect(updatedTraining.link).to.equal(attributesToUpdate.link);
+      expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
+      expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.targetProfileIds).to.deep.equal([targetProfile.id]);
     });
 
@@ -330,6 +338,8 @@ describe('Integration | Repository | training-repository', function () {
       const attributesToUpdate = {
         title: 'Mon nouveau titre',
         link: 'https://example.net/mon-nouveau-lien',
+        editorName: 'Mon nouvel editeur',
+        editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
       };
 
       // when
@@ -337,11 +347,13 @@ describe('Integration | Repository | training-repository', function () {
 
       // then
       const trainingNotUpdated = await knex('trainings')
-        .select('title', 'link')
+        .select('title', 'link', 'editorName', 'editorLogoUrl')
         .where({ id: trainingNotToBeUpdated.id })
         .first();
       expect(trainingNotUpdated.title).to.equal(trainingNotToBeUpdated.title);
       expect(trainingNotUpdated.link).to.equal(trainingNotToBeUpdated.link);
+      expect(trainingNotUpdated.editorName).to.equal(trainingNotToBeUpdated.editorName);
+      expect(trainingNotUpdated.editorLogoUrl).to.equal(trainingNotToBeUpdated.editorLogoUrl);
     });
   });
 
