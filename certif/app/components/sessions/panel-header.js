@@ -8,6 +8,7 @@ export default class PanelHeader extends Component {
   @service featureToggles;
   @service notifications;
   @service intl;
+  @service currentUser;
 
   get shouldRenderImportTemplateButton() {
     return this.featureToggles.featureToggles.isMassiveSessionManagementEnabled;
@@ -26,7 +27,8 @@ export default class PanelHeader extends Component {
 
   @action
   async importSessions(file) {
-    const url = '/api/sessions/import';
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    const url = `/api/certification-centers/${certificationCenterId}/sessions/import`;
     const token = this.session.data.authenticated.access_token;
     this.errorMessage = '';
     try {

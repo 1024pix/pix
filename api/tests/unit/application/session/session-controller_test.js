@@ -19,7 +19,6 @@ const { SessionPublicationBatchResult } = require('../../../../lib/domain/models
 const logger = require('../../../../lib/infrastructure/logger');
 const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
 const supervisorKitPdf = require('../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf');
-const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
 
 describe('Unit | Controller | sessionController', function () {
   let request;
@@ -1022,28 +1021,6 @@ describe('Unit | Controller | sessionController', function () {
       });
       expect(response.source).to.deep.equal(supervisorKitBuffer);
       expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=kit-surveillant-1.pdf`);
-    });
-  });
-
-  describe('#importSessions', function () {
-    it('should call the usecase to import sessions', async function () {
-      // given
-      const request = {
-        payload: { file: { path: 'csv-path' } },
-      };
-      sinon.stub(csvHelpers, 'parseCsvWithHeader');
-      sinon.stub(usecases, 'createSessions');
-
-      csvHelpers.parseCsvWithHeader.resolves('result data');
-      usecases.createSessions.resolves();
-
-      // when
-      await sessionController.importSessions(request, hFake);
-
-      // then
-      expect(usecases.createSessions).to.have.been.calledWith({
-        data: 'result data',
-      });
     });
   });
 });
