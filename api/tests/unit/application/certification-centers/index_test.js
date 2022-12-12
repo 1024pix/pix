@@ -1,8 +1,13 @@
+const { writeFile, stat, unlink } = require('fs').promises;
+
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/certification-centers');
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
+const FormData = require('form-data');
+const fs = require('fs');
+const streamToPromise = require('stream-to-promise');
 
 describe('Unit | Router | certification-center-router', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
@@ -312,6 +317,47 @@ describe('Unit | Router | certification-center-router', function () {
       // then
       expect(response.statusCode).to.equal(200);
       sinon.assert.calledOnce(certificationCenterController.findPaginatedSessionSummaries);
+    });
+  });
+
+  describe('POST /api/certification-centers/{certificationCenterId}/sessions/import', function () {
+    const testFilePath = `${__dirname}/testFile_temp.csv`;
+
+    let headers;
+    let payload;
+
+    beforeEach(async function () {
+      await writeFile(testFilePath, Buffer.alloc(0));
+      const form = new FormData();
+      const { size: knownLength } = await stat(testFilePath);
+      form.append('file', fs.createReadStream(testFilePath), { knownLength });
+
+      headers = form.getHeaders();
+      payload = await streamToPromise(form);
+    });
+
+    afterEach(async function () {
+      await unlink(testFilePath);
+    });
+
+    it('should exist', async function () {
+      // given
+      sinon.stub(certificationCenterController, 'importSessions').returns('ok');
+      const certificationCenterId = 123;
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(
+        'POST',
+        `/api/certification-centers/${certificationCenterId}/sessions/import`,
+        payload,
+        null,
+        headers
+      );
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

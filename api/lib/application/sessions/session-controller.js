@@ -22,7 +22,6 @@ const supervisorKitPdf = require('../../infrastructure/utils/pdf/supervisor-kit-
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 const logger = require('../../infrastructure/logger');
-const csvHelpers = require('../../../scripts/helpers/csvHelpers');
 
 module.exports = {
   async findPaginatedFilteredJurySessions(request) {
@@ -348,12 +347,6 @@ module.exports = {
       .header('Content-Type', 'text/csv; charset=utf-8')
       .header('content-disposition', 'filename=import-sessions')
       .code(200);
-  },
-
-  async importSessions(request, h) {
-    const data = await csvHelpers.parseCsvWithHeader(request.payload.file.path);
-    await usecases.createSessions({ data });
-    return h.response().code(200);
   },
 };
 
