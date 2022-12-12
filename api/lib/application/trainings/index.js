@@ -64,6 +64,8 @@ exports.register = async (server) => {
                 duration: Joi.string().allow(null),
                 type: Joi.string().valid('autoformation', 'webinaire').allow(null),
                 locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').allow(null),
+                editorName: Joi.string().allow(null),
+                editorLogoUrl: Joi.string().allow(null),
               }),
               type: Joi.string().valid('trainings'),
             }).required(),
