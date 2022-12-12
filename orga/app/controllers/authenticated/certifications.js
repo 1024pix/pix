@@ -18,8 +18,8 @@ export default class AuthenticatedCertificationsController extends Controller {
   }
 
   @action
-  onSelectDivision(event) {
-    this.selectedDivision = event.target.value;
+  onSelectDivision(value) {
+    this.selectedDivision = value;
   }
 
   @action

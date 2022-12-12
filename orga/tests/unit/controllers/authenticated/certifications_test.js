@@ -49,17 +49,13 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
 
       controller.selectedDivision = '3èmeA';
 
-      const event = {
-        target: {
-          value: '2ndB',
-        },
-      };
+      const newValue = '2ndB';
 
       // when
-      await controller.onSelectDivision(event);
+      await controller.onSelectDivision(newValue);
 
       // then
-      assert.strictEqual(controller.selectedDivision, event.target.value);
+      assert.strictEqual(controller.selectedDivision, newValue);
     });
   });
 
