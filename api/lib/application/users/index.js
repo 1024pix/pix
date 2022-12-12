@@ -939,6 +939,30 @@ exports.register = async function (server) {
         tags: ['api', 'user', 'trainings'],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/has-seen-last-data-protection-policy-information',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        handler: userController.rememberUserHasSeenLastDataProtectionPolicyInformation,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Sauvegarde le fait que l'utilisateur ait vu la nouvelle politique de confidentialité Pix" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user'],
+      },
+    },
   ]);
 };
 
