@@ -25,6 +25,9 @@ Router.map(function () {
   this.route('authenticated', { path: '' }, function () {
     this.route('sco-organization-participants', { path: 'eleves' }, function () {
       this.route('list', { path: '/' });
+      this.route('sco-organization-participant', { path: '/:eleve_id' }, function () {
+        this.route('activity', { path: '/' });
+      });
     });
     this.route('organization-participants', { path: 'participants' }, function () {
       this.route('list', { path: '/' });
