@@ -4,7 +4,7 @@ const sessionRepository = require('../../../../lib/infrastructure/repositories/s
 const _ = require('lodash');
 
 describe('Unit | Service | CodeSession', function () {
-  describe('#isSessionCodeAvailable', function () {
+  describe('#getNewSessionCode', function () {
     it('should return a non ambiguous session code with 4 random capital letters and 2 random numbers', async function () {
       // given
       sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
