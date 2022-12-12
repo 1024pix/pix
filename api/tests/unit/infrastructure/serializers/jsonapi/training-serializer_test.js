@@ -17,6 +17,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
               hours: 5,
             },
             locale: 'fr-fr',
+            'editor-name': 'Ministère education nationale',
+            'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
           },
           id: training.id.toString(),
           type: 'trainings',
@@ -51,6 +53,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
               hours: 5,
             },
             locale: 'fr-fr',
+            'editor-name': 'Ministère education nationale',
+            'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
           },
           id: training.id.toString(),
           type: 'trainings',
@@ -78,6 +82,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             duration: '6h',
             type: 'webinaire',
             locale: 'fr-fr',
+            'editor-name': 'Ministère education nationale',
+            'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
           },
         },
       };
@@ -92,6 +98,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         locale: 'fr-fr',
         duration: '6h',
         type: 'webinaire',
+        editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
+        editorName: 'Ministère education nationale',
       });
     });
   });
