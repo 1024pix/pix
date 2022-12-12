@@ -85,7 +85,7 @@
   font-size: 0.938rem;
   font-family: $font-roboto;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     width: 40%;
   }
 }

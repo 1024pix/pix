@@ -13,18 +13,18 @@
     background-size: contain;
     border: none;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: 85px;
       height: 80px;
       margin-top: -25px;
     }
 
     &--focused {
-      background-image: url("/images/tag-focused-challenge.svg");
+      background-image: url('/images/tag-focused-challenge.svg');
     }
 
     &--regular {
-      background-image: url("/images/tag-regular-challenge.svg");
+      background-image: url('/images/tag-regular-challenge.svg');
     }
   }
 }
@@ -51,7 +51,7 @@
     border-radius: 15px;
     box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       top: -60px;
       right: 80px;
     }
@@ -64,9 +64,9 @@
       border-color: transparent transparent transparent white;
       border-style: solid;
       border-width: 15px;
-      content: " ";
+      content: ' ';
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         top: 80px;
       }
     }
@@ -110,6 +110,6 @@
   }
 }
 
-.tooltip-tag__icon-button[aria-expanded="false"] + .tooltip-tag__information {
+.tooltip-tag__icon-button[aria-expanded='false'] + .tooltip-tag__information {
   display: none;
 }

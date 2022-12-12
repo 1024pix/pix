@@ -1,4 +1,4 @@
-@import "challenge-embed-simulator";
+@import 'challenge-embed-simulator';
 
 .challenge-statement {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
@@ -17,7 +17,7 @@
     border-bottom: none;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     font-size: 1.25rem;
   }
 }
@@ -43,7 +43,7 @@
       color: $pix-primary;
       text-decoration: underline;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         display: inline-block;
       }
 
@@ -115,7 +115,7 @@
   border-top: 10px solid $pix-neutral-20;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
-  content: "";
+  content: '';
 }
 
 .challenge-statement__help-tooltip::after {
@@ -128,7 +128,7 @@
   border-top: 8px solid white;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent;
-  content: "";
+  content: '';
 }
 
 /* XXX the magic trick to manage tooltip appearing at icon mouse hover */

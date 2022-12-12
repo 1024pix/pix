@@ -56,7 +56,7 @@
       width: 3px;
       height: calc(100% - 20px);
       border-radius: 1.5px;
-      content: "";
+      content: '';
     }
 
     &--disabled {
@@ -117,7 +117,7 @@
   @include coloriseElements($environment-light);
 }
 
-@include device-is("mobile") {
+@include device-is('mobile') {
 
   .user-certifications-detail-competence {
 

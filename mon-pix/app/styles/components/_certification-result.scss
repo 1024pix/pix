@@ -10,7 +10,7 @@
   line-height: 1.875rem;
   background-color: $pix-neutral-0;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding: 41px 0;
   }
 }
@@ -24,7 +24,7 @@
   line-height: 2.5rem;
   text-align: center;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     font-size: 1.875rem;
   }
 }
@@ -75,7 +75,7 @@
 .result-content__button {
   margin: 12px auto;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     margin-top: 8px;
   }
 }

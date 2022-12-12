@@ -3,7 +3,7 @@
   padding-top: 5%;
   background: $pix-primary-app-gradient;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding-right: 20%;
     padding-left: 20%;
   }

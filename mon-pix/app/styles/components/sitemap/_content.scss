@@ -19,7 +19,7 @@
     align-items: flex-start;
     width: 90%;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: auto;
       margin-left: -10%;
     }
@@ -41,7 +41,7 @@
     flex-direction: column;
     padding: 0;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: auto;
     }
 
@@ -71,7 +71,7 @@
 
     li::before {
       color: $pix-neutral-45;
-      content: "•";
+      content: '•';
     }
   }
 }
@@ -80,7 +80,7 @@
 
   li::before {
     color: $pix-neutral-45;
-    content: "•";
+    content: '•';
   }
 
   &__skill {

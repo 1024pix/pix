@@ -10,7 +10,7 @@
     margin: 10px 0;
     padding: 0 15px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: 15px 0;
       padding: 0;
     }

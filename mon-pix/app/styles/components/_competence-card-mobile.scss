@@ -43,7 +43,7 @@
     left: -80px;
     width: 110%;
     border-radius: 100%;
-    content: "";
+    content: '';
   }
 
   &--jaffa::after {
@@ -137,7 +137,7 @@
   width: 130px;
   height: 140px;
   margin: -10px -5px;
-  background: url("/images/scorecard-congrats.svg") no-repeat center center;
+  background: url('/images/scorecard-congrats.svg') no-repeat center center;
   background-size: contain;
 
   &--small {

@@ -3,7 +3,7 @@
   margin-bottom: 32px;
   padding: 14px 24px;
 
-  @include device-is("mobile") {
+  @include device-is('mobile') {
 
     .pix-block {
       padding: 16px;
@@ -57,17 +57,17 @@
     }
   }
 
-  @include device-is("mobile") {
+  @include device-is('mobile') {
     flex-wrap: wrap;
     justify-content: center;
     padding: 16px;
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-wrap: wrap;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     flex-wrap: nowrap;
   }
 }
@@ -152,12 +152,12 @@
     }
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-grow: 1;
     margin-left: 0;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     flex-grow: 0;
     margin-left: auto;
 

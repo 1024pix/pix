@@ -10,7 +10,7 @@
     margin: auto;
     padding: 30px 40px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: 800px;
       min-height: 600px;
       padding: 30px 10px;
@@ -26,7 +26,7 @@
     line-height: 40px;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-size: 1.875rem;
     }
   }
@@ -48,7 +48,7 @@
     white-space: pre-line;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-size: 1.25rem;
     }
   }
@@ -60,7 +60,7 @@
     margin-top: 10px;
     margin-bottom: 30px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin-top: 15px;
     }
 

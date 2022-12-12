@@ -4,7 +4,7 @@
     color: $pix-primary;
     text-decoration: underline;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       display: inline-block;
     }
 

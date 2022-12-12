@@ -14,7 +14,7 @@
     background: $pix-neutral-10;
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     height: 70px;
     padding: 0;
   }
@@ -26,7 +26,7 @@
   overflow: hidden;
   font-size: 1rem;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     width: 60%;
     margin-left: 30px;
   }
@@ -37,7 +37,7 @@
   margin-left: 35px;
   font-size: 0.75rem;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     margin-left: auto;
   }
 }
@@ -63,7 +63,7 @@
   margin-left: 10px;
   font-size: 1.375rem;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     margin-left: 30px;
   }
 

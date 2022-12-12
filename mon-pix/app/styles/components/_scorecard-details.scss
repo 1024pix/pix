@@ -58,7 +58,7 @@
     background-color: $pix-neutral-5;
     border-radius: 6.75px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       flex-direction: row;
     }
   }
@@ -110,7 +110,7 @@
     max-width: 100%;
     padding: 0 30px 30px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       max-width: 68%;
       padding: 0 30px;
       border-right: 2px dashed $pix-neutral-22;
@@ -126,7 +126,7 @@
     padding: 0 30px;
     white-space: nowrap;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       max-width: 30%;
     }
   }
@@ -242,7 +242,7 @@
   }
 
   &__footer {
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       display: flex;
     }
   }
