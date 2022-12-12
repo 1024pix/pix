@@ -47,8 +47,6 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         otherStartedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
 
-        categoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
-
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
 
