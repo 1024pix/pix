@@ -5,7 +5,7 @@
   margin-bottom: 32px;
   padding: 25px 50px;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     padding: 50px;
   }
 
@@ -25,7 +25,7 @@
     font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding: 32px 0 48px;
       font-size: 46px;
       line-height: 3.75rem;
@@ -38,7 +38,7 @@
     align-items: center;
     min-height: 450px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       flex-direction: row;
       align-items: normal;
       justify-content: space-between;
@@ -53,7 +53,7 @@
     font-family: $font-open-sans;
     line-height: 2.5rem;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       font-size: 28px;
     }
   }
@@ -101,13 +101,13 @@
   }
 
   &__register-container {
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding-right: 30px;
     }
   }
 
   &__login-container {
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding-left: 30px;
     }
   }
@@ -117,7 +117,7 @@
     margin: 50px 0 30px;
     border-bottom: 1px solid $pix-neutral-30;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       width: 0;
       margin: 0;
       border-bottom-style: none;

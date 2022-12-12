@@ -3,7 +3,7 @@
   margin-bottom: 32px;
   padding: 30px 10px;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding: 32px 24px;
   }
 

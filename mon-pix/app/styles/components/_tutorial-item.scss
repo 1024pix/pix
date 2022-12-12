@@ -16,7 +16,7 @@
     height: calc(100% - 6px);
     background: $pix-neutral-50;
     border-radius: 50px;
-    content: " ";
+    content: ' ';
   }
 }
 
@@ -31,7 +31,7 @@
     line-height: 1.875rem;
     letter-spacing: 0;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-weight: $font-medium;
     }
 

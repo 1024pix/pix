@@ -11,7 +11,7 @@
     margin-bottom: 0;
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -32,7 +32,7 @@
       cursor: pointer;
     }
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       align-self: flex-start;
     }
   }
@@ -40,7 +40,7 @@
   &--yellow-background {
     background: linear-gradient(-225deg, rgb(254 220 65 / 55%) 0%, rgb(255 159 0 / 55%) 100%);
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin-top: 40px;
     }
   }
@@ -65,7 +65,7 @@
   &--align-text-center {
     text-align: center;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       text-align: left;
     }
   }
@@ -85,11 +85,11 @@
     font-size: 1.5rem;
     line-height: 2rem;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding: 16px 0 14px 24px;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding: 12px 0;
     }
 
@@ -101,7 +101,7 @@
       line-height: 1.875rem;
       letter-spacing: 0;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         font-size: 1.5rem;
         line-height: 2rem;
       }
@@ -124,7 +124,7 @@
     margin-top: 20px;
     padding: 10px 20px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: 0;
     }
   }
@@ -141,7 +141,7 @@
       margin-right: 5px;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       display: inline-table;
     }
 

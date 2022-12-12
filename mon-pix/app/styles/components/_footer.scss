@@ -12,13 +12,13 @@
     max-width: 1280px;
     margin: auto;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       flex-direction: row;
       align-items: center;
     }
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     height: 100px;
   }
 }
@@ -30,13 +30,13 @@
     flex-direction: column;
     width: 100%;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: column;
       justify-content: space-between;
       border: none;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       flex-direction: row;
       align-items: center;
     }
@@ -47,7 +47,7 @@
     align-items: center;
     padding-bottom: 16px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding-bottom: 0;
     }
   }
@@ -56,12 +56,12 @@
 .footer-container-content {
 
   &__navigation {
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: row;
       align-items: center;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       margin-left: 12px;
     }
 
@@ -73,12 +73,12 @@
       padding: 0;
       list-style: none;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         flex-direction: row;
         align-self: center;
       }
 
-      @include device-is("desktop") {
+      @include device-is('desktop') {
         margin: 0;
         padding-top: 0;
       }
@@ -92,7 +92,7 @@
     font-family: $font-roboto;
     letter-spacing: 0.008rem;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding: 0;
       white-space: nowrap;
     }
@@ -117,7 +117,7 @@
       }
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       margin: 0 10px;
       padding: 0;
     }
@@ -149,7 +149,7 @@
       height: 45px;
       margin-right: 24px;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         height: 54px;
       }
     }

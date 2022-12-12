@@ -5,7 +5,7 @@
   font-family: $font-open-sans;
   background-color: transparent;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     font-size: 0.875rem;
   }
 }

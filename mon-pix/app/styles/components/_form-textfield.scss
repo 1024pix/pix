@@ -46,7 +46,7 @@
     border: 2px solid $pix-primary-40;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     height: 50px;
   }
 }

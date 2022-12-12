@@ -31,18 +31,18 @@
     color: inherit;
   }
 
-  &__answer-details[data-goodness="good"] {
+  &__answer-details[data-goodness='good'] {
     display: inline;
     color: $pix-success-70;
     font-weight: $font-heavy;
   }
 
-  &__answer-details[data-goodness="bad"][data-checked="yes"] {
+  &__answer-details[data-goodness='bad'][data-checked='yes'] {
     display: inline;
     text-decoration: line-through;
   }
 
-  &__answer-details[data-goodness="bad"][data-checked="no"] {
+  &__answer-details[data-goodness='bad'][data-checked='no'] {
     display: inline;
   }
 

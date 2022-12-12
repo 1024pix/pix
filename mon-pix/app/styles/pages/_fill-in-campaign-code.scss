@@ -8,7 +8,7 @@
     margin-bottom: 32px;
     padding: 16px 16px $spacing-s;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding: $spacing-xl;
     }
   }
@@ -28,11 +28,11 @@
     font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: 75vw;
     }
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       width: 75vw;
     }
   }
@@ -82,11 +82,11 @@
     text-align: center;
     border-top: 1px solid $pix-neutral-15;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: 75vw;
     }
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       width: 75vw;
     }
   }

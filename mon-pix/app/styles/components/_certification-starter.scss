@@ -3,7 +3,7 @@
 /* stylelint-disable no-descending-specificity */
 
 .certification-starter {
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     padding: 50px 70px 40px;
   }
 }
@@ -15,7 +15,7 @@
     margin-bottom: 32px;
     padding: 12px;
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       padding: 16px;
     }
   }

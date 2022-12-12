@@ -1,6 +1,6 @@
 /* stylelint-disable no-descending-specificity */
 
-@include device-is("tablet") {
+@include device-is('tablet') {
 
   .competence-card {
     flex-direction: column;
@@ -145,7 +145,7 @@
     width: 130px;
     height: 140px;
     margin: -10px -5px;
-    background: url("/images/scorecard-congrats.svg") no-repeat center center;
+    background: url('/images/scorecard-congrats.svg') no-repeat center center;
     background-size: contain;
 
     &--with-magnification {

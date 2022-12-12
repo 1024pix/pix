@@ -1,7 +1,7 @@
 .user-certifications-page__container {
   padding: 0 10px;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     justify-content: flex-start;
     padding: 0;
   }
@@ -19,7 +19,7 @@
   font-family: $font-open-sans;
   line-height: 33px;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     justify-content: flex-start;
   }
 }

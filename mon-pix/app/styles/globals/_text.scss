@@ -33,7 +33,7 @@
     width: 100%;
     margin: 0 auto;
     border-top: 2px solid #DFDFDF;
-    content: "";
+    content: '';
   }
 
   span {
@@ -43,7 +43,7 @@
     box-decoration-break: clone;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     font-size: 1.375rem;
     line-height: 26px;
   }
@@ -55,7 +55,7 @@
   padding: 10px;
   font-size: 0.75rem;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding: 10px 0;
   }
 }

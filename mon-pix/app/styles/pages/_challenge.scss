@@ -5,7 +5,7 @@
     max-width: 990px;
     padding: 0 20px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding: 0;
     }
   }
@@ -35,7 +35,7 @@
     padding: 0 20px;
     text-align: left;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       padding: 0;
     }
   }
@@ -64,7 +64,7 @@
       padding: 24px 32px;
       opacity: 1;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         padding: 24px 98px;
       }
     }
@@ -78,7 +78,7 @@
     width: 49px;
     height: 55px;
     margin-bottom: 8px;
-    background-image: url("/images/focused-challenge-info-alert-icon.svg");
+    background-image: url('/images/focused-challenge-info-alert-icon.svg');
   }
 
   &__title {

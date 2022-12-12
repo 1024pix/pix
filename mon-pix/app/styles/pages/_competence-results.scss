@@ -16,7 +16,7 @@
       font-family: $font-open-sans;
     }
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: 12px;
       padding: 30px;
     }
@@ -26,18 +26,18 @@
       padding-top: 18rem;
       padding-bottom: 30px;
       text-align: center;
-      background: url("/images/background/banners/congrats-mobile.png") center -240px no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+      background: url('/images/background/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         align-items: flex-start;
         justify-content: center;
         padding: 3rem;
         padding-left: 22rem;
-        background: url("/images/background/banners/congrats.png") top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+        background: url('/images/background/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
         background-position: left -70px center;
       }
 
-      @include device-is("desktop") {
+      @include device-is('desktop') {
         padding-left: 27rem;
       }
     }
@@ -46,23 +46,23 @@
       padding: 1rem;
       padding-top: 18rem;
       text-align: center;
-      background: url("/images/background/banners/not-bad.png") top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+      background: url('/images/background/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         align-items: flex-start;
         justify-content: center;
         padding-top: 1rem;
         background-position: right -70px center;
       }
 
-      @include device-is("desktop") {
+      @include device-is('desktop') {
         background-position: right center;
       }
     }
 
     &--too-bad {
       padding: 40px;
-      background: url("/images/background/banners/too-bad.png") center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+      background: url('/images/background/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
     }
   }
 }
@@ -74,7 +74,7 @@
     &--tablet {
       display: none;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         display: inherit;
       }
     }
@@ -82,7 +82,7 @@
     &--mobile {
       display: inherit;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         display: none;
       }
     }
@@ -95,16 +95,16 @@
     font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: 400px;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       width: inherit;
     }
 
     &--left {
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         text-align: left;
       }
     }
@@ -112,7 +112,7 @@
     &--small {
       width: 300px;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         width: 450px;
       }
     }
@@ -121,7 +121,7 @@
   &__text {
     display: flex;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding-top: 20px;
     }
 
@@ -139,7 +139,7 @@
     align-items: center;
     padding-top: 16px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: column;
       padding-top: 0;
     }
@@ -148,7 +148,7 @@
       flex-direction: column;
       padding: 0 10px;
 
-      @include device-is("tablet") {
+      @include device-is('tablet') {
         padding: 0 30px;
       }
     }
