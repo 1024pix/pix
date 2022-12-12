@@ -31,6 +31,9 @@ Router.map(function () {
     });
     this.route('organization-participants', { path: 'participants' }, function () {
       this.route('list', { path: '/' });
+      this.route('organization-participant', { path: '/:participant_id' }, function () {
+        this.route('activity', { path: '/' });
+      });
     });
     this.route('sup-organization-participants', { path: 'etudiants' }, function () {
       this.route('list', { path: '/' });
