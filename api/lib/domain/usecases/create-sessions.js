@@ -6,18 +6,23 @@ module.exports = async function createSessions({ data }) {
   if (data.length === 0) {
     throw new UnprocessableEntityError('No data in table');
   }
+
+  const sessionsToValidate = data.map((data) => {
+    return {
+      certificationCenterId: '',
+      certifcenter: '',
+      accessCode: '',
+      address: data['* Nom du site'],
+      room: data['* Nom de la salle'],
+      date: data['* Date de début'],
+      time: data['* Heure de début (heure locale)'],
+      examiner: data['* Surveillant(s)'],
+      description: data['Observations (optionnel)'],
+    };
+  });
+
   try {
-    data.forEach((session) => {
-      const sessionToValidate = {
-        address: session['* Nom du site'],
-        room: session['* Nom de la salle'],
-        date: session['* Date de début'],
-        time: session['* Heure de début (heure locale)'],
-        examiner: session['* Surveillant(s)'],
-        description: session['Observations (optionnel)'],
-      };
-      sessionValidator.validate(sessionToValidate);
-    });
+    sessionsToValidate.forEach((sessionToValidate) => sessionValidator.validate(sessionToValidate));
   } catch (e) {
     throw new EntityValidationError(e);
   }
