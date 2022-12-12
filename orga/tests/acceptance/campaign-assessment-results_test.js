@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
@@ -37,12 +38,12 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
   module('When prescriber arrives on participants page', function () {
     test('it should display participant list with default settings for pagination', async function (assert) {
       // when
-      await visit('/campagnes/1/resultats-evaluation');
+      const screen = await visit('/campagnes/1/resultats-evaluation');
 
       // then
       assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: pageSize });
       assert.contains('Page 1 / 4');
-      assert.dom('.page-size option:checked').hasText('25');
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('25');
     });
 
     test('it should display participant list with settings in url for pagination', async function (assert) {
@@ -51,14 +52,18 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const changedPageNumber = 2;
 
       // when
-      await visit(`/campagnes/1/resultats-evaluation?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
+      const screen = await visit(
+        `/campagnes/1/resultats-evaluation?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`
+      );
 
       // then
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
       assert.contains('Page 2 / 2');
-      assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+      assert
+        .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
+        .hasText(changedPageSize.toString());
     });
 
     test('it should redirect to participant details when user clicks on row', async function (assert) {
@@ -79,23 +84,27 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const changedPageSize = 50;
 
       // when
-      await visit('/campagnes/1/resultats-evaluation');
-      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
+      const screen = await visit('/campagnes/1/resultats-evaluation');
+      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
-      assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+      assert
+        .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
+        .hasText(changedPageSize.toString());
     });
 
     test('it should change participant list page when user clicks on next page', async function (assert) {
       // given
       const changedPageSize = 10;
 
-      await visit('/campagnes/1/resultats-evaluation');
-      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
+      const screen = await visit('/campagnes/1/resultats-evaluation');
+      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(await screen.findByRole('option', { name: changedPageSize }));
       const someElementFromPage1 = this.element.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
       // when
@@ -112,15 +121,18 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const startPage = 3;
 
       // when
-      await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
-      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
+      const screen = await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
+      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
-      assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+      assert
+        .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
+        .hasText(changedPageSize.toString());
     });
   });
 

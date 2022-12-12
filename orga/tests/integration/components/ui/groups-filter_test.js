@@ -39,10 +39,11 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
       this.onSelect = sinon.stub();
 
-      await render(
-        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder="Classes" />`
+      const screen = await render(
+        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder="Groupes" />`
       );
-      await click('[for="group-L1"]');
+      await click(screen.getByLabelText('Groupes'));
+      await click(await screen.findByRole('checkbox', { name: 'L1' }));
 
       assert.ok(this.onSelect.calledWith(['L1']));
     });
@@ -56,11 +57,11 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       this.campaign = store.createRecord('campaign', { id: 1, groups: [group1, group2, group3] });
       this.selected = ['L1', 'L2'];
 
-      const { getByPlaceholderText } = await render(
+      const screen = await render(
         hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @selectedGroups={{this.selected}} @placeholder="Groupes" />`
       );
 
-      assert.ok(getByPlaceholderText('L1, L2'));
+      assert.ok(screen.getByPlaceholderText('L1, L2'));
     });
   });
 });

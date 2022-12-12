@@ -4,7 +4,8 @@ When(`je veux gérer le compte d'un élève`, () => {
 });
 
 When('je sélectionne la méthode de connexion {string}', (value) => {
-  cy.get('#select-connexionType').select(value);
+  cy.contains('Méthode de connexion').click();
+  cy.contains(value).click();
 });
 
 Then(`je vois la modale de gestion du compte de l'élève`, () => {

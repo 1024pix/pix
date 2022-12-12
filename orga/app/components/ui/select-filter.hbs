@@ -1,8 +1,8 @@
 <PixSelect
-  id="select-{{@field}}"
-  aria-label={{@ariaLabel}}
+  @label={{@ariaLabel}}
+  @screenReaderOnly={{true}}
   @onChange={{this.onChange}}
   @options={{@options}}
-  @selectedOption={{@selectedOption}}
-  @emptyOptionLabel={{@emptyOptionLabel}}
+  @value={{@selectedOption}}
+  @placeholder={{@emptyOptionLabel}}
 />

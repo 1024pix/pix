@@ -19,7 +19,6 @@ export default class CreateForm extends Component {
   @tracked targetProfile;
   @tracked selectedCategories = [];
   @tracked targetProfilesOptions = [];
-  @tracked displayDeleteInputButton = false;
 
   constructor() {
     super(...arguments);
@@ -87,23 +86,10 @@ export default class CreateForm extends Component {
     return this.args.membersSortedByFullName.map((member) => ({ value: member.id, label: member.fullName }));
   }
 
-  _isTargetProfileInputEmpty() {
-    return document.getElementById('campaign-target-profile').value.length === 0;
-  }
-
-  _toggleDeleteButton() {
-    if (!this._isTargetProfileInputEmpty()) {
-      this.displayDeleteInputButton = true;
-    } else {
-      this.displayDeleteInputButton = false;
-    }
-  }
-
   @action
   cleanInput() {
     const input = document.getElementById('campaign-target-profile');
     input.value = '';
-    this.displayDeleteInputButton = false;
     this.targetProfile = '';
   }
 
@@ -130,9 +116,8 @@ export default class CreateForm extends Component {
   }
 
   @action
-  selectTargetProfile(event) {
-    this._toggleDeleteButton();
-    this.targetProfile = this.args.targetProfiles.find((targetProfile) => targetProfile.name === event.target.value);
+  selectTargetProfile(targetProfileId) {
+    this.targetProfile = this.args.targetProfiles.find((targetProfile) => targetProfile.id === targetProfileId);
     this.campaign.targetProfile = this.targetProfile;
   }
 

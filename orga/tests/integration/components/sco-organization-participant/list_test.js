@@ -170,12 +170,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(
+      const screen = await render(
         hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} />`
       );
 
       // when
-      await fillByLabel('Rechercher par méthode de connexion', 'email');
+      await click(screen.getByLabelText('Rechercher par méthode de connexion'));
+      await click(await screen.findByRole('option', { name: 'Adresse e-mail' }));
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', 'email');

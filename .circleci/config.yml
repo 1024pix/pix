@@ -165,6 +165,7 @@ jobs:
     resource_class: small
     working_directory: ~/pix/orga
     steps:
+      - run: sudo npm i -g npm@8.13.2
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
@@ -305,8 +306,9 @@ jobs:
           environment:
             JOBS: 2
           working_directory: ~/pix/orga
-          command: npm ci
-
+          command: |
+            sudo npm i -g npm@8.13.2
+            npm ci
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
