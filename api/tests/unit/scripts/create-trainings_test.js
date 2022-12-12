@@ -4,7 +4,7 @@ const { prepareDataForInsert } = require('../../../scripts/create-trainings');
 
 describe('Unit | Scripts | create-trainings.js', function () {
   describe('#prepareDataForInsert', function () {
-    it('should trim title, link, type, duration and locale', function () {
+    it('should trim all properties', function () {
       // given
       const data = [
         {
@@ -13,6 +13,8 @@ describe('Unit | Scripts | create-trainings.js', function () {
           type: '   autoformation   ',
           duration: '   06:00:00   ',
           locale: '  fr-fr',
+          editorName: "     Ministère de l'intérieur    ",
+          editorLogoUrl: '   https://images.pix.fr/contenu-formatif/editeur/logo.svg  ',
         },
         {
           title: '   Moodle : Partager et échanger ses ressources',
@@ -20,6 +22,8 @@ describe('Unit | Scripts | create-trainings.js', function () {
           type: '   webinaire ',
           duration: '01:00:00  ',
           locale: 'fr-fr ',
+          editorName: "     Ministère de l'éducation    ",
+          editorLogoUrl: '   https://images.pix.fr/contenu-formatif/editeur/logo2.svg  ',
         },
       ];
 
@@ -34,6 +38,8 @@ describe('Unit | Scripts | create-trainings.js', function () {
           type: 'autoformation',
           duration: '06:00:00',
           locale: 'fr-fr',
+          editorName: "Ministère de l'intérieur",
+          editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo.svg',
         },
         {
           title: 'Moodle : Partager et échanger ses ressources',
@@ -41,6 +47,8 @@ describe('Unit | Scripts | create-trainings.js', function () {
           type: 'webinaire',
           duration: '01:00:00',
           locale: 'fr-fr',
+          editorName: "Ministère de l'éducation",
+          editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo2.svg',
         },
       ]);
     });
@@ -54,6 +62,8 @@ describe('Unit | Scripts | create-trainings.js', function () {
           type: 'autoformation',
           duration: '06:00:00',
           locale: 'fr-fr',
+          editorName: "Ministère de l'éducation",
+          editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo.svg',
         },
         {
           title: 'Moodle : Partager et échanger ses ressources',
@@ -61,6 +71,8 @@ describe('Unit | Scripts | create-trainings.js', function () {
           type: 'test',
           duration: '01:00:00',
           locale: 'fr-fr',
+          editorName: "Ministère de l'éducation",
+          editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo.svg',
         },
       ];
 
