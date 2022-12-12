@@ -1,14 +1,16 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
+import setupIntl from '../helpers/setup-intl';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Campaign Profiles', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   let user;
@@ -27,12 +29,12 @@ module('Acceptance | Campaign Profiles', function (hooks) {
   module('When user arrives on profiles page', function () {
     test('it should display profile list with default settings for pagination', async function (assert) {
       // when
-      await visit('/campagnes/1/profils');
+      const screen = await visit('/campagnes/1/profils');
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
       assert.contains('Page 1 / 4');
-      assert.dom('.page-size option:checked').hasText(pageSize.toString());
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('25');
     });
 
     test('it should display profile list with settings in url for pagination', async function (assert) {
@@ -41,12 +43,12 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       const changedPageNumber = 2;
 
       // when
-      await visit(`/campagnes/1/profils?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
+      const screen = await visit(`/campagnes/1/profils?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.contains('Page 2 / 2');
-      assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
   });
 
@@ -56,21 +58,24 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       const changedPageSize = 50;
 
       // when
-      await visit('/campagnes/1/profils');
-      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
+      const screen = await visit('/campagnes/1/profils');
+      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
-      assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
     test('it should change profile list page when user clicks on next page', async function (assert) {
       // given
       const changedPageSize = 10;
 
-      await visit('/campagnes/1/profils');
-      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
+      const screen = await visit('/campagnes/1/profils');
+      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(await screen.findByRole('option', { name: changedPageSize }));
+
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
@@ -87,13 +92,14 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       const startPage = 2;
 
       // when
-      await visit(`/campagnes/1/profils?pageNumber=${startPage}`);
-      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
+      const screen = await visit(`/campagnes/1/profils?pageNumber=${startPage}`);
+      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
-      assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
   });
 

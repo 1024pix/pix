@@ -1,12 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
-import {
-  fillByLabel,
-  clickByName,
-  selectByLabelAndOption,
-  visit,
-  selectOptionInRadioGroup,
-} from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit, selectOptionInRadioGroup } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -61,10 +55,13 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const expectedTargetProfileId = availableTargetProfiles[1].id;
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
-      await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation');
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
+
+      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
+
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
 
       // when
@@ -96,10 +93,11 @@ module('Acceptance | Campaign Creation', function (hooks) {
       // given
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
-      await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation');
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
+      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
       await fillByLabel('Titre du parcours', 'Savoir rechercher');
       await clickByName('Non');
 
@@ -117,7 +115,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const screen = await visit('/campagnes/creation');
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', targetProfileName);
+      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(await screen.findByRole('option', { name: targetProfileName }));
 
       // when
       await clickByName('Créer la campagne');
@@ -128,7 +127,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {
       // given
-      await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation');
 
       const expectedTargetProfileName = availableTargetProfiles[1].name;
       server.post('/campaigns', {}, 500);
@@ -136,7 +135,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
       // when
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
+      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
       await clickByName('Créer la campagne');
 

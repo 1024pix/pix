@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { render as renderScreen, fillByLabel } from '@1024pix/ember-testing-library';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
@@ -193,13 +193,14 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       this.onFilter = sinon.stub();
 
       // when
-      await render(hbs`<Campaign::Results::ProfileList
+      const screen = await render(hbs`<Campaign::Results::ProfileList
         @campaign={{this.campaign}}
         @profiles={{this.profiles}}
         @onClickParticipant={{this.noop}}
         @onFilter={{this.onFilter}}
       />`);
-      await click('[for="division-d1"]');
+      await click(screen.getByLabelText('Classes'));
+      await click(await screen.findByRole('checkbox', { name: 'd1' }));
 
       // then
       assert.ok(this.onFilter.calledWith('divisions', ['d1']));
@@ -216,7 +217,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         });
         this.set('campaign', campaign);
         this.set('searchFilter', 'chichi');
-        const screen = await renderScreen(
+        const screen = await render(
           hbs`<Campaign::Results::ProfileList  @campaign={{this.campaign}} @searchFilter={{this.searchFilter}} @onFilter={{this.noop}}/>`
         );
 
@@ -234,7 +235,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         const triggerFiltering = sinon.stub();
         this.set('campaign', campaign);
         this.set('triggerFiltering', triggerFiltering);
-        await renderScreen(
+        await render(
           hbs`<Campaign::Results::ProfileList  @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
         );
         await fillByLabel('Recherche sur le nom et prénom', 'Chichi');

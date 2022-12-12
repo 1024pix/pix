@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 
 function getMetaForPage({ pageNumber, rowCount = 50 }) {
   const pageSize = 25;
@@ -110,13 +110,14 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
   test('it should re-route to page with changed page size', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
-    await render(hbs`<Table::PaginationControl @pagination={{this.meta}}/>`);
+    const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}}/>`);
 
     // when
-    await fillByLabel("Nombre d'élément à afficher par page", '10');
+    await click(screen.getByLabelText("Nombre d'élément à afficher par page"));
+    await click(await screen.findByRole('option', { name: '10' }));
 
     // then
-    assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '10', pageNumber: 1 } }));
+    assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: 10, pageNumber: 1 } }));
   });
 
   module('Display start and end items index of the page', () => {

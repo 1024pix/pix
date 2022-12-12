@@ -1,14 +1,14 @@
 .certifications-page {
   display: flex;
   flex-direction: column;
-  padding: 16px 0 0 16px;
+  padding: $spacing-s 0 0 $spacing-s;
   width: 100%;
   margin-bottom: 20px;
 
   &__tabs {
     display: flex;
     border-bottom: 1px solid $pix-neutral-20;
-    margin-bottom: 16px;
+    margin-bottom: $spacing-s;
   }
 
   &__text {
@@ -23,7 +23,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     min-width: 100%;
     margin-bottom: 40px;
 
@@ -35,13 +35,17 @@
     }
 
     .pix-select {
-      margin-right: 8px;
-      margin-bottom: 6px;
+      margin-right: $spacing-xs;
+      min-width: 7rem;
+      margin-left: $spacing-xs;
+
+      &__dropdown {
+        min-width: 7rem;
+      }
     }
 
-    button {
-      margin-bottom: 6px;
-      margin-left: 8px;
+    > button {
+      margin-left: $spacing-xs;
     }
   }
 

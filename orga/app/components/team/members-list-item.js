@@ -48,8 +48,8 @@ export default class MembersListItem extends Component {
   }
 
   @action
-  setRoleSelection(event) {
-    this.selectedNewRole = event.target.value;
+  setRoleSelection(value) {
+    this.selectedNewRole = value;
     this.isEditionMode = true;
   }
 

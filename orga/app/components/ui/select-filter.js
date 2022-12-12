@@ -3,8 +3,8 @@ import { action } from '@ember/object';
 
 export default class SelectFilter extends Component {
   @action
-  onChange(event) {
+  onChange(value) {
     const { triggerFiltering, field } = this.args;
-    triggerFiltering(field, event.target.value);
+    triggerFiltering(field, value);
   }
 }
