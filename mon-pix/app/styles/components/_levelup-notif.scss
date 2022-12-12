@@ -16,7 +16,7 @@
   animation-duration: 1s;
   user-select: none;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     width: 362px;
   }
 
@@ -73,7 +73,7 @@
     font-family: $font-open-sans;
     text-transform: uppercase;
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       font-size: 0.875rem;
     }
   }
@@ -83,7 +83,7 @@
     font-family: $font-roboto;
     line-height: 1.125rem;
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       font-size: 0.813rem;
     }
   }

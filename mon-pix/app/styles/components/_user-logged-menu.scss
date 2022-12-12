@@ -53,7 +53,7 @@
   background-color: transparent;
   border: none;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     max-width: none;
   }
 }

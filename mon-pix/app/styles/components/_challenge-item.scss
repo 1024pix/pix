@@ -13,7 +13,7 @@
   font-size: 0.938rem;
   background-color: $pix-neutral-10;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     font-size: 1.25rem;
   }
 
@@ -25,7 +25,7 @@
     color: $pix-primary;
     text-decoration: underline;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       display: inline-block;
     }
 

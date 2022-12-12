@@ -17,7 +17,7 @@
   margin: auto;
   padding: 25px;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-direction: row;
   }
 }
@@ -39,7 +39,7 @@
   font-family: $font-open-sans;
   text-align: center;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding: 5px 20px;
   }
 
@@ -47,7 +47,7 @@
     font-weight: $font-light;
     font-size: 1.875rem;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-size: 3rem;
     }
 
@@ -98,7 +98,7 @@
   align-self: center;
   margin: 30px 0;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     margin: 30px;
   }
 }
@@ -134,7 +134,7 @@
       height: 15px;
       margin: 35px auto;
       border-bottom: 2px solid $pix-primary;
-      content: "";
+      content: '';
     }
   }
 
@@ -171,7 +171,7 @@
   margin: auto;
   padding: 10px;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-direction: row;
   }
 

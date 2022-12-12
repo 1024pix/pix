@@ -11,13 +11,13 @@
     padding: 20px 3px;
     border-radius: 10px;
 
-    @include device-is("large-screen") {
+    @include device-is('large-screen') {
       width: 100vw;
       max-width: 1080px;
       padding: 40px 100px;
     }
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       align-items: center;
       padding: 20px 2px;
     }
@@ -53,12 +53,12 @@
     min-height: 500px;
     margin-top: 10px;
 
-    @include device-is("large-screen") {
+    @include device-is('large-screen') {
       flex-flow: row;
       justify-content: space-between;
     }
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       flex-flow: column;
       margin: 10px 20px 0;
     }
@@ -68,7 +68,7 @@
     display: flex;
     flex-direction: column;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: 360px;
     }
   }

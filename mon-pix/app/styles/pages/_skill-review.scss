@@ -14,7 +14,7 @@
     justify-content: center;
     margin: auto;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: row;
       align-items: flex-start;
       justify-content: flex-start;
@@ -29,7 +29,7 @@
     text-align: center;
     border-top: 1px dashed $pix-neutral-22;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin-top: 32px;
       padding: 0 32px;
       font-size: 1.5rem;
@@ -54,10 +54,8 @@
     max-width: 980px;
     margin-bottom: 32px;
     padding: 40px 10px;
-    /* stylelint-disable color-function-notation */
-    box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 1), 0 3px 6px 0 rgb(0 0 0 / 10%);
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding: 32px 48px;
     }
   }
@@ -72,7 +70,7 @@
     padding: 24px;
     border-radius: 5px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: row;
       padding: 32px;
       border-radius: 32px 0 32px 32px;
@@ -109,7 +107,7 @@
     gap: 40px;
     align-items: center;
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       flex-direction: column;
     }
   }
@@ -130,7 +128,7 @@
       font-size: 16px;
     }
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       align-items: center;
       text-align: center;
     }
@@ -171,11 +169,11 @@
     list-style: none;
     row-gap: 24px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       grid-template-columns: 1fr 1fr;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       grid-template-columns: 1fr 1fr 1fr;
     }
   }
@@ -273,7 +271,7 @@
       width: 118px;
     }
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       min-width: 118px;
       margin-right: 32px;
       margin-bottom: 0;
@@ -337,7 +335,7 @@
     text-align: center;
     text-transform: none;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-size: 2rem;
       line-height: 3.375rem;
     }
@@ -367,7 +365,7 @@
     justify-content: center;
     padding: 16px 40px 0;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
 
       &--left {
         align-items: flex-start;
@@ -392,7 +390,7 @@
     font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       text-align: left;
     }
   }
@@ -404,7 +402,7 @@
     margin: 10px;
     text-align: left;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: auto;
     }
   }
@@ -417,7 +415,7 @@
     margin-bottom: 32px;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: row;
     }
   }
@@ -437,7 +435,7 @@
     padding: 20px 40px 0;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       text-align: left;
     }
   }
@@ -483,7 +481,7 @@
     flex-direction: column;
     height: 89px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-direction: row;
     }
   }
@@ -492,7 +490,7 @@
     max-width: fit-content;
     margin: 0 auto;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: 0;
     }
   }
@@ -520,7 +518,7 @@
     margin: 16px 0 0;
     background-color: $pix-neutral-10;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: 0 0 0 16px;
     }
   }

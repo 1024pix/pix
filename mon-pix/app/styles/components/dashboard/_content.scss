@@ -6,10 +6,10 @@
 .dashboard-content {
   display: grid;
   grid-template-areas:
-    "banner"
-    "score"
-    "main"
-    "certif";
+    'banner'
+    'score'
+    'main'
+    'certif';
   grid-template-rows: auto;
   grid-template-columns: 100%;
   padding: 40px 20px;
@@ -37,13 +37,13 @@
     grid-area: certif;
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     grid-template-areas:
-      "banner banner banner banner banner banner"
-      "score score score certif certif certif"
-      "main main main main main main"
-      "main main main main main main"
-      "main main main main main main";
+      'banner banner banner banner banner banner'
+      'score score score certif certif certif'
+      'main main main main main main'
+      'main main main main main main'
+      'main main main main main main';
     grid-template-rows: auto;
     grid-template-columns: repeat(6, 1fr);
 
@@ -73,12 +73,12 @@
     }
   }
 
-  @include device-is("large-screen") {
+  @include device-is('large-screen') {
     grid-template-areas:
-      "main main main score"
-      "main main main certif"
-      "main main main certif"
-      "main main main certif";
+      'main main main score'
+      'main main main certif'
+      'main main main certif'
+      'main main main certif';
     grid-template-rows: auto;
     grid-template-columns: repeat(4, 1fr);
     padding: 0;
@@ -132,7 +132,7 @@
     border-radius: 10px;
     box-shadow: 0 1px 0 0 rgb(23 43 77 / 12%);
 
-    @include device-is("large-screen") {
+    @include device-is('large-screen') {
       margin-left: 34px;
       font-size: 0.8125rem;
     }
@@ -197,7 +197,7 @@
       background-color: darken($pix-neutral-10, 5%);
     }
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       display: block;
     }
   }

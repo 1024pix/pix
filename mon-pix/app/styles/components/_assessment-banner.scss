@@ -13,7 +13,7 @@
   margin-top: 5px;
   padding: 0 10px;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     min-height: 100px;
     padding: 0;
   }
@@ -24,7 +24,7 @@
   font-weight: $font-light;
   font-size: 1.094rem;
 
-  @include device-is("mobile") {
+  @include device-is('mobile') {
     position: absolute;
     display: block;
     width: 1px;
@@ -36,7 +36,7 @@
     clip: rect(0, 0, 0, 0);
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     font-weight: $font-normal;
   }
 }
@@ -51,7 +51,7 @@
   margin: 0 10px;
   background: $pix-neutral-15;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     margin: 0 20px;
   }
 }
