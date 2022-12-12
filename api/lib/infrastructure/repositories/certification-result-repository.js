@@ -75,11 +75,18 @@ function _selectCertificationResults() {
         json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)  as "competenceMarks"`)
     )
     .from('certification-courses')
-    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .modify(_filterMostRecentAssessmentResult)
+    .leftJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId'
+    )
+    .leftJoin(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId'
+    )
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id')
+    .groupBy('certification-courses.id', 'assessment-results.id')
     .where('certification-courses.isPublished', true);
 }
 
@@ -119,16 +126,6 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
     .where({ sessionId })
     .where('complementary-certification-course-results.source', ComplementaryCertificationCourseResult.sources.PIX)
     .groupBy('certification-courses.id');
-}
-
-function _filterMostRecentAssessmentResult(qb) {
-  return qb.whereNotExists(
-    knex
-      .select(1)
-      .from({ 'last-assessment-results': 'assessment-results' })
-      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-  );
 }
 
 function _toDomain(certificationResultDTO) {

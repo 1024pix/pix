@@ -1217,10 +1217,14 @@ function _buildRejected(certificationAttestationData) {
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;
-  databaseBuilder.factory.buildAssessmentResult({
+  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'rejected',
+  });
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationAttestationData.id,
+    lastAssessmentResultId,
   });
 }
 
@@ -1242,10 +1246,14 @@ function _buildCancelled(certificationAttestationData) {
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;
-  databaseBuilder.factory.buildAssessmentResult({
+  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'validated',
+  });
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationAttestationData.id,
+    lastAssessmentResultId,
   });
 }
 
@@ -1273,6 +1281,10 @@ function _buildValidCertificationAttestation(certificationAttestationData, build
     status: 'validated',
     createdAt: new Date('2020-01-02'),
   }).id;
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationAttestationData.id,
+    lastAssessmentResultId: assessmentResultId,
+  });
 
   if (buildCompetenceMark) {
     databaseBuilder.factory.buildCompetenceMark({
@@ -1324,6 +1336,12 @@ function _buildCertificationAttestationWithSeveralResults(certificationAttestati
     status,
     createdAt: new Date('2019-01-02'),
   }).id;
+
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationAttestationData.id,
+    lastAssessmentResultId: assessmentResultId2,
+  });
+
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId: assessmentResultId1,
   });

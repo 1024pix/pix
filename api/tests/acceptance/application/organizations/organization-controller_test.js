@@ -2007,8 +2007,13 @@ describe('Acceptance | Application | organization-controller', function () {
       });
 
       const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
-      databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
-
+      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId: assessment.id,
+      });
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: certificationCourse.id,
+        lastAssessmentResultId: lastAssessmentResultId,
+      });
       await databaseBuilder.commit();
 
       const options = {
@@ -2087,6 +2092,10 @@ describe('Acceptance | Application | organization-controller', function () {
       const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessment.id,
         status: AssessmentResult.status.VALIDATED,
+      });
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: certificationCourse.id,
+        lastAssessmentResultId: assessmentResult.id,
       });
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
