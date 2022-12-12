@@ -6,7 +6,7 @@
   padding-top: 10px;
   padding-bottom: 20px;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     margin-bottom: 25px;
     padding-top: 80px;
     padding-bottom: 40px;
@@ -21,7 +21,7 @@
     font-weight: $font-bold;
     font-size: 1.875rem;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-size: 2rem;
     }
   }
@@ -43,7 +43,7 @@
   flex-direction: column;
   align-items: center;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     display: block;
   }
 }

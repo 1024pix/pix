@@ -20,7 +20,7 @@
     font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       text-align: start;
     }
   }
@@ -92,7 +92,7 @@
     margin: 32px 0;
     padding: 14px 24px;
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       min-width: 100%;
       max-width: 100%;
       margin: 0;
@@ -101,7 +101,7 @@
   }
 
   &__error-message {
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       max-width: 520px;
       margin-bottom: 10px;
     }

@@ -16,7 +16,7 @@
   border-radius: 10px;
   box-shadow: $box-shadow-competence-cards;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     flex: 1 1 40%;
     min-width: 420px;
     max-width: 420px;
@@ -37,7 +37,7 @@
     padding: 24px;
     padding-right: 16px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       flex: 1 1 40%;
       min-width: 300px;
       max-width: 300px;

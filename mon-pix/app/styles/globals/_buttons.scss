@@ -161,7 +161,7 @@
     }
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding: 14px 20px;
   }
 }
@@ -185,7 +185,7 @@
 
 .loader-in-button {
   display: flex;
-  background: url("/images/loader-white.svg") no-repeat center;
+  background: url('/images/loader-white.svg') no-repeat center;
   background-size: 50px;
 }
 

@@ -19,7 +19,7 @@
     border: 1.3px dashed $pix-neutral-40;
     border-radius: 5px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       margin: 0 40px 20px;
     }
   }
@@ -35,7 +35,7 @@
     font-family: $font-open-sans;
     text-align: center;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       line-height: 26px;
     }
   }

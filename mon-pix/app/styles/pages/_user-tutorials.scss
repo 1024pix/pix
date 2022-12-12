@@ -4,7 +4,7 @@
   font-weight: $font-light;
   font-family: $font-roboto;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 20px 16px;
@@ -54,7 +54,7 @@
     margin: 0 auto;
     padding: 0 20px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       max-width: 1280px;
     }
   }
@@ -69,7 +69,7 @@
     list-style: none;
     row-gap: 16px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       grid-template-columns: 1fr 1fr;
       margin: 0 auto 32px;
       column-gap: 24px;
@@ -88,7 +88,7 @@
     text-align: center;
     row-gap: 20px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       flex-direction: row;
       text-align: left;
       column-gap: 100px;
@@ -129,21 +129,21 @@
   text-align: center;
   background: $pix-neutral-20;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-direction: row;
     align-items: flex-start;
     padding: 24px;
     text-align: left;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     margin: 24px auto;
   }
 
   &__illustration {
     margin-bottom: 16px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin-bottom: 0;
     }
   }
@@ -155,7 +155,7 @@
       margin: 0 3px;
     }
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding: 0 0 0 32px;
     }
   }
@@ -167,7 +167,7 @@
     line-height: 2.5rem;
     letter-spacing: 0;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       line-height: 3.375rem;
     }
   }

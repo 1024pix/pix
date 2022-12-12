@@ -10,7 +10,7 @@
     color: $pix-primary;
     text-decoration: underline;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       display: inline-block;
     }
 
@@ -44,12 +44,12 @@
       color: inherit;
     }
 
-    &[data-goodness="good"] {
+    &[data-goodness='good'] {
       color: $pix-success-70;
       font-weight: $font-heavy;
     }
 
-    &[data-goodness="bad"][data-checked="yes"] {
+    &[data-goodness='bad'][data-checked='yes'] {
       text-decoration: line-through;
 
       & a {

@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   padding: 0;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-direction: row;
   }
 
@@ -16,12 +16,12 @@
       margin-bottom: 0;
     }
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       width: calc(50% - 16px);
       margin: 8px;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       width: calc(33% - 16px);
       margin: 8px;
     }

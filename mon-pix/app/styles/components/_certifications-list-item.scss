@@ -1,4 +1,4 @@
-@import "certifications-list";
+@import 'certifications-list';
 
 .certifications-list-item {
   padding: 5px;
@@ -11,7 +11,7 @@
   margin-right: 10px;
   margin-bottom: 1px;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     width: 12px;
     margin-bottom: 3px;
   }
@@ -43,7 +43,7 @@
 
   height: 30px;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     height: 60px;
     font-size: 1rem;
   }
@@ -102,10 +102,10 @@
   height: 20px;
   margin-left: 10%;
   text-align: center;
-  background: url("/images/background/hexa-pix.svg") no-repeat;
+  background: url('/images/background/hexa-pix.svg') no-repeat;
   background-size: cover;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     width: 36px;
     height: 40px;
   }
@@ -119,7 +119,7 @@
     letter-spacing: -1px;
     vertical-align: middle;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       font-weight: 500;
       font-size: 0.875rem;
     }
@@ -156,11 +156,11 @@
 .certifications-list-item__clickable .cp-is-open .certifications-list-item__cell-detail::before {
   @include arrow-button;
 
-  content: url("/images/icons/icon-arrow-down.svg");
+  content: url('/images/icons/icon-arrow-down.svg');
 }
 
 .certifications-list-item__clickable .cp-is-closed .certifications-list-item__cell-detail::before {
   @include arrow-button;
 
-  content: url("/images/icons/icon-arrow-up.svg");
+  content: url('/images/icons/icon-arrow-up.svg');
 }

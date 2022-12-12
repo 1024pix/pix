@@ -116,7 +116,7 @@
   }
 }
 
-@include device-is("tablet") {
+@include device-is('tablet') {
 
   .certification-ender {
     display: flex;

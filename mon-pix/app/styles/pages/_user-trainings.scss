@@ -4,7 +4,7 @@
   font-weight: $font-light;
   font-family: $font-roboto;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 20px 16px;
@@ -40,7 +40,7 @@
   padding: 20px 32px;
   color: $pix-neutral-90;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     padding: 40px 0;
   }
 
@@ -53,7 +53,7 @@
     margin: 0 auto;
     padding: 0 20px;
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       max-width: 1280px;
     }
   }
@@ -66,11 +66,11 @@
     list-style: none;
     row-gap: 24px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }

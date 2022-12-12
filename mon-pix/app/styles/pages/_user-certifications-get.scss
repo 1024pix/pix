@@ -58,7 +58,7 @@
   }
 }
 
-@include device-is("mobile") {
+@include device-is('mobile') {
   @include contentInColumn;
 
   .user-certifications-page-get__return-to {
@@ -66,10 +66,10 @@
   }
 }
 
-@include device-is("tablet") {
+@include device-is('tablet') {
   @include contentInColumn;
 }
 
-@include device-is("desktop") {
+@include device-is('desktop') {
   @include contentInRow;
 }

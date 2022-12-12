@@ -6,7 +6,7 @@
     padding-left: 12px;
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
 
     &__panel {
       padding-right: 30px;

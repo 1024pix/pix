@@ -8,7 +8,7 @@
 .learning-more-panel__container {
   margin: 25px 15px;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     margin: 25px 40px;
   }
 

@@ -30,7 +30,7 @@
     font-size: 1.25rem;
   }
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     flex-grow: 0;
     width: calc(50% - 10px);
     height: 253px;

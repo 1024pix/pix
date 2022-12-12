@@ -13,25 +13,25 @@
   font-family: $font-roboto;
   text-align: center;
 
-  @include device-is("tablet") {
+  @include device-is('tablet') {
     text-align: left;
   }
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     padding: 0;
   }
 
   &__icon {
     display: none;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       position: absolute;
       right: 50px;
       bottom: 0;
       display: block;
     }
 
-    @include device-is("desktop") {
+    @include device-is('desktop') {
       right: 70px;
     }
   }
@@ -53,7 +53,7 @@
   font-weight: $font-light;
   font-family: $font-roboto;
 
-  @include device-is("desktop") {
+  @include device-is('desktop') {
     padding: 0;
   }
 }
