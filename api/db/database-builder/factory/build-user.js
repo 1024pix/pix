@@ -80,6 +80,7 @@ const buildUser = function buildUser({
   updatedAt = new Date(),
   lastLoggedAt = new Date(),
   emailConfirmedAt = null,
+  lastDataProtectionPolicySeenAt = null,
 } = {}) {
   email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
@@ -106,6 +107,7 @@ const buildUser = function buildUser({
     updatedAt,
     lastLoggedAt,
     emailConfirmedAt,
+    lastDataProtectionPolicySeenAt,
   };
 
   return databaseBuffer.pushInsertable({
