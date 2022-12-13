@@ -133,7 +133,7 @@ La spécification *BCP 47* accepte que la `region` soit écrite en minuscules, m
 
 #### Monnaie (currency)
 
-`Intl.Locale` contient une base de données sur les timezones, calendars, et autres références liées au temps, aux langues, aux systèmes de numération, mais apparemment rien sur le système de monnaie (currency) d'une région. A priori ce n'est pas un besoin pour pix, mais c'est un point à noter car il semble légitime que cette notion soit présente dans les paramètres régionaux. On le mentionne ici car il serait bon de creuser pour comprendre le pourquoi de cette exception.
+`Intl.Locale` contient une base de données sur les timezones, calendars, et autres références liées au temps, aux langues, aux systèmes de numération, mais apparemment rien sur le système de monnaie (currency) d'une région. A priori ce n'est pas un besoin pour Pix, mais c'est un point à noter car il semble légitime que cette notion soit présente dans les paramètres régionaux. On le mentionne ici car il serait bon de creuser pour comprendre le pourquoi de cette exception.
 
 ### État du code de Pix
 
