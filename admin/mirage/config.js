@@ -2,6 +2,7 @@ import {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  createTargetProfile,
   findOrganizationTargetProfileSummaries,
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
@@ -10,7 +11,6 @@ import {
   outdate,
   updateTargetProfile,
   createBadge,
-  createBadgeCriterion,
   markTargetProfileAsSimplifiedAccess,
 } from './handlers/target-profiles';
 
@@ -35,10 +35,11 @@ export default function () {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
-  this.get('/admin/campaigns/:id', (schema, request) => {
-    return schema.campaigns.find(request.params.id);
+  this.get('feature-toggles', (schema) => {
+    return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
 
+  this.get('/admin/campaigns/:id');
   this.get('/admin/campaigns/:id/participations', (schema) => {
     return schema.campaignParticipations.all();
   });
@@ -46,15 +47,12 @@ export default function () {
   this.get('/admin/admin-members', (schema) => {
     return schema.adminMembers.all();
   });
-
   this.post('/admin/admin-members', createAdminMember);
-
   this.get('/admin/admin-members/me', (schema, request) => {
     const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
     const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
     return schema.adminMembers.findBy({ userId });
   });
-
   this.patch('/admin/admin-members/:id', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
     const role = requestBody.data.attributes.role;
@@ -62,7 +60,6 @@ export default function () {
     const adminMember = schema.adminMembers.findBy({ id });
     return adminMember.update({ role });
   });
-
   this.put('/admin/admin-members/:id/deactivate', () => {});
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
@@ -89,16 +86,105 @@ export default function () {
     session.update({ resultsSentToPrescriberAt: new Date() });
     return session;
   });
-
   this.post('/admin/sessions/publish-in-batch', () => {
     return new Response(200);
   });
-
-  this.get('feature-toggles', (schema) => {
-    return schema.featureToggles.findOrCreateBy({ id: 0 });
-  });
+  this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
 
   this.get('/admin/users');
+  this.get('/admin/users/:id');
+  this.get('/admin/users/:id/participations', (schema) => {
+    return schema.userParticipations.all();
+  });
+  this.patch('/admin/users/:id', (schema, request) => {
+    const userId = request.params.id;
+    const {
+      'first-name': firstName,
+      'last-name': lastName,
+      email,
+      username,
+    } = JSON.parse(request.requestBody).data.attributes;
+
+    const user = schema.users.find(userId);
+    return user.update({ firstName, lastName, email, username });
+  });
+  this.put('/admin/users/:id/unblock', (schema, request) => {
+    const userId = request.params.id;
+    const user = schema.users.findBy({ id: userId });
+    const userLogin = schema.userLogins.findBy({ id: user.userLoginId });
+    return userLogin.update({
+      blockedAt: null,
+      temporaryBlockedUntil: null,
+      failureCount: 0,
+    });
+  });
+  this.post('/admin/users/:id/anonymize', (schema, request) => {
+    const userId = request.params.id;
+    const user = schema.users.findBy({ id: userId });
+    return user.update({
+      firstName: `prenom_${userId}`,
+      lastName: `nom_${userId}`,
+      email: `email_${userId}@example.net`,
+      username: null,
+      authenticationMethods: [],
+    });
+  });
+  this.post('/admin/users/:id/remove-authentication', (schema, request) => {
+    const userId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const type = params.data.attributes.type;
+
+    if (type === 'EMAIL') {
+      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'PIX' });
+      authenticationMethod.destroy();
+
+      const user = schema.users.findBy({ id: userId });
+      user.update({ email: null });
+    }
+
+    if (type === 'OIDC_PARTNER') {
+      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'OIDC_PARTNER' });
+      authenticationMethod.destroy();
+    }
+
+    return new Response(204);
+  });
+  this.post('/admin/users/:id/add-pix-authentication-method', (schema, request) => {
+    const userId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const email = params.data.attributes.email;
+
+    const userHowHasAlreadyTheEmail = schema.users.findBy({ email });
+    if (userHowHasAlreadyTheEmail) {
+      return new Response(
+        400,
+        {},
+        {
+          errors: [
+            {
+              status: '400',
+              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
+              title: 'Already existing email error',
+            },
+          ],
+        }
+      );
+    }
+
+    const user = schema.users.findBy({ id: userId });
+    const newAuthenticationMethod = schema.create('authentication-method', { identityProvider: 'PIX' });
+    const authenticationMethods = [...user.authenticationMethods.models, newAuthenticationMethod];
+    user.update({ email: email });
+    user.update({ authenticationMethods });
+
+    return user;
+  });
+  this.post('/admin/users/:userId/authentication-methods/:authenticationMethodId', (schema, request) => {
+    const authenticationMethodId = request.params.authenticationMethodId;
+    const authenticationMethod = schema.authenticationMethods.findBy({ id: authenticationMethodId });
+    authenticationMethod.destroy();
+    return new Response(204);
+  });
 
   this.get('/admin/certification-centers');
   this.get('/admin/certification-centers/:id');
@@ -143,7 +229,6 @@ export default function () {
     schema.db.certificationCenterInvitations.remove(certificationCenterInvitationId);
     return new Response(204);
   });
-
   this.delete('/admin/certification-center-memberships/:id', (schema, request) => {
     const certificationCenterMembershipId = request.params.id;
     schema.db.certificationCenterMemberships.remove(certificationCenterMembershipId);
@@ -151,6 +236,21 @@ export default function () {
   });
 
   this.post('/admin/memberships', createOrganizationMembership);
+  this.patch('/admin/memberships/:id', (schema, request) => {
+    const organizationMembershipId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const organizationRole = params.data.attributes['organization-role'];
+
+    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
+    return organizationMembership.update({ organizationRole });
+  });
+  this.post('/admin/memberships/:id/disable', (schema, request) => {
+    const organizationMembershipId = request.params.id;
+
+    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
+    return organizationMembership.update({ disabledAt: new Date() });
+  });
+
   this.get('/admin/organizations');
   this.get('/admin/organizations/:id');
   this.get('/admin/organizations/:id/memberships', findPaginatedOrganizationMemberships);
@@ -159,11 +259,11 @@ export default function () {
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places/capacity', getOrganizationPlacesCapacity);
-  this.get('/admin/badges/:id', getBadge);
-  this.post('/admin/badges/:id/badge-criteria', createBadgeCriterion);
+  this.post('/admin/organizations/:id/archive', archiveOrganization);
 
-  this.post('/admin/target-profiles');
-  this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
+  this.get('/admin/frameworks');
+
+  this.post('/admin/target-profiles', createTargetProfile);
   this.get('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);
@@ -173,32 +273,34 @@ export default function () {
   this.patch('/admin/target-profiles/:id', updateTargetProfile);
   this.put('/admin/target-profiles/:id/outdate', outdate);
   this.post('/admin/target-profiles/:id/badges', createBadge);
+  this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
+
+  this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
+
+  this.get('/admin/badges/:id', getBadge);
+  this.patch('/admin/badges/:id');
+
+  this.post('/admin/stages', createStage);
+  this.get('/admin/stages/:id');
+  this.patch('/admin/stages/:id');
 
   this.get('/admin/training-summaries', findPaginatedTrainingSummaries);
 
-  this.post('/admin/stages', createStage);
-
   this.get('/admin/certifications/:id');
-
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {
     const id = request.params.id;
     return schema.certifiedProfiles.find(id);
   });
-
   this.get('/admin/certifications/:id/details', (schema, request) => {
     const id = request.params.id;
     return schema.certificationDetails.find(id);
   });
-
   this.post('/admin/certification/neutralize-challenge', () => {
     return new Response(204);
   });
-
   this.post('/admin/certification/deneutralize-challenge', () => {
     return new Response(204);
   });
-
-  this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
 
   this.post('/admin/organizations/:id/invitations', (schema, request) => {
     const params = JSON.parse(request.requestBody);
@@ -208,7 +310,6 @@ export default function () {
     const updatedAt = Date.now();
     return schema.organizationInvitations.create({ email, lang, role, updatedAt });
   });
-
   this.delete('/admin/organizations/:id/invitations/:invitation-id', (schema, request) => {
     const organizationInvitationId = request.params['invitation-id'];
 
@@ -217,29 +318,7 @@ export default function () {
 
     return invitation;
   });
-
-  this.patch('/admin/memberships/:id', (schema, request) => {
-    const organizationMembershipId = request.params.id;
-    const params = JSON.parse(request.requestBody);
-    const organizationRole = params.data.attributes['organization-role'];
-
-    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
-    return organizationMembership.update({ organizationRole });
-  });
-
-  this.post('/admin/memberships/:id/disable', (schema, request) => {
-    const organizationMembershipId = request.params.id;
-
-    const organizationMembership = schema.organizationMemberships.findBy({ id: organizationMembershipId });
-    return organizationMembership.update({ disabledAt: new Date() });
-  });
-
   this.patch('/admin/organizations/:id');
-
-  this.get('/admin/users/:id');
-  this.get('/admin/users/:id/participations', (schema) => {
-    return schema.userParticipations.all();
-  });
 
   this.delete('/admin/campaign-participations/:id', (schema, request) => {
     const participationId = request.params.id;
@@ -250,105 +329,6 @@ export default function () {
     });
 
     return new Response(204);
-  });
-
-  this.patch('/admin/users/:id', (schema, request) => {
-    const userId = request.params.id;
-    const {
-      'first-name': firstName,
-      'last-name': lastName,
-      email,
-      username,
-    } = JSON.parse(request.requestBody).data.attributes;
-
-    const user = schema.users.find(userId);
-    return user.update({ firstName, lastName, email, username });
-  });
-
-  this.post('/admin/users/:id/anonymize', (schema, request) => {
-    const userId = request.params.id;
-    const user = schema.users.findBy({ id: userId });
-    return user.update({
-      firstName: `prenom_${userId}`,
-      lastName: `nom_${userId}`,
-      email: `email_${userId}@example.net`,
-      username: null,
-      authenticationMethods: [],
-    });
-  });
-
-  this.put('/admin/users/:id/unblock', (schema, request) => {
-    const userId = request.params.id;
-    const user = schema.users.findBy({ id: userId });
-    const userLogin = schema.userLogins.findBy({ id: user.userLoginId });
-    return userLogin.update({
-      blockedAt: null,
-      temporaryBlockedUntil: null,
-      failureCount: 0,
-    });
-  });
-
-  this.post('/admin/users/:id/remove-authentication', (schema, request) => {
-    const userId = request.params.id;
-    const params = JSON.parse(request.requestBody);
-    const type = params.data.attributes.type;
-
-    if (type === 'EMAIL') {
-      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'PIX' });
-      authenticationMethod.destroy();
-
-      const user = schema.users.findBy({ id: userId });
-      user.update({ email: null });
-    }
-
-    if (type === 'OIDC_PARTNER') {
-      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'OIDC_PARTNER' });
-      authenticationMethod.destroy();
-    }
-
-    return new Response(204);
-  });
-
-  this.post('/admin/users/:id/add-pix-authentication-method', (schema, request) => {
-    const userId = request.params.id;
-    const params = JSON.parse(request.requestBody);
-    const email = params.data.attributes.email;
-
-    const userHowHasAlreadyTheEmail = schema.users.findBy({ email });
-    if (userHowHasAlreadyTheEmail) {
-      return new Response(
-        400,
-        {},
-        {
-          errors: [
-            {
-              status: '400',
-              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
-              title: 'Already existing email error',
-            },
-          ],
-        }
-      );
-    }
-
-    const user = schema.users.findBy({ id: userId });
-    const newAuthenticationMethod = schema.create('authentication-method', { identityProvider: 'PIX' });
-    const authenticationMethods = [...user.authenticationMethods.models, newAuthenticationMethod];
-    user.update({ email: email });
-    user.update({ authenticationMethods });
-
-    return user;
-  });
-
-  this.post('/admin/users/:userId/authentication-methods/:authenticationMethodId', (schema, request) => {
-    const authenticationMethodId = request.params.authenticationMethodId;
-    const authenticationMethod = schema.authenticationMethods.findBy({ id: authenticationMethodId });
-    authenticationMethod.destroy();
-    return new Response(204);
-  });
-
-  this.get('feature-toggles', (schema) => {
-    return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
 
   this.delete('/admin/organization-learners/:id/association', (schema, request) => {
@@ -429,12 +409,6 @@ export default function () {
     const tagName = params.data.attributes.name;
     return schema.create('tag', { name: tagName });
   });
-
-  this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
-
-  this.post('/admin/organizations/:id/archive', archiveOrganization);
-
-  this.get('/admin/frameworks');
 
   this.get('/oidc/identity-providers', () => {
     return {
