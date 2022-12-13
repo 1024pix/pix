@@ -131,10 +131,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         const session = domainBuilder.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(false);
-        const complementaryCertifications = [
-          domainBuilder.buildComplementaryCertification(),
-          domainBuilder.buildComplementaryCertification(),
-        ];
+        const complementaryCertifications = [domainBuilder.buildComplementaryCertification()];
         const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
           sessionId: null,
           complementaryCertifications,

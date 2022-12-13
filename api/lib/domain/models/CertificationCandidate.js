@@ -26,7 +26,7 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   extraTimePercentage: Joi.number().allow(null).optional(),
   sessionId: Joi.number().required().empty(null),
-  complementaryCertifications: Joi.array().required(),
+  complementaryCertifications: Joi.array().max(1).required(),
   billingMode: Joi.when('$isSco', {
     is: false,
     then: Joi.string()

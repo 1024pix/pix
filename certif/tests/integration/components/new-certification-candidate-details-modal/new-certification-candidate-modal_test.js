@@ -473,7 +473,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await click(screen.getByRole('radio', { name: 'Homme' }));
       await fillIn(screen.getByLabelText('* Pays de naissance'), 99100);
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
-      await click(screen.getByRole('checkbox', { name: 'Certif complémentaire 1' }));
+      await click(screen.getByRole('radio', { name: 'Certif complémentaire 1' }));
       await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
       await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
       await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');

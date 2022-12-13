@@ -330,6 +330,11 @@ class InvalidCertificationCandidate extends DomainError {
     if (type === 'any.only' && error.key === 'sex') {
       error.why = 'not_a_sex_code';
     }
+
+    if (type === 'array.max' && error.key === 'complementaryCertifications') {
+      error.why = 'only_one_complementary_certification';
+    }
+
     if (type === 'any.only' && error.key === 'billingMode') {
       if (allowedValues.length === 1 && allowedValues[0] === null) {
         error.why = 'billing_mode_not_null';
