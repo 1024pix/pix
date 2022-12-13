@@ -45,12 +45,8 @@ describe('Acceptance | API | Progressions', function () {
       mockLearningContent(learningContentObjects);
 
       userId = databaseBuilder.factory.buildUser({}).id;
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
-      const campaignId = databaseBuilder.factory.buildCampaign({
-        name: 'Campaign',
-        targetProfileId,
-      }).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ name: 'Campaign' }).id;
+      databaseBuilder.factory.buildCampaignSkill({ campaignId });
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       assessmentId = databaseBuilder.factory.buildAssessment({
         userId: userId,

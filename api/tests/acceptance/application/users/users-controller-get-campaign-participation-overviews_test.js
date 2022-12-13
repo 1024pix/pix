@@ -56,15 +56,15 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
       // given
       const startedCampaignParticipation = databaseBuilder.factory.campaignParticipationOverviewFactory.buildOnGoing({
         userId,
-        targetProfileSkills: ['recSkillId1'],
+        campaignSkills: ['recSkillId1'],
       });
       const sharableCampaignParticipation = databaseBuilder.factory.campaignParticipationOverviewFactory.buildToShare({
         userId,
-        targetProfileSkills: ['recSkillId1'],
+        campaignSkills: ['recSkillId1'],
       });
       databaseBuilder.factory.campaignParticipationOverviewFactory.buildEnded({
         userId,
-        targetProfileSkills: ['recSkillId1'],
+        campaignSkills: ['recSkillId1'],
       });
 
       await databaseBuilder.commit();

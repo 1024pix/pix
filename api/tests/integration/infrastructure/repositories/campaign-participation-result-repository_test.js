@@ -11,10 +11,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
 
     beforeEach(function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill3' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill4' });
 
       const learningContent = {
         areas: [
@@ -65,6 +61,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
     it('use the most recent assessment to define if the participation is completed', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+      _buildCampaignSkills(campaignId);
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -97,6 +94,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
     it('compute the number of skills, the number of skill tested and the number of skill validated', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+      _buildCampaignSkills(campaignId);
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -155,6 +153,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
     it('computes the results for each competence assessed', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+      _buildCampaignSkills(campaignId);
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -232,6 +231,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       it('compute results by using knowledge elements', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        _buildCampaignSkills(campaignId);
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -289,6 +289,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       it('returns the stage reached', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        _buildCampaignSkills(campaignId);
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -377,3 +378,10 @@ describe('Integration | Repository | Campaign Participation Result', function ()
     });
   });
 });
+
+function _buildCampaignSkills(campaignId) {
+  databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'skill1' });
+  databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'skill2' });
+  databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'skill3' });
+  databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'skill4' });
+}

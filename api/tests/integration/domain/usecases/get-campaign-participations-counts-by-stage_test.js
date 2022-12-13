@@ -45,10 +45,6 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     mockLearningContent(learningContentObjects);
 
     const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId1' });
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId2' });
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId3' });
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId4' });
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });
@@ -61,6 +57,10 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     stage2 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 30 });
     stage3 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 70 });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
+    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
+    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId2' });
+    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId3' });
+    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId4' });
   });
 
   context('when requesting user is not allowed to access campaign informations', function () {
@@ -82,9 +82,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
 
   context('when the campaign doesnt manage stages', function () {
     it('should throw a NoStagesForCampaign error', async function () {
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId1' });
-      const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
+      const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign2.id, skillId: 'recSkillId1' });
       await databaseBuilder.commit();
 
       // when

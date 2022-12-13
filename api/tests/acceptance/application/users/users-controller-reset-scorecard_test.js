@@ -182,9 +182,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
           toFake: ['Date'],
         });
 
-        const targetProfile = databaseBuilder.factory.buildTargetProfile();
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'url1' });
-        const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const campaign = databaseBuilder.factory.buildCampaign();
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'url1' });
 
         _.each(
           [

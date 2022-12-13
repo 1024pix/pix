@@ -36,7 +36,6 @@ describe('Integration | Repository | Campaign Participation Overview', function 
     const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
     targetProfile = databaseBuilder.factory.buildTargetProfile();
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
     databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id });
     await databaseBuilder.commit();
   });
@@ -51,6 +50,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           organizationId,
           targetProfileId: targetProfile.id,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
         const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -87,7 +87,9 @@ describe('Integration | Repository | Campaign Participation Overview', function 
 
       it('should retrieve all campaign participation of the user', async function () {
         const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign1Id, skillId: 'recSkillId1' });
         const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign2Id, skillId: 'recSkillId1' });
         const { id: participation1Id } = campaignParticipationOverviewFactory.build({
           userId,
           campaignId: campaign1Id,
@@ -108,7 +110,9 @@ describe('Integration | Repository | Campaign Participation Overview', function 
 
       it('should retrieve only campaign participation linked to ASSESSMENT', async function () {
         const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign1Id, skillId: 'recSkillId1' });
         const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign2Id, skillId: 'recSkillId1' });
         const { id: campaign3Id } = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
         const { id: participation1Id } = campaignParticipationOverviewFactory.build({
           userId,
@@ -134,6 +138,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           targetProfileId: targetProfile.id,
           multipleSendings: true,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
         const { id: oldParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -161,6 +166,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
 
       it('retrieves information about the most recent assessment of campaign participation', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
         const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -195,6 +201,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
         const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -220,6 +227,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           targetProfileId: targetProfile.id,
           archivedAt,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
         const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -242,12 +250,12 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({
           userId,
           createdAt: new Date('2020-01-01'),
-          targetProfileSkills: ['recSkillId1'],
+          campaignSkills: ['recSkillId1'],
         });
         campaignParticipationOverviewFactory.buildOnGoing({
           userId,
           createdAt: new Date('2020-01-02'),
-          targetProfileSkills: ['recSkillId1'],
+          campaignSkills: ['recSkillId1'],
         });
         await databaseBuilder.commit();
         const page = { number: 2, size: 1 };
@@ -379,19 +387,19 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         it('orders all campaign participation by status', async function () {
           const { id: participationArchived } = campaignParticipationOverviewFactory.buildArchived({
             userId,
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: participationEndedId } = campaignParticipationOverviewFactory.buildEnded({
             userId,
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: participationOnGoingId } = campaignParticipationOverviewFactory.buildOnGoing({
             userId,
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: participationToShareId } = campaignParticipationOverviewFactory.buildToShare({
             userId,
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           await databaseBuilder.commit();
 
@@ -413,12 +421,12 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({
             userId,
             createdAt: new Date('2020-01-01'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: newestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({
             userId,
             createdAt: new Date('2020-01-02'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           await databaseBuilder.commit();
 
@@ -436,19 +444,19 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             userId,
             sharedAt: new Date('2020-01-01'),
             createdAt: new Date('2020-01-04'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: secondParticipation } = campaignParticipationOverviewFactory.buildEnded({
             userId,
             sharedAt: new Date('2020-01-02'),
             createdAt: new Date('2020-01-02'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: lastParticipation } = campaignParticipationOverviewFactory.buildEnded({
             userId,
             sharedAt: new Date('2020-01-02'),
             createdAt: new Date('2020-01-03'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
 
           await databaseBuilder.commit();
@@ -471,19 +479,19 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             userId,
             sharedAt: new Date('2020-01-01'),
             createdAt: new Date('2020-01-04'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: lastParticipation } = campaignParticipationOverviewFactory.buildArchived({
             userId,
             sharedAt: new Date('2020-01-02'),
             createdAt: new Date('2020-01-02'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
           const { id: secondParticipation } = campaignParticipationOverviewFactory.buildArchived({
             userId,
             sharedAt: null,
             createdAt: new Date('2020-01-03'),
-            targetProfileSkills: ['recSkillId1'],
+            campaignSkills: ['recSkillId1'],
           });
 
           await databaseBuilder.commit();

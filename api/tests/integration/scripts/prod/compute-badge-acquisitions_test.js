@@ -130,7 +130,6 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       userId1 = databaseBuilder.factory.buildUser().id;
       userId2 = databaseBuilder.factory.buildUser().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      listSkill.forEach((skillId) => databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId }));
       databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, skillId: 'web1', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, skillId: 'web2', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, skillId: 'web3', status: 'validated' });
@@ -142,6 +141,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, skillId: 'web4', status: 'invalidated' });
 
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      listSkill.forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: userId1 });
       campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: userId2 });
 
@@ -269,13 +269,13 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
 
       userId = databaseBuilder.factory.buildUser().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      listSkill.forEach((skillId) => databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId }));
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
 
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      listSkill.forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId });
 
       badgeCompleted = databaseBuilder.factory.buildBadge({

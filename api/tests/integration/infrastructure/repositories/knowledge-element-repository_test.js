@@ -285,17 +285,16 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('findByCampaignIdForSharedCampaignParticipation', function () {
-    let userId, targetProfileId, campaignId;
+    let userId, campaignId;
 
     beforeEach(function () {
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       userId = databaseBuilder.factory.buildUser().id;
-      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      campaignId = databaseBuilder.factory.buildCampaign().id;
     });
 
     it('should have the skill Id', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 12 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -322,7 +321,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return nothing when there is no shared campaign participations', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -348,9 +347,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return a list of knowledge elements when there are shared campaign participations', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 3 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 2 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 3 });
       const otherUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
@@ -396,8 +395,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return a list of knowledge elements when there are validated knowledge elements', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill2' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkill1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkill2' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -430,7 +429,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return a list of knowledge elements whose its skillId is included in the campaign target profile', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkill1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -463,7 +462,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return only knowledge elements before shared date', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -496,7 +495,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return only last knowledge element for a skill', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -530,8 +529,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
     it('should return latest knowledge elements by skill for each user in the campaign', async function () {
       // given
       const userId2 = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 13 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 12 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 13 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -575,7 +574,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
     it('should return only last knowledge element if validated for a skill within sharedAt date', async function () {
       // given
       const userId2 = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 12 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -621,19 +620,18 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('findByCampaignIdAndUserIdForSharedCampaignParticipation', function () {
-    let userId, targetProfileId, campaignId;
+    let userId, campaignId;
 
     beforeEach(function () {
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       userId = databaseBuilder.factory.buildUser().id;
-      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      campaignId = databaseBuilder.factory.buildCampaign().id;
     });
 
     it('should return a list of knowledge elements for a given user', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 3 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 2 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 3 });
       const otherUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
@@ -681,7 +679,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return only knowledge elements before shared date', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -716,7 +714,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should return only last knowledge element if validated for a skill within sharedAt date', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -758,7 +756,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should not return any knowledge element if latest by skill is not validated', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -793,13 +791,10 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('#findSnapshotGroupedByCompetencesForUsers', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const sandbox = sinon.createSandbox();
-    let userId1;
-    let userId2;
+    let userId1, userId2, sandbox;
 
     beforeEach(function () {
+      sandbox = sinon.createSandbox();
       userId1 = databaseBuilder.factory.buildUser().id;
       userId2 = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();

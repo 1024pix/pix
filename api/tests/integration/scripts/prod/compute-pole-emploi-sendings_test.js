@@ -43,7 +43,7 @@ describe('computePoleEmploiSendings', function () {
             tubes: [
               {
                 id: 'tube1Id',
-                skills: [{ id: skill1.id, nom: '@web1' }],
+                skills: [{ id: skill1.id, nom: '@web1', difficulty: 1 }],
               },
             ],
           },
@@ -53,7 +53,7 @@ describe('computePoleEmploiSendings', function () {
             tubes: [
               {
                 id: 'tube2Id',
-                skills: [{ id: skill2.id, nom: '@file1' }],
+                skills: [{ id: skill2.id, nom: '@file1', difficulty: 1 }],
               },
             ],
           },
@@ -66,9 +66,6 @@ describe('computePoleEmploiSendings', function () {
     const tagId = databaseBuilder.factory.buildTag({ name: 'POLE EMPLOI' }).id;
     databaseBuilder.factory.buildOrganizationTag({ tagId, organizationId });
     const targetProfileId = databaseBuilder.factory.buildTargetProfile({ name: 'Diagnostic initial' }).id;
-    [skill1, skill2].forEach((skill) =>
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill.id })
-    );
     campaignId = databaseBuilder.factory.buildCampaign({
       name: 'Campagne Pôle Emploi',
       code,
@@ -76,6 +73,7 @@ describe('computePoleEmploiSendings', function () {
       organizationId,
       targetProfileId,
     }).id;
+    [skill1, skill2].forEach((skill) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id }));
     userId = databaseBuilder.factory.buildUser({ firstName: 'Martin', lastName: 'Tamare' }).id;
     return databaseBuilder.commit();
   });
