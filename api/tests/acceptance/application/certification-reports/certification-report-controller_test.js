@@ -7,6 +7,7 @@ describe('Acceptance | Controller | certification-report-controller', function (
   beforeEach(async function () {
     server = await createServer();
     userId = databaseBuilder.factory.buildUser().id;
+    databaseBuilder.factory.buildIssueReportCategory({ name: 'FRAUD' });
     ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
     certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
@@ -19,8 +20,9 @@ describe('Acceptance | Controller | certification-report-controller', function (
   });
 
   describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
-    afterEach(function () {
-      return knex('certification-issue-reports').delete();
+    afterEach(async function () {
+      await knex('certification-issue-reports').delete();
+      await knex('issue-report-categories').delete();
     });
 
     it('should return 201 HTTP status code', async function () {
