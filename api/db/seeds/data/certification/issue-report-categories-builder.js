@@ -1,10 +1,10 @@
 function issueReportCategoriesBuilder({ databaseBuilder }) {
-
   const otherCategoryId = databaseBuilder.factory.buildIssueReportCategory({
     name: 'OTHER',
     isDeprecated: true,
     isImpactful: true,
   }).id;
+
   const candidateInformationChangeId = databaseBuilder.factory.buildIssueReportCategory({
     name: 'CANDIDATE_INFORMATIONS_CHANGES',
     isDeprecated: false,
