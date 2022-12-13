@@ -500,7 +500,9 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       });
 
       // then
-      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename', 'cpfImportStatus');
+      const certificationCourses = await knex('certification-courses')
+        .select('id', 'cpfFilename', 'cpfImportStatus')
+        .orderBy('id');
       expect(certificationCourses).to.deep.equal([
         { id: 123, cpfImportStatus: null, cpfFilename: null },
         { id: 456, cpfImportStatus: 'PENDING', cpfFilename: '1234-75834#0' },
@@ -533,6 +535,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
     });
   });
 });
+
 function createCertificationCourseWithCompetenceMarks({
   certificationCourseId = 145,
   sex = 'M',
