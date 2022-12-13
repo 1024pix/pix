@@ -71,7 +71,7 @@ La plateforme Java, dans sa classe [`java.util.Locale`](https://docs.oracle.com/
 
 La syntaxe des *languages tags* est puissante et extensible, pour les détails on se reportera aux spécifications citées.
 
-On considérera les identifiants de locales suivants pour pix :
+On considérera initialement les identifiants de locales suivants pour pix. Cette liste qui correspond aux locales actuellement nécessaires pour pix a vocation à s'allonger :
 
 * `fr`
 * `fr-FR`
@@ -83,7 +83,7 @@ Et ce standard permet également de gérer des publics vivant dans une région m
 * `en-FR`
 * `en-BE`
  
-`Intl.Locale` est un builtin JavaScript qui permet de manipuler les locales comme suit :
+[`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) est un builtin JavaScript qui permet de manipuler les locales comme suit :
 
 ```
 > locale = new Intl.Locale("fr-FR")
@@ -133,16 +133,16 @@ La spécification *BCP 47* accepte que la `region` soit écrite en minuscules, m
 
 #### Monnaie (currency)
 
-`Intl.Locale` contient une base de données sur les timezones, calendars, et autres références liées au temps, aux langues, aux systèmes de numération, mais apparemment rien sur le système de monnaie (currency) d'une région. A priori ce n'est pas un besoin pour Pix, mais c'est un point à noter car il semble légitime que cette notion soit présente dans les paramètres régionaux. On le mentionne ici car il serait bon de creuser pour comprendre le pourquoi de cette exception.
+Alors que par définition les paramètres régionaux contiennent la monnaie, le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) ne contient rien sur le système de monnaie (currency) d'une région. A priori ce n'est pas un besoin pour Pix, mais on le mentionne ici car il faudrait creuser pour comprendre le pourquoi de cette exception, pour ne pas risquer de manquer des notions/détails potentiellement importants.
 
 ### État du code de Pix
 
-Actuellement dans le code de Pix les 2 notions et noms de *locale* et *language* sont manipulés :
+Actuellement dans le code de pix les 2 notions et noms de *locale* et *language* sont manipulés :
 
 * la notion et le nom de *language* sont utilisés pour le côté client
 * la notion et le nom de *locale* sont utilisés côté BDD et hapi
 
-Et en ce qui concerne le format des identifiants de *language*/*locale*, c'est le format suivant qui est utilisé : `fr`, `fr-fr`, `fr-be`. Ce qui n'est donc pas la forme canonique de représentation suivant la spécification *BCP 47*.
+En ce qui concerne le format des identifiants de *language*/*locale*, c'est le format suivant qui est utilisé dans le code de pix : `fr`, `fr-fr`, `fr-be`. Ce format n'est pas la forme canonique de représentation tel que défini par la spécification *BCP 47* (car la partie `region` devrait être en majuscules), mais c'est une forme acceptée et par spécification c'est compatible avec `Intl.Locale`.
 
 
 ## Solution proposée : Fonder tous les traitements sur la notion de locales
@@ -154,8 +154,8 @@ Dans le cas de Pix c'est la notion de *locale* qui est la plus importante car un
 On souhaite donc :
 
 * associer à chaque utilisateur une *locale* (et non plus un *language*) au format BCP 47 avec persistance de ce choix en base de données
-* avoir les différentes versions des sites web identifiées par une *locale* au format BCP 47 et non plus des identifiants non-normés
-* Utiliser le builtin JavaScript `Intl.Locale` chaque fois que c'est possible
+* avoir les différentes versions des sites web identifiées par une *locale* au format BCP 47 (`fr`, `fr-FR`, `fr-BE`, `en`) et non plus des identifiants non-canoniques (`fr`, `fr-fr`, `fr-be`, `en` ont la partie `region` en minuscules)
+* Utiliser le builtin JavaScript [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) chaque fois que c'est possible
 
 **Avantage(s) :**
 
