@@ -69,14 +69,14 @@ La plateforme Java, dans sa classe [`java.util.Locale`](https://docs.oracle.com/
 
 ### Format BCP 47, identifiants de locales
 
-La syntaxe des *languages tags* est puissante et extensible, pour les détails on se reportera aux spécifications citées on retiendra que les identifiants de locales potentiellement utilisées dans pix les *languages tags* sont les suivants :
+La syntaxe des *languages tags* est puissante et extensible, pour les détails on se reportera aux spécifications citées.
+
+On considérera les identifiants de locales suivants pour pix :
 
 * `fr`
 * `fr-FR`
 * `fr-BE`
 * `en`
-* `en-US`
-* `en-GB`
 
 Et ce standard permet également de gérer des publics vivant dans une région mais ne maîtrisant pas la langue de la région, ou souhaitant utiliser une autre langue, par exemple :
 
