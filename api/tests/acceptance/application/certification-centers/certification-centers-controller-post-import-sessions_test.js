@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const FormData = require('form-data');
 const fs = require('node:fs');
@@ -10,6 +10,10 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
 
   beforeEach(async function () {
     server = await createServer();
+  });
+
+  afterEach(async function () {
+    return knex('sessions').delete();
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/import', function () {
