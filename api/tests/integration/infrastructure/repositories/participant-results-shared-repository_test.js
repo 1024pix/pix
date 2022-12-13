@@ -350,13 +350,12 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 });
 
 function _buildCampaignForSkills(skillIds) {
-  const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+  const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
   skillIds.forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ skillId, targetProfileId });
+    databaseBuilder.factory.buildCampaignSkill({ skillId, campaignId: campaign.id });
   });
-
-  return databaseBuilder.factory.buildCampaign({ targetProfileId, type: CampaignTypes.ASSESSMENT });
+  return campaign;
 }
 
 function _buildParticipationWithSnapshot(participationAttributes, knowledgeElementsAttributes) {

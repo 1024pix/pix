@@ -239,12 +239,12 @@ describe('computeParticipationResults', function () {
 
 function _buildCampaignForSkills(skillIds) {
   const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+  const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
 
   skillIds.forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ skillId, targetProfileId });
+    databaseBuilder.factory.buildCampaignSkill({ skillId, campaignId: campaign.id });
   });
-
-  return databaseBuilder.factory.buildCampaign({ targetProfileId });
+  return campaign;
 }
 
 function _buildParticipationWithSnapshot(participationAttributes, knowledgeElementsAttributes) {

@@ -8,7 +8,7 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const databaseBuffer = require('../../../../db/database-builder/database-buffer');
-
+// FIXME Too hard to edit \o/
 describe('Integration | Scripts | generate-certif-cli.js', function () {
   const certificationCenterSup = { id: 3, type: 'SUP' };
   const certificationCenterPro = { id: 2, type: 'PRO' };

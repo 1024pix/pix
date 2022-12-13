@@ -20,7 +20,6 @@ const createServer = require('../../../../server');
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;
   let organization;
-  let targetProfile;
   let server;
 
   beforeEach(async function () {
@@ -59,17 +58,12 @@ describe('Acceptance | API | Campaign Controller', function () {
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
-      targetProfile = databaseBuilder.factory.buildTargetProfile({
-        organizationId: organization.id,
-        name: 'Profile 2',
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°2',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id,
         idPixLabel: 'Identifiant entreprise',
       });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
 
       databaseBuilder.factory.buildMembership({
         userId,
@@ -77,17 +71,12 @@ describe('Acceptance | API | Campaign Controller', function () {
         organizationRole: Membership.roles.MEMBER,
       });
 
-      targetProfile = databaseBuilder.factory.buildTargetProfile({
-        organizationId: organization.id,
-        name: 'Profile 3',
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°3',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id,
       });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
 
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
@@ -218,12 +207,10 @@ describe('Acceptance | API | Campaign Controller', function () {
       const skillId = 'rec123';
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
-      targetProfile = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skillId });
       campaign = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
-        targetProfileId: targetProfile.id,
       });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: skillId });
       accessToken = _createTokenWithAccessId({ userId, campaignId: campaign.id });
 
       databaseBuilder.factory.buildMembership({
@@ -541,17 +528,8 @@ describe('Acceptance | API | Campaign Controller', function () {
           name: 'Campagne de Test N°3',
           organizationId: organization.id,
         });
-        targetProfile = databaseBuilder.factory.buildTargetProfile({
-          organizationId: organization.id,
-          name: 'Profile 3',
-        });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
-        campaign = databaseBuilder.factory.buildCampaign({
-          name: 'Campagne de Test N°3',
-          organizationId: organization.id,
-          targetProfileId: targetProfile.id,
-        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
         databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
 
         await databaseBuilder.commit();
@@ -689,7 +667,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
-      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       await databaseBuilder.commit();
 
@@ -764,33 +742,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
-      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       await databaseBuilder.commit();
-
-      const learningContent = [
-        {
-          id: 'recArea1',
-          competences: [
-            {
-              id: 'recCompetence1',
-              tubes: [
-                {
-                  id: 'recTube1',
-                  skills: [
-                    {
-                      id: 'recSkill1',
-                      challenges: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
-      mockLearningContent(learningContentObjects);
 
       // when
       const payload = {
@@ -839,7 +791,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
-      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -948,14 +900,9 @@ describe('Acceptance | API | Campaign Controller', function () {
             organizationId: organization.id,
             organizationRole: Membership.roles.MEMBER,
           });
-          const targetProfile = databaseBuilder.factory.buildTargetProfile({
-            ownerOrganizationId: organization.id,
-            name: 'Profile 3',
-          });
           const campaign = databaseBuilder.factory.buildCampaign({
             name: 'Campagne de Test N°3',
             organizationId: organization.id,
-            targetProfileId: targetProfile.id,
           });
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1011,14 +958,9 @@ describe('Acceptance | API | Campaign Controller', function () {
             organizationId: organization.id,
             organizationRole: Membership.roles.MEMBER,
           });
-          const targetProfile = databaseBuilder.factory.buildTargetProfile({
-            ownerOrganizationId: organization.id,
-            name: 'Profile 3',
-          });
           const campaign = databaseBuilder.factory.buildCampaign({
             name: 'Campagne de Test N°3',
             organizationId: organization.id,
-            targetProfileId: targetProfile.id,
           });
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1089,14 +1031,9 @@ describe('Acceptance | API | Campaign Controller', function () {
             organizationId: organization.id,
             organizationRole: Membership.roles.MEMBER,
           });
-          const targetProfile = databaseBuilder.factory.buildTargetProfile({
-            ownerOrganizationId: organization.id,
-            name: 'Profile 3',
-          });
           const campaign = databaseBuilder.factory.buildCampaign({
             name: 'Campagne de Test N°3',
             organizationId: organization.id,
-            targetProfileId: targetProfile.id,
           });
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1152,14 +1089,9 @@ describe('Acceptance | API | Campaign Controller', function () {
             organizationId: organization.id,
             organizationRole: Membership.roles.MEMBER,
           });
-          const targetProfile = databaseBuilder.factory.buildTargetProfile({
-            ownerOrganizationId: organization.id,
-            name: 'Profile 3',
-          });
           const campaign = databaseBuilder.factory.buildCampaign({
             name: 'Campagne de Test N°3',
             organizationId: organization.id,
-            targetProfileId: targetProfile.id,
           });
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1229,14 +1161,9 @@ describe('Acceptance | API | Campaign Controller', function () {
           organizationId: organization.id,
           organizationRole: Membership.roles.MEMBER,
         });
-        const targetProfile = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organization.id,
-          name: 'Profile 3',
-        });
         const campaign = databaseBuilder.factory.buildCampaign({
           name: 'Campagne de Test N°3',
           organizationId: organization.id,
-          targetProfileId: targetProfile.id,
         });
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1343,12 +1270,12 @@ describe('Acceptance | API | Campaign Controller', function () {
     beforeEach(async function () {
       const skillId = 'recSkillId1';
       campaign = databaseBuilder.factory.buildCampaign();
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: skillId });
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({
         organizationId: campaign.organizationId,
         userId,
       });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: campaign.targetProfileId, skillId: skillId });
 
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
       options.url = `/api/campaigns/${campaign.id}`;
