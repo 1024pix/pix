@@ -281,32 +281,34 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
     });
   });
 
-  module('#updateComplementaryCertifications', function () {
+  module('#updateComplementaryCertification', function () {
     test('it should add the complementary certification to the candidate data', function (assert) {
       // given
       modal.args.candidateData = {};
-      const complementaryCertification = Symbol('complementaryCertification');
+      const complementaryCertification = {
+        label: 'complementaryCertification',
+      };
 
       // when
-      modal.updateComplementaryCertifications(complementaryCertification);
+      modal.updateComplementaryCertification(complementaryCertification);
 
       // then
       assert.deepEqual(modal.args.candidateData.complementaryCertifications, [complementaryCertification]);
     });
 
-    test('it should remove the complementary certification if it is already present', function (assert) {
+    test('it should not be possible to select multiple complementary certifications', function (assert) {
       // given
-      const complementaryCertificationToRemove = Symbol('complementaryCertification');
-      const anotherComplementaryCertification = Symbol('complementaryCertification');
+      const firstComplementaryCertification = { label: 'firstComplementaryCertification' };
+      const secondComplementaryCertification = { label: 'secondComplementaryCertification' };
       modal.args.candidateData = {
-        complementaryCertifications: [complementaryCertificationToRemove, anotherComplementaryCertification],
+        complementaryCertifications: [firstComplementaryCertification],
       };
 
       // when
-      modal.updateComplementaryCertifications(complementaryCertificationToRemove);
+      modal.updateComplementaryCertification(secondComplementaryCertification);
 
       // then
-      assert.deepEqual(modal.args.candidateData.complementaryCertifications, [anotherComplementaryCertification]);
+      assert.deepEqual(modal.args.candidateData.complementaryCertifications, [secondComplementaryCertification]);
     });
   });
 });

@@ -194,6 +194,18 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(error.why).to.equal('not_a_sex_code');
     });
 
+    it('should throw an error when a candidate is added with multiple complementary certifications', async function () {
+      const certificationCandidate = buildCertificationCandidate({
+        ...validAttributes,
+        complementaryCertifications: [Symbol('1'), Symbol('2')],
+      });
+      const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+      expect(error.key).to.equal('complementaryCertifications');
+      expect(error.why).to.equal('only_one_complementary_certification');
+    });
+
     context('when the certification center is SCO', function () {
       context('when the billing mode is null', function () {
         it('should not throw an error', async function () {
