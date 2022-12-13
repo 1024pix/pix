@@ -1,6 +1,5 @@
 const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
-const { cpfImportStatus } = require('../../../../../../lib/domain/models/CertificationCourse');
 const { createUnzip } = require('node:zlib');
 const fs = require('fs');
 const proxyquire = require('proxyquire');
@@ -80,7 +79,6 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
       certificationCourseIds: [12, 20],
       filename: expectedFileName,
-      cpfImportStatus: cpfImportStatus.READY_TO_SEND,
     });
   });
 });
