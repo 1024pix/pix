@@ -131,11 +131,12 @@ class CertificationIssueReport {
     }
   }
 
-  static create({ id, certificationCourseId, category, description, subcategory, questionNumber }) {
+  static create({ id, certificationCourseId, category, categoryId, description, subcategory, questionNumber }) {
     const certificationIssueReport = new CertificationIssueReport({
       id,
       certificationCourseId,
       category,
+      categoryId,
       description,
       subcategory,
       questionNumber,
