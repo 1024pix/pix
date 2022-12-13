@@ -137,7 +137,7 @@ La spécification *BCP 47* accepte que la `region` soit écrite en minuscules, m
 
 ### État du code de Pix
 
-Actuellement dans le code de Pix les 2 notions et noms de *locale* et *language* sont manipulées :
+Actuellement dans le code de Pix les 2 notions et noms de *locale* et *language* sont manipulés :
 
 * la notion et le nom de *language* sont utilisés pour le côté client
 * la notion et le nom de *locale* sont utilisés côté BDD et hapi
