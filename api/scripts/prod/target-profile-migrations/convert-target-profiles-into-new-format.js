@@ -1,15 +1,15 @@
 require('dotenv').config();
 const _ = require('lodash');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const logger = require('../../lib/infrastructure/logger');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { knex, disconnect } = require('../../../db/knex-database-connection');
+const logger = require('../../../lib/infrastructure/logger');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 let allSkills;
 let allTubes;
 async function _cacheLearningContentData() {
-  const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
+  const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
   allSkills = await skillRepository.list();
-  const tubeRepository = require('../../lib/infrastructure/repositories/tube-repository');
+  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
   allTubes = await tubeRepository.list();
 }
 
