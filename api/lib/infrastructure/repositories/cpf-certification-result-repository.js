@@ -14,12 +14,12 @@ module.exports = {
       )
       .where('certification-courses.isPublished', true)
       .where('certification-courses.isCancelled', false)
-      .whereNull('certification-courses.cpfFilename')
       .whereNotNull('certification-courses.sex')
       .where('assessment-results.status', AssessmentResult.status.VALIDATED)
       .where('competence-marks.level', '>', -1)
       .where('sessions.publishedAt', '>=', startDate)
       .where('sessions.publishedAt', '<=', endDate)
+      .whereNull('certification-courses.cpfImportStatus')
       .pluck('certification-courses.id')
       .orderBy('certification-courses.id');
     return ids;
