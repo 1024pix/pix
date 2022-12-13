@@ -43,6 +43,7 @@ const computeParticipationsResults = require('../../scripts/prod/compute-partici
 const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder');
 const { trainingBuilder } = require('./data/trainings-builder');
 const { richTargetProfilesBuilder } = require('./data/learning-content/target-profiles-builder');
+const { fillCampaignSkills } = require('./data/fill-campaign-skills');
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
@@ -101,6 +102,7 @@ exports.seed = async (knex) => {
 
   await databaseBuilder.commit();
   await databaseBuilder.fixSequences();
+  await fillCampaignSkills();
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
   await computeParticipationsResults(10, false);
