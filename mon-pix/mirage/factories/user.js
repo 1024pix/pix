@@ -252,6 +252,8 @@ export default Factory.extend({
         type: 'autoformation',
         duration: '10:00:00',
         locale: 'fr-fr',
+        editorName: "Ministère de l'éducation nationale et de la jeunesse",
+        editorLogoUrl: 'https://mon-logo.svg',
       });
       const anotherTraining = server.create('training', {
         title: 'Apprendre à piloter des chauves-souris',
@@ -259,6 +261,8 @@ export default Factory.extend({
         type: 'webinaire',
         duration: '10:00:00',
         locale: 'fr-fr',
+        editorName: "Ministère de l'éducation nationale et de la jeunesse",
+        editorLogoUrl: 'https://mon-logo.svg',
       });
       const trainings = [training, anotherTraining];
       user.update({ trainings });
