@@ -10,11 +10,13 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @service intl;
 
   @tracked autoReplyAnswer = '';
+  @tracked qcrocProposalAnswerValue = '';
   postMessageHandler = null;
   embedOrigins = ENV.APP.EMBED_ALLOWED_ORIGINS;
 
   constructor() {
     super(...arguments);
+    this.qcrocProposalAnswerValue = this.userAnswer;
     if (this.args.challenge.autoReply) {
       this._addEventListener();
     }
@@ -30,7 +32,9 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getAnswerValue() {
-    return this.showProposal ? document.querySelector('[data-uid="qroc-proposal-uid"]').value : this.autoReplyAnswer;
+    const qcrocProposalAnswerValueBis =
+      document.querySelector('[data-uid="qroc-proposal-uid"]')?.value || this.qcrocProposalAnswerValue;
+    return this.showProposal ? qcrocProposalAnswerValueBis : this.autoReplyAnswer;
   }
 
   _getErrorMessage() {
@@ -93,6 +97,12 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @action
   answerChanged() {
     this.errorMessage = null;
+  }
+
+  @action
+  onChangeSelect(value) {
+    this.errorMessage = null;
+    this.qcrocProposalAnswerValue = value;
   }
 
   @action
