@@ -480,7 +480,9 @@ describe('Unit | Controller | certifications-center-controller', function () {
       // given
       const request = {
         payload: { file: { path: 'csv-path' } },
+        params: { certificationCenterId: 123 },
       };
+
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(usecases, 'createSessions');
 
@@ -493,6 +495,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       // then
       expect(usecases.createSessions).to.have.been.calledWith({
         data: 'result data',
+        certificationCenterId: request.params.certificationCenterId,
       });
     });
   });

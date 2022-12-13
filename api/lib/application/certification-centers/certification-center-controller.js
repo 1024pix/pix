@@ -171,8 +171,9 @@ module.exports = {
   },
 
   async importSessions(request, h) {
+    const certificationCenterId = request.params.certificationCenterId;
     const data = await csvHelpers.parseCsvWithHeader(request.payload.file.path);
-    await usecases.createSessions({ data });
+    await usecases.createSessions({ data, certificationCenterId });
     return h.response().code(200);
   },
 };
