@@ -50,7 +50,7 @@ C'est pourquoi beaucoup peuvent se souvenir de l'utilisation de fichiers PO de l
 
 Mais avec la généralisation d'Unicode sur quasiment tous les systèmes et toutes les piles logicielles il y a eu l'opportunité et la volonté de standardiser pour n'avoir qu'un seul format d'identifiants de locales.
 
-La standardisation du format des identifiants de locales s'est faite dans la spécification [Tags for Identifying Languages (BCP 47 - RFC 5646)](https://www.rfc-editor.org/rfc/rfc5646.html), notamment autour de la notion de *language tags* définis . Il aurait peut-être été plus clair que ce  mécanisme soit nommé *locale tags* … mais c'est le nom *language tags* qui a été retenu pour ce concept. Aussi pour éviter les confusions, dans le reste de ce document on parler du *format BCP 47*.
+La standardisation du format des identifiants de locales s'est faite dans la spécification [Tags for Identifying Languages (BCP 47 - RFC 5646)](https://www.rfc-editor.org/rfc/rfc5646.html), notamment autour de la notion de *language tags* définis . Il aurait peut-être été plus clair que ce mécanisme soit nommé *locale tags* … mais c'est le nom *language tags* qui a été retenu pour ce concept. Aussi pour éviter les confusions, dans le reste de ce document on va parler du *format BCP 47*.
 
 Concrètement avant de donner plus d'informations, voici des exemples d'identifiants de locales au *format BCP 47* :
 
