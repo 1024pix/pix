@@ -10,20 +10,20 @@ export default class UserAccountPersonalInformationController extends Controller
   get options() {
     return [
       {
-        label: this.intl.t('pages.user-account.language.fields.select.labels.french'),
         value: 'fr',
+        label: this.intl.t('pages.user-account.language.fields.select.labels.french'),
       },
       {
-        label: this.intl.t('pages.user-account.language.fields.select.labels.english'),
         value: 'en',
+        label: this.intl.t('pages.user-account.language.fields.select.labels.english'),
       },
     ];
   }
 
   @action
-  async onChangeLang(event) {
+  async onChangeLang(value) {
     if (!this.url.isFrenchDomainExtension) {
-      this.location.replace(`/mon-compte/langue?lang=${event.target.value}`);
+      this.location.replace(`/mon-compte/langue?lang=${value}`);
     }
   }
 }

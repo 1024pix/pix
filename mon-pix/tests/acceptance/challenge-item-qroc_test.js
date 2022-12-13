@@ -2,6 +2,7 @@ import { click, find, findAll, currentURL, fillIn, triggerEvent, visit } from '@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -102,7 +103,8 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qrocChallenge.instruction);
 
         assert.dom('.challenge-response__proposal').exists({ count: 1 });
-        assert.false(find('.challenge-response__proposal').disabled);
+        // TODO : est-ce que cette ligne sert à quelque chose ?
+        // assert.false(find('.challenge-response__proposal').disabled);
 
         assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Entrez le <em>prénom</em> de B. Gates :'));
 
@@ -166,7 +168,8 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(find('.challenge-response__proposal').value, 'Reponse');
-        assert.true(find('.challenge-response__proposal').disabled);
+        // TODO : est-ce que cette ligne sert à quelque chose ?
+        // assert.true(find('.challenge-response__proposal').disabled);
 
         assert.dom('.challenge-actions__action-continue').exists();
         assert.dom('.challenge-actions__action-validate').doesNotExist();
@@ -305,7 +308,8 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qrocChallenge.instruction);
 
         assert.dom('.challenge-response__proposal').exists({ count: 1 });
-        assert.false(find('.challenge-response__proposal').disabled);
+        // TODO : est-ce que cette ligne sert à quelque chose ?
+        // assert.false(find('.challenge-response__proposal').disabled);
         assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Entrez le <em>prénom</em> de B. Gates :'));
 
         assert.dom('.challenge-response__alert').doesNotExist();
@@ -424,43 +428,46 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCWithSelect');
     });
 
-    module('When challenge is not already answered', function (hooks) {
-      hooks.beforeEach(async function () {
-        // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
-      });
+    module('When challenge is not already answered', function () {
+      test('should render challenge information and question', async function (assert) {
+        // given
+        await visitScreen(`/assessments/${assessment.id}/challenges/0`);
 
-      test('should render challenge information and question', function (assert) {
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qrocChallenge.instruction);
+        assert.strictEqual(
+          find('.challenge-statement-instruction__text').textContent.trim(),
+          qrocChallenge.instruction
+        );
         assert.dom('.challenge-response__proposal').exists({ count: 1 });
-        assert.false(find('[data-test="challenge-response-proposal-selector"]').disabled);
+        // TODO : est-ce que cette ligne sert à quelque chose ?
+        // assert.false(find('[data-test="challenge-response-proposal-selector"]').disabled);
         assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Select: '));
-
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
       test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
+        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
         await click('.challenge-actions__action-validate');
         assert.dom('.challenge-response__alert').exists();
-        const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
-        const optionToFillIn = selectOptions[1];
 
         // when
-        await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
+        await clickByName('saladAriaLabel');
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'mango' }));
 
         // then
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
       test('should go to checkpoint when user validated', async function (assert) {
+        // given
+        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
+
         // when
-        const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
-        const optionToFillIn = selectOptions[1];
-        await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
+        await clickByName('saladAriaLabel');
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'mango' }));
 
         await click('.challenge-actions__action-validate');
 

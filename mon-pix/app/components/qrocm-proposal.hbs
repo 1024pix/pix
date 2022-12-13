@@ -10,15 +10,14 @@
       <div class="challenge-response__proposal challenge-response__proposal--selector">
         <PixSelect
           data-test="challenge-response-proposal-selector"
-          name={{block.randomName}}
           disabled={{@isAnswerFieldDisabled}}
-          id="{{block.input}}"
-          aria-label={{block.ariaLabel}}
-          @emptyOptionLabel={{block.placeholder}}
-          @selectedOption={{get @answersValue block.input}}
-          @emptyOptionNotSelectable={{true}}
+          @label={{block.ariaLabel}}
+          @screenReaderOnly={{true}}
+          @placeholder={{block.placeholder}}
+          @value={{@answersValue}}
+          @hideDefaultOption={{true}}
           @options={{block.options}}
-          @onChange={{this.setAnswerValue}}
+          @onChange={{@onChangeSelect}}
           @size="big"
         />
       </div>
