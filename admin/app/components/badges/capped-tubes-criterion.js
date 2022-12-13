@@ -54,6 +54,7 @@ export default class CappedTubesCriterion extends Component {
       }))
       .filter(({ cappedTube }) => cappedTube)
       .map(({ tube, cappedTube }) => ({
+        id: tube.id,
         title: `${tube.name} : ${tube.practicalTitle}`,
         level: cappedTube.level,
         tablet: tube.tablet,

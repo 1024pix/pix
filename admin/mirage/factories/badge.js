@@ -14,7 +14,7 @@ export default Factory.extend({
   },
 
   imageUrl() {
-    return 'mon_badge_image.png';
+    return 'https://images.pix.fr/badges/mon_badge_qui_nexiste_probablement_pas.png';
   },
 
   altMessage() {
@@ -31,5 +31,18 @@ export default Factory.extend({
 
   criteria() {
     return [];
+  },
+
+  afterCreate(badge, server) {
+    if (badge.criteria.models.length === 0) {
+      const criteriaCampaign = server.create('badge-criterion', {
+        scope: 'CampaignParticipation',
+        threshold: 50,
+      });
+      badge.update({
+        criteria: [criteriaCampaign],
+        imageUrl: `https://images.pix.fr/badges/${badge.imageUrl}`,
+      });
+    }
   },
 });

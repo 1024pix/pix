@@ -13,6 +13,7 @@
 <td class="table__column--center">
   <PixSelect
     id="select-level-tube-{{@tube.id}}"
+    data-testid="select-level-tube-{{@tube.id}}"
     @options={{this.levelOptions}}
     @onChange={{this.setLevelTube}}
     @selectedOption={{this.selectedLevel}}
