@@ -469,7 +469,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
 
       // when
       await cpfCertificationResultRepository.markCertificationCoursesAsExported({
-        certificationCourseIds: [456, 789]
+        certificationCourseIds: [456, 789],
       });
 
       // then
@@ -497,9 +497,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       });
 
       // then
-      const certificationCourses = await knex('certification-courses')
-        .select('id', 'cpfImportStatus')
-        .orderBy('id');
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfImportStatus').orderBy('id');
       expect(certificationCourses).to.deep.equal([
         { id: 123, cpfImportStatus: null },
         { id: 456, cpfImportStatus: 'PENDING' },

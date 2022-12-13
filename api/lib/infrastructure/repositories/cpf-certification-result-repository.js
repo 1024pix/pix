@@ -1,6 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection');
 const CpfCertificationResult = require('../../domain/read-models/CpfCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
+const { cpfImportStatus } = require('../../domain/models/CertificationCourse');
 
 module.exports = {
   async getIdsByTimeRange({ startDate, endDate }) {
@@ -33,19 +34,19 @@ module.exports = {
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
-  async markCertificationCoursesAsExported({ certificationCourseIds, filename, cpfImportStatus }) {
+  async markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
     const now = new Date();
 
     return knex('certification-courses')
-      .update({ cpfFilename: filename, cpfImportStatus, updatedAt: now })
+      .update({ cpfFilename: filename, cpfImportStatus: cpfImportStatus.READY_TO_SEND, updatedAt: now })
       .whereIn('id', certificationCourseIds);
   },
 
-  async markCertificationToExport({ certificationCourseIds, batchId, cpfImportStatus }) {
+  async markCertificationToExport({ certificationCourseIds, batchId }) {
     const now = new Date();
 
     return knex('certification-courses')
-      .update({ cpfFilename: batchId, cpfImportStatus, updatedAt: now })
+      .update({ cpfFilename: batchId, cpfImportStatus: cpfImportStatus.PENDING, updatedAt: now })
       .whereIn('id', certificationCourseIds);
   },
 
