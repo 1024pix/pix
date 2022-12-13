@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | pix-toggle', function (hooks) {
+module('Integration | Component | pix-toggle-deprecated', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(async function () {
@@ -15,52 +15,52 @@ module('Integration | Component | pix-toggle', function (hooks) {
     this.set('isFirstOn', 'true');
 
     await render(
-      hbs`{{pix-toggle onToggle=this.onToggle valueFirstLabel=this.valueFirstLabel valueSecondLabel=this.valueSecondLabel}}`
+      hbs`{{pix-toggle-deprecated onToggle=this.onToggle valueFirstLabel=this.valueFirstLabel valueSecondLabel=this.valueSecondLabel}}`
     );
   });
 
   test('Default Render', function (assert) {
-    assert.dom('.pix-toggle').exists();
+    assert.dom('.pix-toggle-deprecated').exists();
   });
 
   test('should display the toggle with on/off span', function (assert) {
-    assert.dom('.pix-toggle__on').exists();
-    assert.dom('.pix-toggle__off').exists();
+    assert.dom('.pix-toggle-deprecated__on').exists();
+    assert.dom('.pix-toggle-deprecated__off').exists();
   });
 
   test('should display the toggle with on/off span with the correct values', function (assert) {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__on').nodeName, 'SPAN');
+    assert.equal(find('.pix-toggle-deprecated__on').nodeName, 'SPAN');
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__off').nodeName, 'SPAN');
+    assert.equal(find('.pix-toggle-deprecated__off').nodeName, 'SPAN');
 
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__on').textContent, 'valueFirstLabel');
+    assert.equal(find('.pix-toggle-deprecated__on').textContent, 'valueFirstLabel');
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__off').textContent, 'valueSecondLabel');
+    assert.equal(find('.pix-toggle-deprecated__off').textContent, 'valueSecondLabel');
   });
 
   test('should change the value of toggleOn when toggle off', async function (assert) {
-    await click('.pix-toggle__off');
+    await click('.pix-toggle-deprecated__off');
 
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__on').textContent, 'valueSecondLabel');
+    assert.equal(find('.pix-toggle-deprecated__on').textContent, 'valueSecondLabel');
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__off').textContent, 'valueFirstLabel');
+    assert.equal(find('.pix-toggle-deprecated__off').textContent, 'valueFirstLabel');
 
-    await click('.pix-toggle__off');
+    await click('.pix-toggle-deprecated__off');
 
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__on').textContent, 'valueFirstLabel');
+    assert.equal(find('.pix-toggle-deprecated__on').textContent, 'valueFirstLabel');
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle__off').textContent, 'valueSecondLabel');
+    assert.equal(find('.pix-toggle-deprecated__off').textContent, 'valueSecondLabel');
   });
 });

@@ -12,15 +12,15 @@ export default Component.extend({
   isFirstOn: true,
 
   firstButtonClass: computed('isFirstOn', function () {
-    return this.isFirstOn ? 'pix-toggle__on' : 'pix-toggle__off';
+    return this.isFirstOn ? 'pix-toggle-deprecated__on' : 'pix-toggle-deprecated__off';
   }),
 
   secondButtonClass: computed('isFirstOn', function () {
-    return this.isFirstOn ? 'pix-toggle__off' : 'pix-toggle__on';
+    return this.isFirstOn ? 'pix-toggle-deprecated__off' : 'pix-toggle-deprecated__on';
   }),
 
   click: function (e) {
-    if (e.target.className === 'pix-toggle__off') {
+    if (e.target.className === 'pix-toggle-deprecated__off') {
       this.toggleProperty('isFirstOn');
     }
 

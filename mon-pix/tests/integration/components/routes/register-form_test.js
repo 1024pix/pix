@@ -63,7 +63,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
-      await click('.pix-toggle__off');
+      await click('.pix-toggle-deprecated__off');
 
       await fillIn('#email', 'shi@fu.me');
       await fillIn('#password', 'Mypassword1');
@@ -256,7 +256,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // when
-        await click('.pix-toggle__off');
+        await click('.pix-toggle-deprecated__off');
         await fillIn('#email', stringFilledIn);
         await triggerEvent('#email', 'focusout');
 
@@ -276,7 +276,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // when
-      await click('.pix-toggle__off');
+      await click('.pix-toggle-deprecated__off');
       await fillIn('#email', 'shi.fu');
       await triggerEvent('#email', 'focusout');
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
