@@ -178,6 +178,6 @@ On souhaite donc :
    * On changera `en-us` et `en-gb`, qui ne sont pas des identifiants recommandés (car la région doit être en majuscules), en simplement `en` car on souhaite proposer une version en anglais de manière internationale, sans cibler cette version pour une région particulière.
    * On changera les potentiels noms de propriétés et noms de colonnes qui seraient nommés `language` ou `lang` pour les nommer `locale`
 
-   Cela ne devrait pas faire beaucoup de changements et cela devrait être des changements simples. C'est surtout que cela permetra de normer tout ce qu'on fait et de ne pas être dans l'arbitraire toujours à se demander quel nom donner à une variable et quelle valeur mettre dans cette variable.
+   Cela ne devrait pas faire beaucoup de changements et cela devrait être des changements simples. C'est surtout que cela permettra de normer tout ce qu'on fait et de ne pas être dans l'arbitraire toujours à se demander quel nom donner à une variable et quelle valeur mettre dans cette variable.
 
 * Enfin, une fois que cet ADR aura été utilisé de manière satisfaisante sur *pix-site* on pourra le mettre en oeuvre dans tout le code de pix
