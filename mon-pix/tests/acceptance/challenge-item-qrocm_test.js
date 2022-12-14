@@ -163,7 +163,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         // given
         const qrocmWithSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         server.create('answer', {
-          value: 'mango',
+          value: "banana: 'mango'\n",
           result: 'ko',
           assessment,
           challenge: qrocmWithSelectChallenge,
