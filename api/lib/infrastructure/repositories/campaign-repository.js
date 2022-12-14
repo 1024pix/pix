@@ -67,10 +67,18 @@ module.exports = {
           .select('tubeId', 'level')
           .where('targetProfileId', campaignAttributes.targetProfileId);
         const skillData = [];
-        for (const cappedTube of cappedTubes) {
-          const allLevelSkills = await skillRepository.findActiveByTubeId(cappedTube.tubeId);
-          const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
-          skillData.push(...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: createdCampaign.id })));
+        if (cappedTubes.length > 0) {
+          for (const cappedTube of cappedTubes) {
+            const allLevelSkills = await skillRepository.findActiveByTubeId(cappedTube.tubeId);
+            const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
+            skillData.push(...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: createdCampaign.id })));
+          }
+        } else {
+          const skillIds = await trx('target-profiles_skills')
+            .pluck('skillId')
+            .distinct()
+            .where('targetProfileId', campaignAttributes.targetProfileId);
+          skillData.push(...skillIds.map((skillId) => ({ skillId, campaignId: createdCampaign.id })));
         }
         await trx.batchInsert('campaign_skills', skillData);
       }
