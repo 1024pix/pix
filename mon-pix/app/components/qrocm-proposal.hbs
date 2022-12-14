@@ -5,7 +5,6 @@
     {{#if block.showText}}
       <MarkdownToHtml @markdown={{block.text}} @extensions="remove-paragraph-tags" class="qrocm-proposal__label" />
     {{/if}}
-
     {{#if (eq block.type "select")}}
       <div class="challenge-response__proposal challenge-response__proposal--selector">
         <PixSelect
@@ -14,10 +13,10 @@
           @label={{block.ariaLabel}}
           @screenReaderOnly={{true}}
           @placeholder={{block.placeholder}}
-          @value={{@answersValue}}
+          @value={{get @answersValue block.input}}
           @hideDefaultOption={{true}}
           @options={{block.options}}
-          @onChange={{@onChangeSelect}}
+          @onChange={{fn this.onChange block.input}}
           @size="big"
         />
       </div>
