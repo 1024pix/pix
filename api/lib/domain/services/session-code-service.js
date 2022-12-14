@@ -30,4 +30,8 @@ module.exports = {
     const codeAvailable = await sessionRepository.isSessionCodeAvailable(newSessionCode);
     return codeAvailable ? newSessionCode : this.getNewSessionCode();
   },
+
+  getNewSessionCodeWithoutAvailabilityCheck() {
+    return _generateSessionCode();
+  },
 };
