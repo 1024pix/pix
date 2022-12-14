@@ -5,6 +5,8 @@
     "link": "https://test.fr/",
     "type": "autoformation",
     "duration": "0 years 0 mons 0 days 6 hours 0 mins 0.0 secs",
-    "locale": "fr"
+    "locale": "fr",
+    "editorName": "Ministère de l'éducation nationale",
+    "editorLogoUrl": "https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg"
   }
 ]

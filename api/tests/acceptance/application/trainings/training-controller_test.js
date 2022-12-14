@@ -22,7 +22,11 @@ describe('Acceptance | Controller | training-controller', function () {
         const superAdmin = await insertUserWithRoleSuperAdmin();
         const training = databaseBuilder.factory.buildTraining();
         await databaseBuilder.commit();
-        const updatedTraining = { title: 'new title' };
+        const updatedTraining = {
+          title: 'new title',
+          editorName: 'editor name',
+          editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo.svg',
+        };
 
         options = {
           method: 'PATCH',
@@ -35,6 +39,8 @@ describe('Acceptance | Controller | training-controller', function () {
               type: 'trainings',
               attributes: {
                 title: updatedTraining.title,
+                editorName: updatedTraining.editorName,
+                editorLogoUrl: updatedTraining.editorLogoUrl,
               },
             },
           },
@@ -48,6 +54,8 @@ describe('Acceptance | Controller | training-controller', function () {
               title: updatedTraining.title,
               link: training.link,
               duration: training.duration,
+              editorName: updatedTraining.editorName,
+              editorLogoUrl: updatedTraining.editorLogoUrl,
             },
           },
         };
@@ -61,6 +69,12 @@ describe('Acceptance | Controller | training-controller', function () {
         expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes.title).to.deep.equal(expectedResponse.data.attributes.title);
         expect(response.result.data.attributes.link).to.deep.equal(expectedResponse.data.attributes.link);
+        expect(response.result.data.attributes['editor-name']).to.deep.equal(
+          expectedResponse.data.attributes.editorName
+        );
+        expect(response.result.data.attributes['editor-logo-url']).to.deep.equal(
+          expectedResponse.data.attributes.editorLogoUrl
+        );
       });
     });
   });

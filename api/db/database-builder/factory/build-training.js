@@ -7,6 +7,8 @@ function buildTraining({
   type = 'webinaire',
   duration = '06:00:00',
   locale = 'fr-fr',
+  editorName = "Ministère de l'Éducation nationale et de la Jeunesse",
+  editorLogoUrl = 'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
@@ -17,6 +19,8 @@ function buildTraining({
     type,
     duration,
     locale,
+    editorName,
+    editorLogoUrl,
     createdAt,
     updatedAt,
   };

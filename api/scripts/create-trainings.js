@@ -1,9 +1,9 @@
 const { knex, disconnect } = require('../db/knex-database-connection');
 const { parseCsvWithHeaderAndRequiredFields } = require('./helpers/csvHelpers');
-const REQUIRED_FIELD_NAMES = ['title', 'link', 'type', 'duration', 'locale'];
+const REQUIRED_FIELD_NAMES = ['title', 'link', 'type', 'duration', 'locale', 'editorName', 'editorLogoUrl'];
 
 function prepareDataForInsert(rawTrainings) {
-  return rawTrainings.map(({ title, link, type, duration, locale }) => {
+  return rawTrainings.map(({ title, link, type, duration, locale, editorName, editorLogoUrl }) => {
     const trimmedType = type.trim();
     if (['webinaire', 'autoformation'].includes(trimmedType)) {
       return {
@@ -12,6 +12,8 @@ function prepareDataForInsert(rawTrainings) {
         type: type.trim(),
         duration: duration.trim(),
         locale: locale.trim(),
+        editorName: editorName.trim(),
+        editorLogoUrl: editorLogoUrl.trim(),
       };
     }
 
