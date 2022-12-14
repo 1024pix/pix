@@ -14,6 +14,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '00:00:05',
     locale: 'fr-fr',
+    editorName: 'Autre ministère',
+    editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/autre_logo_url.svg',
   });
   const training3 = databaseBuilder.factory.buildTraining({
     title: 'Comment toiletter son chien',

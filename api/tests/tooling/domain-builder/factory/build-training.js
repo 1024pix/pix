@@ -10,6 +10,8 @@ module.exports = function buildTraining({
   },
   locale = 'fr-fr',
   targetProfileIds = [1],
+  editorName = 'Ministère education nationale',
+  editorLogoUrl = 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
 } = {}) {
   return new Training({
     id,
@@ -19,5 +21,7 @@ module.exports = function buildTraining({
     duration,
     locale,
     targetProfileIds,
+    editorName,
+    editorLogoUrl,
   });
 };
