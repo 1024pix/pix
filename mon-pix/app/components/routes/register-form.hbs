@@ -142,16 +142,15 @@
         {{/if}}
       </div>
 
-      <LinkTo
-        @route="campaigns.access"
-        @model={{@campaignCode}}
-        class="link link--underline register-form__return-button"
+      <PixButton
+        @triggerAction={{this.resetForm}}
+        @isBorderVisible={{true}}
+        @backgroundColor="transparent-light"
+        class="register-form__reset-form-button"
       >
-        <span class="icon-button register-form-return-button__icon">
-          <FaIcon @icon="arrow-left" />
-        </span>
+        <FaIcon @icon="arrow-left" />
         {{t "pages.login-or-register.register-form.not-me"}}
-      </LinkTo>
+      </PixButton>
 
       <p class="legal-notice">
         {{t "pages.login-or-register.register-form.rgpd-legal-notice"}}
