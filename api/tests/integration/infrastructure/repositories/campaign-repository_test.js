@@ -134,144 +134,187 @@ describe('Integration | Repository | Campaign', function () {
         );
       });
 
-      it('should save the active skills of the target profile as campaign skills', async function () {
-        // given
-        const learningContent = {
-          areas: [{ id: 'recArea1', competenceIds: ['recCompetence1'] }],
-          competences: [
-            {
-              id: 'recCompetence1',
-              areaId: 'recArea1',
-              tubeIds: ['recTube1', 'recTube2', 'recTube3'],
-            },
-          ],
-          tubes: [
-            {
-              id: 'recTube1',
-              skillIds: ['recArchivedSkill1Tube1', 'recActiveSkill2Tube1', 'recActiveSkill3Tube1'],
-            },
-            {
-              id: 'recTube2',
-              skillIds: ['recActiveSkill2Tube2', 'recArchivedSkill4Tube2', 'recActiveSkill6Tube2'],
-            },
-            {
-              id: 'recTube3',
-              skillIds: ['recArchivedSkill1Tube3', 'recArchivedSkill3Tube3', 'recActiveSkill8Tube3'],
-            },
-            {
-              id: 'recTube4',
-              skillIds: ['recSkillTube4'],
-            },
-          ],
-          skills: [
-            {
-              id: 'recArchivedSkill1Tube1',
-              name: 'archivedSkill1Tube1_1',
-              status: 'archivé',
-              level: 1,
-              tubeId: 'recTube1',
-            },
-            {
-              id: 'recActiveSkill2Tube1',
-              name: 'activeSkill2Tube1_2',
-              status: 'actif',
-              level: 2,
-              tubeId: 'recTube1',
-            },
-            {
-              id: 'recActiveSkill3Tube1',
-              name: 'activeSkill3Tube1_3',
-              status: 'actif',
-              level: 3,
-              tubeId: 'recTube1',
-            },
-            {
-              id: 'recActiveSkill2Tube2',
-              name: 'activeSkill2Tube2_2',
-              status: 'actif',
-              level: 2,
-              tubeId: 'recTube2',
-            },
-            {
-              id: 'recArchivedSkill4Tube2',
-              name: 'archivedSkill4Tube2_4',
-              status: 'archivé',
-              level: 4,
-              tubeId: 'recTube2',
-            },
-            {
-              id: 'recActiveSkill6Tube2',
-              name: 'activeSkill6Tube2_6',
-              status: 'actif',
-              level: 6,
-              tubeId: 'recTube2',
-            },
-            {
-              id: 'recArchivedSkill1Tube3',
-              name: 'archivedSkill1Tube3_1',
-              status: 'archivé',
-              level: 1,
-              tubeId: 'recTube3',
-            },
-            {
-              id: 'recArchivedSkill3Tube3',
-              name: 'archivedSkill3Tube3_3',
-              status: 'archivé',
-              level: 3,
-              tubeId: 'recTube3',
-            },
-            {
-              id: 'recActiveSkill8Tube3',
-              name: 'activeSkill8Tube3_8',
-              status: 'actif',
-              level: 8,
-              tubeId: 'recTube3',
-            },
-            {
-              id: 'recSkillTube4',
-              name: 'skillTube4_1',
-              status: 'actif',
-              level: 1,
-              tubeId: 'recTube4',
-            },
-          ],
-        };
-        mockLearningContent(learningContent);
-        const user = databaseBuilder.factory.buildUser();
-        const creatorId = user.id;
-        const ownerId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube1', level: 2 });
-        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 8 });
-        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube3', level: 3 });
-        // random tube
-        databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'recTube4' });
-        await databaseBuilder.commit();
+      context('when target profile has tubes', function () {
+        it('should save the active skills of the target profile as campaign skills', async function () {
+          // given
+          const learningContent = {
+            areas: [{ id: 'recArea1', competenceIds: ['recCompetence1'] }],
+            competences: [
+              {
+                id: 'recCompetence1',
+                areaId: 'recArea1',
+                tubeIds: ['recTube1', 'recTube2', 'recTube3'],
+              },
+            ],
+            tubes: [
+              {
+                id: 'recTube1',
+                skillIds: ['recArchivedSkill1Tube1', 'recActiveSkill2Tube1', 'recActiveSkill3Tube1'],
+              },
+              {
+                id: 'recTube2',
+                skillIds: ['recActiveSkill2Tube2', 'recArchivedSkill4Tube2', 'recActiveSkill6Tube2'],
+              },
+              {
+                id: 'recTube3',
+                skillIds: ['recArchivedSkill1Tube3', 'recArchivedSkill3Tube3', 'recActiveSkill8Tube3'],
+              },
+              {
+                id: 'recTube4',
+                skillIds: ['recSkillTube4'],
+              },
+            ],
+            skills: [
+              {
+                id: 'recArchivedSkill1Tube1',
+                name: 'archivedSkill1Tube1_1',
+                status: 'archivé',
+                level: 1,
+                tubeId: 'recTube1',
+              },
+              {
+                id: 'recActiveSkill2Tube1',
+                name: 'activeSkill2Tube1_2',
+                status: 'actif',
+                level: 2,
+                tubeId: 'recTube1',
+              },
+              {
+                id: 'recActiveSkill3Tube1',
+                name: 'activeSkill3Tube1_3',
+                status: 'actif',
+                level: 3,
+                tubeId: 'recTube1',
+              },
+              {
+                id: 'recActiveSkill2Tube2',
+                name: 'activeSkill2Tube2_2',
+                status: 'actif',
+                level: 2,
+                tubeId: 'recTube2',
+              },
+              {
+                id: 'recArchivedSkill4Tube2',
+                name: 'archivedSkill4Tube2_4',
+                status: 'archivé',
+                level: 4,
+                tubeId: 'recTube2',
+              },
+              {
+                id: 'recActiveSkill6Tube2',
+                name: 'activeSkill6Tube2_6',
+                status: 'actif',
+                level: 6,
+                tubeId: 'recTube2',
+              },
+              {
+                id: 'recArchivedSkill1Tube3',
+                name: 'archivedSkill1Tube3_1',
+                status: 'archivé',
+                level: 1,
+                tubeId: 'recTube3',
+              },
+              {
+                id: 'recArchivedSkill3Tube3',
+                name: 'archivedSkill3Tube3_3',
+                status: 'archivé',
+                level: 3,
+                tubeId: 'recTube3',
+              },
+              {
+                id: 'recActiveSkill8Tube3',
+                name: 'activeSkill8Tube3_8',
+                status: 'actif',
+                level: 8,
+                tubeId: 'recTube3',
+              },
+              {
+                id: 'recSkillTube4',
+                name: 'skillTube4_1',
+                status: 'actif',
+                level: 1,
+                tubeId: 'recTube4',
+              },
+            ],
+          };
+          mockLearningContent(learningContent);
+          const user = databaseBuilder.factory.buildUser();
+          const creatorId = user.id;
+          const ownerId = databaseBuilder.factory.buildUser().id;
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
+          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube1', level: 2 });
+          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 8 });
+          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube3', level: 3 });
+          // random tube
+          databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'recTube4' });
+          await databaseBuilder.commit();
 
-        const campaignToSave = {
-          name: 'Evaluation niveau 1 recherche internet',
-          code: 'BCTERD153',
-          customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-          creatorId,
-          ownerId,
-          organizationId,
-          multipleSendings: true,
-          type: CampaignTypes.ASSESSMENT,
-          targetProfileId,
-          title: 'Parcours recherche internet',
-        };
+          const campaignToSave = {
+            name: 'Evaluation niveau 1 recherche internet',
+            code: 'BCTERD153',
+            customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
+            creatorId,
+            ownerId,
+            organizationId,
+            multipleSendings: true,
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId,
+            title: 'Parcours recherche internet',
+          };
 
-        // when
-        const savedCampaign = await campaignRepository.save(campaignToSave);
+          // when
+          const savedCampaign = await campaignRepository.save(campaignToSave);
 
-        // then
-        const skillIds = await knex('campaign_skills')
-          .pluck('skillId')
-          .where('campaignId', savedCampaign.id)
-          .orderBy('skillId', 'ASC');
-        expect(skillIds).to.deepEqualArray(['recActiveSkill2Tube1', 'recActiveSkill2Tube2', 'recActiveSkill6Tube2']);
+          // then
+          const skillIds = await knex('campaign_skills')
+            .pluck('skillId')
+            .where('campaignId', savedCampaign.id)
+            .orderBy('skillId', 'ASC');
+          expect(skillIds).to.deepEqualArray(['recActiveSkill2Tube1', 'recActiveSkill2Tube2', 'recActiveSkill6Tube2']);
+        });
+      });
+
+      context('when target profile doesnt have tubes (yet ;) )', function () {
+        it('should save skills as campaign skills', async function () {
+          // given
+          const user = databaseBuilder.factory.buildUser();
+          const creatorId = user.id;
+          const ownerId = databaseBuilder.factory.buildUser().id;
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
+          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skillA' });
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skillA' });
+          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skillB' });
+          // random skill
+          databaseBuilder.factory.buildTargetProfileSkill({ skillId: 'skillD' });
+          await databaseBuilder.commit();
+
+          const campaignToSave = {
+            name: 'Evaluation niveau 1 recherche internet',
+            code: 'BCTERD153',
+            customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
+            creatorId,
+            ownerId,
+            organizationId,
+            multipleSendings: true,
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId,
+            title: 'Parcours recherche internet',
+          };
+
+          // when
+          const savedCampaign = await campaignRepository.save(campaignToSave);
+
+          // then
+          const skillIds = await knex('campaign_skills')
+            .pluck('skillId')
+            .where('campaignId', savedCampaign.id)
+            .orderBy('skillId', 'ASC');
+          expect(skillIds).to.deepEqualArray(['skillA', 'skillB']);
+        });
       });
 
       it('should not save anything if something goes wrong between campaign creation and skills computation', async function () {

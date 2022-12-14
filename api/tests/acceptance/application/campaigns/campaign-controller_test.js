@@ -680,6 +680,7 @@ describe('Acceptance | API | Campaign Controller', function () {
 
   describe('POST /api/campaigns', function () {
     afterEach(async function () {
+      await knex('campaign_skills').delete();
       await knex('campaigns').delete();
     });
 
