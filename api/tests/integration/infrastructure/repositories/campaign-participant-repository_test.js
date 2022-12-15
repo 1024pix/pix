@@ -521,7 +521,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       mockLearningContent(learningContent);
     });
     it('set the userId', async function () {
-      const campaign = buildCampaignWithCompleteTargetProfile({});
+      const campaign = buildCampaignWithSkills({});
       const { id: userId } = databaseBuilder.factory.buildUser();
 
       await databaseBuilder.commit();
@@ -539,7 +539,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
     context('when there is a previous campaign participation', function () {
       it('find the most recent campaign participation', async function () {
-        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+        const campaignToStartParticipation = buildCampaignWithSkills({
           organizationId,
           multipleSendings: true,
           idPixLabel: 'externalId',
@@ -586,7 +586,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
     context('when there is no previous campaign participation', function () {
       it('return null', async function () {
-        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+        const campaignToStartParticipation = buildCampaignWithSkills({
           organizationId,
           idPixLabel: 'externalId',
         });
@@ -608,7 +608,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
     context('when there is one organization learner', function () {
       it('find the organization learner', async function () {
-        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+        const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           userId,
@@ -630,7 +630,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
 
       it('find only organization learner which is not disabled', async function () {
-        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+        const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
         const { id: userId } = databaseBuilder.factory.buildUser();
         databaseBuilder.factory.buildOrganizationLearner({
           userId,
@@ -654,7 +654,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       context('when the organization learner has already participated', function () {
         context('when the participation associated to the same user', function () {
           it('returns false for organizationLearnerHasParticipatedForAnotherUser', async function () {
-            const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+            const campaignToStartParticipation = buildCampaignWithSkills({
               organizationId,
             });
             const { id: userId } = databaseBuilder.factory.buildUser();
@@ -685,7 +685,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           context('when there is participation for another campaign', function () {
             it('returns organization learner id', async function () {
-              const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+              const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
               const { id: userId } = databaseBuilder.factory.buildUser();
               const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
                 userId,
@@ -714,7 +714,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         context('when the participation associated to another user', function () {
           it('takes into account the participation', async function () {
-            const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+            const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
             const { id: userId } = databaseBuilder.factory.buildUser();
             const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
               userId,
@@ -742,7 +742,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           context('when the participation is deleted', function () {
             it('does not take into account the participation', async function () {
-              const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+              const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
               const { id: userId } = databaseBuilder.factory.buildUser();
               const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
                 userId,
@@ -772,7 +772,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
             context('when there are several previous participations', function () {
               it('does not take into account participations', async function () {
-                const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+                const campaignToStartParticipation = buildCampaignWithSkills({
                   multipleSendings: true,
                   organizationId,
                 });
@@ -821,7 +821,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     context('when there are several organization learners', function () {
       context('when there are several organization Learners for the same user', function () {
         it('find the organizationLearnerId for the correct organization', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+          const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildOrganizationLearner({
             userId,
@@ -847,7 +847,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       context('when there are several organization learners for the same organization', function () {
         it('find the organizationLearnerId for the correct user', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+          const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId,
@@ -883,7 +883,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         };
 
         mockLearningContent(learningContent);
-        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile(
+        const campaignToStartParticipation = buildCampaignWithSkills(
           {
             idPixLabel: 'email',
             type: 'ASSESSMENT',
@@ -921,7 +921,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         mockLearningContent(learningContent);
 
-        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile(
+        const campaignToStartParticipation = buildCampaignWithSkills(
           {
             idPixLabel: 'email',
             type: 'ASSESSMENT',
@@ -932,7 +932,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           },
           ['skill1']
         );
-        buildCampaignWithCompleteTargetProfile(
+        buildCampaignWithSkills(
           {
             idPixLabel: 'id',
             type: 'ASSESSMENT',
@@ -1028,19 +1028,17 @@ async function makeCampaignParticipant({
   return campaignParticipant;
 }
 
-function buildCampaignWithCompleteTargetProfile(attributes, skills = ['skill1']) {
+function buildCampaignWithSkills(attributes, skills = ['skill1']) {
   const { id: organizationId } = databaseBuilder.factory.buildOrganization({
     isManagingStudents: attributes.isRestricted,
     id: attributes.organizationId,
   });
-  const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-  skills.forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ skillId, targetProfileId });
-  });
   const campaign = databaseBuilder.factory.buildCampaign({
     ...attributes,
     organizationId,
-    targetProfileId,
+  });
+  skills.forEach((skillId) => {
+    databaseBuilder.factory.buildCampaignSkill({ skillId, campaignId: campaign.id });
   });
 
   return new CampaignToStartParticipation({ ...campaign, ...attributes });

@@ -56,12 +56,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       });
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({ name: '+Profile 1' });
-      ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
-        databaseBuilder.factory.buildTargetProfileSkill({
-          targetProfileId: targetProfile.id,
-          skillId: skillId,
-        });
-      });
 
       campaign = databaseBuilder.factory.buildCampaign({
         name: '@Campagne de Test N°1',
@@ -70,6 +64,12 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         idPixLabel: 'Mail Pro',
         type: 'ASSESSMENT',
         targetProfileId: targetProfile.id,
+      });
+      ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
+        databaseBuilder.factory.buildCampaignSkill({
+          campaignId: campaign.id,
+          skillId: skillId,
+        });
       });
 
       organizationLearner = { firstName: '@Jean', lastName: '=Bono' };

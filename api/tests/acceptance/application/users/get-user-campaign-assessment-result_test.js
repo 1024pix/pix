@@ -14,7 +14,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
   const EMERALD_COLOR = 'emerald';
   const WILD_STRAWBERRY_COLOR = 'wild-strawberry';
 
-  let user, campaign, assessment, campaignParticipation, targetProfile, targetProfileSkills;
+  let user, campaign, assessment, campaignParticipation, targetProfile, campaignSkills;
 
   let server, badge, skillSet, stage;
 
@@ -24,11 +24,27 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
     const oldDate = new Date('2018-02-03');
     const recentDate = new Date('2018-05-06');
     const futureDate = new Date('2018-07-10');
+    const skillIds = [
+      'recSkill1',
+      'recSkill2',
+      'recSkill3',
+      'recSkill4',
+      'recSkill5',
+      'recSkill6',
+      'recSkill7',
+      'recSkill8',
+    ];
 
     user = databaseBuilder.factory.buildUser();
     targetProfile = databaseBuilder.factory.buildTargetProfile();
     campaign = databaseBuilder.factory.buildCampaign({
       targetProfileId: targetProfile.id,
+    });
+    campaignSkills = _.times(8, (index) => {
+      return databaseBuilder.factory.buildCampaignSkill({
+        campaignId: campaign.id,
+        skillId: skillIds[index],
+      });
     });
     campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
       campaignId: campaign.id,
@@ -41,24 +57,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       userId: user.id,
       type: 'CAMPAIGN',
       state: 'completed',
-    });
-
-    const skillIds = [
-      'recSkill1',
-      'recSkill2',
-      'recSkill3',
-      'recSkill4',
-      'recSkill5',
-      'recSkill6',
-      'recSkill7',
-      'recSkill8',
-    ];
-
-    targetProfileSkills = _.times(8, (index) => {
-      return databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId: targetProfile.id,
-        skillId: skillIds[index],
-      });
     });
 
     badge = databaseBuilder.factory.buildBadge({
@@ -100,11 +98,11 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       targetProfileId: targetProfile.id,
     });
 
-    targetProfileSkills.slice(2).forEach((targetProfileSkill, index) => {
+    campaignSkills.slice(2).forEach((campaignSkill, index) => {
       databaseBuilder.factory.buildKnowledgeElement({
         userId: user.id,
         assessmentId: assessment.id,
-        skillId: targetProfileSkill.skillId,
+        skillId: campaignSkill.skillId,
         status: index < 3 ? 'validated' : 'invalidated',
         createdAt: index < 5 ? oldDate : futureDate,
       });

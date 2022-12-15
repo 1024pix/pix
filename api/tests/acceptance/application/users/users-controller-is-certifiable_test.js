@@ -176,13 +176,6 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     });
 
     const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-    learningContent.skills.forEach(({ id: skillId }) => {
-      databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId,
-        skillId,
-      });
-    });
-
     const cleaBadgeId = databaseBuilder.factory.buildBadge({
       key: 'PARTNER_KEY',
       isCertifiable: true,
@@ -200,6 +193,12 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     });
 
     const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+    learningContent.skills.forEach(({ id: skillId }) => {
+      databaseBuilder.factory.buildCampaignSkill({
+        campaignId,
+        skillId,
+      });
+    });
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
 
     databaseBuilder.factory.buildBadgeAcquisition({

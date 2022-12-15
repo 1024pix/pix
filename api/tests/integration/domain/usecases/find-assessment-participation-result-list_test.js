@@ -7,15 +7,11 @@ describe('Integration | UseCase | find-assessment-participation-result-list', fu
   const page = { number: 1 };
 
   beforeEach(async function () {
-    const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
     const skill = { id: 'recSkill', status: 'actif' };
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: targetProfileId,
-      skillId: skill.id,
-    });
 
     organizationId = databaseBuilder.factory.buildOrganization().id;
-    campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
+    campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id });
 
     const participation1 = { participantExternalId: 'Yubaba', campaignId, status: 'SHARED' };
     const participant1 = { firstName: 'Chihiro', lastName: 'Ogino' };
