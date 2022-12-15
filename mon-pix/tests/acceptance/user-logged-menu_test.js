@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, clickByName } from '@1024pix/ember-testing-library';
+import { visit, clickByName, clickByText } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
 
 module('Acceptance | User account', function (hooks) {
@@ -71,5 +71,19 @@ module('Acceptance | User account', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/mon-compte/informations-personnelles');
     });
+  });
+
+  test('should close menu when click outside', async function (assert) {
+    // given
+    server.create('campaign-participation-overview', { assessmentState: 'completed' });
+    const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
+    await authenticateByEmail(user);
+    await click('.logged-user-name');
+
+    // when
+    await clickByText('Parcours');
+
+    // then
+    assert.dom('.logged-user-menu').doesNotExist();
   });
 });
