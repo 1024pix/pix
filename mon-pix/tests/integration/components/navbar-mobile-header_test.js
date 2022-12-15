@@ -18,11 +18,6 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       setBreakpoint('tablet');
     });
 
-    test('should be rendered', function (assert) {
-      // then
-      assert.dom('.navbar-mobile-header__container').exists();
-    });
-
     test('should display the Pix logo', async function (assert) {
       // when
       const screen = await render(hbs`<NavbarMobileHeader />`);
@@ -48,14 +43,6 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       }
       this.owner.register('service:currentUser', CurrentUserStub);
       setBreakpoint('tablet');
-    });
-
-    test('should be rendered', async function (assert) {
-      // when
-      await render(hbs`<NavbarMobileHeader />`);
-
-      // then
-      assert.dom('.navbar-mobile-header').exists();
     });
 
     test('should display the Pix logo', async function (assert) {
