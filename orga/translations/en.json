@@ -989,8 +989,7 @@
           "pending-invitation": "Pending invitation"
         },
         "row": {
-          "aria-label": "Pending invitation",
-          "message": "Sent on"
+          "aria-label": "Pending invitation"
         }
       }
     },

@@ -45,11 +45,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // then
     assert.contains('gigi@example.net');
-    assert.contains(
-      `${this.intl.t('pages.team-invitations.table.row.message')} ${this.dayjs
-        .self(pendingInvitationDate)
-        .format('DD/MM/YYYY - HH:mm')}`
-    );
+    assert.contains(this.dayjs.self(pendingInvitationDate).format('DD/MM/YYYY - HH:mm'));
   });
 
   test('it should show success notification when cancelling an invitation succeeds', async function (assert) {
