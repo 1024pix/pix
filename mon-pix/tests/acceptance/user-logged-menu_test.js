@@ -1,10 +1,9 @@
 import { click, currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { clickByLabel } from '../helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
 
 module('Acceptance | User account', function (hooks) {
@@ -20,7 +19,7 @@ module('Acceptance | User account', function (hooks) {
 
       // when
       await click('.logged-user-name');
-      await clickByLabel('Mes parcours');
+      await clickByName('Mes parcours');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -36,7 +35,7 @@ module('Acceptance | User account', function (hooks) {
 
       // when
       await click('.logged-user-name');
-      await clickByLabel('Mes certifications');
+      await clickByName('Mes certifications');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -51,7 +50,7 @@ module('Acceptance | User account', function (hooks) {
       const screen = await visit('/connexion');
       await fillIn('#login', user.email);
       await fillIn('#password', user.password);
-      await clickByLabel('Je me connecte');
+      await clickByName('Je me connecte');
 
       // when
       await click('.logged-user-name');
@@ -73,7 +72,7 @@ module('Acceptance | User account', function (hooks) {
       await click('.logged-user-name');
 
       // when
-      await clickByLabel('Mon compte');
+      await clickByName('Mon compte');
 
       // then
       // TODO: Fix this the next time the file is edited.
