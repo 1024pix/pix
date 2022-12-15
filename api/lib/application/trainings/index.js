@@ -39,6 +39,43 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/trainings',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        handler: trainingsController.create,
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                link: Joi.string().required(),
+                title: Joi.string().required(),
+                duration: Joi.string().required(),
+                type: Joi.string().valid('autoformation', 'webinaire').required(),
+                locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').required(),
+                editorName: Joi.string().required(),
+                editorLogoUrl: Joi.string().required(),
+              }),
+              type: Joi.string().valid('trainings'),
+            }).required(),
+          }).required(),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        tags: ['api', 'admin', 'trainings'],
+        notes: ['- Permet à un administrateur de créer un nouveau contenu formatif'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/admin/trainings/{trainingId}',
       config: {
