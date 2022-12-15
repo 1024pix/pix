@@ -22,6 +22,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 
         const csvFileName = 'files/sessions.csv';
