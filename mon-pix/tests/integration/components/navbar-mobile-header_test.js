@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -14,9 +11,11 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
   module('when user is not logged', function (hooks) {
     hooks.beforeEach(async function () {
       // given & when
-      this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
+      class SessionStub extends Service {
+        isAuthenticated = false;
+      }
+      this.owner.register('service:session', SessionStub);
       setBreakpoint('tablet');
-      await render(hbs`<NavbarMobileHeader />`);
     });
 
     test('should be rendered', function (assert) {
@@ -40,8 +39,14 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
 
   module('When user is logged', function (hooks) {
     hooks.beforeEach(function () {
-      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-      this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
+      class SessionStub extends Service {
+        isAuthenticated = true;
+      }
+      this.owner.register('service:session', SessionStub);
+      class CurrentUserStub extends Service {
+        user = { fullName: 'John Doe' };
+      }
+      this.owner.register('service:currentUser', CurrentUserStub);
       setBreakpoint('tablet');
     });
 
