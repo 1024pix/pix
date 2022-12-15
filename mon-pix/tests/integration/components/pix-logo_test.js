@@ -10,10 +10,6 @@ module('Integration | Component | pix logo', function (hooks) {
     await render(hbs`{{pix-logo}}`);
   });
 
-  test('renders', function (assert) {
-    assert.dom('.pix-logo').exists();
-  });
-
   test('should display the logo', function (assert) {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
