@@ -19,13 +19,12 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
 
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId });
-    const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
 
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const tagId = databaseBuilder.factory.buildTag({ name: 'POLE EMPLOI' }).id;
     databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-    const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId }).id;
+    const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+    databaseBuilder.factory.buildCampaignSkill({ campaignId });
     campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
     databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
 

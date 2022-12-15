@@ -62,11 +62,10 @@ describe('Integration | Service | Certification-Badges Service', function () {
 
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
 
-      listSkill.forEach((skillId) => databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId }));
-
       const badge = databaseBuilder.factory.buildBadge.certifiable({ targetProfileId: targetProfileId });
 
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      listSkill.forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
 
       databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id, campaignParticipationId });

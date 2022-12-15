@@ -46,8 +46,6 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
       mockLearningContent(learningContentObjects);
 
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId2' });
       const stage1 = databaseBuilder.factory.buildStage({
         targetProfileId,
         threshold: 0,
@@ -57,6 +55,8 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
       const stage2 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 30 });
 
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({ organizationId: campaign.organizationId, userId });
       await databaseBuilder.commit();

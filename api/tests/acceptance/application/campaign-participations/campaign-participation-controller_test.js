@@ -64,9 +64,8 @@ describe('Acceptance | API | Campaign Participations', function () {
 
     it('shares the campaign participation', async function () {
       // given
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
-      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaign = databaseBuilder.factory.buildCampaign();
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recAcquisWeb1' });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
         userId: user.id,
@@ -98,9 +97,6 @@ describe('Acceptance | API | Campaign Participations', function () {
     const options = {
       method: 'POST',
       url: '/api/campaign-participations',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      headers: { authorization: generateValidRequestAuthorizationHeader() },
       payload: {
         data: {
           type: 'campaign-participations',

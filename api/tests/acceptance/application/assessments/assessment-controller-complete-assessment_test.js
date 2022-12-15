@@ -226,6 +226,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const campaign = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
 
         // when
         await _createAndCompleteCampaignParticipation({
@@ -249,9 +250,11 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const firstCampaign = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: firstCampaign.id, skillId: 'recSkill0_0' });
         const secondCampaign = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: secondCampaign.id, skillId: 'recSkill0_0' });
 
         await _createAndCompleteCampaignParticipation({
           user,
@@ -284,6 +287,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const campaign = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
         });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
 
         // when
         await _createAndCompleteCampaignParticipation({
@@ -368,11 +372,6 @@ async function _createAndCompleteCampaignParticipation({ user, campaign, badge, 
     campaignParticipationId: campaignParticipation.id,
   });
   const anyDateBeforeCampaignParticipation = new Date(campaignParticipation.sharedAt.getTime() - 60 * 1000);
-
-  databaseBuilder.factory.buildTargetProfileSkill({
-    targetProfileId: campaign.targetProfileId,
-    skillId: 'recSkill0_0',
-  });
   databaseBuilder.factory.buildKnowledgeElement({
     skillId: 'recSkill0_0',
     assessmentId: campaignAssessment.id,

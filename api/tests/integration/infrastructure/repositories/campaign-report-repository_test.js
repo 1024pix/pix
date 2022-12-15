@@ -45,10 +45,10 @@ describe('Integration | Repository | Campaign-Report', function () {
       beforeEach(function () {
         const learningContent = {
           skills: [
-            { id: 'skill1', tubeId: 1 },
-            { id: 'skill2', tubeId: 1 },
-            { id: 'skill3', tubeId: 2 },
-            { id: 'skill4', tubeId: 3 },
+            { id: 'skill1', tubeId: 'tube1' },
+            { id: 'skill2', tubeId: 'tube1' },
+            { id: 'skill3', tubeId: 'tube2' },
+            { id: 'skill4', tubeId: 'tube3' },
           ],
         };
 
@@ -63,9 +63,9 @@ describe('Integration | Repository | Campaign-Report', function () {
         });
         const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
 
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'skill1' });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'skill2' });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'skill3' });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill1' });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill2' });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill3' });
 
         await databaseBuilder.commit();
         const result = await campaignReportRepository.get(campaign.id);
@@ -92,7 +92,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             multipleSendings: false,
           });
 
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'skill1' });
+          databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill1' });
           databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id, key: 1 });
           databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id, key: 2 });
           databaseBuilder.factory.buildBadge({ key: 3 });
@@ -110,7 +110,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             const targetProfile = databaseBuilder.factory.buildTargetProfile();
             const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
 
-            databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'skill1' });
+            databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill1' });
             databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id });
 
             await databaseBuilder.commit();
@@ -124,10 +124,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             const { id: otherTargetProfilId } = databaseBuilder.factory.buildTargetProfile();
             const campaign = databaseBuilder.factory.buildCampaign();
 
-            databaseBuilder.factory.buildTargetProfileSkill({
-              targetProfileId: campaign.targetProfileId,
-              skillId: 'skill1',
-            });
+            databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill1' });
             databaseBuilder.factory.buildStage({ targetProfileId: otherTargetProfilId });
 
             await databaseBuilder.commit();
@@ -143,11 +140,7 @@ describe('Integration | Repository | Campaign-Report', function () {
       let campaign;
       beforeEach(function () {
         campaign = databaseBuilder.factory.buildCampaign();
-
-        databaseBuilder.factory.buildTargetProfileSkill({
-          targetProfileId: campaign.targetProfileId,
-          skillId: 'skill1',
-        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'skill1' });
 
         const learningContent = { skills: [{ id: 'skill1' }] };
 
