@@ -1,7 +1,6 @@
 const { expect, sinon, hFake, domainBuilder, catchErr } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const Session = require('../../../../lib/domain/models/Session');
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
@@ -24,82 +23,7 @@ const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
 
 describe('Unit | Controller | sessionController', function () {
   let request;
-  let expectedSession;
   const userId = 274939274;
-
-  describe('#create', function () {
-    beforeEach(function () {
-      expectedSession = new Session({
-        certificationCenter: 'Université de dressage de loutres',
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-12-08',
-        time: '14:30',
-        description: 'ahah',
-        accessCode: 'ABCD12',
-      });
-
-      sinon.stub(usecases, 'createSession').resolves();
-      sinon.stub(sessionSerializer, 'deserialize').returns(expectedSession);
-      sinon.stub(sessionSerializer, 'serialize');
-
-      request = {
-        payload: {
-          data: {
-            type: 'sessions',
-            attributes: {
-              'certification-center': 'Université de dressage de loutres',
-              address: 'Nice',
-              room: '28D',
-              examiner: 'Antoine Toutvenant',
-              date: '2017-12-08',
-              time: '14:30',
-              description: 'ahah',
-            },
-          },
-        },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-      };
-    });
-
-    it('should save the session', async function () {
-      // when
-      await sessionController.save(request, hFake);
-
-      // then
-      expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
-    });
-
-    it('should return the saved session in JSON API', async function () {
-      // given
-      const jsonApiSession = {
-        data: {
-          type: 'sessions',
-          id: 12,
-          attributes: {},
-        },
-      };
-      const savedSession = new Session({
-        id: '12',
-        certificationCenter: 'Université de dressage de loutres',
-      });
-
-      usecases.createSession.resolves(savedSession);
-      sessionSerializer.serialize.returns(jsonApiSession);
-
-      // when
-      const response = await sessionController.save(request, hFake);
-
-      // then
-      expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializer.serialize).to.have.been.calledWith({ session: savedSession });
-    });
-  });
 
   describe('#getJurySession', function () {
     const sessionId = 123;

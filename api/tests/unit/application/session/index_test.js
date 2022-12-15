@@ -33,21 +33,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('POST /api/session', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(sessionController, 'save').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      /// when
-      const response = await httpTestServer.request('POST', '/api/sessions');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/sessions/{id}/attendance-sheet', function () {
     it('should exist', async function () {
       // given
