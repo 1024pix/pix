@@ -26,9 +26,13 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.homepage') }));
     });
 
-    test('should not display the burger menu', function (assert) {
+    test('should not display the burger menu', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarMobileHeader />`);
+
       // then
-      assert.dom('.navbar-mobile-header__burger-icon').doesNotExist();
+      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: this.intl.t('navigation.mobile-button-title') })).doesNotExist();
     });
   });
 
@@ -47,18 +51,19 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
 
     test('should display the Pix logo', async function (assert) {
       // when
-      await render(hbs`<NavbarMobileHeader />`);
+      const screen = await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      assert.dom('.navbar-mobile-header-logo__pix').exists();
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.homepage') }));
     });
 
     test('should display the burger icon', async function (assert) {
       // when
-      await render(hbs`<NavbarMobileHeader />`);
+      const screen = await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      assert.dom('.navbar-mobile-header__burger-icon').exists();
+      assert.ok(screen.getByRole('navigation', { name: this.intl.t('navigation.main.label') }));
+      assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.mobile-button-title') }));
     });
   });
 
@@ -67,10 +72,10 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
     this.set('isFrenchDomainUrl', false);
 
     // when
-    await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
+    const screen = await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    assert.dom('.navbar-mobile-header-logo__marianne').doesNotExist();
+    assert.dom(screen.queryByRole('img', { name: this.intl.t('common.french-republic') })).doesNotExist();
   });
 
   test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
