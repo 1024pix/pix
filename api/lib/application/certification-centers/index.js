@@ -174,6 +174,9 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/certification-centers/{certificationCenterId}/sessions/import',
       config: {
+        validate: {
+          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
+        },
         handler: certificationCenterController.importSessions,
         payload: {
           maxBytes: 20715200,

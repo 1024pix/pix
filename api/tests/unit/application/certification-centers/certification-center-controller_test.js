@@ -479,6 +479,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
     it('should call the usecase to import sessions', async function () {
       // given
       const request = {
+        auth: { credentials: { userId: 'userId' } },
         payload: { file: { path: 'csv-path' } },
         params: { certificationCenterId: 123 },
       };
@@ -494,6 +495,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       // then
       expect(usecases.createSessions).to.have.been.calledWith({
+        userId: request.auth.credentials.userId,
         data: 'result data',
         certificationCenterId: request.params.certificationCenterId,
       });
