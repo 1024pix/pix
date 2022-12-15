@@ -22,9 +22,7 @@ module('Acceptance | User account', function (hooks) {
       await clickByName('Mes parcours');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/mes-parcours');
+      assert.strictEqual(currentURL(), '/mes-parcours');
     });
 
     test('should open certifications page when click on menu', async function (assert) {
@@ -38,9 +36,7 @@ module('Acceptance | User account', function (hooks) {
       await clickByName('Mes certifications');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/mes-certifications');
+      assert.strictEqual(currentURL(), '/mes-certifications');
     });
 
     test('should contain link to support.pix.org/fr/support/home', async function (assert) {
@@ -57,9 +53,7 @@ module('Acceptance | User account', function (hooks) {
       const helplink = screen.getByRole('link', { name: 'Aide' }).getAttribute('href');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(helplink, 'https://support.pix.org/fr/support/home');
+      assert.strictEqual(helplink, 'https://support.pix.org/fr/support/home');
     });
 
     test('should open My account page when click on menu', async function (assert) {
@@ -75,9 +69,7 @@ module('Acceptance | User account', function (hooks) {
       await clickByName('Mon compte');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/mon-compte/informations-personnelles');
+      assert.strictEqual(currentURL(), '/mon-compte/informations-personnelles');
     });
   });
 });
