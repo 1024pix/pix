@@ -19,19 +19,21 @@
             {{dayjs-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
           </td>
           <td>
-            <PixTooltip @isInline={{true}}>
-              <:triggerElement>
-                <PixIconButton
-                  @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
-                  @icon="trash-can"
-                  @triggerAction={{fn this.cancelInvitation invitation}}
-                  @withBackground={{true}}
-                />
-              </:triggerElement>
-              <:tooltip>
-                {{t "pages.team-invitations.cancel-invitation"}}
-              </:tooltip>
-            </PixTooltip>
+            <div class="invitations-list__action">
+              <PixTooltip @isInline={{true}}>
+                <:triggerElement>
+                  <PixIconButton
+                    @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
+                    @icon="trash-can"
+                    @triggerAction={{fn this.cancelInvitation invitation}}
+                    @withBackground={{true}}
+                  />
+                </:triggerElement>
+                <:tooltip>
+                  {{t "pages.team-invitations.cancel-invitation"}}
+                </:tooltip>
+              </PixTooltip>
+            </div>
           </td>
         </tr>
       {{/each}}
