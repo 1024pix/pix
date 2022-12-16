@@ -14,6 +14,9 @@ module('Integration | Component | Training | Card', function (hooks) {
       type: 'webinaire',
       locale: 'fr-fr',
       duration: { hours: 6 },
+      editorName: "Ministère de l'éducation nationale et de la jeunesse",
+      editorLogoUrl:
+        'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
     });
 
     // when
@@ -21,25 +24,19 @@ module('Integration | Component | Training | Card', function (hooks) {
 
     // then
     assert.dom('.training-card').exists();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.training-card__content').href, 'https://training.net/');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.training-card-content__title').textContent.trim(), 'Mon super training');
+    assert.strictEqual(find('.training-card__content').href, 'https://training.net/');
+    assert.strictEqual(find('.training-card-content__title').textContent.trim(), 'Mon super training');
     assert.dom('.training-card-content__infos').exists();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.training-card-content-infos-list__type').textContent.trim(), 'Webinaire');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.training-card-content-infos-list__duration').textContent.trim(), '6h');
+    assert.strictEqual(find('.training-card-content-infos-list__type').textContent.trim(), 'Webinaire');
+    assert.strictEqual(find('.training-card-content-infos-list__duration').textContent.trim(), '6h');
     assert.notOk(find('.training-card-content-illustration__image').alt);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(
+    assert.strictEqual(
       find('.training-card-content-illustration__logo').alt,
-      this.intl.t('common.french-education-ministry')
+      "Ministère de l'éducation nationale et de la jeunesse"
+    );
+    assert.strictEqual(
+      find('.training-card-content-illustration__logo').src,
+      'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg'
     );
   });
 });
