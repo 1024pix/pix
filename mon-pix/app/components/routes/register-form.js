@@ -82,16 +82,16 @@ export default class RegisterForm extends Component {
 
   dependentUser = null;
   scoOrganizationLearner = null;
-  validation = new FormValidation();
+  @tracked validation = new FormValidation();
 
-  username = '';
-  email = '';
-  password = '';
-  firstName = '';
-  lastName = '';
-  dayOfBirth = '';
-  monthOfBirth = '';
-  yearOfBirth = '';
+  @tracked username = '';
+  @tracked email = '';
+  @tracked password = '';
+  @tracked firstName = '';
+  @tracked lastName = '';
+  @tracked dayOfBirth = '';
+  @tracked monthOfBirth = '';
+  @tracked yearOfBirth = '';
 
   get birthdate() {
     const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
@@ -248,7 +248,7 @@ export default class RegisterForm extends Component {
   @action
   triggerInputYearValidation(key, value) {
     value = value.trim();
-    this.yearOfBirth = value;
+    this._standardizeNumberInInput('yearOfBirth', value);
     this._validateInputYear(key, value);
   }
 
@@ -260,6 +260,23 @@ export default class RegisterForm extends Component {
   @action
   triggerInputPasswordValidation(key, value) {
     this._validateInputPassword(key, value);
+  }
+
+  @action
+  resetForm() {
+    if (this.scoOrganizationLearner) this.scoOrganizationLearner.unloadRecord();
+    if (this.dependentUser) this.dependentUser.unloadRecord();
+    this.firstName = null;
+    this.lastName = null;
+    this.dayOfBirth = null;
+    this.monthOfBirth = null;
+    this.yearOfBirth = null;
+    this.password = null;
+    this.email = null;
+    this.username = null;
+    this.matchingStudentFound = false;
+    this.loginWithUsername = true;
+    this.validation = new FormValidation();
   }
 
   _executeFieldValidation(key, value, isValid) {
