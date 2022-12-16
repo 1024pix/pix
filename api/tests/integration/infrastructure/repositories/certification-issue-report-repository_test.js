@@ -17,12 +17,14 @@ describe('Integration | Repository | Certification Issue Report', function () {
       it('should persist the certif issue report in db', async function () {
         // given
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+
         await databaseBuilder.commit();
 
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           id: undefined,
           certificationCourseId,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
+          categoryId: null,
           description: 'Un gros problème',
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
           questionNumber: 5,
@@ -37,6 +39,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
         const expectedSavedCertificationIssueReport = domainBuilder.buildCertificationIssueReport({
           certificationCourseId,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
+          categoryId: null,
           description: 'Un gros problème',
           isActionRequired: true,
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
@@ -56,10 +59,19 @@ describe('Integration | Repository | Certification Issue Report', function () {
       it('should persist the updated certif issue report in db', async function () {
         // given
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        databaseBuilder.factory.buildIssueReportCategory({
+          id: 123,
+          name: CertificationIssueReportCategories.IN_CHALLENGE,
+        });
+        const categoryId = databaseBuilder.factory.buildIssueReportCategory({
+          issueReportCategoryId: 2,
+          name: CertificationIssueReportCategories.IMAGE_NOT_DISPLAYING,
+        }).id;
         const certificationIssueReport = databaseBuilder.factory.buildCertificationIssueReport({
           id: 1234,
           certificationCourseId,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
+          categoryId,
           description: 'Un gros problème',
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
           questionNumber: 5,
@@ -83,6 +95,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
           id: 1234,
           certificationCourseId,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
+          categoryId,
           description: 'Un gros problème',
           isActionRequired: true,
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
@@ -137,14 +150,25 @@ describe('Integration | Repository | Certification Issue Report', function () {
     it('should return certification issue reports for a certification course id', async function () {
       // given
       const targetCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const categoryId = databaseBuilder.factory.buildIssueReportCategory({
+        name: CertificationIssueReportCategories.OTHER,
+      }).id;
       const otherCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
       const issueReportForTargetCourse1 = databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: targetCertificationCourse.id,
+        category: CertificationIssueReportCategories.OTHER,
+        categoryId,
       });
       const issueReportForTargetCourse2 = databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: targetCertificationCourse.id,
+        category: CertificationIssueReportCategories.OTHER,
+        categoryId,
       });
-      databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: otherCertificationCourse.id });
+      databaseBuilder.factory.buildCertificationIssueReport({
+        certificationCourseId: otherCertificationCourse.id,
+        category: CertificationIssueReportCategories.OTHER,
+        categoryId,
+      });
       await databaseBuilder.commit();
 
       // when

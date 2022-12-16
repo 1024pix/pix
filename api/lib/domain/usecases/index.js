@@ -87,6 +87,7 @@ const dependencies = {
   finalizedSessionRepository: require('../../infrastructure/repositories/sessions/finalized-session-repository'),
   supOrganizationLearnerRepository: require('../../infrastructure/repositories/sup-organization-learner-repository'),
   improvementService: require('../../domain/services/improvement-service'),
+  issueReportCategoryRepository: require('../../infrastructure/repositories/issue-report-category-repository'),
   juryCertificationRepository: require('../../infrastructure/repositories/jury-certification-repository'),
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   jurySessionRepository: require('../../infrastructure/repositories/sessions/jury-session-repository'),

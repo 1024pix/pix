@@ -207,9 +207,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       databaseBuilder.factory.buildCertificationCourse({ id: 1 });
       databaseBuilder.factory.buildCertificationCourse({ id: 2 });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
+      const issueReportCategoryId1 = databaseBuilder.factory.buildIssueReportCategory({ name: 'first_category' }).id;
+      const issueReportCategoryId2 = databaseBuilder.factory.buildIssueReportCategory({ name: 'second_category' }).id;
       const expectedCertificationIssueReportA = domainBuilder.buildCertificationIssueReport.impactful({
         id: 456,
         certificationCourseId: 1,
+        categoryId: issueReportCategoryId1,
         description: 'une description 1',
         questionNumber: 1,
         resolvedAt: new Date('2022-05-05'),
@@ -219,6 +222,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       const expectedCertificationIssueReportB = domainBuilder.buildCertificationIssueReport.notImpactful({
         id: 123,
         certificationCourseId: 1,
+        categoryId: issueReportCategoryId2,
         description: 'une description 2',
         questionNumber: 12,
         resolvedAt: new Date('2021-12-25'),
