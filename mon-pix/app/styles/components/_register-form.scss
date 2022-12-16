@@ -59,19 +59,11 @@
     border: none;
   }
 
-  &__return-button {
-    display: inline-flex;
-    align-items: center;
-    margin: 4px 0;
-    font-size: 0.875rem;
-    font-family: $font-roboto;
-  }
-
-  &__return-button:hover {
-
-    > .register-form-return-button__icon {
-      background-color: $pix-neutral-20;
-    }
+  &__reset-form-button {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    margin-top: 10px;
   }
 
   &__error {
