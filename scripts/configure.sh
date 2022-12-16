@@ -3,9 +3,6 @@
 set -e
 set -o pipefail
 
-EXPECTED_NODE_VERSION="v16.14.0"
-EXPECTED_NPM_VERSION="8.3.1"
-
 function timeout() { perl -e 'alarm shift; exec @ARGV' "$@"; }
 
 function display_banner() {
@@ -47,17 +44,6 @@ function assert_program_is_installed() {
   fi
 }
 
-function assert_expected_version_is_installed() {
-  local program=$1
-  local expected_version=$2
-  local installed_version=$("${program}" -v)
-
-  if [ "${installed_version}" != "${expected_version}" ]; then
-    echo "Error: expected version ${expected_version} to be installed for program \"${program}\"but found version ${installed_version}." >&2
-    exit 1
-  fi
-}
-
 function verify_prerequesite_programs() {
   echo "Verifying prerequesite programs…"
 
@@ -66,9 +52,6 @@ function verify_prerequesite_programs() {
   assert_program_is_installed "npm"
   assert_program_is_installed "docker"
   assert_program_is_installed "docker-compose"
-
-  assert_expected_version_is_installed "node" "${EXPECTED_NODE_VERSION}"
-  assert_expected_version_is_installed "npm" "${EXPECTED_NPM_VERSION}"
 
   echo "✅ Required programs have been found."
   echo ""
