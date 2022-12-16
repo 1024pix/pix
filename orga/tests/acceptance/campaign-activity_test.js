@@ -83,7 +83,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
       await click(
-        await screen.findByRole('option', { name: this.intl.t('pages.campaign-activity.status.STARTED-assessment') })
+        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') })
       );
       await clickByName('Effacer les filtres');
 
@@ -136,7 +136,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
       await click(
-        await screen.findByRole('option', { name: this.intl.t('pages.campaign-activity.status.STARTED-assessment') })
+        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') })
       );
 
       // then

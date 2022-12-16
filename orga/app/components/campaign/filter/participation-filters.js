@@ -52,13 +52,12 @@ export default class ParticipationFilters extends Component {
   }
 
   get statusOptions() {
-    const { isTypeAssessment } = this.args.campaign;
+    const { isTypeAssessment, type } = this.args.campaign;
 
     const statuses = isTypeAssessment ? ['STARTED', 'TO_SHARE', 'SHARED'] : ['TO_SHARE', 'SHARED'];
 
     return statuses.map((status) => {
-      const type = isTypeAssessment ? 'assessment' : 'profile';
-      const label = this.intl.t(`pages.campaign-activity.status.${status}-${type}`);
+      const label = this.intl.t(`components.participation-status.${status}-${type}`);
       return { value: status, label };
     });
   }
