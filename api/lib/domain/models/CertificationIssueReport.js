@@ -91,6 +91,7 @@ class CertificationIssueReport {
     id,
     certificationCourseId,
     category,
+    categoryId,
     description,
     subcategory,
     questionNumber,
@@ -101,6 +102,7 @@ class CertificationIssueReport {
     this.id = id;
     this.certificationCourseId = certificationCourseId;
     this.category = category;
+    this.categoryId = categoryId;
     this.subcategory = subcategory;
     this.description = description;
     this.questionNumber = questionNumber;
@@ -129,11 +131,12 @@ class CertificationIssueReport {
     }
   }
 
-  static create({ id, certificationCourseId, category, description, subcategory, questionNumber }) {
+  static create({ id, certificationCourseId, category, categoryId, description, subcategory, questionNumber }) {
     const certificationIssueReport = new CertificationIssueReport({
       id,
       certificationCourseId,
       category,
+      categoryId,
       description,
       subcategory,
       questionNumber,

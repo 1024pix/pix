@@ -38,6 +38,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       let otherStartedCertification;
       const description = 'Super candidat !';
       let certificationIssueReport;
+      let issueReportCategoryId;
 
       beforeEach(function () {
         const dbf = databaseBuilder.factory;
@@ -46,12 +47,15 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         otherStartedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
 
+        issueReportCategoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
+
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
 
         certificationIssueReport = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
+          categoryId: issueReportCategoryId,
           description,
         });
 
@@ -89,6 +93,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               subcategory: null,
               questionNumber: null,
               category: CertificationIssueReportCategories.OTHER,
+              categoryId: issueReportCategoryId,
               hasBeenAutomaticallyResolved: null,
               resolvedAt: null,
               resolution: null,
@@ -197,15 +202,19 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
 
+        const categoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
+
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
+          categoryId,
           description: 'first certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
+          categoryId,
           description: 'second certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
@@ -229,6 +238,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           new CertificationIssueReport({
             id: issueReport1.id,
             category: issueReport1.category,
+            categoryId: issueReport1.categoryId,
             certificationCourseId: manyAsrCertification.id,
             description: 'first certification issue report',
             hasBeenAutomaticallyResolved: false,
@@ -240,6 +250,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           new CertificationIssueReport({
             id: issueReport2.id,
             category: issueReport2.category,
+            categoryId: issueReport2.categoryId,
             certificationCourseId: manyAsrCertification.id,
             description: 'second certification issue report',
             hasBeenAutomaticallyResolved: false,
@@ -320,15 +331,19 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           status: assessmentResultStatuses.VALIDATED,
         });
 
+        const categoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
+
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
+          categoryId,
           description: 'first certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
+          categoryId,
           description: 'second certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
@@ -369,6 +384,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           new CertificationIssueReport({
             id: issueReport1.id,
             category: issueReport1.category,
+            categoryId,
             certificationCourseId: manyAsrCertification.id,
             description: 'first certification issue report',
             hasBeenAutomaticallyResolved: false,
@@ -380,6 +396,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           new CertificationIssueReport({
             id: issueReport2.id,
             category: issueReport2.category,
+            categoryId,
             certificationCourseId: manyAsrCertification.id,
             description: 'second certification issue report',
             hasBeenAutomaticallyResolved: false,

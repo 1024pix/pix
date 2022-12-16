@@ -1,12 +1,13 @@
 const buildCertificationCourse = require('./build-certification-course');
+const buildIssueReportCategory = require('./build-issue-report-category');
 const _ = require('lodash');
 const databaseBuffer = require('../database-buffer');
-const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 
 module.exports = function buildCertificationIssueReport({
   id = databaseBuffer.getNextId(),
   certificationCourseId,
-  category = CertificationIssueReportCategories.OTHER,
+  categoryId,
+  category,
   description = 'Une super description',
   subcategory = null,
   hasBeenAutomaticallyResolved = null,
@@ -15,10 +16,12 @@ module.exports = function buildCertificationIssueReport({
   resolution = null,
 } = {}) {
   certificationCourseId = _.isUndefined(certificationCourseId) ? buildCertificationCourse().id : certificationCourseId;
+  categoryId = _.isUndefined(categoryId) ? buildIssueReportCategory().id : categoryId;
 
   const values = {
     id,
     certificationCourseId,
+    categoryId,
     category,
     description,
     subcategory,

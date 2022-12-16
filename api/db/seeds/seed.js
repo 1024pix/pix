@@ -34,6 +34,7 @@ const pixAdminRolesBuilder = require('./data/pix-admin-roles-builder');
 const stagesBuilder = require('./data/stages-builder');
 const { certificationCpfCountryBuilder } = require('./data/certification/certification-cpf-country-builder');
 const { certificationCpfCityBuilder } = require('./data/certification/certification-cpf-city-builder');
+const { issueReportCategoriesBuilder } = require('./data/certification/issue-report-categories-builder');
 const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
@@ -84,6 +85,7 @@ exports.seed = async (knex) => {
   complementaryCertificationCourseResultsBuilder({ databaseBuilder });
   certificationCpfCountryBuilder({ databaseBuilder });
   certificationCpfCityBuilder({ databaseBuilder });
+  issueReportCategoriesBuilder({ databaseBuilder });
 
   // Éléments de parcours
   campaignsProBuilder({ databaseBuilder });

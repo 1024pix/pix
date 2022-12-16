@@ -42,6 +42,7 @@ module.exports = {
   buildDataProtectionOfficer: require('./build-data-protection-officer'),
   buildFinalizedSession: require('./build-finalized-session'),
   buildFlashAssessmentResult: require('./build-flash-assessment-result'),
+  buildIssueReportCategory: require('./build-issue-report-category'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildKnowledgeElementSnapshot: require('./build-knowledge-element-snapshot'),
   buildMembership: require('./build-membership'),
