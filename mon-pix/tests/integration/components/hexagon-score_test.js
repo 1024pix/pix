@@ -1,32 +1,38 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | hexagon-score', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Component rendering', function () {
     test('should display two dashes, when no pixScore provided', async function (assert) {
-      // when
-      await render(hbs`<HexagonScore />`);
+      // given & when
+      const screen = await render(hbs`<HexagonScore />`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML, '–');
+      assert.ok(screen.getByText('–'));
     });
 
     test('should display provided score in hexagon', async function (assert) {
       // given
       const pixScore = '777';
       this.set('pixScore', pixScore);
+
       // when
-      await render(hbs`<HexagonScore @pixScore={{this.pixScore}} />`);
+      const screen = await render(hbs`<HexagonScore @pixScore={{this.pixScore}} />`);
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML, pixScore);
+      assert.ok(screen.getByText(pixScore));
+    });
+
+    test('should display an information tooltip', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<HexagonScore />`);
+
+      // then
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.profile.total-score-helper.label') }));
     });
   });
 });
