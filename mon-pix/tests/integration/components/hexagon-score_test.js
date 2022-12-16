@@ -7,14 +7,6 @@ module('Integration | Component | hexagon-score', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Component rendering', function () {
-    test('should render component', async function (assert) {
-      // when
-      await render(hbs`<HexagonScore />`);
-      // then
-
-      assert.ok(this.element.querySelector('.hexagon-score'));
-    });
-
     test('should display two dashes, when no pixScore provided', async function (assert) {
       // when
       await render(hbs`<HexagonScore />`);
