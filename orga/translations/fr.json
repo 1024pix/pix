@@ -989,8 +989,7 @@
           "pending-invitation": "Date de dernier envoi"
         },
         "row": {
-          "aria-label": "Invitation en attente",
-          "message": "Dernière invitation envoyée le"
+          "aria-label": "Invitation en attente"
         }
       }
     },
