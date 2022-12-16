@@ -70,7 +70,7 @@ workflows:
 jobs:
   checkout:
     docker:
-      - image: cimg/node:16.14.0
+      - image: cimg/node:16.18.1
     resource_class: small
     working_directory: ~/pix
     steps:
@@ -91,7 +91,7 @@ jobs:
 
   api_build_and_test:
     docker:
-      - image: cimg/node:16.14.0
+      - image: cimg/node:16.18.1
       - image: postgres:13.7-alpine
         environment:
           POSTGRES_USER: circleci
@@ -130,7 +130,7 @@ jobs:
 
   mon_pix_build_and_test:
     docker:
-      - image: cimg/node:16.14.0-browsers
+      - image: cimg/node:16.18.1-browsers
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
@@ -159,13 +159,12 @@ jobs:
 
   orga_build_and_test:
     docker:
-      - image: cimg/node:16.14.0-browsers
+      - image: cimg/node:16.18.1-browsers
         environment:
           JOBS: 2
     resource_class: small
     working_directory: ~/pix/orga
     steps:
-      - run: sudo npm i -g npm@8.13.2
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
@@ -188,7 +187,7 @@ jobs:
 
   certif_build_and_test:
     docker:
-      - image: cimg/node:16.14.0-browsers
+      - image: cimg/node:16.18.1-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -216,7 +215,7 @@ jobs:
 
   admin_build_and_test:
     docker:
-      - image: cimg/node:16.14.0-browsers
+      - image: cimg/node:16.18.1-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -244,7 +243,7 @@ jobs:
 
   e2e_test:
     docker:
-      - image: cimg/node:16.14.0-browsers
+      - image: cimg/node:16.18.1-browsers
       - image: postgres:13.7-alpine
         environment:
           POSTGRES_USER: circleci
@@ -306,9 +305,7 @@ jobs:
           environment:
             JOBS: 2
           working_directory: ~/pix/orga
-          command: |
-            sudo npm i -g npm@8.13.2
-            npm ci
+          command: npm ci
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -345,7 +342,7 @@ jobs:
 
   algo_test:
     docker:
-      - image: cimg/node:16.14.0
+      - image: cimg/node:16.18.1
     resource_class: small
     parallelism: 1
     working_directory: ~/pix/high-level-tests/test-algo
