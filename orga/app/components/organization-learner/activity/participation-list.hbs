@@ -20,7 +20,6 @@
           }}</Table::Header>
       </tr>
     </thead>
-
     <tbody>
       {{#each @participations as |participation|}}
         <tr aria-label={{t "pages.organization-learner.activity.participation-list.table.row-title"}}>
@@ -31,10 +30,7 @@
           <td class="table__column--left">{{dayjs-format participation.createdAt "DD/MM/YYYY"}}</td>
           <td class="table__column--left">{{dayjs-format participation.sharedAt "DD/MM/YYYY"}}</td>
           <td class="table__column--left">
-            <OrganizationLearner::Activity::ParticipationStatus
-              @status={{participation.status}}
-              @campaignType={{participation.campaignType}}
-            />
+            <Ui::ParticipationStatus @status={{participation.status}} @campaignType={{participation.campaignType}} />
           </td>
         </tr>
       {{/each}}

@@ -355,7 +355,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         await click(screen.getByLabelText(t('pages.campaign-results.filters.type.status.title')));
         await click(
           await screen.findByRole('option', {
-            name: t('pages.campaign-activity.status.STARTED-assessment'),
+            name: t('components.participation-status.STARTED-ASSESSMENT'),
           })
         );
 
@@ -385,7 +385,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         assert
           .dom(
             await screen.findByRole('option', {
-              name: t('pages.campaign-activity.status.STARTED-assessment'),
+              name: t('components.participation-status.STARTED-ASSESSMENT'),
               selected: true,
             })
           )
@@ -416,9 +416,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           options.map((option) => option.innerText),
           [
             t('pages.campaign-results.filters.type.status.empty'),
-            t('pages.campaign-activity.status.STARTED-assessment'),
-            t('pages.campaign-activity.status.TO_SHARE-assessment'),
-            t('pages.campaign-activity.status.SHARED-assessment'),
+            t('components.participation-status.STARTED-ASSESSMENT'),
+            t('components.participation-status.TO_SHARE-ASSESSMENT'),
+            t('components.participation-status.SHARED-ASSESSMENT'),
           ]
         );
       });
@@ -447,8 +447,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           options.map((option) => option.innerText),
           [
             t('pages.campaign-results.filters.type.status.empty'),
-            t('pages.campaign-activity.status.TO_SHARE-profile'),
-            t('pages.campaign-activity.status.SHARED-profile'),
+            t('components.participation-status.TO_SHARE-PROFILES_COLLECTION'),
+            t('components.participation-status.SHARED-PROFILES_COLLECTION'),
           ]
         );
       });

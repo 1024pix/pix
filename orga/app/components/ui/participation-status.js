@@ -11,12 +11,12 @@ export default class ParticipationStatus extends Component {
 
   get label() {
     const { status, campaignType } = this.args;
-    return this.intl.t(`pages.organization-learner.activity.participation-list.status.${status}-${campaignType}`);
+    return this.intl.t(`components.participation-status.${status}-${campaignType}`);
   }
 }
 
 const COLORS = {
-  STARTED: 'yellow-light',
-  TO_SHARE: 'orange-light',
+  STARTED: 'orange-light',
+  TO_SHARE: 'purple-light',
   SHARED: 'green-light',
 };
