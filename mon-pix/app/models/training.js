@@ -6,6 +6,8 @@ export default class Training extends Model {
   @attr('string') link;
   @attr('string') type;
   @attr('string') locale;
+  @attr('string') editorName;
+  @attr('string') editorLogoUrl;
   @attr() duration;
 
   @belongsTo('campaign-participation') campaignParticpation;
